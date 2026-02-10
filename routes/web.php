@@ -10,5 +10,7 @@ use Illuminate\Support\Facades\Auth;
 Auth::routes();
 
 Route::get('/', [FrontendController::class, 'frontend'])->name('frontend');
+
+Route::get('customer', [FrontendController::class, 'user_dashboard'])->name('user.dashboard');
 Route::get('dashboard', [AdminController::class, 'admin_dashboard'])->name('admin.dashboard');
 Route::get('saller/dashboard', [SallerController::class, 'saller_dashboard'])->name('saller.dashboard');

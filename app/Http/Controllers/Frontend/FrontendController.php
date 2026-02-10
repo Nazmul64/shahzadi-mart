@@ -10,4 +10,8 @@ class FrontendController extends Controller
     public function frontend(){
         return view('frontend.index');
     }
+
+    public function user_dashboard(){
+       return view('userdashboard.master');
+    }
 }

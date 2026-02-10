@@ -74,6 +74,7 @@
             <p style="margin-top: 10px;">© 2024 ShopGo. All rights reserved.</p>
         </div>
     </footer>
-  <script src="assets/js/custom.js"></script>
+ <script src="{{ asset('frontend/assets/js/custom.js') }}"></script>
+
 </body>
 </html>
