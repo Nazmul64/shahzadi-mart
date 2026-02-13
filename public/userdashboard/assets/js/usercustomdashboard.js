@@ -1,33 +1,31 @@
-
-        // Toggle Sidebar (Mobile)
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
-            const overlay = document.querySelector('.sidebar-overlay');
-            sidebar.classList.toggle('active');
-            overlay.classList.toggle('active');
+            const overlay = document.querySelector('.customerdashboard-sidebar-overlay');
+            sidebar.classList.toggle('customerdashboard-active');
+            overlay.classList.toggle('customerdashboard-active');
         }
 
         // Show Section
         function showSection(sectionId) {
             // Hide all sections
-            document.querySelectorAll('.section').forEach(section => {
-                section.classList.remove('active');
+            document.querySelectorAll('.customerdashboard-section').forEach(section => {
+                section.classList.remove('customerdashboard-active');
             });
 
             // Show selected section
-            document.getElementById(sectionId).classList.add('active');
+            document.getElementById(sectionId).classList.add('customerdashboard-active');
 
             // Update active nav item
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.classList.remove('active');
+            document.querySelectorAll('.customerdashboard-nav-item').forEach(item => {
+                item.classList.remove('customerdashboard-active');
             });
 
             // Close sidebar on mobile
             if (window.innerWidth < 769) {
                 const sidebar = document.getElementById('sidebar');
-                const overlay = document.querySelector('.sidebar-overlay');
-                sidebar.classList.remove('active');
-                overlay.classList.remove('active');
+                const overlay = document.querySelector('.customerdashboard-sidebar-overlay');
+                sidebar.classList.remove('customerdashboard-active');
+                overlay.classList.remove('customerdashboard-active');
             }
 
             // Scroll to top
@@ -37,18 +35,18 @@
         // Switch Tab
         function switchTab(tabId) {
             // Hide all tab contents
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.classList.remove('active');
+            document.querySelectorAll('.customerdashboard-tab-content').forEach(content => {
+                content.classList.remove('customerdashboard-active');
             });
 
             // Show selected tab content
-            document.getElementById(tabId).classList.add('active');
+            document.getElementById(tabId).classList.add('customerdashboard-active');
 
             // Update active tab button
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
+            document.querySelectorAll('.customerdashboard-tab-btn').forEach(btn => {
+                btn.classList.remove('customerdashboard-active');
             });
-            event.target.classList.add('active');
+            event.target.classList.add('customerdashboard-active');
         }
 
         // Sign Out
@@ -67,24 +65,24 @@
 
         // Star Rating Interaction
         document.addEventListener('DOMContentLoaded', function() {
-            const stars = document.querySelectorAll('.star-input');
+            const stars = document.querySelectorAll('.customerdashboard-star-input');
             stars.forEach((star, index) => {
                 star.addEventListener('click', function() {
                     stars.forEach((s, i) => {
                         if (i <= index) {
-                            s.classList.add('active');
+                            s.classList.add('customerdashboard-active');
                         } else {
-                            s.classList.remove('active');
+                            s.classList.remove('customerdashboard-active');
                         }
                     });
                 });
             });
 
             // Character counter for textareas
-            const textareas = document.querySelectorAll('.form-textarea');
+            const textareas = document.querySelectorAll('.customerdashboard-form-textarea');
             textareas.forEach(textarea => {
                 const charCount = textarea.nextElementSibling;
-                if (charCount && charCount.classList.contains('char-count')) {
+                if (charCount && charCount.classList.contains('customerdashboard-char-count')) {
                     textarea.addEventListener('input', function() {
                         const length = this.value.length;
                         charCount.textContent = length + ' / 200';

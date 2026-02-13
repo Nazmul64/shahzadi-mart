@@ -13,10 +13,38 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+
+            // Basic Info
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+
+            // Role
+            $table->enum('role', ['admin', 'customer', 'seller'])->default('customer');
+
+            // Contact Info
+            $table->string('phone')->nullable();
+            $table->string('photo')->nullable();
+            $table->text('address')->nullable();
+
+            // Seller Information
+            $table->string('store_name')->nullable();
+            $table->string('store_slug')->nullable()->unique();
+            $table->text('store_description')->nullable();
+            $table->string('store_logo')->nullable();
+            $table->string('tax_id')->nullable();
+
+            // Payment Info
+            $table->string('bank_name')->nullable();
+            $table->string('bank_account_name')->nullable();
+            $table->string('bank_account_number')->nullable();
+            $table->string('mobile_banking_number')->nullable();
+
+            // Seller Status
+            $table->enum('status', ['active', 'inactive', 'pending', 'suspended'])
+                  ->default('pending');
+
             $table->rememberToken();
             $table->timestamps();
         });

@@ -17,6 +17,18 @@
 
             <div class="menu-section-title">E-Commerce Management</div>
 
+
+
+         <div class="menu-item">
+            <a href="{{ route('seller.register.check') }}"
+                class="d-flex align-items-center text-decoration-none
+                {{ request()->routeIs('seller.register.check') ? 'active' : '' }}">
+                    <i class="bi bi-people me-2"></i>
+                    <span>Vendor Management</span>
+                </a>
+            </div>
+
+
             <div class="menu-item" onclick="showSection('vendors')">
                 <i class="bi bi-people"></i>
                 <span>Vendor Management</span>

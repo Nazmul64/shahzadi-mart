@@ -26,13 +26,42 @@
                     <span class="notification-badge">12</span>
                 </div>
 
-                <div class="user-profile">
-                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100" alt="Admin" class="user-avatar">
-                    <div class="user-info">
-                        <h6>Admin User</h6>
-                        <p>Super Admin</p>
-                    </div>
+               <div class="dropdown user-profile">
+                <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle"
+                    id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100"
+                            alt="Admin" class="user-avatar rounded-circle" width="40" height="40">
+
+                        <div class="user-info ms-2">
+                            <h6 class="mb-0"></h6>
+                            <small class="text-muted">{{Auth::user()->name ?? ''}}</small>
+                        </div>
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                        <li>
+                            <a class="dropdown-item" href="#">
+                                <i class="bi bi-person"></i> Profile
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#">
+                                <i class="bi bi-gear"></i> Settings
+                            </a>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <form method="POST" action="{{ route('admin.logout') }}">
+                                @csrf
+                                <button class="dropdown-item text-danger" type="submit">
+                                    <i class="bi bi-box-arrow-right"></i> Logout
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
                 </div>
+
             </div>
         </div>
 
