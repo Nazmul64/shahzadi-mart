@@ -22,6 +22,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'permission' => \App\Http\Middleware\CheckPermission::class,
             'role'=> \App\Http\Middleware\CheckRole::class,
             'emplee'=> \App\Http\Middleware\EmpleeMiddleware::class,
+            'manager'=> \App\Http\Middleware\ManagerMiddleware::class,
 
         ]);
     })

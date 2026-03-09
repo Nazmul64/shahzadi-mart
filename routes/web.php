@@ -12,6 +12,7 @@ use App\Http\Controllers\Frontend\FrontendauthContorller;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Frontend\FrontendController;
+use App\Http\Controllers\Manager\ManagerController;
 use App\Http\Controllers\Saller\SallerController;
 use App\Http\Controllers\Saller\SellerauthController;
 use App\Http\Controllers\UserController;
@@ -127,6 +128,15 @@ Route::middleware(['emplee'])->group(function () {
 });
 // emplee route end
 
+// Manager route start
+Route::get('manager/login', [ManagerController::class, 'manager_login'])->name('manager.login');
+Route::post('manager/login/submit', [ManagerController::class, 'manager_login_submit'])->name('manager.login.submit');
+Route::get('manager/logout', [ManagerController::class, 'manager_logout'])->name('manager.logout');
+
+Route::middleware(['manager'])->group(function () {
+    Route::get('manager/dashboard', [ManagerController::class, 'manager_dashboard'])->name('manager.dashboard');
+});
+// Manager route end
 
 
 

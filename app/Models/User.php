@@ -56,6 +56,11 @@ class User extends Authenticatable
         return $this->hasAnyRole(['super-admin', 'admin', 'manager', 'sub-admin']);
     }
 
+    public function isManager(): bool
+    {
+        return $this->hasRole('manager');
+    }
+
     public function isSeller(): bool
     {
         return $this->hasRole('seller');
@@ -71,7 +76,7 @@ class User extends Authenticatable
         return $this->hasRole('employee');
     }
 
-    // isEmplee() — typo version, same kaj korbe jate purano code na vange
+    // isEmplee() — typo version, purano code na vange
     public function isEmplee(): bool
     {
         return $this->isEmployee();
@@ -114,15 +119,13 @@ class User extends Authenticatable
 
     // ── Accessors ──────────────────────────────────────────────────────────────
 
-    // ── Accessors ─────────────────────────────────────────
+    public function getPhotoUrlAttribute(): string
+    {
+        if ($this->photo && file_exists(public_path('uploads/avator/' . $this->photo))) {
+            return asset('uploads/avator/' . $this->photo);
+        }
 
-public function getPhotoUrlAttribute(): string
-{
-    if ($this->photo && file_exists(public_path('uploads/avator/' . $this->photo))) {
-        return asset('uploads/avator/' . $this->photo);
+        $name = urlencode($this->name ?? 'U');
+        return "https://ui-avatars.com/api/?name={$name}&background=1e3a5f&color=fff&size=128";
     }
-
-    $name = urlencode($this->name ?? 'U');
-    return "https://ui-avatars.com/api/?name={$name}&background=1e3a5f&color=fff&size=128";
-}
 }
