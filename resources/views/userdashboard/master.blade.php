@@ -92,7 +92,7 @@
                         </div>
                         <div class="customerdashboard-stat-card">
                             <div class="customerdashboard-stat-number">23</div>
-                            <div class="customerdashboard-stat-label">ShopGo Points</div>
+                            <div class="customerdashboard-stat-label">Shahzadi-mart Points</div>
                         </div>
                         <div class="customerdashboard-stat-card">
                             <div class="customerdashboard-stat-number">23</div>

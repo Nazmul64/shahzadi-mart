@@ -18,6 +18,11 @@ return Application::configure(basePath: dirname(__DIR__))
             'admin' => Adminmiddleware::class,
             'customer' => Customermiddleware::class,
             'seller' => Sellermiddleware::class,
+            'permission' => \App\Http\Middleware\CheckPermission::class,
+            'permission' => \App\Http\Middleware\CheckPermission::class,
+            'role'=> \App\Http\Middleware\CheckRole::class,
+            'emplee'=> \App\Http\Middleware\EmpleeMiddleware::class,
+
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

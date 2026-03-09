@@ -3,12 +3,18 @@
 use App\Http\Controllers\Admin\AdminauthController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminsellerregisterapprovedController;
+use App\Http\Controllers\Admin\EmpleeController;
+use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\UserRoleController;
+use App\Http\Controllers\Frontend\AuthController;
 use App\Http\Controllers\Frontend\FrontendauthContorller;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Saller\SallerController;
 use App\Http\Controllers\Saller\SellerauthController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
@@ -48,7 +54,50 @@ Route::middleware(['admin'])->group(function () {
     Route::get('/seller-registrations/export', [AdminsellerregisterapprovedController::class, 'seller_register_export'])->name('seller.register.export');
     // View detailed seller information
     Route::get('/seller-registrations/{id}/view', [AdminsellerregisterapprovedController::class, 'seller_register_view'])->name('seller.register.view');
+// Roles
+ // Dashboard
+
+
+Route::resource('roles', RoleController::class);
+
+// Role এ Permission assign করার dedicated page
+Route::get('roles/{role}/assign-permission',
+    [RoleController::class, 'assignPermission']
+)->name('roles.assignPermission');
+
+Route::put('roles/{role}/save-assigned-permission',
+    [RoleController::class, 'saveAssignedPermission']
+)->name('roles.saveAssignedPermission');
+
+// ── Permissions ────────────────────────────────────────────────────────────────
+// Bulk create আগে রাখতে হবে, নইলে Laravel "bulk-create" কে {permission} মনে করবে
+Route::post('permissions/bulk-create',
+    [PermissionController::class, 'bulkCreate']
+)->name('permissions.bulkCreate');
+
+Route::resource('permissions', PermissionController::class);
+
+// ── Users ──────────────────────────────────────────────────────────────────────
+Route::resource('users', UserController::class);
+
+Route::patch('users/{user}/toggle-status',
+    [UserController::class, 'toggleStatus']
+)->name('users.toggleStatus');
+
 });
+
+// ─── Auth Routes (Login/Register) ───────────────────────────
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
+Route::post('/register', [AuthController::class, 'register'])->name('register.post');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+
+
+
+
+
 
 // admin route end
 
@@ -67,6 +116,16 @@ Route::middleware(['saller'])->group(function () {
 
 // saller route end
 
+
+// emplee route start
+Route::get('emplee/login', [EmpleeController::class, 'emplee'])->name('emplee.login');
+Route::post('emplee/login/submit', [EmpleeController::class, 'loginSubmit'])->name('emplee.login.submit');
+Route::post('emplee/logout', [EmpleeController::class, 'emplee_logout'])->name('emplee.logout');
+
+Route::middleware(['emplee'])->group(function () {
+    Route::get('emplee', [EmpleeController::class, 'emplee_dashboard'])->name('emplee.dashboard');
+});
+// emplee route end
 
 
 

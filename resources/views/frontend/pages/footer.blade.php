@@ -29,7 +29,7 @@
         <div class="footer-content">
             <div class="footer-section">
                 <div class="logo" style="margin-bottom: 20px;">
-                    ShopGo<span class="logo-emoji">😊</span>
+                    Shahzadi-mart<span class="logo-emoji"></span>
                 </div>
                 <p style="color: #bbb; margin-bottom: 15px; font-size: 14px;">Subscribe to our newsletter to get updates on our latest offers!</p>
                 <div class="newsletter-form">
@@ -39,7 +39,7 @@
             </div>
 
             <div class="footer-section">
-                <h3>ABOUT SHOPGO</h3>
+                <h3>ABOUT Shahzadi-mart</h3>
                 <ul>
                     <li><a href="#">About Us</a></li>
                     <li><a href="#">Contact Us</a></li>
@@ -51,7 +51,7 @@
             <div class="footer-section">
                 <h3>MAKE MONEY</h3>
                 <ul>
-                    <li><a href="#">Sell on ShopGo</a></li>
+                    <li><a href="#">Sell on Shahzadi-mart</a></li>
                     <li><a href="#">Affiliate Program</a></li>
                     <li><a href="#">Apply to Deliver</a></li>
                     <li><a href="#">Pickup Station</a></li>
@@ -71,7 +71,7 @@
 
         <div class="footer-bottom">
             <p>Made with ❤️ by Freaku Technologies</p>
-            <p style="margin-top: 10px;">© 2024 ShopGo. All rights reserved.</p>
+            <p style="margin-top: 10px;">© 2024 Shahzadi-mart. All rights reserved.</p>
         </div>
     </footer>
  <script src="{{ asset('frontend/assets/js/custom.js') }}"></script>

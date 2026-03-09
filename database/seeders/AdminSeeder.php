@@ -2,20 +2,27 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class AdminSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        $this->call([
-        AdminSeeder::class,
-        CustomerSeeder::class,
-        SellerSeeder::class,
-    ]);
+        $admin = User::firstOrCreate(
+            ['email' => 'admin@gmail.com'],
+            [
+                'name'     => 'Super Admin',
+                'password' => Hash::make('admin@gmail.com'),
+                'status'   => 'active',
+            ]
+        );
+
+        $adminRole = Role::where('slug', 'admin')->first();
+        if ($adminRole) {
+            $admin->roles()->sync([$adminRole->id]);
+        }
     }
 }

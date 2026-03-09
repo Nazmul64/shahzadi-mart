@@ -2,25 +2,32 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\User;
+use App\Models\Role;
 use Illuminate\Support\Facades\Hash;
 
 class SellerSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        User::factory()->create([
-            'name' => 'seller',
-            'email' => '=seller@gmail.com',
-            'password'=>Hash::make('seller@gmail.com'),
-            'role' => 'seller',
-            'phone' => '01700000000',
-            'status' => 'active',
-        ]);
+        $user = User::updateOrCreate(
+            ['email' => 'seller@gmail.com'],
+            [
+                'name'              => 'Seller',
+                'email'             => 'seller@gmail.com',
+                'password'          => Hash::make('seller@gmail.com'),
+                'phone'             => '01711111111',
+                'status'            => 'active',
+                'email_verified_at' => now(),
+            ]
+        );
+
+        $role = Role::where('slug', 'seller')->first();
+        if ($role) {
+            $user->roles()->sync([$role->id]);
+        }
+
+        $this->command->info('✅ Seller created: seller@gmail.com');
     }
 }

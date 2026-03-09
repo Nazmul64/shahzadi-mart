@@ -2,27 +2,20 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Admin',
-            'email' => 'admin@gmail.com',
-            'password'=>Hash::make('admin@gmail.com'),
-            'role' => 'admin',
-            'phone' => '01700000000',
-            'status' => 'active',
+        // এই ক্রমে run করতে হবে
+        $this->call([
+            PermissionSeeder::class,   // 1. আগে permission তৈরি
+            RoleSeeder::class,         // 2. তারপর role ও permission assign
+            AdminSeeder::class,        // 3. admin user
+            SellerSeeder::class,       // 4. seller user
+            CustomerSeeder::class,     // 5. customer user
+            EmpleeSeeder::class,       // 6. emplee user
         ]);
     }
 }

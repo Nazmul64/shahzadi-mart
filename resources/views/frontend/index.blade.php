@@ -68,7 +68,7 @@
                 <!-- Right Sidebar -->
                 <div class="right-sidebar">
                     <div class="welcome-card">
-                        <p>Welcome to ShopGo</p>
+                        <p>Welcome to Shahzadi-mart</p>
                        <div class="auth-buttons">
                         <button class="register-btn" onclick="window.location.href='login-or-signup.html'">
                             Register

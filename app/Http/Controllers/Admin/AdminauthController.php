@@ -14,31 +14,37 @@ class AdminauthController extends Controller
     }
 
 
- public function admin_login_submit(Request $request)
-    {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+public function admin_login_submit(Request $request)
+{
+    $request->validate([
+        'email'    => 'required|email',
+        'password' => 'required',
+    ]);
 
-        $credentials = [
-            'email' => $request->email,
-            'password' => $request->password,
-        ];
+    $credentials = [
+        'email'    => $request->email,
+        'password' => $request->password,
+    ];
 
-        if (Auth::attempt($credentials, $request->remember)) {
+    if (Auth::attempt($credentials, $request->remember)) {
 
-            if (Auth::user()->role === 'admin') {
-                return redirect()->route('admin.dashboard')
-                    ->with('success', 'Welcome Admin');
-            } else {
-                Auth::logout();
-                return back()->with('error', 'You are not an admin');
-            }
+        $user = Auth::user();
+
+        // RBAC দিয়ে check — database থেকে dynamic
+        if ($user->isAdmin()) {
+            $request->session()->regenerate();
+            return redirect()->route('admin.dashboard')
+                ->with('success', 'Welcome, ' . $user->name . '!');
         }
 
-        return back()->with('error', 'Invalid email or password');
+        Auth::logout();
+        return back()->with('error', 'You are not an admin');
     }
+
+    return back()
+        ->withInput($request->only('email', 'remember'))
+        ->with('error', 'Invalid email or password');
+}
     public function admin_logout()
 {
     Auth::logout();

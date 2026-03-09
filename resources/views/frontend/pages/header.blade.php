@@ -45,7 +45,7 @@
     <!-- Top Header -->
     <div class="top-header">
         <div class="top-header-content">
-            <a href="start-selling.html"><i class="fas fa-store"></i> Sell on ShopGo</a>
+            <a href="start-selling.html"><i class="fas fa-store"></i> Sell on Shahzadi-mart</a>
             <a href="#"><i class="fas fa-map-marker-alt"></i> Our Stores</a>
         </div>
     </div>
@@ -57,7 +57,7 @@
                 <i class="fas fa-bars mobile-menu-toggle" onclick="toggleSidebar()"></i>
 
                 <a href="#" class="logo">
-                    ShopGo<span class="logo-emoji">😊</span>
+                    Shahzadi-mart<span class="logo-emoji">😊</span>
                 </a>
             </div>
 
@@ -81,7 +81,7 @@
                         <span>Account</span>
                         <div class="dropdown-content">
                             <div class="dropdown-header">
-                                <p>Welcome to ShopGo</p>
+                                <p>Welcome to Shahzadi-mart</p>
                                 <button class="signin-btn">Sign In</button>
                             </div>
                             <a href="customer-account-index.html" class="dropdown-item">
