@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             CustomerSeeder::class,     // 5. customer user
             EmpleeSeeder::class,       // 6. emplee user
             ManagerSeeder::class,      // 7. manager user
+            SubadminSeeder::class,     // 8. subadmin user
         ]);
     }
 }

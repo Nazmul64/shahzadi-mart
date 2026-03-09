@@ -2,7 +2,7 @@
   <div class="sidebar-brand">
     <div class="brand-logo">G</div>
     <div class="brand-info">
-      <strong>Genius Shop</strong>
+      <strong>Shahzadimart Shop</strong>
       <span>Manager Panel</span>
     </div>
   </div>

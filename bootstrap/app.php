@@ -23,6 +23,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'role'=> \App\Http\Middleware\CheckRole::class,
             'emplee'=> \App\Http\Middleware\EmpleeMiddleware::class,
             'manager'=> \App\Http\Middleware\ManagerMiddleware::class,
+            'subadmin' => \App\Http\Middleware\SubadminMiddleware::class,
 
         ]);
     })

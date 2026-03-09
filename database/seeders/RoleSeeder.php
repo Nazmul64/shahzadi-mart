@@ -24,6 +24,23 @@ class RoleSeeder extends Seeder
         );
         $admin->permissions()->sync(Permission::pluck('id'));
 
+        // ── Sub Admin ─────────────────────────────────────────────────────────
+        $subAdmin = Role::firstOrCreate(
+            ['slug' => 'sub-admin'],
+            ['name' => 'Sub Admin', 'description' => 'সীমিত অ্যাডমিন অ্যাক্সেস', 'is_active' => true]
+        );
+        $subAdminSlugs = [
+            'view-dashboard',
+            'view-products', 'create-products', 'edit-products',
+            'view-orders', 'edit-orders',
+            'view-categories', 'create-categories', 'edit-categories',
+            'view-users',
+            'view-reports', 'export-reports',
+        ];
+        $subAdmin->permissions()->sync(
+            Permission::whereIn('slug', $subAdminSlugs)->pluck('id')
+        );
+
         // ── Manager ───────────────────────────────────────────────────────────
         $manager = Role::firstOrCreate(
             ['slug' => 'manager'],

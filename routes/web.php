@@ -15,6 +15,7 @@ use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Manager\ManagerController;
 use App\Http\Controllers\Saller\SallerController;
 use App\Http\Controllers\Saller\SellerauthController;
+use App\Http\Controllers\Subadmin\SubadminController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 
@@ -137,6 +138,17 @@ Route::middleware(['manager'])->group(function () {
     Route::get('manager/dashboard', [ManagerController::class, 'manager_dashboard'])->name('manager.dashboard');
 });
 // Manager route end
+
+// Subadmin route start
+Route::get('subadmin/login', [SubadminController::class, 'subadmin_login'])->name('subadmin.login');
+Route::post('subadmin/login/submit', [SubadminController::class, 'subadmin_login_submit'])->name('subadmin.login.submit');
+Route::get('subadmin/logout', [SubadminController::class, 'subadmin_logout'])->name('subadmin.logout');
+
+Route::middleware(['subadmin'])->group(function () {
+    Route::get('subadmin/dashboard', [SubadminController::class, 'subadmin_dashboard'])->name('subadmin.dashboard');
+});
+// Subadmin route end
+
 
 
 

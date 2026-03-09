@@ -110,6 +110,10 @@ class User extends Authenticatable
             ->flatMap(fn ($role) => $role->permissions->pluck('slug'))
             ->unique();
     }
+    public function isSubAdmin(): bool
+{
+    return $this->hasRole('sub-admin');
+}
 
     // ── Status Helpers ─────────────────────────────────────────────────────────
 
