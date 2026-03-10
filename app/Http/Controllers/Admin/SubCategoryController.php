@@ -10,7 +10,6 @@ use Illuminate\Support\Str;
 
 class SubCategoryController extends Controller
 {
-    // List
     public function index()
     {
         $subCategories = SubCategory::with('category')->latest()->get();
@@ -18,13 +17,11 @@ class SubCategoryController extends Controller
         return view('admin.subcategory.index', compact('subCategories', 'categories'));
     }
 
-    // Create (modal used)
     public function create()
     {
         return redirect()->route('subcategory.index');
     }
 
-    // Store
     public function store(Request $request)
     {
         $request->validate([
@@ -44,13 +41,11 @@ class SubCategoryController extends Controller
             ->with('success', 'Sub Category Added Successfully');
     }
 
-    // Edit (modal used)
     public function edit(string $id)
     {
         return redirect()->route('subcategory.index');
     }
 
-    // Update
     public function update(Request $request, string $id)
     {
         $subCategory = SubCategory::findOrFail($id);
@@ -72,25 +67,22 @@ class SubCategoryController extends Controller
             ->with('success', 'Sub Category Updated Successfully');
     }
 
-    // Toggle Featured
     public function toggleFeatured(string $id)
     {
-        $sub = SubCategory::findOrFail($id);
+        $sub           = SubCategory::findOrFail($id);
         $sub->featured = $sub->featured === 'active' ? 'inactive' : 'active';
         $sub->save();
         return redirect()->route('subcategory.index')->with('success', 'Featured status updated');
     }
 
-    // Toggle Status
     public function toggleStatus(string $id)
     {
-        $sub = SubCategory::findOrFail($id);
+        $sub         = SubCategory::findOrFail($id);
         $sub->status = $sub->status === 'active' ? 'inactive' : 'active';
         $sub->save();
         return redirect()->route('subcategory.index')->with('success', 'Status updated');
     }
 
-    // Delete
     public function destroy(string $id)
     {
         SubCategory::findOrFail($id)->delete();

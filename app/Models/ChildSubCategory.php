@@ -6,24 +6,30 @@ use Illuminate\Database\Eloquent\Model;
 
 class ChildSubCategory extends Model
 {
-    protected $fillable = ['child_sub_name', 'slug', 'sub_category_id', 'featured', 'status'];
+    protected $fillable = [
+        'child_sub_name',
+        'slug',
+        'sub_category_id',
+        'featured',
+        'status',
+    ];
 
-    // SubCategory relationship (direct)
+    // child_sub_categories.sub_category_id → sub_categories.id
     public function subCategory()
     {
-        return $this->belongsTo(SubCategory::class);
+        return $this->belongsTo(SubCategory::class, 'sub_category_id');
     }
 
-    // Category relationship (through SubCategory)
+    // sub_categories.category_id → categories.id (through sub_categories)
     public function category()
     {
         return $this->hasOneThrough(
-            Category::class,    // Final model চাই
-            SubCategory::class, // Middle model
-            'id',               // sub_categories.id
-            'id',               // categories.id
-            'sub_category_id',  // child_sub_categories.sub_category_id
-            'category_id'       // sub_categories.category_id
+            Category::class,
+            SubCategory::class,
+            'id',          // sub_categories.id
+            'id',          // categories.id
+            'sub_category_id', // child_sub_categories.sub_category_id
+            'category_id'  // sub_categories.category_id
         );
     }
 }

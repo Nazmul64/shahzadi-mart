@@ -336,7 +336,7 @@ body.sb-collapsed .sidebar-submenu { display: none; }
     <a href="{{ route('admin.dashboard') }}" class="sidebar-brand">
         <div class="sb-logo-icon"><i class="bi bi-shop"></i></div>
         <div class="sb-brand-text">
-            <span class="sb-brand-name">Genius Shop</span>
+            <span class="sb-brand-name">shahzadimart Shop</span>
             <span class="sb-brand-tag">Admin Panel</span>
         </div>
     </a>
@@ -399,8 +399,10 @@ body.sb-collapsed .sidebar-submenu { display: none; }
             <i class="bi bi-chevron-right arrow"></i>
         </div>
         <div class="sidebar-submenu {{ $prodsActive ? 'open' : '' }}">
-            <a href="#"><i class="bi bi-list-ul"></i> All Products</a>
-            <a href="#"><i class="bi bi-plus-circle"></i> Add Product</a>
+            <a href="{{ route('products.index') }}"><i class="bi bi-list-ul"></i> All Products</a>
+            <a href="{{ route('products.create') }}"><i class="bi bi-plus-circle"></i> Add Product</a>
+            <a href="{{ route('products.deactivated') }}"><i class="bi bi-x-circle"></i> Deactivated Products</a>
+            <a href="{{ route('products.catalog') }}"><i class="bi bi-plus-circle"></i>Catalog</a>
         </div>
 
         {{-- Affiliate Products --}}
@@ -669,7 +671,7 @@ body.sb-collapsed .sidebar-submenu { display: none; }
 
     {{-- ── Logout ───────────────────────────────────────────── --}}
     <div class="sb-sep" style="margin: 0 0 0;"></div>
-    <form method="POST" action="{{ route('logout') }}" class="sb-logout-form">
+    <form method="POST" action="{{ route('admin.logout') }}" class="sb-logout-form">
         @csrf
         <button type="submit" class="sb-logout-btn">
             <i class="bi bi-box-arrow-right"></i>
