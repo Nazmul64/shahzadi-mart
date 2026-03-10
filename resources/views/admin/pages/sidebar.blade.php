@@ -380,8 +380,14 @@ body.sb-collapsed .sidebar-submenu { display: none; }
             <i class="bi bi-chevron-right arrow"></i>
         </div>
         <div class="sidebar-submenu {{ $catsActive ? 'open' : '' }}">
-            <a href="#"><i class="bi bi-list-ul"></i> All Categories</a>
-            <a href="#"><i class="bi bi-plus-circle"></i> Add Category</a>
+            <a href="{{ route('category.index') }}"><i class="bi bi-list-ul"></i> All Categories</a>
+            <a href="{{ route('category.create') }}"><i class="bi bi-plus-circle"></i> Add Category</a>
+
+            <a href="{{ route('subcategory.index') }}"><i class="bi bi-list-ul"></i> All Subcategories</a>
+            <a href="{{ route('subcategory.create') }}"><i class="bi bi-plus-circle"></i> Add Subcategory</a>
+            <a href="{{ route('childcategory.index') }}"><i class="bi bi-list-ul"></i> All Child Categories</a>
+            <a href="{{ route('childcategory.create') }}"><i class="bi bi-plus-circle"></i> Add Child Category</a>
+
         </div>
 
         {{-- Products --}}

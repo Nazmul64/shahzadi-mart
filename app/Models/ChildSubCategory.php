@@ -1,0 +1,29 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class ChildSubCategory extends Model
+{
+    protected $fillable = ['child_sub_name', 'slug', 'sub_category_id', 'featured', 'status'];
+
+    // SubCategory relationship (direct)
+    public function subCategory()
+    {
+        return $this->belongsTo(SubCategory::class);
+    }
+
+    // Category relationship (through SubCategory)
+    public function category()
+    {
+        return $this->hasOneThrough(
+            Category::class,    // Final model চাই
+            SubCategory::class, // Middle model
+            'id',               // sub_categories.id
+            'id',               // categories.id
+            'sub_category_id',  // child_sub_categories.sub_category_id
+            'category_id'       // sub_categories.category_id
+        );
+    }
+}

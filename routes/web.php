@@ -3,9 +3,12 @@
 use App\Http\Controllers\Admin\AdminauthController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminsellerregisterapprovedController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ChildSubCategoryController;
 use App\Http\Controllers\Admin\EmpleeController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\SubCategoryController;
 use App\Http\Controllers\Admin\UserRoleController;
 use App\Http\Controllers\Frontend\AuthController;
 use App\Http\Controllers\Frontend\FrontendauthContorller;
@@ -56,36 +59,43 @@ Route::middleware(['admin'])->group(function () {
     Route::get('/seller-registrations/export', [AdminsellerregisterapprovedController::class, 'seller_register_export'])->name('seller.register.export');
     // View detailed seller information
     Route::get('/seller-registrations/{id}/view', [AdminsellerregisterapprovedController::class, 'seller_register_view'])->name('seller.register.view');
+
 // Roles
  // Dashboard
 
 
 Route::resource('roles', RoleController::class);
-
 // Role এ Permission assign করার dedicated page
-Route::get('roles/{role}/assign-permission',
-    [RoleController::class, 'assignPermission']
-)->name('roles.assignPermission');
-
-Route::put('roles/{role}/save-assigned-permission',
-    [RoleController::class, 'saveAssignedPermission']
-)->name('roles.saveAssignedPermission');
-
+Route::get('roles/{role}/assign-permission',[RoleController::class, 'assignPermission'])->name('roles.assignPermission');
+Route::put('roles/{role}/save-assigned-permission',[RoleController::class, 'saveAssignedPermission'])->name('roles.saveAssignedPermission');
 // ── Permissions ────────────────────────────────────────────────────────────────
 // Bulk create আগে রাখতে হবে, নইলে Laravel "bulk-create" কে {permission} মনে করবে
-Route::post('permissions/bulk-create',
-    [PermissionController::class, 'bulkCreate']
-)->name('permissions.bulkCreate');
-
+Route::post('permissions/bulk-create',[PermissionController::class, 'bulkCreate'])->name('permissions.bulkCreate');
 Route::resource('permissions', PermissionController::class);
-
 // ── Users ──────────────────────────────────────────────────────────────────────
 Route::resource('users', UserController::class);
+Route::patch('users/{user}/toggle-status', [UserController::class, 'toggleStatus'])->name('users.toggleStatus');
+// ── Category Start ──────────────────────────────────────────────────────────────────────
+// ===== Category Routes =====
+Route::resource('category', CategoryController::class);
+Route::get('category/{id}/toggle-featured', [CategoryController::class, 'toggleFeatured'])->name('category.toggle-featured');
+Route::get('category/{id}/toggle-status',   [CategoryController::class, 'toggleStatus'])->name('category.toggle-status');
 
-Route::patch('users/{user}/toggle-status',
-    [UserController::class, 'toggleStatus']
-)->name('users.toggleStatus');
+// ===== SubCategory Routes =====
+Route::resource('subcategory', SubCategoryController::class);
+Route::get('subcategory/{id}/toggle-featured', [SubCategoryController::class, 'toggleFeatured'])->name('subcategory.toggle-featured');
+Route::get('subcategory/{id}/toggle-status',   [SubCategoryController::class, 'toggleStatus'])->name('subcategory.toggle-status');
 
+// ===== ChildSubCategory Routes =====
+Route::resource('childcategory', ChildSubCategoryController::class);
+Route::get('childcategory/{id}/toggle-featured', [ChildSubCategoryController::class, 'childtoggleFeatured'])->name('childcategory.toggle-featured');
+Route::get('childcategory/{id}/toggle-status',   [ChildSubCategoryController::class, 'childtoggleStatus'])->name('childcategory.toggle-status');
+
+// AJAX: Get SubCategories by Category ID
+Route::get('get-subcategories', [ChildSubCategoryController::class, 'getSubCategories'])->name('childcategory.getSubCategories');
+
+
+// ── Category End ──────────────────────────────────────────────────────────────────────
 });
 
 // ─── Auth Routes (Login/Register) ───────────────────────────
