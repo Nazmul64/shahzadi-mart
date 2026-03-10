@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\ChildSubCategoryController;
 use App\Http\Controllers\Admin\EmpleeController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\Productsettingcontroller;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SubCategoryController;
 use App\Http\Controllers\Admin\UserRoleController;
@@ -100,52 +101,32 @@ Route::get('get-subcategories', [ChildSubCategoryController::class, 'getSubCateg
 // ===== Products =====
 // ✅ এই তিনটা line অবশ্যই Route::resource এর আগে থাকতে হবে
 // ── AJAX helpers ────────────────────────────────────────────────
-Route::get('products/get-subcategories',
-    [ProductController::class, 'getSubCategories'])
-    ->name('products.getSubCategories');
-
-Route::get('products/get-childcategories',
-    [ProductController::class, 'getChildCategories'])
-    ->name('products.getChildCategories');
-
+Route::get('products/get-subcategories', [ProductController::class, 'getSubCategories'])->name('products.getSubCategories');
+Route::get('products/get-childcategories', [ProductController::class, 'getChildCategories'])->name('products.getChildCategories');
 // ── Status toggle ────────────────────────────────────────────────
-Route::get('products/{id}/toggle-status',
-    [ProductController::class, 'toggleStatus'])
-    ->name('products.toggle-status');
-
+Route::get('products/{id}/toggle-status',[ProductController::class, 'toggleStatus']) ->name('products.toggle-status');
 // ── Deactivated list ────────────────────────────────────────────
-Route::get('products/deactivated',
-    [ProductController::class, 'deactivated'])
-    ->name('products.deactivated');
+Route::get('products/deactivated', [ProductController::class, 'deactivated'])->name('products.deactivated');
 
 // ── Catalog ──────────────────────────────────────────────────────
-Route::get('products/catalog',
-    [ProductController::class, 'catalogIndex'])
-    ->name('products.catalog');
-
-Route::get('products/{id}/catalog-add',
-    [ProductController::class, 'catalogAdd'])
-    ->name('products.catalog.add');
-
-Route::post('products/{id}/catalog-remove',
-    [ProductController::class, 'catalogRemove'])
-    ->name('products.catalog.remove');
-
-Route::post('products/{id}/catalog-highlight',
-    [ProductController::class, 'catalogHighlight'])
-    ->name('products.catalog.highlight');
-
-Route::get('products/{id}/catalog-gallery',
-    [ProductController::class, 'catalogGallery'])
-    ->name('products.catalog.gallery');
-
+Route::get('products/catalog', [ProductController::class, 'catalogIndex'])->name('products.catalog');
+Route::get('products/{id}/catalog-add', [ProductController::class, 'catalogAdd'])->name('products.catalog.add');
+Route::post('products/{id}/catalog-remove',[ProductController::class, 'catalogRemove'])->name('products.catalog.remove');
+Route::post('products/{id}/catalog-highlight',[ProductController::class, 'catalogHighlight'])->name('products.catalog.highlight');
+Route::get('products/{id}/catalog-gallery', [ProductController::class, 'catalogGallery'])->name('products.catalog.gallery');
 // ── Resource (index, create, store, show, edit, update, destroy) ─
 Route::resource('products', ProductController::class);
-
 // ════════════════════════════════════════════════════════════════
 //  END PRODUCTS
 // ════════════════════════════════════════════════════════════════
 // ===== End Products =====
+// ===== products settings =====
+
+Route::resource('productsettings', ProductSettingController::class);
+Route::get('product-settings',        [ProductSettingController::class, 'index'])->name('product.settings.index');
+Route::put('product-settings/update', [ProductSettingController::class, 'update'])->name('product.settings.update');
+
+// ===== products settings =====
 });
 
 // ─── Auth Routes (Login/Register) ───────────────────────────

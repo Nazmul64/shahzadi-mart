@@ -403,6 +403,7 @@ body.sb-collapsed .sidebar-submenu { display: none; }
             <a href="{{ route('products.create') }}"><i class="bi bi-plus-circle"></i> Add Product</a>
             <a href="{{ route('products.deactivated') }}"><i class="bi bi-x-circle"></i> Deactivated Products</a>
             <a href="{{ route('products.catalog') }}"><i class="bi bi-plus-circle"></i>Catalog</a>
+            <a href="{{ route('product.settings.index') }}"><i class="bi bi-gear"></i> Product Settings</a>
         </div>
 
         {{-- Affiliate Products --}}
