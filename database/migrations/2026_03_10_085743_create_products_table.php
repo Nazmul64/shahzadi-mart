@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->string('sku')->unique()->nullable();
             $table->string('vendor')->nullable();
+            $table->string('meta_tags')->nullable();
+            $table->string('meta_description')->nullable();
 
             // ── Category ─────────────────────────────────────
             $table->foreignId('category_id')->constrained('categories')->cascadeOnDelete();

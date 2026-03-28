@@ -406,13 +406,20 @@ body.sb-collapsed .sidebar-submenu { display: none; }
             <a href="{{ route('product.settings.index') }}"><i class="bi bi-gear"></i> Product Settings</a>
         </div>
 
-        {{-- Affiliate Products --}}
-        <a href="#" class="sidebar-item">
+
+        {{-- affiliateproduct --}}
+        <div class="sidebar-item {{ $prodsActive ? 'active open' : '' }}" onclick="toggleMenu(this)">
             <span class="item-left">
-                <i class="bi bi-person-badge nav-icon"></i>
+                <i class="bi bi-box-seam nav-icon"></i>
                 <span class="item-text">Affiliate Products</span>
             </span>
-        </a>
+            <i class="bi bi-chevron-right arrow"></i>
+        </div>
+        <div class="sidebar-submenu {{ $prodsActive ? 'open' : '' }}">
+            <a href="{{ route('affiliateproduct.index') }}"><i class="bi bi-list-ul"></i> All Affiliate Products</a>
+            <a href="{{ route('affiliateproduct.create') }}"><i class="bi bi-plus-circle"></i> Add Affiliate Products</a>
+            <a href="{{ route('products.deactivated') }}"><i class="bi bi-x-circle"></i> Deactivated Affiliate Products</a>
+        </div>
 
         {{-- Bulk Product Upload --}}
         <a href="#" class="sidebar-item">

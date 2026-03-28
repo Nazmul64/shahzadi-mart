@@ -2,10 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class ChildSubCategory extends Model
 {
+    use HasFactory;
+
+    protected $table = 'child_sub_categories';
+
     protected $fillable = [
         'child_sub_name',
         'slug',
@@ -14,22 +19,14 @@ class ChildSubCategory extends Model
         'status',
     ];
 
-    // child_sub_categories.sub_category_id → sub_categories.id
+    // $child->name → child_sub_name কলাম return করে
+    public function getNameAttribute(): string
+    {
+        return $this->child_sub_name ?? '';
+    }
+
     public function subCategory()
     {
         return $this->belongsTo(SubCategory::class, 'sub_category_id');
-    }
-
-    // sub_categories.category_id → categories.id (through sub_categories)
-    public function category()
-    {
-        return $this->hasOneThrough(
-            Category::class,
-            SubCategory::class,
-            'id',          // sub_categories.id
-            'id',          // categories.id
-            'sub_category_id', // child_sub_categories.sub_category_id
-            'category_id'  // sub_categories.category_id
-        );
     }
 }

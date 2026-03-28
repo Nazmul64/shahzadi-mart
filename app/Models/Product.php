@@ -15,6 +15,8 @@ class Product extends Model
         'current_price', 'discount_price', 'stock', 'is_unlimited',
         'youtube_url', 'tags', 'feature_tags',
         'status', 'is_highlighted', 'in_catalog',
+        'meta_tags',
+        'meta_description',
     ];
 
     protected $casts = [

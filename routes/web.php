@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminauthController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminsellerregisterapprovedController;
+use App\Http\Controllers\Admin\AffiliateproductController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ChildSubCategoryController;
 use App\Http\Controllers\Admin\EmpleeController;
@@ -127,6 +128,16 @@ Route::get('product-settings',        [ProductSettingController::class, 'index']
 Route::put('product-settings/update', [ProductSettingController::class, 'update'])->name('product.settings.update');
 
 // ===== products settings =====
+
+
+// ===== Affiliateproduct =====
+ // ===== Affiliateproduct — AJAX routes FIRST =====
+    Route::get('affiliateproduct/get-sub-categories',  [AffiliateproductController::class, 'getSubCategories'])->name('affiliateproduct.sub-categories');
+    Route::get('affiliateproduct/get-child-categories', [AffiliateproductController::class, 'getChildCategories'])->name('affiliateproduct.child-categories');
+    Route::post('affiliateproduct/{id}/toggle-status',  [AffiliateproductController::class, 'toggleStatus'])->name('affiliateproduct.toggle-status');
+    // Resource route সবার শেষে
+    Route::resource('affiliateproduct', AffiliateproductController::class);
+    // ===== Affiliateproduct =====
 });
 
 // ─── Auth Routes (Login/Register) ───────────────────────────
@@ -135,17 +146,7 @@ Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
 Route::post('/register', [AuthController::class, 'register'])->name('register.post');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
-
-
-
-
-
-
 // admin route end
-
-
-
 // saller route start
 Route::get('seller/login', [SellerauthController::class, 'saller_login'])->name('saller.login');
 Route::get('seller/register', [SellerauthController::class, 'saller_register'])->name('saller.register');
@@ -154,37 +155,29 @@ Route::post('seller', [SellerauthController::class, 'saller_register_submit'])->
 Route::middleware(['saller'])->group(function () {
     Route::get('saller/dashboard', [SellerauthController::class, 'saller_dashboard'])->name('saller.dashboard');
     Route::post('/logout', [SellerauthController::class, 'saller_logout'])->name('logout');
-
 });
 
 // saller route end
-
-
 // emplee route start
 Route::get('emplee/login', [EmpleeController::class, 'emplee'])->name('emplee.login');
 Route::post('emplee/login/submit', [EmpleeController::class, 'loginSubmit'])->name('emplee.login.submit');
 Route::post('emplee/logout', [EmpleeController::class, 'emplee_logout'])->name('emplee.logout');
-
 Route::middleware(['emplee'])->group(function () {
     Route::get('emplee', [EmpleeController::class, 'emplee_dashboard'])->name('emplee.dashboard');
 });
 // emplee route end
-
 // Manager route start
 Route::get('manager/login', [ManagerController::class, 'manager_login'])->name('manager.login');
 Route::post('manager/login/submit', [ManagerController::class, 'manager_login_submit'])->name('manager.login.submit');
 Route::get('manager/logout', [ManagerController::class, 'manager_logout'])->name('manager.logout');
-
 Route::middleware(['manager'])->group(function () {
     Route::get('manager/dashboard', [ManagerController::class, 'manager_dashboard'])->name('manager.dashboard');
 });
 // Manager route end
-
 // Subadmin route start
 Route::get('subadmin/login', [SubadminController::class, 'subadmin_login'])->name('subadmin.login');
 Route::post('subadmin/login/submit', [SubadminController::class, 'subadmin_login_submit'])->name('subadmin.login.submit');
 Route::get('subadmin/logout', [SubadminController::class, 'subadmin_logout'])->name('subadmin.logout');
-
 Route::middleware(['subadmin'])->group(function () {
     Route::get('subadmin/dashboard', [SubadminController::class, 'subadmin_dashboard'])->name('subadmin.dashboard');
 });

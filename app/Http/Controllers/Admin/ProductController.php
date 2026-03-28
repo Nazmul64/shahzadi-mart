@@ -147,6 +147,8 @@ class ProductController extends Controller
             'feature_tags'          => $featureTags,
             'status'                => 'active',
             'is_highlighted'        => false,
+            'meta_tags' => $request->meta_tags,
+            'meta_description' => $request->meta_description,
         ]);
 
         return redirect()->route('products.index')
@@ -295,6 +297,8 @@ class ProductController extends Controller
             'youtube_url'           => $request->youtube_url           ?: null,
             'tags'                  => $tags,
             'feature_tags'          => $featureTags,
+            'meta_tags' => $request->meta_tags,
+            'meta_description' => $request->meta_description,
         ]);
 
         return redirect()->route('products.index')
