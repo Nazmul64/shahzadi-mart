@@ -1,231 +1,207 @@
-  <aside class="sidebar" id="sidebar">
-            <div class="category-item" onclick="toggleCategory(this)">
-                <div class="category-main">
-                    <div class="category-icon">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                        </svg>
-                    </div>
-                    <span>Brand Stores</span>
-                </div>
-                <i class="fas fa-chevron-down category-arrow"></i>
-            </div>
-            <div class="subcategory-menu">
-                <a href="#" class="subcategory-item">Apple Store</a>
-                <a href="#" class="subcategory-item">Samsung Store</a>
-                <a href="#" class="subcategory-item">Nike Store</a>
-                <a href="#" class="subcategory-item">Adidas Store</a>
-            </div>
+{{-- resources/views/frontend/pages/category.blade.php --}}
+<aside class="sidebar" id="sidebar">
 
-            <div class="category-item" onclick="toggleCategory(this)">
-                <div class="category-main">
-                    <div class="category-icon">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-                            <line x1="8" y1="21" x2="16" y2="21"></line>
-                            <line x1="12" y1="17" x2="12" y2="21"></line>
-                        </svg>
-                    </div>
-                    <span>Electronics</span>
-                </div>
-                <i class="fas fa-chevron-down category-arrow"></i>
-            </div>
-            <div class="subcategory-menu">
-                <a href="#" class="subcategory-item">Mobile Phones</a>
-                <a href="#" class="subcategory-item">Tablets</a>
-                <a href="#" class="subcategory-item">Cameras</a>
-                <a href="#" class="subcategory-item">Accessories</a>
-            </div>
+    <div class="sb-head">
+        <i class="bi bi-grid-fill"></i>
+        <span>All Categories</span>
+    </div>
 
-            <div class="category-item" onclick="toggleCategory(this)">
-                <div class="category-main">
-                    <div class="category-icon">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect>
-                            <polyline points="17 2 12 7 7 2"></polyline>
-                        </svg>
-                    </div>
-                    <span>TVs & Audio</span>
-                </div>
-                <i class="fas fa-chevron-down category-arrow"></i>
-            </div>
-            <div class="subcategory-menu">
-                <a href="#" class="subcategory-item">Television</a>
-                <a href="#" class="subcategory-item">Headphones</a>
-                <a href="#" class="subcategory-item">Speakers</a>
-                <a href="#" class="subcategory-item">Soundbars</a>
-            </div>
+    @php
+    $categories = [
+        ['icon'=>'bi-house-fill',        'label'=>'Brand Stores',
+         'subs'=>[
+            ['label'=>'Apple Store',   'children'=>['iPhone','MacBook','iPad','Apple Watch','AirPods']],
+            ['label'=>'Samsung Store', 'children'=>['Galaxy Phones','Galaxy Tabs','Smart TVs','Home Appliances']],
+            ['label'=>'Nike Store',    'children'=>['Running Shoes','Sportswear','Bags & Backpacks']],
+            ['label'=>'Adidas Store',  'children'=>['Sneakers','Training Wear','Accessories']],
+            ['label'=>'Sony Store',    'children'=>['Cameras','Headphones','PlayStation','TVs']],
+        ]],
+        ['icon'=>'bi-phone-fill',         'label'=>'Phones & Tablets',
+         'subs'=>[
+            ['label'=>'Smartphones',  'children'=>['Android Phones','iPhones','Budget Phones','Flagship Phones','Refurbished']],
+            ['label'=>'Tablets',      'children'=>['Android Tablets','iPads','Kids Tablets','Drawing Tablets']],
+            ['label'=>'Accessories',  'children'=>['Cases & Covers','Screen Protectors','Chargers & Cables','Power Banks','Earphones']],
+            ['label'=>'SIM & Plans',  'children'=>['Prepaid SIMs','Data Bundles','Airtime Top-up']],
+        ]],
+        ['icon'=>'bi-laptop-fill',        'label'=>'Computing',
+         'subs'=>[
+            ['label'=>'Laptops',      'children'=>['Gaming Laptops','Business Laptops','Ultrabooks','Chromebooks','2-in-1 Laptops']],
+            ['label'=>'Desktops',     'children'=>['All-in-One PCs','Gaming Desktops','Mini PCs','Workstations']],
+            ['label'=>'Monitors',     'children'=>['Gaming Monitors','4K Monitors','Curved Monitors','Portable Monitors']],
+            ['label'=>'Storage',      'children'=>['External Hard Drives','SSDs','USB Flash Drives','Memory Cards','NAS Devices']],
+            ['label'=>'Networking',   'children'=>['Routers','Switches','Network Cards','Modems']],
+            ['label'=>'Printers',     'children'=>['Inkjet Printers','Laser Printers','All-in-One Printers','Ink & Toner']],
+            ['label'=>'Accessories',  'children'=>['Keyboards','Mice','Webcams','USB Hubs','Laptop Bags']],
+        ]],
+        ['icon'=>'bi-tv-fill',            'label'=>'TVs & Audio',
+         'subs'=>[
+            ['label'=>'Televisions',  'children'=>['Smart TVs','OLED TVs','4K UHD TVs','LED TVs','Portable TVs']],
+            ['label'=>'Headphones',   'children'=>['Over-Ear','In-Ear Earphones','True Wireless (TWS)','Noise Cancelling','Sports Earphones']],
+            ['label'=>'Speakers',     'children'=>['Bluetooth Speakers','Soundbars','Home Theatre','Party Speakers','Studio Monitors']],
+            ['label'=>'Hi-Fi Audio',  'children'=>['Amplifiers','Turntables','Receivers','Subwoofers']],
+            ['label'=>'Accessories',  'children'=>['Remote Controls','HDMI Cables','Mounts & Brackets','Audio Cables']],
+        ]],
+        ['icon'=>'bi-camera-fill',        'label'=>'Cameras & Photography',
+         'subs'=>[
+            ['label'=>'Cameras',      'children'=>['DSLR Cameras','Mirrorless Cameras','Point & Shoot','Action Cameras','Instant Cameras']],
+            ['label'=>'Lenses',       'children'=>['Prime Lenses','Zoom Lenses','Macro Lenses','Wide-Angle','Telephoto']],
+            ['label'=>'Drones',       'children'=>['Consumer Drones','Professional Drones','FPV Drones','Drone Accessories']],
+            ['label'=>'Accessories',  'children'=>['Tripods & Stands','Camera Bags','Lighting','Memory Cards','Filters']],
+        ]],
+        ['icon'=>'bi-house-heart-fill',   'label'=>'Home Appliances',
+         'subs'=>[
+            ['label'=>'Cooling',             'children'=>['Air Conditioners','Fans','Air Purifiers','Dehumidifiers']],
+            ['label'=>'Refrigerators',       'children'=>['Single Door','Double Door','Side-by-Side','Mini Fridges','Chest Freezers']],
+            ['label'=>'Washing',             'children'=>['Front Load Washers','Top Load Washers','Washer Dryers','Dryers','Irons']],
+            ['label'=>'Kitchen Appliances',  'children'=>['Microwaves','Ovens','Blenders','Juicers','Electric Kettles','Coffee Makers','Air Fryers']],
+            ['label'=>'Cleaning',            'children'=>['Vacuum Cleaners','Robotic Vacuums','Mops','Pressure Washers']],
+            ['label'=>'Water & Heating',     'children'=>['Water Dispensers','Water Heaters','Electric Showers','Solar Systems']],
+        ]],
+        ['icon'=>'bi-controller',         'label'=>'Gaming',
+         'subs'=>[
+            ['label'=>'Consoles',         'children'=>['PlayStation 5','Xbox Series X/S','Nintendo Switch','Retro Consoles']],
+            ['label'=>'Games',            'children'=>['Action & Adventure','Sports Games','RPG','Simulation','Fighting']],
+            ['label'=>'PC Gaming',        'children'=>['Gaming Desktops','Gaming Laptops','Gaming Monitors','GPU & CPU']],
+            ['label'=>'Peripherals',      'children'=>['Gaming Keyboards','Gaming Mice','Controllers','Gaming Headsets','Mouse Pads']],
+            ['label'=>'Gaming Furniture', 'children'=>['Gaming Chairs','Gaming Desks','Controller Stands','Cable Management']],
+        ]],
+        ['icon'=>'bi-bag-heart-fill',     'label'=>'Fashion',
+         'subs'=>[
+            ['label'=>"Men's Fashion",   'children'=>["T-Shirts & Polos","Shirts","Trousers & Jeans","Suits & Blazers","Shorts","Underwear & Socks"]],
+            ['label'=>"Women's Fashion", 'children'=>["Dresses","Tops & Blouses","Skirts","Jeans & Trousers","Jackets & Coats","Lingerie & Nightwear"]],
+            ['label'=>'Kids Fashion',    'children'=>['Boys Clothing','Girls Clothing','Baby Clothing','School Uniforms']],
+            ['label'=>'Shoes',           'children'=>["Men's Shoes","Women's Shoes","Kids' Shoes","Sports Shoes","Boots","Sandals"]],
+            ['label'=>'Bags & Luggage',  'children'=>['Handbags','Backpacks','Wallets','Suitcases','Travel Bags']],
+            ['label'=>'Accessories',     'children'=>['Sunglasses','Belts','Hats & Caps','Scarves','Jewellery','Watches']],
+        ]],
+        ['icon'=>'bi-heart-pulse-fill',   'label'=>'Health & Beauty',
+         'subs'=>[
+            ['label'=>'Skincare',          'children'=>['Face Wash','Moisturisers','Sunscreen','Serums & Oils','Masks & Peels']],
+            ['label'=>'Makeup',            'children'=>['Foundation & Concealer','Lipstick & Gloss','Eyeshadow','Mascara','Makeup Brushes']],
+            ['label'=>'Hair Care',         'children'=>['Shampoo & Conditioner','Hair Oils','Hair Color','Hair Extensions','Hair Tools']],
+            ['label'=>'Fragrances',        'children'=>["Men's Perfumes","Women's Perfumes","Body Sprays","Oud & Attar"]],
+            ['label'=>'Personal Care',     'children'=>['Dental Care','Deodorants','Shaving','Feminine Hygiene','Cotton & Wipes']],
+            ['label'=>'Health & Wellness', 'children'=>['Vitamins & Supplements','Medical Devices','First Aid','Fitness Nutrition','Eye Care']],
+        ]],
+        ['icon'=>'bi-building-fill',      'label'=>'Home & Office',
+         'subs'=>[
+            ['label'=>'Furniture',        'children'=>['Sofas & Couches','Beds & Mattresses','Dining Tables','Office Desks','Shelves & Racks','Wardrobes']],
+            ['label'=>'Home Decor',       'children'=>['Wall Art & Clocks','Curtains & Blinds','Rugs & Carpets','Cushions & Throws','Vases & Plants']],
+            ['label'=>'Bedding & Bath',   'children'=>['Bedsheets','Duvets & Pillows','Towels','Bath Accessories','Mattress Protectors']],
+            ['label'=>'Kitchen & Dining', 'children'=>['Cookware','Cutlery','Dinnerware','Glassware','Food Storage','Kitchen Organizers']],
+            ['label'=>'Lighting',         'children'=>['Ceiling Lights','Floor Lamps','Desk Lamps','Outdoor Lighting','Smart Lights','LED Strips']],
+            ['label'=>'Office Supplies',  'children'=>['Stationery','Printers & Ink','Filing & Storage','Whiteboards','Office Furniture']],
+            ['label'=>'Tools & Hardware', 'children'=>['Power Tools','Hand Tools','Safety Equipment','Measuring Tools','Painting Supplies']],
+        ]],
+        ['icon'=>'bi-emoji-smile-fill',   'label'=>'Baby Products',
+         'subs'=>[
+            ['label'=>'Feeding',         'children'=>['Baby Formula','Bottles & Nipples','High Chairs','Bibs','Breast Pumps','Baby Food']],
+            ['label'=>'Diapering',       'children'=>['Diapers','Baby Wipes','Nappy Bags','Changing Mats']],
+            ['label'=>'Baby Clothing',   'children'=>['0-3 Months','3-12 Months','1-3 Years','Baby Shoes','Sleep Suits']],
+            ['label'=>'Nursery',         'children'=>['Cribs & Cots','Baby Monitors','Baby Carriers','Bouncers & Swings','Baby Blankets']],
+            ['label'=>'Toys & Learning', 'children'=>['Rattles & Teethers','Soft Toys','Educational Toys','Building Blocks','Outdoor Toys']],
+            ['label'=>'Travel & Gear',   'children'=>['Prams & Strollers','Car Seats','Baby Bags','Travel Cots']],
+        ]],
+        ['icon'=>'bi-trophy-fill',        'label'=>'Sporting Goods',
+         'subs'=>[
+            ['label'=>'Fitness',             'children'=>['Treadmills','Exercise Bikes','Dumbbells & Barbells','Resistance Bands','Yoga Mats','Jump Ropes']],
+            ['label'=>'Team Sports',         'children'=>['Football','Basketball','Rugby','Cricket','Volleyball','Hockey']],
+            ['label'=>'Outdoor & Adventure', 'children'=>['Hiking Gear','Camping','Cycling','Swimming','Rock Climbing','Fishing']],
+            ['label'=>'Combat Sports',       'children'=>['Boxing','MMA & Martial Arts','Wrestling','Punching Bags']],
+            ['label'=>'Sportswear',          'children'=>["Men's Sportswear","Women's Sportswear","Running Shoes","Sports Socks","Compression Wear"]],
+            ['label'=>'Racket Sports',       'children'=>['Tennis','Badminton','Squash','Table Tennis']],
+        ]],
+        ['icon'=>'bi-cart4',              'label'=>'Supermarket',
+         'subs'=>[
+            ['label'=>'Food & Staples', 'children'=>['Rice & Grains','Flour & Baking','Oils & Fats','Spices & Condiments','Pasta & Noodles']],
+            ['label'=>'Beverages',      'children'=>['Water & Juices','Soft Drinks','Tea & Coffee','Energy Drinks','Milk & Dairy Drinks']],
+            ['label'=>'Snacks',         'children'=>['Chips & Crisps','Biscuits & Cookies','Chocolates & Candy','Nuts & Dried Fruits']],
+            ['label'=>'Dairy & Eggs',   'children'=>['Milk','Cheese','Yoghurt','Butter','Eggs']],
+            ['label'=>'Household',      'children'=>['Laundry Detergent','Cleaning Liquids','Toilet Paper','Trash Bags','Insect Repellents']],
+            ['label'=>'Fresh Produce',  'children'=>['Fruits','Vegetables','Meat & Poultry','Fish & Seafood']],
+        ]],
+        ['icon'=>'bi-car-front-fill',     'label'=>'Automotive',
+         'subs'=>[
+            ['label'=>'Car Electronics', 'children'=>['Car Radios & Stereos','GPS & Navigation','Dash Cameras','Reverse Cameras']],
+            ['label'=>'Car Accessories', 'children'=>['Seat Covers','Car Mats','Steering Covers','Car Fresheners','Organizers']],
+            ['label'=>'Tyres & Wheels',  'children'=>['Car Tyres','Motorcycle Tyres','Alloy Wheels','Wheel Covers']],
+            ['label'=>'Car Care',        'children'=>['Car Wash & Wax','Engine Oil','Tyre Polish','Car Covers','Jump Starters']],
+            ['label'=>'Motorcycles',     'children'=>['Motorcycle Helmets','Riding Gear','Motorcycle Parts','Motorcycle Accessories']],
+        ]],
+        ['icon'=>'bi-book-fill',          'label'=>'Books, Music & Movies',
+         'subs'=>[
+            ['label'=>'Books',       'children'=>['Fiction','Non-Fiction','Academic & Textbooks',"Children's Books",'Comics & Manga','Business & Finance']],
+            ['label'=>'Music',       'children'=>['CDs & Vinyl','Musical Instruments','Sheet Music','DJ Equipment','Studio Equipment']],
+            ['label'=>'Movies & TV', 'children'=>['DVDs & Blu-ray','Streaming Devices','Projectors','Streaming Subscriptions']],
+            ['label'=>'Stationery',  'children'=>['Pens & Pencils','Notebooks','Art Supplies','Craft Supplies']],
+        ]],
+        ['icon'=>'bi-gear-fill',          'label'=>'Industrial & Scientific',
+         'subs'=>[
+            ['label'=>'Safety & Security', 'children'=>['CCTV Cameras','Door Locks & Safes','Fire Safety','Safety Helmets','Reflective Gear']],
+            ['label'=>'Office Machines',   'children'=>['Shredders','Laminators','Scanners','Label Printers','Cash Registers']],
+            ['label'=>'Agriculture',       'children'=>['Pesticides','Fertilisers','Garden Tools','Irrigation','Seeds']],
+            ['label'=>'Lab & Science',     'children'=>['Microscopes','Lab Equipment','Measurement Tools','Chemistry Supplies']],
+            ['label'=>'Electrical',        'children'=>['Cables & Wires','Sockets & Switches','Circuit Breakers','Solar & Inverters']],
+        ]],
+    ];
+    @endphp
 
-            <div class="category-item" onclick="toggleCategory(this)">
-                <div class="category-main">
-                    <div class="category-icon">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                        </svg>
-                    </div>
-                    <span>Appliances</span>
-                </div>
-                <i class="fas fa-chevron-down category-arrow"></i>
-            </div>
-            <div class="subcategory-menu">
-                <a href="#" class="subcategory-item">Refrigerators</a>
-                <a href="#" class="subcategory-item">Washing Machines</a>
-                <a href="#" class="subcategory-item">Microwaves</a>
-                <a href="#" class="subcategory-item">Blenders</a>
-            </div>
+    @foreach($categories as $ci => $cat)
+    <div class="cat-row" onclick="toggleCat(this)" data-ci="{{ $ci }}">
+        <div class="cat-row__left">
+            <div class="cat-icon"><i class="bi {{ $cat['icon'] }}"></i></div>
+            <span class="cat-row__label">{{ $cat['label'] }}</span>
+        </div>
+        <i class="bi bi-chevron-down cat-arrow"></i>
+    </div>
 
-            <div class="category-item" onclick="toggleCategory(this)">
-                <div class="category-main">
-                    <div class="category-icon">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                        </svg>
-                    </div>
-                    <span>Health & Beauty</span>
-                </div>
-                <i class="fas fa-chevron-down category-arrow"></i>
-            </div>
-            <div class="subcategory-menu">
-                <a href="#" class="subcategory-item">Skincare</a>
-                <a href="#" class="subcategory-item">Makeup</a>
-                <a href="#" class="subcategory-item">Fragrances</a>
-                <a href="#" class="subcategory-item">Personal Care</a>
-            </div>
+    <div class="sub-menu" id="sub-{{ $ci }}">
+        @foreach($cat['subs'] as $si => $sub)
+        <div class="sub-row" onclick="toggleSub(this,event)" data-si="{{ $ci }}-{{ $si }}">
+            <span class="sub-row__label">{{ $sub['label'] }}</span>
+            @if(!empty($sub['children']))
+            <i class="bi bi-chevron-right sub-arrow"></i>
+            @endif
+        </div>
+        @if(!empty($sub['children']))
+        <div class="child-menu" id="child-{{ $ci }}-{{ $si }}">
+            @foreach($sub['children'] as $child)
+            <a href="#" class="child-item">{{ $child }}</a>
+            @endforeach
+        </div>
+        @endif
+        @endforeach
+    </div>
+    @endforeach
 
-            <div class="category-item" onclick="toggleCategory(this)">
-                <div class="category-main">
-                    <div class="category-icon">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                        </svg>
-                    </div>
-                    <span>Home & Office</span>
-                </div>
-                <i class="fas fa-chevron-down category-arrow"></i>
-            </div>
-            <div class="subcategory-menu">
-                <a href="#" class="subcategory-item">Furniture</a>
-                <a href="#" class="subcategory-item">Home Decor</a>
-                <a href="#" class="subcategory-item">Office Supplies</a>
-                <a href="#" class="subcategory-item">Storage</a>
-            </div>
+</aside>
 
-            <div class="category-item" onclick="toggleCategory(this)">
-                <div class="category-main">
-                    <div class="category-icon">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="8.5" cy="7" r="4"></circle>
-                            <polyline points="17 11 19 13 23 9"></polyline>
-                        </svg>
-                    </div>
-                    <span>Fashion</span>
-                </div>
-                <i class="fas fa-chevron-down category-arrow"></i>
-            </div>
-            <div class="subcategory-menu">
-                <a href="#" class="subcategory-item">Men's Fashion</a>
-                <a href="#" class="subcategory-item">Women's Fashion</a>
-                <a href="#" class="subcategory-item">Kids Fashion</a>
-                <a href="#" class="subcategory-item">Shoes</a>
-            </div>
+<script>
+function toggleCat(row) {
+    const ci = row.dataset.ci, isOpen = row.classList.contains('open');
+    document.querySelectorAll('.cat-row.open').forEach(r => {
+        r.classList.remove('open');
+        const sm = document.getElementById('sub-' + r.dataset.ci);
+        if (sm) { sm.classList.remove('open');
+            sm.querySelectorAll('.sub-row.open').forEach(sr => {
+                sr.classList.remove('open');
+                const cm = document.getElementById('child-' + sr.dataset.si);
+                if (cm) cm.classList.remove('open');
+            });
+        }
+    });
+    if (!isOpen) { row.classList.add('open'); document.getElementById('sub-'+ci)?.classList.add('open'); }
+}
 
-            <div class="category-item" onclick="toggleCategory(this)">
-                <div class="category-main">
-                    <div class="category-icon">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-                            <line x1="8" y1="21" x2="16" y2="21"></line>
-                            <line x1="12" y1="17" x2="12" y2="21"></line>
-                        </svg>
-                    </div>
-                    <span>Computing</span>
-                </div>
-                <i class="fas fa-chevron-down category-arrow"></i>
-            </div>
-            <div class="subcategory-menu">
-                <a href="#" class="subcategory-item">Laptops</a>
-                <a href="#" class="subcategory-item">Desktops</a>
-                <a href="#" class="subcategory-item">Monitors</a>
-                <a href="#" class="subcategory-item">Accessories</a>
-            </div>
-
-            <div class="category-item" onclick="toggleCategory(this)">
-                <div class="category-main">
-                    <div class="category-icon">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                        </svg>
-                    </div>
-                    <span>Supermarket</span>
-                </div>
-                <i class="fas fa-chevron-down category-arrow"></i>
-            </div>
-            <div class="subcategory-menu">
-                <a href="#" class="subcategory-item">Groceries</a>
-                <a href="#" class="subcategory-item">Beverages</a>
-                <a href="#" class="subcategory-item">Snacks</a>
-                <a href="#" class="subcategory-item">Household</a>
-            </div>
-
-            <div class="category-item" onclick="toggleCategory(this)">
-                <div class="category-main">
-                    <div class="category-icon">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <polygon points="10 8 16 12 10 16 10 8"></polygon>
-                        </svg>
-                    </div>
-                    <span>Gaming</span>
-                </div>
-                <i class="fas fa-chevron-down category-arrow"></i>
-            </div>
-            <div class="subcategory-menu">
-                <a href="#" class="subcategory-item">Consoles</a>
-                <a href="#" class="subcategory-item">Games</a>
-                <a href="#" class="subcategory-item">Accessories</a>
-                <a href="#" class="subcategory-item">Gaming Chairs</a>
-            </div>
-
-            <div class="category-item" onclick="toggleCategory(this)">
-                <div class="category-main">
-                    <div class="category-icon">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="12" cy="7" r="4"></circle>
-                        </svg>
-                    </div>
-                    <span>Baby Products</span>
-                </div>
-                <i class="fas fa-chevron-down category-arrow"></i>
-            </div>
-            <div class="subcategory-menu">
-                <a href="#" class="subcategory-item">Baby Clothing</a>
-                <a href="#" class="subcategory-item">Diapers</a>
-                <a href="#" class="subcategory-item">Feeding</a>
-                <a href="#" class="subcategory-item">Toys</a>
-            </div>
-
-            <div class="category-item" onclick="toggleCategory(this)">
-                <div class="category-main">
-                    <div class="category-icon">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <line x1="12" y1="8" x2="12" y2="12"></line>
-                            <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                        </svg>
-                    </div>
-                    <span>Sporting Goods</span>
-                </div>
-                <i class="fas fa-chevron-down category-arrow"></i>
-            </div>
-            <div class="subcategory-menu">
-                <a href="#" class="subcategory-item">Exercise & Fitness</a>
-                <a href="#" class="subcategory-item">Team Sports</a>
-                <a href="#" class="subcategory-item">Outdoor Recreation</a>
-                <a href="#" class="subcategory-item">Sports Wear</a>
-            </div>
-        </aside>
+function toggleSub(row, e) {
+    e.stopPropagation();
+    const si = row.dataset.si, childMenu = document.getElementById('child-'+si);
+    if (!childMenu) return;
+    const isOpen = row.classList.contains('open');
+    row.closest('.sub-menu')?.querySelectorAll('.sub-row.open').forEach(sr => {
+        sr.classList.remove('open');
+        document.getElementById('child-'+sr.dataset.si)?.classList.remove('open');
+    });
+    if (!isOpen) { row.classList.add('open'); childMenu.classList.add('open'); }
+}
+</script>

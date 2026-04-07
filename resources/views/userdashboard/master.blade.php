@@ -699,7 +699,7 @@
                                 <i class="fas fa-chevron-left"></i>
                             </button>
                             <button class="customerdashboard-page-btn">
-                                <i class="fas fa-chevron-right"></i>
+                                <i class="fas fa-chevron-right"></i>"></i>
                             </button>
                         </div>
                     </div>

@@ -19,6 +19,7 @@
     .affiliate-link:hover { text-decoration: underline; }
     .empty-state   { padding: 50px 0; }
     .empty-state i { font-size: 48px; color: #dee2e6; }
+    .no-img-thumb  { width: 52px; height: 44px; border-radius: 5px; border: 1px dashed #dee2e6; background: #f8f9fa; display: inline-flex; align-items: center; justify-content: center; color: #adb5bd; font-size: 18px; }
 </style>
 
 <div class="container-fluid">
@@ -40,8 +41,6 @@
             </div>
         </div>
     </div>
-
-
 
     {{-- Stats Row --}}
     <div class="row mb-3">
@@ -134,35 +133,74 @@
                                 @forelse($products as $key => $product)
                                 <tr>
                                     <td class="ps-3 text-muted">{{ $products->firstItem() + $key }}</td>
+
+                                    {{--
+                                        ✅ IMAGE FIX — Windows backslash সমস্যাও handle করে
+                                        DB তে থাকে  : uploads/products/filename.jpg
+                                        দেখাতে হয়  : asset('uploads/products/filename.jpg')
+                                        Backslash থাকলে: str_replace দিয়ে forward slash করো
+                                    --}}
                                     <td>
-                                        <img src="{{ $product->feature_image_url }}"
-                                             alt="{{ $product->product_name }}"
-                                             class="product-thumb">
+                                        @php
+                                            $imgSrc = null;
+                                            if (!empty($product->feature_image)) {
+                                                $rawPath = $product->feature_image;
+
+                                                if (str_starts_with($rawPath, 'http://') || str_starts_with($rawPath, 'https://')) {
+                                                    // External URL — সরাসরি use করো
+                                                    $imgSrc = $rawPath;
+                                                } else {
+                                                    // Local path — backslash থাকলে forward slash এ convert করো
+                                                    $cleanPath = str_replace('\\', '/', $rawPath);
+                                                    $imgSrc    = asset($cleanPath);
+                                                }
+                                            }
+                                        @endphp
+
+                                        @if($imgSrc)
+                                            <img src="{{ $imgSrc }}"
+                                                 alt="{{ $product->product_name }}"
+                                                 class="product-thumb"
+                                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
+                                            <span class="no-img-thumb" style="display:none;">
+                                                <i class="mdi mdi-image-off"></i>
+                                            </span>
+                                        @else
+                                            <span class="no-img-thumb">
+                                                <i class="mdi mdi-image-off"></i>
+                                            </span>
+                                        @endif
                                     </td>
+
                                     <td>
                                         <div class="fw-semibold mb-1" style="font-size:13px;">
                                             {{ Str::limit($product->product_name, 40) }}
                                         </div>
                                         <span class="sku-badge me-1">{{ $product->product_sku }}</span>
-                                        <a href="{{ $product->product_affiliate_link }}" target="_blank"
-                                           class="affiliate-link">
-                                            <i class="mdi mdi-link-variant"></i> Link
-                                        </a>
+                                        @if($product->product_affiliate_link)
+                                            <a href="{{ $product->product_affiliate_link }}" target="_blank"
+                                               class="affiliate-link">
+                                                <i class="mdi mdi-link-variant"></i> Link
+                                            </a>
+                                        @endif
                                     </td>
+
                                     <td>
                                         <div style="font-size:12px;">
                                             {{ optional($product->category)->name ?? '—' }}
                                             @if($product->subCategory)
-                                                <br><span class="text-muted">↳ {{ $product->subCategory->name }}</span>
+                                                <br><span class="text-muted">↳ {{ $product->subCategory->sub_name ?? '' }}</span>
                                             @endif
                                         </div>
                                     </td>
+
                                     <td>
                                         <div class="price-main">${{ number_format($product->current_price, 2) }}</div>
                                         @if($product->discount_price)
                                             <div class="price-old">${{ number_format($product->discount_price, 2) }}</div>
                                         @endif
                                     </td>
+
                                     <td>
                                         @if($product->product_stock === null)
                                             <span class="badge bg-success badge-stock">Always Available</span>
@@ -172,6 +210,7 @@
                                             <span class="badge bg-danger badge-stock">Out of Stock</span>
                                         @endif
                                     </td>
+
                                     <td class="text-center">
                                         <div class="form-check form-switch d-flex justify-content-center mb-0">
                                             <input class="form-check-input status-toggle" type="checkbox"
@@ -180,6 +219,7 @@
                                                    {{ $product->status === 'active' ? 'checked' : '' }}>
                                         </div>
                                     </td>
+
                                     <td class="text-center">
                                         <a href="{{ route('affiliateproduct.show', $product->id) }}"
                                            class="btn btn-sm btn-soft-info action-btn me-1" title="View">
@@ -232,31 +272,32 @@
     </div>
 
 </div>
-
 @endsection
 
 @push('scripts')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.10.5/sweetalert2.all.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script>
 $(document).ready(function () {
 
-    // Status Toggle
+    // ── Status Toggle ──────────────────────────────────────────────
     $(document).on('change', '.status-toggle', function () {
         var id  = $(this).data('id');
         var $el = $(this);
-        $.post('/admin/affiliateproduct/' + id + '/toggle-status', { _token: '{{ csrf_token() }}' })
-            .done(function (res) {
-                toastr.success('Status updated!');
-            })
-            .fail(function () {
-                $el.prop('checked', !$el.prop('checked')); // revert
-                toastr.error('Something went wrong!');
-            });
+        $.post('/admin/affiliateproduct/' + id + '/toggle-status', {
+            _token: '{{ csrf_token() }}'
+        })
+        .done(function () {
+            toastr.success('Status updated successfully!');
+        })
+        .fail(function () {
+            $el.prop('checked', !$el.prop('checked'));
+            toastr.error('Something went wrong!');
+        });
     });
 
-    // Delete
+    // ── Delete ─────────────────────────────────────────────────────
     $(document).on('click', '.btn-delete', function () {
         var id = $(this).data('id');
         Swal.fire({

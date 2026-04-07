@@ -15,9 +15,9 @@
 
   <div class="sidebar-section">E-Commerce</div>
   <ul class="sidebar-menu">
-    <li><a href="#"><i class="fas fa-shopping-cart"></i> Orders <i class="fas fa-chevron-right arrow"></i></a></li>
-    <li><a href="#"><i class="fas fa-th-large"></i> Categories <i class="fas fa-chevron-right arrow"></i></a></li>
-    <li><a href="#"><i class="fas fa-box"></i> Products <i class="fas fa-chevron-right arrow"></i></a></li>
+    <li><a href="#"><i class="fas fa-shopping-cart"></i> Orders <i class="fas fa-chevron-right"></i> arrow"></i></a></li>
+    <li><a href="#"><i class="fas fa-th-large"></i> Categories <i class="fas fa-chevron-right"></i> arrow"></i></a></li>
+    <li><a href="#"><i class="fas fa-box"></i> Products <i class="fas fa-chevron-right"></i> arrow"></i></a></li>
     <li><a href="#"><i class="fas fa-link"></i> Affiliate Products</a></li>
     <li><a href="#"><i class="fas fa-upload"></i> Bulk Upload</a></li>
     <li><a href="#"><i class="fas fa-tag"></i> Coupons</a></li>
@@ -28,8 +28,8 @@
 
   <div class="sidebar-section">User Management</div>
   <ul class="sidebar-menu">
-    <li><a href="#"><i class="fas fa-users"></i> Users <i class="fas fa-chevron-right arrow"></i></a></li>
-    <li><a href="#"><i class="fas fa-store"></i> Vendors <i class="fas fa-chevron-right arrow"></i></a></li>
+    <li><a href="#"><i class="fas fa-users"></i> Users <i class="fas fa-chevron-right"></i> arrow"></i></a></li>
+    <li><a href="#"><i class="fas fa-store"></i> Vendors <i class="fas fa-chevron-right"></i> arrow"></i></a></li>
     <li><a href="#"><i class="fas fa-calendar-check"></i> Vendor Subscriptions</a></li>
     <li><a href="#"><i class="fas fa-user-check"></i> Vendor Verifications</a></li>
     <li><a href="#"><i class="fas fa-credit-card"></i> Subscription Plans</a></li>

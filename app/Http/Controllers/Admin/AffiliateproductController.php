@@ -8,7 +8,6 @@ use App\Models\Category;
 use App\Models\SubCategory;
 use App\Models\ChildSubCategory;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class AffiliateproductController extends Controller
 {
@@ -53,23 +52,37 @@ class AffiliateproductController extends Controller
             'youtube_video_url'      => 'nullable|url',
         ]);
 
-        // Feature image
+        // ── Feature Image ──────────────────────────────────────────
+        // DB তে সেভ হবে  : uploads/products/filename.jpg  (forward slash, no backslash)
+        // Blade এ দেখাবে : asset('uploads/products/filename.jpg')
         $featureImagePath = null;
+
         if ($request->feature_image_source === 'file' && $request->hasFile('feature_image')) {
-            $featureImagePath = $request->file('feature_image')->store('uploads/products', 'public');
+            $file     = $request->file('feature_image');
+            $filename = time() . '_' . preg_replace('/\s+/', '_', $file->getClientOriginalName());
+
+            // public/uploads/products/ folder এ move করো
+            $file->move(public_path('uploads/products'), $filename);
+
+            // ✅ সবসময় forward slash দিয়ে save করো (Windows backslash problem fix)
+            $featureImagePath = 'uploads/products/' . $filename;
+
         } elseif ($request->feature_image_source === 'url') {
             $featureImagePath = $request->input('feature_image_url');
         }
 
-        // Gallery
+        // ── Gallery Images ─────────────────────────────────────────
         $galleryPaths = [];
         if ($request->hasFile('gallery_images')) {
             foreach ($request->file('gallery_images') as $img) {
-                $galleryPaths[] = $img->store('uploads/products', 'public');
+                $filename       = time() . '_' . preg_replace('/\s+/', '_', $img->getClientOriginalName());
+                $img->move(public_path('uploads/products'), $filename);
+                // ✅ forward slash
+                $galleryPaths[] = 'uploads/products/' . $filename;
             }
         }
 
-        // Feature Tags
+        // ── Feature Tags ───────────────────────────────────────────
         $featureTags = [];
         if ($request->filled('tag_keyword')) {
             foreach ($request->tag_keyword as $i => $keyword) {
@@ -169,35 +182,60 @@ class AffiliateproductController extends Controller
             'youtube_video_url'      => 'nullable|url',
         ]);
 
-        // Feature image
+        // ── Feature Image ──────────────────────────────────────────
         $featureImagePath = $product->feature_image;
+
         if ($request->feature_image_source === 'file' && $request->hasFile('feature_image')) {
+            // পুরনো local file delete
             if ($product->feature_image && !str_starts_with($product->feature_image, 'http')) {
-                Storage::disk('public')->delete($product->feature_image);
+                // backslash হলেও সামলাতে পারবে
+                $oldPath = public_path(str_replace('\\', '/', $product->feature_image));
+                if (file_exists($oldPath)) {
+                    unlink($oldPath);
+                }
             }
-            $featureImagePath = $request->file('feature_image')->store('uploads/products', 'public');
+            $file             = $request->file('feature_image');
+            $filename         = time() . '_' . preg_replace('/\s+/', '_', $file->getClientOriginalName());
+            $file->move(public_path('uploads/products'), $filename);
+            // ✅ forward slash
+            $featureImagePath = 'uploads/products/' . $filename;
+
         } elseif ($request->feature_image_source === 'url') {
+            if ($product->feature_image && !str_starts_with($product->feature_image, 'http')) {
+                $oldPath = public_path(str_replace('\\', '/', $product->feature_image));
+                if (file_exists($oldPath)) {
+                    unlink($oldPath);
+                }
+            }
             $featureImagePath = $request->input('feature_image_url');
         }
 
-        // Gallery — remove marked + add new
+        // ── Gallery: remove marked + add new ──────────────────────
         $galleryPaths = $product->gallery_images ?? [];
+
         if ($request->has('remove_gallery_index')) {
             foreach ($request->remove_gallery_index as $index) {
                 if (isset($galleryPaths[$index])) {
-                    Storage::disk('public')->delete($galleryPaths[$index]);
+                    $oldPath = public_path(str_replace('\\', '/', $galleryPaths[$index]));
+                    if (file_exists($oldPath)) {
+                        unlink($oldPath);
+                    }
                     unset($galleryPaths[$index]);
                 }
             }
             $galleryPaths = array_values($galleryPaths);
         }
+
         if ($request->hasFile('gallery_images')) {
             foreach ($request->file('gallery_images') as $img) {
-                $galleryPaths[] = $img->store('uploads/products', 'public');
+                $filename       = time() . '_' . preg_replace('/\s+/', '_', $img->getClientOriginalName());
+                $img->move(public_path('uploads/products'), $filename);
+                // ✅ forward slash
+                $galleryPaths[] = 'uploads/products/' . $filename;
             }
         }
 
-        // Feature Tags
+        // ── Feature Tags ───────────────────────────────────────────
         $featureTags = [];
         if ($request->filled('tag_keyword')) {
             foreach ($request->tag_keyword as $i => $keyword) {
@@ -255,11 +293,16 @@ class AffiliateproductController extends Controller
         $product = AffiliateProduct::findOrFail($id);
 
         if ($product->feature_image && !str_starts_with($product->feature_image, 'http')) {
-            Storage::disk('public')->delete($product->feature_image);
+            $path = public_path(str_replace('\\', '/', $product->feature_image));
+            if (file_exists($path)) unlink($path);
         }
+
         if (!empty($product->gallery_images)) {
             foreach ($product->gallery_images as $img) {
-                Storage::disk('public')->delete($img);
+                if (!str_starts_with($img, 'http')) {
+                    $path = public_path(str_replace('\\', '/', $img));
+                    if (file_exists($path)) unlink($path);
+                }
             }
         }
 
@@ -274,56 +317,39 @@ class AffiliateproductController extends Controller
     // ══════════════════════════════════════════════════════════════════
     public function toggleStatus(string $id)
     {
-        $product = AffiliateProduct::findOrFail($id);
+        $product         = AffiliateProduct::findOrFail($id);
         $product->status = $product->status === 'active' ? 'inactive' : 'active';
         $product->save();
+
         return response()->json(['success' => true, 'status' => $product->status]);
     }
 
     // ══════════════════════════════════════════════════════════════════
     // AJAX: GET SUB-CATEGORIES
-    // sub_categories table এ column নাম হলো: sub_name
     // ══════════════════════════════════════════════════════════════════
     public function getSubCategories(Request $request)
     {
         $catId = $request->input('category_id');
+        if (!$catId) return response()->json([]);
 
-        if (!$catId) {
-            return response()->json([]);
-        }
-
-        $subs = SubCategory::where('category_id', $catId)->get();
-
-        $result = $subs->map(function ($sub) {
-            return [
-                'id'   => $sub->id,
-                'name' => $sub->sub_name,   // ← directly use column name
-            ];
-        });
+        $result = SubCategory::where('category_id', $catId)
+            ->get()
+            ->map(fn($s) => ['id' => $s->id, 'name' => $s->sub_name]);
 
         return response()->json($result);
     }
 
     // ══════════════════════════════════════════════════════════════════
     // AJAX: GET CHILD CATEGORIES
-    // child_sub_categories table এ column নাম হলো: child_sub_name
     // ══════════════════════════════════════════════════════════════════
     public function getChildCategories(Request $request)
     {
         $subId = $request->input('sub_category_id');
+        if (!$subId) return response()->json([]);
 
-        if (!$subId) {
-            return response()->json([]);
-        }
-
-        $children = ChildSubCategory::where('sub_category_id', $subId)->get();
-
-        $result = $children->map(function ($child) {
-            return [
-                'id'   => $child->id,
-                'name' => $child->child_sub_name,   // ← directly use column name
-            ];
-        });
+        $result = ChildSubCategory::where('sub_category_id', $subId)
+            ->get()
+            ->map(fn($c) => ['id' => $c->id, 'name' => $c->child_sub_name]);
 
         return response()->json($result);
     }

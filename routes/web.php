@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\AdminsellerregisterapprovedController;
 use App\Http\Controllers\Admin\AffiliateproductController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ChildSubCategoryController;
+use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\EmpleeController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\ProductController;
@@ -62,6 +63,12 @@ Route::middleware(['admin'])->group(function () {
     Route::get('/seller-registrations/export', [AdminsellerregisterapprovedController::class, 'seller_register_export'])->name('seller.register.export');
     // View detailed seller information
     Route::get('/seller-registrations/{id}/view', [AdminsellerregisterapprovedController::class, 'seller_register_view'])->name('seller.register.view');
+   // Coupons set for admin
+    Route::resource('coupons', CouponController::class);
+    Route::post('coupons/{id}/status', [CouponController::class, 'updateStatus'])->name('coupons.status');
+
+
+
 
 // Roles
  // Dashboard

@@ -15,9 +15,9 @@
   <div class="nav-section">Management</div>
   <ul class="nav-list">
     <li><a href="#"><i class="fas fa-shopping-bag"></i> Orders <span class="badge-nav">12</span></a></li>
-    <li><a href="#"><i class="fas fa-box-open"></i> Products <i class="fas fa-chevron-right arrow"></i></a></li>
-    <li><a href="#"><i class="fas fa-users"></i> Customers <i class="fas fa-chevron-right arrow"></i></a></li>
-    <li><a href="#"><i class="fas fa-store"></i> Vendors <i class="fas fa-chevron-right arrow"></i></a></li>
+    <li><a href="#"><i class="fas fa-box-open"></i> Products <i class="fas fa-chevron-right"></i> arrow"></i></a></li>
+    <li><a href="#"><i class="fas fa-users"></i> Customers <i class="fas fa-chevron-right"></i> arrow"></i></a></li>
+    <li><a href="#"><i class="fas fa-store"></i> Vendors <i class="fas fa-chevron-right"></i> arrow"></i></a></li>
     <li><a href="#"><i class="fas fa-tags"></i> Coupons</a></li>
     <li><a href="#"><i class="fas fa-chart-bar"></i> Reports</a></li>
     <li><a href="#"><i class="fas fa-star"></i> Reviews <span class="badge-nav">5</span></a></li>

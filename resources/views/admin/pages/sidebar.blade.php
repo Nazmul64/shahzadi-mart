@@ -13,6 +13,7 @@
     $blogsActive   = request()->routeIs('admin.blog*');
     $vendorsActive = request()->routeIs('admin.vendors*');
     $custsActive   = request()->routeIs('admin.customers*');
+    $couponsActive = request()->routeIs('coupons.*');
 @endphp
 
 {{-- ============================================================
@@ -382,12 +383,10 @@ body.sb-collapsed .sidebar-submenu { display: none; }
         <div class="sidebar-submenu {{ $catsActive ? 'open' : '' }}">
             <a href="{{ route('category.index') }}"><i class="bi bi-list-ul"></i> All Categories</a>
             <a href="{{ route('category.create') }}"><i class="bi bi-plus-circle"></i> Add Category</a>
-
             <a href="{{ route('subcategory.index') }}"><i class="bi bi-list-ul"></i> All Subcategories</a>
             <a href="{{ route('subcategory.create') }}"><i class="bi bi-plus-circle"></i> Add Subcategory</a>
             <a href="{{ route('childcategory.index') }}"><i class="bi bi-list-ul"></i> All Child Categories</a>
             <a href="{{ route('childcategory.create') }}"><i class="bi bi-plus-circle"></i> Add Child Category</a>
-
         </div>
 
         {{-- Products --}}
@@ -402,20 +401,19 @@ body.sb-collapsed .sidebar-submenu { display: none; }
             <a href="{{ route('products.index') }}"><i class="bi bi-list-ul"></i> All Products</a>
             <a href="{{ route('products.create') }}"><i class="bi bi-plus-circle"></i> Add Product</a>
             <a href="{{ route('products.deactivated') }}"><i class="bi bi-x-circle"></i> Deactivated Products</a>
-            <a href="{{ route('products.catalog') }}"><i class="bi bi-plus-circle"></i>Catalog</a>
+            <a href="{{ route('products.catalog') }}"><i class="bi bi-plus-circle"></i> Catalog</a>
             <a href="{{ route('product.settings.index') }}"><i class="bi bi-gear"></i> Product Settings</a>
         </div>
 
-
-        {{-- affiliateproduct --}}
-        <div class="sidebar-item {{ $prodsActive ? 'active open' : '' }}" onclick="toggleMenu(this)">
+        {{-- Affiliate Products --}}
+        <div class="sidebar-item" onclick="toggleMenu(this)">
             <span class="item-left">
                 <i class="bi bi-box-seam nav-icon"></i>
                 <span class="item-text">Affiliate Products</span>
             </span>
             <i class="bi bi-chevron-right arrow"></i>
         </div>
-        <div class="sidebar-submenu {{ $prodsActive ? 'open' : '' }}">
+        <div class="sidebar-submenu">
             <a href="{{ route('affiliateproduct.index') }}"><i class="bi bi-list-ul"></i> All Affiliate Products</a>
             <a href="{{ route('affiliateproduct.create') }}"><i class="bi bi-plus-circle"></i> Add Affiliate Products</a>
             <a href="{{ route('products.deactivated') }}"><i class="bi bi-x-circle"></i> Deactivated Affiliate Products</a>
@@ -429,13 +427,24 @@ body.sb-collapsed .sidebar-submenu { display: none; }
             </span>
         </a>
 
-        {{-- Set Coupons --}}
-        <a href="#" class="sidebar-item">
+        {{-- Coupons --}}
+        <div class="sidebar-item {{ $couponsActive ? 'active open' : '' }}" onclick="toggleMenu(this)">
             <span class="item-left">
                 <i class="bi bi-ticket-perforated nav-icon"></i>
                 <span class="item-text">Coupons</span>
             </span>
-        </a>
+            <i class="bi bi-chevron-right arrow"></i>
+        </div>
+        <div class="sidebar-submenu {{ $couponsActive ? 'open' : '' }}">
+            <a href="{{ route('coupons.index') }}"
+               class="{{ request()->routeIs('coupons.index') ? 'active' : '' }}">
+                <i class="bi bi-list-ul"></i> All Coupons
+            </a>
+            <a href="{{ route('coupons.create') }}"
+               class="{{ request()->routeIs('coupons.create') ? 'active' : '' }}">
+                <i class="bi bi-plus-circle"></i> Add Coupon
+            </a>
+        </div>
 
         {{-- Product Discussion --}}
         <a href="#" class="sidebar-item">
