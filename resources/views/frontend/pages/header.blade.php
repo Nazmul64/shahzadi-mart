@@ -171,6 +171,130 @@
     }
     .hdr-search__btn:hover { background: var(--red-d); }
 
+    /* ═══════════════════════════════════════════════════════════
+       TRACK ORDER BUTTON
+    ═══════════════════════════════════════════════════════════ */
+    .track-order-btn {
+        display: flex; align-items: center; gap: 7px;
+        background: transparent;
+        border: 2px solid var(--red);
+        color: var(--red);
+        padding: 7px 16px;
+        border-radius: 50px;
+        font-family: 'Nunito', sans-serif;
+        font-size: 13px; font-weight: 800;
+        cursor: pointer;
+        white-space: nowrap;
+        flex-shrink: 0;
+        transition: var(--t);
+        text-decoration: none;
+        letter-spacing: .02em;
+    }
+    .track-order-btn .bi {
+        font-size: 16px;
+        transition: transform .3s var(--ease);
+    }
+    .track-order-btn:hover {
+        background: var(--red);
+        color: var(--white);
+        box-shadow: var(--sh-red);
+        transform: translateY(-1px);
+    }
+    .track-order-btn:hover .bi {
+        transform: translateX(3px);
+    }
+
+    /* Track Order Modal */
+    .track-modal-backdrop {
+        display: none;
+        position: fixed; inset: 0;
+        background: rgba(0,0,0,.55);
+        backdrop-filter: blur(4px);
+        z-index: 1000;
+        align-items: center; justify-content: center;
+    }
+    .track-modal-backdrop.open { display: flex; }
+    .track-modal {
+        background: var(--white);
+        border-radius: var(--rl);
+        padding: 36px 32px 32px;
+        width: 100%; max-width: 440px;
+        margin: 16px;
+        box-shadow: var(--sh3);
+        position: relative;
+        animation: modal-in .3s var(--bounce) both;
+    }
+    @keyframes modal-in {
+        from { opacity: 0; transform: translateY(20px) scale(.96); }
+        to   { opacity: 1; transform: none; }
+    }
+    .track-modal__close {
+        position: absolute; top: 14px; right: 14px;
+        background: var(--light); border: none; cursor: pointer;
+        width: 32px; height: 32px; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 18px; color: var(--mid); transition: var(--t);
+    }
+    .track-modal__close:hover { background: var(--red); color: var(--white); }
+    .track-modal__icon {
+        width: 56px; height: 56px;
+        background: var(--red-glow);
+        border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        margin: 0 auto 16px;
+    }
+    .track-modal__icon .bi { font-size: 26px; color: var(--red); }
+    .track-modal h3 {
+        font-family: 'Fraunces', serif;
+        font-size: 22px; font-weight: 800;
+        text-align: center; color: var(--dark);
+        margin-bottom: 6px;
+    }
+    .track-modal p {
+        text-align: center; font-size: 13px;
+        color: var(--muted); margin-bottom: 22px;
+    }
+    .track-modal__field {
+        display: flex; flex-direction: column; gap: 6px;
+        margin-bottom: 14px;
+    }
+    .track-modal__field label {
+        font-size: 12px; font-weight: 800;
+        letter-spacing: .07em; text-transform: uppercase;
+        color: var(--mid);
+    }
+    .track-modal__field input {
+        border: 1.5px solid var(--border);
+        border-radius: var(--rm);
+        padding: 11px 14px;
+        font-family: 'Nunito', sans-serif;
+        font-size: 13.5px; color: var(--text);
+        outline: none; transition: var(--t);
+        background: var(--light);
+    }
+    .track-modal__field input:focus {
+        border-color: var(--red);
+        background: var(--white);
+        box-shadow: 0 0 0 3px var(--red-glow);
+    }
+    .track-modal__field input::placeholder { color: var(--muted); }
+    .track-modal__submit {
+        width: 100%;
+        background: var(--red); color: var(--white);
+        border: none; border-radius: 50px;
+        padding: 12px 0;
+        font-family: 'Nunito', sans-serif;
+        font-size: 14px; font-weight: 800;
+        cursor: pointer; transition: var(--t);
+        display: flex; align-items: center; justify-content: center; gap: 8px;
+        margin-top: 8px;
+    }
+    .track-modal__submit:hover {
+        background: var(--red-d);
+        box-shadow: var(--sh-red);
+        transform: translateY(-1px);
+    }
+
     /* Action Icons */
     .hdr-actions { display: flex; align-items: center; gap: 2px; flex-shrink: 0; }
     .h-act {
@@ -407,6 +531,9 @@
         content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
         width: 28px; height: 3px; background: var(--red); border-radius: 0 0 4px 4px;
     }
+    /* Track Order mobile nav item — special highlight */
+    .mob-nav__item--track { color: var(--red); }
+    .mob-nav__item--track .bi { font-size: 20px; }
     .mob-nav__badge {
         position: absolute; top: 3px; right: 8px;
         background: var(--red); color: #fff;
@@ -421,21 +548,20 @@
     ═══════════════════════════════════════════════════════════ */
     @media (max-width: 1100px) {
         :root { --sb: 240px; }
+        /* Hide track order text label on tablet, show icon only */
+        .track-order-btn .track-lbl { display: none; }
+        .track-order-btn { padding: 8px 12px; gap: 0; }
     }
 
     /* ═══════════════════════════════════════════════════════════
        RESPONSIVE — Mobile ≤ 900px
-       Sidebar becomes a drawer, page goes single column
     ═══════════════════════════════════════════════════════════ */
     @media (max-width: 900px) {
-        /* Single column layout */
         .page-wrap {
             grid-template-columns: 1fr;
             padding: 12px 12px calc(var(--mob-nav) + 16px);
             gap: 14px;
         }
-
-        /* Sidebar → fixed drawer */
         .sidebar {
             position: fixed;
             top: 0; left: -290px;
@@ -449,18 +575,15 @@
             overflow-y: auto;
         }
         .sidebar.is-open { left: 0; box-shadow: 4px 0 30px rgba(0,0,0,.18); }
-
-        /* Hamburger visible */
         .hamb { display: flex; }
-
-        /* Mobile bottom nav visible */
         .mob-nav { display: block; }
+
+        /* Hide desktop Track Order button — available in bottom nav */
+        .track-order-btn { display: none; }
     }
 
     /* ═══════════════════════════════════════════════════════════
        RESPONSIVE — Phone ≤ 768px — Two-row header
-       Row 1: [hamb][logo .....flex][actions]
-       Row 2: [search — full width]
     ═══════════════════════════════════════════════════════════ */
     @media (max-width: 768px) {
         .site-hdr__in {
@@ -505,6 +628,13 @@
         .top-bar__nav { display: none; }
         .h-act { padding: 5px 5px; }
         .h-act .bi { font-size: 18px; }
+        /* NOTE: Track Order stays visible in bottom nav — DO NOT hide it here */
+    }
+
+    /* Track modal responsive */
+    @media (max-width: 480px) {
+        .track-modal { padding: 28px 20px 24px; }
+        .track-modal h3 { font-size: 19px; }
     }
 
     /* ── Toast ── */
@@ -565,6 +695,12 @@
             </button>
         </div>
 
+        {{-- ── TRACK ORDER BUTTON (desktop only — hidden on mobile via CSS) ── --}}
+        <button class="track-order-btn" onclick="openTrackModal()" aria-label="Track Order">
+            <i class="bi bi-truck"></i>
+            <span class="track-lbl">Track Order</span>
+        </button>
+
         {{-- Actions --}}
         <div class="hdr-actions">
 
@@ -617,7 +753,72 @@
 {{-- Sidebar overlay --}}
 <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
 
+{{-- ── TRACK ORDER MODAL ── --}}
+<div class="track-modal-backdrop" id="trackModalBackdrop">
+    <div class="track-modal" role="dialog" aria-modal="true" aria-labelledby="trackModalTitle">
+        <button class="track-modal__close" id="trackModalCloseBtn" aria-label="Close">
+            <i class="bi bi-x"></i>
+        </button>
+
+        <div class="track-modal__icon">
+            <i class="bi bi-truck"></i>
+        </div>
+
+        <h3 id="trackModalTitle">Track Your Order</h3>
+        <p>Enter your order number or phone number to get real-time delivery updates.</p>
+
+        <div class="track-modal__field">
+            <label for="trackOrderInput">Order Number / Phone</label>
+            <input type="text" id="trackOrderInput"
+                   placeholder="e.g. SM-20241234 or 0712345678"
+                   autocomplete="off">
+        </div>
+
+        <button class="track-modal__submit" id="trackSubmitBtn">
+            <i class="bi bi-search"></i> Track My Order
+        </button>
+    </div>
+</div>
+
+{{-- ── MOBILE BOTTOM NAV ── --}}
+{{-- NOTE: Track Order is the 3rd item — always visible on mobile --}}
+<nav class="mob-nav" id="mobNav">
+    <div class="mob-nav__items">
+
+        <a href="{{ url('/') }}" class="mob-nav__item active">
+            <i class="bi bi-house"></i>
+            Home
+        </a>
+
+        <a href="#" class="mob-nav__item" onclick="toggleSidebar(); return false;">
+            <i class="bi bi-grid"></i>
+            Categories
+        </a>
+
+        {{-- ★ Track Order — always shown on mobile ★ --}}
+        <button class="mob-nav__item mob-nav__item--track"
+                onclick="openTrackModal()"
+                style="background:none;border:none;cursor:pointer;">
+            <i class="bi bi-truck"></i>
+            Track
+        </button>
+
+        <a href="{{ url('cart') }}" class="mob-nav__item" style="position:relative;">
+            <i class="bi bi-cart3"></i>
+            Cart
+            <span class="mob-nav__badge" id="mobCartBadge">0</span>
+        </a>
+
+        <a href="{{ url('customer/account') }}" class="mob-nav__item">
+            <i class="bi bi-person-circle"></i>
+            Account
+        </a>
+
+    </div>
+</nav>
+
 <script>
+/* ── Search ── */
 function doSearch() {
     const q = document.getElementById('globalSearch')?.value.trim();
     if (q) window.location.href = '/search?q=' + encodeURIComponent(q);
@@ -626,6 +827,7 @@ document.getElementById('globalSearch')?.addEventListener('keypress', function(e
     if (e.key === 'Enter') doSearch();
 });
 
+/* ── Sidebar ── */
 function toggleSidebar() {
     const sb  = document.getElementById('sidebar');
     const ovl = document.getElementById('sidebarOverlay');
@@ -635,10 +837,50 @@ function toggleSidebar() {
     document.body.style.overflow = open ? 'hidden' : '';
 }
 
+/* ── Track Order Modal ── */
+function openTrackModal() {
+    document.getElementById('trackModalBackdrop').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => document.getElementById('trackOrderInput')?.focus(), 100);
+}
+
+function closeTrackModal() {
+    document.getElementById('trackModalBackdrop').classList.remove('open');
+    document.body.style.overflow = '';
+}
+
+/* Close when clicking backdrop (outside modal box) */
+document.getElementById('trackModalBackdrop').addEventListener('click', function(e) {
+    if (e.target === this) closeTrackModal();
+});
+
+/* Close button */
+document.getElementById('trackModalCloseBtn').addEventListener('click', closeTrackModal);
+
+/* Submit */
+function doTrackOrder() {
+    const val = document.getElementById('trackOrderInput')?.value.trim();
+    if (!val) {
+        document.getElementById('trackOrderInput').focus();
+        return;
+    }
+    window.location.href = '/track-order?q=' + encodeURIComponent(val);
+}
+
+document.getElementById('trackSubmitBtn').addEventListener('click', doTrackOrder);
+
+document.getElementById('trackOrderInput')?.addEventListener('keypress', function(e){
+    if (e.key === 'Enter') doTrackOrder();
+});
+
+/* Escape key closes modals */
 document.addEventListener('keydown', e => {
     if (e.key === 'Escape') {
         const sb = document.getElementById('sidebar');
         if (sb?.classList.contains('is-open')) toggleSidebar();
+        closeTrackModal();
     }
 });
 </script>
+</body>
+</html>
