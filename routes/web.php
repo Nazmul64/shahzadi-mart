@@ -25,6 +25,7 @@ use App\Http\Controllers\Saller\SellerauthController;
 use App\Http\Controllers\Subadmin\SubadminController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Admin\GeneralsettingController;
+use App\Http\Controllers\Admin\WebsitefaviconController;
 use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
@@ -131,14 +132,16 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
     Route::resource('affiliateproduct', AffiliateproductController::class);
 
     // ── General Settings ──────────────────────────────────────────────
-    // custom POST routes অবশ্যই resource() এর আগে
     Route::post('Generalsettings/upload-logo', [GeneralsettingController::class, 'uploadLogo'])->name('Generalsettings.upload-logo');
     Route::post('Generalsettings/delete-logo', [GeneralsettingController::class, 'deleteLogo'])->name('Generalsettings.delete-logo');
     Route::resource('Generalsettings', GeneralsettingController::class);
-    // ✅ Final route names:
-    // admin.Generalsettings.index        → GET  /Generalsettings
-    // admin.Generalsettings.upload-logo  → POST /Generalsettings/upload-logo
-    // admin.Generalsettings.delete-logo  → POST /Generalsettings/delete-logo
+    // Generalsettings.End
+
+    // ── Website Favicon ───────────────────────────────────────────────
+    Route::post('websitefavicon/upload-logo', [WebsitefaviconController::class, 'uploadLogo'])->name('websitefavicon.upload-logo');
+    Route::post('websitefavicon/delete-logo', [WebsitefaviconController::class, 'deleteLogo'])->name('websitefavicon.delete-logo');
+    Route::resource('websitefavicon', WebsitefaviconController::class);
+     // ──End Website Favicon ───────────────────────────────────────────────
 
 }); // end admin middleware group
 // admin route end

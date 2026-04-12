@@ -1,46 +1,31 @@
 {{-- ============================================================
      SIDEBAR — resources/views/admin/partials/sidebar.blade.php
-     Genius Shop Admin Panel
 ============================================================ --}}
 
 @php
-    // ── Active state detection (route names now have admin. prefix) ──
     $dashActive     = request()->routeIs('admin.dashboard');
-
     $ordersActive   = request()->routeIs('admin.orders*');
-
     $catsActive     = request()->routeIs('admin.category.*')
                    || request()->routeIs('admin.subcategory.*')
                    || request()->routeIs('admin.childcategory.*');
-
     $prodsActive    = request()->routeIs('admin.products.*')
                    || request()->routeIs('admin.product.settings.*')
                    || request()->routeIs('admin.productsettings.*');
-
     $affActive      = request()->routeIs('admin.affiliateproduct.*');
-
     $couponsActive  = request()->routeIs('admin.coupons.*');
-
     $custsActive    = request()->routeIs('admin.customer.*');
-
     $usersActive    = request()->routeIs('admin.users.*');
-
     $vendorsActive  = request()->routeIs('admin.vendors*');
-
     $rolesActive    = request()->routeIs('admin.roles.*');
-
     $permsActive    = request()->routeIs('admin.permissions.*');
-
     $blogsActive    = request()->routeIs('admin.blog*');
 
-    $settingsActive = request()->routeIs('admin.Generalsettings.*');
+    // ✅ FIX: websitefavicon ও settingsActive এ যোগ করা হয়েছে
+    $settingsActive = request()->routeIs('admin.Generalsettings.*')
+                   || request()->routeIs('admin.websitefavicon.*');
 @endphp
 
-{{-- ============================================================
-     SIDEBAR STYLES
-============================================================ --}}
 <style>
-/* ── CSS Variables ─────────────────────────────────────── */
 :root {
     --sb-width       : 260px;
     --sb-collapsed-w : 68px;
@@ -59,8 +44,6 @@
     --sb-sub-bg      : rgba(0,0,0,.18);
     --sb-ease        : 240ms cubic-bezier(.4,0,.2,1);
 }
-
-/* ── Sidebar shell ─────────────────────────────────────── */
 #sidebar {
     position       : fixed;
     top: 0; left: 0; bottom: 0;
@@ -75,20 +58,10 @@
     box-shadow     : 4px 0 24px rgba(0,0,0,.28);
 }
 body.sb-collapsed #sidebar { width: var(--sb-collapsed-w); }
-
 @media (max-width: 991px) {
-    #sidebar {
-        transform  : translateX(-100%);
-        width      : var(--sb-width);
-        box-shadow : none;
-    }
-    body.sb-open #sidebar {
-        transform  : translateX(0);
-        box-shadow : 4px 0 32px rgba(0,0,0,.45);
-    }
+    #sidebar { transform: translateX(-100%); width: var(--sb-width); box-shadow: none; }
+    body.sb-open #sidebar { transform: translateX(0); box-shadow: 4px 0 32px rgba(0,0,0,.45); }
 }
-
-/* ── Main content offset ───────────────────────────────── */
 #main-content {
     margin-left : var(--sb-width);
     transition  : margin-left var(--sb-ease);
@@ -96,12 +69,8 @@ body.sb-collapsed #sidebar { width: var(--sb-collapsed-w); }
     box-sizing  : border-box;
 }
 body.sb-collapsed #main-content { margin-left: var(--sb-collapsed-w); }
-@media (max-width: 991px) {
-    #main-content { margin-left: 0 !important; }
-}
+@media (max-width: 991px) { #main-content { margin-left: 0 !important; } }
 .page-wrapper { width: 100%; padding: 20px 24px; box-sizing: border-box; }
-
-/* ── Mobile overlay ────────────────────────────────────── */
 .sb-overlay {
     display    : none;
     position   : fixed;
@@ -111,20 +80,18 @@ body.sb-collapsed #main-content { margin-left: var(--sb-collapsed-w); }
     backdrop-filter: blur(2px);
 }
 body.sb-open .sb-overlay { display: block; }
-
-/* ── Brand ─────────────────────────────────────────────── */
 .sidebar-brand {
-    height        : var(--sb-brand-h);
-    display       : flex;
-    align-items   : center;
-    gap           : 11px;
-    padding       : 0 18px;
-    flex-shrink   : 0;
-    border-bottom : 1px solid var(--sb-border);
+    height         : var(--sb-brand-h);
+    display        : flex;
+    align-items    : center;
+    gap            : 11px;
+    padding        : 0 18px;
+    flex-shrink    : 0;
+    border-bottom  : 1px solid var(--sb-border);
     text-decoration: none;
-    white-space   : nowrap;
-    overflow      : hidden;
-    background    : rgba(0,0,0,.12);
+    white-space    : nowrap;
+    overflow       : hidden;
+    background     : rgba(0,0,0,.12);
 }
 .sb-logo-icon {
     width           : 34px;
@@ -159,21 +126,17 @@ body.sb-open .sb-overlay { display: block; }
 }
 body.sb-collapsed .sb-brand-text,
 body.sb-collapsed .sidebar-section-label { display: none; }
-
-/* ── Scrollable nav ────────────────────────────────────── */
 .sidebar-nav {
-    flex       : 1;
-    overflow-y : auto;
-    overflow-x : hidden;
-    padding    : 10px 0 24px;
+    flex           : 1;
+    overflow-y     : auto;
+    overflow-x     : hidden;
+    padding        : 10px 0 24px;
     scrollbar-width: thin;
     scrollbar-color: rgba(255,255,255,.1) transparent;
 }
-.sidebar-nav::-webkit-scrollbar { width: 4px; }
+.sidebar-nav::-webkit-scrollbar       { width: 4px; }
 .sidebar-nav::-webkit-scrollbar-track { background: transparent; }
 .sidebar-nav::-webkit-scrollbar-thumb { background: rgba(255,255,255,.1); border-radius: 4px; }
-
-/* ── Section label ─────────────────────────────────────── */
 .sidebar-section-label {
     font-size     : 10px;
     font-weight   : 700;
@@ -184,8 +147,6 @@ body.sb-collapsed .sidebar-section-label { display: none; }
     white-space   : nowrap;
     overflow      : hidden;
 }
-
-/* ── Nav item ──────────────────────────────────────────── */
 .sidebar-item {
     display        : flex;
     align-items    : center;
@@ -208,10 +169,9 @@ body.sb-collapsed .sidebar-section-label { display: none; }
     box-sizing     : border-box;
     user-select    : none;
 }
-.sidebar-item:hover  { background: var(--sb-hover-bg); color: #fff; text-decoration: none; }
+.sidebar-item:hover               { background: var(--sb-hover-bg); color: #fff; text-decoration: none; }
 .sidebar-item.active,
-.sidebar-item.open   { background: var(--sb-active-bg); color: var(--sb-active-text); }
-
+.sidebar-item.open                { background: var(--sb-active-bg); color: var(--sb-active-text); }
 .item-left {
     display    : flex;
     align-items: center;
@@ -227,8 +187,6 @@ body.sb-collapsed .sidebar-section-label { display: none; }
     transition   : opacity var(--sb-ease);
 }
 body.sb-collapsed .item-text { opacity: 0; width: 0; pointer-events: none; }
-
-/* ── Icons & Arrow ─────────────────────────────────────── */
 .nav-icon {
     font-size  : 16px;
     flex-shrink: 0;
@@ -240,28 +198,24 @@ body.sb-collapsed .item-text { opacity: 0; width: 0; pointer-events: none; }
 .sidebar-item:hover .nav-icon,
 .sidebar-item.active .nav-icon,
 .sidebar-item.open .nav-icon { color: var(--sb-active-text); }
-
 .arrow {
     font-size  : 10px;
     flex-shrink: 0;
     color      : var(--sb-text-dim);
     transition : transform var(--sb-ease), opacity var(--sb-ease);
 }
-body.sb-collapsed .arrow { opacity: 0; }
-.sidebar-item.open .arrow { transform: rotate(90deg); color: var(--sb-active-text); }
-
-/* ── Submenu ───────────────────────────────────────────── */
+body.sb-collapsed .arrow              { opacity: 0; }
+.sidebar-item.open .arrow             { transform: rotate(90deg); color: var(--sb-active-text); }
 .sidebar-submenu {
-    max-height : 0;
-    overflow   : hidden;
-    transition : max-height 280ms cubic-bezier(.4,0,.2,1);
-    background : var(--sb-sub-bg);
-    margin     : 0 8px;
+    max-height   : 0;
+    overflow     : hidden;
+    transition   : max-height 280ms cubic-bezier(.4,0,.2,1);
+    background   : var(--sb-sub-bg);
+    margin       : 0 8px;
     border-radius: 0 0 var(--sb-radius) var(--sb-radius);
 }
-.sidebar-submenu.open { max-height: 600px; }
+.sidebar-submenu.open              { max-height: 600px; }
 body.sb-collapsed .sidebar-submenu { display: none; }
-
 .sidebar-submenu a {
     display        : flex;
     align-items    : center;
@@ -277,66 +231,53 @@ body.sb-collapsed .sidebar-submenu { display: none; }
     white-space    : nowrap;
     overflow       : hidden;
 }
-.sidebar-submenu a i { font-size: 13px; color: var(--sb-text-dim); flex-shrink: 0; }
+.sidebar-submenu a i              { font-size: 13px; color: var(--sb-text-dim); flex-shrink: 0; }
 .sidebar-submenu a:hover,
-.sidebar-submenu a.active {
-    background : rgba(255,255,255,.06);
-    color      : #fff;
-    text-decoration: none;
-}
-.sidebar-submenu a.active   { color: var(--sb-active-text); }
-.sidebar-submenu a.active i { color: var(--sb-active-text); }
-
-/* ── Separator ─────────────────────────────────────────── */
+.sidebar-submenu a.active         { background: rgba(255,255,255,.06); color: #fff; text-decoration: none; }
+.sidebar-submenu a.active         { color: var(--sb-active-text); }
+.sidebar-submenu a.active i       { color: var(--sb-active-text); }
 .sb-sep { height: 1px; background: var(--sb-border); margin: 8px 16px; }
-
-/* ── Logout ────────────────────────────────────────────── */
 .sb-logout-form { padding: 6px 8px 8px; }
 .sb-logout-btn {
-    display    : flex;
-    align-items: center;
-    gap        : 11px;
-    width      : 100%;
-    height     : var(--sb-item-h);
-    padding    : 0 14px;
+    display      : flex;
+    align-items  : center;
+    gap          : 11px;
+    width        : 100%;
+    height       : var(--sb-item-h);
+    padding      : 0 14px;
     border-radius: var(--sb-radius);
-    background : rgba(239,68,68,.08);
-    border     : none;
-    color      : #fca5a5;
-    font-size  : 13.5px;
-    font-weight: 500;
-    cursor     : pointer;
-    text-align : left;
-    transition : background var(--sb-ease), color var(--sb-ease);
-    white-space: nowrap;
-    overflow   : hidden;
+    background   : rgba(239,68,68,.08);
+    border       : none;
+    color        : #fca5a5;
+    font-size    : 13.5px;
+    font-weight  : 500;
+    cursor       : pointer;
+    text-align   : left;
+    transition   : background var(--sb-ease), color var(--sb-ease);
+    white-space  : nowrap;
+    overflow     : hidden;
 }
 .sb-logout-btn:hover { background: rgba(239,68,68,.18); color: #fecaca; }
-.sb-logout-btn i { font-size: 16px; flex-shrink: 0; }
-
-/* ── Tooltip (collapsed mode) ──────────────────────────── */
+.sb-logout-btn i     { font-size: 16px; flex-shrink: 0; }
 .sb-tooltip {
-    position     : fixed;
-    background   : #1e293b;
-    color        : #fff;
-    font-size    : 12.5px;
-    font-weight  : 600;
-    padding      : 5px 12px;
-    border-radius: 7px;
-    white-space  : nowrap;
-    z-index      : 9999;
+    position      : fixed;
+    background    : #1e293b;
+    color         : #fff;
+    font-size     : 12.5px;
+    font-weight   : 600;
+    padding       : 5px 12px;
+    border-radius : 7px;
+    white-space   : nowrap;
+    z-index       : 9999;
     pointer-events: none;
-    box-shadow   : 0 3px 12px rgba(0,0,0,.25);
-    border       : 1px solid rgba(255,255,255,.08);
+    box-shadow    : 0 3px 12px rgba(0,0,0,.25);
+    border        : 1px solid rgba(255,255,255,.08);
 }
 </style>
 
-{{-- ============================================================
-     SIDEBAR HTML
-============================================================ --}}
 <aside id="sidebar">
 
-    {{-- ── Brand ───────────────────────────────────────────── --}}
+    {{-- ── Brand ── --}}
     <a href="{{ route('admin.dashboard') }}" class="sidebar-brand">
         <div class="sb-logo-icon"><i class="bi bi-shop"></i></div>
         <div class="sb-brand-text">
@@ -345,13 +286,11 @@ body.sb-collapsed .sidebar-submenu { display: none; }
         </div>
     </a>
 
-    {{-- ── Nav ─────────────────────────────────────────────── --}}
     <nav class="sidebar-nav">
 
         {{-- ══ MAIN ══ --}}
         <div class="sidebar-section-label">Main</div>
 
-        {{-- Dashboard --}}
         <a href="{{ route('admin.dashboard') }}"
            class="sidebar-item {{ $dashActive ? 'active' : '' }}">
             <span class="item-left">
@@ -700,11 +639,18 @@ body.sb-collapsed .sidebar-submenu { display: none; }
             <i class="bi bi-chevron-right arrow"></i>
         </div>
         <div class="sidebar-submenu {{ $settingsActive ? 'open' : '' }}">
+
             <a href="{{ route('admin.Generalsettings.index') }}"
                class="{{ request()->routeIs('admin.Generalsettings.index') ? 'active' : '' }}">
                 <i class="bi bi-image"></i> Logo
             </a>
-            <a href="#"><i class="bi bi-layout-text-sidebar"></i> Menu Page Settings</a>
+
+            {{-- ✅ FIX: route('websitefavicon.index') → route('admin.websitefavicon.index') --}}
+            <a href="{{ route('admin.websitefavicon.index') }}"
+               class="{{ request()->routeIs('admin.websitefavicon.*') ? 'active' : '' }}">
+                <i class="bi bi-layout-text-sidebar"></i> Website Favicon Settings
+            </a>
+
             <a href="#"><i class="bi bi-envelope"></i> Email Settings</a>
             <a href="#"><i class="bi bi-cash-stack"></i> Payment Settings</a>
             <a href="#"><i class="bi bi-share"></i> Social Settings</a>
@@ -714,7 +660,8 @@ body.sb-collapsed .sidebar-submenu { display: none; }
         </div>
 
     </nav>
-    {{-- ── Logout ───────────────────────────────────────────── --}}
+
+    {{-- ── Logout ── --}}
     <div class="sb-sep" style="margin:0;"></div>
     <form method="POST" action="{{ route('admin.logout') }}" class="sb-logout-form">
         @csrf
@@ -726,17 +673,12 @@ body.sb-collapsed .sidebar-submenu { display: none; }
 
 </aside>
 
-{{-- Mobile Overlay --}}
 <div class="sb-overlay" onclick="sbClose()"></div>
 
-{{-- ============================================================
-     SIDEBAR SCRIPTS
-============================================================ --}}
 <script>
 (function () {
     'use strict';
 
-    /* ── Toggle sidebar (hamburger button call করে) ────────── */
     window.toggleSidebar = function () {
         if (window.innerWidth < 992) {
             document.body.classList.toggle('sb-open');
@@ -745,33 +687,25 @@ body.sb-collapsed .sidebar-submenu { display: none; }
         }
     };
 
-    /* ── Close mobile sidebar ──────────────────────────────── */
     window.sbClose = function () {
         document.body.classList.remove('sb-open');
     };
 
-    /* ── Submenu toggle ────────────────────────────────────── */
     window.sbToggle = function (trigger) {
         var sub = trigger.nextElementSibling;
         if (!sub || !sub.classList.contains('sidebar-submenu')) return;
-
         var isOpen = sub.classList.contains('open');
-
-        // সব open submenu বন্ধ করো
         document.querySelectorAll('.sidebar-submenu.open').forEach(function (s) {
             s.classList.remove('open');
             var prev = s.previousElementSibling;
             if (prev) prev.classList.remove('open');
         });
-
-        // আগে বন্ধ ছিলে সেটা খুলো
         if (!isOpen) {
             sub.classList.add('open');
             trigger.classList.add('open');
         }
     };
 
-    /* ── Page load এ active link এর submenu auto-open ──────── */
     document.querySelectorAll('.sidebar-submenu').forEach(function (sub) {
         if (sub.querySelector('a.active')) {
             sub.classList.add('open');
@@ -780,12 +714,10 @@ body.sb-collapsed .sidebar-submenu { display: none; }
         }
     });
 
-    /* ── Escape key — mobile sidebar বন্ধ ──────────────────── */
     document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') window.sbClose();
     });
 
-    /* ── Swipe left — mobile sidebar বন্ধ ──────────────────── */
     var startX = 0;
     var sb = document.getElementById('sidebar');
     if (sb) {
@@ -797,12 +729,10 @@ body.sb-collapsed .sidebar-submenu { display: none; }
         }, { passive: true });
     }
 
-    /* ── Collapsed mode tooltip ────────────────────────────── */
     document.querySelectorAll('#sidebar .sidebar-item').forEach(function (el) {
         var textEl = el.querySelector('.item-text');
         if (!textEl) return;
         var label = textEl.textContent.trim();
-
         el.addEventListener('mouseenter', function () {
             if (!document.body.classList.contains('sb-collapsed')) return;
             var r   = el.getBoundingClientRect();
