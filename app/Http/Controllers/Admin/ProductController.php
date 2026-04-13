@@ -12,10 +12,6 @@ use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
-    // ══════════════════════════════════════════════════════════════
-    //  PRODUCT CRUD
-    // ══════════════════════════════════════════════════════════════
-
     public function index()
     {
         $products = Product::with('category', 'subCategory', 'childSubCategory')
@@ -147,12 +143,17 @@ class ProductController extends Controller
             'feature_tags'          => $featureTags,
             'status'                => 'active',
             'is_highlighted'        => false,
-            'meta_tags' => $request->meta_tags,
-            'meta_description' => $request->meta_description,
+            'meta_tags'             => $request->meta_tags,
+            'meta_description'      => $request->meta_description,
         ]);
 
-        return redirect()->route('products.index')
+        return redirect()->route('admin.products.index')
                          ->with('success', 'Product Created Successfully');
+    }
+
+    public function show(string $id)
+    {
+        return redirect()->route('admin.products.index');
     }
 
     public function edit(string $id)
@@ -269,7 +270,7 @@ class ProductController extends Controller
             $tags = array_values(array_filter(array_map('trim', explode(',', $raw))));
         }
 
-        // ── Stock (unlimited support) ──────────────────────────────
+        // ── Stock ──────────────────────────────────────────────────
         $isUnlimited = $request->boolean('is_unlimited');
         $stock       = $isUnlimited ? null : (int) $request->stock;
 
@@ -297,11 +298,11 @@ class ProductController extends Controller
             'youtube_url'           => $request->youtube_url           ?: null,
             'tags'                  => $tags,
             'feature_tags'          => $featureTags,
-            'meta_tags' => $request->meta_tags,
-            'meta_description' => $request->meta_description,
+            'meta_tags'             => $request->meta_tags,
+            'meta_description'      => $request->meta_description,
         ]);
 
-        return redirect()->route('products.index')
+        return redirect()->route('admin.products.index')
                          ->with('success', 'Product Updated Successfully');
     }
 
@@ -323,7 +324,8 @@ class ProductController extends Controller
         }
 
         $product->delete();
-        return redirect()->route('products.index')->with('success', 'Product Deleted Successfully');
+        return redirect()->route('admin.products.index')
+                         ->with('success', 'Product Deleted Successfully');
     }
 
     // ══════════════════════════════════════════════════════════════
@@ -385,9 +387,6 @@ class ProductController extends Controller
         return view('admin.catalog.catalog', compact('products'));
     }
 
-    /**
-     * Toggle highlighted status via POST (from catalog page).
-     */
     public function catalogHighlight(Request $request, string $id)
     {
         $product                 = Product::findOrFail($id);
@@ -401,23 +400,16 @@ class ProductController extends Controller
         return redirect()->back()->with('success', $msg);
     }
 
-    /**
-     * Remove a product from catalog (set in_catalog = false).
-     * Does NOT delete the product.
-     */
     public function catalogRemove(Request $request, string $id)
     {
-        $product              = Product::findOrFail($id);
-        $product->in_catalog  = false;
+        $product                 = Product::findOrFail($id);
+        $product->in_catalog     = false;
         $product->is_highlighted = false;
         $product->save();
 
         return redirect()->back()->with('success', 'Product removed from catalog');
     }
 
-    /**
-     * Add a product to catalog (set in_catalog = true).
-     */
     public function catalogAdd(string $id)
     {
         $product             = Product::findOrFail($id);
@@ -427,9 +419,6 @@ class ProductController extends Controller
         return redirect()->back()->with('success', 'Product added to catalog');
     }
 
-    /**
-     * Show gallery images of a product (JSON — used by View Gallery modal).
-     */
     public function catalogGallery(string $id)
     {
         $product = Product::findOrFail($id);

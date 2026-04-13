@@ -4,16 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shahzadi-mart — Premium Shopping</title>
+    <title>Shahzadimart Shop </title>
 
     {{-- ── Google Fonts ── --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700;800;900&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     {{-- ── Bootstrap Icons CDN ── --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     {{-- ── Toastr ── --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -681,10 +681,16 @@
             <i class="bi bi-list"></i>
         </button>
 
-        {{-- Logo --}}
-        <a href="{{ url('/') }}" class="logo">
-            Shahzadi<em>-mart</em><span class="logo__dot"></span>
-        </a>
+<a href="{{ url('/') }}" class="logo">
+    <img
+        src="{{ !empty($websetting?->header_logo)
+                ? asset($websetting->header_logo)
+                : asset('default/logo.png') }}"
+        alt="Logo"
+        style="height:70px; width:auto;">
+
+    <div class="logo__dot"></div>
+</a>
 
         {{-- Search --}}
         <div class="hdr-search">

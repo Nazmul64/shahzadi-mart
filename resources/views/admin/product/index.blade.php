@@ -23,7 +23,6 @@
     .prod-img { width:55px; height:55px; object-fit:cover; border-radius:6px; border:1px solid #dee2e6; cursor:pointer; }
     .prod-img-empty { width:55px; height:55px; border-radius:6px; background:#e9ecef; display:flex; align-items:center; justify-content:center; font-size:.7rem; color:#6c757d; border:1px solid #dee2e6; }
 
-    /* Gallery thumbnails */
     .gallery-thumbs { display:flex; flex-wrap:wrap; gap:5px; margin-top:5px; }
     .gallery-thumb-wrap { position:relative; display:inline-block; }
     .gallery-thumb-wrap img { width:38px; height:38px; object-fit:cover; border-radius:4px; border:1px solid #dee2e6; cursor:pointer; }
@@ -32,7 +31,6 @@
     .gbadge-color { background:#e8ecf8; color:#1a2b6b; }
     .gbadge-size  { background:#e8f8f5; color:#1e8449; }
 
-    /* Variant chips */
     .variant-list { display:flex; flex-wrap:wrap; gap:4px; margin-top:4px; }
     .variant-chip { display:inline-flex; align-items:center; gap:4px; background:#f8f9fa; border:1px solid #dee2e6; border-radius:20px; padding:3px 8px; font-size:.75rem; }
     .variant-chip .vcolor-dot { width:10px; height:10px; border-radius:50%; border:1px solid #ccc; flex-shrink:0; }
@@ -40,7 +38,6 @@
     .variant-chip .vprice { color:#1e8449; }
     .variant-chip .vstock { color:#6c757d; }
 
-    /* Buttons */
     .btn-pill { border-radius:20px; padding:5px 14px; font-size:.82rem; font-weight:500; border:none; white-space:nowrap; display:inline-flex; align-items:center; gap:5px; cursor:pointer; text-decoration:none; }
     .btn-pill-green { background:#1e8449; color:#fff; }
     .btn-pill-green:hover { background:#196f3d; color:#fff; }
@@ -53,19 +50,16 @@
     .btn-add-new { background:#1a2b6b; color:#fff !important; border:none; border-radius:25px; padding:8px 22px; font-size:.9rem; font-weight:500; text-decoration:none; display:inline-flex; align-items:center; gap:5px; }
     .btn-add-new:hover { background:#152259; }
 
-    /* Badges */
     .badge-type   { background:#e8ecf8; color:#1a2b6b; border-radius:20px; padding:4px 12px; font-size:.78rem; font-weight:600; }
     .stock-badge  { background:#e8f8f5; color:#1e8449; border-radius:20px; padding:4px 12px; font-size:.78rem; font-weight:600; }
     .stock-badge.low      { background:#fdf2e9; color:#e67e22; }
     .stock-badge.out      { background:#fdedec; color:#c0392b; }
     .stock-badge.unlimited{ background:#eaf4fb; color:#1a6fa0; }
 
-    /* Pagination */
     .dataTables_paginate .paginate_button.current,
     .dataTables_paginate .paginate_button.current:hover { background:#1a2b6b !important; color:#fff !important; border-color:#1a2b6b !important; border-radius:4px; }
     .dataTables_paginate .paginate_button:hover { background:#e9ecef !important; color:#333 !important; border-color:#dee2e6 !important; }
 
-    /* Lightbox */
     #imgLightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,.75); z-index:9999; align-items:center; justify-content:center; flex-direction:column; gap:10px; }
     #imgLightbox.show { display:flex; }
     #imgLightbox img  { max-width:90vw; max-height:80vh; border-radius:8px; box-shadow:0 4px 30px rgba(0,0,0,.5); }
@@ -96,14 +90,14 @@
     <div class="card-body p-3">
         <div class="d-flex justify-content-between align-items-center mb-2 gap-2 flex-wrap">
             <div class="d-flex gap-2">
-                <a href="{{ route('products.deactivated') }}" class="btn-add-new" style="background:#6c757d;">
+                <a href="{{ route('admin.products.deactivated') }}" class="btn-add-new" style="background:#6c757d;">
                     Deactivated
                 </a>
-                <a href="{{ route('products.catalog') }}" class="btn-add-new" style="background:#1e8449;">
+                <a href="{{ route('admin.products.catalog') }}" class="btn-add-new" style="background:#1e8449;">
                     Catalog
                 </a>
             </div>
-            <a href="{{ route('products.create') }}" class="btn-add-new">+ Add New Product</a>
+            <a href="{{ route('admin.products.create') }}" class="btn-add-new">+ Add New Product</a>
         </div>
 
         <table id="productTable" class="table table-bordered w-100">
@@ -244,7 +238,7 @@
 
                     {{-- Status --}}
                     <td class="text-center">
-                        <a href="{{ route('products.toggle-status', $item->id) }}"
+                        <a href="{{ route('admin.products.toggle-status', $item->id) }}"
                            class="btn-pill {{ $item->status === 'active' ? 'btn-pill-green' : 'btn-pill-red' }}">
                             {{ $item->status === 'active' ? 'Activated' : 'Deactivated' }}
                             <span style="font-size:.7rem;">&#9660;</span>
@@ -253,8 +247,8 @@
 
                     {{-- Options --}}
                     <td class="text-center" style="white-space:nowrap;">
-                        <a href="{{ route('products.edit', $item->id) }}" class="btn-edit-link">&#9998; Edit</a>
-                        <form action="{{ route('products.destroy', $item->id) }}" method="POST"
+                        <a href="{{ route('admin.products.edit', $item->id) }}" class="btn-edit-link">&#9998; Edit</a>
+                        <form action="{{ route('admin.products.destroy', $item->id) }}" method="POST"
                               style="display:inline-block; margin-left:4px;"
                               onsubmit="return confirm('Delete this product?')">
                             @csrf

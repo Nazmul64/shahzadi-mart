@@ -20,7 +20,6 @@ class UserController extends Controller
     // ── Create ─────────────────────────────────────────────────────────────────
     public function create()
     {
-        // শুধু active roles দেখাবে
         $roles = Role::where('is_active', true)->orderBy('name')->get();
         return view('admin.users.create', compact('roles'));
     }
@@ -56,22 +55,22 @@ class UserController extends Controller
             }
         }
 
-        return redirect()->route('users.index')
+        return redirect()->route('admin.users.index')
             ->with('success', "'{$user->name}' ইউজার তৈরি হয়েছে।");
     }
 
     // ── Show ───────────────────────────────────────────────────────────────────
     public function show(User $user)
     {
-        return redirect()->route('users.edit', $user);
+        return redirect()->route('admin.users.edit', $user);
     }
 
     // ── Edit (Role Assign Form) ────────────────────────────────────────────────
     public function edit(User $user)
     {
-        $roles      = Role::where('is_active', true)->withCount('permissions')->orderBy('name')->get();
-        $userRoles  = $user->roles->pluck('id')->toArray();
-        return view('admin.users.assign_role', compact('user', 'roles', 'userRoles'));
+        $roles     = Role::where('is_active', true)->withCount('permissions')->orderBy('name')->get();
+        $userRoles = $user->roles->pluck('id')->toArray();
+        return view('admin.users.edit', compact('user', 'roles', 'userRoles'));
     }
 
     // ── Update (Save Roles) ────────────────────────────────────────────────────
@@ -84,7 +83,7 @@ class UserController extends Controller
 
         $user->roles()->sync($request->roles ?? []);
 
-        return redirect()->route('users.index')
+        return redirect()->route('admin.users.index')
             ->with('success', "'{$user->name}' এর রোল আপডেট হয়েছে।");
     }
 
@@ -103,7 +102,7 @@ class UserController extends Controller
         $user->roles()->detach();
         $user->delete();
 
-        return redirect()->route('users.index')
+        return redirect()->route('admin.users.index')
             ->with('success', "'{$name}' ইউজার ডিলিট হয়েছে।");
     }
 

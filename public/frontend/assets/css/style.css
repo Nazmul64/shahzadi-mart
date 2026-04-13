@@ -14,7 +14,7 @@
             --success-color: #00A651;
             --header-height: 60px;
         }
-
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=DM+Sans:wght@400;500;600;700;800&display=swap');
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             background: var(--bg-light);
@@ -360,7 +360,7 @@
             color: var(--text-dark);
             font-size: 18px;
         }
-        
+
         .category-icon {
             width: 20px;
             height: 20px;
@@ -1086,7 +1086,7 @@
             .main-container {
                 max-width: 100%;
             }
-            
+
             .slide-image {
                 width: 320px;
                 height: 320px;
@@ -1133,7 +1133,7 @@
                 flex-direction: row;
                 gap: 15px;
             }
-            
+
             .welcome-card, .clearance-card {
                 flex: 1;
             }
@@ -1142,7 +1142,7 @@
                 width: 280px;
                 height: 280px;
             }
-            
+
             .product-grid {
                 grid-template-columns: repeat(3, 1fr);
             }

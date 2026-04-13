@@ -58,7 +58,8 @@ class CouponController extends Controller
             'status'                => 'activated',
         ]);
 
-        return redirect()->route('coupons.index')
+        // ✅ FIX: admin.coupons.index
+        return redirect()->route('admin.coupons.index')
                          ->with('success', 'Coupon created successfully.');
     }
 
@@ -110,7 +111,8 @@ class CouponController extends Controller
             'end_date'              => $request->end_date,
         ]);
 
-        return redirect()->route('coupons.index')
+        // ✅ FIX: admin.coupons.index
+        return redirect()->route('admin.coupons.index')
                          ->with('success', 'Coupon updated successfully.');
     }
 
@@ -129,7 +131,9 @@ class CouponController extends Controller
     public function destroy(string $id)
     {
         Coupon::findOrFail($id)->delete();
-        return redirect()->route('coupons.index')
+
+        // ✅ FIX: admin.coupons.index
+        return redirect()->route('admin.coupons.index')
                          ->with('success', 'Coupon deleted successfully.');
     }
 }

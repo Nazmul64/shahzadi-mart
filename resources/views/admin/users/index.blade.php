@@ -61,7 +61,7 @@
                 <p class="usr-sub">সব ইউজার দেখুন ও পরিচালনা করুন</p>
             </div>
         </div>
-        <a href="{{ route('users.create') }}" class="btn-usr-primary">
+        <a href="{{ route('admin.users.create') }}" class="btn-usr-primary">
             <i class="bi bi-person-plus"></i> নতুন ইউজার
         </a>
     </div>
@@ -132,23 +132,23 @@
                     <td>
                         <div class="d-flex gap-1 flex-wrap">
                             {{-- Role Assign --}}
-                            <a href="{{ route('users.edit', $user->id) }}" class="act-btn act-edit">
+                            <a href="{{ route('admin.users.edit', $user->id) }}" class="act-btn act-edit">
                                 <i class="bi bi-shield-lock"></i> Role
                             </a>
 
                             {{-- Toggle Status (নিজেকে না) --}}
                             @if($user->id !== auth()->id())
-                            <form action="{{ route('users.toggleStatus', $user->id) }}" method="POST" class="d-inline">
+                            <form action="{{ route('admin.users.toggleStatus', $user->id) }}" method="POST" class="d-inline">
                                 @csrf @method('PATCH')
                                 <button class="act-btn act-toggle" title="Status পরিবর্তন">
-                                    <i class="bi bi-toggle-{{ $user->status === 'active' ? 'on' : 'off' }}"></i>
+                                    <i class="bi bi-toggle-{{ ($user->status ?? 'active') === 'active' ? 'on' : 'off' }}"></i>
                                 </button>
                             </form>
                             @endif
 
                             {{-- Delete --}}
                             @if($user->id !== auth()->id() && !$user->isSuperAdmin())
-                            <form action="{{ route('users.destroy', $user->id) }}" method="POST"
+                            <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST"
                                   class="d-inline"
                                   onsubmit="return confirm('\'{{ addslashes($user->name) }}\' ডিলিট করবেন?')">
                                 @csrf @method('DELETE')

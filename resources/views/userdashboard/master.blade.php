@@ -57,7 +57,7 @@
                 </a>
 
                 <a class="customerdashboard-nav-item" onclick="showSection('saved-items')">
-                    <i class="fas fa-heart customerdashboard-nav-icon"></i>
+                    <i class="bi bi-heart customerdashboard-nav-icon"></i>
                     <span class="customerdashboard-nav-text">Saved Items</span>
                 </a>
             </nav>
@@ -699,7 +699,7 @@
                                 <i class="fas fa-chevron-left"></i>
                             </button>
                             <button class="customerdashboard-page-btn">
-                                <i class="fas fa-chevron-right"></i>"></i>
+                                <i class="fa-solid fa-chevron-right"></i>"></i>
                             </button>
                         </div>
                     </div>

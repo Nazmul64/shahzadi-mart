@@ -96,7 +96,6 @@
     }
     .btn-modal-close:hover { background-color: #5a6268; color: #fff; }
 
-    /* Loading spinner for dropdown */
     .select-loading { color: #6c757d; font-size: .82rem; padding: 4px 0; display:none; }
 </style>
 
@@ -142,7 +141,7 @@
                     </td>
 
                     <td class="text-center">
-                        <a href="{{ route('childcategory.toggle-status', $item->id) }}"
+                        <a href="{{ route('admin.childcategory.toggle-status', $item->id) }}"
                            class="btn-pill {{ $item->status ? 'btn-pill-green' : 'btn-pill-red' }}">
                             {{ $item->status ? 'Activated' : 'Deactivated' }}
                             <span style="font-size:.7rem;">&#9660;</span>
@@ -160,7 +159,7 @@
                             data-status="{{ $item->status ? '1' : '0' }}">
                             &#9998; Edit
                         </button>
-                        <form action="{{ route('childcategory.destroy', $item->id) }}"
+                        <form action="{{ route('admin.childcategory.destroy', $item->id) }}"
                               method="POST" style="display:inline-block; margin-left:4px;"
                               onsubmit="return confirm('Delete this child sub category?')">
                             @csrf
@@ -189,7 +188,7 @@
                 <h5 class="modal-title modal-title-custom">ADD CHILD SUB CATEGORY</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <form action="{{ route('childcategory.store') }}" method="POST">
+            <form action="{{ route('admin.childcategory.store') }}" method="POST">
                 @csrf
                 <div class="modal-body py-4">
 
@@ -206,7 +205,7 @@
                         </div>
                     </div>
 
-                    {{-- Step 2: Sub Category (loads after category selected) --}}
+                    {{-- Step 2: Sub Category --}}
                     <div class="row mb-3 align-items-center">
                         <div class="col-4 modal-label">Sub Category *</div>
                         <div class="col-8">
@@ -373,10 +372,8 @@
 <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
 <script>
-// AJAX URL
-var getSubCatUrl = '{{ route("childcategory.getSubCategories") }}';
+var getSubCatUrl = '{{ route("admin.childcategory.getSubCategories") }}';
 
-// Load SubCategories by Category ID
 function loadSubCategories(categoryId, subSelectId, loadingId, selectedSubId) {
     var $sub     = $('#' + subSelectId);
     var $loading = $('#' + loadingId);
@@ -416,7 +413,6 @@ function loadSubCategories(categoryId, subSelectId, loadingId, selectedSubId) {
 
 $(document).ready(function () {
 
-    // DataTable
     $('#childTable').DataTable({
         dom: '<"row align-items-center mb-3"<"col-auto"l><"col-auto"f>>rtip',
         order: [[1, 'asc']],
@@ -432,7 +428,6 @@ $(document).ready(function () {
 
     // Add New → Create Modal
     $('#btnAddNew').on('click', function () {
-        // Reset create modal
         $('#create_category').val('');
         $('#create_subcategory').html('<option value="">-- Select Category First --</option>').prop('disabled', true);
         $('#create_child_name').val('');
@@ -472,21 +467,21 @@ $(document).ready(function () {
 
     // Edit button → Edit Modal
     $(document).on('click', '.btn-open-edit', function () {
-        var id          = $(this).data('id');
-        var name        = $(this).data('name');
-        var slug        = $(this).data('slug');
-        var categoryId  = $(this).data('category');
-        var subcatId    = $(this).data('subcategory');
-        var featured    = $(this).data('featured');
-        var status      = $(this).data('status');
+        var id         = $(this).data('id');
+        var name       = $(this).data('name');
+        var slug       = $(this).data('slug');
+        var categoryId = $(this).data('category');
+        var subcatId   = $(this).data('subcategory');
+        var featured   = $(this).data('featured');
+        var status     = $(this).data('status');
 
-        $('#editChildForm').attr('action', '/childcategory/' + id);
+        // ✅ admin prefix সহ সঠিক URL
+        $('#editChildForm').attr('action', '{{ url("admin/childcategory") }}/' + id);
         $('#edit_child_name').val(name);
         $('#edit_child_slug').val(slug);
         $('#edit_featured').val(featured);
         $('#edit_status').val(status);
 
-        // Set category then load subcategories
         $('#edit_category').val(categoryId);
         loadSubCategories(categoryId, 'edit_subcategory', 'edit_loading', subcatId);
 

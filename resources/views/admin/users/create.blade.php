@@ -48,7 +48,7 @@
 
 <div class="usr-page">
     <div class="usr-page-header">
-        <a href="{{ route('users.index') }}" class="usr-back-btn"><i class="bi bi-arrow-left"></i></a>
+        <a href="{{ route('admin.users.index') }}" class="usr-back-btn"><i class="bi bi-arrow-left"></i></a>
         <div>
             <h2 class="usr-h2">নতুন ইউজার তৈরি</h2>
             <p class="usr-sub">তথ্য পূরণ করুন ও রোল নির্ধারণ করুন</p>
@@ -61,7 +61,7 @@
         </div>
     @endif
 
-    <form action="{{ route('users.store') }}" method="POST">
+    <form action="{{ route('admin.users.store') }}" method="POST">
         @csrf
         <div class="usr-layout">
             <div>
@@ -119,17 +119,17 @@
                         @if($roles->isEmpty())
                             <div style="text-align:center;padding:20px 0;color:#94a3b8;">
                                 <i class="bi bi-shield-x d-block mb-2 fs-4" style="opacity:.4;"></i>
-                                কোনো active রোল নেই। <a href="{{ route('roles.create') }}" style="color:#2d6a9f;">তৈরি করুন</a>
+                                কোনো active রোল নেই। <a href="{{ route('admin.roles.create') }}" style="color:#2d6a9f;">তৈরি করুন</a>
                             </div>
                         @else
                             <div class="role-grid">
                                 @foreach($roles as $role)
-                                <label class="role-check-card {{ $role->is_default ? 'selected' : '' }}"
+                                <label class="role-check-card {{ (in_array($role->id, old('roles', [])) || $role->is_default) ? 'selected' : '' }}"
                                        id="rc-{{ $role->id }}">
                                     <input type="checkbox"
                                            name="roles[]"
                                            value="{{ $role->id }}"
-                                           {{ in_array($role->id, old('roles', [])) || $role->is_default ? 'checked' : '' }}>
+                                           {{ (in_array($role->id, old('roles', [])) || $role->is_default) ? 'checked' : '' }}>
                                     <div class="role-check-icon">
                                         <i class="bi bi-shield{{ $role->slug === 'super-admin' ? '-fill' : '' }}"></i>
                                     </div>
@@ -153,7 +153,7 @@
                         <button type="submit" class="usr-btn-save">
                             <i class="bi bi-check-lg"></i> ইউজার তৈরি করুন
                         </button>
-                        <a href="{{ route('users.index') }}" class="usr-btn-back">
+                        <a href="{{ route('admin.users.index') }}" class="usr-btn-back">
                             <i class="bi bi-arrow-left"></i> ফিরে যান
                         </a>
                     </div>

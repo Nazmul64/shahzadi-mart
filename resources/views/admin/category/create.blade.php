@@ -27,13 +27,14 @@
     }
 </style>
 
-{{-- Page Header --}}
 <div class="d-flex justify-content-between align-items-start mb-3">
     <div>
         <h4 style="font-size:1.1rem; font-weight:600; margin-bottom:2px;">Add New Category</h4>
-        <small style="color:#6c757d; font-size:.82rem;">Dashboard &rsaquo; Manage Categories &rsaquo; Add New</small>
+        <small style="color:#6c757d; font-size:.82rem;">
+            Dashboard &rsaquo; Manage Categories &rsaquo; Add New
+        </small>
     </div>
-    <a href="{{ route('category.index') }}" class="btn-back">&#8592; Back</a>
+    <a href="{{ route('admin.category.index') }}" class="btn-back">&#8592; Back</a>
 </div>
 
 @if($errors->any())
@@ -48,18 +49,14 @@
 @endif
 
 <div class="card border-0 shadow-sm form-card">
-    <div class="card-header-custom">
-        &#10010; Category Information
-    </div>
+    <div class="card-header-custom">&#10010; Category Information</div>
     <div class="card-body p-4">
-        <form action="{{ route('category.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('admin.category.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
-            {{-- Category Name --}}
             <div class="mb-3">
                 <label class="form-label">Category Name <span style="color:red;">*</span></label>
-                <input type="text"
-                       name="category_name"
+                <input type="text" name="category_name"
                        value="{{ old('category_name') }}"
                        class="form-control @error('category_name') is-invalid @enderror"
                        placeholder="Enter category name">
@@ -68,12 +65,9 @@
                 @enderror
             </div>
 
-            {{-- Category Photo --}}
             <div class="mb-3">
                 <label class="form-label">Category Photo <span style="color:red;">*</span></label>
-                <input type="file"
-                       name="category_photo"
-                       id="category_photo"
+                <input type="file" name="category_photo" id="category_photo"
                        class="form-control @error('category_photo') is-invalid @enderror"
                        accept="image/jpg,image/jpeg,image/png"
                        onchange="previewImage(event)">
@@ -85,7 +79,6 @@
                 </div>
             </div>
 
-            {{-- Featured --}}
             <div class="mb-3">
                 <label class="form-label">Featured</label>
                 <select name="featured" class="form-select">
@@ -94,7 +87,6 @@
                 </select>
             </div>
 
-            {{-- Status --}}
             <div class="mb-3">
                 <label class="form-label">Status</label>
                 <select name="status" class="form-select">
@@ -106,25 +98,24 @@
             <hr>
             <div class="d-flex gap-2">
                 <button type="submit" class="btn-save">&#10003; Save Category</button>
-                <a href="{{ route('category.index') }}" class="btn-back">Cancel</a>
+                <a href="{{ route('admin.category.index') }}" class="btn-back">Cancel</a>
             </div>
-
         </form>
     </div>
 </div>
 
 <script>
-    function previewImage(event) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById('preview_img').src = e.target.result;
-                document.getElementById('preview_box').style.display = 'block';
-            };
-            reader.readAsDataURL(file);
-        }
+function previewImage(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('preview_img').src = e.target.result;
+            document.getElementById('preview_box').style.display = 'block';
+        };
+        reader.readAsDataURL(file);
     }
+}
 </script>
 
 @endsection

@@ -15,8 +15,8 @@
   <div class="sb-section">E-Commerce</div>
   <ul class="sb-menu">
     <li><a href="#"><i class="fas fa-shopping-bag"></i> Orders <span class="nb">18</span></a></li>
-    <li><a href="#"><i class="fas fa-box-open"></i> Products <i class="fas fa-chevron-right"></i> arr"></i></a></li>
-    <li><a href="#"><i class="fas fa-th"></i> Categories <i class="fas fa-chevron-right"></i> arr"></i></a></li>
+    <li><a href="#"><i class="fas fa-box-open"></i> Products <i class="fa-solid fa-chevron-right"></i> arr"></i></a></li>
+    <li><a href="#"><i class="fas fa-th"></i> Categories <i class="fa-solid fa-chevron-right"></i> arr"></i></a></li>
     <li><a href="#"><i class="fas fa-tags"></i> Coupons</a></li>
     <li><a href="#"><i class="fas fa-star"></i> Reviews <span class="nb">6</span></a></li>
     <li><a href="#"><i class="fas fa-comments"></i> Discussions</a></li>
@@ -24,8 +24,8 @@
 
   <div class="sb-section">Users</div>
   <ul class="sb-menu">
-    <li><a href="#"><i class="fas fa-users"></i> Customers <i class="fas fa-chevron-right"></i> arr"></i></a></li>
-    <li><a href="#"><i class="fas fa-store"></i> Vendors <i class="fas fa-chevron-right"></i> arr"></i></a></li>
+    <li><a href="#"><i class="fas fa-users"></i> Customers <i class="fa-solid fa-chevron-right"></i> arr"></i></a></li>
+    <li><a href="#"><i class="fas fa-store"></i> Vendors <i class="fa-solid fa-chevron-right"></i> arr"></i></a></li>
     <li><a href="#"><i class="fas fa-user-check"></i> Verifications</a></li>
   </ul>
 

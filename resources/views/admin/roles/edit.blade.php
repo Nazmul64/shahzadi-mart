@@ -67,7 +67,7 @@
 
 <div class="r-page">
     <div class="r-page-header">
-        <a href="{{ route('roles.index') }}" class="r-back-btn"><i class="bi bi-arrow-left"></i></a>
+        <a href="{{ route('admin.roles.index') }}" class="r-back-btn"><i class="bi bi-arrow-left"></i></a>
         <div>
             <h2 class="r-h2">Edit Role: {{ $role->name }}</h2>
             <p class="r-sub">রোলের তথ্য ও পারমিশন আপডেট করুন</p>
@@ -80,7 +80,7 @@
         </div>
     @endif
 
-    <form action="{{ route('roles.update', $role->id) }}" method="POST">
+    <form action="{{ route('admin.roles.update', $role->id) }}" method="POST">
         @csrf @method('PUT')
 
         <div class="r-layout">
@@ -160,7 +160,7 @@
                         <button type="submit" class="r-btn-save">
                             <i class="bi bi-check-lg"></i> আপডেট করুন
                         </button>
-                        <a href="{{ route('roles.index') }}" class="r-btn-back">
+                        <a href="{{ route('admin.roles.index') }}" class="r-btn-back">
                             <i class="bi bi-arrow-left"></i> ফিরে যান
                         </a>
                     </div>

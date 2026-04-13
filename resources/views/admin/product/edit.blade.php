@@ -41,8 +41,6 @@
     .gallery-card input { font-size:.72rem; margin-top:4px; }
     .gallery-card .btn-rm { background:#dc3545; color:#fff; border:none; border-radius:4px; width:100%; margin-top:4px; font-size:.72rem; padding:2px 0; cursor:pointer; }
     .gallery-card.new-img { border-color:#ffc107; background:#fff3cd; }
-
-    /* SEO Section */
     .seo-section { border:1px solid #e0e7ff; border-radius:8px; background:#f8f9ff; padding:16px; margin-top:6px; }
     .seo-toggle-label { font-size:.9rem; font-weight:600; color:#1a2b6b; cursor:pointer; user-select:none; display:flex; align-items:center; gap:8px; }
     .seo-toggle-label input[type="checkbox"] { width:17px; height:17px; cursor:pointer; accent-color:#1a2b6b; }
@@ -50,7 +48,7 @@
 
 <div class="d-flex align-items-center gap-3 mb-2">
     <h4 style="font-size:1.1rem;font-weight:600;margin:0;">Edit Product</h4>
-    <a href="{{ route('products.index') }}" class="btn-back">&#8592; Back</a>
+    <a href="{{ route('admin.products.index') }}" class="btn-back">&#8592; Back</a>
 </div>
 <small class="text-muted" style="font-size:.82rem;">
     Dashboard &rsaquo; Products &rsaquo; All Products &rsaquo; Edit Product
@@ -62,13 +60,13 @@
 </div>
 @endif
 
-<form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data" class="mt-3">
+<form action="{{ route('admin.products.update', $product->id) }}" method="POST" enctype="multipart/form-data" class="mt-3">
 @csrf
 @method('PUT')
 <div id="galleryFileInputs"></div>
 
 <div class="row g-3">
-    {{-- LEFT --}}
+    {{-- ═══════════ LEFT ═══════════ --}}
     <div class="col-lg-8">
         <div class="card border-0 shadow-sm p-4">
 
@@ -155,34 +153,32 @@
 
             <div class="mb-3 {{ $product->upload_type != 'url' ? 'd-none' : '' }}" id="url_upload_section">
                 <label class="form-label-custom">Product URL*</label>
-                <input type="text" name="product_url" class="form-control" placeholder="Enter product download URL" value="{{ $product->product_url }}">
+                <input type="text" name="product_url" class="form-control"
+                       placeholder="Enter product download URL" value="{{ $product->product_url }}">
             </div>
 
-            {{-- ══ SEO SECTION ══ --}}
-            {{-- Check if product already has SEO data saved --}}
+            {{-- SEO --}}
             @php $hasSeo = !empty($product->meta_tags) || !empty($product->meta_description); @endphp
             <div class="mb-3">
                 <label class="seo-toggle-label">
                     <input type="checkbox" id="allow_seo_checkbox" {{ $hasSeo ? 'checked' : '' }}>
                     Allow Product SEO
                 </label>
-
                 <div class="seo-section mt-3" id="seo_fields" style="{{ $hasSeo ? '' : 'display:none;' }}">
                     <div class="mb-3">
-                        <label class="form-label-custom">Meta Tags <span class="form-label-sub">*</span></label>
+                        <label class="form-label-custom">Meta Tags</label>
                         <input type="text" name="meta_tags" id="meta_tags_input" class="form-control"
                                placeholder="Enter meta tags (comma separated)"
                                value="{{ $product->meta_tags }}">
                         <small class="text-muted" style="font-size:.75rem;">e.g. shoes, running, sport</small>
                     </div>
                     <div class="mb-0">
-                        <label class="form-label-custom">Meta Description <span class="form-label-sub">*</span></label>
+                        <label class="form-label-custom">Meta Description</label>
                         <textarea name="meta_description" id="meta_description_input" class="form-control" rows="4"
                                   placeholder="Meta Description">{{ $product->meta_description }}</textarea>
                     </div>
                 </div>
             </div>
-            {{-- ══ END SEO SECTION ══ --}}
 
             {{-- Variants --}}
             <div class="mb-3">
@@ -227,7 +223,7 @@
         </div>
     </div>
 
-    {{-- RIGHT --}}
+    {{-- ═══════════ RIGHT ═══════════ --}}
     <div class="col-lg-4">
 
         <div class="sidebar-card">
@@ -249,7 +245,9 @@
             <div class="sidebar-card-title">Product Gallery Images</div>
             <input type="file" id="galleryPicker" accept="image/*" multiple class="d-none">
             <button type="button" class="btn-set-gallery" onclick="document.getElementById('galleryPicker').click()">+ Add Images</button>
-            <small class="text-muted d-block mt-1" style="font-size:.75rem;">&#10005; = remove existing | Yellow = new upload</small>
+            <small class="text-muted d-block mt-1" style="font-size:.75rem;">&#10005; = remove existing &nbsp;|&nbsp; Yellow = new upload</small>
+
+            {{-- Existing gallery --}}
             <div class="gallery-grid" id="existingGallery">
                 @if($product->gallery_images)
                     @foreach($product->gallery_images as $img)
@@ -262,13 +260,18 @@
                             <input type="hidden" name="keep_gallery[]" value="{{ $imgName }}">
                             <img src="{{ asset('uploads/products/'.$imgName) }}" alt="">
                             @if($imgColor || $imgSize)
-                                <div class="meta">@if($imgColor)&#127912; {{ $imgColor }}@endif @if($imgSize)&middot; {{ $imgSize }}@endif</div>
+                                <div class="meta">
+                                    @if($imgColor)&#127912; {{ $imgColor }}@endif
+                                    @if($imgSize) &middot; {{ $imgSize }}@endif
+                                </div>
                             @endif
                             <button type="button" class="btn-rm" onclick="removeExistingGallery('{{ $imgName }}')">&#10005; Remove</button>
                         </div>
                     @endforeach
                 @endif
             </div>
+
+            {{-- New gallery uploads --}}
             <div class="gallery-grid" id="newGalleryPreview"></div>
         </div>
 
@@ -344,8 +347,8 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <script>
-var URL_SUBCATEGORIES   = "{{ route('products.getSubCategories') }}";
-var URL_CHILDCATEGORIES = "{{ route('products.getChildCategories') }}";
+var URL_SUBCATEGORIES   = "{{ route('admin.products.getSubCategories') }}";
+var URL_CHILDCATEGORIES = "{{ route('admin.products.getChildCategories') }}";
 var SAVED_SUB_ID   = {{ $product->sub_category_id       ? (int)$product->sub_category_id       : 'null' }};
 var SAVED_CHILD_ID = {{ $product->child_sub_category_id ? (int)$product->child_sub_category_id : 'null' }};
 var newGalleryItems = [];
@@ -355,19 +358,18 @@ $(document).ready(function () {
     $('#return_policy').summernote({ height: 200 });
     $('#product_tags').select2({ tags: true, tokenSeparators: [','], placeholder: 'Type and press Enter' });
 
-    // ── SEO Toggle ──────────────────────────────────────────────
+    // SEO Toggle
     $('#allow_seo_checkbox').on('change', function () {
         if ($(this).is(':checked')) {
             $('#seo_fields').slideDown(250);
         } else {
             $('#seo_fields').slideUp(250);
-            // Clear the fields when unchecked so old data doesn't save
             $('#meta_tags_input').val('');
             $('#meta_description_input').val('');
         }
     });
 
-    // ── Category → Sub Category ────────────────────────────────
+    // Category → Sub Category
     $('#product_category').on('change', function () {
         var catId = $(this).val();
         $('#product_subcategory').html('<option value="">-- Select Sub Category (Optional) --</option>');
@@ -380,12 +382,15 @@ $(document).ready(function () {
                 $.each(data, function(i,r){ html += '<option value="'+r.id+'">'+r.sub_name+'</option>'; });
                 $('#product_subcategory').html(html);
                 $('#sub_hint').text(data.length + ' sub category found');
-                if (SAVED_SUB_ID) { $('#product_subcategory').val(SAVED_SUB_ID).trigger('change'); SAVED_SUB_ID = null; }
+                if (SAVED_SUB_ID) {
+                    $('#product_subcategory').val(SAVED_SUB_ID).trigger('change');
+                    SAVED_SUB_ID = null;
+                }
             })
             .fail(function(xhr){ $('#sub_hint').text('Error ' + xhr.status); });
     });
 
-    // ── Sub Category → Child Category ─────────────────────────
+    // Sub Category → Child Category
     $('#product_subcategory').on('change', function () {
         var subId = $(this).val();
         $('#product_childcategory').html('<option value="">-- Select Child Category (Optional) --</option>');
@@ -397,12 +402,15 @@ $(document).ready(function () {
                 $.each(data, function(i,r){ html += '<option value="'+r.id+'">'+r.child_sub_name+'</option>'; });
                 $('#product_childcategory').html(html);
                 $('#child_hint').text(data.length + ' child category found');
-                if (SAVED_CHILD_ID) { $('#product_childcategory').val(SAVED_CHILD_ID); SAVED_CHILD_ID = null; }
+                if (SAVED_CHILD_ID) {
+                    $('#product_childcategory').val(SAVED_CHILD_ID);
+                    SAVED_CHILD_ID = null;
+                }
             })
             .fail(function(xhr){ $('#child_hint').text('Error ' + xhr.status); });
     });
 
-    // ── Upload Type Toggle ─────────────────────────────────────
+    // Upload Type Toggle
     $('#upload_type').on('change', function () {
         if ($(this).val() === 'url') {
             $('#file_upload_section').addClass('d-none');
@@ -413,7 +421,7 @@ $(document).ready(function () {
         }
     });
 
-    // ── Feature Image Preview ──────────────────────────────────
+    // Feature Image Preview
     $('#feature_image_input').on('change', function () {
         var file = this.files[0];
         if (file) {
@@ -426,24 +434,24 @@ $(document).ready(function () {
         }
     });
 
-    // ── New Gallery Picker ─────────────────────────────────────
+    // New Gallery Picker
     $('#galleryPicker').on('change', function () {
         Array.from(this.files).forEach(function(f){ newGalleryItems.push({ file: f, size: '', color: '' }); });
         $(this).val('');
         renderNewGallery();
     });
 
-    // ── Trigger category change to restore sub/child on page load
-    if ($('#product_category').val()) $('#product_category').trigger('change');
+    // Trigger category change to restore sub/child on page load
+    if ($('#product_category').val()) {
+        $('#product_category').trigger('change');
+    }
 });
 
-// ── Unlimited Stock Toggle ─────────────────────────────────────
 function toggleUnlimited(cb) {
     document.getElementById('stock_input').disabled = cb.checked;
     if (cb.checked) document.getElementById('stock_input').value = '';
 }
 
-// ── New Gallery Render ─────────────────────────────────────────
 function renderNewGallery() {
     var container = $('#newGalleryPreview');
     container.empty();
@@ -478,7 +486,6 @@ function rebuildNewGalleryInputs() {
 function removeNewGallery(idx)       { newGalleryItems.splice(idx, 1); renderNewGallery(); }
 function removeExistingGallery(name) { var el = document.getElementById('gex_' + name); if (el) el.remove(); }
 
-// ── Variant Rows ───────────────────────────────────────────────
 function addVariantRow() {
     $('#variantContainer').append(
         '<div class="variant-row">' +
@@ -494,7 +501,6 @@ function removeVariantRow(btn) {
     if ($('#variantContainer .variant-row').length > 1) $(btn).closest('.variant-row').remove();
 }
 
-// ── Feature Tag Rows ───────────────────────────────────────────
 function addTagRow() {
     $('#featureTagsContainer').append(
         '<div class="tag-row">' +

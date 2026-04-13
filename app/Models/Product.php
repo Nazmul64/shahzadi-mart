@@ -15,8 +15,7 @@ class Product extends Model
         'current_price', 'discount_price', 'stock', 'is_unlimited',
         'youtube_url', 'tags', 'feature_tags',
         'status', 'is_highlighted', 'in_catalog',
-        'meta_tags',
-        'meta_description',
+        'meta_tags', 'meta_description',
     ];
 
     protected $casts = [
@@ -29,7 +28,7 @@ class Product extends Model
         'is_unlimited'   => 'boolean',
     ];
 
-    // ── Product type options (used in forms) ────────────────────────
+    // ── Product type options ─────────────────────────────────────────
     public static array $productTypes = [
         'digital'            => 'Digital',
         'physical'           => 'Physical',
@@ -38,7 +37,7 @@ class Product extends Model
         'service'            => 'Service',
     ];
 
-    // ── Relationships ───────────────────────────────────────────────
+    // ── Relationships ────────────────────────────────────────────────
     public function category()
     {
         return $this->belongsTo(Category::class, 'category_id');
@@ -54,7 +53,7 @@ class Product extends Model
         return $this->belongsTo(ChildSubCategory::class, 'child_sub_category_id');
     }
 
-    // ── Accessors ───────────────────────────────────────────────────
+    // ── Accessors ────────────────────────────────────────────────────
     public function getStockLabelAttribute(): string
     {
         if ($this->is_unlimited || $this->stock === null) return 'Unlimited';

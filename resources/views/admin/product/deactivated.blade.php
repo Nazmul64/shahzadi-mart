@@ -28,7 +28,6 @@
     .stock-badge.out { background:#fdedec; color:#c0392b; }
     .price-text    { font-weight:600; font-size:.9rem; }
 
-    /* Deactivated pill */
     .btn-pill-red {
         background:#c0392b; color:#fff; border:none; border-radius:20px;
         padding:5px 14px; font-size:.82rem; font-weight:500;
@@ -37,7 +36,6 @@
     }
     .btn-pill-red:hover { background:#a93226; color:#fff; }
 
-    /* Actions dropdown */
     .actions-btn {
         background:#1a2b6b; color:#fff; border:none; border-radius:20px;
         padding:5px 14px; font-size:.82rem; font-weight:500;
@@ -76,7 +74,7 @@
 
 <div class="page-title-box mb-3">
     <h4>Deactivated Products</h4>
-    <small>Dashboard &rsaquo; Products &rsaquo; Deactivated Products</small>
+    <small>Dashboard › Products › Deactivated Products</small>
 </div>
 
 @if(session('success'))
@@ -89,7 +87,7 @@
 <div class="card border-0 shadow-sm">
     <div class="card-body p-3">
         <div class="text-end mb-2">
-            <a href="{{ route('products.index') }}" class="btn-add-new">&#8592; All Products</a>
+            <a href="{{ route('admin.products.index') }}" class="btn-add-new">&#8592; All Products</a>
         </div>
 
         <table id="deactivatedTable" class="table table-bordered w-100">
@@ -141,7 +139,7 @@
 
                     {{-- Status --}}
                     <td class="text-center">
-                        <a href="{{ route('products.toggle-status', $item->id) }}"
+                        <a href="{{ route('admin.products.toggle-status', $item->id) }}"
                            class="btn-pill-red">
                             Deactivated <span style="font-size:.7rem;">&#9660;</span>
                         </a>
@@ -154,9 +152,9 @@
                                 Actions <span style="font-size:.7rem;">&#9660;</span>
                             </button>
                             <div class="actions-dropdown">
-                                <a href="{{ route('products.edit', $item->id) }}">&#9998; Edit</a>
-                                <a href="{{ route('products.toggle-status', $item->id) }}">&#9654; Activate</a>
-                                <form action="{{ route('products.destroy', $item->id) }}" method="POST"
+                                <a href="{{ route('admin.products.edit', $item->id) }}">&#9998; Edit</a>
+                                <a href="{{ route('admin.products.toggle-status', $item->id) }}">&#9654; Activate</a>
+                                <form action="{{ route('admin.products.destroy', $item->id) }}" method="POST"
                                       onsubmit="return confirm('Delete this product?')">
                                     @csrf
                                     @method('DELETE')
@@ -173,7 +171,7 @@
         @if($products->isEmpty())
             <div class="text-center py-4 text-muted">
                 <p style="font-size:.95rem;">No deactivated products found.</p>
-                <a href="{{ route('products.index') }}" class="btn-add-new" style="display:inline-flex;">View All Products</a>
+                <a href="{{ route('admin.products.index') }}" class="btn-add-new" style="display:inline-flex;">View All Products</a>
             </div>
         @endif
     </div>
@@ -200,15 +198,12 @@ $(document).ready(function () {
     });
 });
 
-// Actions dropdown toggle
 function toggleDropdown(btn) {
     var dd = btn.nextElementSibling;
     var isOpen = dd.style.display === 'block';
-    // close all
     document.querySelectorAll('.actions-dropdown').forEach(function(d){ d.style.display = 'none'; });
     dd.style.display = isOpen ? 'none' : 'block';
 }
-// close on outside click
 document.addEventListener('click', function(e) {
     if (!e.target.closest('.actions-wrap')) {
         document.querySelectorAll('.actions-dropdown').forEach(function(d){ d.style.display = 'none'; });

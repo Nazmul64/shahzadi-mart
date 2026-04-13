@@ -100,7 +100,7 @@
 <div class="card border-0 shadow-sm">
     <div class="card-body p-3">
         <div class="text-end mb-2">
-            <a href="{{ route('products.index') }}" class="btn-add-new">&#8592; All Products</a>
+            <a href="{{ route('admin.products.index') }}" class="btn-add-new">&#8592; All Products</a>
         </div>
 
         <table id="catalogTable" class="table table-bordered w-100">
@@ -162,7 +162,7 @@
 
                     {{-- Status toggle --}}
                     <td class="text-center">
-                        <a href="{{ route('products.toggle-status', $item->id) }}"
+                        <a href="{{ route('admin.products.toggle-status', $item->id) }}"
                            class="btn-pill {{ $item->status === 'active' ? 'btn-pill-green' : 'btn-pill-red' }}">
                             {{ $item->status === 'active' ? 'Activated' : 'Deactivated' }}
                             <span style="font-size:.7rem;">&#9660;</span>
@@ -176,7 +176,7 @@
                                 Actions <span style="font-size:.7rem;">&#9660;</span>
                             </button>
                             <div class="actions-dropdown">
-                                <a href="{{ route('products.edit', $item->id) }}">&#9998; Edit</a>
+                                <a href="{{ route('admin.products.edit', $item->id) }}">&#9998; Edit</a>
 
                                 @if(!empty($item->gallery_images) && count($item->gallery_images) > 0)
                                 <a href="javascript:void(0)"
@@ -185,14 +185,14 @@
                                 </a>
                                 @endif
 
-                                <form action="{{ route('products.catalog.highlight', $item->id) }}" method="POST" style="margin:0;">
+                                <form action="{{ route('admin.products.catalog.highlight', $item->id) }}" method="POST" style="margin:0;">
                                     @csrf
                                     <button type="submit" class="dd-star">
                                         &#9733; {{ $item->is_highlighted ? 'Un-Highlight' : 'Highlight' }}
                                     </button>
                                 </form>
 
-                                <form action="{{ route('products.catalog.remove', $item->id) }}" method="POST"
+                                <form action="{{ route('admin.products.catalog.remove', $item->id) }}" method="POST"
                                       style="margin:0;" onsubmit="return confirm('Remove this product from catalog?')">
                                     @csrf
                                     <button type="submit" class="dd-danger">&#128465; Remove Catalog</button>
@@ -208,7 +208,7 @@
         @if($products->isEmpty())
             <div class="text-center py-4 text-muted">
                 <p style="font-size:.95rem;">No catalog products found.</p>
-                <a href="{{ route('products.index') }}" class="btn-add-new" style="display:inline-flex;">View All Products</a>
+                <a href="{{ route('admin.products.index') }}" class="btn-add-new" style="display:inline-flex;">View All Products</a>
             </div>
         @endif
     </div>
@@ -245,14 +245,15 @@ document.addEventListener('click', function(e) {
         document.querySelectorAll('.actions-dropdown').forEach(function(d){ d.style.display='none'; });
 });
 
-var GALLERY_URL = "{{ url('admin/products') }}";
+{{-- ✅ FIX: route() দিয়ে সঠিক URL তৈরি করা --}}
+var GALLERY_URL = "{{ route('admin.products.catalog.gallery', ['id' => '__ID__']) }}".replace('__ID__', '');
 function openGallery(productId, productName) {
     document.querySelectorAll('.actions-dropdown').forEach(function(d){ d.style.display='none'; });
     document.getElementById('galleryModalTitle').textContent = productName + ' — Gallery';
     document.getElementById('galleryModalBody').innerHTML = '<div class="text-center text-muted w-100 py-4">Loading...</div>';
     var modal = new bootstrap.Modal(document.getElementById('galleryModal'));
     modal.show();
-    fetch(GALLERY_URL + '/' + productId + '/catalog-gallery')
+    fetch(GALLERY_URL + productId + '/catalog-gallery')
         .then(function(r){ return r.json(); })
         .then(function(data) {
             var body = '';

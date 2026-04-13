@@ -2,13 +2,7 @@
 
 @section('main-content')
 
-{{--
-    ⚠️  Bootstrap এর .form-control conflict এড়াতে
-        সব input এ custom .r-input class ব্যবহার করা হয়েছে
---}}
-
 <style>
-    /* ── Page Layout ───────────────────────────────────── */
     .r-page        { padding: 28px 24px 60px; background: #f0f4f8; min-height: 100vh; }
     .r-page-header { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; }
     .r-back-btn    { width: 36px; height: 36px; border: 1.5px solid #e2e8f0; border-radius: 9px; background: #fff; display: inline-flex; align-items: center; justify-content: center; color: #475569; text-decoration: none; transition: all .15s; flex-shrink: 0; }
@@ -16,11 +10,9 @@
     .r-h2  { margin: 0; font-size: 20px; font-weight: 700; color: #1e293b; }
     .r-sub { margin: 2px 0 0; font-size: 13px; color: #64748b; }
 
-    /* ── Two-column grid ───────────────────────────────── */
     .r-layout { display: grid; grid-template-columns: 1fr 300px; gap: 22px; align-items: flex-start; }
     @media (max-width: 991px) { .r-layout { grid-template-columns: 1fr; } }
 
-    /* ── Cards ─────────────────────────────────────────── */
     .r-card        { background: #fff; border-radius: 14px; box-shadow: 0 2px 14px rgba(0,0,0,.07); overflow: hidden; margin-bottom: 20px; }
     .r-card:last-child { margin-bottom: 0; }
     .r-card-head   { padding: 15px 20px 13px; border-bottom: 1.5px solid #f1f5f9; display: flex; align-items: center; gap: 10px; }
@@ -28,37 +20,19 @@
     .r-card-head h5 { margin: 0; font-size: 14.5px; font-weight: 700; color: #1e293b; }
     .r-card-body   { padding: 20px; }
 
-    /* ── Custom Input (Bootstrap conflict এড়ানো) ──────── */
     .r-field-group { margin-bottom: 16px; }
     .r-field-group:last-child { margin-bottom: 0; }
-    .r-label {
-        display: block; font-size: 11.5px; font-weight: 700;
-        color: #475569; text-transform: uppercase;
-        letter-spacing: .6px; margin-bottom: 7px;
-    }
-    .r-input, .r-textarea {
-        display: block; width: 100%;
-        padding: 10px 13px; font-size: 13.5px; line-height: 1.5;
-        color: #1e293b; background: #f8fafc;
-        border: 1.5px solid #e2e8f0; border-radius: 9px;
-        transition: border-color .18s, box-shadow .18s;
-        appearance: none; -webkit-appearance: none;
-        box-sizing: border-box;
-    }
-    .r-input:focus, .r-textarea:focus {
-        outline: none; border-color: #2d6a9f;
-        box-shadow: 0 0 0 3px rgba(45,106,159,.12);
-        background: #fff;
-    }
+    .r-label { display: block; font-size: 11.5px; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: .6px; margin-bottom: 7px; }
+    .r-input, .r-textarea { display: block; width: 100%; padding: 10px 13px; font-size: 13.5px; line-height: 1.5; color: #1e293b; background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 9px; transition: border-color .18s, box-shadow .18s; appearance: none; -webkit-appearance: none; box-sizing: border-box; }
+    .r-input:focus, .r-textarea:focus { outline: none; border-color: #2d6a9f; box-shadow: 0 0 0 3px rgba(45,106,159,.12); background: #fff; }
     .r-input.err, .r-textarea.err { border-color: #ef4444; }
     .r-err-msg { color: #ef4444; font-size: 12px; margin-top: 4px; }
     .r-textarea { resize: vertical; min-height: 70px; }
 
-    /* ── Permission grid ────────────────────────────────── */
-    .r-perm-topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 8px; }
     .r-perm-count  { background: #eff6ff; color: #2d6a9f; font-size: 12px; font-weight: 700; padding: 4px 13px; border-radius: 20px; display: inline-flex; align-items: center; gap: 5px; }
     .r-global-btn  { font-size: 12px; font-weight: 600; padding: 5px 13px; border-radius: 7px; border: 1.5px solid #e2e8f0; background: #fff; color: #475569; cursor: pointer; transition: all .15s; }
     .r-global-btn:hover { background: #eff6ff; border-color: #93c5fd; color: #2d6a9f; }
+    .r-perm-topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 8px; }
 
     .r-perm-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(185px,1fr)); gap: 12px; }
     .r-perm-group-card { background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 11px; overflow: hidden; }
@@ -68,57 +42,41 @@
     .r-perm-all-btn:hover { background: rgba(255,255,255,.2); color: #fff; }
     .r-perm-items  { padding: 9px 11px 11px; display: flex; flex-direction: column; gap: 4px; }
 
-    /* ── Custom Checkbox ────────────────────────────────── */
     .r-check-label { display: flex; align-items: center; gap: 9px; font-size: 12.5px; color: #374151; cursor: pointer; padding: 3px 5px; border-radius: 6px; transition: background .12s; }
     .r-check-label:hover { background: #eff6ff; color: #1e3a5f; }
-    .r-check-label input[type="checkbox"] {
-        appearance: none; -webkit-appearance: none;
-        width: 15px; height: 15px; flex-shrink: 0;
-        border: 2px solid #cbd5e1; border-radius: 4px;
-        background: #fff; cursor: pointer; position: relative;
-        transition: all .15s;
-    }
+    .r-check-label input[type="checkbox"] { appearance: none; -webkit-appearance: none; width: 15px; height: 15px; flex-shrink: 0; border: 2px solid #cbd5e1; border-radius: 4px; background: #fff; cursor: pointer; position: relative; transition: all .15s; }
     .r-check-label input[type="checkbox"]:checked { background: #2d6a9f; border-color: #2d6a9f; }
-    .r-check-label input[type="checkbox"]:checked::after {
-        content: ''; position: absolute;
-        top: 1px; left: 4px; width: 4px; height: 7px;
-        border: 2px solid #fff; border-top: none; border-left: none;
-        transform: rotate(45deg);
-    }
+    .r-check-label input[type="checkbox"]:checked::after { content: ''; position: absolute; top: 1px; left: 4px; width: 4px; height: 7px; border: 2px solid #fff; border-top: none; border-left: none; transform: rotate(45deg); }
 
-    /* ── Side Cards ─────────────────────────────────────── */
-    .r-side-card        { background: #fff; border-radius: 14px; box-shadow: 0 2px 14px rgba(0,0,0,.07); overflow: hidden; margin-bottom: 16px; }
+    .r-side-card { background: #fff; border-radius: 14px; box-shadow: 0 2px 14px rgba(0,0,0,.07); overflow: hidden; margin-bottom: 16px; }
     .r-side-card:last-child { margin-bottom: 0; }
-    .r-side-head        { padding: 13px 16px 11px; border-bottom: 1.5px solid #f1f5f9; display: flex; align-items: center; gap: 8px; }
-    .r-side-head i      { font-size: 14px; color: #2d6a9f; }
-    .r-side-head h6     { margin: 0; font-size: 13.5px; font-weight: 700; color: #1e293b; }
-    .r-side-body        { padding: 15px 16px; }
+    .r-side-head { padding: 13px 16px 11px; border-bottom: 1.5px solid #f1f5f9; display: flex; align-items: center; gap: 8px; }
+    .r-side-head i { font-size: 14px; color: #2d6a9f; }
+    .r-side-head h6 { margin: 0; font-size: 13.5px; font-weight: 700; color: #1e293b; }
+    .r-side-body { padding: 15px 16px; }
 
-    /* ── Toggle Switch ──────────────────────────────────── */
-    .r-toggle-row       { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f1f5f9; }
+    .r-toggle-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f1f5f9; }
     .r-toggle-row:last-child { border-bottom: none; padding-bottom: 0; }
     .r-toggle-row:first-child { padding-top: 0; }
-    .r-toggle-label     { font-size: 13px; font-weight: 500; color: #374151; }
-    .r-toggle-sub       { font-size: 11px; color: #94a3b8; display: block; margin-top: 2px; }
-    .r-switch           { position: relative; width: 36px; height: 20px; flex-shrink: 0; }
-    .r-switch input     { opacity: 0; width: 0; height: 0; }
-    .r-slider           { position: absolute; inset: 0; background: #e2e8f0; border-radius: 20px; cursor: pointer; transition: background .2s; }
-    .r-slider::before   { content: ''; position: absolute; width: 14px; height: 14px; left: 3px; top: 3px; background: #fff; border-radius: 50%; transition: transform .2s; box-shadow: 0 1px 3px rgba(0,0,0,.18); }
+    .r-toggle-label { font-size: 13px; font-weight: 500; color: #374151; }
+    .r-toggle-sub   { font-size: 11px; color: #94a3b8; display: block; margin-top: 2px; }
+    .r-switch       { position: relative; width: 36px; height: 20px; flex-shrink: 0; }
+    .r-switch input { opacity: 0; width: 0; height: 0; }
+    .r-slider       { position: absolute; inset: 0; background: #e2e8f0; border-radius: 20px; cursor: pointer; transition: background .2s; }
+    .r-slider::before { content: ''; position: absolute; width: 14px; height: 14px; left: 3px; top: 3px; background: #fff; border-radius: 50%; transition: transform .2s; box-shadow: 0 1px 3px rgba(0,0,0,.18); }
     .r-switch input:checked + .r-slider { background: #2d6a9f; }
     .r-switch input:checked + .r-slider::before { transform: translateX(16px); }
 
-    /* ── Buttons ────────────────────────────────────────── */
-    .r-btn-save   { width: 100%; background: linear-gradient(135deg,#1e3a5f,#2d6a9f); color: #fff; border: none; border-radius: 9px; padding: 11px 18px; font-size: 13.5px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 9px; box-shadow: 0 3px 12px rgba(45,106,159,.28); transition: opacity .18s; }
+    .r-btn-save { width: 100%; background: linear-gradient(135deg,#1e3a5f,#2d6a9f); color: #fff; border: none; border-radius: 9px; padding: 11px 18px; font-size: 13.5px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 9px; box-shadow: 0 3px 12px rgba(45,106,159,.28); transition: opacity .18s; }
     .r-btn-save:hover { opacity: .9; }
-    .r-btn-back   { width: 100%; background: #f8fafc; color: #475569; border: 1.5px solid #e2e8f0; border-radius: 9px; padding: 10px 18px; font-size: 13.5px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; }
+    .r-btn-back { width: 100%; background: #f8fafc; color: #475569; border: 1.5px solid #e2e8f0; border-radius: 9px; padding: 10px 18px; font-size: 13.5px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; }
     .r-btn-back:hover { background: #f1f5f9; color: #1e293b; text-decoration: none; }
 </style>
 
 <div class="r-page">
 
-    {{-- Page Header --}}
     <div class="r-page-header">
-        <a href="{{ route('roles.index') }}" class="r-back-btn">
+        <a href="{{ route('admin.roles.index') }}" class="r-back-btn">
             <i class="bi bi-arrow-left"></i>
         </a>
         <div>
@@ -127,19 +85,17 @@
         </div>
     </div>
 
-    {{-- Errors --}}
     @if($errors->any())
         <div class="alert alert-danger mb-3" style="border-radius:10px;font-size:13px;">
             <i class="bi bi-exclamation-circle me-2"></i>{{ $errors->first() }}
         </div>
     @endif
 
-    <form action="{{ route('roles.store') }}" method="POST">
+    <form action="{{ route('admin.roles.store') }}" method="POST">
         @csrf
 
         <div class="r-layout">
 
-            {{-- ── LEFT COLUMN ──────────────────────────── --}}
             <div>
 
                 {{-- Basic Info --}}
@@ -188,7 +144,7 @@
                         @if($permissions->isEmpty())
                             <div style="text-align:center;padding:30px 0;color:#94a3b8;">
                                 <i class="bi bi-key fs-3 d-block mb-2" style="opacity:.4;"></i>
-                                <p class="mb-0">কোনো পারমিশন নেই। <a href="{{ route('permissions.create') }}" style="color:#2d6a9f;">তৈরি করুন</a></p>
+                                <p class="mb-0">কোনো পারমিশন নেই। <a href="{{ route('admin.permissions.create') }}" style="color:#2d6a9f;">তৈরি করুন</a></p>
                             </div>
                         @else
                             <div class="r-perm-topbar">
@@ -201,7 +157,6 @@
                                     </button>
                                 </div>
                             </div>
-
                             <div class="r-perm-grid">
                                 @foreach($permissions as $group => $groupPerms)
                                     <div class="r-perm-group-card">
@@ -231,22 +186,19 @@
 
             </div>
 
-            {{-- ── RIGHT COLUMN ─────────────────────────── --}}
             <div>
 
-                {{-- Save/Back --}}
                 <div class="r-side-card">
                     <div class="r-side-body">
                         <button type="submit" class="r-btn-save">
                             <i class="bi bi-check-lg"></i> রোল সেভ করুন
                         </button>
-                        <a href="{{ route('roles.index') }}" class="r-btn-back">
+                        <a href="{{ route('admin.roles.index') }}" class="r-btn-back">
                             <i class="bi bi-arrow-left"></i> ফিরে যান
                         </a>
                     </div>
                 </div>
 
-                {{-- Options --}}
                 <div class="r-side-card">
                     <div class="r-side-head">
                         <i class="bi bi-toggles"></i>
@@ -277,7 +229,6 @@
                     </div>
                 </div>
 
-                {{-- Tips --}}
                 <div class="r-side-card">
                     <div class="r-side-head">
                         <i class="bi bi-lightbulb"></i>
@@ -297,25 +248,20 @@
 </div>
 
 <script>
-// Slug preview — name থেকে auto generate
 document.getElementById('roleName').addEventListener('input', function () {
     const slug = this.value.toLowerCase().trim()
         .replace(/[^\w\s-]/g, '').replace(/[\s_]+/g, '-').replace(/-+/g, '-');
     document.getElementById('slugPreview').textContent = slug || '—';
 });
-
-// Group toggle
 function toggleGroup(btn) {
-    const card = btn.closest('.r-perm-group-card');
-    const cbs  = card.querySelectorAll('.r-perm-cb');
+    const card  = btn.closest('.r-perm-group-card');
+    const cbs   = card.querySelectorAll('.r-perm-cb');
     const check = btn.dataset.state === '0';
     cbs.forEach(c => c.checked = check);
     btn.dataset.state = check ? '1' : '0';
     btn.textContent   = check ? 'None' : 'All';
     updateCount();
 }
-
-// Select / Deselect all
 function selectAllPerms(checked) {
     document.querySelectorAll('.r-perm-cb').forEach(c => c.checked = checked);
     document.querySelectorAll('.r-perm-all-btn').forEach(b => {
@@ -324,8 +270,6 @@ function selectAllPerms(checked) {
     });
     updateCount();
 }
-
-// Update count badge
 function updateCount() {
     document.getElementById('permCount').textContent =
         document.querySelectorAll('.r-perm-cb:checked').length;

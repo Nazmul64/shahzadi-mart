@@ -9,138 +9,125 @@ use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
-    // Category List
     public function index()
     {
         $categories = Category::latest()->get();
         return view('admin.category.index', compact('categories'));
     }
 
-    // Create Page (modal used — redirect back)
     public function create()
     {
-        return redirect()->route('category.index');
+        return view('admin.category.create');
     }
 
-    // Store Category
     public function store(Request $request)
     {
         $request->validate([
-            'category_name'  => 'required',
-            'category_photo' => 'required|image|mimes:jpg,jpeg,png',
+            'category_name'  => 'required|string|max:255',
+            'category_photo' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         $photo = null;
         if ($request->hasFile('category_photo')) {
             $file  = $request->file('category_photo');
-            $photo = time() . '.' . $file->getClientOriginalExtension();
+            $photo = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
 
-            // Create folder if not exists
-            if (!file_exists(public_path('uploads/category'))) {
-                mkdir(public_path('uploads/category'), 0777, true);
+            $uploadPath = public_path('uploads/category');
+            if (!file_exists($uploadPath)) {
+                mkdir($uploadPath, 0777, true);
             }
-
-            $file->move(public_path('uploads/category'), $photo);
+            $file->move($uploadPath, $photo);
         }
 
-        $data = [
+        Category::create([
             'category_name'  => $request->category_name,
             'category_photo' => $photo,
             'slug'           => Str::slug($request->category_name),
-            'status'         => $request->status ?? 'active',
-        ];
+            'status'         => $request->status   ?? 'active',
+            'featured'       => $request->featured  ?? 'inactive',
+        ]);
 
-        // Only add featured if column exists
-        if (\Schema::hasColumn('categories', 'featured')) {
-            $data['featured'] = $request->featured ?? 'inactive';
-        }
-
-        Category::create($data);
-
-        return redirect()->route('category.index')
+        return redirect()->route('admin.category.index')
             ->with('success', 'Category Added Successfully');
     }
 
-    // Edit Page (modal used — redirect back)
     public function edit(string $id)
     {
-        return redirect()->route('category.index');
+        $category = Category::findOrFail($id);
+        return view('admin.category.edit', compact('category'));
     }
 
-    // Update Category
     public function update(Request $request, string $id)
     {
         $category = Category::findOrFail($id);
 
         $request->validate([
-            'category_name' => 'required',
+            'category_name'  => 'required|string|max:255',
+            'category_photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         $photo = $category->category_photo;
+
         if ($request->hasFile('category_photo')) {
-            if (file_exists(public_path('uploads/category/' . $category->category_photo))) {
-                unlink(public_path('uploads/category/' . $category->category_photo));
+            $oldPath = public_path('uploads/category/' . $category->category_photo);
+            if ($category->category_photo && file_exists($oldPath)) {
+                unlink($oldPath);
             }
+
             $file  = $request->file('category_photo');
-            $photo = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('uploads/category'), $photo);
+            $photo = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+
+            $uploadPath = public_path('uploads/category');
+            if (!file_exists($uploadPath)) {
+                mkdir($uploadPath, 0777, true);
+            }
+            $file->move($uploadPath, $photo);
         }
 
-        $data = [
+        $category->update([
             'category_name'  => $request->category_name,
             'category_photo' => $photo,
             'slug'           => Str::slug($request->category_name),
-            'status'         => $request->status ?? $category->status,
-        ];
+            'status'         => $request->status   ?? $category->status,
+            'featured'       => $request->featured  ?? $category->featured,
+        ]);
 
-        // Only update featured if column exists
-        if (\Schema::hasColumn('categories', 'featured')) {
-            $data['featured'] = $request->featured ?? $category->featured;
-        }
-
-        $category->update($data);
-
-        return redirect()->route('category.index')
+        return redirect()->route('admin.category.index')
             ->with('success', 'Category Updated Successfully');
     }
 
-    // Toggle Featured
     public function toggleFeatured(string $id)
     {
         $category = Category::findOrFail($id);
+        $category->featured = $category->featured === 'active' ? 'inactive' : 'active';
+        $category->save();
 
-        if (\Schema::hasColumn('categories', 'featured')) {
-            $category->featured = $category->featured === 'active' ? 'inactive' : 'active';
-            $category->save();
-        }
-
-        return redirect()->route('category.index')
+        return redirect()->route('admin.category.index')
             ->with('success', 'Featured status updated');
     }
 
-    // Toggle Status
     public function toggleStatus(string $id)
     {
         $category = Category::findOrFail($id);
         $category->status = $category->status === 'active' ? 'inactive' : 'active';
         $category->save();
 
-        return redirect()->route('category.index')
+        return redirect()->route('admin.category.index')
             ->with('success', 'Status updated');
     }
 
-    // Delete Category
     public function destroy(string $id)
     {
         $category = Category::findOrFail($id);
 
-        if (file_exists(public_path('uploads/category/' . $category->category_photo))) {
-            unlink(public_path('uploads/category/' . $category->category_photo));
+        $oldPath = public_path('uploads/category/' . $category->category_photo);
+        if ($category->category_photo && file_exists($oldPath)) {
+            unlink($oldPath);
         }
 
         $category->delete();
 
-        return redirect()->route('category.index')
+        return redirect()->route('admin.category.index')
             ->with('success', 'Category Deleted Successfully');
     }
 }

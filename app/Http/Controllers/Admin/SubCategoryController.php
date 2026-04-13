@@ -13,37 +13,40 @@ class SubCategoryController extends Controller
     public function index()
     {
         $subCategories = SubCategory::with('category')->latest()->get();
-        $categories    = Category::orderBy('category_name')->get();
+        $categories    = Category::where('status', 'active')->get();
         return view('admin.subcategory.index', compact('subCategories', 'categories'));
     }
 
     public function create()
     {
-        return redirect()->route('subcategory.index');
+        $categories = Category::where('status', 'active')->get();
+        return view('admin.subcategory.create', compact('categories'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'sub_name'    => 'required',
             'category_id' => 'required|exists:categories,id',
+            'sub_name'    => 'required|string|max:255',
         ]);
 
         SubCategory::create([
+            'category_id' => $request->category_id,
             'sub_name'    => $request->sub_name,
             'slug'        => Str::slug($request->sub_name),
-            'category_id' => $request->category_id,
-            'featured'    => $request->featured ?? 'inactive',
-            'status'      => $request->status   ?? 'active',
+            'featured'    => $request->featured  ?? 'inactive',
+            'status'      => $request->status    ?? 'active',
         ]);
 
-        return redirect()->route('subcategory.index')
+        return redirect()->route('admin.subcategory.index')
             ->with('success', 'Sub Category Added Successfully');
     }
 
     public function edit(string $id)
     {
-        return redirect()->route('subcategory.index');
+        $subCategory = SubCategory::findOrFail($id);
+        $categories  = Category::where('status', 'active')->get();
+        return view('admin.subcategory.edit', compact('subCategory', 'categories'));
     }
 
     public function update(Request $request, string $id)
@@ -51,41 +54,47 @@ class SubCategoryController extends Controller
         $subCategory = SubCategory::findOrFail($id);
 
         $request->validate([
-            'sub_name'    => 'required',
             'category_id' => 'required|exists:categories,id',
+            'sub_name'    => 'required|string|max:255',
         ]);
 
         $subCategory->update([
+            'category_id' => $request->category_id,
             'sub_name'    => $request->sub_name,
             'slug'        => Str::slug($request->sub_name),
-            'category_id' => $request->category_id,
             'featured'    => $request->featured ?? $subCategory->featured,
             'status'      => $request->status   ?? $subCategory->status,
         ]);
 
-        return redirect()->route('subcategory.index')
+        return redirect()->route('admin.subcategory.index')
             ->with('success', 'Sub Category Updated Successfully');
     }
 
     public function toggleFeatured(string $id)
     {
-        $sub           = SubCategory::findOrFail($id);
-        $sub->featured = $sub->featured === 'active' ? 'inactive' : 'active';
-        $sub->save();
-        return redirect()->route('subcategory.index')->with('success', 'Featured status updated');
+        $subCategory = SubCategory::findOrFail($id);
+        $subCategory->featured = $subCategory->featured === 'active' ? 'inactive' : 'active';
+        $subCategory->save();
+
+        return redirect()->route('admin.subcategory.index')
+            ->with('success', 'Featured status updated');
     }
 
     public function toggleStatus(string $id)
     {
-        $sub         = SubCategory::findOrFail($id);
-        $sub->status = $sub->status === 'active' ? 'inactive' : 'active';
-        $sub->save();
-        return redirect()->route('subcategory.index')->with('success', 'Status updated');
+        $subCategory = SubCategory::findOrFail($id);
+        $subCategory->status = $subCategory->status === 'active' ? 'inactive' : 'active';
+        $subCategory->save();
+
+        return redirect()->route('admin.subcategory.index')
+            ->with('success', 'Status updated');
     }
 
     public function destroy(string $id)
     {
         SubCategory::findOrFail($id)->delete();
-        return redirect()->route('subcategory.index')->with('success', 'Sub Category Deleted Successfully');
+
+        return redirect()->route('admin.subcategory.index')
+            ->with('success', 'Sub Category Deleted Successfully');
     }
 }

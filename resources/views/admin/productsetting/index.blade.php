@@ -17,7 +17,6 @@
         overflow: hidden;
     }
 
-    /* ── Setting Row ── */
     .setting-row {
         display: flex;
         align-items: center;
@@ -60,7 +59,6 @@
         outline: none;
     }
 
-    /* ── Section Headers ── */
     .section-header {
         text-align: center;
         font-size: .75rem;
@@ -74,7 +72,6 @@
         text-transform: uppercase;
     }
 
-    /* ── Toggle Pill ── */
     .toggle-hidden { display: none; }
 
     .toggle-pill {
@@ -107,7 +104,6 @@
         margin-left: 2px;
     }
 
-    /* ── Chips ── */
     .chips-wrap {
         display: flex;
         flex-wrap: wrap;
@@ -159,7 +155,6 @@
         margin-top: 3px;
     }
 
-    /* ── Save Button ── */
     .btn-save {
         background: #1a2b6b;
         color: #fff;
@@ -173,7 +168,6 @@
     }
     .btn-save:hover { background: #152259; }
 
-    /* Alert tweaks */
     .alert { font-size: .84rem; }
 </style>
 
@@ -196,7 +190,9 @@
 @endif
 
 <div class="settings-card">
-    <form action="{{ route('product.settings.update') }}" method="POST" id="settingsForm">
+
+    {{-- ✅ FIX: route name admin.product.settings.update --}}
+    <form action="{{ route('admin.product.settings.update') }}" method="POST" id="settingsForm">
         @csrf
         @method('PUT')
 
@@ -380,7 +376,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-// ── Chips ──────────────────────────────────────────────────────────
 function syncChipsHidden() {
     var chips = document.querySelectorAll('#chipsWrap .chip');
     var vals = Array.from(chips).map(function(c) {

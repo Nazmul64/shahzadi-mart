@@ -28,9 +28,9 @@
 
     .act-btn { font-size: 12px; font-weight: 600; padding: 4px 11px; border-radius: 7px; text-decoration: none; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; transition: opacity .15s; white-space: nowrap; }
     .act-btn:hover { opacity: .78; text-decoration: none; }
-    .act-edit   { background: #eff6ff; color: #2d6a9f; }
-    .act-key    { background: #fefce8; color: #92400e; }
-    .act-del    { background: #fee2e2; color: #dc2626; }
+    .act-edit { background: #eff6ff; color: #2d6a9f; }
+    .act-key  { background: #fefce8; color: #92400e; }
+    .act-del  { background: #fee2e2; color: #dc2626; }
 
     .empty-state { text-align: center; padding: 56px 20px; color: #94a3b8; }
     .empty-state i { font-size: 40px; display: block; margin-bottom: 12px; opacity: .4; }
@@ -38,7 +38,6 @@
 
 <div class="rbac-page">
 
-    {{-- Header --}}
     <div class="rbac-page-header">
         <div class="rbac-page-title">
             <div class="rbac-title-icon"><i class="bi bi-shield-lock"></i></div>
@@ -47,12 +46,11 @@
                 <p class="rbac-sub">সব রোল দেখুন ও পরিচালনা করুন</p>
             </div>
         </div>
-        <a href="{{ route('roles.create') }}" class="btn-rbac-primary">
+        <a href="{{ route('admin.roles.create') }}" class="btn-rbac-primary">
             <i class="bi bi-plus-lg"></i> নতুন রোল তৈরি
         </a>
     </div>
 
-    {{-- Alerts --}}
     @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show mb-3" style="border-radius:10px;font-size:13.5px;">
             <i class="bi bi-check-circle me-2"></i>{{ session('success') }}
@@ -66,7 +64,6 @@
         </div>
     @endif
 
-    {{-- Table --}}
     <div class="rbac-table-card">
         <table class="table table-hover mb-0">
             <thead>
@@ -78,7 +75,7 @@
                     <th>পারমিশন</th>
                     <th>ইউজার</th>
                     <th>স্ট্যাটাস</th>
-                    <th style="width:200px;">অ্যাকশন</th>
+                    <th style="width:210px;">অ্যাকশন</th>
                 </tr>
             </thead>
             <tbody>
@@ -112,14 +109,14 @@
                     </td>
                     <td>
                         <div class="d-flex gap-1 flex-wrap">
-                            <a href="{{ route('roles.edit', $role->id) }}" class="act-btn act-edit">
+                            <a href="{{ route('admin.roles.edit', $role->id) }}" class="act-btn act-edit">
                                 <i class="bi bi-pencil"></i> Edit
                             </a>
-                            <a href="{{ route('roles.assignPermission', $role->id) }}" class="act-btn act-key">
+                            <a href="{{ route('admin.roles.assignPermission', $role->id) }}" class="act-btn act-key">
                                 <i class="bi bi-key"></i> Perms
                             </a>
                             @if(!in_array($role->slug, ['super-admin','admin']))
-                            <form action="{{ route('roles.destroy', $role->id) }}" method="POST"
+                            <form action="{{ route('admin.roles.destroy', $role->id) }}" method="POST"
                                   class="d-inline"
                                   onsubmit="return confirm('\'{{ addslashes($role->name) }}\' ডিলিট করবেন?')">
                                 @csrf @method('DELETE')
@@ -136,7 +133,7 @@
                     <td colspan="8">
                         <div class="empty-state">
                             <i class="bi bi-shield-x"></i>
-                            <p class="mb-0">কোনো রোল নেই। <a href="{{ route('roles.create') }}" style="color:#2d6a9f;">প্রথম রোল তৈরি করুন</a></p>
+                            <p class="mb-0">কোনো রোল নেই। <a href="{{ route('admin.roles.create') }}" style="color:#2d6a9f;">প্রথম রোল তৈরি করুন</a></p>
                         </div>
                     </td>
                 </tr>

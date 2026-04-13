@@ -39,8 +39,6 @@
     .gallery-card img { width:100%; height:75px; object-fit:cover; border-radius:4px; }
     .gallery-card input { font-size:.72rem; margin-top:4px; }
     .gallery-card .btn-rm { background:#dc3545; color:#fff; border:none; border-radius:4px; width:100%; margin-top:4px; font-size:.72rem; padding:2px 0; cursor:pointer; }
-
-    /* SEO Section */
     .seo-section { border:1px solid #e0e7ff; border-radius:8px; background:#f8f9ff; padding:16px; margin-top:6px; }
     .seo-toggle-label { font-size:.9rem; font-weight:600; color:#1a2b6b; cursor:pointer; user-select:none; display:flex; align-items:center; gap:8px; }
     .seo-toggle-label input[type="checkbox"] { width:17px; height:17px; cursor:pointer; accent-color:#1a2b6b; }
@@ -48,7 +46,7 @@
 
 <div class="d-flex align-items-center gap-3 mb-2">
     <h4 style="font-size:1.1rem;font-weight:600;margin:0;">Add Product</h4>
-    <a href="{{ route('products.index') }}" class="btn-back">&#8592; Back</a>
+    <a href="{{ route('admin.products.index') }}" class="btn-back">&#8592; Back</a>
 </div>
 <small class="text-muted" style="font-size:.82rem;">
     Dashboard &rsaquo; Products &rsaquo; All Products &rsaquo; Add Product
@@ -60,12 +58,12 @@
 </div>
 @endif
 
-<form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data" class="mt-3" id="productForm">
+<form action="{{ route('admin.products.store') }}" method="POST" enctype="multipart/form-data" class="mt-3" id="productForm">
 @csrf
 <div id="galleryFileInputs"></div>
 
 <div class="row g-3">
-    {{-- LEFT --}}
+    {{-- ═══════════ LEFT ═══════════ --}}
     <div class="col-lg-8">
         <div class="card border-0 shadow-sm p-4">
 
@@ -142,26 +140,26 @@
                 <input type="text" name="product_url" class="form-control" placeholder="Enter product download URL" value="{{ old('product_url') }}">
             </div>
 
-            {{-- ══ SEO SECTION ══ --}}
+            {{-- SEO --}}
             <div class="mb-3">
                 <label class="seo-toggle-label">
                     <input type="checkbox" id="allow_seo_checkbox" {{ old('allow_seo') ? 'checked' : '' }}>
                     Allow Product SEO
                 </label>
-
                 <div class="seo-section mt-3" id="seo_fields" style="{{ old('allow_seo') ? '' : 'display:none;' }}">
                     <div class="mb-3">
-                        <label class="form-label-custom">Meta Tags <span class="form-label-sub">*</span></label>
-                        <input type="text" name="meta_tags" id="meta_tags_input" class="form-control" placeholder="Enter meta tags (comma separated)" value="{{ old('meta_tags') }}">
+                        <label class="form-label-custom">Meta Tags</label>
+                        <input type="text" name="meta_tags" id="meta_tags_input" class="form-control"
+                               placeholder="Enter meta tags (comma separated)" value="{{ old('meta_tags') }}">
                         <small class="text-muted" style="font-size:.75rem;">e.g. shoes, running, sport</small>
                     </div>
                     <div class="mb-0">
-                        <label class="form-label-custom">Meta Description <span class="form-label-sub">*</span></label>
-                        <textarea name="meta_description" id="meta_description_input" class="form-control" rows="4" placeholder="Meta Description">{{ old('meta_description') }}</textarea>
+                        <label class="form-label-custom">Meta Description</label>
+                        <textarea name="meta_description" id="meta_description_input" class="form-control" rows="4"
+                                  placeholder="Meta Description">{{ old('meta_description') }}</textarea>
                     </div>
                 </div>
             </div>
-            {{-- ══ END SEO SECTION ══ --}}
 
             {{-- Variants --}}
             <div class="mb-3">
@@ -194,7 +192,7 @@
         </div>
     </div>
 
-    {{-- RIGHT --}}
+    {{-- ═══════════ RIGHT ═══════════ --}}
     <div class="col-lg-4">
 
         <div class="sidebar-card">
@@ -273,8 +271,8 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <script>
-var URL_SUB   = "{{ route('products.getSubCategories') }}";
-var URL_CHILD = "{{ route('products.getChildCategories') }}";
+var URL_SUB   = "{{ route('admin.products.getSubCategories') }}";
+var URL_CHILD = "{{ route('admin.products.getChildCategories') }}";
 var galleryItems = [];
 
 $(document).ready(function () {
@@ -282,19 +280,18 @@ $(document).ready(function () {
     $('#return_policy').summernote({ height: 200 });
     $('#product_tags').select2({ tags: true, tokenSeparators: [','], placeholder: 'Type and press Enter' });
 
-    // ── SEO Toggle ──────────────────────────────────────────────
+    // SEO Toggle
     $('#allow_seo_checkbox').on('change', function () {
         if ($(this).is(':checked')) {
             $('#seo_fields').slideDown(250);
         } else {
             $('#seo_fields').slideUp(250);
-            // Clear values when hidden so they don't submit accidentally
             $('#meta_tags_input').val('');
             $('#meta_description_input').val('');
         }
     });
 
-    // ── Category → Sub Category ────────────────────────────────
+    // Category → Sub Category
     $('#product_category').on('change', function () {
         var catId = $(this).val();
         $('#product_subcategory').html('<option value="">-- Select Sub Category (Optional) --</option>');
@@ -306,11 +303,13 @@ $(document).ready(function () {
             var html = '<option value="">-- Select Sub Category (Optional) --</option>';
             $.each(data, function(i,r){ html += '<option value="'+r.id+'">'+r.sub_name+'</option>'; });
             $('#product_subcategory').html(html);
-            $('#sub_hint').html(data.length ? '<span style="color:green;">&#10003; '+data.length+' sub category found</span>' : '<span style="color:#e67e22;">No sub categories found</span>');
+            $('#sub_hint').html(data.length
+                ? '<span style="color:green;">&#10003; '+data.length+' sub category found</span>'
+                : '<span style="color:#e67e22;">No sub categories found</span>');
         }).fail(function(){ $('#sub_hint').html('<span style="color:red;">Failed to load</span>'); });
     });
 
-    // ── Sub Category → Child Category ─────────────────────────
+    // Sub Category → Child Category
     $('#product_subcategory').on('change', function () {
         var subId = $(this).val();
         $('#product_childcategory').html('<option value="">-- Select Child Category (Optional) --</option>');
@@ -320,11 +319,13 @@ $(document).ready(function () {
             var html = '<option value="">-- Select Child Category (Optional) --</option>';
             $.each(data, function(i,r){ html += '<option value="'+r.id+'">'+r.child_sub_name+'</option>'; });
             $('#product_childcategory').html(html);
-            $('#child_hint').html(data.length ? '<span style="color:green;">&#10003; '+data.length+' child category found</span>' : '<span style="color:#e67e22;">No child categories found</span>');
+            $('#child_hint').html(data.length
+                ? '<span style="color:green;">&#10003; '+data.length+' child category found</span>'
+                : '<span style="color:#e67e22;">No child categories found</span>');
         }).fail(function(){ $('#child_hint').html('<span style="color:red;">Failed to load</span>'); });
     });
 
-    // ── Upload Type Toggle ─────────────────────────────────────
+    // Upload Type Toggle
     $('#upload_type').on('change', function () {
         if ($(this).val() === 'url') {
             $('#file_upload_section').addClass('d-none');
@@ -335,7 +336,7 @@ $(document).ready(function () {
         }
     });
 
-    // ── Feature Image Preview ──────────────────────────────────
+    // Feature Image Preview
     $('#feature_image_input').on('change', function () {
         var file = this.files[0];
         if (file) {
@@ -348,7 +349,7 @@ $(document).ready(function () {
         }
     });
 
-    // ── Gallery Picker ─────────────────────────────────────────
+    // Gallery Picker
     $('#galleryPicker').on('change', function () {
         Array.from(this.files).forEach(function(f){ galleryItems.push({ file: f, size: '', color: '' }); });
         $(this).val('');
@@ -356,13 +357,11 @@ $(document).ready(function () {
     });
 });
 
-// ── Unlimited Stock Toggle ─────────────────────────────────────
 function toggleUnlimited(cb) {
     document.getElementById('stock_input').disabled = cb.checked;
     if (cb.checked) document.getElementById('stock_input').value = '';
 }
 
-// ── Gallery Render ─────────────────────────────────────────────
 function renderGallery() {
     var preview = $('#galleryPreview');
     preview.empty();
@@ -395,7 +394,6 @@ function rebuildGalleryInputs() {
 
 function removeGalleryItem(idx) { galleryItems.splice(idx, 1); renderGallery(); }
 
-// ── Variant Rows ───────────────────────────────────────────────
 function addVariantRow() {
     $('#variantContainer').append(
         '<div class="variant-row">' +
@@ -411,7 +409,6 @@ function removeVariantRow(btn) {
     if ($('#variantContainer .variant-row').length > 1) $(btn).closest('.variant-row').remove();
 }
 
-// ── Feature Tag Rows ───────────────────────────────────────────
 function addTagRow() {
     $('#featureTagsContainer').append(
         '<div class="tag-row">' +

@@ -20,7 +20,7 @@ class ChildSubCategoryController extends Controller
 
     public function create()
     {
-        return redirect()->route('childcategory.index');
+        return redirect()->route('admin.childcategory.index');
     }
 
     // AJAX: SubCategories by Category ID
@@ -35,7 +35,7 @@ class ChildSubCategoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'child_sub_name'  => 'required',
+            'child_sub_name'  => 'required|string|max:255',
             'sub_category_id' => 'required|exists:sub_categories,id',
         ]);
 
@@ -43,17 +43,22 @@ class ChildSubCategoryController extends Controller
             'child_sub_name'  => $request->child_sub_name,
             'slug'            => Str::slug($request->child_sub_name),
             'sub_category_id' => $request->sub_category_id,
-            'featured'        => $request->featured ?? false,
-            'status'          => $request->status   ?? true,
+            'featured'        => $request->featured  ?? 0,
+            'status'          => $request->status    ?? 1,
         ]);
 
-        return redirect()->route('childcategory.index')
+        return redirect()->route('admin.childcategory.index')
             ->with('success', 'Child Sub Category Added Successfully');
+    }
+
+    public function show(string $id)
+    {
+        return redirect()->route('admin.childcategory.index');
     }
 
     public function edit(string $id)
     {
-        return redirect()->route('childcategory.index');
+        return redirect()->route('admin.childcategory.index');
     }
 
     public function update(Request $request, string $id)
@@ -61,7 +66,7 @@ class ChildSubCategoryController extends Controller
         $child = ChildSubCategory::findOrFail($id);
 
         $request->validate([
-            'child_sub_name'  => 'required',
+            'child_sub_name'  => 'required|string|max:255',
             'sub_category_id' => 'required|exists:sub_categories,id',
         ]);
 
@@ -73,7 +78,7 @@ class ChildSubCategoryController extends Controller
             'status'          => $request->status   ?? $child->status,
         ]);
 
-        return redirect()->route('childcategory.index')
+        return redirect()->route('admin.childcategory.index')
             ->with('success', 'Child Sub Category Updated Successfully');
     }
 
@@ -82,7 +87,8 @@ class ChildSubCategoryController extends Controller
         $child           = ChildSubCategory::findOrFail($id);
         $child->featured = !$child->featured;
         $child->save();
-        return redirect()->route('childcategory.index')->with('success', 'Featured status updated');
+        return redirect()->route('admin.childcategory.index')
+            ->with('success', 'Featured status updated');
     }
 
     public function childtoggleStatus(string $id)
@@ -90,12 +96,14 @@ class ChildSubCategoryController extends Controller
         $child         = ChildSubCategory::findOrFail($id);
         $child->status = !$child->status;
         $child->save();
-        return redirect()->route('childcategory.index')->with('success', 'Status updated');
+        return redirect()->route('admin.childcategory.index')
+            ->with('success', 'Status updated');
     }
 
     public function destroy(string $id)
     {
         ChildSubCategory::findOrFail($id)->delete();
-        return redirect()->route('childcategory.index')->with('success', 'Child Sub Category Deleted Successfully');
+        return redirect()->route('admin.childcategory.index')
+            ->with('success', 'Child Sub Category Deleted Successfully');
     }
 }

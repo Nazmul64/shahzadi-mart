@@ -9,18 +9,17 @@
                    || request()->routeIs('admin.subcategory.*')
                    || request()->routeIs('admin.childcategory.*');
     $prodsActive    = request()->routeIs('admin.products.*')
-                   || request()->routeIs('admin.product.settings.*')
-                   || request()->routeIs('admin.productsettings.*');
+                   || request()->routeIs('admin.product.settings.*');
     $affActive      = request()->routeIs('admin.affiliateproduct.*');
     $couponsActive  = request()->routeIs('admin.coupons.*');
-    $custsActive    = request()->routeIs('admin.customer.*');
+    // Customer routes are outside the admin. group so NO admin. prefix
+    $custsActive    = request()->routeIs('customer.*');
     $usersActive    = request()->routeIs('admin.users.*');
     $vendorsActive  = request()->routeIs('admin.vendors*');
     $rolesActive    = request()->routeIs('admin.roles.*');
     $permsActive    = request()->routeIs('admin.permissions.*');
     $blogsActive    = request()->routeIs('admin.blog*');
-
-    // ✅ FIX: websitefavicon ও settingsActive এ যোগ করা হয়েছে
+    $sliderActive   = request()->routeIs('admin.slider.*');
     $settingsActive = request()->routeIs('admin.Generalsettings.*')
                    || request()->routeIs('admin.websitefavicon.*');
 @endphp
@@ -204,8 +203,8 @@ body.sb-collapsed .item-text { opacity: 0; width: 0; pointer-events: none; }
     color      : var(--sb-text-dim);
     transition : transform var(--sb-ease), opacity var(--sb-ease);
 }
-body.sb-collapsed .arrow              { opacity: 0; }
-.sidebar-item.open .arrow             { transform: rotate(90deg); color: var(--sb-active-text); }
+body.sb-collapsed .arrow          { opacity: 0; }
+.sidebar-item.open .arrow         { transform: rotate(90deg); color: var(--sb-active-text); }
 .sidebar-submenu {
     max-height   : 0;
     overflow     : hidden;
@@ -231,11 +230,11 @@ body.sb-collapsed .sidebar-submenu { display: none; }
     white-space    : nowrap;
     overflow       : hidden;
 }
-.sidebar-submenu a i              { font-size: 13px; color: var(--sb-text-dim); flex-shrink: 0; }
+.sidebar-submenu a i          { font-size: 13px; color: var(--sb-text-dim); flex-shrink: 0; }
 .sidebar-submenu a:hover,
-.sidebar-submenu a.active         { background: rgba(255,255,255,.06); color: #fff; text-decoration: none; }
-.sidebar-submenu a.active         { color: var(--sb-active-text); }
-.sidebar-submenu a.active i       { color: var(--sb-active-text); }
+.sidebar-submenu a.active     { background: rgba(255,255,255,.06); color: #fff; text-decoration: none; }
+.sidebar-submenu a.active     { color: var(--sb-active-text); }
+.sidebar-submenu a.active i   { color: var(--sb-active-text); }
 .sb-sep { height: 1px; background: var(--sb-border); margin: 8px 16px; }
 .sb-logout-form { padding: 6px 8px 8px; }
 .sb-logout-btn {
@@ -277,7 +276,7 @@ body.sb-collapsed .sidebar-submenu { display: none; }
 
 <aside id="sidebar">
 
-    {{-- ── Brand ── --}}
+    {{-- Brand --}}
     <a href="{{ route('admin.dashboard') }}" class="sidebar-brand">
         <div class="sb-logo-icon"><i class="bi bi-shop"></i></div>
         <div class="sb-brand-text">
@@ -288,7 +287,7 @@ body.sb-collapsed .sidebar-submenu { display: none; }
 
     <nav class="sidebar-nav">
 
-        {{-- ══ MAIN ══ --}}
+        {{-- MAIN --}}
         <div class="sidebar-section-label">Main</div>
 
         <a href="{{ route('admin.dashboard') }}"
@@ -299,9 +298,28 @@ body.sb-collapsed .sidebar-submenu { display: none; }
             </span>
         </a>
 
-        {{-- ══ E-COMMERCE ══ --}}
+        {{-- E-COMMERCE --}}
         <div class="sb-sep"></div>
         <div class="sidebar-section-label">E-Commerce</div>
+
+        {{-- Slider --}}
+        <div class="sidebar-item {{ $sliderActive ? 'active open' : '' }}" onclick="sbToggle(this)">
+            <span class="item-left">
+                <i class="bi bi-images nav-icon"></i>
+                <span class="item-text">Slider</span>
+            </span>
+            <i class="bi bi-chevron-right arrow"></i>
+        </div>
+        <div class="sidebar-submenu {{ $sliderActive ? 'open' : '' }}">
+            <a href="{{ route('admin.slider.index') }}"
+               class="{{ request()->routeIs('admin.slider.index') ? 'active' : '' }}">
+                <i class="bi bi-list-ul"></i> All Sliders
+            </a>
+            <a href="{{ route('admin.slider.create') }}"
+               class="{{ request()->routeIs('admin.slider.create') ? 'active' : '' }}">
+                <i class="bi bi-plus-circle"></i> Add Slider
+            </a>
+        </div>
 
         {{-- Orders --}}
         <div class="sidebar-item {{ $ordersActive ? 'active open' : '' }}" onclick="sbToggle(this)">
@@ -312,9 +330,7 @@ body.sb-collapsed .sidebar-submenu { display: none; }
             <i class="bi bi-chevron-right arrow"></i>
         </div>
         <div class="sidebar-submenu {{ $ordersActive ? 'open' : '' }}">
-            <a href="#" class="{{ request()->routeIs('admin.orders.index') ? 'active' : '' }}">
-                <i class="bi bi-list-ul"></i> All Orders
-            </a>
+            <a href="#"><i class="bi bi-list-ul"></i> All Orders</a>
             <a href="#"><i class="bi bi-clock"></i> Pending</a>
             <a href="#"><i class="bi bi-check-circle"></i> Completed</a>
         </div>
@@ -432,7 +448,7 @@ body.sb-collapsed .sidebar-submenu { display: none; }
             </a>
         </div>
 
-        {{-- Customers --}}
+        {{-- Customers — no admin. prefix because these routes are outside the admin. group --}}
         <div class="sidebar-item {{ $custsActive ? 'active open' : '' }}" onclick="sbToggle(this)">
             <span class="item-left">
                 <i class="bi bi-people nav-icon"></i>
@@ -441,9 +457,13 @@ body.sb-collapsed .sidebar-submenu { display: none; }
             <i class="bi bi-chevron-right arrow"></i>
         </div>
         <div class="sidebar-submenu {{ $custsActive ? 'open' : '' }}">
-            <a href="{{ route('admin.customer.index') }}"
-               class="{{ request()->routeIs('admin.customer.index') ? 'active' : '' }}">
+            <a href="{{ route('customer.index') }}"
+               class="{{ request()->routeIs('customer.index') ? 'active' : '' }}">
                 <i class="bi bi-list-ul"></i> All Customers
+            </a>
+            <a href="{{ route('customer.create') }}"
+               class="{{ request()->routeIs('customer.create') ? 'active' : '' }}">
+                <i class="bi bi-person-plus"></i> Add Customer
             </a>
         </div>
 
@@ -471,7 +491,7 @@ body.sb-collapsed .sidebar-submenu { display: none; }
             </span>
         </a>
 
-        {{-- ══ USER MANAGEMENT ══ --}}
+        {{-- USER MANAGEMENT --}}
         <div class="sb-sep"></div>
         <div class="sidebar-section-label">User Management</div>
 
@@ -563,7 +583,7 @@ body.sb-collapsed .sidebar-submenu { display: none; }
             </span>
         </a>
 
-        {{-- ══ ACCESS CONTROL ══ --}}
+        {{-- ACCESS CONTROL --}}
         <div class="sb-sep"></div>
         <div class="sidebar-section-label">Access Control</div>
 
@@ -613,7 +633,7 @@ body.sb-collapsed .sidebar-submenu { display: none; }
             </span>
         </a>
 
-        {{-- ══ SETTINGS ══ --}}
+        {{-- SETTINGS --}}
         <div class="sb-sep"></div>
         <div class="sidebar-section-label">Settings</div>
 
@@ -639,18 +659,14 @@ body.sb-collapsed .sidebar-submenu { display: none; }
             <i class="bi bi-chevron-right arrow"></i>
         </div>
         <div class="sidebar-submenu {{ $settingsActive ? 'open' : '' }}">
-
             <a href="{{ route('admin.Generalsettings.index') }}"
-               class="{{ request()->routeIs('admin.Generalsettings.index') ? 'active' : '' }}">
-                <i class="bi bi-image"></i> Logo
+               class="{{ request()->routeIs('admin.Generalsettings.*') ? 'active' : '' }}">
+                <i class="bi bi-image"></i> Logo Settings
             </a>
-
-            {{-- ✅ FIX: route('websitefavicon.index') → route('admin.websitefavicon.index') --}}
             <a href="{{ route('admin.websitefavicon.index') }}"
                class="{{ request()->routeIs('admin.websitefavicon.*') ? 'active' : '' }}">
-                <i class="bi bi-layout-text-sidebar"></i> Website Favicon Settings
+                <i class="bi bi-layout-text-sidebar"></i> Website Favicon
             </a>
-
             <a href="#"><i class="bi bi-envelope"></i> Email Settings</a>
             <a href="#"><i class="bi bi-cash-stack"></i> Payment Settings</a>
             <a href="#"><i class="bi bi-share"></i> Social Settings</a>
@@ -661,7 +677,7 @@ body.sb-collapsed .sidebar-submenu { display: none; }
 
     </nav>
 
-    {{-- ── Logout ── --}}
+    {{-- Logout --}}
     <div class="sb-sep" style="margin:0;"></div>
     <form method="POST" action="{{ route('admin.logout') }}" class="sb-logout-form">
         @csrf
