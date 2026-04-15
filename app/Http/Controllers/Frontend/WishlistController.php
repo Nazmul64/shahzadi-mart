@@ -10,7 +10,9 @@ use Illuminate\Support\Facades\Auth;
 
 class WishlistController extends Controller
 {
-    // ── Helper: current owner query ───────────────────────────────
+    // ══════════════════════════════════════════════════════════════
+    //  PRIVATE HELPERS
+    // ══════════════════════════════════════════════════════════════
 
     private function wishlistQuery()
     {
@@ -39,7 +41,6 @@ class WishlistController extends Controller
                               ->latest()
                               ->get();
 
-        // $sidebarCategories ও $websetting → AppServiceProvider View Composer থেকে আসে
         return view('frontend.wishlist', compact('wishlistItems'));
     }
 
@@ -83,6 +84,57 @@ class WishlistController extends Controller
         $item->delete();
 
         return redirect()->back()->with('success', 'পণ্যটি উইশলিস্ট থেকে সরানো হয়েছে।');
+    }
+
+    // ══════════════════════════════════════════════════════════════
+    //  MOVE TO CART  ← মূল পরিবর্তন এখানে
+    //  Wishlist থেকে cart-এ add করে, তারপর wishlist থেকে remove করে
+    // ══════════════════════════════════════════════════════════════
+
+    public function moveToCart($itemId)
+    {
+        // wishlist item খোঁজো (owner-aware)
+        $wishlistItem = $this->wishlistQuery()->findOrFail($itemId);
+
+        $product = Product::where('id', $wishlistItem->product_id)
+                          ->where('status', 'active')
+                          ->firstOrFail();
+
+        // Stock check
+        if (!$product->is_unlimited && ($product->stock ?? 0) < 1) {
+            return redirect()->back()->with('error', 'এই পণ্যটি বর্তমানে স্টকে নেই।');
+        }
+
+        // ── Cart session-এ add ──────────────────────────────────
+        $cart    = session()->get('cart', []);
+        $cartKey = $product->id;
+
+        if (isset($cart[$cartKey])) {
+            $maxQty = $product->is_unlimited ? 999 : ($product->stock ?? 999);
+            $cart[$cartKey]['quantity'] = min($cart[$cartKey]['quantity'] + 1, $maxQty);
+        } else {
+            $cart[$cartKey] = [
+                'product_id'     => $product->id,
+                'name'           => $product->name,
+                'price'          => (float) $product->current_price,
+                'discount_price' => $product->discount_price ? (float) $product->discount_price : null,
+                'quantity'       => 1,
+                'image'          => $product->feature_image,
+                'slug'           => $product->slug,
+                'category'       => $product->category->category_name ?? '',
+                'category_id'    => $product->category_id,
+                'product_type'   => $product->product_type,
+                'selected_color' => null,
+                'selected_size'  => null,
+            ];
+        }
+
+        session()->put('cart', $cart);
+
+        // ── Wishlist থেকে item delete ───────────────────────────
+        $wishlistItem->delete();
+
+        return redirect()->back()->with('success', '"' . $product->name . '" কার্টে যোগ হয়েছে এবং উইশলিস্ট থেকে সরানো হয়েছে।');
     }
 
     // ══════════════════════════════════════════════════════════════

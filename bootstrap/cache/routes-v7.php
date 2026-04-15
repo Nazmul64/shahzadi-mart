@@ -13,7 +13,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::E5t2nALR5litKSun',
+            '_route' => 'generated::FdSWE7kpCBKX5T4j',
           ),
           1 => NULL,
           2 => 
@@ -196,7 +196,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::mEOXJR7AtnAPITuv',
+            '_route' => 'generated::U9SN4wqWgjXaZBi9',
           ),
           1 => NULL,
           2 => 
@@ -216,6 +216,122 @@ app('router')->setCompiledRoutes(
           0 => 
           array (
             '_route' => 'frontend',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/shipping/areas' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'shipping.areas',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/track-order' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'order.track',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'order.track.search',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/search/ajax' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'search.ajax',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/search' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'search.results',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/all-products' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'products.all',
           ),
           1 => NULL,
           2 => 
@@ -1658,6 +1774,62 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
+      '/shipping' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.shipping.index',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.shipping.store',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/shipping/create' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.shipping.create',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
       '/seller/login' => 
       array (
         0 => 
@@ -2011,7 +2183,7 @@ app('router')->setCompiledRoutes(
     ),
     2 => 
     array (
-      0 => '{^(?|/p(?|assword/reset/([^/]++)(*:34)|roduct(?|/([^/]++)(*:59)|s/([^/]++)(?|/(?|toggle\\-(?|status(*:100)|flash\\-sale(*:119)|new\\-arrival(*:139))|catalog\\-(?|add(*:163)|remove(*:177)|highlight(*:194)|gallery(*:209))|update\\-flash\\-sale(*:237)|edit(*:249))|(*:258)))|ermissions/([^/]++)(?|(*:290)|/edit(*:303)|(*:311)))|/c(?|a(?|tegory/(?|([^/]++)(?|(*:351)|/([^/]++)(?|(*:371)|/([^/]++)(*:388)))|create(*:404)|([^/]++)(?|(*:423)|/(?|edit(*:439)|toggle\\-(?|featured(*:466)|status(*:480)))|(*:490)))|rt/(?|add/([^/]++)(*:518)|remove/([^/]++)(*:541)|increase/([^/]++)(*:566)|decrease/([^/]++)(*:591)))|h(?|eckout/success/([^/]++)(*:628)|ildcategory/([^/]++)(?|(*:659)|/(?|edit(*:675)|toggle\\-(?|featured(*:702)|status(*:716)))|(*:726)))|ustomer/([^/]++)(?|(*:755)|/(?|edit(*:771)|status(*:785)|make\\-vendor(*:805))|(*:814))|oupons/([^/]++)(?|(*:841)|/(?|edit(*:857)|status(*:871))|(*:880)))|/w(?|ishlist/(?|add/([^/]++)(*:918)|remove/([^/]++)(*:941))|ebsitefavicon/([^/]++)(?|(*:975)|/edit(*:988)|(*:996)))|/s(?|eller\\-registrations/([^/]++)/(?|approve(*:1051)|re(?|ject(*:1069)|activate(*:1086))|suspend(*:1103)|view(*:1116))|ubcategory/([^/]++)(?|(*:1148)|/(?|edit(*:1165)|toggle\\-(?|featured(*:1193)|status(*:1208)))|(*:1219))|lider/([^/]++)(?|(*:1246)|/edit(*:1260)|(*:1269))|torage/(.*)(*:1290))|/roles/([^/]++)(?|(*:1318)|/(?|edit(*:1335)|assign\\-permission(*:1362)|save\\-assigned\\-permission(*:1397))|(*:1407))|/users/([^/]++)(?|(*:1435)|/(?|edit(*:1452)|toggle\\-status(*:1475))|(*:1485))|/affiliateproduct/([^/]++)(?|/(?|toggle\\-status(*:1542)|edit(*:1555))|(*:1565))|/Generalsettings/([^/]++)(?|(*:1603)|/edit(*:1617)|(*:1626)))/?$}sDu',
+      0 => '{^(?|/p(?|assword/reset/([^/]++)(*:34)|roduct(?|/([^/]++)(*:59)|s/([^/]++)(?|/(?|toggle\\-(?|status(*:100)|flash\\-sale(*:119)|new\\-arrival(*:139))|catalog\\-(?|add(*:163)|remove(*:177)|highlight(*:194)|gallery(*:209))|update\\-flash\\-sale(*:237)|edit(*:249))|(*:258)))|ermissions/([^/]++)(?|(*:290)|/edit(*:303)|(*:311)))|/c(?|a(?|tegory/(?|([^/]++)(?|(*:351)|/([^/]++)(?|(*:371)|/([^/]++)(*:388)))|create(*:404)|([^/]++)(?|(*:423)|/(?|edit(*:439)|toggle\\-(?|featured(*:466)|status(*:480)))|(*:490)))|rt/(?|add/([^/]++)(*:518)|remove/([^/]++)(*:541)|increase/([^/]++)(*:566)|decrease/([^/]++)(*:591)))|h(?|eckout/success/([^/]++)(*:628)|ildcategory/([^/]++)(?|(*:659)|/(?|edit(*:675)|toggle\\-(?|featured(*:702)|status(*:716)))|(*:726)))|ustomer/([^/]++)(?|(*:755)|/(?|edit(*:771)|status(*:785)|make\\-vendor(*:805))|(*:814))|oupons/([^/]++)(?|(*:841)|/(?|edit(*:857)|status(*:871))|(*:880)))|/w(?|ishlist/(?|add/([^/]++)(*:918)|remove/([^/]++)(*:941)|move\\-to\\-cart/([^/]++)(*:972))|ebsitefavicon/([^/]++)(?|(*:1006)|/edit(*:1020)|(*:1029)))|/s(?|eller\\-registrations/([^/]++)/(?|approve(*:1085)|re(?|ject(*:1103)|activate(*:1120))|suspend(*:1137)|view(*:1150))|ubcategory/([^/]++)(?|(*:1182)|/(?|edit(*:1199)|toggle\\-(?|featured(*:1227)|status(*:1242)))|(*:1253))|lider/([^/]++)(?|(*:1280)|/edit(*:1294)|(*:1303))|hipping/([^/]++)(?|/edit(*:1337)|(*:1346))|torage/(.*)(*:1367))|/roles/([^/]++)(?|(*:1395)|/(?|edit(*:1412)|assign\\-permission(*:1439)|save\\-assigned\\-permission(*:1474))|(*:1484))|/users/([^/]++)(?|(*:1512)|/(?|edit(*:1529)|toggle\\-status(*:1552))|(*:1562))|/affiliateproduct/([^/]++)(?|/(?|toggle\\-status(*:1619)|edit(*:1632))|(*:1642))|/Generalsettings/([^/]++)(?|(*:1680)|/edit(*:1694)|(*:1703))|/toggle/([^/]++)(*:1729))/?$}sDu',
     ),
     3 => 
     array (
@@ -2674,7 +2846,7 @@ app('router')->setCompiledRoutes(
           ),
           1 => 
           array (
-            0 => 'id',
+            0 => 'key',
           ),
           2 => 
           array (
@@ -2697,7 +2869,7 @@ app('router')->setCompiledRoutes(
           ),
           1 => 
           array (
-            0 => 'id',
+            0 => 'key',
           ),
           2 => 
           array (
@@ -2720,7 +2892,7 @@ app('router')->setCompiledRoutes(
           ),
           1 => 
           array (
-            0 => 'id',
+            0 => 'key',
           ),
           2 => 
           array (
@@ -3178,7 +3350,30 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      975 => 
+      972 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'wishlist.moveToCart',
+          ),
+          1 => 
+          array (
+            0 => 'itemId',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      1006 => 
       array (
         0 => 
         array (
@@ -3201,7 +3396,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      988 => 
+      1020 => 
       array (
         0 => 
         array (
@@ -3224,7 +3419,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      996 => 
+      1029 => 
       array (
         0 => 
         array (
@@ -3266,7 +3461,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1051 => 
+      1085 => 
       array (
         0 => 
         array (
@@ -3288,7 +3483,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1069 => 
+      1103 => 
       array (
         0 => 
         array (
@@ -3310,7 +3505,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1086 => 
+      1120 => 
       array (
         0 => 
         array (
@@ -3332,7 +3527,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1103 => 
+      1137 => 
       array (
         0 => 
         array (
@@ -3354,7 +3549,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1116 => 
+      1150 => 
       array (
         0 => 
         array (
@@ -3377,7 +3572,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1148 => 
+      1182 => 
       array (
         0 => 
         array (
@@ -3400,7 +3595,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1165 => 
+      1199 => 
       array (
         0 => 
         array (
@@ -3423,7 +3618,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1193 => 
+      1227 => 
       array (
         0 => 
         array (
@@ -3446,7 +3641,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1208 => 
+      1242 => 
       array (
         0 => 
         array (
@@ -3469,7 +3664,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1219 => 
+      1253 => 
       array (
         0 => 
         array (
@@ -3511,7 +3706,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1246 => 
+      1280 => 
       array (
         0 => 
         array (
@@ -3534,7 +3729,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1260 => 
+      1294 => 
       array (
         0 => 
         array (
@@ -3557,7 +3752,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1269 => 
+      1303 => 
       array (
         0 => 
         array (
@@ -3599,7 +3794,72 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1290 => 
+      1337 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.shipping.edit',
+          ),
+          1 => 
+          array (
+            0 => 'shipping',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      1346 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.shipping.update',
+          ),
+          1 => 
+          array (
+            0 => 'shipping',
+          ),
+          2 => 
+          array (
+            'PUT' => 0,
+            'PATCH' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.shipping.destroy',
+          ),
+          1 => 
+          array (
+            0 => 'shipping',
+          ),
+          2 => 
+          array (
+            'DELETE' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      1367 => 
       array (
         0 => 
         array (
@@ -3622,7 +3882,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1318 => 
+      1395 => 
       array (
         0 => 
         array (
@@ -3645,7 +3905,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1335 => 
+      1412 => 
       array (
         0 => 
         array (
@@ -3668,7 +3928,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1362 => 
+      1439 => 
       array (
         0 => 
         array (
@@ -3691,7 +3951,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1397 => 
+      1474 => 
       array (
         0 => 
         array (
@@ -3713,7 +3973,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1407 => 
+      1484 => 
       array (
         0 => 
         array (
@@ -3755,7 +4015,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1435 => 
+      1512 => 
       array (
         0 => 
         array (
@@ -3778,7 +4038,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1452 => 
+      1529 => 
       array (
         0 => 
         array (
@@ -3801,7 +4061,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1475 => 
+      1552 => 
       array (
         0 => 
         array (
@@ -3823,7 +4083,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1485 => 
+      1562 => 
       array (
         0 => 
         array (
@@ -3865,7 +4125,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1542 => 
+      1619 => 
       array (
         0 => 
         array (
@@ -3887,7 +4147,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1555 => 
+      1632 => 
       array (
         0 => 
         array (
@@ -3910,7 +4170,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1565 => 
+      1642 => 
       array (
         0 => 
         array (
@@ -3972,7 +4232,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1603 => 
+      1680 => 
       array (
         0 => 
         array (
@@ -3995,7 +4255,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1617 => 
+      1694 => 
       array (
         0 => 
         array (
@@ -4018,7 +4278,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1626 => 
+      1703 => 
       array (
         0 => 
         array (
@@ -4059,7 +4319,30 @@ app('router')->setCompiledRoutes(
           5 => true,
           6 => NULL,
         ),
-        2 => 
+      ),
+      1729 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.toggle',
+          ),
+          1 => 
+          array (
+            0 => 'shipping',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+        1 => 
         array (
           0 => NULL,
           1 => NULL,
@@ -4075,7 +4358,7 @@ app('router')->setCompiledRoutes(
   ),
   'attributes' => 
   array (
-    'generated::E5t2nALR5litKSun' => 
+    'generated::FdSWE7kpCBKX5T4j' => 
     array (
       'methods' => 
       array (
@@ -4103,8 +4386,8 @@ app('router')->setCompiledRoutes(
                     return response(\\Illuminate\\Support\\Facades\\View::file(\'E:\\\\shahzadi-mart\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Foundation\\\\Configuration\'.\'/../resources/health-up.blade.php\', [
                         \'exception\' => $exception,
                     ]), status: $exception ? 500 : 200);
-                }";s:5:"scope";s:54:"Illuminate\\Foundation\\Configuration\\ApplicationBuilder";s:4:"this";N;s:4:"self";s:32:"00000000000006980000000000000000";}}',
-        'as' => 'generated::E5t2nALR5litKSun',
+                }";s:5:"scope";s:54:"Illuminate\\Foundation\\Configuration\\ApplicationBuilder";s:4:"this";N;s:4:"self";s:32:"00000000000006a60000000000000000";}}',
+        'as' => 'generated::FdSWE7kpCBKX5T4j',
       ),
       'fallback' => false,
       'defaults' => 
@@ -4485,7 +4768,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::mEOXJR7AtnAPITuv' => 
+    'generated::U9SN4wqWgjXaZBi9' => 
     array (
       'methods' => 
       array (
@@ -4505,7 +4788,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::mEOXJR7AtnAPITuv',
+        'as' => 'generated::U9SN4wqWgjXaZBi9',
       ),
       'fallback' => false,
       'defaults' => 
@@ -4706,6 +4989,227 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
+    'shipping.areas' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'shipping/areas',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Admin\\ShippingChargeController@activeAreas',
+        'controller' => 'App\\Http\\Controllers\\Admin\\ShippingChargeController@activeAreas',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'shipping.areas',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'order.track' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'track-order',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Frontend\\OrderTrackController@index',
+        'controller' => 'App\\Http\\Controllers\\Frontend\\OrderTrackController@index',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'order.track',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'order.track.search' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'track-order',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Frontend\\OrderTrackController@track',
+        'controller' => 'App\\Http\\Controllers\\Frontend\\OrderTrackController@track',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'order.track.search',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'search.ajax' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'search/ajax',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Frontend\\SearchController@ajax',
+        'controller' => 'App\\Http\\Controllers\\Frontend\\SearchController@ajax',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'search.ajax',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'search.results' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'search',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Frontend\\SearchController@results',
+        'controller' => 'App\\Http\\Controllers\\Frontend\\SearchController@results',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'search.results',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'products.all' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'all-products',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Frontend\\FrontendController@allProducts',
+        'controller' => 'App\\Http\\Controllers\\Frontend\\FrontendController@allProducts',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'products.all',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
     'cart' => 
     array (
       'methods' => 
@@ -4787,7 +5291,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'cart/remove/{id}',
+      'uri' => 'cart/remove/{key}',
       'action' => 
       array (
         'middleware' => 
@@ -4824,7 +5328,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'cart/increase/{id}',
+      'uri' => 'cart/increase/{key}',
       'action' => 
       array (
         'middleware' => 
@@ -4861,7 +5365,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'cart/decrease/{id}',
+      'uri' => 'cart/decrease/{key}',
       'action' => 
       array (
         'middleware' => 
@@ -5097,6 +5601,43 @@ app('router')->setCompiledRoutes(
         array (
         ),
         'as' => 'wishlist.clear',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'wishlist.moveToCart' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'wishlist/move-to-cart/{itemId}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Frontend\\WishlistController@moveToCart',
+        'controller' => 'App\\Http\\Controllers\\Frontend\\WishlistController@moveToCart',
+        'namespace' => NULL,
+        'prefix' => '/wishlist',
+        'where' => 
+        array (
+        ),
+        'as' => 'wishlist.moveToCart',
       ),
       'fallback' => false,
       'defaults' => 
@@ -10748,6 +11289,270 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
+    'admin.shipping.index' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'shipping',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.shipping.index',
+        'uses' => 'App\\Http\\Controllers\\Admin\\ShippingChargeController@index',
+        'controller' => 'App\\Http\\Controllers\\Admin\\ShippingChargeController@index',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.shipping.create' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'shipping/create',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.shipping.create',
+        'uses' => 'App\\Http\\Controllers\\Admin\\ShippingChargeController@create',
+        'controller' => 'App\\Http\\Controllers\\Admin\\ShippingChargeController@create',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.shipping.store' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'shipping',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.shipping.store',
+        'uses' => 'App\\Http\\Controllers\\Admin\\ShippingChargeController@store',
+        'controller' => 'App\\Http\\Controllers\\Admin\\ShippingChargeController@store',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.shipping.edit' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'shipping/{shipping}/edit',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.shipping.edit',
+        'uses' => 'App\\Http\\Controllers\\Admin\\ShippingChargeController@edit',
+        'controller' => 'App\\Http\\Controllers\\Admin\\ShippingChargeController@edit',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.shipping.update' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'PUT',
+        1 => 'PATCH',
+      ),
+      'uri' => 'shipping/{shipping}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.shipping.update',
+        'uses' => 'App\\Http\\Controllers\\Admin\\ShippingChargeController@update',
+        'controller' => 'App\\Http\\Controllers\\Admin\\ShippingChargeController@update',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.shipping.destroy' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'DELETE',
+      ),
+      'uri' => 'shipping/{shipping}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.shipping.destroy',
+        'uses' => 'App\\Http\\Controllers\\Admin\\ShippingChargeController@destroy',
+        'controller' => 'App\\Http\\Controllers\\Admin\\ShippingChargeController@destroy',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.toggle' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'toggle/{shipping}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Admin\\ShippingChargeController@toggleStatus',
+        'controller' => 'App\\Http\\Controllers\\Admin\\ShippingChargeController@toggleStatus',
+        'as' => 'admin.toggle',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
     'saller.login' => 
     array (
       'methods' => 
@@ -11428,7 +12233,7 @@ app('router')->setCompiledRoutes(
                         $config,
                         $isProduction
                     ))($request, $path);
-                }";s:5:"scope";s:47:"Illuminate\\Filesystem\\FilesystemServiceProvider";s:4:"this";N;s:4:"self";s:32:"00000000000006910000000000000000";}}',
+                }";s:5:"scope";s:47:"Illuminate\\Filesystem\\FilesystemServiceProvider";s:4:"this";N;s:4:"self";s:32:"000000000000069f0000000000000000";}}',
         'as' => 'storage.local',
       ),
       'fallback' => false,

@@ -25,12 +25,15 @@ use App\Http\Controllers\Saller\SellerauthController;
 use App\Http\Controllers\Subadmin\SubadminController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Admin\GeneralsettingController;
+use App\Http\Controllers\Admin\ShippingChargeController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\WebsitefaviconController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\WishlistController;
 use App\Http\Controllers\Frontend\CheckoutController;
+use App\Http\Controllers\Frontend\OrderTrackController;
+use App\Http\Controllers\Frontend\SearchController;
 
 Auth::routes();
 
@@ -52,25 +55,47 @@ Route::get('/category/{catSlug}/{subSlug}/{childSlug}', [FrontendController::cla
 // CART ROUTES  (session-based, no login required)
 // ══════════════════════════════════════════════════════════════════════════════
 
+Route::get('/shipping/areas', [ShippingChargeController::class, 'activeAreas'])->name('shipping.areas');
+// Order Tracking
+Route::get('/track-order',  [OrderTrackController::class, 'index'])->name('order.track');
+Route::post('/track-order', [OrderTrackController::class, 'track'])->name('order.track.search');
+
+// Ajax live search (JSON response)
+Route::get('/search/ajax', [SearchController::class, 'ajax'])->name('search.ajax');
+// Full search results page
+Route::get('/search', [SearchController::class, 'results'])->name('search.results');
+// সব পণ্য পেজ (sort, filter, search, pagination সহ)
+Route::get('/all-products', [FrontendController::class, 'allProducts'])->name('products.all');
+// ══════════════════════════════════════════════════════════════════════════════
+// CART ROUTES
+// ✅ add() এখন Request inject করে (color/size query param পড়ার জন্য)
+// ══════════════════════════════════════════════════════════════════════════════
+
+// ══════════════════════════════════════════════════════════════════════════════
+// CART ROUTES
+// ══════════════════════════════════════════════════════════════════════════════
+
 Route::prefix('cart')->group(function () {
-    Route::get('/',              [CartController::class, 'index'])->name('cart');
-    Route::get('/add/{id}',      [CartController::class, 'add'])->name('cart.add');
-    Route::get('/remove/{id}',   [CartController::class, 'remove'])->name('cart.remove');
-    Route::get('/increase/{id}', [CartController::class, 'increase'])->name('cart.increase');
-    Route::get('/decrease/{id}', [CartController::class, 'decrease'])->name('cart.decrease');
-    Route::get('/clear',         [CartController::class, 'clear'])->name('cart.clear');
-    Route::post('/coupon',       [CartController::class, 'coupon'])->name('cart.coupon');
+    Route::get('/',               [CartController::class, 'index'])->name('cart');
+    Route::get('/add/{id}',       [CartController::class, 'add'])->name('cart.add');
+    Route::get('/remove/{key}',   [CartController::class, 'remove'])->name('cart.remove');
+    Route::get('/increase/{key}', [CartController::class, 'increase'])->name('cart.increase');
+    Route::get('/decrease/{key}', [CartController::class, 'decrease'])->name('cart.decrease');
+    Route::get('/clear',          [CartController::class, 'clear'])->name('cart.clear');
+    Route::post('/coupon',        [CartController::class, 'coupon'])->name('cart.coupon');
 });
 
 // ══════════════════════════════════════════════════════════════════════════════
-// WISHLIST ROUTES  (works for guests + logged-in users)
+// WISHLIST ROUTES  ← নতুন route: wishlist.moveToCart
 // ══════════════════════════════════════════════════════════════════════════════
 
 Route::prefix('wishlist')->group(function () {
-    Route::get('/',            [WishlistController::class, 'index'])->name('wishlist');
-    Route::get('/add/{id}',    [WishlistController::class, 'add'])->name('wishlist.add');
-    Route::get('/remove/{id}', [WishlistController::class, 'remove'])->name('wishlist.remove');
-    Route::get('/clear',       [WishlistController::class, 'clear'])->name('wishlist.clear');
+    Route::get('/',                    [WishlistController::class, 'index'])->name('wishlist');
+    Route::get('/add/{id}',            [WishlistController::class, 'add'])->name('wishlist.add');
+    Route::get('/remove/{id}',         [WishlistController::class, 'remove'])->name('wishlist.remove');
+    Route::get('/clear',               [WishlistController::class, 'clear'])->name('wishlist.clear');
+    // ↓ নতুন: wishlist item কে cart-এ move করে এবং wishlist থেকে delete করে
+    Route::get('/move-to-cart/{itemId}', [WishlistController::class, 'moveToCart'])->name('wishlist.moveToCart');
 });
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -82,6 +107,8 @@ Route::prefix('checkout')->group(function () {
     Route::post('/place',                [CheckoutController::class, 'place'])->name('checkout.place');
     Route::get('/success/{orderNumber}', [CheckoutController::class, 'success'])->name('order.success');
 });
+
+
 
 // ══════════════════════════════════════════════════════════════════════════════
 // GENERAL AUTH
@@ -230,7 +257,11 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
 
     // ── Slider ────────────────────────────────────────────────────────────────
     Route::resource('slider', SliderController::class);
-
+    // Shipping Charge — Resource Routes
+    Route::resource('shipping', ShippingChargeController::class)->except(['show']);
+    // Toggle Status (extra route)
+    // Route::patch('shipping/{shipping}/toggle-status', [ShippingChargeController::class, 'toggleStatus'])->name('shipping.toggle-status');
+    Route::get('/toggle/{shipping}',           [ShippingChargeController::class, 'toggleStatus'])->name('toggle');
 }); // end admin named group
 
 

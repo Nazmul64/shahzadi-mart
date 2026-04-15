@@ -208,4 +208,84 @@ class FrontendController extends Controller
     {
         return view('userdashboard.master');
     }
+    public function allProducts(Request $request)
+{
+    $websetting        = Generalsetting::first();
+    $categories        = Category::where('status', 'active')->get();
+    $sidebarCategories = $this->getSidebarCategories();
+
+    // ── Base Query ──
+    $query = Product::where('status', 'active');
+
+    // ── Filter: Category ──
+    if ($request->filled('category')) {
+        $cat = Category::where('slug', $request->category)->first();
+        if ($cat) {
+            $subIds   = $cat->subCategories()->pluck('id');
+            $childIds = \App\Models\ChildSubCategory::whereIn('sub_category_id', $subIds)->pluck('id');
+
+            $query->where(function ($q) use ($cat, $subIds, $childIds) {
+                $q->where('category_id', $cat->id)
+                  ->orWhereIn('sub_category_id', $subIds)
+                  ->orWhereIn('child_sub_category_id', $childIds);
+            });
+        }
+    }
+
+    // ── Filter: Search ──
+    if ($request->filled('search')) {
+        $search = $request->search;
+        $query->where(function ($q) use ($search) {
+            $q->where('name', 'like', "%{$search}%")
+              ->orWhere('description', 'like', "%{$search}%");
+        });
+    }
+
+    // ── Filter: Price Range ──
+    if ($request->filled('min_price')) {
+        $query->where(function ($q) use ($request) {
+            $q->whereRaw('COALESCE(discount_price, current_price) >= ?', [$request->min_price]);
+        });
+    }
+    if ($request->filled('max_price')) {
+        $query->where(function ($q) use ($request) {
+            $q->whereRaw('COALESCE(discount_price, current_price) <= ?', [$request->max_price]);
+        });
+    }
+
+    // ── Filter: In Stock ──
+    if ($request->filled('in_stock')) {
+        $query->where(function ($q) {
+            $q->where('is_unlimited', true)
+              ->orWhere('stock', '>', 0);
+        });
+    }
+
+    // ── Sort ──
+    switch ($request->get('sort', 'latest')) {
+        case 'price_low':
+            $query->orderByRaw('COALESCE(discount_price, current_price) ASC');
+            break;
+        case 'price_high':
+            $query->orderByRaw('COALESCE(discount_price, current_price) DESC');
+            break;
+        case 'name_asc':
+            $query->orderBy('name', 'asc');
+            break;
+        case 'discount':
+            $query->whereNotNull('discount_price')
+                  ->where('discount_price', '>', 0)
+                  ->orderByRaw('(current_price - discount_price) DESC');
+            break;
+        default: // 'latest'
+            $query->latest();
+            break;
+    }
+
+    $products = $query->paginate(20)->withQueryString();
+
+    return view('frontend.allproducts', compact(
+        'products', 'categories', 'websetting', 'sidebarCategories'
+    ));
+}
 }

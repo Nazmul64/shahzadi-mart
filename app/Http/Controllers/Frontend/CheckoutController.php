@@ -7,14 +7,13 @@ use App\Models\Coupon;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
+use App\Models\ShippingCharge;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class CheckoutController extends Controller
 {
-    private const DELIVERY_FEE = 70;
-
     // ══════════════════════════════════════════════════════════════
     //  SHOW CHECKOUT PAGE
     // ══════════════════════════════════════════════════════════════
@@ -27,7 +26,6 @@ class CheckoutController extends Controller
             return redirect()->route('cart')->with('error', 'কার্ট খালি আছে।');
         }
 
-        // $sidebarCategories ও $websetting → AppServiceProvider View Composer থেকে আসে
         return view('frontend.checkout');
     }
 
@@ -38,12 +36,13 @@ class CheckoutController extends Controller
     public function place(Request $request)
     {
         $request->validate([
-            'customer_name'  => 'required|string|max:120',
-            'phone'          => 'required|string|max:20',
-            'address'        => 'required|string|max:500',
-            'delivery_area'  => 'required|string|max:100',
-            'note'           => 'nullable|string|max:500',
-            'payment_method' => 'required|in:cod,bkash,shurjopay,uddoktapay,aamarpay',
+            'customer_name'    => 'required|string|max:120',
+            'phone'            => 'required|string|max:20',
+            'address'          => 'required|string|max:500',
+            'delivery_area'    => 'required|string|max:100',
+            'shipping_charge_id' => 'nullable|exists:shipping_charges,id',
+            'note'             => 'nullable|string|max:500',
+            'payment_method'   => 'required|in:cod,bkash,shurjopay,uddoktapay,aamarpay',
         ]);
 
         $cartItems = session()->get('cart', []);
@@ -52,10 +51,17 @@ class CheckoutController extends Controller
             return redirect()->route('cart')->with('error', 'কার্ট খালি আছে।');
         }
 
-        // ── Calculate totals ───────────────────────────────────────
-        $subtotal    = 0;
-        $discount    = (float) session()->get('coupon_discount', 0);
-        $deliveryFee = self::DELIVERY_FEE;
+        // ── Delivery fee: DB থেকে নাও, না পেলে fallback ──────────
+        $deliveryFee = 0;
+        if ($request->filled('shipping_charge_id')) {
+            $shippingRecord = ShippingCharge::active()
+                                ->find($request->shipping_charge_id);
+            $deliveryFee = $shippingRecord ? (float) $shippingRecord->amount : 0;
+        }
+
+        // ── Calculate totals ────────────────────────────────────
+        $subtotal = 0;
+        $discount = (float) session()->get('coupon_discount', 0);
 
         foreach ($cartItems as $item) {
             $price     = ($item['discount_price'] ?? null) ?: $item['price'];
@@ -64,12 +70,12 @@ class CheckoutController extends Controller
 
         $total = $subtotal - $discount + $deliveryFee;
 
-        // ── Route to payment gateway if not COD ───────────────────
+        // ── Route to payment gateway if not COD ─────────────────
         if ($request->payment_method !== 'cod') {
             return $this->redirectToGateway($request, $subtotal, $discount, $deliveryFee, $total);
         }
 
-        // ── Create order in DB (wrapped in transaction) ────────────
+        // ── Create order (DB transaction) ────────────────────────
         DB::beginTransaction();
         try {
             $order = Order::create([
@@ -90,7 +96,9 @@ class CheckoutController extends Controller
                 'coupon_code'    => session()->get('coupon_code'),
             ]);
 
-            foreach ($cartItems as $productId => $item) {
+            foreach ($cartItems as $cartKey => $item) {
+                // ✅ product_id: item এ stored (variant-aware cart key এর জন্য)
+                $productId = $item['product_id'] ?? $cartKey;
                 $unitPrice = ($item['discount_price'] ?? null) ?: $item['price'];
 
                 OrderItem::create([
@@ -103,16 +111,19 @@ class CheckoutController extends Controller
                     'original_price' => $item['price'],
                     'quantity'       => $item['quantity'],
                     'subtotal'       => $unitPrice * $item['quantity'],
+                    // ✅ color & size যদি orders_items table এ column থাকে
+                    'selected_color' => $item['selected_color'] ?? null,
+                    'selected_size'  => $item['selected_size'] ?? null,
                 ]);
 
-                // ── Stock কমাও ─────────────────────────────────────
+                // ── Stock কমাও ──────────────────────────────────
                 $product = Product::find($productId);
                 if ($product && !$product->is_unlimited && $product->stock !== null) {
                     $product->decrement('stock', $item['quantity']);
                 }
             }
 
-            // ── কুপন used count বাড়াও ─────────────────────────────
+            // ── কুপন used count ──────────────────────────────────
             $couponId = session()->get('coupon_id');
             if ($couponId) {
                 Coupon::where('id', $couponId)->increment('used');
@@ -125,7 +136,6 @@ class CheckoutController extends Controller
             return redirect()->back()->with('error', 'অর্ডার প্রক্রিয়া করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।');
         }
 
-        // ── Cart ও coupon session পরিষ্কার করো ────────────────────
         session()->forget(['cart', 'coupon_code', 'coupon_discount', 'coupon_id']);
 
         return redirect()->route('order.success', $order->order_number)
@@ -142,7 +152,6 @@ class CheckoutController extends Controller
                       ->where('order_number', $orderNumber)
                       ->firstOrFail();
 
-        // $sidebarCategories ও $websetting → AppServiceProvider View Composer থেকে আসে
         return view('frontend.order_success', compact('order'));
     }
 
@@ -172,7 +181,6 @@ class CheckoutController extends Controller
             'coupon_id'      => session()->get('coupon_id'),
         ]);
 
-        // TODO: প্রতিটি gateway এর জন্য আলাদা controller বানাও
         return redirect()->back()
                          ->with('info', $request->payment_method . ' gateway শীঘ্রই চালু হবে। Cash on Delivery ব্যবহার করুন।');
     }

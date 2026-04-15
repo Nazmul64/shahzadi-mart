@@ -668,7 +668,7 @@ body.sb-collapsed .sidebar-submenu { display: none; }
                 <i class="bi bi-layout-text-sidebar"></i> Website Favicon
             </a>
             <a href="#"><i class="bi bi-envelope"></i> Email Settings</a>
-            <a href="#"><i class="bi bi-cash-stack"></i> Payment Settings</a>
+            <a href="{{route('admin.shipping.index')}}"><i class="bi bi-cash-stack"></i>Shipping Charge</a>
             <a href="#"><i class="bi bi-share"></i> Social Settings</a>
             <a href="#"><i class="bi bi-translate"></i> Language Settings</a>
             <a href="#"><i class="bi bi-fonts"></i> Font Options</a>
