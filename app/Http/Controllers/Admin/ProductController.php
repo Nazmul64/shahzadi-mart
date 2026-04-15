@@ -9,9 +9,14 @@ use App\Models\Category;
 use App\Models\SubCategory;
 use App\Models\ChildSubCategory;
 use Illuminate\Support\Str;
+use Illuminate\Support\Carbon;
 
 class ProductController extends Controller
 {
+    // ══════════════════════════════════════════════════════════════
+    //  INDEX / CREATE / STORE
+    // ══════════════════════════════════════════════════════════════
+
     public function index()
     {
         $products = Product::with('category', 'subCategory', 'childSubCategory')
@@ -33,6 +38,11 @@ class ProductController extends Controller
             'current_price' => 'required|numeric|min:0',
             'description'   => 'required',
             'feature_image' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
+
+            // Flash sale
+            'flash_sale_price'      => 'nullable|numeric|min:0',
+            'flash_sale_starts_at'  => 'nullable|date',
+            'flash_sale_ends_at'    => 'nullable|date|after_or_equal:flash_sale_starts_at',
         ]);
 
         // ── Feature Image ──────────────────────────────────────────
@@ -117,6 +127,22 @@ class ProductController extends Controller
             ? trim($request->sku)
             : strtoupper(Str::random(3)) . rand(100000, 999999) . strtolower(Str::random(2));
 
+        // ── Flash Sale ─────────────────────────────────────────────
+        $isFlashSale      = $request->boolean('is_flash_sale');
+        $flashSalePrice   = $isFlashSale && $request->filled('flash_sale_price')
+                                ? (float) $request->flash_sale_price
+                                : null;
+        $flashSaleStarts  = $isFlashSale && $request->filled('flash_sale_starts_at')
+                                ? Carbon::parse($request->flash_sale_starts_at)
+                                : null;
+        $flashSaleEnds    = $isFlashSale && $request->filled('flash_sale_ends_at')
+                                ? Carbon::parse($request->flash_sale_ends_at)
+                                : null;
+
+        // ── New Arrival ────────────────────────────────────────────
+        $isNewArrival = $request->boolean('is_new_arrival');
+        $arrivedAt    = $isNewArrival ? Carbon::now() : null;
+
         Product::create([
             'name'                  => $request->name,
             'slug'                  => Str::slug($request->name),
@@ -145,11 +171,25 @@ class ProductController extends Controller
             'is_highlighted'        => false,
             'meta_tags'             => $request->meta_tags,
             'meta_description'      => $request->meta_description,
+
+            // Flash Sale
+            'is_flash_sale'         => $isFlashSale,
+            'flash_sale_price'      => $flashSalePrice,
+            'flash_sale_starts_at'  => $flashSaleStarts,
+            'flash_sale_ends_at'    => $flashSaleEnds,
+
+            // New Arrival
+            'is_new_arrival'        => $isNewArrival,
+            'arrived_at'            => $arrivedAt,
         ]);
 
         return redirect()->route('admin.products.index')
                          ->with('success', 'Product Created Successfully');
     }
+
+    // ══════════════════════════════════════════════════════════════
+    //  SHOW / EDIT / UPDATE
+    // ══════════════════════════════════════════════════════════════
 
     public function show(string $id)
     {
@@ -183,6 +223,11 @@ class ProductController extends Controller
             'category_id'   => 'required|exists:categories,id',
             'current_price' => 'required|numeric|min:0',
             'description'   => 'required',
+
+            // Flash sale
+            'flash_sale_price'      => 'nullable|numeric|min:0',
+            'flash_sale_starts_at'  => 'nullable|date',
+            'flash_sale_ends_at'    => 'nullable|date|after_or_equal:flash_sale_starts_at',
         ]);
 
         // ── Feature Image ──────────────────────────────────────────
@@ -274,6 +319,27 @@ class ProductController extends Controller
         $isUnlimited = $request->boolean('is_unlimited');
         $stock       = $isUnlimited ? null : (int) $request->stock;
 
+        // ── Flash Sale ─────────────────────────────────────────────
+        $isFlashSale      = $request->boolean('is_flash_sale');
+        $flashSalePrice   = $isFlashSale && $request->filled('flash_sale_price')
+                                ? (float) $request->flash_sale_price
+                                : null;
+        $flashSaleStarts  = $isFlashSale && $request->filled('flash_sale_starts_at')
+                                ? Carbon::parse($request->flash_sale_starts_at)
+                                : null;
+        $flashSaleEnds    = $isFlashSale && $request->filled('flash_sale_ends_at')
+                                ? Carbon::parse($request->flash_sale_ends_at)
+                                : null;
+
+        // ── New Arrival ────────────────────────────────────────────
+        $isNewArrival = $request->boolean('is_new_arrival');
+        // Preserve original arrived_at if was already a new arrival, else set now
+        $arrivedAt = match(true) {
+            $isNewArrival && !$product->is_new_arrival => Carbon::now(),
+            $isNewArrival && $product->is_new_arrival  => $product->arrived_at,
+            default                                    => null,
+        };
+
         $product->update([
             'name'                  => $request->name,
             'slug'                  => Str::slug($request->name),
@@ -300,11 +366,25 @@ class ProductController extends Controller
             'feature_tags'          => $featureTags,
             'meta_tags'             => $request->meta_tags,
             'meta_description'      => $request->meta_description,
+
+            // Flash Sale
+            'is_flash_sale'         => $isFlashSale,
+            'flash_sale_price'      => $flashSalePrice,
+            'flash_sale_starts_at'  => $flashSaleStarts,
+            'flash_sale_ends_at'    => $flashSaleEnds,
+
+            // New Arrival
+            'is_new_arrival'        => $isNewArrival,
+            'arrived_at'            => $arrivedAt,
         ]);
 
         return redirect()->route('admin.products.index')
                          ->with('success', 'Product Updated Successfully');
     }
+
+    // ══════════════════════════════════════════════════════════════
+    //  DESTROY
+    // ══════════════════════════════════════════════════════════════
 
     public function destroy(string $id)
     {
@@ -435,5 +515,95 @@ class ProductController extends Controller
             'product' => $product->name,
             'gallery' => $gallery->values(),
         ]);
+    }
+
+    // ══════════════════════════════════════════════════════════════
+    //  FLASH SALES
+    // ══════════════════════════════════════════════════════════════
+
+    /** Admin list of all products that have flash sale enabled */
+    public function flashSalesIndex()
+    {
+        $products = Product::with('category', 'subCategory')
+                        ->where('is_flash_sale', true)
+                        ->latest()->get();
+        return view('admin.product.flash_sales', compact('products'));
+    }
+
+    /** Toggle flash sale on/off for a product */
+    public function toggleFlashSale(string $id)
+    {
+        $product               = Product::findOrFail($id);
+        $product->is_flash_sale = !$product->is_flash_sale;
+
+        // If turning off, clear sale dates
+        if (!$product->is_flash_sale) {
+            $product->flash_sale_price      = null;
+            $product->flash_sale_starts_at  = null;
+            $product->flash_sale_ends_at    = null;
+        }
+
+        $product->save();
+
+        $msg = $product->is_flash_sale
+            ? 'Product added to flash sale'
+            : 'Product removed from flash sale';
+
+        return redirect()->back()->with('success', $msg);
+    }
+
+    /**
+     * Quick-update flash sale price & dates from the flash sales list view
+     * without opening the full edit form.
+     */
+    public function updateFlashSale(Request $request, string $id)
+    {
+        $request->validate([
+            'flash_sale_price'     => 'required|numeric|min:0',
+            'flash_sale_starts_at' => 'nullable|date',
+            'flash_sale_ends_at'   => 'nullable|date|after_or_equal:flash_sale_starts_at',
+        ]);
+
+        $product = Product::findOrFail($id);
+        $product->update([
+            'is_flash_sale'        => true,
+            'flash_sale_price'     => (float) $request->flash_sale_price,
+            'flash_sale_starts_at' => $request->filled('flash_sale_starts_at')
+                                        ? Carbon::parse($request->flash_sale_starts_at)
+                                        : null,
+            'flash_sale_ends_at'   => $request->filled('flash_sale_ends_at')
+                                        ? Carbon::parse($request->flash_sale_ends_at)
+                                        : null,
+        ]);
+
+        return redirect()->back()->with('success', 'Flash sale updated successfully');
+    }
+
+    // ══════════════════════════════════════════════════════════════
+    //  NEW ARRIVALS
+    // ══════════════════════════════════════════════════════════════
+
+    /** Admin list of all new arrival products */
+    public function newArrivalsIndex()
+    {
+        $products = Product::with('category', 'subCategory')
+                        ->where('is_new_arrival', true)
+                        ->latest('arrived_at')->get();
+        return view('admin.product.new_arrivals', compact('products'));
+    }
+
+    /** Toggle new arrival flag on/off for a product */
+    public function toggleNewArrival(string $id)
+    {
+        $product               = Product::findOrFail($id);
+        $product->is_new_arrival = !$product->is_new_arrival;
+        $product->arrived_at     = $product->is_new_arrival ? Carbon::now() : null;
+        $product->save();
+
+        $msg = $product->is_new_arrival
+            ? 'Product marked as new arrival'
+            : 'Product removed from new arrivals';
+
+        return redirect()->back()->with('success', $msg);
     }
 }

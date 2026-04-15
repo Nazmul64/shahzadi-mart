@@ -4,18 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shahzadimart Shop </title>
+    <title>Shahzadimart Shop</title>
 
     {{-- ── Google Fonts ── --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700;800;900&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     {{-- ── Bootstrap Icons CDN ── --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     {{-- ── Toastr ── --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
@@ -200,9 +199,7 @@
         box-shadow: var(--sh-red);
         transform: translateY(-1px);
     }
-    .track-order-btn:hover .bi {
-        transform: translateX(3px);
-    }
+    .track-order-btn:hover .bi { transform: translateX(3px); }
 
     /* Track Order Modal */
     .track-modal-backdrop {
@@ -295,7 +292,9 @@
         transform: translateY(-1px);
     }
 
-    /* Action Icons */
+    /* ═══════════════════════════════════════════════════════════
+       ACTION ICONS
+    ═══════════════════════════════════════════════════════════ */
     .hdr-actions { display: flex; align-items: center; gap: 2px; flex-shrink: 0; }
     .h-act {
         position: relative; display: flex; flex-direction: column;
@@ -322,6 +321,8 @@
         padding: 0 3px; border: 2px solid var(--white);
         animation: badge-pop .3s var(--bounce) both;
     }
+    /* Hide badge when zero */
+    .h-badge.zero { display: none; }
     @keyframes badge-pop { from{transform:scale(0)} to{transform:scale(1)} }
 
     /* Account dropdown */
@@ -531,7 +532,6 @@
         content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
         width: 28px; height: 3px; background: var(--red); border-radius: 0 0 4px 4px;
     }
-    /* Track Order mobile nav item — special highlight */
     .mob-nav__item--track { color: var(--red); }
     .mob-nav__item--track .bi { font-size: 20px; }
     .mob-nav__badge {
@@ -542,13 +542,13 @@
         display: flex; align-items: center; justify-content: center;
         border: 2px solid var(--white); padding: 0 2px;
     }
+    .mob-nav__badge.zero { display: none; }
 
     /* ═══════════════════════════════════════════════════════════
        RESPONSIVE — Tablet ≤ 1100px
     ═══════════════════════════════════════════════════════════ */
     @media (max-width: 1100px) {
         :root { --sb: 240px; }
-        /* Hide track order text label on tablet, show icon only */
         .track-order-btn .track-lbl { display: none; }
         .track-order-btn { padding: 8px 12px; gap: 0; }
     }
@@ -577,13 +577,11 @@
         .sidebar.is-open { left: 0; box-shadow: 4px 0 30px rgba(0,0,0,.18); }
         .hamb { display: flex; }
         .mob-nav { display: block; }
-
-        /* Hide desktop Track Order button — available in bottom nav */
         .track-order-btn { display: none; }
     }
 
     /* ═══════════════════════════════════════════════════════════
-       RESPONSIVE — Phone ≤ 768px — Two-row header
+       RESPONSIVE — Phone ≤ 768px
     ═══════════════════════════════════════════════════════════ */
     @media (max-width: 768px) {
         .site-hdr__in {
@@ -593,15 +591,9 @@
             gap: 0;
             row-gap: 0;
         }
-
-        /* Row 1 */
         .hamb    { order: 1; margin-right: 8px; }
         .logo    { order: 2; flex: 1; font-size: 19px; min-width: 0; }
-        .hdr-actions {
-            order: 3; flex-shrink: 0; gap: 0; margin-left: 4px;
-        }
-
-        /* Row 2 */
+        .hdr-actions { order: 3; flex-shrink: 0; gap: 0; margin-left: 4px; }
         .hdr-search {
             order: 4; flex: 0 0 100%;
             margin-top: 8px; border-radius: var(--rm);
@@ -611,14 +603,10 @@
             border-radius: 0 var(--rm) var(--rm) 0;
         }
         .hdr-search input { padding: 9px 14px; font-size: 13px; }
-
-        /* Compact action icons */
         .h-act { padding: 6px 7px; min-width: auto; gap: 0; }
         .h-act .bi { font-size: 19px; }
         .h-act__lbl { display: none; }
         .h-badge { top: 1px; right: 0; min-width: 15px; height: 15px; font-size: 7.5px; border-width: 1.5px; }
-
-        /* Compact top bar */
         .top-bar__in { padding: 5px 12px; }
         .top-bar__promo { font-size: 10.5px; }
     }
@@ -628,10 +616,8 @@
         .top-bar__nav { display: none; }
         .h-act { padding: 5px 5px; }
         .h-act .bi { font-size: 18px; }
-        /* NOTE: Track Order stays visible in bottom nav — DO NOT hide it here */
     }
 
-    /* Track modal responsive */
     @media (max-width: 480px) {
         .track-modal { padding: 28px 20px 24px; }
         .track-modal h3 { font-size: 19px; }
@@ -641,7 +627,7 @@
     #toast-container > div { border-radius: var(--rm) !important; font-family: 'Nunito', sans-serif !important; }
     </style>
 
-    {{-- Toastr flash --}}
+    {{-- ══ Toastr flash ══ --}}
     @if (Session::has('success') || Session::has('error'))
     <script>
         $(document).ready(function () {
@@ -654,6 +640,19 @@
         });
     </script>
     @endif
+
+    {{-- ══ Pre-compute counts for header badges ══ --}}
+    @php
+        /* ── Cart count ── */
+        $headerCartCount = collect(session('cart', []))->sum('quantity');
+
+        /* ── Wishlist count ── */
+        if (Auth::check()) {
+            $headerWishCount = \App\Models\Wishlist::where('user_id', Auth::id())->count();
+        } else {
+            $headerWishCount = \App\Models\Wishlist::where('session_id', session()->getId())->count();
+        }
+    @endphp
 </head>
 <body>
 
@@ -681,33 +680,35 @@
             <i class="bi bi-list"></i>
         </button>
 
-<a href="{{ url('/') }}" class="logo">
-    <img
-        src="{{ !empty($websetting?->header_logo)
-                ? asset($websetting->header_logo)
-                : asset('default/logo.png') }}"
-        alt="Logo"
-        style="height:70px; width:auto;">
-
-    <div class="logo__dot"></div>
-</a>
+        {{-- Logo --}}
+        <a href="{{ url('/') }}" class="logo">
+            <img
+                src="{{ !empty($websetting?->header_logo)
+                        ? asset($websetting->header_logo)
+                        : asset('default/logo.png') }}"
+                alt="Logo"
+                style="height:70px; width:auto;">
+            <div class="logo__dot"></div>
+        </a>
 
         {{-- Search --}}
         <div class="hdr-search">
-            <input type="search" placeholder="Search products, brands, categories…"
-                   autocomplete="off" id="globalSearch">
+            <input type="search"
+                   placeholder="Search products, brands, categories…"
+                   autocomplete="off"
+                   id="globalSearch">
             <button class="hdr-search__btn" onclick="doSearch()">
                 <i class="bi bi-search"></i> Search
             </button>
         </div>
 
-        {{-- ── TRACK ORDER BUTTON (desktop only — hidden on mobile via CSS) ── --}}
+        {{-- Track Order Button (desktop only) --}}
         <button class="track-order-btn" onclick="openTrackModal()" aria-label="Track Order">
             <i class="bi bi-truck"></i>
             <span class="track-lbl">Track Order</span>
         </button>
 
-        {{-- Actions --}}
+        {{-- ── Actions ── --}}
         <div class="hdr-actions">
 
             {{-- Account --}}
@@ -718,26 +719,37 @@
                 </div>
                 <div class="acct-drop">
                     <div class="acct-drop__hd">
-                        <p>Welcome to Shahzadi-mart</p>
-                        <button class="acct-signin"
-                            onclick="window.location.href='{{ url('customer/login') }}'">Sign In</button>
+                        @auth
+                            <p style="color:#ccc;font-weight:700">{{ Auth::user()->name }}</p>
+                        @else
+                            <p>Welcome to Shahzadi-mart</p>
+                            <button class="acct-signin"
+                                onclick="window.location.href='{{ url('customer/login') }}'">Sign In</button>
+                        @endauth
                     </div>
                     <a href="{{ url('customer/account') }}">
                         <i class="bi bi-person"></i> My Account</a>
-                    <a href="#">
+                    <a href="{{ route('wishlist') }}">
+                        <i class="bi bi-heart"></i> My Wishlist
+                        @if($headerWishCount > 0)
+                            <span style="margin-left:auto;background:var(--red);color:#fff;font-size:10px;font-weight:800;padding:1px 7px;border-radius:10px;">{{ $headerWishCount }}</span>
+                        @endif
+                    </a>
+                    <a href="{{ url('cart') }}">
                         <i class="bi bi-bag"></i> My Orders</a>
-                    <a href="#">
-                        <i class="bi bi-heart"></i> Favourites</a>
-                    <a href="#" class="logout">
+                    @auth
+                    <a href="{{ url('customer/logout') }}" class="logout">
                         <i class="bi bi-box-arrow-right"></i> Logout</a>
+                    @endauth
                 </div>
             </div>
 
-            {{-- Wishlist --}}
-            <a href="#" class="h-act">
+            {{-- Wishlist ── click goes to wishlist page --}}
+            <a href="{{ route('wishlist') }}" class="h-act" title="Wishlist">
                 <i class="bi bi-heart"></i>
                 <span class="h-act__lbl">Wishlist</span>
-                <span class="h-badge" id="wishBadge">0</span>
+                <span class="h-badge {{ $headerWishCount == 0 ? 'zero' : '' }}"
+                      id="wishBadge">{{ $headerWishCount > 0 ? $headerWishCount : '' }}</span>
             </a>
 
             {{-- Help --}}
@@ -746,12 +758,14 @@
                 <span class="h-act__lbl">Help</span>
             </a>
 
-            {{-- Cart --}}
-            <a href="{{ url('cart') }}" class="h-act">
+            {{-- Cart ── click goes to cart page --}}
+            <a href="{{ url('cart') }}" class="h-act" title="Cart">
                 <i class="bi bi-cart3"></i>
                 <span class="h-act__lbl">Cart</span>
-                <span class="h-badge" id="cartBadge">0</span>
+                <span class="h-badge {{ $headerCartCount == 0 ? 'zero' : '' }}"
+                      id="cartBadge">{{ $headerCartCount > 0 ? $headerCartCount : '' }}</span>
             </a>
+
         </div>
     </div>
 </header>
@@ -787,7 +801,6 @@
 </div>
 
 {{-- ── MOBILE BOTTOM NAV ── --}}
-{{-- NOTE: Track Order is the 3rd item — always visible on mobile --}}
 <nav class="mob-nav" id="mobNav">
     <div class="mob-nav__items">
 
@@ -801,7 +814,7 @@
             Categories
         </a>
 
-        {{-- ★ Track Order — always shown on mobile ★ --}}
+        {{-- Track Order — always shown on mobile --}}
         <button class="mob-nav__item mob-nav__item--track"
                 onclick="openTrackModal()"
                 style="background:none;border:none;cursor:pointer;">
@@ -809,10 +822,12 @@
             Track
         </button>
 
+        {{-- Cart with badge --}}
         <a href="{{ url('cart') }}" class="mob-nav__item" style="position:relative;">
             <i class="bi bi-cart3"></i>
             Cart
-            <span class="mob-nav__badge" id="mobCartBadge">0</span>
+            <span class="mob-nav__badge {{ $headerCartCount == 0 ? 'zero' : '' }}"
+                  id="mobCartBadge">{{ $headerCartCount > 0 ? $headerCartCount : '' }}</span>
         </a>
 
         <a href="{{ url('customer/account') }}" class="mob-nav__item">
@@ -855,15 +870,12 @@ function closeTrackModal() {
     document.body.style.overflow = '';
 }
 
-/* Close when clicking backdrop (outside modal box) */
 document.getElementById('trackModalBackdrop').addEventListener('click', function(e) {
     if (e.target === this) closeTrackModal();
 });
 
-/* Close button */
 document.getElementById('trackModalCloseBtn').addEventListener('click', closeTrackModal);
 
-/* Submit */
 function doTrackOrder() {
     const val = document.getElementById('trackOrderInput')?.value.trim();
     if (!val) {
@@ -887,6 +899,48 @@ document.addEventListener('keydown', e => {
         closeTrackModal();
     }
 });
+
+/* ══════════════════════════════════════════════════════════
+   BADGE SYNC HELPER
+   Call updateBadges(cartCount, wishCount) from any page
+   after an AJAX add-to-cart / add-to-wishlist action.
+══════════════════════════════════════════════════════════ */
+function updateBadges(cartCount, wishCount) {
+    // Cart
+    const cartBadge    = document.getElementById('cartBadge');
+    const mobCartBadge = document.getElementById('mobCartBadge');
+
+    if (cartBadge) {
+        if (cartCount > 0) {
+            cartBadge.textContent = cartCount;
+            cartBadge.classList.remove('zero');
+        } else {
+            cartBadge.textContent = '';
+            cartBadge.classList.add('zero');
+        }
+    }
+    if (mobCartBadge) {
+        if (cartCount > 0) {
+            mobCartBadge.textContent = cartCount;
+            mobCartBadge.classList.remove('zero');
+        } else {
+            mobCartBadge.textContent = '';
+            mobCartBadge.classList.add('zero');
+        }
+    }
+
+    // Wishlist
+    const wishBadge = document.getElementById('wishBadge');
+    if (wishBadge) {
+        if (wishCount > 0) {
+            wishBadge.textContent = wishCount;
+            wishBadge.classList.remove('zero');
+        } else {
+            wishBadge.textContent = '';
+            wishBadge.classList.add('zero');
+        }
+    }
+}
 </script>
 </body>
 </html>

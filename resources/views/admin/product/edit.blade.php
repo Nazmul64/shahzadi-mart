@@ -21,7 +21,7 @@
     .btn-set-gallery { background:#1a2b6b; color:#fff; border:none; border-radius:4px; padding:8px 20px; font-size:.88rem; display:inline-flex; align-items:center; gap:5px; cursor:pointer; }
     .btn-set-gallery:hover { background:#152259; }
     .tag-row { display:flex; gap:8px; align-items:center; margin-bottom:8px; }
-    .tag-row input[type="text"] { flex:1; }
+    .tag-row input[type="text"]  { flex:1; }
     .tag-row input[type="color"] { width:40px; height:38px; border:1px solid #ced4da; border-radius:4px; padding:2px; cursor:pointer; }
     .btn-remove-tag { background:#dc3545; color:#fff; border:none; border-radius:50%; width:28px; height:28px; font-size:.8rem; cursor:pointer; flex-shrink:0; }
     .btn-add-tag { background:none; border:1px dashed #1a2b6b; color:#1a2b6b; border-radius:4px; padding:6px 16px; font-size:.85rem; cursor:pointer; width:100%; }
@@ -44,6 +44,18 @@
     .seo-section { border:1px solid #e0e7ff; border-radius:8px; background:#f8f9ff; padding:16px; margin-top:6px; }
     .seo-toggle-label { font-size:.9rem; font-weight:600; color:#1a2b6b; cursor:pointer; user-select:none; display:flex; align-items:center; gap:8px; }
     .seo-toggle-label input[type="checkbox"] { width:17px; height:17px; cursor:pointer; accent-color:#1a2b6b; }
+
+    /* Flash Sale Card */
+    .flash-sale-card { border:1px solid #fcd34d; border-radius:8px; background:#fffbeb; padding:18px; margin-bottom:18px; }
+    .flash-sale-card .sidebar-card-title { color:#b45309; }
+    .flash-sale-fields { margin-top:12px; }
+
+    /* New Arrival Card */
+    .new-arrival-card { border:1px solid #6ee7b7; border-radius:8px; background:#f0fdf4; padding:18px; margin-bottom:18px; }
+    .new-arrival-card .sidebar-card-title { color:#065f46; }
+
+    .toggle-switch-wrap { display:flex; align-items:center; gap:10px; }
+    .toggle-switch-wrap .form-check-label { font-size:.85rem; font-weight:600; cursor:pointer; }
 </style>
 
 <div class="d-flex align-items-center gap-3 mb-2">
@@ -168,8 +180,7 @@
                     <div class="mb-3">
                         <label class="form-label-custom">Meta Tags</label>
                         <input type="text" name="meta_tags" id="meta_tags_input" class="form-control"
-                               placeholder="Enter meta tags (comma separated)"
-                               value="{{ $product->meta_tags }}">
+                               placeholder="Enter meta tags (comma separated)" value="{{ $product->meta_tags }}">
                         <small class="text-muted" style="font-size:.75rem;">e.g. shoes, running, sport</small>
                     </div>
                     <div class="mb-0">
@@ -226,6 +237,7 @@
     {{-- ═══════════ RIGHT ═══════════ --}}
     <div class="col-lg-4">
 
+        {{-- Feature Image --}}
         <div class="sidebar-card">
             <div class="sidebar-card-title">Feature Image *</div>
             <div class="feature-img-box" onclick="document.getElementById('feature_image_input').click()">
@@ -241,6 +253,7 @@
             <input type="file" name="feature_image" id="feature_image_input" accept="image/*" class="d-none">
         </div>
 
+        {{-- Gallery --}}
         <div class="sidebar-card">
             <div class="sidebar-card-title">Product Gallery Images</div>
             <input type="file" id="galleryPicker" accept="image/*" multiple class="d-none">
@@ -275,6 +288,7 @@
             <div class="gallery-grid" id="newGalleryPreview"></div>
         </div>
 
+        {{-- Pricing & Stock --}}
         <div class="sidebar-card">
             <div class="mb-3">
                 <label class="form-label-custom">Product Current Price* <span class="form-label-sub">(In USD)</span></label>
@@ -302,6 +316,68 @@
             </div>
         </div>
 
+        {{-- ⚡ Flash Sale --}}
+        <div class="flash-sale-card">
+            <div class="sidebar-card-title">⚡ Flash Sale</div>
+            <div class="toggle-switch-wrap mb-3">
+                <div class="form-check form-switch mb-0">
+                    <input class="form-check-input" type="checkbox" name="is_flash_sale" id="is_flash_sale" value="1"
+                           onchange="toggleFlashSale(this)" {{ $product->is_flash_sale ? 'checked' : '' }}>
+                    <label class="form-check-label" for="is_flash_sale">Enable Flash Sale</label>
+                </div>
+            </div>
+            <div class="flash-sale-fields" id="flashSaleFields" style="{{ $product->is_flash_sale ? '' : 'display:none;' }}">
+                <div class="mb-3">
+                    <label class="form-label-custom">Flash Sale Price* <span class="form-label-sub">(In USD)</span></label>
+                    <input type="number" step="0.01" name="flash_sale_price" class="form-control"
+                           placeholder="e.g 9.99" value="{{ $product->flash_sale_price }}">
+                    <small class="text-muted" style="font-size:.75rem;">This price overrides discount price during the sale</small>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label-custom">Sale Starts At <span class="optional-badge">Optional</span></label>
+                    <input type="datetime-local" name="flash_sale_starts_at" class="form-control"
+                           value="{{ $product->flash_sale_starts_at ? $product->flash_sale_starts_at->format('Y-m-d\TH:i') : '' }}">
+                </div>
+                <div class="mb-0">
+                    <label class="form-label-custom">Sale Ends At <span class="optional-badge">Optional</span></label>
+                    <input type="datetime-local" name="flash_sale_ends_at" class="form-control"
+                           value="{{ $product->flash_sale_ends_at ? $product->flash_sale_ends_at->format('Y-m-d\TH:i') : '' }}">
+                    @if($product->is_flash_sale_active)
+                        <small class="text-success d-block mt-1" style="font-size:.75rem;">
+                            &#9989; Flash sale is currently <strong>ACTIVE</strong>
+                        </small>
+                    @elseif($product->is_flash_sale)
+                        <small class="text-warning d-block mt-1" style="font-size:.75rem;">
+                            &#8987; Flash sale is scheduled but not yet active
+                        </small>
+                    @endif
+                    <small class="text-muted" style="font-size:.75rem;">Leave blank for no expiry</small>
+                </div>
+            </div>
+        </div>
+
+        {{-- ✨ New Arrival --}}
+        <div class="new-arrival-card">
+            <div class="sidebar-card-title">✨ New Arrival</div>
+            <div class="toggle-switch-wrap">
+                <div class="form-check form-switch mb-0">
+                    <input class="form-check-input" type="checkbox" name="is_new_arrival" id="is_new_arrival" value="1"
+                           {{ $product->is_new_arrival ? 'checked' : '' }}>
+                    <label class="form-check-label" for="is_new_arrival">Mark as New Arrival</label>
+                </div>
+            </div>
+            @if($product->is_new_arrival && $product->arrived_at)
+                <small class="text-success d-block mt-2" style="font-size:.75rem;">
+                    &#10024; Marked as new arrival on <strong>{{ $product->arrived_at->format('d M Y, h:i A') }}</strong>
+                </small>
+            @else
+                <small class="text-muted d-block mt-2" style="font-size:.75rem;">
+                    Arrival date will be set automatically when enabled.
+                </small>
+            @endif
+        </div>
+
+        {{-- Feature Tags --}}
         <div class="sidebar-card">
             <div class="sidebar-card-title">Feature Tags</div>
             <div id="featureTagsContainer">
@@ -324,6 +400,7 @@
             <button type="button" class="btn-add-tag mt-1" onclick="addTagRow()">+ Add More Field</button>
         </div>
 
+        {{-- Tags --}}
         <div class="sidebar-card">
             <div class="sidebar-card-title">Tags</div>
             <select name="tags[]" id="product_tags" class="form-select" multiple>
@@ -450,6 +527,14 @@ $(document).ready(function () {
 function toggleUnlimited(cb) {
     document.getElementById('stock_input').disabled = cb.checked;
     if (cb.checked) document.getElementById('stock_input').value = '';
+}
+
+function toggleFlashSale(cb) {
+    if (cb.checked) {
+        $('#flashSaleFields').slideDown(250);
+    } else {
+        $('#flashSaleFields').slideUp(250);
+    }
 }
 
 function renderNewGallery() {

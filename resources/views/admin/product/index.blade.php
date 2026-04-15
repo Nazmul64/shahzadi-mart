@@ -20,7 +20,7 @@
     #productTable tbody tr td { font-size:.88rem; vertical-align:middle; }
     #productTable tbody tr:hover { background:#f8f9fa; }
 
-    .prod-img { width:55px; height:55px; object-fit:cover; border-radius:6px; border:1px solid #dee2e6; cursor:pointer; }
+    .prod-img       { width:55px; height:55px; object-fit:cover; border-radius:6px; border:1px solid #dee2e6; cursor:pointer; }
     .prod-img-empty { width:55px; height:55px; border-radius:6px; background:#e9ecef; display:flex; align-items:center; justify-content:center; font-size:.7rem; color:#6c757d; border:1px solid #dee2e6; }
 
     .gallery-thumbs { display:flex; flex-wrap:wrap; gap:5px; margin-top:5px; }
@@ -50,11 +50,19 @@
     .btn-add-new { background:#1a2b6b; color:#fff !important; border:none; border-radius:25px; padding:8px 22px; font-size:.9rem; font-weight:500; text-decoration:none; display:inline-flex; align-items:center; gap:5px; }
     .btn-add-new:hover { background:#152259; }
 
-    .badge-type   { background:#e8ecf8; color:#1a2b6b; border-radius:20px; padding:4px 12px; font-size:.78rem; font-weight:600; }
-    .stock-badge  { background:#e8f8f5; color:#1e8449; border-radius:20px; padding:4px 12px; font-size:.78rem; font-weight:600; }
+    .badge-type    { background:#e8ecf8; color:#1a2b6b; border-radius:20px; padding:4px 12px; font-size:.78rem; font-weight:600; }
+    .stock-badge   { background:#e8f8f5; color:#1e8449; border-radius:20px; padding:4px 12px; font-size:.78rem; font-weight:600; }
     .stock-badge.low      { background:#fdf2e9; color:#e67e22; }
     .stock-badge.out      { background:#fdedec; color:#c0392b; }
     .stock-badge.unlimited{ background:#eaf4fb; color:#1a6fa0; }
+
+    /* Flash Sale */
+    .flash-badge { display:inline-flex; align-items:center; gap:3px; background:#fff3cd; color:#b45309; border:1px solid #fcd34d; border-radius:20px; padding:3px 10px; font-size:.72rem; font-weight:700; white-space:nowrap; }
+    .flash-badge svg { width:11px; height:11px; }
+    .flash-price { font-size:.8rem; font-weight:700; color:#c0392b; }
+
+    /* New Arrival */
+    .new-arrival-badge { display:inline-flex; align-items:center; gap:3px; background:#d1fae5; color:#065f46; border:1px solid #6ee7b7; border-radius:20px; padding:3px 10px; font-size:.72rem; font-weight:700; white-space:nowrap; }
 
     .dataTables_paginate .paginate_button.current,
     .dataTables_paginate .paginate_button.current:hover { background:#1a2b6b !important; color:#fff !important; border-color:#1a2b6b !important; border-radius:4px; }
@@ -89,12 +97,18 @@
 <div class="card border-0 shadow-sm">
     <div class="card-body p-3">
         <div class="d-flex justify-content-between align-items-center mb-2 gap-2 flex-wrap">
-            <div class="d-flex gap-2">
+            <div class="d-flex gap-2 flex-wrap">
                 <a href="{{ route('admin.products.deactivated') }}" class="btn-add-new" style="background:#6c757d;">
                     Deactivated
                 </a>
                 <a href="{{ route('admin.products.catalog') }}" class="btn-add-new" style="background:#1e8449;">
                     Catalog
+                </a>
+                <a href="{{ route('admin.products.flash-sales') }}" class="btn-add-new" style="background:#d97706;">
+                    &#9889; Flash Sales
+                </a>
+                <a href="{{ route('admin.products.new-arrivals') }}" class="btn-add-new" style="background:#059669;">
+                    &#10024; New Arrivals
                 </a>
             </div>
             <a href="{{ route('admin.products.create') }}" class="btn-add-new">+ Add New Product</a>
@@ -111,6 +125,7 @@
                     <th>Price</th>
                     <th class="text-center">Stock</th>
                     <th class="text-center">Type</th>
+                    <th class="text-center">Labels</th>
                     <th class="text-center">Status</th>
                     <th class="text-center">Options</th>
                 </tr>
@@ -167,12 +182,8 @@
                                              title="{{ $gLabel ?: 'Gallery Image' }}"
                                              onclick="openLightbox('{{ asset('uploads/products/'.$gImg) }}', '{{ $gLabel ?: 'Gallery Image' }}')">
                                         <div class="gallery-thumb-badge">
-                                            @if($gColor)
-                                                <span class="gbadge gbadge-color" title="Color: {{ $gColor }}">{{ Str::limit($gColor, 5) }}</span>
-                                            @endif
-                                            @if($gSize)
-                                                <span class="gbadge gbadge-size" title="Size: {{ $gSize }}">{{ $gSize }}</span>
-                                            @endif
+                                            @if($gColor)<span class="gbadge gbadge-color" title="Color: {{ $gColor }}">{{ Str::limit($gColor, 5) }}</span>@endif
+                                            @if($gSize)<span class="gbadge gbadge-size"  title="Size: {{ $gSize }}">{{ $gSize }}</span>@endif
                                         </div>
                                     </div>
                                     @endif
@@ -192,12 +203,8 @@
                                 @foreach($variants as $v)
                                 <div class="variant-chip">
                                     <span class="vcolor-dot" style="background:{{ $v['color'] ?? '#ccc' }};"></span>
-                                    @if(!empty($v['size']))
-                                        <span class="vsize">{{ $v['size'] }}</span>
-                                    @endif
-                                    @if(!empty($v['price']))
-                                        <span class="vprice">${{ number_format($v['price'], 2) }}</span>
-                                    @endif
+                                    @if(!empty($v['size']))<span class="vsize">{{ $v['size'] }}</span>@endif
+                                    @if(!empty($v['price']))<span class="vprice">${{ number_format($v['price'], 2) }}</span>@endif
                                     <span class="vstock">({{ $v['stock'] ?? 0 }})</span>
                                 </div>
                                 @endforeach
@@ -212,9 +219,10 @@
                     <td>
                         <div style="font-weight:600;">${{ number_format($item->current_price, 2) }}</div>
                         @if($item->discount_price)
-                            <small class="text-muted text-decoration-line-through">
-                                ${{ number_format($item->discount_price, 2) }}
-                            </small>
+                            <small class="text-muted text-decoration-line-through">${{ number_format($item->discount_price, 2) }}</small>
+                        @endif
+                        @if($item->is_flash_sale_active && $item->flash_sale_price)
+                            <br><span class="flash-price">&#9889; ${{ number_format($item->flash_sale_price, 2) }}</span>
                         @endif
                     </td>
 
@@ -234,6 +242,24 @@
                     {{-- Type --}}
                     <td class="text-center">
                         <span class="badge-type">{{ ucfirst($item->product_type) }}</span>
+                    </td>
+
+                    {{-- Labels: Flash Sale + New Arrival --}}
+                    <td class="text-center" style="min-width:110px;">
+                        <div class="d-flex flex-column gap-1 align-items-center">
+                            @if($item->is_flash_sale)
+                                <span class="flash-badge">
+                                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4.093 12.688H11L10 22l8.907-10.688H13L13 2z"/></svg>
+                                    Flash Sale
+                                </span>
+                            @endif
+                            @if($item->is_new_arrival)
+                                <span class="new-arrival-badge">&#10024; New</span>
+                            @endif
+                            @if(!$item->is_flash_sale && !$item->is_new_arrival)
+                                <small class="text-muted">—</small>
+                            @endif
+                        </div>
                     </td>
 
                     {{-- Status --}}
@@ -272,7 +298,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-
 <script>
 $(document).ready(function () {
     $('#productTable').DataTable({
@@ -280,15 +305,13 @@ $(document).ready(function () {
         order: [[1, 'asc']],
         pageLength: 10,
         language: {
-            search:     "Search:",
-            lengthMenu: "Show _MENU_ entries",
-            info:       "Showing _START_ to _END_ of _TOTAL_ entries",
-            paginate:   { previous: "Previous", next: "Next" }
+            search: "Search:", lengthMenu: "Show _MENU_ entries",
+            info: "Showing _START_ to _END_ of _TOTAL_ entries",
+            paginate: { previous: "Previous", next: "Next" }
         },
-        columnDefs: [{ orderable: false, targets: [0, 3, 4, 7, 8, 9] }]
+        columnDefs: [{ orderable: false, targets: [0, 3, 4, 8, 9, 10] }]
     });
 });
-
 function openLightbox(src, label) {
     document.getElementById('lbImg').src = src;
     document.getElementById('lbMeta').textContent = label || '';

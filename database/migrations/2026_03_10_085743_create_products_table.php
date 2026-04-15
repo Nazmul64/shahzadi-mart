@@ -65,6 +65,16 @@ return new class extends Migration
             $table->boolean('is_highlighted')->default(false);
             $table->boolean('in_catalog')->default(false);
 
+            // ── Flash Sale ────────────────────────────────────
+            $table->boolean('is_flash_sale')->default(false);
+            $table->decimal('flash_sale_price', 12, 2)->nullable();
+            $table->timestamp('flash_sale_starts_at')->nullable();
+            $table->timestamp('flash_sale_ends_at')->nullable();
+
+            // ── New Arrivals ──────────────────────────────────
+            $table->boolean('is_new_arrival')->default(false);
+            $table->timestamp('arrived_at')->nullable(); // when it was marked as new arrival
+
             $table->timestamps();
         });
     }

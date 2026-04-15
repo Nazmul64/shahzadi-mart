@@ -45,6 +45,15 @@
   .productdetailspage__breadcrumb-sep { color: #d1d5db; }
   .productdetailspage__breadcrumb-current { color: var(--text); font-weight: 500; }
 
+  /* ── FLASH MESSAGES ── */
+  .pdp-alert {
+    border-radius: 8px; padding: 10px 18px; font-size: 13px; font-weight: 600;
+    display: flex; align-items: center; gap: 8px; margin: 10px 0;
+  }
+  .pdp-alert-success { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+  .pdp-alert-error   { background: #fff0f1; color: var(--primary); border: 1px solid #fecdd3; }
+  .pdp-alert-info    { background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; }
+
   /* ── MAIN PRODUCT LAYOUT ── */
   .productdetailspage__product-page {
     background: var(--white);
@@ -98,6 +107,7 @@
   }
   .productdetailspage__badge--vendor { background: var(--green); color: #fff; }
 
+  /* ── Wishlist button (now an anchor) ── */
   .productdetailspage__wishlist-btn {
     position: absolute; top: 10px; right: 10px; z-index: 2;
     width: 36px; height: 36px; border-radius: 50%;
@@ -105,9 +115,9 @@
     display: flex; align-items: center; justify-content: center;
     font-size: 16px; color: #9ca3af;
     transition: all .2s; box-shadow: 0 2px 6px rgba(0,0,0,.1);
+    text-decoration: none;
   }
-  .productdetailspage__wishlist-btn:hover,
-  .productdetailspage__wishlist-btn--active { color: #ef4444; }
+  .productdetailspage__wishlist-btn:hover { color: #ef4444; background: #fff; }
 
   .productdetailspage__img-counter {
     position: absolute; bottom: 10px; right: 10px;
@@ -332,15 +342,15 @@
     flex: 1; min-width: 140px; padding: 13px 20px;
     border-radius: 8px; border: none; font-size: 14px; font-weight: 600;
     display: flex; align-items: center; justify-content: center; gap: 8px;
-    transition: all .2s; letter-spacing: .3px;
+    transition: all .2s; letter-spacing: .3px; text-decoration: none; cursor: pointer;
   }
   .productdetailspage__btn-cart {
     background: #fff0f0; color: var(--primary); border: 2px solid var(--primary);
   }
-  .productdetailspage__btn-cart:hover { background: #ffd6d6; }
+  .productdetailspage__btn-cart:hover { background: #ffd6d6; color: var(--primary); }
   .productdetailspage__btn-buy { background: var(--primary); color: #fff; }
   .productdetailspage__btn-buy:hover {
-    background: var(--primary-d); box-shadow: 0 4px 14px rgba(190,3,24,.35);
+    background: var(--primary-d); box-shadow: 0 4px 14px rgba(190,3,24,.35); color: #fff;
   }
 
   /* ── META ROW ── */
@@ -545,6 +555,7 @@
   $tags        = $product->tags ?? [];
   $featureTags = $product->feature_tags ?? [];
 
+  $inStock    = $product->is_unlimited || ($product->stock ?? 0) > 0;
   $stockLabel = $product->is_unlimited
                 ? 'In Stock'
                 : ($product->stock > 0 ? $product->stock . ' items left' : 'Out of Stock');
@@ -560,12 +571,29 @@
   $shareUrl   = url()->current();
   $shareTitle = urlencode($product->name);
 
-  // YouTube ID extraction
   preg_match('/(?:v=|youtu\.be\/|embed\/)([a-zA-Z0-9_-]{11})/', $product->youtube_url ?? '', $ytMatch);
   $ytId = $ytMatch[1] ?? null;
+
+  // ✅ Routes for actions
+  $cartAddUrl     = route('cart.add', $product->id);
+  $wishlistAddUrl = route('wishlist.add', $product->id);
+  $checkoutUrl    = route('checkout');
 @endphp
 
 <div class="productdetailspage">
+
+  {{-- ── Flash messages ── --}}
+  <div class="productdetailspage__container">
+    @if(session('success'))
+      <div class="pdp-alert pdp-alert-success"><i class="bi bi-check-circle-fill"></i> {{ session('success') }}</div>
+    @endif
+    @if(session('info'))
+      <div class="pdp-alert pdp-alert-info"><i class="bi bi-info-circle-fill"></i> {{ session('info') }}</div>
+    @endif
+    @if(session('error'))
+      <div class="pdp-alert pdp-alert-error"><i class="bi bi-exclamation-circle-fill"></i> {{ session('error') }}</div>
+    @endif
+  </div>
 
   {{-- ── BREADCRUMB ── --}}
   <div class="productdetailspage__top-bar">
@@ -597,10 +625,14 @@
 
           <div class="productdetailspage__main-image-wrap" id="pdpMainWrap">
 
-            {{-- Wishlist Button --}}
-            <button class="productdetailspage__wishlist-btn" id="pdpWishlistBtn" title="Add to Wishlist">
+            {{-- ✅ Wishlist Button — proper route --}}
+            <a href="{{ $wishlistAddUrl }}"
+               class="productdetailspage__wishlist-btn"
+               id="pdpWishlistBtn"
+               title="উইশলিস্টে যোগ করুন"
+               onclick="event.stopPropagation()">
               <i class="bi bi-heart"></i>
-            </button>
+            </a>
 
             {{-- Vendor Badge --}}
             @if($product->vendor)
@@ -630,13 +662,9 @@
             <div class="productdetailspage__img-hover-popup">
               <div class="productdetailspage__popup-title">{{ $product->name }}</div>
               <div class="productdetailspage__popup-meta">
-                <span class="productdetailspage__popup-price-current">
-                  ৳{{ number_format($displayPrice, 2) }}
-                </span>
+                <span class="productdetailspage__popup-price-current">৳{{ number_format($displayPrice, 2) }}</span>
                 @if($originalPrice)
-                  <span class="productdetailspage__popup-price-old">
-                    ৳{{ number_format($originalPrice, 2) }}
-                  </span>
+                  <span class="productdetailspage__popup-price-old">৳{{ number_format($originalPrice, 2) }}</span>
                 @endif
                 @if($discountPct)
                   <span class="productdetailspage__popup-discount-chip">−{{ $discountPct }}%</span>
@@ -707,7 +735,6 @@
         {{-- ── MIDDLE: PRODUCT INFO ── --}}
         <div class="productdetailspage__product-info-section">
 
-          {{-- Feature Tags --}}
           @if(!empty($featureTags))
           <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;">
             @foreach($featureTags as $ft)
@@ -738,17 +765,14 @@
             </span>
           </div>
 
-          {{-- Flash Sale Timer --}}
           @if($product->discount_price)
           <div class="productdetailspage__flash-banner">
             <div class="productdetailspage__flash-left">
-              <i class="fas fa-bolt"></i>
+              <i class="fa-solid fa-bolt"></i>
               <span>Special Offer</span>
             </div>
             <div class="productdetailspage__flash-timer">
-              <span class="productdetailspage__ends-label">
-                <i class="far fa-clock"></i> Ends in:
-              </span>
+              <span class="productdetailspage__ends-label"><i class="far fa-clock"></i> Ends in:</span>
               <span class="productdetailspage__timer-box" id="pdpTimerH">01h</span>
               <span class="productdetailspage__timer-box" id="pdpTimerM">39m</span>
               <span class="productdetailspage__timer-box" id="pdpTimerS">54s</span>
@@ -759,13 +783,9 @@
           {{-- Price Block --}}
           <div class="productdetailspage__price-block">
             <div class="productdetailspage__price-row">
-              <span class="productdetailspage__current-price">
-                ৳{{ number_format($displayPrice, 2) }}
-              </span>
+              <span class="productdetailspage__current-price">৳{{ number_format($displayPrice, 2) }}</span>
               @if($originalPrice)
-                <span class="productdetailspage__original-price">
-                  ৳{{ number_format($originalPrice, 2) }}
-                </span>
+                <span class="productdetailspage__original-price">৳{{ number_format($originalPrice, 2) }}</span>
               @endif
               @if($discountPct)
                 <span class="productdetailspage__discount-chip">−{{ $discountPct }}%</span>
@@ -812,14 +832,9 @@
             <label class="productdetailspage__option-label">Quantity:</label>
             <div class="productdetailspage__qty-row">
               <div class="productdetailspage__qty-selector">
-                <button class="productdetailspage__qty-btn" id="pdpQtyDec">
-                  <i class="fas fa-minus"></i>
-                </button>
-                <input type="text" class="productdetailspage__qty-input"
-                       id="pdpQtyInput" value="1" readonly/>
-                <button class="productdetailspage__qty-btn" id="pdpQtyInc">
-                  <i class="fas fa-plus"></i>
-                </button>
+                <button class="productdetailspage__qty-btn" id="pdpQtyDec"><i class="fas fa-minus"></i></button>
+                <input type="text" class="productdetailspage__qty-input" id="pdpQtyInput" value="1" readonly/>
+                <button class="productdetailspage__qty-btn" id="pdpQtyInc"><i class="fas fa-plus"></i></button>
               </div>
               @if(!$product->is_unlimited && $product->stock > 0)
               <div class="productdetailspage__stock-alert">
@@ -830,26 +845,29 @@
             </div>
           </div>
 
-          {{-- Action Buttons --}}
+          {{-- ✅ ACTION BUTTONS — সব route ঠিক করা হয়েছে --}}
           <div class="productdetailspage__action-btns">
-            @if(!$product->is_unlimited && $product->stock <= 0)
-              <button class="productdetailspage__act-btn productdetailspage__btn-cart"
-                      disabled style="opacity:.5;cursor:not-allowed;">
+            @if(!$inStock)
+              {{-- Out of stock --}}
+              <span class="productdetailspage__act-btn productdetailspage__btn-cart"
+                    style="opacity:.5;cursor:not-allowed;">
                 <i class="fas fa-times-circle"></i> Out of Stock
-              </button>
+              </span>
             @else
-              <button class="productdetailspage__act-btn productdetailspage__btn-cart"
-                      id="pdpAddCartBtn"
-                      data-id="{{ $product->id }}"
-                      data-slug="{{ $product->slug }}">
+              {{-- ✅ Add to Cart --}}
+              <a href="{{ $cartAddUrl }}"
+                 class="productdetailspage__act-btn productdetailspage__btn-cart"
+                 id="pdpAddCartBtn">
                 <i class="fas fa-shopping-cart"></i> Add to Cart
-              </button>
-              <button class="productdetailspage__act-btn productdetailspage__btn-buy"
-                      id="pdpBuyNowBtn"
-                      data-id="{{ $product->id }}"
-                      data-slug="{{ $product->slug }}">
+              </a>
+
+              {{-- ✅ Buy Now — cart এ add করে সাথে সাথে checkout এ যাবে --}}
+              <a href="{{ $cartAddUrl }}"
+                 class="productdetailspage__act-btn productdetailspage__btn-buy"
+                 id="pdpBuyNowBtn"
+                 onclick="localStorage.setItem('pdp_buynow_redirect','{{ $checkoutUrl }}')">
                 <i class="fas fa-shopping-bag"></i> Buy Now
-              </button>
+              </a>
             @endif
           </div>
 
@@ -869,12 +887,9 @@
               @endforeach
             </span>
             @endif
-            <span>
-              <strong>Product Type:</strong> {{ ucfirst($product->product_type ?? 'N/A') }}
-            </span>
+            <span><strong>Product Type:</strong> {{ ucfirst($product->product_type ?? 'N/A') }}</span>
           </div>
 
-          {{-- Return Policy --}}
           @if($product->return_policy)
           <div class="productdetailspage__notice-box" style="margin-top:12px">
             <i class="fas fa-undo"></i>
@@ -887,14 +902,11 @@
         {{-- ── RIGHT: SIDEBAR ── --}}
         <div class="productdetailspage__sidebar-section">
 
-          {{-- Delivery Card --}}
           <div class="productdetailspage__card">
             <div class="productdetailspage__card-head">
-              <i class="fas fa-truck" style="margin-right:6px;color:var(--primary)"></i>
-              Delivery & Shipping
+              <i class="fas fa-truck" style="margin-right:6px;color:var(--primary)"></i>Delivery & Shipping
             </div>
             <div class="productdetailspage__card-body">
-
               <div class="productdetailspage__del-option">
                 <div class="productdetailspage__del-icon"><i class="fas fa-truck"></i></div>
                 <div class="productdetailspage__del-body">
@@ -902,7 +914,6 @@
                   <div class="productdetailspage__del-date">Standard delivery within 3–7 working days</div>
                 </div>
               </div>
-
               <div class="productdetailspage__del-option">
                 <div class="productdetailspage__del-icon"><i class="fas fa-store"></i></div>
                 <div class="productdetailspage__del-body">
@@ -910,19 +921,15 @@
                   <div class="productdetailspage__del-date">Contact seller for pickup details</div>
                 </div>
               </div>
-
               @if($product->return_policy)
               <div class="productdetailspage__del-option">
                 <div class="productdetailspage__del-icon"><i class="fas fa-undo"></i></div>
                 <div class="productdetailspage__del-body">
                   <div class="productdetailspage__del-title">Return Policy</div>
-                  <div class="productdetailspage__del-date">
-                    {{ Str::limit($product->return_policy, 80) }}
-                  </div>
+                  <div class="productdetailspage__del-date">{{ Str::limit($product->return_policy, 80) }}</div>
                 </div>
               </div>
               @endif
-
               @if($product->product_type === 'digital')
               <div class="productdetailspage__del-option">
                 <div class="productdetailspage__del-icon"><i class="fas fa-download"></i></div>
@@ -932,11 +939,9 @@
                 </div>
               </div>
               @endif
-
             </div>
           </div>
 
-          {{-- Seller Card --}}
           @if($product->vendor)
           <div class="productdetailspage__card">
             <div class="productdetailspage__card-head">
@@ -958,7 +963,6 @@
           </div>
           @endif
 
-          {{-- YouTube Video Card --}}
           @if($ytId)
           <div class="productdetailspage__card">
             <div class="productdetailspage__card-head">
@@ -966,11 +970,9 @@
             </div>
             <div class="productdetailspage__card-body" style="padding:0">
               <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;">
-                <iframe
-                  src="https://www.youtube.com/embed/{{ $ytId }}"
+                <iframe src="https://www.youtube.com/embed/{{ $ytId }}"
                   style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;"
-                  allowfullscreen loading="lazy">
-                </iframe>
+                  allowfullscreen loading="lazy"></iframe>
               </div>
             </div>
           </div>
@@ -988,29 +990,21 @@
                 onclick="pdpOpenTab('description')">
           <i class="fas fa-align-left"></i> Product Description
         </button>
-        <button class="productdetailspage__tab-btn"
-                onclick="pdpOpenTab('specifications')">
+        <button class="productdetailspage__tab-btn" onclick="pdpOpenTab('specifications')">
           <i class="fas fa-list"></i> Specifications
         </button>
-        <button class="productdetailspage__tab-btn"
-                onclick="pdpOpenTab('reviews')">
+        <button class="productdetailspage__tab-btn" onclick="pdpOpenTab('reviews')">
           <i class="fas fa-star"></i> Reviews
         </button>
       </div>
 
-      {{-- Description Tab --}}
-      <div id="pdpDescription"
-           class="productdetailspage__tab-content productdetailspage__tab-content--active">
-        <div class="productdetailspage__desc-text">
-          {!! nl2br(e($product->description)) !!}
-        </div>
+      <div id="pdpDescription" class="productdetailspage__tab-content productdetailspage__tab-content--active">
+        <div class="productdetailspage__desc-text">{!! nl2br(e($product->description)) !!}</div>
       </div>
 
-      {{-- Specifications Tab --}}
       <div id="pdpSpecifications" class="productdetailspage__tab-content">
         <div class="productdetailspage__spec-section">
           <div class="productdetailspage__spec-head">Product Details</div>
-
           <div class="productdetailspage__spec-row">
             <span class="productdetailspage__spec-key">SKU</span>
             <span class="productdetailspage__spec-val">{{ $product->sku ?? 'N/A' }}</span>
@@ -1042,23 +1036,17 @@
             <span class="productdetailspage__spec-val">{{ $stockLabel }}</span>
           </div>
         </div>
-
-        {{-- Variants --}}
         @if($variants->count())
         <div class="productdetailspage__spec-section" style="margin-top:12px">
           <div class="productdetailspage__spec-head">Available Variants</div>
           @foreach($variants as $v)
           <div class="productdetailspage__spec-row">
             <span class="productdetailspage__spec-key">
-              {{ $v['size'] ?? '' }}
-              {{ (!empty($v['size']) && !empty($v['color'])) ? ' / ' : '' }}
-              {{ $v['color'] ?? '' }}
+              {{ $v['size'] ?? '' }}{{ (!empty($v['size']) && !empty($v['color'])) ? ' / ' : '' }}{{ $v['color'] ?? '' }}
             </span>
             <span class="productdetailspage__spec-val">
               Stock: {{ $v['stock'] ?? 0 }}
-              @if(!empty($v['price']))
-                — Price: ৳{{ number_format($v['price'], 2) }}
-              @endif
+              @if(!empty($v['price'])) — Price: ৳{{ number_format($v['price'], 2) }} @endif
             </span>
           </div>
           @endforeach
@@ -1066,14 +1054,12 @@
         @endif
       </div>
 
-      {{-- Reviews Tab --}}
       <div id="pdpReviews" class="productdetailspage__tab-content">
         <div class="productdetailspage__no-reviews">
           <i class="fas fa-star" style="color:var(--gold);font-size:28px;display:block;margin-bottom:10px"></i>
           No reviews yet. Be the first to review this product!
         </div>
       </div>
-
     </div>{{-- /TABS --}}
 
     {{-- ── RELATED PRODUCTS ── --}}
@@ -1088,15 +1074,14 @@
       <div class="productdetailspage__products-grid">
         @foreach($relatedProducts as $rp)
         @php
-          $rpImg      = $rp->feature_image
-                        ? asset('uploads/products/' . $rp->feature_image)
-                        : asset('images/placeholder.png');
+          $rpImg      = $rp->feature_image ? asset('uploads/products/' . $rp->feature_image) : asset('images/placeholder.png');
           $rpPrice    = $rp->discount_price ?? $rp->current_price;
           $rpOld      = $rp->discount_price ? $rp->current_price : null;
           $rpDiscount = ($rp->discount_price && $rp->current_price > 0)
                         ? round((($rp->current_price - $rp->discount_price) / $rp->current_price) * 100)
                         : null;
         @endphp
+        {{-- ✅ Related product card — detail page এ যাবে --}}
         <a href="{{ route('product.detail', $rp->slug) }}"
            class="productdetailspage__prod-card"
            style="text-decoration:none;color:inherit">
@@ -1113,18 +1098,16 @@
             <div class="productdetailspage__prod-name">{{ $rp->name }}</div>
             <div class="productdetailspage__prod-price-row">
               @if($rpOld)
-              <span class="productdetailspage__prod-old-price">
-                ৳{{ number_format($rpOld, 2) }}
-              </span>
+              <span class="productdetailspage__prod-old-price">৳{{ number_format($rpOld, 2) }}</span>
               @endif
-              <span class="productdetailspage__prod-price">
-                ৳{{ number_format($rpPrice, 2) }}
-              </span>
+              <span class="productdetailspage__prod-price">৳{{ number_format($rpPrice, 2) }}</span>
             </div>
           </div>
-          <div class="productdetailspage__prod-order-btn">
-            <i class="fas fa-shopping-bag"></i> Order Now
-          </div>
+          {{-- ✅ "Order Now" → cart.add --}}
+          <span class="productdetailspage__prod-order-btn"
+                onclick="event.preventDefault(); window.location='{{ route('cart.add', $rp->id) }}'">
+            <i class="fas fa-cart-plus"></i> কার্টে যোগ করুন
+          </span>
         </a>
         @endforeach
       </div>
@@ -1138,28 +1121,24 @@
     <button class="productdetailspage__zoom-close-btn" id="pdpZoomClose" title="Close (Esc)">
       <i class="fas fa-times"></i>
     </button>
-    <button class="productdetailspage__zoom-nav-btn productdetailspage__zoom-prev"
-            id="pdpZoomPrev" title="Previous">
+    <button class="productdetailspage__zoom-nav-btn productdetailspage__zoom-prev" id="pdpZoomPrev" title="Previous">
       <i class="fas fa-chevron-left"></i>
     </button>
     <img id="pdpZoomImg" class="productdetailspage__zoom-overlay-img" src="" alt="Zoomed image"/>
-    <button class="productdetailspage__zoom-nav-btn productdetailspage__zoom-next"
-            id="pdpZoomNext" title="Next">
+    <button class="productdetailspage__zoom-nav-btn productdetailspage__zoom-next" id="pdpZoomNext" title="Next">
       <i class="fas fa-chevron-right"></i>
     </button>
-    <div class="productdetailspage__zoom-counter" id="pdpZoomCounter">
-      1 / {{ $totalImages }}
-    </div>
+    <div class="productdetailspage__zoom-counter" id="pdpZoomCounter">1 / {{ $totalImages }}</div>
   </div>
 
 </div>{{-- /productdetailspage --}}
 
-{{-- ── JAVASCRIPT ── --}}
+{{-- ══ JAVASCRIPT ══ --}}
 <script>
 (function () {
   'use strict';
 
-  /* ── Image sources from PHP ── */
+  /* ── Image sources ── */
   const PDP_SRCS = @json($allImages->pluck('url')->values());
   let pdpCurrentIdx = 0;
 
@@ -1179,9 +1158,7 @@
   pdpThumbs.forEach(function (t) {
     t.addEventListener('click', function (e) {
       e.stopPropagation();
-      pdpThumbs.forEach(function (x) {
-        x.classList.remove('productdetailspage__thumb--active');
-      });
+      pdpThumbs.forEach(function (x) { x.classList.remove('productdetailspage__thumb--active'); });
       t.classList.add('productdetailspage__thumb--active');
       pdpCurrentIdx    = parseInt(t.dataset.idx);
       pdpMainImage.src = t.dataset.src;
@@ -1191,48 +1168,40 @@
 
   /* ── Zoom open / close / navigate ── */
   function pdpOpenZoom(idx) {
-    pdpCurrentIdx = idx;
+    pdpCurrentIdx  = idx;
     pdpZoomImg.src = PDP_SRCS[pdpCurrentIdx];
     pdpZoomCounter.textContent = (pdpCurrentIdx + 1) + ' / ' + PDP_SRCS.length;
     pdpZoomOverlay.classList.add('productdetailspage__zoom-overlay--active');
     document.body.style.overflow = 'hidden';
   }
-
   function pdpCloseZoom() {
     pdpZoomOverlay.classList.remove('productdetailspage__zoom-overlay--active');
     document.body.style.overflow = '';
   }
-
   function pdpZoomNavigate(dir) {
     pdpCurrentIdx = (pdpCurrentIdx + dir + PDP_SRCS.length) % PDP_SRCS.length;
     pdpZoomImg.style.opacity   = '0';
     pdpZoomImg.style.transform = 'scale(0.88)';
     setTimeout(function () {
       pdpZoomImg.src = PDP_SRCS[pdpCurrentIdx];
-      pdpZoomCounter.textContent    = (pdpCurrentIdx + 1) + ' / ' + PDP_SRCS.length;
-      pdpMainImage.src              = PDP_SRCS[pdpCurrentIdx];
-      pdpImgCounter.textContent     = (pdpCurrentIdx + 1) + ' / ' + PDP_SRCS.length;
+      pdpZoomCounter.textContent = (pdpCurrentIdx + 1) + ' / ' + PDP_SRCS.length;
+      pdpMainImage.src           = PDP_SRCS[pdpCurrentIdx];
+      pdpImgCounter.textContent  = (pdpCurrentIdx + 1) + ' / ' + PDP_SRCS.length;
       pdpThumbs.forEach(function (t) {
-        t.classList.toggle('productdetailspage__thumb--active',
-          parseInt(t.dataset.idx) === pdpCurrentIdx);
+        t.classList.toggle('productdetailspage__thumb--active', parseInt(t.dataset.idx) === pdpCurrentIdx);
       });
       pdpZoomImg.style.opacity   = '1';
       pdpZoomImg.style.transform = 'scale(1)';
     }, 160);
   }
-
   pdpZoomImg.style.transition = 'opacity .16s ease, transform .2s ease';
 
-  /* ── Zoom events ── */
   pdpMainWrap.addEventListener('click', function () { pdpOpenZoom(pdpCurrentIdx); });
   pdpZoomClose.addEventListener('click', function (e) { e.stopPropagation(); pdpCloseZoom(); });
-  pdpZoomOverlay.addEventListener('click', function (e) {
-    if (e.target === pdpZoomOverlay) pdpCloseZoom();
-  });
+  pdpZoomOverlay.addEventListener('click', function (e) { if (e.target === pdpZoomOverlay) pdpCloseZoom(); });
   pdpZoomImg.addEventListener('click', pdpCloseZoom);
   pdpZoomPrev.addEventListener('click', function (e) { e.stopPropagation(); pdpZoomNavigate(-1); });
   pdpZoomNext.addEventListener('click', function (e) { e.stopPropagation(); pdpZoomNavigate(1); });
-
   document.addEventListener('keydown', function (e) {
     if (!pdpZoomOverlay.classList.contains('productdetailspage__zoom-overlay--active')) return;
     if (e.key === 'Escape')     pdpCloseZoom();
@@ -1240,15 +1209,7 @@
     if (e.key === 'ArrowRight') pdpZoomNavigate(1);
   });
 
-  /* ── Wishlist toggle ── */
-  var pdpWishlistBtn = document.getElementById('pdpWishlistBtn');
-  pdpWishlistBtn.addEventListener('click', function (e) {
-    e.stopPropagation();
-    var active = pdpWishlistBtn.classList.toggle('productdetailspage__wishlist-btn--active');
-    pdpWishlistBtn.querySelector('i').className = active ? 'fas fa-heart' : 'bi bi-heart';
-  });
-
-  /* ── Option buttons (color / size) ── */
+  /* ── Option buttons ── */
   document.querySelectorAll('.productdetailspage__opt-btn').forEach(function (btn) {
     btn.addEventListener('click', function () {
       var group = btn.dataset.group;
@@ -1261,49 +1222,32 @@
   /* ── Quantity ── */
   var pdpQtyInput = document.getElementById('pdpQtyInput');
   var PDP_MAX_QTY = {{ $product->is_unlimited ? 999 : max(1, $product->stock ?? 1) }};
-
-  document.getElementById('pdpQtyInc').addEventListener('click', function () {
-    var v = parseInt(pdpQtyInput.value);
-    if (v < PDP_MAX_QTY) pdpQtyInput.value = v + 1;
-  });
-  document.getElementById('pdpQtyDec').addEventListener('click', function () {
-    var v = parseInt(pdpQtyInput.value);
-    if (v > 1) pdpQtyInput.value = v - 1;
-  });
-
-  /* ── Button flash feedback ── */
-  function pdpFlashBtn(btn, msg, color) {
-    var orig   = btn.innerHTML;
-    var origBg = btn.style.background;
-    btn.innerHTML      = '<i class="fas fa-check"></i> ' + msg;
-    btn.style.opacity  = '.8';
-    if (color) btn.style.background = color;
-    setTimeout(function () {
-      btn.innerHTML     = orig;
-      btn.style.opacity = '1';
-      if (color) btn.style.background = origBg;
-    }, 2000);
+  if (document.getElementById('pdpQtyInc')) {
+    document.getElementById('pdpQtyInc').addEventListener('click', function () {
+      var v = parseInt(pdpQtyInput.value);
+      if (v < PDP_MAX_QTY) pdpQtyInput.value = v + 1;
+    });
   }
-
-  var addCartBtn = document.getElementById('pdpAddCartBtn');
-  var buyNowBtn  = document.getElementById('pdpBuyNowBtn');
-
-  if (addCartBtn) {
-    addCartBtn.addEventListener('click', function () {
-      pdpFlashBtn(this, 'Added to Cart!', null);
-      // TODO: AJAX cart logic
+  if (document.getElementById('pdpQtyDec')) {
+    document.getElementById('pdpQtyDec').addEventListener('click', function () {
+      var v = parseInt(pdpQtyInput.value);
+      if (v > 1) pdpQtyInput.value = v - 1;
     });
   }
 
-  if (buyNowBtn) {
-    buyNowBtn.addEventListener('click', function () {
-      pdpFlashBtn(this, 'Redirecting…', '#16a34a');
-      // TODO: redirect to checkout
-      // window.location.href = '/checkout?product={{ $product->id }}&qty=' + pdpQtyInput.value;
-    });
+  /* ── Buy Now: cart এ add করার পর checkout এ redirect ──
+     cart.add রুট redirect()->back() করে, তাই পেজ লোড হলে
+     localStorage চেক করে checkout এ পাঠিয়ে দেওয়া হয়        */
+  var buyNowRedirect = localStorage.getItem('pdp_buynow_redirect');
+  if (buyNowRedirect) {
+    localStorage.removeItem('pdp_buynow_redirect');
+    // শুধু তখনই redirect করব যদি cart এ কিছু থাকে (session('cart') চেক)
+    @if(session()->has('cart') && count(session('cart', [])) > 0)
+      window.location.href = buyNowRedirect;
+    @endif
   }
 
-  /* ── Countdown timer (discount products only) ── */
+  /* ── Countdown timer ── */
   @if($product->discount_price)
   var pdpTotalSecs = 1 * 3600 + 39 * 60 + 54;
   function pdpUpdateTimer() {
@@ -1337,12 +1281,9 @@
     });
     var map = { description: 0, specifications: 1, reviews: 2 };
     var capitalized = id.charAt(0).toUpperCase() + id.slice(1);
-    document.getElementById('pdp' + capitalized)
-            .classList.add('productdetailspage__tab-content--active');
-    document.querySelectorAll('.productdetailspage__tab-btn')[map[id]]
-            .classList.add('productdetailspage__tab-btn--active');
-    document.getElementById('pdpTabsSection')
-            .scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.getElementById('pdp' + capitalized).classList.add('productdetailspage__tab-content--active');
+    document.querySelectorAll('.productdetailspage__tab-btn')[map[id]].classList.add('productdetailspage__tab-btn--active');
+    document.getElementById('pdpTabsSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
 })();

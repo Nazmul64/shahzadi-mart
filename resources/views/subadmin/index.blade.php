@@ -149,7 +149,7 @@
       <!-- Quick Actions -->
       <div class="col-12 col-md-4">
         <div class="wcard h-100">
-          <h6><i class="fas fa-bolt"></i> Quick Actions</h6>
+          <h6><i class="fa-solid fa-bol"></i> Quick Actions</h6>
           <div class="row g-2">
             <div class="col-6"><a href="#" class="qa-btn"><i class="fas fa-plus-circle"></i><span>Add Product</span></a></div>
             <div class="col-6"><a href="#" class="qa-btn"><i class="fas fa-shopping-bag"></i><span>View Orders</span></a></div>
