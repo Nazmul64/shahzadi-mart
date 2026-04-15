@@ -17,6 +17,7 @@ class Product extends Model
         'youtube_url', 'tags', 'feature_tags',
         'status', 'is_highlighted', 'in_catalog',
         'meta_tags', 'meta_description',
+        'is_bestseller',
 
         // ── Flash Sale ────────────────────────────────────────────
         'is_flash_sale', 'flash_sale_price', 'flash_sale_starts_at', 'flash_sale_ends_at',

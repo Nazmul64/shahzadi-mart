@@ -40,41 +40,39 @@ Auth::routes();
 // ══════════════════════════════════════════════════════════════════════════════
 // FRONTEND
 // ══════════════════════════════════════════════════════════════════════════════
-
 Route::get('/', [FrontendController::class, 'frontend'])->name('frontend');
-
 // Product detail
 Route::get('/product/{slug}', [FrontendController::class, 'productdetails'])->name('product.detail');
-
 // Category hierarchy
 Route::get('/category/{slug}',                          [FrontendController::class, 'categoryPage'])->name('category.page');
 Route::get('/category/{catSlug}/{subSlug}',             [FrontendController::class, 'subCategoryPage'])->name('subcategory.page');
 Route::get('/category/{catSlug}/{subSlug}/{childSlug}', [FrontendController::class, 'childCategoryPage'])->name('childcategory.page');
-
 // ══════════════════════════════════════════════════════════════════════════════
 // CART ROUTES  (session-based, no login required)
 // ══════════════════════════════════════════════════════════════════════════════
-
 Route::get('/shipping/areas', [ShippingChargeController::class, 'activeAreas'])->name('shipping.areas');
 // Order Tracking
 Route::get('/track-order',  [OrderTrackController::class, 'index'])->name('order.track');
 Route::post('/track-order', [OrderTrackController::class, 'track'])->name('order.track.search');
-
 // Ajax live search (JSON response)
 Route::get('/search/ajax', [SearchController::class, 'ajax'])->name('search.ajax');
 // Full search results page
 Route::get('/search', [SearchController::class, 'results'])->name('search.results');
 // সব পণ্য পেজ (sort, filter, search, pagination সহ)
 Route::get('/all-products', [FrontendController::class, 'allProducts'])->name('products.all');
+// ── Shop Page ──
+Route::get('/shop', [FrontendController::class, 'shop'])->name('shop');
+// ── Offers Page ──
+Route::get('/offers', [FrontendController::class, 'offers'])->name('offers');
+// ── New Arrivals Page ──
+Route::get('/new-arrivals', [FrontendController::class, 'newArrivals'])->name('new-arrivals');
 // ══════════════════════════════════════════════════════════════════════════════
 // CART ROUTES
 // ✅ add() এখন Request inject করে (color/size query param পড়ার জন্য)
 // ══════════════════════════════════════════════════════════════════════════════
-
 // ══════════════════════════════════════════════════════════════════════════════
 // CART ROUTES
 // ══════════════════════════════════════════════════════════════════════════════
-
 Route::prefix('cart')->group(function () {
     Route::get('/',               [CartController::class, 'index'])->name('cart');
     Route::get('/add/{id}',       [CartController::class, 'add'])->name('cart.add');
@@ -84,11 +82,9 @@ Route::prefix('cart')->group(function () {
     Route::get('/clear',          [CartController::class, 'clear'])->name('cart.clear');
     Route::post('/coupon',        [CartController::class, 'coupon'])->name('cart.coupon');
 });
-
 // ══════════════════════════════════════════════════════════════════════════════
 // WISHLIST ROUTES  ← নতুন route: wishlist.moveToCart
 // ══════════════════════════════════════════════════════════════════════════════
-
 Route::prefix('wishlist')->group(function () {
     Route::get('/',                    [WishlistController::class, 'index'])->name('wishlist');
     Route::get('/add/{id}',            [WishlistController::class, 'add'])->name('wishlist.add');
@@ -97,29 +93,22 @@ Route::prefix('wishlist')->group(function () {
     // ↓ নতুন: wishlist item কে cart-এ move করে এবং wishlist থেকে delete করে
     Route::get('/move-to-cart/{itemId}', [WishlistController::class, 'moveToCart'])->name('wishlist.moveToCart');
 });
-
 // ══════════════════════════════════════════════════════════════════════════════
 // CHECKOUT ROUTES
 // ══════════════════════════════════════════════════════════════════════════════
-
 Route::prefix('checkout')->group(function () {
     Route::get('/',                      [CheckoutController::class, 'index'])->name('checkout');
     Route::post('/place',                [CheckoutController::class, 'place'])->name('checkout.place');
     Route::get('/success/{orderNumber}', [CheckoutController::class, 'success'])->name('order.success');
 });
-
-
-
 // ══════════════════════════════════════════════════════════════════════════════
 // GENERAL AUTH
 // ══════════════════════════════════════════════════════════════════════════════
-
 Route::get('/login',     [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login',    [AuthController::class, 'login'])->name('login.post');
 Route::get('/register',  [AuthController::class, 'showRegister'])->name('register');
 Route::post('/register', [AuthController::class, 'register'])->name('register.post');
 Route::post('/logout',   [AuthController::class, 'logout'])->name('logout');
-
 // ══════════════════════════════════════════════════════════════════════════════
 // CUSTOMER (FRONTEND)
 // ══════════════════════════════════════════════════════════════════════════════
@@ -129,19 +118,15 @@ Route::post('customer/login/submit', [FrontendauthContorller::class, 'customer_l
 Route::get('customer/register',      [FrontendauthContorller::class, 'customer_register'])->name('customer.register');
 Route::post('/customer/register',    [FrontendauthContorller::class, 'customer_register_submit'])->name('customer.register.submit');
 Route::post('/customer/logout',      [FrontendauthContorller::class, 'customer_logout'])->name('customer.logout');
-
 Route::middleware(['customer'])->group(function () {
     Route::get('customer/dashboard', [FrontendController::class, 'user_dashboard'])->name('user.dashboard');
 });
-
 // ══════════════════════════════════════════════════════════════════════════════
 // ADMIN AUTH  (public — no middleware)
 // ══════════════════════════════════════════════════════════════════════════════
-
 Route::get('admin/login',   [AdminauthController::class, 'admin_login'])->name('admin.login');
 Route::post('admin/login',  [AdminauthController::class, 'admin_login_submit'])->name('admin.login.submit');
 Route::post('admin/logout', [AdminauthController::class, 'admin_logout'])->name('admin.logout');
-
 // ══════════════════════════════════════════════════════════════════════════════
 // ADMIN — CUSTOMER CRUD
 // Kept OUTSIDE the name('admin.') group so blade routes like
@@ -159,10 +144,8 @@ Route::middleware(['admin'])->group(function () {
 // ══════════════════════════════════════════════════════════════════════════════
 
 Route::middleware(['admin'])->name('admin.')->group(function () {
-
     // ── Dashboard ─────────────────────────────────────────────────────────────
     Route::get('dashboard', [AdminController::class, 'admin_dashboard'])->name('dashboard');
-
     // ── Seller Registration ───────────────────────────────────────────────────
     Route::get('sellerregistercheck',                   [AdminsellerregisterapprovedController::class, 'seller_register_check'])->name('seller.register.check');
     Route::get('seller/register/status',                [AdminsellerregisterapprovedController::class, 'seller_register_status'])->name('seller.register.status');
@@ -173,24 +156,19 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
     Route::put('seller-registrations/{id}/reactivate',  [AdminsellerregisterapprovedController::class, 'seller_register_reactivate'])->name('seller.register.reactivate');
     Route::get('seller-registrations/export',           [AdminsellerregisterapprovedController::class, 'seller_register_export'])->name('seller.register.export');
     Route::get('seller-registrations/{id}/view',        [AdminsellerregisterapprovedController::class, 'seller_register_view'])->name('seller.register.view');
-
     // ── Coupons ───────────────────────────────────────────────────────────────
     Route::resource('coupons', CouponController::class);
     Route::post('coupons/{id}/status', [CouponController::class, 'updateStatus'])->name('coupons.status');
-
     // ── Roles ─────────────────────────────────────────────────────────────────
     Route::resource('roles', RoleController::class);
     Route::get('roles/{role}/assign-permission',        [RoleController::class, 'assignPermission'])->name('roles.assignPermission');
     Route::put('roles/{role}/save-assigned-permission', [RoleController::class, 'saveAssignedPermission'])->name('roles.saveAssignedPermission');
-
     // ── Permissions ───────────────────────────────────────────────────────────
     Route::post('permissions/bulk-create', [PermissionController::class, 'bulkCreate'])->name('permissions.bulkCreate');
     Route::resource('permissions', PermissionController::class);
-
     // ── Users ─────────────────────────────────────────────────────────────────
     Route::resource('users', UserController::class);
     Route::patch('users/{user}/toggle-status', [UserController::class, 'toggleStatus'])->name('users.toggleStatus');
-
     // ── Categories ────────────────────────────────────────────────────────────
     Route::resource('category', CategoryController::class);
     Route::get('category/{id}/toggle-featured', [CategoryController::class, 'toggleFeatured'])->name('category.toggle-featured');
@@ -200,61 +178,55 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
     Route::resource('subcategory', SubCategoryController::class);
     Route::get('subcategory/{id}/toggle-featured', [SubCategoryController::class, 'toggleFeatured'])->name('subcategory.toggle-featured');
     Route::get('subcategory/{id}/toggle-status',   [SubCategoryController::class, 'toggleStatus'])->name('subcategory.toggle-status');
-
     // ── Child Categories ──────────────────────────────────────────────────────
     Route::resource('childcategory', ChildSubCategoryController::class);
     Route::get('childcategory/{id}/toggle-featured', [ChildSubCategoryController::class, 'childtoggleFeatured'])->name('childcategory.toggle-featured');
     Route::get('childcategory/{id}/toggle-status',   [ChildSubCategoryController::class, 'childtoggleStatus'])->name('childcategory.toggle-status');
     Route::get('get-subcategories',                  [ChildSubCategoryController::class, 'getSubCategories'])->name('childcategory.getSubCategories');
-
     // ── Products ──────────────────────────────────────────────────────────────
-    // ⚠️ Static keyword routes MUST come BEFORE {id} wildcard routes
-    //    AND before Route::resource() — otherwise Laravel will try to match
-    //    "flash-sales" / "new-arrivals" / "deactivated" etc. as a product {id}.
-
     // · AJAX helpers
-    Route::get('products/get-subcategories',   [ProductController::class, 'getSubCategories'])->name('products.getSubCategories');
-    Route::get('products/get-childcategories', [ProductController::class, 'getChildCategories'])->name('products.getChildCategories');
+// ── Products (inside the admin middleware + name('admin.') group) ──────────
 
-    // · Special list pages (static segments — NO {id})
-    Route::get('products/deactivated',  [ProductController::class, 'deactivated'])->name('products.deactivated');
-    Route::get('products/flash-sales',  [ProductController::class, 'flashSalesIndex'])->name('products.flash-sales');
-    Route::get('products/new-arrivals', [ProductController::class, 'newArrivalsIndex'])->name('products.new-arrivals');
-    Route::get('products/catalog',      [ProductController::class, 'catalogIndex'])->name('products.catalog');
+// 1. AJAX helpers
+Route::get('products/get-subcategories',   [ProductController::class, 'getSubCategories'])->name('products.getSubCategories');
+Route::get('products/get-childcategories', [ProductController::class, 'getChildCategories'])->name('products.getChildCategories');
 
-    // · Per-product actions ({id} wildcard — after all static segments)
-    Route::get ('products/{id}/toggle-status',      [ProductController::class, 'toggleStatus'])->name('products.toggle-status');
-    Route::get ('products/{id}/catalog-add',        [ProductController::class, 'catalogAdd'])->name('products.catalog.add');
-    Route::post('products/{id}/catalog-remove',     [ProductController::class, 'catalogRemove'])->name('products.catalog.remove');
-    Route::post('products/{id}/catalog-highlight',  [ProductController::class, 'catalogHighlight'])->name('products.catalog.highlight');
-    Route::get ('products/{id}/catalog-gallery',    [ProductController::class, 'catalogGallery'])->name('products.catalog.gallery');
-    Route::post('products/{id}/toggle-flash-sale',  [ProductController::class, 'toggleFlashSale'])->name('products.toggle-flash-sale');
-    Route::post('products/{id}/update-flash-sale',  [ProductController::class, 'updateFlashSale'])->name('products.update-flash-sale');
-    Route::post('products/{id}/toggle-new-arrival', [ProductController::class, 'toggleNewArrival'])->name('products.toggle-new-arrival');
+// 2. Static / special pages (must come BEFORE the resource to avoid {id} clash)
+Route::get('products/deactivated',   [ProductController::class, 'deactivated'])->name('products.deactivated');
+Route::get('products/flash-sales',   [ProductController::class, 'flashSalesIndex'])->name('products.flash-sales');
+Route::get('products/new-arrivals',  [ProductController::class, 'newArrivalsIndex'])->name('products.new-arrivals');
+Route::get('products/bestsellers',   [ProductController::class, 'bestsellersIndex'])->name('products.bestsellers');
+Route::get('products/catalog',       [ProductController::class, 'catalogIndex'])->name('products.catalog');
 
-    // · Resource LAST — its {product} wildcard must not eat the static segments above
-    Route::resource('products', ProductController::class);
+// 3. Per-product actions  {id}
+Route::get ('products/{id}/toggle-status',       [ProductController::class, 'toggleStatus'])->name('products.toggle-status');
+Route::get ('products/{id}/catalog-add',         [ProductController::class, 'catalogAdd'])->name('products.catalog.add');
+Route::post('products/{id}/catalog-remove',      [ProductController::class, 'catalogRemove'])->name('products.catalog.remove');
+Route::post('products/{id}/catalog-highlight',   [ProductController::class, 'catalogHighlight'])->name('products.catalog.highlight');
+Route::get ('products/{id}/catalog-gallery',     [ProductController::class, 'catalogGallery'])->name('products.catalog.gallery');
+Route::post('products/{id}/toggle-flash-sale',   [ProductController::class, 'toggleFlashSale'])->name('products.toggle-flash-sale');
+Route::post('products/{id}/update-flash-sale',   [ProductController::class, 'updateFlashSale'])->name('products.update-flash-sale');
+Route::post('products/{id}/toggle-new-arrival',  [ProductController::class, 'toggleNewArrival'])->name('products.toggle-new-arrival');
+Route::post('products/{id}/toggle-bestseller',   [ProductController::class, 'toggleBestseller'])->name('products.toggle-bestseller');
 
+// 4. Resource (index, create, store, show, edit, update, destroy)
+Route::resource('products', ProductController::class);
     // ── Product Settings ──────────────────────────────────────────────────────
     Route::get('product-settings',        [Productsettingcontroller::class, 'index'])->name('product.settings.index');
     Route::put('product-settings/update', [Productsettingcontroller::class, 'update'])->name('product.settings.update');
-
     // ── Affiliate Products ────────────────────────────────────────────────────
     Route::get('affiliateproduct/get-sub-categories',   [AffiliateproductController::class, 'getSubCategories'])->name('affiliateproduct.sub-categories');
     Route::get('affiliateproduct/get-child-categories', [AffiliateproductController::class, 'getChildCategories'])->name('affiliateproduct.child-categories');
     Route::post('affiliateproduct/{id}/toggle-status',  [AffiliateproductController::class, 'toggleStatus'])->name('affiliateproduct.toggle-status');
     Route::resource('affiliateproduct', AffiliateproductController::class);
-
     // ── General Settings ──────────────────────────────────────────────────────
     Route::post('Generalsettings/upload-logo', [GeneralsettingController::class, 'uploadLogo'])->name('Generalsettings.upload-logo');
     Route::post('Generalsettings/delete-logo', [GeneralsettingController::class, 'deleteLogo'])->name('Generalsettings.delete-logo');
     Route::resource('Generalsettings', GeneralsettingController::class);
-
     // ── Website Favicon ───────────────────────────────────────────────────────
     Route::post('websitefavicon/upload-logo', [WebsitefaviconController::class, 'uploadLogo'])->name('websitefavicon.upload-logo');
     Route::post('websitefavicon/delete-logo', [WebsitefaviconController::class, 'deleteLogo'])->name('websitefavicon.delete-logo');
     Route::resource('websitefavicon', WebsitefaviconController::class);
-
     // ── Slider ────────────────────────────────────────────────────────────────
     Route::resource('slider', SliderController::class);
     // Shipping Charge — Resource Routes
@@ -263,48 +235,36 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
     // Route::patch('shipping/{shipping}/toggle-status', [ShippingChargeController::class, 'toggleStatus'])->name('shipping.toggle-status');
     Route::get('/toggle/{shipping}',           [ShippingChargeController::class, 'toggleStatus'])->name('toggle');
 }); // end admin named group
-
-
 // ══════════════════════════════════════════════════════════════════════════════
 // SELLER
 // ══════════════════════════════════════════════════════════════════════════════
-
 Route::get('seller/login',    [SellerauthController::class, 'saller_login'])->name('saller.login');
 Route::get('seller/register', [SellerauthController::class, 'saller_register'])->name('saller.register');
 Route::post('seller/login',   [SellerauthController::class, 'saller_login_submit'])->name('saller.login.submit');
 Route::post('seller',         [SellerauthController::class, 'saller_register_submit'])->name('saller.register.submit');
-
 Route::middleware(['saller'])->group(function () {
     Route::get('saller/dashboard', [SellerauthController::class, 'saller_dashboard'])->name('saller.dashboard');
     Route::post('saller/logout',   [SellerauthController::class, 'saller_logout'])->name('saller.logout');
 });
 
-
 // ══════════════════════════════════════════════════════════════════════════════
 // EMPLOYEE
 // ══════════════════════════════════════════════════════════════════════════════
-
 Route::get('emplee/login',         [EmpleeController::class, 'emplee'])->name('emplee.login');
 Route::post('emplee/login/submit', [EmpleeController::class, 'loginSubmit'])->name('emplee.login.submit');
 Route::post('emplee/logout',       [EmpleeController::class, 'emplee_logout'])->name('emplee.logout');
-
 Route::middleware(['emplee'])->group(function () {
     Route::get('emplee/dashboard', [EmpleeController::class, 'emplee_dashboard'])->name('emplee.dashboard');
 });
-
-
 // ══════════════════════════════════════════════════════════════════════════════
 // MANAGER
-// ══════════════════════════════════════════════════════════════════════════════
-
+// ═════════════════════════════════════════════════════════════════════════════
 Route::get('manager/login',         [ManagerController::class, 'manager_login'])->name('manager.login');
 Route::post('manager/login/submit', [ManagerController::class, 'manager_login_submit'])->name('manager.login.submit');
 Route::get('manager/logout',        [ManagerController::class, 'manager_logout'])->name('manager.logout');
-
 Route::middleware(['manager'])->group(function () {
-    Route::get('manager/dashboard', [ManagerController::class, 'manager_dashboard'])->name('manager.dashboard');
+Route::get('manager/dashboard', [ManagerController::class, 'manager_dashboard'])->name('manager.dashboard');
 });
-
 
 // ══════════════════════════════════════════════════════════════════════════════
 // SUB-ADMIN

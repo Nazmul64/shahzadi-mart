@@ -26,7 +26,7 @@ class WebsitefaviconController extends Controller
             'logo' => [
                 'required',
                 'file',
-                'max:1024',
+
                 function ($attribute, $value, $fail) {
                     $allowed = ['jpg', 'jpeg', 'png', 'gif', 'svg', 'webp', 'ico'];
                     $ext     = strtolower($value->getClientOriginalExtension());

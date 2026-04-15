@@ -9,6 +9,7 @@ use App\Models\ChildSubCategory;
 use App\Models\Generalsetting;
 use App\Models\Product;
 use App\Models\Slider;
+use App\Models\Websitefavicon;
 use Illuminate\Http\Request;
 
 class FrontendController extends Controller
@@ -34,6 +35,8 @@ class FrontendController extends Controller
     public function frontend()
     {
         $websetting        = Generalsetting::first();
+        $websitefavicon = Websitefavicon::first();
+
         $slider            = Slider::all();
         $categories        = Category::where('status', 'active')->get();
         $sidebarCategories = $this->getSidebarCategories();
@@ -41,7 +44,7 @@ class FrontendController extends Controller
         $flashProducts = Product::where('status', 'active')
                             ->where('is_flash_sale', true)
                             ->latest()
-                            ->take(8)
+                            ->take(20)
                             ->get();
 
         $hotCategories = Category::where('status', 'active')
@@ -51,20 +54,21 @@ class FrontendController extends Controller
         $newArrivals = Product::where('status', 'active')
                             ->where('is_new_arrival', true)
                             ->latest('arrived_at')
-                            ->take(8)
+                            ->take(20)
                             ->get();
 
         $bestSellers = Product::where('status', 'active')
                             ->whereNotNull('discount_price')
                             ->where('discount_price', '>', 0)
                             ->orderByRaw('(current_price - discount_price) DESC')
-                            ->take(8)
+                            ->take(20)
                             ->get();
 
         return view('frontend.index', compact(
             'slider', 'categories', 'websetting',
             'flashProducts', 'hotCategories',
-            'newArrivals', 'bestSellers', 'sidebarCategories'
+            'newArrivals', 'bestSellers', 'sidebarCategories',
+            'websitefavicon',
         ));
     }
 
@@ -286,6 +290,111 @@ class FrontendController extends Controller
 
     return view('frontend.allproducts', compact(
         'products', 'categories', 'websetting', 'sidebarCategories'
+    ));
+}
+// ─── Shop Page ────────────────────────────────────────────────────────────────
+public function shop(Request $request)
+{
+    $websetting        = Generalsetting::first();
+    $categories        = Category::where('status', 'active')->get();
+    $sidebarCategories = $this->getSidebarCategories();
+
+    $query = Product::where('status', 'active');
+
+    // Filter: Category
+    if ($request->filled('category')) {
+        $cat = Category::where('slug', $request->category)->first();
+        if ($cat) {
+            $subIds   = $cat->subCategories()->pluck('id');
+            $childIds = \App\Models\ChildSubCategory::whereIn('sub_category_id', $subIds)->pluck('id');
+            $query->where(function ($q) use ($cat, $subIds, $childIds) {
+                $q->where('category_id', $cat->id)
+                  ->orWhereIn('sub_category_id', $subIds)
+                  ->orWhereIn('child_sub_category_id', $childIds);
+            });
+        }
+    }
+
+    // Sort
+    switch ($request->get('sort', 'latest')) {
+        case 'price_low':
+            $query->orderByRaw('COALESCE(discount_price, current_price) ASC');
+            break;
+        case 'price_high':
+            $query->orderByRaw('COALESCE(discount_price, current_price) DESC');
+            break;
+        case 'name_asc':
+            $query->orderBy('name', 'asc');
+            break;
+        case 'discount':
+            $query->whereNotNull('discount_price')
+                  ->where('discount_price', '>', 0)
+                  ->orderByRaw('(current_price - discount_price) DESC');
+            break;
+        default:
+            $query->latest();
+            break;
+    }
+
+    $products = $query->paginate(20)->withQueryString();
+
+    return view('frontend.shop', compact(
+        'products', 'categories', 'websetting', 'sidebarCategories'
+    ));
+}
+
+// ─── Offers Page ──────────────────────────────────────────────────────────────
+public function offers(Request $request)
+{
+    $websetting        = Generalsetting::first();
+    $sidebarCategories = $this->getSidebarCategories();
+
+    // Flash sale products
+    $flashProducts = Product::where('status', 'active')
+                        ->where('is_flash_sale', true)
+                        ->latest()
+                        ->take(8)
+                        ->get();
+
+    // Discount products (paginated)
+    $query = Product::where('status', 'active')
+                    ->whereNotNull('discount_price')
+                    ->where('discount_price', '>', 0);
+
+    // Sort
+    if ($request->get('sort') === 'discount') {
+        $query->orderByRaw('(current_price - discount_price) DESC');
+    } else {
+        $query->orderByRaw('(current_price - discount_price) DESC');
+    }
+
+    $discountProducts = $query->paginate(16)->withQueryString();
+
+    return view('frontend.offers', compact(
+        'flashProducts', 'discountProducts', 'websetting', 'sidebarCategories'
+    ));
+}
+
+// ─── New Arrivals Page ────────────────────────────────────────────────────────
+public function newArrivals(Request $request)
+{
+    $websetting        = Generalsetting::first();
+    $sidebarCategories = $this->getSidebarCategories();
+
+    $query = Product::where('status', 'active')
+                    ->where('is_new_arrival', true);
+
+    // Filter: when
+    if ($request->get('when') === 'week') {
+        $query->where('arrived_at', '>=', now()->subWeek());
+    } elseif ($request->get('when') === 'month') {
+        $query->where('arrived_at', '>=', now()->subMonth());
+    }
+
+    $newArrivals = $query->latest('arrived_at')->paginate(20)->withQueryString();
+
+    return view('frontend.new-arrivals', compact(
+        'newArrivals', 'websetting', 'sidebarCategories'
     ));
 }
 }

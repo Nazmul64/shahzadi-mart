@@ -1,0 +1,476 @@
+{{-- resources/views/frontend/offers.blade.php --}}
+@extends('frontend.master')
+
+@section('main-content')
+
+<style>
+/* ═══════════════════════════════════════════
+   OFFERS PAGE — Professional Rewrite v4
+   Clean flat design · Fully responsive
+═══════════════════════════════════════════ */
+
+*,*::before,*::after{box-sizing:border-box;}
+
+.ofp{
+    max-width:1100px;
+    margin:0 auto;
+    padding:20px 16px 40px;
+}
+
+/* ── Hero ── */
+.ofp-hero{
+    background:#0f0007;
+    border-radius:16px;
+    padding:36px 32px;
+    margin-bottom:24px;
+    position:relative;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+}
+.ofp-hero::after{
+    content:'';
+    position:absolute;inset:0;
+    background:radial-gradient(ellipse at 78% 50%,rgba(200,16,46,.38),transparent 62%);
+    pointer-events:none;
+}
+.ofp-hero__text{position:relative;z-index:2;}
+.ofp-hero__eye{
+    font-size:10px;font-weight:700;
+    letter-spacing:.2em;text-transform:uppercase;
+    color:#f0c040;margin:0 0 10px;
+    display:flex;align-items:center;gap:8px;
+}
+.ofp-hero__eye::before{
+    content:'';width:24px;height:1.5px;
+    background:#f0c040;border-radius:2px;flex-shrink:0;
+}
+.ofp-hero__title{
+    font-size:36px;font-weight:800;
+    color:#fff;line-height:1.1;margin:0 0 8px;
+}
+.ofp-hero__title em{color:#f0c040;font-style:normal;}
+.ofp-hero__sub{
+    font-size:13px;color:rgba(255,255,255,.6);
+    font-weight:400;margin:0;
+}
+.ofp-hero__badge{
+    position:relative;z-index:2;
+    background:#f0c040;color:#1a0008;
+    border-radius:50%;width:100px;height:100px;
+    display:flex;flex-direction:column;
+    align-items:center;justify-content:center;
+    flex-shrink:0;text-align:center;
+    animation:ofp-wobble 3s ease-in-out infinite;
+}
+.ofp-hero__badge .b-num{font-size:28px;font-weight:900;line-height:1;display:block;}
+.ofp-hero__badge .b-txt{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;display:block;}
+@keyframes ofp-wobble{
+    0%,100%{transform:rotate(-4deg) scale(1);}
+    50%    {transform:rotate(4deg) scale(1.06);}
+}
+
+/* ── Filter Bar ── */
+.ofp-filter{
+    background:#fff;
+    border:1px solid #e5e7eb;
+    border-radius:12px;
+    padding:12px 16px;
+    margin-bottom:22px;
+    display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+    box-shadow:0 1px 4px rgba(0,0,0,.05);
+}
+.ofp-filter__lbl{
+    font-size:10px;font-weight:800;
+    letter-spacing:.14em;text-transform:uppercase;
+    color:#9ca3af;margin-right:4px;flex-shrink:0;
+    display:flex;align-items:center;gap:5px;
+}
+.ofp-chip{
+    padding:5px 14px;border-radius:20px;
+    font-size:12.5px;font-weight:700;
+    cursor:pointer;border:1.5px solid #e5e7eb;
+    background:#f9fafb;color:#6b7280;
+    transition:all .18s;text-decoration:none;
+    white-space:nowrap;display:inline-flex;align-items:center;gap:5px;
+}
+.ofp-chip:hover,.ofp-chip.is-active{
+    border-color:#c8102e;background:#c8102e;
+    color:#fff;text-decoration:none;
+}
+
+/* ── Section Heading ── */
+.ofp-sec{
+    display:flex;align-items:center;gap:10px;
+    margin:24px 0 14px;
+}
+.ofp-sec::before{
+    content:'';width:4px;height:22px;
+    background:#c8102e;border-radius:3px;flex-shrink:0;
+}
+.ofp-sec h2{
+    font-size:20px;font-weight:800;
+    color:#111827;margin:0;
+    display:flex;align-items:center;gap:6px;
+}
+.ofp-tag{
+    font-size:9px;font-weight:800;
+    letter-spacing:.08em;text-transform:uppercase;
+    padding:3px 10px;border-radius:20px;
+}
+.ofp-tag--amber{background:#fef3c7;color:#92400e;}
+.ofp-tag--red  {background:#fee2e2;color:#991b1b;}
+
+/* ── Grid ── */
+.ofp-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(185px,1fr));
+    gap:14px;margin-bottom:28px;align-items:stretch;
+}
+
+/* ── Card Wrapper ── */
+.ofp-wrap{position:relative;display:flex;flex-direction:column;}
+
+/* Wishlist */
+.ofp-wish{
+    position:absolute;top:9px;right:9px;
+    width:30px;height:30px;background:#fff;
+    border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-size:13px;color:#bbb;
+    box-shadow:0 2px 8px rgba(0,0,0,.14);
+    z-index:10;border:none;cursor:pointer;
+    transition:all .18s;text-decoration:none;
+    opacity:0;pointer-events:none;
+}
+.ofp-wrap:hover .ofp-wish{opacity:1;pointer-events:auto;}
+.ofp-wish:hover{transform:scale(1.18);color:#c8102e;background:#fff0f0;text-decoration:none;}
+
+/* ── Card ── */
+.ofp-card{
+    flex:1;display:flex;flex-direction:column;
+    background:#fff;border:1px solid #e5e7eb;
+    border-radius:14px;overflow:hidden;
+    position:relative;transition:all .22s ease;
+    text-decoration:none;color:inherit;
+}
+.ofp-card:hover{
+    box-shadow:0 8px 28px rgba(0,0,0,.11);
+    transform:translateY(-5px);border-color:#d1d5db;
+    text-decoration:none;color:inherit;
+}
+
+/* Discount badge */
+.ofp-disc{
+    position:absolute;top:9px;left:9px;
+    background:#c8102e;color:#fff;
+    font-size:9.5px;font-weight:800;
+    padding:3px 8px;border-radius:6px;
+    letter-spacing:.04em;z-index:2;pointer-events:none;line-height:1.4;
+}
+.ofp-disc--gold{background:#f0c040;color:#1a0008;}
+
+/* Image */
+.ofp-img-wrap{
+    height:168px;overflow:hidden;
+    flex-shrink:0;background:#f9fafb;
+}
+.ofp-img{
+    width:100%;height:100%;object-fit:cover;
+    display:block;border-bottom:1px solid #f3f4f6;
+    transition:transform .32s ease;
+}
+.ofp-card:hover .ofp-img{transform:scale(1.055);}
+
+/* Card Body */
+.ofp-body{
+    display:flex;flex-direction:column;
+    flex:1;min-height:0;
+    padding:11px 12px 13px;
+}
+.ofp-name{
+    font-size:13px;font-weight:600;
+    color:#1f2937;line-height:1.45;margin:0 0 7px;
+    display:-webkit-box;
+    -webkit-line-clamp:2;-webkit-box-orient:vertical;
+    overflow:hidden;
+    min-height:calc(13px * 1.45 * 2);
+}
+.ofp-price{
+    font-size:16px;font-weight:900;
+    color:#c8102e;margin:0 0 2px;line-height:1.2;
+}
+.ofp-old{
+    font-size:11.5px;color:#9ca3af;
+    text-decoration:line-through;margin:0 0 7px;
+}
+.ofp-stars{
+    color:#f59e0b;font-size:12px;
+    margin-bottom:9px;line-height:1;letter-spacing:1px;
+}
+.ofp-spacer{flex:1;min-height:4px;}
+
+/* Add to Cart */
+.ofp-atc{
+    display:flex;align-items:center;justify-content:center;gap:6px;
+    width:100%;padding:9px 0;
+    background:#c8102e;color:#fff;
+    border:none;border-radius:8px;
+    font-size:12.5px;font-weight:700;
+    cursor:pointer;transition:all .18s;
+    text-decoration:none;line-height:1.4;flex-shrink:0;
+}
+.ofp-atc:hover{
+    background:#a50d26;transform:translateY(-1px);
+    box-shadow:0 5px 14px rgba(200,16,46,.32);
+    color:#fff;text-decoration:none;
+}
+.ofp-atc--out{
+    background:#f3f4f6;color:#9ca3af;
+    cursor:not-allowed;pointer-events:none;
+}
+
+/* Empty State */
+.ofp-empty{
+    text-align:center;padding:52px 20px;
+    color:#9ca3af;background:#fff;
+    border:1px solid #e5e7eb;border-radius:14px;
+}
+.ofp-empty i{font-size:48px;display:block;margin-bottom:12px;opacity:.25;}
+.ofp-empty p{font-size:14.5px;font-weight:600;margin:0;color:#6b7280;}
+
+/* Pagination */
+.ofp-pages{
+    display:flex;justify-content:center;align-items:center;
+    gap:5px;margin:12px 0 28px;flex-wrap:wrap;
+}
+.ofp-pages a,.ofp-pages span{
+    padding:7px 13px;border:1.5px solid #e5e7eb;border-radius:8px;
+    font-size:13px;font-weight:700;color:#6b7280;
+    transition:all .18s;text-decoration:none;display:inline-block;
+    line-height:1.4;min-width:36px;text-align:center;
+}
+.ofp-pages a:hover{border-color:#c8102e;color:#c8102e;text-decoration:none;}
+.ofp-pages .is-cur{border-color:#c8102e;background:#c8102e;color:#fff;}
+.ofp-pages span{opacity:.4;cursor:default;}
+
+/* Responsive */
+@media(max-width:768px){
+    .ofp-hero        {padding:26px 20px;}
+    .ofp-hero__title {font-size:26px;}
+    .ofp-hero__badge {width:78px;height:78px;}
+    .ofp-hero__badge .b-num{font-size:22px;}
+    .ofp-grid        {grid-template-columns:repeat(2,1fr);gap:10px;}
+    .ofp-img-wrap    {height:140px;}
+    .ofp-wish        {opacity:1;pointer-events:auto;}
+}
+@media(max-width:420px){
+    .ofp-hero__title {font-size:20px;}
+    .ofp-grid        {gap:8px;}
+    .ofp-img-wrap    {height:120px;}
+    .ofp-name        {font-size:12px;}
+    .ofp-atc         {font-size:11.5px;padding:8px 0;}
+}
+</style>
+
+<div class="ofp">
+
+    {{-- ══════════ HERO ══════════ --}}
+    <div class="ofp-hero">
+        <div class="ofp-hero__text">
+            <p class="ofp-hero__eye">
+                <i class="bi bi-tag-fill"></i> Exclusive Deals
+            </p>
+            <h1 class="ofp-hero__title">সেরা <em>অফার</em> &amp;<br>ডিসকাউন্ট</h1>
+            <p class="ofp-hero__sub">সীমিত সময়ের জন্য বিশেষ মূল্যছাড় উপভোগ করুন</p>
+        </div>
+        <div class="ofp-hero__badge">
+            <span class="b-num">70%</span>
+            <span class="b-txt">পর্যন্ত</span>
+            <span class="b-txt">ছাড়</span>
+        </div>
+    </div>
+
+    {{-- ══════════ FILTER BAR ══════════ --}}
+    <div class="ofp-filter">
+        <span class="ofp-filter__lbl">
+            <i class="bi bi-funnel-fill"></i> ফিল্টার:
+        </span>
+        <a href="{{ url('offers') }}"
+           class="ofp-chip {{ !request('type') && !request('sort') ? 'is-active' : '' }}">
+            সব অফার
+        </a>
+        <a href="{{ url('offers?type=flash') }}"
+           class="ofp-chip {{ request('type') === 'flash' ? 'is-active' : '' }}">
+            <i class="bi bi-lightning-charge-fill"></i> ফ্ল্যাশ সেল
+        </a>
+        <a href="{{ url('offers?type=clearance') }}"
+           class="ofp-chip {{ request('type') === 'clearance' ? 'is-active' : '' }}">
+            <i class="bi bi-fire"></i> ক্লিয়ারেন্স
+        </a>
+        <a href="{{ url('offers?sort=discount') }}"
+           class="ofp-chip {{ request('sort') === 'discount' ? 'is-active' : '' }}">
+            <i class="bi bi-sort-down"></i> সর্বোচ্চ ছাড়
+        </a>
+    </div>
+
+    {{-- ══════════ FLASH SALE ══════════ --}}
+    @if(isset($flashProducts) && $flashProducts->isNotEmpty())
+
+        <div class="ofp-sec">
+            <h2><i class="bi bi-lightning-charge-fill" style="color:#c8102e"></i> ফ্ল্যাশ সেল</h2>
+            <span class="ofp-tag ofp-tag--red">HOT</span>
+        </div>
+
+        <div class="ofp-grid">
+            @foreach($flashProducts as $item)
+                @php
+                    $dPrice  = $item->flash_sale_price ?? $item->discount_price ?? $item->current_price;
+                    $oPrice  = $item->current_price;
+                    $disc    = ($dPrice < $oPrice && $oPrice > 0)
+                               ? round((($oPrice - $dPrice) / $oPrice) * 100) : null;
+                    $inStock = $item->is_unlimited || (($item->stock ?? 0) > 0);
+                @endphp
+                <div class="ofp-wrap">
+                    <a href="{{ route('wishlist.add', $item->id) }}"
+                       class="ofp-wish"
+                       onclick="event.stopPropagation();event.preventDefault();"
+                       title="উইশলিস্টে যোগ করুন">
+                        <i class="bi bi-heart"></i>
+                    </a>
+                    <a href="{{ route('product.detail', $item->slug) }}" class="ofp-card">
+                        @if($disc)
+                            <span class="ofp-disc{{ $disc >= 50 ? ' ofp-disc--gold' : '' }}">-{{ $disc }}%</span>
+                        @endif
+                        <div class="ofp-img-wrap">
+                            <img class="ofp-img"
+                                 src="{{ asset('uploads/products/' . $item->feature_image) }}"
+                                 alt="{{ $item->name }}"
+                                 loading="lazy"
+                                 onerror="this.src='{{ asset('default/no-image.png') }}'">
+                        </div>
+                        <div class="ofp-body">
+                            <p class="ofp-name">{{ $item->name }}</p>
+                            <p class="ofp-price">৳&nbsp;{{ number_format($dPrice, 0) }}</p>
+                            @if($dPrice < $oPrice)
+                                <p class="ofp-old">৳&nbsp;{{ number_format($oPrice, 0) }}</p>
+                            @endif
+                            <div class="ofp-stars" aria-label="রেটিং">★★★★☆</div>
+                            <div class="ofp-spacer"></div>
+                            @if($inStock)
+                                <a href="{{ route('cart.add', $item->id) }}"
+                                   class="ofp-atc"
+                                   onclick="event.stopPropagation()">
+                                    <i class="bi bi-cart-plus-fill"></i> কার্টে যোগ করুন
+                                </a>
+                            @else
+                                <span class="ofp-atc ofp-atc--out">
+                                    <i class="bi bi-x-circle"></i> স্টক নেই
+                                </span>
+                            @endif
+                        </div>
+                    </a>
+                </div>
+            @endforeach
+        </div>
+
+    @endif
+
+    {{-- ══════════ DISCOUNT PRODUCTS ══════════ --}}
+    <div class="ofp-sec">
+        <h2>ডিসকাউন্ট পণ্য</h2>
+        <span class="ofp-tag ofp-tag--amber">সেভ করুন</span>
+    </div>
+
+    @if(isset($discountProducts) && $discountProducts->isNotEmpty())
+
+        <div class="ofp-grid">
+            @foreach($discountProducts as $item)
+                @php
+                    $dPrice  = $item->discount_price ?? $item->current_price;
+                    $oPrice  = $item->current_price;
+                    $disc    = ($item->discount_price && $oPrice > 0)
+                               ? round((($oPrice - $item->discount_price) / $oPrice) * 100) : null;
+                    $inStock = $item->is_unlimited || (($item->stock ?? 0) > 0);
+                @endphp
+                <div class="ofp-wrap">
+                    <a href="{{ route('wishlist.add', $item->id) }}"
+                       class="ofp-wish"
+                       onclick="event.stopPropagation();event.preventDefault();"
+                       title="উইশলিস্টে যোগ করুন">
+                        <i class="bi bi-heart"></i>
+                    </a>
+                    <a href="{{ route('product.detail', $item->slug) }}" class="ofp-card">
+                        @if($disc)
+                            <span class="ofp-disc{{ $disc >= 50 ? ' ofp-disc--gold' : '' }}">-{{ $disc }}%</span>
+                        @endif
+                        <div class="ofp-img-wrap">
+                            <img class="ofp-img"
+                                 src="{{ asset('uploads/products/' . $item->feature_image) }}"
+                                 alt="{{ $item->name }}"
+                                 loading="lazy"
+                                 onerror="this.src='{{ asset('default/no-image.png') }}'">
+                        </div>
+                        <div class="ofp-body">
+                            <p class="ofp-name">{{ $item->name }}</p>
+                            <p class="ofp-price">৳&nbsp;{{ number_format($dPrice, 0) }}</p>
+                            @if($item->discount_price && $item->discount_price < $oPrice)
+                                <p class="ofp-old">৳&nbsp;{{ number_format($oPrice, 0) }}</p>
+                            @endif
+                            <div class="ofp-stars" aria-label="রেটিং">★★★★☆</div>
+                            <div class="ofp-spacer"></div>
+                            @if($inStock)
+                                <a href="{{ route('cart.add', $item->id) }}"
+                                   class="ofp-atc"
+                                   onclick="event.stopPropagation()">
+                                    <i class="bi bi-cart-plus-fill"></i> কার্টে যোগ করুন
+                                </a>
+                            @else
+                                <span class="ofp-atc ofp-atc--out">
+                                    <i class="bi bi-x-circle"></i> স্টক নেই
+                                </span>
+                            @endif
+                        </div>
+                    </a>
+                </div>
+            @endforeach
+        </div>
+
+        {{-- Pagination --}}
+        @if($discountProducts->hasPages())
+            <div class="ofp-pages">
+                @if($discountProducts->onFirstPage())
+                    <span>‹</span>
+                @else
+                    <a href="{{ $discountProducts->previousPageUrl() }}">‹</a>
+                @endif
+
+                @foreach($discountProducts->links()->elements[0] as $page => $url)
+                    @if($page == $discountProducts->currentPage())
+                        <span class="is-cur">{{ $page }}</span>
+                    @else
+                        <a href="{{ $url }}">{{ $page }}</a>
+                    @endif
+                @endforeach
+
+                @if($discountProducts->hasMorePages())
+                    <a href="{{ $discountProducts->nextPageUrl() }}">›</a>
+                @else
+                    <span>›</span>
+                @endif
+            </div>
+        @endif
+
+    @else
+
+        <div class="ofp-empty">
+            <i class="bi bi-tag"></i>
+            <p>এখন কোনো অফার নেই। শীঘ্রই আসছে!</p>
+        </div>
+
+    @endif
+
+</div>
+
+@endsection

@@ -25,7 +25,6 @@ return new class extends Migration
             $table->foreignId('child_sub_category_id')->nullable()->constrained('child_sub_categories')->nullOnDelete();
 
             // ── Type & File ───────────────────────────────────
-            // digital | physical | license | classified_listing | service
             $table->enum('product_type', [
                 'digital',
                 'physical',
@@ -73,7 +72,11 @@ return new class extends Migration
 
             // ── New Arrivals ──────────────────────────────────
             $table->boolean('is_new_arrival')->default(false);
-            $table->timestamp('arrived_at')->nullable(); // when it was marked as new arrival
+            $table->timestamp('arrived_at')->nullable();
+
+            // ── Bestseller ────────────────────────────────────
+            $table->boolean('is_bestseller')->default(false);
+            $table->timestamp('bestseller_at')->nullable();
 
             $table->timestamps();
         });
