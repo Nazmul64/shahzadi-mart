@@ -704,7 +704,15 @@ body.sb-collapsed .sidebar-submenu { display: none; }
                class="{{ request()->routeIs('admin.pixels.*') ? 'active' : '' }}">
                 <i class="bi bi-image"></i> pixels Settings
             </a>
-            pixels
+            </a>
+              <a href="{{ route('admin.googletagmanager.index') }}"
+               class="{{ request()->routeIs('admin.googletagmanager.*') ? 'active' : '' }}">
+                <i class="bi bi-image"></i> Google Tag Manager
+            </a>
+
+
+
+
             <a href="{{ route('admin.websitefavicon.index') }}"
                class="{{ request()->routeIs('admin.websitefavicon.*') ? 'active' : '' }}">
                 <i class="bi bi-layout-text-sidebar"></i> Website Favicon

@@ -13,7 +13,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::SsDBPXJW0abUNzjq',
+            '_route' => 'generated::DGfESyIZYGoC4Tlr',
           ),
           1 => NULL,
           2 => 
@@ -196,7 +196,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::Ufb6xiGCPxqSbrLH',
+            '_route' => 'generated::xTG6LaG8FZPtXSga',
           ),
           1 => NULL,
           2 => 
@@ -2136,6 +2136,62 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
+      '/googletagmanager' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.googletagmanager.index',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.googletagmanager.store',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/googletagmanager/create' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.googletagmanager.create',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
       '/seller/login' => 
       array (
         0 => 
@@ -2489,7 +2545,7 @@ app('router')->setCompiledRoutes(
     ),
     2 => 
     array (
-      0 => '{^(?|/p(?|assword/reset/([^/]++)(*:34)|roduct(?|/([^/]++)(*:59)|s/([^/]++)(?|/(?|toggle\\-(?|status(*:100)|flash\\-sale(*:119)|new\\-arrival(*:139)|bestseller(*:157))|catalog\\-(?|add(*:181)|remove(*:195)|highlight(*:212)|gallery(*:227))|update\\-flash\\-sale(*:255)|edit(*:267))|(*:276)))|ermissions/([^/]++)(?|(*:308)|/edit(*:321)|(*:329))|ixels/([^/]++)(?|(*:355)|/edit(*:368)|(*:376)))|/c(?|a(?|tegory/(?|([^/]++)(?|(*:416)|/([^/]++)(?|(*:436)|/([^/]++)(*:453)))|create(*:469)|([^/]++)(?|(*:488)|/(?|edit(*:504)|toggle\\-(?|featured(*:531)|status(*:545)))|(*:555)))|rt/(?|add/([^/]++)(*:583)|remove/([^/]++)(*:606)|increase/([^/]++)(*:631)|decrease/([^/]++)(*:656)))|h(?|eckout/success/([^/]++)(*:693)|ildcategory/([^/]++)(?|(*:724)|/(?|edit(*:740)|toggle\\-(?|featured(*:767)|status(*:781)))|(*:791)))|ustomer/([^/]++)(?|(*:820)|/(?|edit(*:836)|status(*:850)|make\\-vendor(*:870))|(*:879))|o(?|upons/([^/]++)(?|(*:909)|/(?|edit(*:925)|status(*:939))|(*:948))|ntact/([^/]++)(?|(*:974)|/edit(*:987)|(*:995))))|/w(?|ishlist/(?|add/([^/]++)(*:1034)|remove/([^/]++)(*:1058)|move\\-to\\-cart/([^/]++)(*:1090))|ebsitefavicon/([^/]++)(?|(*:1125)|/edit(*:1139)|(*:1148)))|/s(?|eller\\-registrations/([^/]++)/(?|approve(*:1204)|re(?|ject(*:1222)|activate(*:1239))|suspend(*:1256)|view(*:1269))|ubcategory/([^/]++)(?|(*:1301)|/(?|edit(*:1318)|toggle\\-(?|featured(*:1346)|status(*:1361)))|(*:1372))|lider/([^/]++)(?|(*:1399)|/edit(*:1413)|(*:1422))|hipping/([^/]++)(?|/edit(*:1456)|(*:1465))|torage/(.*)(*:1486))|/roles/([^/]++)(?|(*:1514)|/(?|edit(*:1531)|assign\\-permission(*:1558)|save\\-assigned\\-permission(*:1593))|(*:1603))|/users/([^/]++)(?|(*:1631)|/(?|edit(*:1648)|toggle\\-status(*:1671))|(*:1681))|/affiliateproduct/([^/]++)(?|/(?|toggle\\-status(*:1738)|edit(*:1751))|(*:1761))|/Generalsettings/([^/]++)(?|(*:1799)|/edit(*:1813)|(*:1822))|/toggle/([^/]++)(*:1848)|/orders/([^/]++)(?|(*:1876)|/(?|edit(*:1893)|status(*:1908)|payment\\-status(*:1932))|(*:1942)))/?$}sDu',
+      0 => '{^(?|/p(?|assword/reset/([^/]++)(*:34)|roduct(?|/([^/]++)(*:59)|s/([^/]++)(?|/(?|toggle\\-(?|status(*:100)|flash\\-sale(*:119)|new\\-arrival(*:139)|bestseller(*:157))|catalog\\-(?|add(*:181)|remove(*:195)|highlight(*:212)|gallery(*:227))|update\\-flash\\-sale(*:255)|edit(*:267))|(*:276)))|ermissions/([^/]++)(?|(*:308)|/edit(*:321)|(*:329))|ixels/([^/]++)(?|(*:355)|/edit(*:368)|(*:376)))|/c(?|a(?|tegory/(?|([^/]++)(?|(*:416)|/([^/]++)(?|(*:436)|/([^/]++)(*:453)))|create(*:469)|([^/]++)(?|(*:488)|/(?|edit(*:504)|toggle\\-(?|featured(*:531)|status(*:545)))|(*:555)))|rt/(?|add/([^/]++)(*:583)|remove/([^/]++)(*:606)|increase/([^/]++)(*:631)|decrease/([^/]++)(*:656)))|h(?|eckout/success/([^/]++)(*:693)|ildcategory/([^/]++)(?|(*:724)|/(?|edit(*:740)|toggle\\-(?|featured(*:767)|status(*:781)))|(*:791)))|ustomer/([^/]++)(?|(*:820)|/(?|edit(*:836)|status(*:850)|make\\-vendor(*:870))|(*:879))|o(?|upons/([^/]++)(?|(*:909)|/(?|edit(*:925)|status(*:939))|(*:948))|ntact/([^/]++)(?|(*:974)|/edit(*:987)|(*:995))))|/w(?|ishlist/(?|add/([^/]++)(*:1034)|remove/([^/]++)(*:1058)|move\\-to\\-cart/([^/]++)(*:1090))|ebsitefavicon/([^/]++)(?|(*:1125)|/edit(*:1139)|(*:1148)))|/s(?|eller\\-registrations/([^/]++)/(?|approve(*:1204)|re(?|ject(*:1222)|activate(*:1239))|suspend(*:1256)|view(*:1269))|ubcategory/([^/]++)(?|(*:1301)|/(?|edit(*:1318)|toggle\\-(?|featured(*:1346)|status(*:1361)))|(*:1372))|lider/([^/]++)(?|(*:1399)|/edit(*:1413)|(*:1422))|hipping/([^/]++)(?|/edit(*:1456)|(*:1465))|torage/(.*)(*:1486))|/roles/([^/]++)(?|(*:1514)|/(?|edit(*:1531)|assign\\-permission(*:1558)|save\\-assigned\\-permission(*:1593))|(*:1603))|/users/([^/]++)(?|(*:1631)|/(?|edit(*:1648)|toggle\\-status(*:1671))|(*:1681))|/affiliateproduct/([^/]++)(?|/(?|toggle\\-status(*:1738)|edit(*:1751))|(*:1761))|/Generalsettings/([^/]++)(?|(*:1799)|/edit(*:1813)|(*:1822))|/toggle/([^/]++)(*:1848)|/orders/([^/]++)(?|(*:1876)|/(?|edit(*:1893)|status(*:1908)|payment\\-status(*:1932))|(*:1942))|/googletagmanager/([^/]++)(?|(*:1981)|/edit(*:1995)|(*:2004)))/?$}sDu',
     ),
     3 => 
     array (
@@ -4976,6 +5032,94 @@ app('router')->setCompiledRoutes(
           5 => true,
           6 => NULL,
         ),
+      ),
+      1981 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.googletagmanager.show',
+          ),
+          1 => 
+          array (
+            0 => 'googletagmanager',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      1995 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.googletagmanager.edit',
+          ),
+          1 => 
+          array (
+            0 => 'googletagmanager',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      2004 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.googletagmanager.update',
+          ),
+          1 => 
+          array (
+            0 => 'googletagmanager',
+          ),
+          2 => 
+          array (
+            'PUT' => 0,
+            'PATCH' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.googletagmanager.destroy',
+          ),
+          1 => 
+          array (
+            0 => 'googletagmanager',
+          ),
+          2 => 
+          array (
+            'DELETE' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
         2 => 
         array (
           0 => NULL,
@@ -4992,7 +5136,7 @@ app('router')->setCompiledRoutes(
   ),
   'attributes' => 
   array (
-    'generated::SsDBPXJW0abUNzjq' => 
+    'generated::DGfESyIZYGoC4Tlr' => 
     array (
       'methods' => 
       array (
@@ -5020,8 +5164,8 @@ app('router')->setCompiledRoutes(
                     return response(\\Illuminate\\Support\\Facades\\View::file(\'E:\\\\shahzadi-mart\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Foundation\\\\Configuration\'.\'/../resources/health-up.blade.php\', [
                         \'exception\' => $exception,
                     ]), status: $exception ? 500 : 200);
-                }";s:5:"scope";s:54:"Illuminate\\Foundation\\Configuration\\ApplicationBuilder";s:4:"this";N;s:4:"self";s:32:"00000000000006c50000000000000000";}}',
-        'as' => 'generated::SsDBPXJW0abUNzjq',
+                }";s:5:"scope";s:54:"Illuminate\\Foundation\\Configuration\\ApplicationBuilder";s:4:"this";N;s:4:"self";s:32:"00000000000006cc0000000000000000";}}',
+        'as' => 'generated::DGfESyIZYGoC4Tlr',
       ),
       'fallback' => false,
       'defaults' => 
@@ -5402,7 +5546,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::Ufb6xiGCPxqSbrLH' => 
+    'generated::xTG6LaG8FZPtXSga' => 
     array (
       'methods' => 
       array (
@@ -5422,7 +5566,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::Ufb6xiGCPxqSbrLH',
+        'as' => 'generated::xTG6LaG8FZPtXSga',
       ),
       'fallback' => false,
       'defaults' => 
@@ -13348,6 +13492,270 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
+    'admin.googletagmanager.index' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'googletagmanager',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.googletagmanager.index',
+        'uses' => 'App\\Http\\Controllers\\Admin\\GoogleTagmanagerController@index',
+        'controller' => 'App\\Http\\Controllers\\Admin\\GoogleTagmanagerController@index',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.googletagmanager.create' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'googletagmanager/create',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.googletagmanager.create',
+        'uses' => 'App\\Http\\Controllers\\Admin\\GoogleTagmanagerController@create',
+        'controller' => 'App\\Http\\Controllers\\Admin\\GoogleTagmanagerController@create',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.googletagmanager.store' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'googletagmanager',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.googletagmanager.store',
+        'uses' => 'App\\Http\\Controllers\\Admin\\GoogleTagmanagerController@store',
+        'controller' => 'App\\Http\\Controllers\\Admin\\GoogleTagmanagerController@store',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.googletagmanager.show' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'googletagmanager/{googletagmanager}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.googletagmanager.show',
+        'uses' => 'App\\Http\\Controllers\\Admin\\GoogleTagmanagerController@show',
+        'controller' => 'App\\Http\\Controllers\\Admin\\GoogleTagmanagerController@show',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.googletagmanager.edit' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'googletagmanager/{googletagmanager}/edit',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.googletagmanager.edit',
+        'uses' => 'App\\Http\\Controllers\\Admin\\GoogleTagmanagerController@edit',
+        'controller' => 'App\\Http\\Controllers\\Admin\\GoogleTagmanagerController@edit',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.googletagmanager.update' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'PUT',
+        1 => 'PATCH',
+      ),
+      'uri' => 'googletagmanager/{googletagmanager}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.googletagmanager.update',
+        'uses' => 'App\\Http\\Controllers\\Admin\\GoogleTagmanagerController@update',
+        'controller' => 'App\\Http\\Controllers\\Admin\\GoogleTagmanagerController@update',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.googletagmanager.destroy' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'DELETE',
+      ),
+      'uri' => 'googletagmanager/{googletagmanager}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.googletagmanager.destroy',
+        'uses' => 'App\\Http\\Controllers\\Admin\\GoogleTagmanagerController@destroy',
+        'controller' => 'App\\Http\\Controllers\\Admin\\GoogleTagmanagerController@destroy',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
     'saller.login' => 
     array (
       'methods' => 
@@ -14028,7 +14436,7 @@ app('router')->setCompiledRoutes(
                         $config,
                         $isProduction
                     ))($request, $path);
-                }";s:5:"scope";s:47:"Illuminate\\Filesystem\\FilesystemServiceProvider";s:4:"this";N;s:4:"self";s:32:"00000000000006be0000000000000000";}}',
+                }";s:5:"scope";s:47:"Illuminate\\Filesystem\\FilesystemServiceProvider";s:4:"this";N;s:4:"self";s:32:"00000000000006c50000000000000000";}}',
         'as' => 'storage.local',
       ),
       'fallback' => false,

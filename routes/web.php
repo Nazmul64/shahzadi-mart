@@ -39,6 +39,7 @@ use App\Http\Controllers\Frontend\WishlistController;
 use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\OrderTrackController;
 use App\Http\Controllers\Frontend\SearchController;
+use App\Http\Controllers\Admin\GoogleTagmanagerController;
 
 Auth::routes();
 
@@ -266,6 +267,7 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
 
     Route::resource('contact', ContactController::class);
     Route::resource('pixels', PixelController::class);
+    Route::resource('googletagmanager', GoogleTagmanagerController::class);
 
 }); // end admin group
 
