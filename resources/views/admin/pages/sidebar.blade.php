@@ -710,9 +710,6 @@ body.sb-collapsed .sidebar-submenu { display: none; }
                 <i class="bi bi-image"></i> Google Tag Manager
             </a>
 
-
-
-
             <a href="{{ route('admin.websitefavicon.index') }}"
                class="{{ request()->routeIs('admin.websitefavicon.*') ? 'active' : '' }}">
                 <i class="bi bi-layout-text-sidebar"></i> Website Favicon
@@ -723,6 +720,23 @@ body.sb-collapsed .sidebar-submenu { display: none; }
             <a href="#"><i class="bi bi-translate"></i> Language Settings</a>
             <a href="#"><i class="bi bi-fonts"></i> Font Options</a>
             <a href="#"><i class="bi bi-graph-up-arrow"></i> SEO Tools</a>
+        </div>
+        <div class="sidebar-item {{ $permsActive ? 'active open' : '' }}" onclick="sbToggle(this)">
+            <span class="item-left">
+                <i class="bi bi-key nav-icon"></i>
+                <span class="item-text">API Integration</span>
+            </span>
+            <i class="bi bi-chevron-right arrow"></i>
+        </div>
+        <div class="sidebar-submenu {{ $permsActive ? 'open' : '' }}">
+            <a href="{{ route('admin.paymentgetewaymanage.index') }}"
+               class="{{ request()->routeIs('admin.paymentgetewaymanage.index') ? 'active' : '' }}">
+                <i class="bi bi-list-ul"></i> All Integration
+            </a>
+            <a href="{{ route('admin.paymentgetewaymanage.create') }}"
+               class="{{ request()->routeIs('admin.paymentgetewaymanage.create') ? 'active' : '' }}">
+                <i class="bi bi-plus-circle"></i> Create Integration
+            </a>
         </div>
 
     </nav>
