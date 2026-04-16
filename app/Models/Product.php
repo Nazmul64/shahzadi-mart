@@ -170,4 +170,11 @@ public function getImageAttribute(): string
 {
     return $this->feature_image ?? '';
 }
+
+
+    // THIS was missing — fixes the BadMethodCallException
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class, 'product_id');
+    }
 }

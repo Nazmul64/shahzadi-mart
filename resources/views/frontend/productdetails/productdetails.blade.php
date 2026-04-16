@@ -2,527 +2,387 @@
 
 @section('main-content')
 <style>
-  /* ── RESET & BASE ── */
-  .productdetailspage *, .productdetailspage *::before, .productdetailspage *::after {
-    box-sizing: border-box; margin: 0; padding: 0;
-  }
-  .productdetailspage {
-    --primary:   #be0318;
-    --primary-d: #960212;
-    --text:      #1a1a1a;
-    --muted:     #6b7280;
-    --border:    #e5e7eb;
-    --bg:        #f9fafb;
-    --white:     #ffffff;
-    --gold:      #f59e0b;
-    --green:     #16a34a;
-    --radius:    10px;
-    --shadow:    0 2px 12px rgba(0,0,0,.08);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    color: var(--text);
-    background: var(--bg);
-    line-height: 1.6;
-  }
-  .productdetailspage a { color: inherit; text-decoration: none; }
-  .productdetailspage img { display: block; max-width: 100%; }
-  .productdetailspage button { cursor: pointer; font-family: inherit; }
+/* ── RESET & BASE ── */
+.pdp *, .pdp *::before, .pdp *::after { box-sizing: border-box; margin: 0; padding: 0; }
+.pdp {
+  --red:     #be0318;
+  --red-d:   #960212;
+  --red-bg:  #fff0f1;
+  --text:    #1a1a1a;
+  --muted:   #6b7280;
+  --border:  #e5e7eb;
+  --bg:      #f9fafb;
+  --white:   #ffffff;
+  --gold:    #f59e0b;
+  --green:   #16a34a;
+  --radius:  10px;
+  --shadow:  0 2px 12px rgba(0,0,0,.08);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.6;
+}
+.pdp a { color: inherit; text-decoration: none; }
+.pdp img { display: block; max-width: 100%; }
+.pdp button { cursor: pointer; font-family: inherit; border: none; }
 
-  /* ── LAYOUT HELPERS ── */
-  .productdetailspage__container { max-width: 1280px; margin: 0 auto; padding: 0 20px; }
+/* ── LAYOUT ── */
+.pdp__wrap  { max-width: 1280px; margin: 0 auto; padding: 0 20px; }
 
-  /* ── TOP BAR / BREADCRUMB ── */
-  .productdetailspage__top-bar {
-    background: var(--white);
-    border-bottom: 1px solid var(--border);
-    padding: 10px 0;
-    font-size: 12px;
-    color: var(--muted);
-  }
-  .productdetailspage__breadcrumb { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
-  .productdetailspage__breadcrumb a { color: var(--muted); transition: color .2s; }
-  .productdetailspage__breadcrumb a:hover { color: var(--primary); }
-  .productdetailspage__breadcrumb-sep { color: #d1d5db; }
-  .productdetailspage__breadcrumb-current { color: var(--text); font-weight: 500; }
+/* ── TOAST ── */
+#pdp-toasts {
+  position: fixed; top: 20px; right: 20px; z-index: 999999;
+  display: flex; flex-direction: column; gap: 10px; pointer-events: none;
+}
+.pdp-toast {
+  background: #fff; border-radius: 10px; padding: 14px 18px;
+  font-size: 13px; font-weight: 600;
+  display: flex; align-items: center; gap: 10px;
+  box-shadow: 0 8px 32px rgba(0,0,0,.15); border-left: 4px solid;
+  pointer-events: all; min-width: 260px; max-width: 360px;
+  animation: toastIn .3s ease both;
+}
+.pdp-toast--success { border-color: #16a34a; color: #166534; }
+.pdp-toast--error   { border-color: #be0318; color: #9b0000; }
+.pdp-toast--info    { border-color: #2563eb; color: #1e40af; }
+.pdp-toast.out      { animation: toastOut .3s ease forwards; }
+@keyframes toastIn  { from { opacity:0; transform:translateX(20px); } to { opacity:1; transform:translateX(0); } }
+@keyframes toastOut { to   { opacity:0; transform:translateX(20px); } }
 
-  /* ── FLASH MESSAGES ── */
-  .pdp-alert {
-    border-radius: 8px; padding: 10px 18px; font-size: 13px; font-weight: 600;
-    display: flex; align-items: center; gap: 8px; margin: 10px 0;
-  }
-  .pdp-alert-success { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
-  .pdp-alert-error   { background: #fff0f1; color: var(--primary); border: 1px solid #fecdd3; }
-  .pdp-alert-info    { background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; }
+/* ── FLASH (server-side fallback) ── */
+.pdp-alert {
+  border-radius: 8px; padding: 10px 18px; font-size: 13px; font-weight: 600;
+  display: flex; align-items: center; gap: 8px; margin: 10px 0;
+}
+.pdp-alert--success { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+.pdp-alert--error   { background: #fff0f1; color: var(--red); border: 1px solid #fecdd3; }
+.pdp-alert--info    { background: #eff6ff; color: #2563eb;  border: 1px solid #bfdbfe; }
 
-  /* ── MAIN PRODUCT LAYOUT ── */
-  .productdetailspage__product-page {
-    background: var(--white);
-    margin-top: 16px;
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    overflow: hidden;
-  }
-  .productdetailspage__product-grid {
-    display: grid;
-    grid-template-columns: 420px 1fr 280px;
-    gap: 0;
-    align-items: start;
-  }
-  @media(max-width:1100px){
-    .productdetailspage__product-grid { grid-template-columns: 1fr 1fr; }
-    .productdetailspage__sidebar-section { grid-column: 1/-1; }
-  }
-  @media(max-width:680px){
-    .productdetailspage__product-grid { grid-template-columns: 1fr; }
-  }
-  .productdetailspage__product-info-section {
-    border-left: 1px solid var(--border);
-    border-right: 1px solid var(--border);
-  }
+/* ── BREADCRUMB ── */
+.pdp__breadbar { background: var(--white); border-bottom: 1px solid var(--border); padding: 10px 0; font-size: 12px; color: var(--muted); }
+.pdp__bread    { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+.pdp__bread a  { color: var(--muted); transition: color .2s; }
+.pdp__bread a:hover { color: var(--red); }
+.pdp__bread-sep { color: #d1d5db; }
+.pdp__bread-cur { color: var(--text); font-weight: 500; }
 
-  /* ── GALLERY ── */
-  .productdetailspage__gallery-section { padding: 20px; }
+/* ── PRODUCT CARD ── */
+.pdp__card {
+  background: var(--white); margin-top: 16px;
+  border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden;
+  animation: fadeUp .4s ease both;
+}
+@keyframes fadeUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
 
-  .productdetailspage__main-image-wrap {
-    position: relative;
-    border-radius: 8px;
-    overflow: hidden;
-    background: #f3f4f6;
-    aspect-ratio: 1/1;
-    cursor: zoom-in;
-  }
-  .productdetailspage__main-image-wrap img.productdetailspage__main-img {
-    width: 100%; height: 100%; object-fit: cover;
-    transition: transform .45s ease; display: block;
-  }
-  .productdetailspage__main-image-wrap:hover img.productdetailspage__main-img { transform: scale(1.07); }
+.pdp__grid {
+  display: grid;
+  grid-template-columns: 420px 1fr 280px;
+  align-items: start;
+}
+@media(max-width:1100px) {
+  .pdp__grid { grid-template-columns: 1fr 1fr; }
+  .pdp__sidebar { grid-column: 1/-1; }
+}
+@media(max-width:680px) { .pdp__grid { grid-template-columns: 1fr; } }
 
-  .productdetailspage__badge-row {
-    position: absolute; top: 10px; left: 10px;
-    display: flex; flex-direction: column; gap: 5px; z-index: 2;
-  }
-  .productdetailspage__badge {
-    font-size: 10px; font-weight: 600;
-    padding: 3px 8px; border-radius: 4px; letter-spacing: .4px;
-  }
-  .productdetailspage__badge--vendor { background: var(--green); color: #fff; }
+/* ── GALLERY ── */
+.pdp__gallery { padding: 20px; }
+.pdp__main-wrap {
+  position: relative; border-radius: 8px; overflow: hidden;
+  background: #f3f4f6; aspect-ratio: 1/1; cursor: zoom-in;
+}
+.pdp__main-img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform .45s ease; display: block;
+}
+.pdp__main-wrap:hover .pdp__main-img { transform: scale(1.07); }
 
-  /* ── Wishlist button (now an anchor) ── */
-  .productdetailspage__wishlist-btn {
-    position: absolute; top: 10px; right: 10px; z-index: 2;
-    width: 36px; height: 36px; border-radius: 50%;
-    background: rgba(255,255,255,.9); border: none;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 16px; color: #9ca3af;
-    transition: all .2s; box-shadow: 0 2px 6px rgba(0,0,0,.1);
-    text-decoration: none;
-  }
-  .productdetailspage__wishlist-btn:hover { color: #ef4444; background: #fff; }
+.pdp__badge-row {
+  position: absolute; top: 10px; left: 10px;
+  display: flex; flex-direction: column; gap: 5px; z-index: 2;
+}
+.pdp__badge {
+  font-size: 10px; font-weight: 700; padding: 3px 9px;
+  border-radius: 4px; letter-spacing: .4px;
+}
+.pdp__badge--vendor { background: var(--green); color: #fff; }
 
-  .productdetailspage__img-counter {
-    position: absolute; bottom: 10px; right: 10px;
-    background: rgba(0,0,0,.5); color: #fff;
-    font-size: 11px; padding: 3px 8px; border-radius: 20px;
-    display: flex; align-items: center; gap: 5px; z-index: 3;
-  }
+.pdp__wish-btn {
+  position: absolute; top: 10px; right: 10px; z-index: 2;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(255,255,255,.9); border: none;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; color: #9ca3af;
+  transition: all .2s; box-shadow: 0 2px 8px rgba(0,0,0,.1);
+  cursor: pointer;
+}
+.pdp__wish-btn:hover { color: #ef4444; background: #fff; }
+.pdp__wish-btn--active i { color: #ef4444; }
 
-  .productdetailspage__zoom-hint {
-    position: absolute; bottom: 10px; left: 10px;
-    background: rgba(0,0,0,.45); color: #fff;
-    font-size: 10px; padding: 3px 8px; border-radius: 20px;
-    display: flex; align-items: center; gap: 4px;
-    opacity: 0; transition: opacity .3s;
-    z-index: 3; pointer-events: none;
-  }
-  .productdetailspage__main-image-wrap:hover .productdetailspage__zoom-hint { opacity: 1; }
+.pdp__img-counter {
+  position: absolute; bottom: 10px; right: 10px;
+  background: rgba(0,0,0,.5); color: #fff;
+  font-size: 11px; padding: 3px 8px; border-radius: 20px;
+  display: flex; align-items: center; gap: 5px; z-index: 3;
+}
+.pdp__zoom-hint {
+  position: absolute; bottom: 10px; left: 10px;
+  background: rgba(0,0,0,.4); color: #fff;
+  font-size: 10px; padding: 3px 8px; border-radius: 20px;
+  display: flex; align-items: center; gap: 4px;
+  opacity: 0; transition: opacity .3s; z-index: 3; pointer-events: none;
+}
+.pdp__main-wrap:hover .pdp__zoom-hint { opacity: 1; }
 
-  /* ── HOVER POPUP ── */
-  .productdetailspage__img-hover-popup {
-    position: absolute; bottom: 0; left: 0; right: 0;
-    background: linear-gradient(to top, rgba(190,3,24,0.97) 0%, rgba(190,3,24,0.88) 60%, transparent 100%);
-    color: #fff; padding: 28px 18px 18px;
-    transform: translateY(100%);
-    transition: transform .38s cubic-bezier(.4,0,.2,1), opacity .38s ease;
-    opacity: 0; z-index: 10; pointer-events: none;
-    border-radius: 0 0 8px 8px;
-  }
-  .productdetailspage__main-image-wrap:hover .productdetailspage__img-hover-popup {
-    transform: translateY(0); opacity: 1;
-  }
-  .productdetailspage__popup-title {
-    font-size: 13px; font-weight: 700; line-height: 1.4; margin-bottom: 10px;
-    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
-  }
-  .productdetailspage__popup-meta {
-    display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;
-  }
-  .productdetailspage__popup-price-current { font-size: 20px; font-weight: 800; color: #fff; }
-  .productdetailspage__popup-price-old { font-size: 12px; color: rgba(255,255,255,0.65); text-decoration: line-through; }
-  .productdetailspage__popup-discount-chip {
-    background: rgba(255,255,255,0.25); border: 1px solid rgba(255,255,255,0.5);
-    color: #fff; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 20px;
-  }
-  .productdetailspage__popup-row {
-    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;
-  }
-  .productdetailspage__popup-stock {
-    display: flex; align-items: center; gap: 5px; font-size: 11px;
-    color: rgba(255,255,255,0.85); background: rgba(255,255,255,0.15);
-    padding: 3px 9px; border-radius: 20px;
-  }
-  .productdetailspage__popup-stock i { font-size: 10px; color: #fbbf24; }
-  .productdetailspage__popup-divider { border: none; border-top: 1px solid rgba(255,255,255,0.2); margin: 10px 0; }
-  .productdetailspage__popup-info-row {
-    display: flex; gap: 14px; font-size: 11px; color: rgba(255,255,255,0.85); flex-wrap: wrap;
-  }
-  .productdetailspage__popup-info-item { display: flex; align-items: center; gap: 5px; }
-  .productdetailspage__popup-info-item i { font-size: 11px; color: rgba(255,255,255,0.7); }
+.pdp__img-popup {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: linear-gradient(to top, rgba(190,3,24,.96) 0%, rgba(190,3,24,.85) 55%, transparent 100%);
+  color: #fff; padding: 28px 18px 18px;
+  transform: translateY(100%); opacity: 0;
+  transition: transform .38s cubic-bezier(.4,0,.2,1), opacity .38s ease;
+  z-index: 10; pointer-events: none; border-radius: 0 0 8px 8px;
+}
+.pdp__main-wrap:hover .pdp__img-popup { transform: translateY(0); opacity: 1; }
+.pdp__popup-title { font-size: 13px; font-weight: 700; line-height: 1.4; margin-bottom: 10px; display: -webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+.pdp__popup-meta  { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+.pdp__popup-price { font-size: 20px; font-weight: 800; }
+.pdp__popup-old   { font-size: 12px; color: rgba(255,255,255,.65); text-decoration: line-through; }
+.pdp__popup-chip  { background: rgba(255,255,255,.25); border: 1px solid rgba(255,255,255,.5); font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 20px; }
+.pdp__popup-stock { display: flex; align-items: center; gap: 5px; font-size: 11px; background: rgba(255,255,255,.15); padding: 3px 9px; border-radius: 20px; }
+.pdp__popup-hr    { border: none; border-top: 1px solid rgba(255,255,255,.2); margin: 10px 0; }
+.pdp__popup-meta2 { display: flex; gap: 14px; font-size: 11px; color: rgba(255,255,255,.85); flex-wrap: wrap; }
+.pdp__popup-meta2 span { display: flex; align-items: center; gap: 5px; }
 
-  /* ── ZOOM OVERLAY ── */
-  .productdetailspage__zoom-overlay {
-    position: fixed; inset: 0; background: rgba(0,0,0,0.92);
-    z-index: 99999; display: flex; align-items: center; justify-content: center;
-    opacity: 0; pointer-events: none; transition: opacity .3s ease;
-  }
-  .productdetailspage__zoom-overlay--active { opacity: 1; pointer-events: all; }
-  .productdetailspage__zoom-overlay-img {
-    max-width: 90vw; max-height: 90vh; object-fit: contain;
-    border-radius: 10px; transform: scale(0.82);
-    transition: transform .38s cubic-bezier(.4,0,.2,1);
-    cursor: zoom-out; box-shadow: 0 24px 80px rgba(0,0,0,.6);
-  }
-  .productdetailspage__zoom-overlay--active .productdetailspage__zoom-overlay-img { transform: scale(1); }
-  .productdetailspage__zoom-close-btn {
-    position: absolute; top: 18px; right: 22px;
-    background: rgba(255,255,255,.15); border: 1.5px solid rgba(255,255,255,.3);
-    color: #fff; font-size: 18px; width: 44px; height: 44px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; transition: background .2s, transform .2s; z-index: 2;
-  }
-  .productdetailspage__zoom-close-btn:hover { background: rgba(255,255,255,.28); transform: scale(1.1); }
-  .productdetailspage__zoom-nav-btn {
-    position: absolute; top: 50%; transform: translateY(-50%);
-    background: rgba(255,255,255,.12); border: 1.5px solid rgba(255,255,255,.25);
-    color: #fff; width: 48px; height: 48px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center; font-size: 18px;
-    cursor: pointer; transition: background .2s, transform .2s; z-index: 2;
-  }
-  .productdetailspage__zoom-nav-btn:hover { background: rgba(255,255,255,.25); }
-  .productdetailspage__zoom-nav-btn:active { transform: translateY(-50%) scale(.95); }
-  .productdetailspage__zoom-prev { left: 20px; }
-  .productdetailspage__zoom-next { right: 20px; }
-  .productdetailspage__zoom-counter {
-    position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
-    background: rgba(255,255,255,.15); color: #fff;
-    font-size: 12px; font-weight: 600; padding: 5px 14px; border-radius: 20px; letter-spacing: .5px;
-  }
+/* thumbnails */
+.pdp__thumbs { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+.pdp__thumb {
+  width: 60px; height: 60px; border-radius: 6px; overflow: hidden;
+  border: 2px solid transparent; cursor: pointer; flex-shrink: 0;
+  transition: border-color .2s, transform .2s;
+}
+.pdp__thumb img { width: 100%; height: 100%; object-fit: cover; }
+.pdp__thumb--active { border-color: var(--red); }
+.pdp__thumb:hover   { border-color: #f5a0aa; transform: translateY(-2px); }
 
-  /* ── THUMBNAILS ── */
-  .productdetailspage__thumbnails { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
-  .productdetailspage__thumb {
-    width: 60px; height: 60px; border-radius: 6px; overflow: hidden;
-    border: 2px solid transparent; cursor: pointer; flex-shrink: 0;
-    transition: border-color .2s, transform .2s;
-  }
-  .productdetailspage__thumb img { width: 100%; height: 100%; object-fit: cover; }
-  .productdetailspage__thumb--active { border-color: var(--primary); }
-  .productdetailspage__thumb:hover { border-color: #f5a0aa; transform: translateY(-2px); }
+/* share */
+.pdp__share { margin-top: 16px; display: flex; align-items: center; gap: 10px; }
+.pdp__share-label { font-size: 12px; color: var(--muted); font-weight: 500; }
+.pdp__soc-btn {
+  width: 32px; height: 32px; border-radius: 50%; border: none;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; color: #fff; transition: transform .2s, opacity .2s;
+}
+.pdp__soc-btn:hover { transform: scale(1.15); opacity: .88; }
+.pdp__soc--fb { background: #1877f2; }
+.pdp__soc--tw { background: #1da1f2; }
+.pdp__soc--li { background: #0a66c2; }
+.pdp__soc--wa { background: #25d366; }
 
-  /* ── SHARE ROW ── */
-  .productdetailspage__share-row { margin-top: 16px; display: flex; align-items: center; gap: 10px; }
-  .productdetailspage__share-label { font-size: 12px; color: var(--muted); font-weight: 500; white-space: nowrap; }
-  .productdetailspage__social-icons { display: flex; gap: 8px; }
-  .productdetailspage__soc-btn {
-    width: 32px; height: 32px; border-radius: 50%; border: none;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 13px; color: #fff; transition: transform .2s, opacity .2s;
-  }
-  .productdetailspage__soc-btn:hover { transform: scale(1.15); opacity: .9; }
-  .productdetailspage__soc-btn--fb { background: #1877f2; }
-  .productdetailspage__soc-btn--tw { background: #1da1f2; }
-  .productdetailspage__soc-btn--li { background: #0a66c2; }
-  .productdetailspage__soc-btn--wa { background: #25d366; }
+/* ── MIDDLE: PRODUCT INFO ── */
+.pdp__info { padding: 24px; border-left: 1px solid var(--border); border-right: 1px solid var(--border); }
+.pdp__title { font-family: 'DM Serif Display', serif; font-size: 20px; line-height: 1.35; margin-bottom: 12px; }
+.pdp__meta-row  { display: flex; align-items: center; gap: 8px; font-size: 13px; margin-bottom: 10px; flex-wrap: wrap; }
+.pdp__meta-muted { color: var(--muted); }
+.pdp__viewers { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); margin-bottom: 10px; }
+.pdp__viewers i { color: #10b981; }
+.pdp__viewers-n { font-weight: 600; color: var(--text); }
 
-  /* ── PRODUCT INFO ── */
-  .productdetailspage__product-info-section { padding: 24px; }
-  .productdetailspage__product-title {
-    font-family: 'DM Serif Display', serif;
-    font-size: 20px; line-height: 1.35;
-    color: var(--text); margin-bottom: 12px;
-  }
-  .productdetailspage__brand-row {
-    display: flex; align-items: center; gap: 8px;
-    font-size: 13px; margin-bottom: 10px; flex-wrap: wrap;
-  }
-  .productdetailspage__brand-label { color: var(--muted); }
-  .productdetailspage__divider-dot { color: var(--border); }
+.pdp__flash {
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  border-radius: 8px; padding: 12px 16px;
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 18px; flex-wrap: wrap; gap: 10px;
+}
+.pdp__flash-left { display: flex; align-items: center; gap: 8px; }
+.pdp__flash-left i { color: #facc15; font-size: 16px; }
+.pdp__flash-left span { color: #fff; font-weight: 700; font-size: 14px; letter-spacing: .5px; }
+.pdp__flash-right { display: flex; align-items: center; gap: 6px; }
+.pdp__flash-ends { color: #94a3b8; font-size: 11px; }
+.pdp__timer-box { background: #facc15; color: #1a1a2e; font-weight: 800; font-size: 13px; padding: 4px 8px; border-radius: 5px; min-width: 36px; text-align: center; }
 
-  .productdetailspage__viewers-row {
-    display: flex; align-items: center; gap: 6px;
-    font-size: 12px; color: var(--muted); margin-bottom: 8px;
-  }
-  .productdetailspage__viewers-row i { color: #10b981; }
-  .productdetailspage__viewers-count { font-weight: 600; color: var(--text); }
+/* price */
+.pdp__price-block { margin-bottom: 18px; }
+.pdp__price-row   { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 6px; }
+.pdp__price-cur   { font-size: 28px; font-weight: 700; color: var(--red); }
+.pdp__price-old   { font-size: 16px; color: var(--muted); text-decoration: line-through; }
+.pdp__price-chip  { background: var(--red-bg); color: var(--red); font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 20px; border: 1px solid #f5a0aa; }
+.pdp__stock-row   { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.pdp__stock-label { font-size: 12px; color: var(--red); font-weight: 600; }
+.pdp__stock-bar   { height: 4px; background: #fee2e2; border-radius: 2px; flex: 1; }
+.pdp__stock-fill  { height: 100%; background: var(--red); border-radius: 2px; }
 
-  /* ── FLASH BANNER ── */
-  .productdetailspage__flash-banner {
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-    border-radius: 8px; padding: 12px 16px;
-    display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 18px; flex-wrap: wrap; gap: 10px;
-  }
-  .productdetailspage__flash-left { display: flex; align-items: center; gap: 8px; }
-  .productdetailspage__flash-left i { color: #facc15; font-size: 16px; }
-  .productdetailspage__flash-left span { color: #fff; font-weight: 700; font-size: 14px; letter-spacing: .5px; }
-  .productdetailspage__flash-timer { display: flex; align-items: center; gap: 6px; }
-  .productdetailspage__ends-label { color: #94a3b8; font-size: 11px; }
-  .productdetailspage__timer-box {
-    background: #facc15; color: #1a1a2e;
-    font-weight: 800; font-size: 13px;
-    padding: 4px 8px; border-radius: 5px; min-width: 36px; text-align: center;
-  }
+/* options */
+.pdp__opt-group  { margin-bottom: 14px; }
+.pdp__opt-label  { font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 6px; margin-bottom: 8px; }
+.pdp__opt-tag    { font-size: 10px; font-weight: 500; color: var(--muted); background: #f3f4f6; padding: 2px 7px; border-radius: 10px; }
+.pdp__opt-selected { font-size: 12px; color: var(--red); font-weight: 600; margin-left: 4px; }
+.pdp__opt-btns   { display: flex; gap: 8px; flex-wrap: wrap; }
+.pdp__opt-btn {
+  padding: 6px 14px; border-radius: 6px;
+  border: 1.5px solid var(--border);
+  background: var(--white); font-size: 13px; font-weight: 500;
+  color: var(--text); transition: all .2s;
+}
+.pdp__opt-btn:hover         { border-color: var(--red); color: var(--red); }
+.pdp__opt-btn--active       { border-color: var(--red); background: var(--red-bg); color: var(--red); font-weight: 600; }
 
-  /* ── PRICE ── */
-  .productdetailspage__price-block { margin-bottom: 18px; }
-  .productdetailspage__price-row {
-    display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 6px;
-  }
-  .productdetailspage__current-price { font-size: 28px; font-weight: 700; color: var(--primary); }
-  .productdetailspage__original-price { font-size: 16px; color: var(--muted); text-decoration: line-through; }
-  .productdetailspage__discount-chip {
-    background: #fff0f0; color: var(--primary);
-    font-size: 12px; font-weight: 700; padding: 2px 8px;
-    border-radius: 20px; border: 1px solid #f5a0aa;
-  }
-  .productdetailspage__stock-info { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
-  .productdetailspage__stock-count { font-size: 12px; color: var(--primary); font-weight: 600; }
-  .productdetailspage__stock-bar { height: 4px; background: #fee2e2; border-radius: 2px; flex: 1; }
-  .productdetailspage__stock-fill { height: 100%; background: var(--primary); border-radius: 2px; }
+/* quantity */
+.pdp__qty-group { margin-bottom: 18px; }
+.pdp__qty-row   { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.pdp__qty-sel   { display: flex; align-items: center; border: 1.5px solid var(--border); border-radius: 8px; overflow: hidden; }
+.pdp__qty-btn   { width: 36px; height: 36px; background: #f9fafb; font-size: 14px; color: var(--text); transition: background .2s; border: none; cursor: pointer; }
+.pdp__qty-btn:hover { background: #f3f4f6; }
+.pdp__qty-input { width: 48px; height: 36px; border: none; border-left: 1.5px solid var(--border); border-right: 1.5px solid var(--border); text-align: center; font-size: 14px; font-weight: 600; font-family: inherit; background: #fff; }
+.pdp__stock-alert { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--red); font-weight: 500; }
 
-  /* ── OPTIONS ── */
-  .productdetailspage__option-group { margin-bottom: 14px; }
-  .productdetailspage__option-label {
-    font-size: 13px; font-weight: 600; color: var(--text); display: block; margin-bottom: 8px;
-  }
-  .productdetailspage__option-btns { display: flex; gap: 8px; flex-wrap: wrap; }
-  .productdetailspage__opt-btn {
-    padding: 6px 14px; border-radius: 6px;
-    border: 1.5px solid var(--border);
-    background: var(--white); font-size: 13px; font-weight: 500; color: var(--text);
-    transition: all .2s;
-  }
-  .productdetailspage__opt-btn:hover { border-color: var(--primary); color: var(--primary); }
-  .productdetailspage__opt-btn--active { border-color: var(--primary); background: #fff0f0; color: var(--primary); font-weight: 600; }
+/* action btns */
+.pdp__actions { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+.pdp__btn {
+  flex: 1; min-width: 140px; padding: 13px 20px;
+  border-radius: 8px; border: none; font-size: 14px; font-weight: 600;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  transition: all .2s; letter-spacing: .3px; text-decoration: none; cursor: pointer; font-family: inherit;
+}
+.pdp__btn--cart { background: var(--red-bg); color: var(--red); border: 2px solid var(--red); }
+.pdp__btn--cart:hover { background: #ffd6d6; }
+.pdp__btn--buy  { background: var(--red); color: #fff; }
+.pdp__btn--buy:hover { background: var(--red-d); box-shadow: 0 4px 14px rgba(190,3,24,.35); }
+.pdp__btn:disabled { opacity: .65; cursor: not-allowed; pointer-events: none; }
 
-  /* ── QUANTITY ── */
-  .productdetailspage__qty-group { margin-bottom: 18px; }
-  .productdetailspage__qty-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-  .productdetailspage__qty-selector {
-    display: flex; align-items: center;
-    border: 1.5px solid var(--border); border-radius: 8px; overflow: hidden;
-  }
-  .productdetailspage__qty-btn {
-    width: 36px; height: 36px; border: none; background: #f9fafb;
-    font-size: 14px; color: var(--text); transition: background .2s;
-  }
-  .productdetailspage__qty-btn:hover { background: #f3f4f6; }
-  .productdetailspage__qty-input {
-    width: 48px; height: 36px; border: none;
-    border-left: 1.5px solid var(--border); border-right: 1.5px solid var(--border);
-    text-align: center; font-size: 14px; font-weight: 600; font-family: inherit; background: #fff;
-  }
-  .productdetailspage__stock-alert {
-    display: flex; align-items: center; gap: 5px;
-    font-size: 12px; color: var(--primary); font-weight: 500;
-  }
+.pdp-spinner {
+  width: 16px; height: 16px; border: 2px solid currentColor;
+  border-top-color: transparent; border-radius: 50%;
+  animation: spin .6s linear infinite; flex-shrink: 0;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
 
-  /* ── ACTION BUTTONS ── */
-  .productdetailspage__action-btns { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
-  .productdetailspage__act-btn {
-    flex: 1; min-width: 140px; padding: 13px 20px;
-    border-radius: 8px; border: none; font-size: 14px; font-weight: 600;
-    display: flex; align-items: center; justify-content: center; gap: 8px;
-    transition: all .2s; letter-spacing: .3px; text-decoration: none; cursor: pointer;
-  }
-  .productdetailspage__btn-cart {
-    background: #fff0f0; color: var(--primary); border: 2px solid var(--primary);
-  }
-  .productdetailspage__btn-cart:hover { background: #ffd6d6; color: var(--primary); }
-  .productdetailspage__btn-buy { background: var(--primary); color: #fff; }
-  .productdetailspage__btn-buy:hover {
-    background: var(--primary-d); box-shadow: 0 4px 14px rgba(190,3,24,.35); color: #fff;
-  }
+/* product meta */
+.pdp__product-meta { display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: var(--muted); padding: 12px 0; border-top: 1px solid var(--border); margin-top: 4px; }
+.pdp__product-meta strong { color: var(--text); }
+.pdp__notice { background: #fffbeb; border: 1px solid #fcd34d; border-radius: 8px; padding: 10px 14px; display: flex; align-items: flex-start; gap: 8px; font-size: 12px; color: #92400e; margin-top: 12px; }
+.pdp__notice i { color: #f59e0b; margin-top: 2px; flex-shrink: 0; }
 
-  /* ── META ROW ── */
-  .productdetailspage__meta-row {
-    display: flex; flex-direction: column; gap: 6px;
-    font-size: 12px; color: var(--muted);
-    padding: 12px 0; border-top: 1px solid var(--border); margin-top: 4px;
-  }
-  .productdetailspage__meta-row span strong { color: var(--text); }
+/* feature tags */
+.pdp__feature-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+.pdp__feature-tag  { font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 20px; letter-spacing: .4px; }
 
-  .productdetailspage__notice-box {
-    background: #fffbeb; border: 1px solid #fcd34d;
-    border-radius: 8px; padding: 10px 14px;
-    display: flex; align-items: flex-start; gap: 8px;
-    font-size: 12px; color: #92400e;
-  }
-  .productdetailspage__notice-box i { color: #f59e0b; margin-top: 2px; flex-shrink: 0; }
+/* ── SIDEBAR ── */
+.pdp__sidebar { padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+.pdp__s-card  { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.pdp__card-head { background: #f9fafb; padding: 12px 16px; font-size: 13px; font-weight: 700; border-bottom: 1px solid var(--border); }
+.pdp__card-body { padding: 16px; }
+.pdp__del-row   { display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid #f3f4f6; }
+.pdp__del-row:last-child { border-bottom: none; padding-bottom: 0; }
+.pdp__del-icon  { width: 32px; height: 32px; background: var(--red-bg); border-radius: 6px; display: flex; align-items: center; justify-content: center; color: var(--red); font-size: 14px; flex-shrink: 0; }
+.pdp__del-title { font-size: 13px; font-weight: 600; }
+.pdp__del-date  { font-size: 11px; color: var(--muted); margin-top: 2px; line-height: 1.5; }
+.pdp__seller-head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.pdp__seller-ava  { width: 44px; height: 44px; background: linear-gradient(135deg, var(--red), #e05060); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 16px; color: #fff; flex-shrink: 0; }
+.pdp__seller-name { font-size: 13px; font-weight: 700; }
+.pdp__seller-ver  { display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--green); margin-top: 3px; }
 
-  /* ── SIDEBAR ── */
-  .productdetailspage__sidebar-section { padding: 20px; display: flex; flex-direction: column; gap: 16px; }
-  .productdetailspage__card { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
-  .productdetailspage__card-head {
-    background: #f9fafb; padding: 12px 16px;
-    font-size: 13px; font-weight: 700; color: var(--text);
-    border-bottom: 1px solid var(--border);
-  }
-  .productdetailspage__card-body { padding: 16px; }
-  .productdetailspage__del-option {
-    display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid #f3f4f6;
-  }
-  .productdetailspage__del-option:last-child { border-bottom: none; padding-bottom: 0; }
-  .productdetailspage__del-icon {
-    width: 32px; height: 32px; background: #fff0f0; border-radius: 6px;
-    display: flex; align-items: center; justify-content: center;
-    color: var(--primary); font-size: 14px; flex-shrink: 0;
-  }
-  .productdetailspage__del-body { flex: 1; }
-  .productdetailspage__del-title { font-size: 13px; font-weight: 600; color: var(--text); }
-  .productdetailspage__del-date { font-size: 11px; color: var(--muted); margin-top: 2px; line-height: 1.5; }
-  .productdetailspage__seller-head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
-  .productdetailspage__seller-avatar {
-    width: 44px; height: 44px;
-    background: linear-gradient(135deg, var(--primary) 0%, #e05060 100%);
-    border-radius: 10px; display: flex; align-items: center; justify-content: center;
-    font-weight: 800; font-size: 16px; color: #fff; flex-shrink: 0;
-  }
-  .productdetailspage__seller-name { font-size: 13px; font-weight: 700; color: var(--text); }
-  .productdetailspage__seller-verified {
-    display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--green); margin-top: 3px;
-  }
+/* ── TABS ── */
+.pdp__tabs { background: var(--white); margin-top: 16px; border-radius: var(--radius); box-shadow: var(--shadow); animation: fadeUp .4s .1s ease both; }
+.pdp__tab-nav { display: flex; border-bottom: 2px solid var(--border); overflow-x: auto; }
+.pdp__tab-btn {
+  padding: 14px 22px; border: none; background: none; font-family: inherit;
+  font-size: 13px; font-weight: 600; color: var(--muted);
+  border-bottom: 3px solid transparent; margin-bottom: -2px;
+  white-space: nowrap; transition: all .2s; display: flex; align-items: center; gap: 6px; cursor: pointer;
+}
+.pdp__tab-btn:hover { color: var(--text); }
+.pdp__tab-btn--active { color: var(--red); border-bottom-color: var(--red); }
+.pdp__tab-pane { display: none; padding: 28px 24px; }
+.pdp__tab-pane--active { display: block; }
+.pdp__desc { color: #4b5563; line-height: 1.85; font-size: 14px; }
+.pdp__desc p { margin-bottom: 14px; }
+.pdp__desc p:last-child { margin-bottom: 0; }
 
-  /* ── TABS ── */
-  .productdetailspage__tabs-section {
-    background: var(--white); margin-top: 16px;
-    border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden;
-  }
-  .productdetailspage__tab-nav {
-    display: flex; border-bottom: 2px solid var(--border); overflow-x: auto;
-  }
-  .productdetailspage__tab-btn {
-    padding: 14px 22px; border: none; background: none;
-    font-size: 13px; font-weight: 600; color: var(--muted);
-    border-bottom: 3px solid transparent; margin-bottom: -2px;
-    white-space: nowrap; transition: all .2s; display: flex; align-items: center; gap: 6px;
-  }
-  .productdetailspage__tab-btn:hover { color: var(--text); }
-  .productdetailspage__tab-btn--active { color: var(--primary); border-bottom-color: var(--primary); }
-  .productdetailspage__tab-content { display: none; padding: 28px 24px; }
-  .productdetailspage__tab-content--active { display: block; }
+/* specs */
+.pdp__spec-section { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 12px; }
+.pdp__spec-head { background: #f8f8f8; padding: 10px 16px; font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--muted); letter-spacing: .8px; border-bottom: 1px solid var(--border); }
+.pdp__spec-row  { display: flex; padding: 10px 16px; border-bottom: 1px solid #f3f4f6; font-size: 13px; }
+.pdp__spec-row:last-child { border-bottom: none; }
+.pdp__spec-k { width: 200px; flex-shrink: 0; color: var(--muted); font-weight: 600; }
+.pdp__spec-v { flex: 1; }
+.pdp__no-reviews { text-align: center; color: var(--muted); font-size: 14px; padding: 30px 0; }
 
-  .productdetailspage__desc-text { color: #4b5563; line-height: 1.85; font-size: 14px; }
-  .productdetailspage__desc-text p { margin-bottom: 14px; }
-  .productdetailspage__desc-text p:last-child { margin-bottom: 0; }
+/* ── RELATED ── */
+.pdp__related { background: var(--white); margin-top: 16px; border-radius: var(--radius); box-shadow: var(--shadow); padding: 24px; animation: fadeUp .4s .2s ease both; }
+.pdp__section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+.pdp__section-title  { font-family: 'DM Serif Display', serif; font-size: 18px; }
+.pdp__see-all { color: var(--red); font-size: 13px; font-weight: 600; }
+.pdp__see-all:hover { text-decoration: underline; }
+.pdp__prod-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(175px,1fr)); gap: 16px; }
+.pdp__prod-card {
+  background: var(--white); border: 1px solid var(--border); border-radius: 10px;
+  overflow: hidden; transition: all .25s; cursor: pointer; display: flex; flex-direction: column;
+}
+.pdp__prod-card:hover { transform: translateY(-4px); box-shadow: 0 10px 24px rgba(0,0,0,.12); border-color: #f5a0aa; }
+.pdp__prod-img  { position: relative; aspect-ratio: 1/1; background: #f3f4f6; overflow: hidden; }
+.pdp__prod-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .35s; }
+.pdp__prod-card:hover .pdp__prod-img img { transform: scale(1.06); }
+.pdp__prod-disc { position: absolute; top: 8px; right: 8px; width: 42px; height: 42px; border-radius: 50%; background: var(--red); color: #fff; font-size: 10px; font-weight: 800; line-height: 1.2; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; z-index: 2; }
+.pdp__prod-body { padding: 10px 10px 0; flex: 1; display: flex; flex-direction: column; gap: 5px; }
+.pdp__prod-name { font-size: 12px; line-height: 1.45; display: -webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; flex:1; }
+.pdp__prod-prices { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }
+.pdp__prod-old   { font-size: 11px; color: var(--muted); text-decoration: line-through; }
+.pdp__prod-price { font-size: 14px; font-weight: 700; color: var(--red); }
+.pdp__prod-cart-btn {
+  width: 100%; padding: 9px 0; background: var(--red); color: #fff;
+  font-size: 13px; font-weight: 700; border: none; cursor: pointer; font-family: inherit;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  transition: background .2s; margin-top: 8px;
+}
+.pdp__prod-cart-btn:hover { background: var(--red-d); }
+.pdp__prod-cart-btn:disabled { opacity: .65; cursor: not-allowed; }
 
-  /* ── SPECS ── */
-  .productdetailspage__spec-section {
-    border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 16px;
-  }
-  .productdetailspage__spec-section:last-child { margin-bottom: 0; }
-  .productdetailspage__spec-head {
-    background: #f8f8f8; padding: 10px 16px; font-size: 11px; font-weight: 700;
-    text-transform: uppercase; color: var(--muted); letter-spacing: .8px; border-bottom: 1px solid var(--border);
-  }
-  .productdetailspage__spec-row {
-    display: flex; padding: 10px 16px; border-bottom: 1px solid #f3f4f6; font-size: 13px;
-  }
-  .productdetailspage__spec-row:last-child { border-bottom: none; }
-  .productdetailspage__spec-key { width: 200px; flex-shrink: 0; color: var(--muted); font-weight: 600; }
-  .productdetailspage__spec-val { flex: 1; color: var(--text); }
+/* ── ZOOM OVERLAY ── */
+.pdp__zoom {
+  position: fixed; inset: 0; background: rgba(0,0,0,.92); z-index: 99999;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity .3s;
+}
+.pdp__zoom--active { opacity: 1; pointer-events: all; }
+.pdp__zoom-img {
+  max-width: 90vw; max-height: 90vh; object-fit: contain;
+  border-radius: 10px; transform: scale(.82); cursor: zoom-out;
+  transition: transform .35s cubic-bezier(.4,0,.2,1), opacity .3s;
+  box-shadow: 0 24px 80px rgba(0,0,0,.6);
+}
+.pdp__zoom--active .pdp__zoom-img { transform: scale(1); }
+.pdp__zoom-close {
+  position: absolute; top: 18px; right: 22px;
+  background: rgba(255,255,255,.15); border: 1.5px solid rgba(255,255,255,.3);
+  color: #fff; font-size: 18px; width: 44px; height: 44px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: background .2s;
+}
+.pdp__zoom-close:hover { background: rgba(255,255,255,.28); }
+.pdp__zoom-nav {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  background: rgba(255,255,255,.12); border: 1.5px solid rgba(255,255,255,.25);
+  color: #fff; width: 48px; height: 48px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; font-size: 18px;
+  cursor: pointer; transition: background .2s;
+}
+.pdp__zoom-nav:hover { background: rgba(255,255,255,.25); }
+.pdp__zoom-prev { left: 20px; }
+.pdp__zoom-next { right: 20px; }
+.pdp__zoom-count { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(255,255,255,.15); color: #fff; font-size: 12px; font-weight: 600; padding: 5px 14px; border-radius: 20px; }
 
-  /* ── REVIEWS ── */
-  .productdetailspage__no-reviews { text-align: center; color: var(--muted); font-size: 14px; padding: 30px 0; }
-
-  /* ── RELATED PRODUCTS ── */
-  .productdetailspage__products-section {
-    margin-top: 16px; border-radius: var(--radius);
-    box-shadow: var(--shadow); background: var(--white); padding: 24px;
-  }
-  .productdetailspage__section-header {
-    display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;
-  }
-  .productdetailspage__section-title { font-family: 'DM Serif Display', serif; font-size: 18px; color: var(--text); }
-  .productdetailspage__see-all { color: var(--primary); font-size: 13px; font-weight: 600; }
-  .productdetailspage__see-all:hover { text-decoration: underline; }
-  .productdetailspage__products-grid {
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(175px,1fr)); gap: 16px;
-  }
-  .productdetailspage__prod-card {
-    background: var(--white); border: 1px solid var(--border);
-    border-radius: 10px; overflow: hidden; transition: all .25s;
-    cursor: pointer; position: relative; display: flex; flex-direction: column;
-  }
-  .productdetailspage__prod-card:hover {
-    transform: translateY(-4px); box-shadow: 0 10px 24px rgba(0,0,0,.12); border-color: #f5a0aa;
-  }
-  .productdetailspage__prod-img-wrap {
-    position: relative; aspect-ratio: 1/1; background: #f3f4f6; overflow: hidden;
-  }
-  .productdetailspage__prod-img-wrap img {
-    width: 100%; height: 100%; object-fit: cover; transition: transform .35s ease;
-  }
-  .productdetailspage__prod-card:hover .productdetailspage__prod-img-wrap img { transform: scale(1.06); }
-  .productdetailspage__prod-discount {
-    position: absolute; top: 8px; right: 8px;
-    width: 42px; height: 42px; border-radius: 50%;
-    background: var(--primary); color: #fff;
-    font-size: 10px; font-weight: 800; line-height: 1.2;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    text-align: center; box-shadow: 0 2px 6px rgba(190,3,24,.45); z-index: 2;
-  }
-  .productdetailspage__prod-info { padding: 10px 10px 12px; flex: 1; display: flex; flex-direction: column; gap: 5px; }
-  .productdetailspage__prod-name {
-    font-size: 12px; color: var(--text); line-height: 1.45;
-    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; flex: 1;
-  }
-  .productdetailspage__prod-price-row { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }
-  .productdetailspage__prod-old-price { font-size: 11px; color: var(--muted); text-decoration: line-through; }
-  .productdetailspage__prod-price { font-size: 14px; font-weight: 700; color: var(--primary); }
-  .productdetailspage__prod-order-btn {
-    display: flex; width: 100%; padding: 9px 0;
-    background: var(--primary); color: #fff;
-    font-size: 13px; font-weight: 700;
-    border: none; border-radius: 0 0 9px 9px;
-    letter-spacing: .3px; transition: background .2s, box-shadow .2s;
-    align-items: center; justify-content: center; gap: 6px;
-  }
-  .productdetailspage__prod-order-btn:hover {
-    background: var(--primary-d); box-shadow: 0 4px 12px rgba(190,3,24,.35);
-  }
-
-  /* ── ANIMATIONS ── */
-  @keyframes productdetailspage-fadeIn {
-    from { opacity: 0; transform: translateY(6px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  .productdetailspage__product-page,
-  .productdetailspage__tabs-section,
-  .productdetailspage__products-section {
-    animation: productdetailspage-fadeIn .4s ease both;
-  }
-
-  /* ── RESPONSIVE ── */
-  @media(max-width:768px){
-    .productdetailspage__products-grid { grid-template-columns: repeat(auto-fill, minmax(145px,1fr)); gap: 12px; }
-  }
-  @media(max-width:480px){
-    .productdetailspage__product-title { font-size: 17px; }
-    .productdetailspage__current-price { font-size: 24px; }
-    .productdetailspage__action-btns { flex-direction: column; }
-    .productdetailspage__flash-banner { flex-direction: column; align-items: flex-start; }
-    .productdetailspage__products-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-  }
+/* ── RESPONSIVE ── */
+@media(max-width:768px){ .pdp__prod-grid { grid-template-columns: repeat(auto-fill,minmax(145px,1fr)); gap: 12px; } }
+@media(max-width:480px){
+  .pdp__title { font-size: 17px; }
+  .pdp__price-cur { font-size: 22px; }
+  .pdp__actions { flex-direction: column; }
+  .pdp__flash { flex-direction: column; align-items: flex-start; }
+  .pdp__prod-grid { grid-template-columns: repeat(2,1fr); gap: 10px; }
+  #pdp-toasts { top: auto; bottom: 20px; right: 10px; left: 10px; }
+  .pdp-toast { max-width: 100%; }
+}
 </style>
 
 {{-- ── PHP VARIABLES ── --}}
@@ -538,8 +398,7 @@
                    'size'  => is_array($g) ? ($g['size']  ?? null) : null,
                ])->values();
 
-  $allImages   = collect([['url' => $featureImg, 'color' => null, 'size' => null]])
-                   ->merge($gallery)->values();
+  $allImages   = collect([['url' => $featureImg]])->merge($gallery)->values();
   $totalImages = $allImages->count();
 
   $discountPct   = ($product->discount_price && $product->current_price > 0)
@@ -559,143 +418,118 @@
   $stockLabel = $product->is_unlimited
                 ? 'In Stock'
                 : ($product->stock > 0 ? $product->stock . ' items left' : 'Out of Stock');
-
-  $stockPct = $product->is_unlimited ? 100
-              : ($product->stock > 0
-                 ? min(100, round($product->stock / max(1, $product->stock + 10) * 100))
-                 : 0);
+  $stockPct   = $product->is_unlimited ? 100
+                : ($product->stock > 0 ? min(100, round($product->stock / max(1, $product->stock + 10) * 100)) : 0);
 
   $categoryName = $product->category->category_name ?? '';
   $subCatName   = $product->subCategory->sub_name ?? '';
-
-  $shareUrl   = url()->current();
-  $shareTitle = urlencode($product->name);
+  $shareUrl     = url()->current();
+  $shareTitle   = urlencode($product->name);
 
   preg_match('/(?:v=|youtu\.be\/|embed\/)([a-zA-Z0-9_-]{11})/', $product->youtube_url ?? '', $ytMatch);
   $ytId = $ytMatch[1] ?? null;
 
-  // ✅ Routes for actions
   $cartAddUrl     = route('cart.add', $product->id);
   $wishlistAddUrl = route('wishlist.add', $product->id);
   $checkoutUrl    = route('checkout');
+  $csrfToken      = csrf_token();
 @endphp
 
-<div class="productdetailspage">
+{{-- ── TOAST CONTAINER ── --}}
+<div id="pdp-toasts"></div>
 
-  {{-- ── Flash messages ── --}}
-  <div class="productdetailspage__container">
+<div class="pdp">
+
+  {{-- Server-side flash fallback --}}
+  <div class="pdp__wrap">
     @if(session('success'))
-      <div class="pdp-alert pdp-alert-success"><i class="bi bi-check-circle-fill"></i> {{ session('success') }}</div>
+      <div class="pdp-alert pdp-alert--success"><i class="bi bi-check-circle-fill"></i> {{ session('success') }}</div>
     @endif
     @if(session('info'))
-      <div class="pdp-alert pdp-alert-info"><i class="bi bi-info-circle-fill"></i> {{ session('info') }}</div>
+      <div class="pdp-alert pdp-alert--info"><i class="bi bi-info-circle-fill"></i> {{ session('info') }}</div>
     @endif
     @if(session('error'))
-      <div class="pdp-alert pdp-alert-error"><i class="bi bi-exclamation-circle-fill"></i> {{ session('error') }}</div>
+      <div class="pdp-alert pdp-alert--error"><i class="bi bi-exclamation-circle-fill"></i> {{ session('error') }}</div>
     @endif
   </div>
 
   {{-- ── BREADCRUMB ── --}}
-  <div class="productdetailspage__top-bar">
-    <div class="productdetailspage__container">
-      <nav class="productdetailspage__breadcrumb">
+  <div class="pdp__breadbar">
+    <div class="pdp__wrap">
+      <nav class="pdp__bread">
         <a href="{{ url('/') }}">Home</a>
         @if($categoryName)
-          <span class="productdetailspage__breadcrumb-sep">›</span>
+          <span class="pdp__bread-sep">›</span>
           <a href="#">{{ $categoryName }}</a>
         @endif
         @if($subCatName)
-          <span class="productdetailspage__breadcrumb-sep">›</span>
+          <span class="pdp__bread-sep">›</span>
           <a href="#">{{ $subCatName }}</a>
         @endif
-        <span class="productdetailspage__breadcrumb-sep">›</span>
-        <span class="productdetailspage__breadcrumb-current">{{ Str::limit($product->name, 60) }}</span>
+        <span class="pdp__bread-sep">›</span>
+        <span class="pdp__bread-cur">{{ Str::limit($product->name, 60) }}</span>
       </nav>
     </div>
   </div>
 
-  <div class="productdetailspage__container">
+  <div class="pdp__wrap">
 
     {{-- ── PRODUCT CARD ── --}}
-    <div class="productdetailspage__product-page">
-      <div class="productdetailspage__product-grid">
+    <div class="pdp__card">
+      <div class="pdp__grid">
 
         {{-- ── LEFT: GALLERY ── --}}
-        <div class="productdetailspage__gallery-section">
+        <div class="pdp__gallery">
 
-          <div class="productdetailspage__main-image-wrap" id="pdpMainWrap">
+          <div class="pdp__main-wrap" id="pdpMainWrap">
 
-            {{-- ✅ Wishlist Button — proper route --}}
-            <a href="{{ $wishlistAddUrl }}"
-               class="productdetailspage__wishlist-btn"
-               id="pdpWishlistBtn"
-               title="উইশলিস্টে যোগ করুন"
-               onclick="event.stopPropagation()">
+            <button class="pdp__wish-btn" id="pdpWishBtn"
+                    data-url="{{ $wishlistAddUrl }}"
+                    title="উইশলিস্টে যোগ করুন">
               <i class="bi bi-heart"></i>
-            </a>
+            </button>
 
-            {{-- Vendor Badge --}}
             @if($product->vendor)
-            <div class="productdetailspage__badge-row">
-              <span class="productdetailspage__badge productdetailspage__badge--vendor">
-                {{ $product->vendor }}
-              </span>
+            <div class="pdp__badge-row">
+              <span class="pdp__badge pdp__badge--vendor">{{ $product->vendor }}</span>
             </div>
             @endif
 
-            {{-- Main Image --}}
-            <img id="pdpMainImage"
-                 class="productdetailspage__main-img"
-                 src="{{ $featureImg }}"
-                 alt="{{ $product->name }}"/>
+            <img id="pdpMainImg" class="pdp__main-img" src="{{ $featureImg }}" alt="{{ $product->name }}"/>
 
-            <div class="productdetailspage__zoom-hint">
-              <i class="fas fa-search-plus" style="font-size:10px"></i> Click to zoom
-            </div>
+            <div class="pdp__zoom-hint"><i class="fas fa-search-plus" style="font-size:10px"></i> Click to zoom</div>
 
-            <div class="productdetailspage__img-counter">
+            <div class="pdp__img-counter">
               <i class="fas fa-camera"></i>
-              <span id="pdpImgCounter">1 / {{ $totalImages }}</span>
+              <span id="pdpCounter">1 / {{ $totalImages }}</span>
             </div>
 
-            {{-- Hover Popup --}}
-            <div class="productdetailspage__img-hover-popup">
-              <div class="productdetailspage__popup-title">{{ $product->name }}</div>
-              <div class="productdetailspage__popup-meta">
-                <span class="productdetailspage__popup-price-current">৳{{ number_format($displayPrice, 2) }}</span>
+            <div class="pdp__img-popup">
+              <div class="pdp__popup-title">{{ $product->name }}</div>
+              <div class="pdp__popup-meta">
+                <span class="pdp__popup-price">৳{{ number_format($displayPrice, 2) }}</span>
                 @if($originalPrice)
-                  <span class="productdetailspage__popup-price-old">৳{{ number_format($originalPrice, 2) }}</span>
+                  <span class="pdp__popup-old">৳{{ number_format($originalPrice, 2) }}</span>
                 @endif
                 @if($discountPct)
-                  <span class="productdetailspage__popup-discount-chip">−{{ $discountPct }}%</span>
+                  <span class="pdp__popup-chip">−{{ $discountPct }}%</span>
                 @endif
               </div>
-              <div class="productdetailspage__popup-row">
-                <div class="productdetailspage__popup-stock">
-                  <i class="fas fa-fire"></i> {{ $stockLabel }}
-                </div>
-              </div>
-              <hr class="productdetailspage__popup-divider"/>
-              <div class="productdetailspage__popup-info-row">
-                <div class="productdetailspage__popup-info-item">
-                  <i class="fas fa-tag"></i>
-                  <span>SKU: {{ $product->sku ?? 'N/A' }}</span>
-                </div>
+              <div class="pdp__popup-stock"><i class="fas fa-fire"></i> {{ $stockLabel }}</div>
+              <hr class="pdp__popup-hr"/>
+              <div class="pdp__popup-meta2">
+                <span><i class="fas fa-tag"></i> SKU: {{ $product->sku ?? 'N/A' }}</span>
                 @if($product->return_policy)
-                <div class="productdetailspage__popup-info-item">
-                  <i class="fas fa-undo"></i>
-                  <span>Return Policy</span>
-                </div>
+                  <span><i class="fas fa-undo"></i> Return Policy</span>
                 @endif
               </div>
             </div>
-
-          </div>{{-- /main-image-wrap --}}
+          </div>
 
           {{-- Thumbnails --}}
-          <div class="productdetailspage__thumbnails" id="pdpThumbnails">
+          <div class="pdp__thumbs" id="pdpThumbs">
             @foreach($allImages as $idx => $img)
-            <div class="productdetailspage__thumb {{ $idx === 0 ? 'productdetailspage__thumb--active' : '' }}"
+            <div class="pdp__thumb {{ $idx === 0 ? 'pdp__thumb--active' : '' }}"
                  data-idx="{{ $idx }}"
                  data-src="{{ $img['url'] }}">
               <img src="{{ $img['url'] }}" alt="Thumb {{ $idx + 1 }}" loading="lazy"/>
@@ -703,141 +537,117 @@
             @endforeach
           </div>
 
-          {{-- Share Row --}}
-          <div class="productdetailspage__share-row">
-            <span class="productdetailspage__share-label">Share:</span>
-            <div class="productdetailspage__social-icons">
-              <a href="https://www.facebook.com/sharer/sharer.php?u={{ $shareUrl }}"
-                 target="_blank" rel="noopener"
-                 class="productdetailspage__soc-btn productdetailspage__soc-btn--fb" title="Facebook">
-                <i class="fab fa-facebook-f"></i>
-              </a>
-              <a href="https://www.linkedin.com/shareArticle?url={{ $shareUrl }}&title={{ $shareTitle }}"
-                 target="_blank" rel="noopener"
-                 class="productdetailspage__soc-btn productdetailspage__soc-btn--li" title="LinkedIn">
-                <i class="fab fa-linkedin-in"></i>
-              </a>
-              <a href="https://twitter.com/intent/tweet?url={{ $shareUrl }}&text={{ $shareTitle }}"
-                 target="_blank" rel="noopener"
-                 class="productdetailspage__soc-btn productdetailspage__soc-btn--tw" title="Twitter/X">
-                <i class="fab fa-twitter"></i>
-              </a>
-              <a href="https://wa.me/?text={{ $shareTitle }}%20{{ $shareUrl }}"
-                 target="_blank" rel="noopener"
-                 class="productdetailspage__soc-btn productdetailspage__soc-btn--wa" title="WhatsApp">
-                <i class="fab fa-whatsapp"></i>
-              </a>
-            </div>
+          {{-- Share --}}
+          <div class="pdp__share">
+            <span class="pdp__share-label">Share:</span>
+            <a href="https://www.facebook.com/sharer/sharer.php?u={{ $shareUrl }}" target="_blank" rel="noopener" class="pdp__soc-btn pdp__soc--fb"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.linkedin.com/shareArticle?url={{ $shareUrl }}&title={{ $shareTitle }}" target="_blank" rel="noopener" class="pdp__soc-btn pdp__soc--li"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://twitter.com/intent/tweet?url={{ $shareUrl }}&text={{ $shareTitle }}" target="_blank" rel="noopener" class="pdp__soc-btn pdp__soc--tw"><i class="fab fa-twitter"></i></a>
+            <a href="https://wa.me/?text={{ $shareTitle }}%20{{ $shareUrl }}" target="_blank" rel="noopener" class="pdp__soc-btn pdp__soc--wa"><i class="fab fa-whatsapp"></i></a>
           </div>
 
         </div>{{-- /GALLERY --}}
 
-        {{-- ── MIDDLE: PRODUCT INFO ── --}}
-        <div class="productdetailspage__product-info-section">
+        {{-- ── MIDDLE: INFO ── --}}
+        <div class="pdp__info">
 
           @if(!empty($featureTags))
-          <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;">
+          <div class="pdp__feature-tags">
             @foreach($featureTags as $ft)
-            <span style="background:{{ $ft['color'] ?? '#be0318' }};color:#fff;font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;letter-spacing:.4px;">
-              {{ $ft['keyword'] }}
-            </span>
+            <span class="pdp__feature-tag" style="background:{{ $ft['color'] ?? '#be0318' }};color:#fff">{{ $ft['keyword'] }}</span>
             @endforeach
           </div>
           @endif
 
-          <h1 class="productdetailspage__product-title">{{ $product->name }}</h1>
+          <h1 class="pdp__title">{{ $product->name }}</h1>
 
-          <div class="productdetailspage__brand-row">
-            <span class="productdetailspage__brand-label">SKU:</span>
-            <span style="font-weight:600;color:var(--text)">{{ $product->sku ?? 'N/A' }}</span>
+          <div class="pdp__meta-row">
+            <span class="pdp__meta-muted">SKU:</span>
+            <strong>{{ $product->sku ?? 'N/A' }}</strong>
             @if($product->vendor)
-              <span class="productdetailspage__divider-dot">|</span>
-              <span class="productdetailspage__brand-label">Vendor:</span>
-              <span style="font-weight:600;color:var(--text)">{{ $product->vendor }}</span>
+              <span style="color:var(--border)">|</span>
+              <span class="pdp__meta-muted">Vendor:</span>
+              <strong>{{ $product->vendor }}</strong>
             @endif
           </div>
 
-          <div class="productdetailspage__viewers-row">
+          <div class="pdp__viewers">
             <i class="fas fa-eye"></i>
-            <span>
-              <span class="productdetailspage__viewers-count" id="pdpViewersCount">61</span>
-              people are viewing this right now
-            </span>
+            <span><span class="pdp__viewers-n" id="pdpViewers">61</span> people are viewing this right now</span>
           </div>
 
           @if($product->discount_price)
-          <div class="productdetailspage__flash-banner">
-            <div class="productdetailspage__flash-left">
-              <i class="fa-solid fa-bolt"></i>
-              <span>Special Offer</span>
-            </div>
-            <div class="productdetailspage__flash-timer">
-              <span class="productdetailspage__ends-label"><i class="far fa-clock"></i> Ends in:</span>
-              <span class="productdetailspage__timer-box" id="pdpTimerH">01h</span>
-              <span class="productdetailspage__timer-box" id="pdpTimerM">39m</span>
-              <span class="productdetailspage__timer-box" id="pdpTimerS">54s</span>
+          <div class="pdp__flash">
+            <div class="pdp__flash-left"><i class="fa-solid fa-bolt"></i><span>Special Offer</span></div>
+            <div class="pdp__flash-right">
+              <span class="pdp__flash-ends"><i class="far fa-clock"></i> Ends in:</span>
+              <span class="pdp__timer-box" id="pdpTH">01h</span>
+              <span class="pdp__timer-box" id="pdpTM">39m</span>
+              <span class="pdp__timer-box" id="pdpTS">54s</span>
             </div>
           </div>
           @endif
 
-          {{-- Price Block --}}
-          <div class="productdetailspage__price-block">
-            <div class="productdetailspage__price-row">
-              <span class="productdetailspage__current-price">৳{{ number_format($displayPrice, 2) }}</span>
+          {{-- Price --}}
+          <div class="pdp__price-block">
+            <div class="pdp__price-row">
+              <span class="pdp__price-cur">৳{{ number_format($displayPrice, 2) }}</span>
               @if($originalPrice)
-                <span class="productdetailspage__original-price">৳{{ number_format($originalPrice, 2) }}</span>
+                <span class="pdp__price-old">৳{{ number_format($originalPrice, 2) }}</span>
               @endif
               @if($discountPct)
-                <span class="productdetailspage__discount-chip">−{{ $discountPct }}%</span>
+                <span class="pdp__price-chip">−{{ $discountPct }}%</span>
               @endif
             </div>
-            <div class="productdetailspage__stock-info">
-              <span class="productdetailspage__stock-count">{{ $stockLabel }}</span>
+            <div class="pdp__stock-row">
+              <span class="pdp__stock-label">{{ $stockLabel }}</span>
               @if(!$product->is_unlimited)
-              <div class="productdetailspage__stock-bar">
-                <div class="productdetailspage__stock-fill" style="width:{{ $stockPct }}%"></div>
-              </div>
+              <div class="pdp__stock-bar"><div class="pdp__stock-fill" style="width:{{ $stockPct }}%"></div></div>
               @endif
             </div>
           </div>
 
-          {{-- Color Options --}}
+          {{-- Color options --}}
           @if($colors->count())
-          <div class="productdetailspage__option-group">
-            <label class="productdetailspage__option-label">Color:</label>
-            <div class="productdetailspage__option-btns">
-              @foreach($colors as $i => $color)
-              <button class="productdetailspage__opt-btn {{ $i === 0 ? 'productdetailspage__opt-btn--active' : '' }}"
-                      data-group="color">{{ $color }}</button>
+          <div class="pdp__opt-group">
+            <label class="pdp__opt-label">
+              Color: <span class="pdp__opt-tag">Optional</span>
+              <span class="pdp__opt-selected" id="pdpColorSel" style="display:none"></span>
+            </label>
+            <div class="pdp__opt-btns" id="pdpColorBtns">
+              @foreach($colors as $color)
+              <button class="pdp__opt-btn" data-group="color" data-value="{{ $color }}">{{ $color }}</button>
               @endforeach
             </div>
           </div>
           @endif
 
-          {{-- Size Options --}}
+          {{-- Size options --}}
           @if($sizes->count())
-          <div class="productdetailspage__option-group">
-            <label class="productdetailspage__option-label">Size:</label>
-            <div class="productdetailspage__option-btns">
-              @foreach($sizes as $i => $size)
-              <button class="productdetailspage__opt-btn {{ $i === 0 ? 'productdetailspage__opt-btn--active' : '' }}"
-                      data-group="size">{{ $size }}</button>
+          <div class="pdp__opt-group">
+            <label class="pdp__opt-label">
+              Size: <span class="pdp__opt-tag">Optional</span>
+              <span class="pdp__opt-selected" id="pdpSizeSel" style="display:none"></span>
+            </label>
+            <div class="pdp__opt-btns" id="pdpSizeBtns">
+              @foreach($sizes as $size)
+              <button class="pdp__opt-btn" data-group="size" data-value="{{ $size }}">{{ $size }}</button>
               @endforeach
             </div>
           </div>
           @endif
 
           {{-- Quantity --}}
-          <div class="productdetailspage__qty-group">
-            <label class="productdetailspage__option-label">Quantity:</label>
-            <div class="productdetailspage__qty-row">
-              <div class="productdetailspage__qty-selector">
-                <button class="productdetailspage__qty-btn" id="pdpQtyDec"><i class="fas fa-minus"></i></button>
-                <input type="text" class="productdetailspage__qty-input" id="pdpQtyInput" value="1" readonly/>
-                <button class="productdetailspage__qty-btn" id="pdpQtyInc"><i class="fas fa-plus"></i></button>
+          <div class="pdp__qty-group">
+            <label class="pdp__opt-label">Quantity:</label>
+            <div class="pdp__qty-row">
+              <div class="pdp__qty-sel">
+                <button class="pdp__qty-btn" id="pdpQtyDec" type="button"><i class="fas fa-minus"></i></button>
+                <input type="text" class="pdp__qty-input" id="pdpQtyInput" value="1" readonly/>
+                <button class="pdp__qty-btn" id="pdpQtyInc" type="button"><i class="fas fa-plus"></i></button>
               </div>
-              @if(!$product->is_unlimited && $product->stock > 0)
-              <div class="productdetailspage__stock-alert">
+              @if(!$product->is_unlimited && ($product->stock ?? 0) > 0)
+              <div class="pdp__stock-alert">
                 <i class="fas fa-exclamation-circle"></i>
                 <span>{{ $product->stock }} units available</span>
               </div>
@@ -845,97 +655,89 @@
             </div>
           </div>
 
-          {{-- ✅ ACTION BUTTONS — সব route ঠিক করা হয়েছে --}}
-          <div class="productdetailspage__action-btns">
+          {{-- ACTION BUTTONS --}}
+          <div class="pdp__actions">
             @if(!$inStock)
-              {{-- Out of stock --}}
-              <span class="productdetailspage__act-btn productdetailspage__btn-cart"
-                    style="opacity:.5;cursor:not-allowed;">
+              <span class="pdp__btn pdp__btn--cart" style="opacity:.5;cursor:not-allowed;">
                 <i class="fas fa-times-circle"></i> Out of Stock
               </span>
             @else
-              {{-- ✅ Add to Cart --}}
-              <a href="{{ $cartAddUrl }}"
-                 class="productdetailspage__act-btn productdetailspage__btn-cart"
-                 id="pdpAddCartBtn">
-                <i class="fas fa-shopping-cart"></i> Add to Cart
-              </a>
+              <button type="button"
+                      class="pdp__btn pdp__btn--cart"
+                      id="pdpAddCart"
+                      data-url="{{ $cartAddUrl }}">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="pdp-btn-text">Add to Cart</span>
+              </button>
 
-              {{-- ✅ Buy Now — cart এ add করে সাথে সাথে checkout এ যাবে --}}
-              <a href="{{ $cartAddUrl }}"
-                 class="productdetailspage__act-btn productdetailspage__btn-buy"
-                 id="pdpBuyNowBtn"
-                 onclick="localStorage.setItem('pdp_buynow_redirect','{{ $checkoutUrl }}')">
-                <i class="fas fa-shopping-bag"></i> Buy Now
-              </a>
+              <button type="button"
+                      class="pdp__btn pdp__btn--buy"
+                      id="pdpBuyNow"
+                      data-url="{{ $cartAddUrl }}"
+                      data-checkout="{{ $checkoutUrl }}">
+                <i class="fas fa-shopping-bag"></i>
+                <span class="pdp-btn-text">Buy Now</span>
+              </button>
             @endif
           </div>
 
-          {{-- Product Meta --}}
-          <div class="productdetailspage__meta-row">
-            @if($categoryName)
-            <span><strong>Category:</strong> {{ $categoryName }}</span>
-            @endif
-            @if($subCatName)
-            <span><strong>Sub-Category:</strong> {{ $subCatName }}</span>
-            @endif
+          {{-- Meta --}}
+          <div class="pdp__product-meta">
+            @if($categoryName)<span><strong>Category:</strong> {{ $categoryName }}</span>@endif
+            @if($subCatName)<span><strong>Sub-Category:</strong> {{ $subCatName }}</span>@endif
             @if(!empty($tags))
             <span>
               <strong>Tags:</strong>
-              @foreach($tags as $tag)
-                <a href="#" style="color:var(--primary);margin-right:4px">#{{ $tag }}</a>
-              @endforeach
+              @foreach($tags as $tag)<a href="#" style="color:var(--red);margin-right:4px">#{{ $tag }}</a>@endforeach
             </span>
             @endif
             <span><strong>Product Type:</strong> {{ ucfirst($product->product_type ?? 'N/A') }}</span>
           </div>
 
           @if($product->return_policy)
-          <div class="productdetailspage__notice-box" style="margin-top:12px">
+          <div class="pdp__notice">
             <i class="fas fa-undo"></i>
             <span>{{ $product->return_policy }}</span>
           </div>
           @endif
 
-        </div>{{-- /PRODUCT INFO --}}
+        </div>{{-- /INFO --}}
 
         {{-- ── RIGHT: SIDEBAR ── --}}
-        <div class="productdetailspage__sidebar-section">
+        <div class="pdp__sidebar">
 
-          <div class="productdetailspage__card">
-            <div class="productdetailspage__card-head">
-              <i class="fas fa-truck" style="margin-right:6px;color:var(--primary)"></i>Delivery & Shipping
-            </div>
-            <div class="productdetailspage__card-body">
-              <div class="productdetailspage__del-option">
-                <div class="productdetailspage__del-icon"><i class="fas fa-truck"></i></div>
-                <div class="productdetailspage__del-body">
-                  <div class="productdetailspage__del-title">Door Delivery</div>
-                  <div class="productdetailspage__del-date">Standard delivery within 3–7 working days</div>
+          <div class="pdp__s-card">
+            <div class="pdp__card-head"><i class="fas fa-truck" style="margin-right:6px;color:var(--red)"></i>Delivery & Shipping</div>
+            <div class="pdp__card-body">
+              <div class="pdp__del-row">
+                <div class="pdp__del-icon"><i class="fas fa-truck"></i></div>
+                <div>
+                  <div class="pdp__del-title">Door Delivery</div>
+                  <div class="pdp__del-date">Standard delivery within 3–7 working days</div>
                 </div>
               </div>
-              <div class="productdetailspage__del-option">
-                <div class="productdetailspage__del-icon"><i class="fas fa-store"></i></div>
-                <div class="productdetailspage__del-body">
-                  <div class="productdetailspage__del-title">Pickup Available</div>
-                  <div class="productdetailspage__del-date">Contact seller for pickup details</div>
+              <div class="pdp__del-row">
+                <div class="pdp__del-icon"><i class="fas fa-store"></i></div>
+                <div>
+                  <div class="pdp__del-title">Pickup Available</div>
+                  <div class="pdp__del-date">Contact seller for pickup details</div>
                 </div>
               </div>
               @if($product->return_policy)
-              <div class="productdetailspage__del-option">
-                <div class="productdetailspage__del-icon"><i class="fas fa-undo"></i></div>
-                <div class="productdetailspage__del-body">
-                  <div class="productdetailspage__del-title">Return Policy</div>
-                  <div class="productdetailspage__del-date">{{ Str::limit($product->return_policy, 80) }}</div>
+              <div class="pdp__del-row">
+                <div class="pdp__del-icon"><i class="fas fa-undo"></i></div>
+                <div>
+                  <div class="pdp__del-title">Return Policy</div>
+                  <div class="pdp__del-date">{{ Str::limit($product->return_policy, 80) }}</div>
                 </div>
               </div>
               @endif
-              @if($product->product_type === 'digital')
-              <div class="productdetailspage__del-option">
-                <div class="productdetailspage__del-icon"><i class="fas fa-download"></i></div>
-                <div class="productdetailspage__del-body">
-                  <div class="productdetailspage__del-title">Instant Download</div>
-                  <div class="productdetailspage__del-date">Available immediately after purchase</div>
+              @if(($product->product_type ?? '') === 'digital')
+              <div class="pdp__del-row">
+                <div class="pdp__del-icon"><i class="fas fa-download"></i></div>
+                <div>
+                  <div class="pdp__del-title">Instant Download</div>
+                  <div class="pdp__del-date">Available immediately after purchase</div>
                 </div>
               </div>
               @endif
@@ -943,20 +745,14 @@
           </div>
 
           @if($product->vendor)
-          <div class="productdetailspage__card">
-            <div class="productdetailspage__card-head">
-              <i class="fas fa-store" style="margin-right:6px;color:var(--primary)"></i>Seller
-            </div>
-            <div class="productdetailspage__card-body">
-              <div class="productdetailspage__seller-head">
-                <div class="productdetailspage__seller-avatar">
-                  {{ strtoupper(substr($product->vendor, 0, 2)) }}
-                </div>
+          <div class="pdp__s-card">
+            <div class="pdp__card-head"><i class="fas fa-store" style="margin-right:6px;color:var(--red)"></i>Seller</div>
+            <div class="pdp__card-body">
+              <div class="pdp__seller-head">
+                <div class="pdp__seller-ava">{{ strtoupper(substr($product->vendor, 0, 2)) }}</div>
                 <div>
-                  <div class="productdetailspage__seller-name">{{ $product->vendor }}</div>
-                  <div class="productdetailspage__seller-verified">
-                    <i class="fas fa-check-circle"></i> Verified Seller
-                  </div>
+                  <div class="pdp__seller-name">{{ $product->vendor }}</div>
+                  <div class="pdp__seller-ver"><i class="fas fa-check-circle"></i> Verified Seller</div>
                 </div>
               </div>
             </div>
@@ -964,15 +760,13 @@
           @endif
 
           @if($ytId)
-          <div class="productdetailspage__card">
-            <div class="productdetailspage__card-head">
-              <i class="fab fa-youtube" style="margin-right:6px;color:#ef4444"></i>Product Video
-            </div>
-            <div class="productdetailspage__card-body" style="padding:0">
+          <div class="pdp__s-card">
+            <div class="pdp__card-head"><i class="fab fa-youtube" style="margin-right:6px;color:#ef4444"></i>Product Video</div>
+            <div class="pdp__card-body" style="padding:0">
               <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;">
                 <iframe src="https://www.youtube.com/embed/{{ $ytId }}"
-                  style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;"
-                  allowfullscreen loading="lazy"></iframe>
+                        style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;"
+                        allowfullscreen loading="lazy"></iframe>
               </div>
             </div>
           </div>
@@ -980,313 +774,484 @@
 
         </div>{{-- /SIDEBAR --}}
 
-      </div>{{-- /product-grid --}}
-    </div>{{-- /product-page --}}
+      </div>{{-- /grid --}}
+    </div>{{-- /card --}}
 
     {{-- ── TABS ── --}}
-    <div class="productdetailspage__tabs-section" id="pdpTabsSection">
-      <div class="productdetailspage__tab-nav">
-        <button class="productdetailspage__tab-btn productdetailspage__tab-btn--active"
-                onclick="pdpOpenTab('description')">
-          <i class="fas fa-align-left"></i> Product Description
-        </button>
-        <button class="productdetailspage__tab-btn" onclick="pdpOpenTab('specifications')">
-          <i class="fas fa-list"></i> Specifications
-        </button>
-        <button class="productdetailspage__tab-btn" onclick="pdpOpenTab('reviews')">
-          <i class="fas fa-star"></i> Reviews
-        </button>
+    <div class="pdp__tabs" id="pdpTabsSection">
+      <div class="pdp__tab-nav">
+        <button class="pdp__tab-btn pdp__tab-btn--active" onclick="pdpTab('description')"><i class="fas fa-align-left"></i> Description</button>
+        <button class="pdp__tab-btn" onclick="pdpTab('specifications')"><i class="fas fa-list"></i> Specifications</button>
+        <button class="pdp__tab-btn" onclick="pdpTab('reviews')"><i class="fas fa-star"></i> Reviews</button>
       </div>
 
-      <div id="pdpDescription" class="productdetailspage__tab-content productdetailspage__tab-content--active">
-        <div class="productdetailspage__desc-text">{!! nl2br(e($product->description)) !!}</div>
+      <div id="pdpDescription" class="pdp__tab-pane pdp__tab-pane--active">
+        <div class="pdp__desc">{!! nl2br(e($product->description)) !!}</div>
       </div>
 
-      <div id="pdpSpecifications" class="productdetailspage__tab-content">
-        <div class="productdetailspage__spec-section">
-          <div class="productdetailspage__spec-head">Product Details</div>
-          <div class="productdetailspage__spec-row">
-            <span class="productdetailspage__spec-key">SKU</span>
-            <span class="productdetailspage__spec-val">{{ $product->sku ?? 'N/A' }}</span>
-          </div>
-          <div class="productdetailspage__spec-row">
-            <span class="productdetailspage__spec-key">Product Type</span>
-            <span class="productdetailspage__spec-val">{{ ucfirst($product->product_type ?? 'N/A') }}</span>
-          </div>
-          @if($categoryName)
-          <div class="productdetailspage__spec-row">
-            <span class="productdetailspage__spec-key">Category</span>
-            <span class="productdetailspage__spec-val">{{ $categoryName }}</span>
-          </div>
-          @endif
-          @if($subCatName)
-          <div class="productdetailspage__spec-row">
-            <span class="productdetailspage__spec-key">Sub Category</span>
-            <span class="productdetailspage__spec-val">{{ $subCatName }}</span>
-          </div>
-          @endif
-          @if($product->vendor)
-          <div class="productdetailspage__spec-row">
-            <span class="productdetailspage__spec-key">Vendor / Brand</span>
-            <span class="productdetailspage__spec-val">{{ $product->vendor }}</span>
-          </div>
-          @endif
-          <div class="productdetailspage__spec-row">
-            <span class="productdetailspage__spec-key">Availability</span>
-            <span class="productdetailspage__spec-val">{{ $stockLabel }}</span>
-          </div>
+      <div id="pdpSpecifications" class="pdp__tab-pane">
+        <div class="pdp__spec-section">
+          <div class="pdp__spec-head">Product Details</div>
+          <div class="pdp__spec-row"><span class="pdp__spec-k">SKU</span><span class="pdp__spec-v">{{ $product->sku ?? 'N/A' }}</span></div>
+          <div class="pdp__spec-row"><span class="pdp__spec-k">Product Type</span><span class="pdp__spec-v">{{ ucfirst($product->product_type ?? 'N/A') }}</span></div>
+          @if($categoryName)<div class="pdp__spec-row"><span class="pdp__spec-k">Category</span><span class="pdp__spec-v">{{ $categoryName }}</span></div>@endif
+          @if($subCatName)<div class="pdp__spec-row"><span class="pdp__spec-k">Sub Category</span><span class="pdp__spec-v">{{ $subCatName }}</span></div>@endif
+          @if($product->vendor)<div class="pdp__spec-row"><span class="pdp__spec-k">Vendor / Brand</span><span class="pdp__spec-v">{{ $product->vendor }}</span></div>@endif
+          <div class="pdp__spec-row"><span class="pdp__spec-k">Availability</span><span class="pdp__spec-v">{{ $stockLabel }}</span></div>
         </div>
+
         @if($variants->count())
-        <div class="productdetailspage__spec-section" style="margin-top:12px">
-          <div class="productdetailspage__spec-head">Available Variants</div>
+        <div class="pdp__spec-section">
+          <div class="pdp__spec-head">Available Variants</div>
           @foreach($variants as $v)
-          <div class="productdetailspage__spec-row">
-            <span class="productdetailspage__spec-key">
-              {{ $v['size'] ?? '' }}{{ (!empty($v['size']) && !empty($v['color'])) ? ' / ' : '' }}{{ $v['color'] ?? '' }}
-            </span>
-            <span class="productdetailspage__spec-val">
-              Stock: {{ $v['stock'] ?? 0 }}
-              @if(!empty($v['price'])) — Price: ৳{{ number_format($v['price'], 2) }} @endif
-            </span>
+          <div class="pdp__spec-row">
+            <span class="pdp__spec-k">{{ $v['size'] ?? '' }}{{ (!empty($v['size']) && !empty($v['color'])) ? ' / ' : '' }}{{ $v['color'] ?? '' }}</span>
+            <span class="pdp__spec-v">Stock: {{ $v['stock'] ?? 0 }}@if(!empty($v['price'])) — ৳{{ number_format($v['price'], 2) }}@endif</span>
           </div>
           @endforeach
         </div>
         @endif
       </div>
 
-      <div id="pdpReviews" class="productdetailspage__tab-content">
-        <div class="productdetailspage__no-reviews">
+      <div id="pdpReviews" class="pdp__tab-pane">
+        <div class="pdp__no-reviews">
           <i class="fas fa-star" style="color:var(--gold);font-size:28px;display:block;margin-bottom:10px"></i>
           No reviews yet. Be the first to review this product!
         </div>
       </div>
-    </div>{{-- /TABS --}}
+    </div>
 
     {{-- ── RELATED PRODUCTS ── --}}
     @if(!empty($relatedProducts) && $relatedProducts->count())
-    <div class="productdetailspage__products-section">
-      <div class="productdetailspage__section-header">
-        <h2 class="productdetailspage__section-title">Related Products</h2>
-        @if($categoryName)
-          <a href="#" class="productdetailspage__see-all">See All →</a>
-        @endif
+    <div class="pdp__related">
+      <div class="pdp__section-header">
+        <h2 class="pdp__section-title">Related Products</h2>
+        @if($categoryName)<a href="#" class="pdp__see-all">See All →</a>@endif
       </div>
-      <div class="productdetailspage__products-grid">
+      <div class="pdp__prod-grid">
         @foreach($relatedProducts as $rp)
         @php
-          $rpImg      = $rp->feature_image ? asset('uploads/products/' . $rp->feature_image) : asset('images/placeholder.png');
-          $rpPrice    = $rp->discount_price ?? $rp->current_price;
-          $rpOld      = $rp->discount_price ? $rp->current_price : null;
-          $rpDiscount = ($rp->discount_price && $rp->current_price > 0)
-                        ? round((($rp->current_price - $rp->discount_price) / $rp->current_price) * 100)
-                        : null;
+          $rpImg  = $rp->feature_image ? asset('uploads/products/' . $rp->feature_image) : asset('images/placeholder.png');
+          $rpPx   = $rp->discount_price ?? $rp->current_price;
+          $rpOld  = $rp->discount_price ? $rp->current_price : null;
+          $rpDisc = ($rp->discount_price && $rp->current_price > 0)
+                    ? round((($rp->current_price - $rp->discount_price) / $rp->current_price) * 100) : null;
         @endphp
-        {{-- ✅ Related product card — detail page এ যাবে --}}
-        <a href="{{ route('product.detail', $rp->slug) }}"
-           class="productdetailspage__prod-card"
-           style="text-decoration:none;color:inherit">
-          <div class="productdetailspage__prod-img-wrap">
-            @if($rpDiscount)
-            <div class="productdetailspage__prod-discount">
-              <span>{{ $rpDiscount }}%</span>
-              <span style="font-size:8px">OFF</span>
-            </div>
+        <a href="{{ route('product.detail', $rp->slug) }}" class="pdp__prod-card" style="text-decoration:none;color:inherit">
+          <div class="pdp__prod-img">
+            @if($rpDisc)
+            <div class="pdp__prod-disc"><span>{{ $rpDisc }}%</span><span style="font-size:8px">OFF</span></div>
             @endif
             <img src="{{ $rpImg }}" alt="{{ $rp->name }}" loading="lazy"/>
           </div>
-          <div class="productdetailspage__prod-info">
-            <div class="productdetailspage__prod-name">{{ $rp->name }}</div>
-            <div class="productdetailspage__prod-price-row">
-              @if($rpOld)
-              <span class="productdetailspage__prod-old-price">৳{{ number_format($rpOld, 2) }}</span>
-              @endif
-              <span class="productdetailspage__prod-price">৳{{ number_format($rpPrice, 2) }}</span>
+          <div class="pdp__prod-body">
+            <div class="pdp__prod-name">{{ $rp->name }}</div>
+            <div class="pdp__prod-prices">
+              @if($rpOld)<span class="pdp__prod-old">৳{{ number_format($rpOld, 2) }}</span>@endif
+              <span class="pdp__prod-price">৳{{ number_format($rpPx, 2) }}</span>
             </div>
           </div>
-          {{-- ✅ "Order Now" → cart.add --}}
-          <span class="productdetailspage__prod-order-btn"
-                onclick="event.preventDefault(); window.location='{{ route('cart.add', $rp->id) }}'">
+          <button type="button"
+                  class="pdp__prod-cart-btn"
+                  data-url="{{ route('cart.add', $rp->id) }}"
+                  onclick="event.preventDefault(); event.stopPropagation(); pdpRelatedCart(this)">
             <i class="fas fa-cart-plus"></i> কার্টে যোগ করুন
-          </span>
+          </button>
         </a>
         @endforeach
       </div>
     </div>
     @endif
 
-  </div>{{-- /container --}}
+  </div>{{-- /wrap --}}
 
   {{-- ── ZOOM OVERLAY ── --}}
-  <div class="productdetailspage__zoom-overlay" id="pdpZoomOverlay">
-    <button class="productdetailspage__zoom-close-btn" id="pdpZoomClose" title="Close (Esc)">
-      <i class="fas fa-times"></i>
-    </button>
-    <button class="productdetailspage__zoom-nav-btn productdetailspage__zoom-prev" id="pdpZoomPrev" title="Previous">
-      <i class="fas fa-chevron-left"></i>
-    </button>
-    <img id="pdpZoomImg" class="productdetailspage__zoom-overlay-img" src="" alt="Zoomed image"/>
-    <button class="productdetailspage__zoom-nav-btn productdetailspage__zoom-next" id="pdpZoomNext" title="Next">
-      <i class="fas fa-chevron-right"></i>
-    </button>
-    <div class="productdetailspage__zoom-counter" id="pdpZoomCounter">1 / {{ $totalImages }}</div>
+  <div class="pdp__zoom" id="pdpZoom">
+    <button type="button" class="pdp__zoom-close" id="pdpZoomClose"><i class="fas fa-times"></i></button>
+    <button type="button" class="pdp__zoom-nav pdp__zoom-prev" id="pdpZoomPrev"><i class="fas fa-chevron-left"></i></button>
+    <img id="pdpZoomImg" class="pdp__zoom-img" src="" alt="Zoomed"/>
+    <button type="button" class="pdp__zoom-nav pdp__zoom-next" id="pdpZoomNext"><i class="fas fa-chevron-right"></i></button>
+    <div class="pdp__zoom-count" id="pdpZoomCount">1 / {{ $totalImages }}</div>
   </div>
 
-</div>{{-- /productdetailspage --}}
+</div>{{-- /pdp --}}
 
 {{-- ══ JAVASCRIPT ══ --}}
 <script>
 (function () {
   'use strict';
 
-  /* ── Image sources ── */
-  const PDP_SRCS = @json($allImages->pluck('url')->values());
-  let pdpCurrentIdx = 0;
+  /* ── CONFIG ─────────────────────────────────────────────────────────── */
+  var IMGS     = @json($allImages->pluck('url')->values());
+  var MAX_QTY  = {{ $product->is_unlimited ? 9999 : max(1, $product->stock ?? 1) }};
+  var CHECKOUT = '{{ $checkoutUrl }}';
+  /* CSRF টোকেন একটাই জায়গায় রাখো */
+  var CSRF     = document.querySelector('meta[name="csrf-token"]')
+                   ? document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                   : '{{ $csrfToken }}';
+  var curIdx   = 0;
+  var selColor = null;
+  var selSize  = null;
 
-  /* ── DOM refs ── */
-  const pdpMainImage   = document.getElementById('pdpMainImage');
-  const pdpImgCounter  = document.getElementById('pdpImgCounter');
-  const pdpThumbs      = document.querySelectorAll('.productdetailspage__thumb');
-  const pdpMainWrap    = document.getElementById('pdpMainWrap');
-  const pdpZoomOverlay = document.getElementById('pdpZoomOverlay');
-  const pdpZoomImg     = document.getElementById('pdpZoomImg');
-  const pdpZoomClose   = document.getElementById('pdpZoomClose');
-  const pdpZoomPrev    = document.getElementById('pdpZoomPrev');
-  const pdpZoomNext    = document.getElementById('pdpZoomNext');
-  const pdpZoomCounter = document.getElementById('pdpZoomCounter');
+  /* ── TOAST ───────────────────────────────────────────────────────────── */
+  function toast(msg, type, ms) {
+    type = type || 'success';
+    ms   = ms   || 3200;
+    var icons = {
+      success : 'bi bi-check-circle-fill',
+      error   : 'bi bi-x-circle-fill',
+      info    : 'bi bi-info-circle-fill'
+    };
+    var el = document.createElement('div');
+    el.className = 'pdp-toast pdp-toast--' + type;
+    el.innerHTML = '<i class="' + (icons[type] || icons.info) + '"></i><span>' + msg + '</span>';
+    var wrap = document.getElementById('pdp-toasts');
+    if (wrap) wrap.appendChild(el);
+    setTimeout(function () {
+      el.classList.add('out');
+      setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 320);
+    }, ms);
+  }
 
-  /* ── Thumbnail switcher ── */
-  pdpThumbs.forEach(function (t) {
+  /* ── UPDATE CART BADGE ───────────────────────────────────────────────── */
+  function updateBadge(n) {
+    document.querySelectorAll('.cart-badge, #cart-count, .pdp-cart-count').forEach(function (b) {
+      b.textContent   = n;
+      b.style.display = n > 0 ? '' : 'none';
+    });
+  }
+
+  /* ── CORE CART POST (fetch) ──────────────────────────────────────────── *
+   *  সমস্যা ছিল: FormData-তে _token ছিল + header-এও X-CSRF-TOKEN ছিল।
+   *  Laravel দুটো একসাথে accept করে, কিন্তু কিছু proxy/server reject করে।
+   *  Fix: শুধু header-এ পাঠাও, body-তে _token রেখো না।
+   * ─────────────────────────────────────────────────────────────────────── */
+  function cartPost(url, qty, color, size, callback) {
+    var fd = new FormData();
+    fd.append('quantity', qty);
+    if (color) fd.append('selected_color', color);
+    if (size)  fd.append('selected_size',  size);
+    /* NOTE: _token FormData-তে নেই। শুধু header-এ আছে — এটাই সঠিক। */
+
+    fetch(url, {
+      method  : 'POST',
+      headers : {
+        'X-Requested-With' : 'XMLHttpRequest',
+        'Accept'           : 'application/json',
+        'X-CSRF-TOKEN'     : CSRF
+      },
+      body    : fd
+    })
+    .then(function (res) {
+      /* 422 = validation error — তবুও JSON parse করতে হবে */
+      if (!res.ok && res.status !== 422) {
+        throw new Error('HTTP ' + res.status);
+      }
+      return res.json();
+    })
+    .then(function (data) {
+      if (typeof callback === 'function') callback(null, data);
+    })
+    .catch(function (err) {
+      console.error('[PDP Cart Error]', err);
+      if (typeof callback === 'function') callback(err, null);
+    });
+  }
+
+  /* ── BUTTON LOADING HELPER ───────────────────────────────────────────── */
+  function btnLoad(btn, on) {
+    if (!btn) return;
+    var icon = btn.querySelector('i:not(.pdp-spinner)');
+    if (on) {
+      btn.disabled = true;
+      if (!btn.querySelector('.pdp-spinner')) {
+        var s = document.createElement('span');
+        s.className = 'pdp-spinner';
+        btn.insertBefore(s, btn.firstChild);
+      }
+      if (icon) icon.style.display = 'none';
+    } else {
+      btn.disabled = false;
+      var sp = btn.querySelector('.pdp-spinner');
+      if (sp) sp.parentNode.removeChild(sp);
+      if (icon) icon.style.display = '';
+    }
+  }
+
+  /* ── ADD TO CART ─────────────────────────────────────────────────────── */
+  var addCartBtn = document.getElementById('pdpAddCart');
+  if (addCartBtn) {
+    addCartBtn.addEventListener('click', function () {
+      var btn = this;
+      var url = btn.dataset.url;
+      var qty = parseInt(document.getElementById('pdpQtyInput').value, 10) || 1;
+      btnLoad(btn, true);
+      cartPost(url, qty, selColor, selSize, function (err, data) {
+        btnLoad(btn, false);
+        if (err) {
+          toast('নেটওয়ার্ক সমস্যা। আবার চেষ্টা করুন।', 'error');
+          return;
+        }
+        if (data && data.success) {
+          updateBadge(data.cart_count);
+          toast(data.message || 'কার্টে যোগ হয়েছে!', 'success');
+        } else {
+          toast((data && data.message) || 'কার্টে যোগ করতে সমস্যা হয়েছে।', 'error');
+        }
+      });
+    });
+  }
+
+  /* ── BUY NOW ─────────────────────────────────────────────────────────── */
+  var buyNowBtn = document.getElementById('pdpBuyNow');
+  if (buyNowBtn) {
+    buyNowBtn.addEventListener('click', function () {
+      var btn = this;
+      var url = btn.dataset.url;
+      var qty = parseInt(document.getElementById('pdpQtyInput').value, 10) || 1;
+      btnLoad(btn, true);
+      cartPost(url, qty, selColor, selSize, function (err, data) {
+        if (err) {
+          btnLoad(btn, false);
+          toast('নেটওয়ার্ক সমস্যা। আবার চেষ্টা করুন।', 'error');
+          return;
+        }
+        if (data && data.success) {
+          updateBadge(data.cart_count);
+          window.location.href = CHECKOUT;
+        } else {
+          btnLoad(btn, false);
+          toast((data && data.message) || 'কার্টে যোগ করতে সমস্যা হয়েছে।', 'error');
+        }
+      });
+    });
+  }
+
+  /* ── WISHLIST (AJAX GET) ─────────────────────────────────────────────── */
+  var wishBtn = document.getElementById('pdpWishBtn');
+  if (wishBtn) {
+    wishBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var btn = this;
+      var url = btn.dataset.url;
+      btn.disabled = true;
+      fetch(url, {
+        headers : {
+          'X-Requested-With' : 'XMLHttpRequest',
+          'Accept'           : 'application/json'
+        }
+      })
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        btn.disabled = false;
+        if (data.success || data.message) {
+          btn.classList.toggle('pdp__wish-btn--active');
+          var icon = btn.querySelector('i');
+          if (icon) {
+            var isActive = btn.classList.contains('pdp__wish-btn--active');
+            icon.className = isActive ? 'bi bi-heart-fill' : 'bi bi-heart';
+            icon.style.color = isActive ? '#ef4444' : '';
+          }
+          toast(data.message || 'উইশলিস্টে যোগ হয়েছে!', 'success');
+        } else {
+          toast(data.message || 'সমস্যা হয়েছে।', 'error');
+        }
+      })
+      .catch(function () {
+        btn.disabled = false;
+        /* AJAX fail হলে সরাসরি navigate করো */
+        window.location.href = url;
+      });
+    });
+  }
+
+  /* ── RELATED PRODUCT CART ────────────────────────────────────────────── */
+  window.pdpRelatedCart = function (btn) {
+    var url  = btn.dataset.url;
+    var orig = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<span class="pdp-spinner" style="width:14px;height:14px;border-width:2px"></span> যোগ হচ্ছে...';
+    cartPost(url, 1, null, null, function (err, data) {
+      if (err) {
+        btn.innerHTML = orig;
+        btn.disabled  = false;
+        toast('নেটওয়ার্ক সমস্যা। আবার চেষ্টা করুন।', 'error');
+        return;
+      }
+      if (data && data.success) {
+        updateBadge(data.cart_count);
+        toast(data.message || 'কার্টে যোগ হয়েছে!', 'success');
+        btn.innerHTML = '<i class="fas fa-check"></i> যোগ হয়েছে!';
+        setTimeout(function () { btn.innerHTML = orig; btn.disabled = false; }, 2000);
+      } else {
+        btn.innerHTML = orig;
+        btn.disabled  = false;
+        toast((data && data.message) || 'সমস্যা হয়েছে।', 'error');
+      }
+    });
+  };
+
+  /* ── OPTION BUTTONS (color / size) ──────────────────────────────────── */
+  document.querySelectorAll('.pdp__opt-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var group     = this.dataset.group;
+      var value     = this.dataset.value;
+      var wasActive = this.classList.contains('pdp__opt-btn--active');
+
+      document.querySelectorAll('.pdp__opt-btn[data-group="' + group + '"]').forEach(function (b) {
+        b.classList.remove('pdp__opt-btn--active');
+      });
+
+      if (!wasActive) {
+        this.classList.add('pdp__opt-btn--active');
+        if (group === 'color') { selColor = value; _setLabel('pdpColorSel', value); }
+        else                   { selSize  = value; _setLabel('pdpSizeSel',  value); }
+      } else {
+        if (group === 'color') { selColor = null;  _setLabel('pdpColorSel', null); }
+        else                   { selSize  = null;  _setLabel('pdpSizeSel',  null); }
+      }
+    });
+  });
+
+  function _setLabel(id, val) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.textContent   = val ? '— ' + val : '';
+    el.style.display = val ? 'inline' : 'none';
+  }
+
+  /* ── QUANTITY ────────────────────────────────────────────────────────── */
+  var qtyInput = document.getElementById('pdpQtyInput');
+  var qtyInc   = document.getElementById('pdpQtyInc');
+  var qtyDec   = document.getElementById('pdpQtyDec');
+  if (qtyInc) qtyInc.addEventListener('click', function () {
+    var v = parseInt(qtyInput.value, 10);
+    if (v < MAX_QTY) qtyInput.value = v + 1;
+  });
+  if (qtyDec) qtyDec.addEventListener('click', function () {
+    var v = parseInt(qtyInput.value, 10);
+    if (v > 1) qtyInput.value = v - 1;
+  });
+
+  /* ── GALLERY THUMBNAILS ──────────────────────────────────────────────── */
+  var mainImg = document.getElementById('pdpMainImg');
+  var counter = document.getElementById('pdpCounter');
+  var thumbs  = document.querySelectorAll('.pdp__thumb');
+
+  thumbs.forEach(function (t) {
     t.addEventListener('click', function (e) {
       e.stopPropagation();
-      pdpThumbs.forEach(function (x) { x.classList.remove('productdetailspage__thumb--active'); });
-      t.classList.add('productdetailspage__thumb--active');
-      pdpCurrentIdx    = parseInt(t.dataset.idx);
-      pdpMainImage.src = t.dataset.src;
-      pdpImgCounter.textContent = (pdpCurrentIdx + 1) + ' / ' + PDP_SRCS.length;
+      thumbs.forEach(function (x) { x.classList.remove('pdp__thumb--active'); });
+      t.classList.add('pdp__thumb--active');
+      curIdx = parseInt(t.dataset.idx, 10);
+      mainImg.src = t.dataset.src;
+      counter.textContent = (curIdx + 1) + ' / ' + IMGS.length;
     });
   });
 
-  /* ── Zoom open / close / navigate ── */
-  function pdpOpenZoom(idx) {
-    pdpCurrentIdx  = idx;
-    pdpZoomImg.src = PDP_SRCS[pdpCurrentIdx];
-    pdpZoomCounter.textContent = (pdpCurrentIdx + 1) + ' / ' + PDP_SRCS.length;
-    pdpZoomOverlay.classList.add('productdetailspage__zoom-overlay--active');
+  /* ── ZOOM OVERLAY ────────────────────────────────────────────────────── */
+  var zoomEl    = document.getElementById('pdpZoom');
+  var zoomImg   = document.getElementById('pdpZoomImg');
+  var zoomCount = document.getElementById('pdpZoomCount');
+
+  function openZoom(idx) {
+    curIdx = idx;
+    zoomImg.src = IMGS[curIdx];
+    zoomImg.style.opacity   = '1';
+    zoomImg.style.transform = '';
+    zoomCount.textContent = (curIdx + 1) + ' / ' + IMGS.length;
+    zoomEl.classList.add('pdp__zoom--active');
     document.body.style.overflow = 'hidden';
   }
-  function pdpCloseZoom() {
-    pdpZoomOverlay.classList.remove('productdetailspage__zoom-overlay--active');
+
+  function closeZoom() {
+    zoomEl.classList.remove('pdp__zoom--active');
     document.body.style.overflow = '';
   }
-  function pdpZoomNavigate(dir) {
-    pdpCurrentIdx = (pdpCurrentIdx + dir + PDP_SRCS.length) % PDP_SRCS.length;
-    pdpZoomImg.style.opacity   = '0';
-    pdpZoomImg.style.transform = 'scale(0.88)';
+
+  function zoomNav(dir) {
+    curIdx = (curIdx + dir + IMGS.length) % IMGS.length;
+    zoomImg.style.opacity   = '0';
+    zoomImg.style.transform = 'scale(.88)';
     setTimeout(function () {
-      pdpZoomImg.src = PDP_SRCS[pdpCurrentIdx];
-      pdpZoomCounter.textContent = (pdpCurrentIdx + 1) + ' / ' + PDP_SRCS.length;
-      pdpMainImage.src           = PDP_SRCS[pdpCurrentIdx];
-      pdpImgCounter.textContent  = (pdpCurrentIdx + 1) + ' / ' + PDP_SRCS.length;
-      pdpThumbs.forEach(function (t) {
-        t.classList.toggle('productdetailspage__thumb--active', parseInt(t.dataset.idx) === pdpCurrentIdx);
+      zoomImg.src = IMGS[curIdx];
+      zoomCount.textContent = (curIdx + 1) + ' / ' + IMGS.length;
+      mainImg.src = IMGS[curIdx];
+      counter.textContent = (curIdx + 1) + ' / ' + IMGS.length;
+      thumbs.forEach(function (t) {
+        t.classList.toggle('pdp__thumb--active', parseInt(t.dataset.idx, 10) === curIdx);
       });
-      pdpZoomImg.style.opacity   = '1';
-      pdpZoomImg.style.transform = 'scale(1)';
+      zoomImg.style.opacity   = '1';
+      zoomImg.style.transform = 'scale(1)';
     }, 160);
   }
-  pdpZoomImg.style.transition = 'opacity .16s ease, transform .2s ease';
 
-  pdpMainWrap.addEventListener('click', function () { pdpOpenZoom(pdpCurrentIdx); });
-  pdpZoomClose.addEventListener('click', function (e) { e.stopPropagation(); pdpCloseZoom(); });
-  pdpZoomOverlay.addEventListener('click', function (e) { if (e.target === pdpZoomOverlay) pdpCloseZoom(); });
-  pdpZoomImg.addEventListener('click', pdpCloseZoom);
-  pdpZoomPrev.addEventListener('click', function (e) { e.stopPropagation(); pdpZoomNavigate(-1); });
-  pdpZoomNext.addEventListener('click', function (e) { e.stopPropagation(); pdpZoomNavigate(1); });
+  var mainWrap = document.getElementById('pdpMainWrap');
+  if (mainWrap) mainWrap.addEventListener('click', function (e) {
+    /* wish button click যেন zoom trigger না করে */
+    if (e.target.closest('#pdpWishBtn')) return;
+    openZoom(curIdx);
+  });
+  document.getElementById('pdpZoomClose').addEventListener('click', function (e) { e.stopPropagation(); closeZoom(); });
+  zoomEl.addEventListener('click', function (e) { if (e.target === zoomEl) closeZoom(); });
+  zoomImg.addEventListener('click', closeZoom);
+  document.getElementById('pdpZoomPrev').addEventListener('click', function (e) { e.stopPropagation(); zoomNav(-1); });
+  document.getElementById('pdpZoomNext').addEventListener('click', function (e) { e.stopPropagation(); zoomNav(1); });
   document.addEventListener('keydown', function (e) {
-    if (!pdpZoomOverlay.classList.contains('productdetailspage__zoom-overlay--active')) return;
-    if (e.key === 'Escape')     pdpCloseZoom();
-    if (e.key === 'ArrowLeft')  pdpZoomNavigate(-1);
-    if (e.key === 'ArrowRight') pdpZoomNavigate(1);
+    if (!zoomEl.classList.contains('pdp__zoom--active')) return;
+    if (e.key === 'Escape')     closeZoom();
+    if (e.key === 'ArrowLeft')  zoomNav(-1);
+    if (e.key === 'ArrowRight') zoomNav(1);
   });
 
-  /* ── Option buttons ── */
-  document.querySelectorAll('.productdetailspage__opt-btn').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      var group = btn.dataset.group;
-      document.querySelectorAll('.productdetailspage__opt-btn[data-group="' + group + '"]')
-        .forEach(function (b) { b.classList.remove('productdetailspage__opt-btn--active'); });
-      btn.classList.add('productdetailspage__opt-btn--active');
-    });
-  });
-
-  /* ── Quantity ── */
-  var pdpQtyInput = document.getElementById('pdpQtyInput');
-  var PDP_MAX_QTY = {{ $product->is_unlimited ? 999 : max(1, $product->stock ?? 1) }};
-  if (document.getElementById('pdpQtyInc')) {
-    document.getElementById('pdpQtyInc').addEventListener('click', function () {
-      var v = parseInt(pdpQtyInput.value);
-      if (v < PDP_MAX_QTY) pdpQtyInput.value = v + 1;
-    });
-  }
-  if (document.getElementById('pdpQtyDec')) {
-    document.getElementById('pdpQtyDec').addEventListener('click', function () {
-      var v = parseInt(pdpQtyInput.value);
-      if (v > 1) pdpQtyInput.value = v - 1;
-    });
-  }
-
-  /* ── Buy Now: cart এ add করার পর checkout এ redirect ──
-     cart.add রুট redirect()->back() করে, তাই পেজ লোড হলে
-     localStorage চেক করে checkout এ পাঠিয়ে দেওয়া হয়        */
-  var buyNowRedirect = localStorage.getItem('pdp_buynow_redirect');
-  if (buyNowRedirect) {
-    localStorage.removeItem('pdp_buynow_redirect');
-    // শুধু তখনই redirect করব যদি cart এ কিছু থাকে (session('cart') চেক)
-    @if(session()->has('cart') && count(session('cart', [])) > 0)
-      window.location.href = buyNowRedirect;
-    @endif
-  }
-
-  /* ── Countdown timer ── */
+  /* ── COUNTDOWN TIMER ─────────────────────────────────────────────────── */
   @if($product->discount_price)
-  var pdpTotalSecs = 1 * 3600 + 39 * 60 + 54;
-  function pdpUpdateTimer() {
-    if (pdpTotalSecs <= 0) return;
-    pdpTotalSecs--;
-    var h = Math.floor(pdpTotalSecs / 3600);
-    var m = Math.floor((pdpTotalSecs % 3600) / 60);
-    var s = pdpTotalSecs % 60;
-    document.getElementById('pdpTimerH').textContent = String(h).padStart(2, '0') + 'h';
-    document.getElementById('pdpTimerM').textContent = String(m).padStart(2, '0') + 'm';
-    document.getElementById('pdpTimerS').textContent = String(s).padStart(2, '0') + 's';
-  }
-  setInterval(pdpUpdateTimer, 1000);
+  var _secs = 5994; /* 1h 39m 54s */
+  var _timerEl = {
+    h : document.getElementById('pdpTH'),
+    m : document.getElementById('pdpTM'),
+    s : document.getElementById('pdpTS')
+  };
+  setInterval(function () {
+    if (_secs <= 0) return;
+    _secs--;
+    var h = Math.floor(_secs / 3600);
+    var m = Math.floor((_secs % 3600) / 60);
+    var s = _secs % 60;
+    if (_timerEl.h) _timerEl.h.textContent = String(h).padStart(2, '0') + 'h';
+    if (_timerEl.m) _timerEl.m.textContent = String(m).padStart(2, '0') + 'm';
+    if (_timerEl.s) _timerEl.s.textContent = String(s).padStart(2, '0') + 's';
+  }, 1000);
   @endif
 
-  /* ── Viewer count flicker ── */
-  var pdpVc = document.getElementById('pdpViewersCount');
-  setInterval(function () {
-    var delta = Math.random() < .5 ? 1 : -1;
-    var cur   = parseInt(pdpVc.textContent);
-    pdpVc.textContent = Math.max(50, Math.min(80, cur + delta));
-  }, 4000);
+  /* ── VIEWER COUNT FLICKER ────────────────────────────────────────────── */
+  var _vc = document.getElementById('pdpViewers');
+  if (_vc) {
+    setInterval(function () {
+      var cur = parseInt(_vc.textContent, 10);
+      var next = cur + (Math.random() < .5 ? 1 : -1);
+      _vc.textContent = Math.max(50, Math.min(80, next));
+    }, 4000);
+  }
 
-  /* ── Tabs ── */
-  window.pdpOpenTab = function (id) {
-    document.querySelectorAll('.productdetailspage__tab-content').forEach(function (c) {
-      c.classList.remove('productdetailspage__tab-content--active');
+  /* ── TABS ────────────────────────────────────────────────────────────── */
+  var _tabMap = { description: 0, specifications: 1, reviews: 2 };
+  window.pdpTab = function (id) {
+    document.querySelectorAll('.pdp__tab-pane').forEach(function (c) {
+      c.classList.remove('pdp__tab-pane--active');
     });
-    document.querySelectorAll('.productdetailspage__tab-btn').forEach(function (b) {
-      b.classList.remove('productdetailspage__tab-btn--active');
+    document.querySelectorAll('.pdp__tab-btn').forEach(function (b) {
+      b.classList.remove('pdp__tab-btn--active');
     });
-    var map = { description: 0, specifications: 1, reviews: 2 };
-    var capitalized = id.charAt(0).toUpperCase() + id.slice(1);
-    document.getElementById('pdp' + capitalized).classList.add('productdetailspage__tab-content--active');
-    document.querySelectorAll('.productdetailspage__tab-btn')[map[id]].classList.add('productdetailspage__tab-btn--active');
-    document.getElementById('pdpTabsSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    var cap = id.charAt(0).toUpperCase() + id.slice(1);
+    var pane = document.getElementById('pdp' + cap);
+    var btns = document.querySelectorAll('.pdp__tab-btn');
+    if (pane) pane.classList.add('pdp__tab-pane--active');
+    if (btns[_tabMap[id]]) btns[_tabMap[id]].classList.add('pdp__tab-btn--active');
+    var sec = document.getElementById('pdpTabsSection');
+    if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
 })();
 </script>
-
 @endsection

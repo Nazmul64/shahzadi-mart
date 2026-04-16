@@ -14,13 +14,6 @@
         --bg: #f8f9fb;
     }
 
-    .cart-section {
-        background: var(--bg);
-        min-height: 80vh;
-        padding: 40px 0 60px;
-        font-family: 'Hind Siliguri', 'Segoe UI', sans-serif;
-    }
-
     /* ── Breadcrumb ── */
     .breadcrumb-bar {
         background: #fff;
@@ -165,10 +158,47 @@
         color: var(--muted);
         display: flex;
         align-items: center;
-        gap: 12px;
+        gap: 8px;
         flex-wrap: wrap;
+        margin-top: 4px;
     }
-    .cart-item-meta span { display: flex; align-items: center; gap: 4px; }
+    .cart-item-meta span {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    /* ── Variant Chips ── */
+    .cart-variant-chips {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex-wrap: wrap;
+        margin-top: 5px;
+    }
+    .cart-variant-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 11px;
+        font-weight: 600;
+        padding: 2px 9px;
+        border-radius: 20px;
+        border: 1px solid var(--border);
+        background: #f9fafb;
+        color: var(--text);
+        white-space: nowrap;
+    }
+    .cart-variant-chip.color-chip {
+        background: #fff0f1;
+        border-color: #fecdd3;
+        color: var(--primary);
+    }
+    .cart-variant-chip.size-chip {
+        background: #eff6ff;
+        border-color: #bfdbfe;
+        color: #2563eb;
+    }
 
     .cart-unit-price {
         font-size: 15px;
@@ -327,6 +357,22 @@
     .price-row .val { font-weight: 600; color: var(--dark); }
     .price-row.discount .val { color: #16a34a; }
 
+    /* Shipping note row */
+    .shipping-note-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 12px;
+        background: #fffbeb;
+        border: 1px solid #fcd34d;
+        border-radius: 8px;
+        margin: 10px 0;
+        font-size: 12px;
+        color: #92400e;
+        font-weight: 500;
+    }
+    .shipping-note-row i { color: #f59e0b; flex-shrink: 0; font-size: 13px; }
+
     .total-row {
         display: flex;
         justify-content: space-between;
@@ -357,6 +403,7 @@
         align-items: center;
         justify-content: center;
         gap: 8px;
+        box-sizing: border-box;
     }
     .btn-checkout:hover { background: #c8101f; transform: scale(1.01); color: #fff; }
 
@@ -425,12 +472,15 @@
         .summary-card { position: static; }
     }
     @media(max-width:576px){
-        .cart-item { grid-template-columns: 70px 1fr; grid-template-rows: auto auto auto; }
+        .cart-item {
+            grid-template-columns: 70px 1fr;
+            grid-template-rows: auto auto auto;
+        }
         .cart-item-img { width: 70px; height: 70px; }
     }
 </style>
 
-{{-- Breadcrumb --}}
+{{-- ════════════════════════════ Breadcrumb ════════════════════════════ --}}
 <div class="breadcrumb-bar">
     <div class="container">
         <div class="bc-inner">
@@ -441,44 +491,56 @@
     </div>
 </div>
 
-<section class="cart-section">
+<section class="cart-section" style="background:var(--bg);min-height:80vh;padding:40px 0 60px;font-family:'Hind Siliguri','Segoe UI',sans-serif;">
     <div class="container">
 
-        {{-- Flash Messages --}}
+        {{-- ════════════════════ Flash Messages ════════════════════ --}}
         @if(session('success'))
-            <div class="alert-msg alert-success"><i class="bi bi-check-circle-fill"></i> {{ session('success') }}</div>
+            <div class="alert-msg alert-success">
+                <i class="bi bi-check-circle-fill"></i> {{ session('success') }}
+            </div>
         @endif
         @if(session('error'))
-            <div class="alert-msg alert-error"><i class="bi bi-exclamation-circle-fill"></i> {{ session('error') }}</div>
+            <div class="alert-msg alert-error">
+                <i class="bi bi-exclamation-circle-fill"></i> {{ session('error') }}
+            </div>
         @endif
         @if(session('info'))
-            <div class="alert-msg alert-info"><i class="bi bi-info-circle-fill"></i> {{ session('info') }}</div>
+            <div class="alert-msg alert-info">
+                <i class="bi bi-info-circle-fill"></i> {{ session('info') }}
+            </div>
         @endif
 
         @php
-            $cartItems   = session('cart', []);
-            $hasItems    = !empty($cartItems);
-            $subtotal    = 0;
-            $deliveryFee = 70;
-            $discount    = 0;
+            $cartItems = session('cart', []);
+            $hasItems  = !empty($cartItems);
+            $subtotal  = 0;
+            $discount  = (float) session('coupon_discount', 0);
         @endphp
 
+        {{-- ════════════════════ HAS ITEMS ════════════════════ --}}
         @if($hasItems)
 
             <div class="cart-page-header">
-                <i class="bi bi-cart3" style="font-size:22px; color:var(--primary)"></i>
+                <i class="bi bi-cart3" style="font-size:22px;color:var(--primary)"></i>
                 <h1>শপিং কার্ট</h1>
                 <span class="cart-count-badge">{{ count($cartItems) }}</span>
             </div>
 
             <div class="cart-layout">
 
-                {{-- ── Left: Items ── --}}
+                {{-- ════════ Left: Items ════════ --}}
                 <div>
                     <div class="cart-card">
                         <div class="cart-card-head">
                             <span><i class="bi bi-bag-check"></i> কার্টে থাকা পণ্য</span>
-                            <a href="{{ route('cart.clear') }}" class="btn-clear"
+                            {{--
+                                route('cart.clear')
+                                → web.php: Route::get('/clear', ...)->name('clear')
+                                → URL: GET /cart/clear
+                            --}}
+                            <a href="{{ route('cart.clear') }}"
+                               class="btn-clear"
                                onclick="return confirm('সব পণ্য সরিয়ে দেবেন?')">
                                 <i class="bi bi-trash3"></i> সব মুছুন
                             </a>
@@ -486,26 +548,32 @@
 
                         @foreach($cartItems as $id => $item)
                         @php
-                            // ✅ discount ও unit price হিসাব
                             $hasDisc   = isset($item['discount_price']) && $item['discount_price'] > 0;
                             $unitPrice = $hasDisc ? $item['discount_price'] : $item['price'];
                             $lineTotal = $unitPrice * $item['quantity'];
                             $subtotal += $lineTotal;
 
-                            // ✅ image সরাসরি uploads/products/ থেকে নেওয়া হচ্ছে
                             $imgSrc = !empty($item['image'])
                                 ? asset('uploads/products/' . $item['image'])
                                 : asset('images/placeholder.png');
+
+                            $selColor = $item['selected_color'] ?? null;
+                            $selSize  = $item['selected_size']  ?? null;
                         @endphp
+
                         <div class="cart-item">
+
+                            {{-- Image --}}
                             <img src="{{ $imgSrc }}"
                                  class="cart-item-img"
                                  alt="{{ $item['name'] }}"
                                  onerror="this.src='{{ asset('images/placeholder.png') }}'">
 
+                            {{-- Info --}}
                             <div class="cart-item-info">
                                 <a href="{{ route('product.detail', $item['slug'] ?? $id) }}"
                                    class="cart-item-name">{{ $item['name'] }}</a>
+
                                 <div class="cart-item-meta">
                                     @if(isset($item['category']))
                                         <span><i class="bi bi-tag"></i> {{ $item['category'] }}</span>
@@ -517,8 +585,26 @@
                                         </span>
                                     @endif
                                 </div>
+
+                                @if($selColor || $selSize)
+                                <div class="cart-variant-chips">
+                                    @if($selColor)
+                                        <span class="cart-variant-chip color-chip">
+                                            <i class="bi bi-circle-fill" style="font-size:8px"></i>
+                                            {{ $selColor }}
+                                        </span>
+                                    @endif
+                                    @if($selSize)
+                                        <span class="cart-variant-chip size-chip">
+                                            <i class="bi bi-rulers" style="font-size:9px"></i>
+                                            {{ $selSize }}
+                                        </span>
+                                    @endif
+                                </div>
+                                @endif
                             </div>
 
+                            {{-- Unit Price --}}
                             <div style="text-align:right">
                                 <div class="cart-unit-price">৳ {{ number_format($unitPrice, 0) }}</div>
                                 @if($hasDisc)
@@ -526,24 +612,33 @@
                                 @endif
                             </div>
 
+                            {{-- Qty Control
+                                route('cart.decrease', $id) → GET /cart/decrease/{key}
+                                route('cart.increase', $id) → GET /cart/increase/{key}
+                            --}}
                             <div class="qty-control">
                                 <a href="{{ route('cart.decrease', $id) }}" class="qty-btn">−</a>
                                 <span class="qty-val">{{ $item['quantity'] }}</span>
                                 <a href="{{ route('cart.increase', $id) }}" class="qty-btn">+</a>
                             </div>
 
+                            {{-- Line Total --}}
                             <div class="cart-subtotal">৳ {{ number_format($lineTotal, 0) }}</div>
 
+                            {{-- Remove
+                                route('cart.remove', $id) → GET /cart/remove/{key}
+                            --}}
                             <a href="{{ route('cart.remove', $id) }}" class="cart-remove" title="সরান">
                                 <i class="bi bi-trash3-fill"></i>
                             </a>
+
                         </div>
                         @endforeach
 
-                    </div>
-                </div>
+                    </div>{{-- /.cart-card --}}
+                </div>{{-- /.left --}}
 
-                {{-- ── Right: Summary ── --}}
+                {{-- ════════ Right: Summary ════════ --}}
                 <div>
                     <div class="summary-card">
                         <div class="summary-head">
@@ -552,7 +647,7 @@
                         </div>
                         <div class="summary-body">
 
-                            {{-- Coupon Form --}}
+                            {{-- Coupon: route('cart.coupon') → POST /cart/coupon --}}
                             <form action="{{ route('cart.coupon') }}" method="POST">
                                 @csrf
                                 <div class="coupon-row">
@@ -565,17 +660,15 @@
                                 </div>
                             </form>
 
-                            {{-- Coupon messages --}}
                             @if(session('coupon_error'))
                                 <div class="coupon-msg error">
                                     <i class="bi bi-x-circle-fill"></i> {{ session('coupon_error') }}
                                 </div>
                             @endif
                             @if(session('coupon_discount') && session('coupon_code'))
-                                @php $discount = session('coupon_discount'); @endphp
                                 <div class="coupon-msg success">
                                     <i class="bi bi-check-circle-fill"></i>
-                                    "{{ session('coupon_code') }}" কুপন প্রয়োগ হয়েছে! ছাড়: ৳{{ number_format($discount, 2) }}
+                                    "{{ session('coupon_code') }}" কুপন প্রয়োগ হয়েছে! ছাড়: ৳{{ number_format(session('coupon_discount'), 2) }}
                                 </div>
                             @endif
 
@@ -584,23 +677,27 @@
                                 <span class="label"><i class="bi bi-receipt"></i> সাবটোটাল</span>
                                 <span class="val">৳ {{ number_format($subtotal, 2) }}</span>
                             </div>
+
                             @if($discount > 0)
                             <div class="price-row discount">
                                 <span class="label"><i class="bi bi-tags-fill"></i> কুপন ছাড়</span>
-                                <span class="val">- ৳ {{ number_format($discount, 2) }}</span>
+                                <span class="val">− ৳ {{ number_format($discount, 2) }}</span>
                             </div>
                             @endif
-                            <div class="price-row">
-                                <span class="label"><i class="bi bi-truck"></i> ডেলিভারি চার্জ</span>
-                                <span class="val">৳ {{ number_format($deliveryFee, 2) }}</span>
+
+                            <div class="shipping-note-row">
+                                <i class="bi bi-truck"></i>
+                                <span>ডেলিভারি চার্জ চেকআউটে এলাকা অনুযায়ী যোগ হবে।</span>
                             </div>
 
-                            @php $total = $subtotal - $discount + $deliveryFee; @endphp
+                            @php $displayTotal = $subtotal - $discount; @endphp
+
                             <div class="total-row">
-                                <span class="total-label">সর্বমোট</span>
-                                <span class="total-val">৳ {{ number_format($total, 2) }}</span>
+                                <span class="total-label">সাবটোটাল</span>
+                                <span class="total-val">৳ {{ number_format($displayTotal, 2) }}</span>
                             </div>
 
+                            {{-- route('checkout') → GET /checkout --}}
                             <a href="{{ route('checkout') }}" class="btn-checkout">
                                 অর্ডার নিশ্চিত করুন <i class="bi bi-check-circle-fill"></i>
                             </a>
@@ -609,18 +706,20 @@
                                 <i class="bi bi-lock-fill"></i> ১০০% নিরাপদ চেকআউট প্রসেস
                             </p>
 
+                            {{-- route('frontend') → GET / --}}
                             <a href="{{ route('frontend') }}" class="btn-continue">
                                 <i class="bi bi-arrow-left"></i> শপিং চালিয়ে যান
                             </a>
 
                         </div>
                     </div>
-                </div>
+                </div>{{-- /.right --}}
 
-            </div>
+            </div>{{-- /.cart-layout --}}
 
         @else
-            {{-- Empty State --}}
+
+            {{-- ════════════════════ EMPTY CART ════════════════════ --}}
             <div class="cart-empty">
                 <div class="empty-icon">
                     <i class="bi bi-cart-x"></i>
@@ -631,6 +730,7 @@
                     <i class="bi bi-shop"></i> শপিং শুরু করুন
                 </a>
             </div>
+
         @endif
 
     </div>

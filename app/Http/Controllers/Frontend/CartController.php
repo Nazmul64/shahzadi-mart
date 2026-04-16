@@ -5,48 +5,85 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Coupon;
 use App\Models\Product;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
+use Illuminate\View\View;
 
 class CartController extends Controller
 {
-    public function index()
+    // ══════════════════════════════════════════════════════════════════════════
+    //  CART INDEX
+    // ══════════════════════════════════════════════════════════════════════════
+
+    public function index(): View
     {
-        return view('frontend.cart');
+        $cartItems      = session()->get('cart', []);
+        $couponCode     = session()->get('coupon_code');
+        $couponDiscount = session()->get('coupon_discount', 0);
+
+        return view('frontend.cart', compact('cartItems', 'couponCode', 'couponDiscount'));
     }
 
-    public function add(Request $request, $id)
+    // ══════════════════════════════════════════════════════════════════════════
+    //  ADD TO CART  ─ POST /cart/add/{id}
+    //
+    //  Fix: Laravel CSRF verification দুইভাবে করে —
+    //       1) request body-তে _token field
+    //       2) X-CSRF-TOKEN request header
+    //  Blade-এ শুধু header পাঠানো হচ্ছে (FormData-তে _token নেই)।
+    //  তাই verifyRequestNotGet() middleware header থেকে token নেবে।
+    //  এটা Laravel-এর built-in behavior, কোনো extra কাজ লাগবে না।
+    // ══════════════════════════════════════════════════════════════════════════
+
+    public function add(Request $request, int $id): JsonResponse|RedirectResponse
     {
-        $product = Product::where('id', $id)->where('status', 'active')->firstOrFail();
+        /* ── Product খোঁজো ─────────────────────────────────────────────── */
+        $product = Product::where('id', $id)
+                          ->where('status', 'active')
+                          ->firstOrFail();
 
-        if (!$product->is_unlimited && ($product->stock ?? 0) < 1) {
-            return redirect()->back()->with('error', 'এই পণ্যটি বর্তমানে স্টকে নেই।');
+        /* ── স্টক চেক ──────────────────────────────────────────────────── */
+        if (! $product->is_unlimited && ($product->stock ?? 0) < 1) {
+            $msg = '"' . $product->name . '" স্টকে নেই।';
+
+            return $this->isAjax($request)
+                ? response()->json([
+                    'success'    => false,
+                    'message'    => $msg,
+                    'cart_count' => $this->cartCount(),
+                ], 422)
+                : redirect()->back()->with('error', $msg);
         }
 
-        $cart          = session()->get('cart', []);
-        $selectedColor = $request->query('color');
-        $selectedSize  = $request->query('size');
+        /* ── Input sanitize ─────────────────────────────────────────────── */
+        $selectedColor = trim((string) $request->input('selected_color', '')) ?: null;
+        $selectedSize  = trim((string) $request->input('selected_size',  '')) ?: null;
+        $qty           = max(1, (int) $request->input('quantity', 1));
 
-        $cartKey = $id;
-        if ($selectedColor || $selectedSize) {
-            $cartKey = $id . '_' . md5(($selectedColor ?? '') . '_' . ($selectedSize ?? ''));
-        }
+        /* ── Cart key: product + variant combo ──────────────────────────── */
+        $cartKey = $this->buildCartKey($product->id, $selectedColor, $selectedSize);
+
+        /* ── সর্বোচ্চ qty ───────────────────────────────────────────────── */
+        $maxQty = $product->is_unlimited ? 9999 : (int) ($product->stock ?? 9999);
+
+        /* ── Session আপডেট ──────────────────────────────────────────────── */
+        $cart = session()->get('cart', []);
 
         if (isset($cart[$cartKey])) {
-            $maxQty = $product->is_unlimited ? 999 : ($product->stock ?? 999);
-            $cart[$cartKey]['quantity'] = min($cart[$cartKey]['quantity'] + 1, $maxQty);
+            $cart[$cartKey]['quantity'] = min($cart[$cartKey]['quantity'] + $qty, $maxQty);
         } else {
             $cart[$cartKey] = [
-                'product_id'     => $id,
+                'product_id'     => $product->id,
                 'name'           => $product->name,
+                'slug'           => $product->slug,
                 'price'          => (float) $product->current_price,
                 'discount_price' => $product->discount_price ? (float) $product->discount_price : null,
-                'quantity'       => 1,
+                'quantity'       => min($qty, $maxQty),
                 'image'          => $product->feature_image,
-                'slug'           => $product->slug,
                 'category'       => $product->category->category_name ?? '',
                 'category_id'    => $product->category_id,
-                'product_type'   => $product->product_type,
+                'product_type'   => $product->product_type ?? 'physical',
                 'selected_color' => $selectedColor,
                 'selected_size'  => $selectedSize,
             ];
@@ -54,130 +91,209 @@ class CartController extends Controller
 
         session()->put('cart', $cart);
 
-        $variantInfo = '';
-        if ($selectedColor) $variantInfo .= " (Color: {$selectedColor}";
-        if ($selectedSize)  $variantInfo .= ($selectedColor ? ', ' : ' (') . "Size: {$selectedSize}";
-        if ($variantInfo)   $variantInfo .= ')';
+        /* ── Response ───────────────────────────────────────────────────── */
+        $successMsg = '"' . $product->name . '" কার্টে যোগ হয়েছে!';
 
-        return redirect()->back()->with('success', '"' . $product->name . '"' . $variantInfo . ' কার্টে যোগ হয়েছে!');
+        return $this->isAjax($request)
+            ? response()->json([
+                'success'    => true,
+                'message'    => $successMsg,
+                'cart_count' => $this->cartCount(),
+                'cart_key'   => $cartKey,
+            ])
+            : redirect()->back()->with('success', $successMsg);
     }
 
-    public function remove($key)
+    // ══════════════════════════════════════════════════════════════════════════
+    //  REMOVE FROM CART  ─ DELETE /cart/remove/{key}
+    // ══════════════════════════════════════════════════════════════════════════
+
+    public function remove(Request $request, string $key): JsonResponse|RedirectResponse
     {
         $cart = session()->get('cart', []);
+        $name = $cart[$key]['name'] ?? 'পণ্যটি';
+        unset($cart[$key]);
+        session()->put('cart', $cart);
+
+        $msg = '"' . $name . '" কার্ট থেকে সরানো হয়েছে।';
+
+        return $this->isAjax($request)
+            ? response()->json([
+                'success'    => true,
+                'message'    => $msg,
+                'cart_count' => $this->cartCount(),
+            ])
+            : redirect()->back()->with('success', $msg);
+    }
+
+    // ══════════════════════════════════════════════════════════════════════════
+    //  INCREASE QTY  ─ PATCH /cart/increase/{key}
+    // ══════════════════════════════════════════════════════════════════════════
+
+    public function increase(Request $request, string $key): JsonResponse|RedirectResponse
+    {
+        $cart = session()->get('cart', []);
+
         if (isset($cart[$key])) {
-            unset($cart[$key]);
+            $product = Product::find($cart[$key]['product_id']);
+            $maxQty  = ($product && ! $product->is_unlimited)
+                       ? (int) ($product->stock ?? 9999)
+                       : 9999;
+            $cart[$key]['quantity'] = min($cart[$key]['quantity'] + 1, $maxQty);
             session()->put('cart', $cart);
         }
-        if (empty($cart)) {
-            session()->forget(['coupon_code', 'coupon_discount', 'coupon_id']);
-        }
-        return redirect()->back()->with('success', 'পণ্যটি কার্ট থেকে সরানো হয়েছে।');
+
+        return $this->isAjax($request)
+            ? response()->json([
+                'success'    => true,
+                'quantity'   => $cart[$key]['quantity'] ?? 1,
+                'cart_count' => $this->cartCount(),
+                'subtotal'   => $this->lineSubtotal($cart[$key] ?? []),
+                'cart_total' => $this->cartTotal($cart),
+            ])
+            : redirect()->back();
     }
 
-    public function increase($key)
+    // ══════════════════════════════════════════════════════════════════════════
+    //  DECREASE QTY  ─ PATCH /cart/decrease/{key}
+    // ══════════════════════════════════════════════════════════════════════════
+
+    public function decrease(Request $request, string $key): JsonResponse|RedirectResponse
     {
         $cart = session()->get('cart', []);
-        if (!isset($cart[$key])) return redirect()->back();
 
-        $productId = $cart[$key]['product_id'] ?? $key;
-        $product   = Product::find($productId);
-        $maxQty    = ($product && !$product->is_unlimited && $product->stock !== null) ? $product->stock : 999;
-
-        if ($cart[$key]['quantity'] < $maxQty) {
-            $cart[$key]['quantity']++;
-            session()->put('cart', $cart);
-        } else {
-            return redirect()->back()->with('info', 'সর্বোচ্চ পরিমাণে পৌঁছে গেছেন।');
-        }
-        return redirect()->back();
-    }
-
-    public function decrease($key)
-    {
-        $cart = session()->get('cart', []);
-        if (!isset($cart[$key])) return redirect()->back();
-
-        if ($cart[$key]['quantity'] > 1) {
-            $cart[$key]['quantity']--;
-            session()->put('cart', $cart);
-        } else {
-            unset($cart[$key]);
+        if (isset($cart[$key])) {
+            if ($cart[$key]['quantity'] <= 1) {
+                unset($cart[$key]);
+            } else {
+                $cart[$key]['quantity']--;
+            }
             session()->put('cart', $cart);
         }
-        return redirect()->back();
+
+        return $this->isAjax($request)
+            ? response()->json([
+                'success'    => true,
+                'quantity'   => $cart[$key]['quantity'] ?? 0,
+                'removed'    => ! isset($cart[$key]),
+                'cart_count' => $this->cartCount(),
+                'subtotal'   => $this->lineSubtotal($cart[$key] ?? []),
+                'cart_total' => $this->cartTotal($cart),
+            ])
+            : redirect()->back();
     }
 
-    public function clear()
+    // ══════════════════════════════════════════════════════════════════════════
+    //  CLEAR CART  ─ DELETE /cart/clear
+    // ══════════════════════════════════════════════════════════════════════════
+
+    public function clear(Request $request): JsonResponse|RedirectResponse
     {
         session()->forget(['cart', 'coupon_code', 'coupon_discount', 'coupon_id']);
-        return redirect()->route('cart')->with('success', 'কার্ট পরিষ্কার হয়েছে।');
+
+        return $this->isAjax($request)
+            ? response()->json([
+                'success'    => true,
+                'message'    => 'কার্ট পরিষ্কার হয়েছে।',
+                'cart_count' => 0,
+            ])
+            : redirect()->route('cart.index')->with('success', 'কার্ট পরিষ্কার হয়েছে।');
     }
 
-    public function coupon(Request $request)
+    // ══════════════════════════════════════════════════════════════════════════
+    //  APPLY COUPON  ─ POST /cart/coupon
+    // ══════════════════════════════════════════════════════════════════════════
+
+    public function coupon(Request $request): RedirectResponse
     {
         $request->validate(['coupon_code' => 'required|string|max:50']);
 
-        $code = strtoupper(trim($request->coupon_code));
-        $cart = session()->get('cart', []);
+        $coupon = Coupon::where('code', strtoupper($request->coupon_code))
+                        ->where('status', 'active')
+                        ->where(function ($q) {
+                            $q->whereNull('expires_at')->orWhere('expires_at', '>=', now());
+                        })
+                        ->first();
 
-        if (empty($cart)) {
-            return redirect()->back()->with('coupon_error', 'কার্ট খালি আছে, কুপন প্রয়োগ করা যাবে না।');
+        if (! $coupon) {
+            return redirect()->back()->with('error', 'কুপন কোডটি সঠিক নয় বা মেয়াদ শেষ।');
         }
 
-        $coupon = Coupon::where('code', $code)->first();
-
-        if (!$coupon) {
-            session()->forget(['coupon_code', 'coupon_discount', 'coupon_id']);
-            return redirect()->back()->with('coupon_error', 'কুপন কোডটি বৈধ নয়।');
-        }
-        if ($coupon->status !== 'activated') {
-            session()->forget(['coupon_code', 'coupon_discount', 'coupon_id']);
-            return redirect()->back()->with('coupon_error', 'এই কুপনটি নিষ্ক্রিয়।');
+        if ($coupon->max_uses && $coupon->used >= $coupon->max_uses) {
+            return redirect()->back()->with('error', 'কুপনটির ব্যবহার সীমা শেষ।');
         }
 
-        $today = Carbon::today();
-        if ($coupon->start_date && $today->lt($coupon->start_date)) {
-            return redirect()->back()->with('coupon_error', 'এই কুপনটি এখনো চালু হয়নি। চালু হবে: ' . $coupon->start_date->format('d M Y'));
-        }
-        if ($coupon->end_date && $today->gt($coupon->end_date)) {
-            session()->forget(['coupon_code', 'coupon_discount', 'coupon_id']);
-            return redirect()->back()->with('coupon_error', 'এই কুপনের মেয়াদ শেষ হয়ে গেছে (' . $coupon->end_date->format('d M Y') . ')।');
-        }
-        if ($coupon->quantity !== 'unlimited') {
-            $limit = (int) $coupon->quantity_limit;
-            if ($limit > 0 && $coupon->used >= $limit) {
-                return redirect()->back()->with('coupon_error', 'এই কুপনের ব্যবহারসীমা শেষ হয়ে গেছে।');
-            }
-        }
+        $cartItems = session()->get('cart', []);
+        $subtotal  = collect($cartItems)->sum(
+            fn ($i) => (($i['discount_price'] ?? null) ?: $i['price']) * $i['quantity']
+        );
 
-        $subtotal = 0;
-        if ($coupon->allow_product_type === 'category' && $coupon->category_id) {
-            $eligible = collect($cart)->filter(fn($item) => isset($item['category_id']) && $item['category_id'] == $coupon->category_id);
-            if ($eligible->isEmpty()) {
-                return redirect()->back()->with('coupon_error', 'এই কুপনটি আপনার কার্টের পণ্যে প্রযোজ্য নয়।');
-            }
-            foreach ($eligible as $item) {
-                $price     = ($item['discount_price'] ?? null) ?: $item['price'];
-                $subtotal += $price * $item['quantity'];
-            }
-        } else {
-            foreach ($cart as $item) {
-                $price     = ($item['discount_price'] ?? null) ?: $item['price'];
-                $subtotal += $price * $item['quantity'];
-            }
-        }
+        $discount = $coupon->type === 'percent'
+            ? round($subtotal * $coupon->value / 100, 2)
+            : min((float) $coupon->value, $subtotal);
 
-        $discount = $coupon->type === 'discount_by_percentage'
-            ? round($subtotal * ($coupon->percentage / 100), 2)
-            : (float) $coupon->amount;
-
-        $discount = min($discount, $subtotal);
-
-        session()->put('coupon_code',     $code);
+        session()->put('coupon_code',     $coupon->code);
         session()->put('coupon_discount', $discount);
         session()->put('coupon_id',       $coupon->id);
 
-        return redirect()->back()->with('success', 'কুপন কোড সফলভাবে প্রয়োগ হয়েছে! ছাড়: ৳' . number_format($discount, 2));
+        return redirect()->back()->with(
+            'success',
+            'কুপন প্রয়োগ হয়েছে! ৳' . number_format($discount, 2) . ' ছাড় পেয়েছেন।'
+        );
+    }
+
+    // ══════════════════════════════════════════════════════════════════════════
+    //  CART COUNT (AJAX badge refresh)  ─ GET /cart/count
+    // ══════════════════════════════════════════════════════════════════════════
+
+    public function count(): JsonResponse
+    {
+        return response()->json(['cart_count' => $this->cartCount()]);
+    }
+
+    // ══════════════════════════════════════════════════════════════════════════
+    //  PRIVATE HELPERS
+    // ══════════════════════════════════════════════════════════════════════════
+
+    private function buildCartKey(int $productId, ?string $color, ?string $size): string
+    {
+        return $productId
+             . ($color ? '_c' . substr(md5($color), 0, 8) : '')
+             . ($size  ? '_s' . substr(md5($size),  0, 8) : '');
+    }
+
+    private function cartCount(): int
+    {
+        return (int) collect(session()->get('cart', []))->sum('quantity');
+    }
+
+    private function lineSubtotal(array $item): float
+    {
+        if (empty($item)) return 0.0;
+        $price = ($item['discount_price'] ?? null) ?: $item['price'];
+
+        return round((float) $price * (int) ($item['quantity'] ?? 1), 2);
+    }
+
+    private function cartTotal(array $cart): float
+    {
+        return round(
+            collect($cart)->sum(fn ($i) => $this->lineSubtotal($i)),
+            2
+        );
+    }
+
+    /**
+     * AJAX request কিনা নির্ণয়।
+     *
+     * Laravel-এর $request->ajax() শুধু X-Requested-With header দেখে।
+     * $request->wantsJson() Accept header দেখে।
+     * দুটো মিলিয়ে check করলেই যথেষ্ট।
+     */
+    private function isAjax(Request $request): bool
+    {
+        return $request->ajax()
+            || $request->wantsJson()
+            || $request->expectsJson();
     }
 }

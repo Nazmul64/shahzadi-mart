@@ -1,3 +1,4 @@
+{{-- resources/views/frontend/checkout.blade.php --}}
 @extends('frontend.master')
 
 @section('main-content')
@@ -15,13 +16,12 @@
     color: var(--text); background: var(--bg); line-height: 1.6;
   }
   .checkout-page a { color: inherit; text-decoration: none; }
-  .checkout-page input, .checkout-page select, .checkout-page textarea, .checkout-page button {
-    font-family: inherit;
-  }
+  .checkout-page input, .checkout-page select,
+  .checkout-page textarea, .checkout-page button { font-family: inherit; }
 
   .checkout-page__container { max-width: 1140px; margin: 0 auto; padding: 0 20px; }
 
-  /* TOP BAR */
+  /* ── TOP BAR ─────────────────────────────────────────────────────────────── */
   .checkout-page__top-bar {
     background: var(--white); border-bottom: 1px solid var(--border);
     padding: 10px 0; font-size: 12px; color: var(--muted);
@@ -30,20 +30,22 @@
   .checkout-page__breadcrumb a { color: var(--muted); transition: color .2s; }
   .checkout-page__breadcrumb a:hover { color: var(--primary); }
 
-  /* FLASH */
-  .ck-alert { border-radius: 8px; padding: 10px 18px; font-size: 13px; font-weight: 600;
-    display: flex; align-items: center; gap: 8px; margin: 10px 0; }
+  /* ── FLASH ALERTS ────────────────────────────────────────────────────────── */
+  .ck-alert {
+    border-radius: 8px; padding: 10px 18px; font-size: 13px; font-weight: 600;
+    display: flex; align-items: center; gap: 8px; margin: 10px 0;
+  }
   .ck-alert-success { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
   .ck-alert-error   { background: #fff0f1; color: var(--primary); border: 1px solid #fecdd3; }
   .ck-alert-info    { background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; }
 
-  /* GRID */
+  /* ── GRID ────────────────────────────────────────────────────────────────── */
   .checkout-page__grid {
     display: grid; grid-template-columns: 1fr 400px; gap: 24px; margin: 24px 0;
   }
   @media(max-width:900px){ .checkout-page__grid { grid-template-columns: 1fr; } }
 
-  /* CARD */
+  /* ── CARD ────────────────────────────────────────────────────────────────── */
   .ck-card {
     background: var(--white); border-radius: var(--radius);
     box-shadow: var(--shadow); padding: 24px; margin-bottom: 20px;
@@ -55,7 +57,7 @@
   }
   .ck-card-title i { color: var(--primary); }
 
-  /* FORM */
+  /* ── FORM ────────────────────────────────────────────────────────────────── */
   .ck-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
   .ck-form-row.full { grid-template-columns: 1fr; }
   @media(max-width:600px){ .ck-form-row { grid-template-columns: 1fr; } }
@@ -72,58 +74,77 @@
   .ck-input.is-invalid { border-color: #f87171; }
   .ck-error { font-size: 11px; color: var(--primary); margin-top: 3px; }
 
-  /* ── SHIPPING AREA DROPDOWN ── */
+  /* ── SHIPPING AREA SELECTOR ──────────────────────────────────────────────── */
   .ck-shipping-wrap { position: relative; }
-  .ck-shipping-search {
-    padding: 10px 36px 10px 14px;
-    border: 1.5px solid var(--border);
-    border-radius: 8px; font-size: 14px; color: var(--text);
-    background: var(--white); width: 100%; outline: none;
-    transition: border-color .2s, box-shadow .2s; cursor: pointer;
+
+  .ck-shipping-trigger {
+    width: 100%; padding: 10px 40px 10px 14px; border: 1.5px solid var(--border);
+    border-radius: 8px; font-size: 14px; color: var(--text); background: var(--white);
+    text-align: left; cursor: pointer; transition: border-color .2s, box-shadow .2s;
+    display: flex; align-items: center; justify-content: space-between; gap: 8px;
   }
-  .ck-shipping-search:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(190,3,24,.1); }
-  .ck-shipping-icon {
-    position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
-    color: var(--muted); pointer-events: none; font-size: 14px;
+  .ck-shipping-trigger:hover,
+  .ck-shipping-trigger.open {
+    border-color: var(--primary); box-shadow: 0 0 0 3px rgba(190,3,24,.08);
   }
+  .ck-shipping-trigger-left {
+    display: flex; align-items: center; gap: 8px; min-width: 0; flex: 1;
+  }
+  .ck-shipping-trigger-name {
+    font-weight: 600; color: var(--text);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .ck-shipping-trigger-fee {
+    font-size: 13px; font-weight: 700; color: var(--primary);
+    background: #fff0f1; padding: 2px 8px; border-radius: 20px;
+    border: 1px solid #fecdd3; white-space: nowrap; flex-shrink: 0;
+  }
+  .ck-shipping-trigger-placeholder { color: var(--muted); font-weight: 400; }
+  .ck-shipping-caret {
+    color: var(--muted); font-size: 12px; flex-shrink: 0; transition: transform .2s;
+  }
+  .ck-shipping-trigger.open .ck-shipping-caret { transform: rotate(180deg); }
+
   .ck-shipping-dropdown {
-    position: absolute; top: calc(100% + 4px); left: 0; right: 0;
+    position: absolute; top: calc(100% + 6px); left: 0; right: 0;
     background: var(--white); border: 1.5px solid var(--border);
-    border-radius: 8px; box-shadow: 0 8px 24px rgba(0,0,0,.12);
-    z-index: 100; max-height: 260px; overflow-y: auto;
-    display: none;
+    border-radius: 10px; box-shadow: 0 8px 32px rgba(0,0,0,.12);
+    z-index: 200; max-height: 280px; display: flex; flex-direction: column; overflow: hidden;
   }
-  .ck-shipping-dropdown.open { display: block; }
+  .ck-shipping-dropdown.hidden { display: none; }
+
+  .ck-shipping-search-wrap {
+    padding: 10px; border-bottom: 1px solid var(--border); background: #f9fafb;
+  }
   .ck-shipping-search-input {
-    width: 100%; padding: 10px 14px;
-    border: none; border-bottom: 1px solid var(--border);
-    font-size: 13px; outline: none; color: var(--text);
-    background: #f9fafb;
+    width: 100%; padding: 8px 12px; border: 1.5px solid var(--border);
+    border-radius: 6px; font-size: 13px; outline: none;
+    color: var(--text); background: var(--white); transition: border-color .2s;
   }
+  .ck-shipping-search-input:focus { border-color: var(--primary); }
+
+  .ck-shipping-list { overflow-y: auto; flex: 1; }
   .ck-shipping-item {
     display: flex; justify-content: space-between; align-items: center;
-    padding: 10px 14px; cursor: pointer; font-size: 14px;
-    transition: background .15s;
+    padding: 11px 16px; cursor: pointer; font-size: 14px;
+    transition: background .15s; border-bottom: 1px solid #f3f4f6;
   }
-  .ck-shipping-item:hover { background: #fff0f0; }
-  .ck-shipping-item.selected { background: #fff0f0; }
+  .ck-shipping-item:last-child { border-bottom: none; }
+  .ck-shipping-item:hover { background: #fff0f1; }
+  .ck-shipping-item.selected { background: #fff0f1; }
+  .ck-shipping-item.selected .ck-shipping-item-name::before {
+    content: '✓ '; color: var(--primary); font-weight: 800;
+  }
   .ck-shipping-item-name { color: var(--text); font-weight: 500; }
   .ck-shipping-item-price {
     color: var(--primary); font-weight: 700; font-size: 13px;
-    background: #fff0f0; padding: 2px 8px; border-radius: 20px;
-    border: 1px solid #fecdd3;
+    background: #fff0f1; padding: 2px 8px; border-radius: 20px;
+    border: 1px solid #fecdd3; flex-shrink: 0;
   }
-  .ck-shipping-empty { padding: 14px; text-align: center; color: var(--muted); font-size: 13px; }
-  .ck-shipping-loading { padding: 14px; text-align: center; color: var(--muted); font-size: 13px; }
-  .ck-selected-area {
-    margin-top: 8px; padding: 10px 14px;
-    background: #f0fdf4; border: 1px solid #bbf7d0;
-    border-radius: 8px; display: none; align-items: center; gap: 8px;
-    font-size: 13px; color: #16a34a; font-weight: 600;
-  }
-  .ck-selected-area.show { display: flex; }
+  .ck-shipping-empty  { padding: 20px; text-align: center; color: var(--muted); font-size: 13px; }
+  .ck-shipping-loading{ padding: 20px; text-align: center; color: var(--muted); font-size: 13px; }
 
-  /* PAYMENT */
+  /* ── PAYMENT ─────────────────────────────────────────────────────────────── */
   .ck-payment-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
   @media(max-width:480px){ .ck-payment-grid { grid-template-columns: repeat(2, 1fr); } }
   .ck-pay-option { cursor: pointer; }
@@ -139,28 +160,32 @@
   .ck-pay-icon { font-size: 20px; }
   .ck-pay-name { font-size: 11px; font-weight: 600; color: var(--text); }
 
-  /* ORDER SUMMARY */
+  /* ── ORDER SUMMARY ───────────────────────────────────────────────────────── */
   .ck-summary { position: sticky; top: 20px; }
   .ck-summary-item {
     display: flex; justify-content: space-between; align-items: flex-start;
-    padding: 10px 0; border-bottom: 1px solid #f3f4f6;
-    font-size: 13px;
+    padding: 10px 0; border-bottom: 1px solid #f3f4f6; font-size: 13px;
   }
   .ck-summary-item:last-child { border-bottom: none; }
-  .ck-summary-item-name { color: var(--text); max-width: 180px; }
+  .ck-summary-item-name { color: var(--text); max-width: 200px; font-weight: 500; }
   .ck-summary-item-qty {
-    color: var(--muted); font-size: 11px;
-    background: #f3f4f6; padding: 1px 6px;
-    border-radius: 10px; margin-top: 3px;
+    color: var(--muted); font-size: 11px; background: #f3f4f6;
+    padding: 1px 6px; border-radius: 10px; margin-top: 3px; display: inline-block;
   }
   .ck-summary-item-price { font-weight: 600; color: var(--text); white-space: nowrap; }
+
+  .ck-summary-chips { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 4px; }
+  .ck-summary-chip {
+    font-size: 10px; font-weight: 600; padding: 1px 7px; border-radius: 10px;
+  }
+  .ck-summary-chip.color { background: #fff0f1; color: var(--primary); border: 1px solid #fecdd3; }
+  .ck-summary-chip.size  { background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; }
 
   .ck-totals { margin-top: 16px; }
   .ck-total-row {
     display: flex; justify-content: space-between; align-items: center;
     padding: 8px 0; font-size: 13px;
   }
-  .ck-total-row.divider { border-top: 2px dashed var(--border); margin-top: 4px; padding-top: 12px; }
   .ck-total-row.grand {
     font-size: 16px; font-weight: 700; color: var(--primary);
     border-top: 2px solid var(--border); margin-top: 6px; padding-top: 12px;
@@ -168,14 +193,10 @@
   .ck-total-row .label { color: var(--muted); }
   .ck-total-row .value { font-weight: 600; }
   .ck-discount-val { color: #16a34a; font-weight: 600; }
-  .ck-shipping-val { color: var(--primary); font-weight: 600; }
+  .ck-shipping-val { color: var(--primary); font-weight: 700; }
+  .ck-shipping-pending { color: var(--muted); font-size: 12px; font-style: italic; }
 
-  /* Shipping pending indicator */
-  .ck-shipping-pending {
-    color: var(--muted); font-size: 12px; font-style: italic;
-  }
-
-  /* PLACE ORDER BTN */
+  /* ── PLACE ORDER BUTTON ──────────────────────────────────────────────────── */
   .ck-place-btn {
     width: 100%; padding: 15px; margin-top: 16px;
     background: var(--primary); color: #fff;
@@ -186,7 +207,7 @@
   .ck-place-btn:hover { background: var(--primary-d); box-shadow: 0 4px 16px rgba(190,3,24,.35); }
   .ck-place-btn:disabled { opacity: .6; cursor: not-allowed; }
 
-  /* TRUST BADGES */
+  /* ── TRUST BADGES ────────────────────────────────────────────────────────── */
   .ck-trust-row {
     display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;
     margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border);
@@ -194,13 +215,13 @@
   .ck-trust-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--muted); }
   .ck-trust-item i { color: var(--primary); font-size: 13px; }
 
-  /* THUMBNAIL in summary */
+  /* ── THUMBNAIL ───────────────────────────────────────────────────────────── */
   .ck-summary-thumb {
     width: 44px; height: 44px; object-fit: cover;
     border-radius: 6px; border: 1px solid var(--border); flex-shrink: 0;
   }
 
-  /* Loading spinner */
+  /* ── SPINNER ─────────────────────────────────────────────────────────────── */
   @keyframes spin { to { transform: rotate(360deg); } }
   .ck-spinner {
     display: inline-block; width: 14px; height: 14px;
@@ -221,13 +242,22 @@
 
 <div class="checkout-page">
 
-  {{-- Flash --}}
+  {{-- Flash Messages --}}
   <div class="checkout-page__container">
+    @if(session('success'))
+      <div class="ck-alert ck-alert-success">
+        <i class="bi bi-check-circle-fill"></i> {{ session('success') }}
+      </div>
+    @endif
     @if(session('error'))
-      <div class="ck-alert ck-alert-error"><i class="bi bi-exclamation-circle-fill"></i> {{ session('error') }}</div>
+      <div class="ck-alert ck-alert-error">
+        <i class="bi bi-exclamation-circle-fill"></i> {{ session('error') }}
+      </div>
     @endif
     @if(session('info'))
-      <div class="ck-alert ck-alert-info"><i class="bi bi-info-circle-fill"></i> {{ session('info') }}</div>
+      <div class="ck-alert ck-alert-info">
+        <i class="bi bi-info-circle-fill"></i> {{ session('info') }}
+      </div>
     @endif
   </div>
 
@@ -237,7 +267,8 @@
       <nav class="checkout-page__breadcrumb">
         <a href="{{ url('/') }}">Home</a>
         <span>›</span>
-        <a href="{{ route('cart') }}">Cart</a>
+        {{-- ✅ FIX: route('cart') → route('cart.index') --}}
+        <a href="{{ route('cart.index') }}">Cart</a>
         <span>›</span>
         <span style="color:var(--text);font-weight:600">Checkout</span>
       </nav>
@@ -247,12 +278,14 @@
   <div class="checkout-page__container">
     <div class="checkout-page__grid">
 
-      {{-- ── LEFT: FORM ── --}}
+      {{-- ══════════════════════════════════════════════════════════════════
+           LEFT — CHECKOUT FORM
+      ══════════════════════════════════════════════════════════════════ --}}
       <div>
         <form method="POST" action="{{ route('checkout.place') }}" id="checkoutForm">
           @csrf
 
-          {{-- Customer Info --}}
+          {{-- ── Customer Information ──────────────────────────────────── --}}
           <div class="ck-card">
             <div class="ck-card-title">
               <i class="fas fa-user"></i> Customer Information
@@ -268,85 +301,116 @@
             <div class="ck-form-row">
               <div class="ck-field">
                 <label class="ck-label">Full Name <span>*</span></label>
-                <input type="text" name="customer_name" class="ck-input @error('customer_name') is-invalid @enderror"
+                <input type="text" name="customer_name"
+                       class="ck-input @error('customer_name') is-invalid @enderror"
                        placeholder="আপনার পূর্ণ নাম"
                        value="{{ old('customer_name') }}" required>
-                @error('customer_name')<div class="ck-error">{{ $message }}</div>@enderror
+                @error('customer_name')
+                  <div class="ck-error">{{ $message }}</div>
+                @enderror
               </div>
               <div class="ck-field">
                 <label class="ck-label">Phone Number <span>*</span></label>
-                <input type="text" name="phone" class="ck-input @error('phone') is-invalid @enderror"
+                <input type="text" name="phone"
+                       class="ck-input @error('phone') is-invalid @enderror"
                        placeholder="01XXXXXXXXX"
                        value="{{ old('phone') }}" required>
-                @error('phone')<div class="ck-error">{{ $message }}</div>@enderror
+                @error('phone')
+                  <div class="ck-error">{{ $message }}</div>
+                @enderror
               </div>
             </div>
 
             <div class="ck-form-row full">
               <div class="ck-field">
                 <label class="ck-label">Full Address <span>*</span></label>
-                <textarea name="address" class="ck-input @error('address') is-invalid @enderror"
+                <textarea name="address"
+                          class="ck-input @error('address') is-invalid @enderror"
                           placeholder="বাড়ি নম্বর, রাস্তা, এলাকা..."
                           rows="2" required>{{ old('address') }}</textarea>
-                @error('address')<div class="ck-error">{{ $message }}</div>@enderror
+                @error('address')
+                  <div class="ck-error">{{ $message }}</div>
+                @enderror
               </div>
             </div>
 
-            {{-- ── SHIPPING AREA SELECTOR (AJAX) ── --}}
+            {{-- ── Delivery Area (custom dropdown) ─────────────────────── --}}
             <div class="ck-form-row full">
               <div class="ck-field">
                 <label class="ck-label">Delivery Area <span>*</span></label>
 
-                {{-- Hidden input for actual value submission --}}
-                <input type="hidden" name="delivery_area" id="deliveryAreaValue" value="{{ old('delivery_area') }}" required>
-                <input type="hidden" name="shipping_charge_id" id="shippingChargeId" value="">
+                {{-- Hidden inputs – form submission-এ এগুলো যাবে --}}
+                <input type="hidden" name="delivery_area"      id="deliveryAreaValue"
+                       value="{{ old('delivery_area') }}">
+                <input type="hidden" name="shipping_charge_id" id="shippingChargeId"
+                       value="{{ old('shipping_charge_id') }}">
 
-                <div class="ck-shipping-wrap">
-                  <input type="text" class="ck-shipping-search" id="shippingDisplayInput"
-                         placeholder="এলাকা সার্চ করুন বা ক্লিক করুন..."
-                         readonly
-                         onclick="openShippingDropdown()"
-                         value="{{ old('delivery_area') }}">
-                  <i class="fas fa-map-marker-alt ck-shipping-icon"></i>
+                <div class="ck-shipping-wrap" id="shippingWrap">
 
-                  <div class="ck-shipping-dropdown" id="shippingDropdown">
-                    <input type="text" class="ck-shipping-search-input" id="shippingSearchInput"
-                           placeholder="এলাকার নাম লিখুন..."
-                           oninput="filterShipping(this.value)"
-                           autocomplete="off">
-                    <div id="shippingList">
+                  {{-- Trigger button: current selection দেখায় --}}
+                  <button type="button" class="ck-shipping-trigger" id="shippingTrigger"
+                          onclick="toggleShippingDropdown()">
+                    <div class="ck-shipping-trigger-left">
+                      <i class="fas fa-map-marker-alt" style="color:var(--primary);flex-shrink:0"></i>
+                      <span class="ck-shipping-trigger-name" id="triggerName">
+                        <span class="ck-shipping-trigger-placeholder">লোড হচ্ছে...</span>
+                      </span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+                      <span class="ck-shipping-trigger-fee" id="triggerFee" style="display:none"></span>
+                      <i class="fas fa-chevron-down ck-shipping-caret" id="shippingCaret"></i>
+                    </div>
+                  </button>
+
+                  {{-- Dropdown panel --}}
+                  <div class="ck-shipping-dropdown hidden" id="shippingDropdown">
+                    <div class="ck-shipping-search-wrap">
+                      <input type="text"
+                             class="ck-shipping-search-input"
+                             id="shippingSearchInput"
+                             placeholder="এলাকার নাম লিখুন..."
+                             oninput="filterShipping(this.value)"
+                             autocomplete="off">
+                    </div>
+                    <div class="ck-shipping-list" id="shippingList">
                       <div class="ck-shipping-loading">
                         <span class="ck-spinner"></span> লোড হচ্ছে...
                       </div>
                     </div>
                   </div>
-                </div>
 
-                <div class="ck-selected-area" id="selectedAreaBadge">
-                  <i class="fas fa-check-circle"></i>
-                  <span id="selectedAreaText"></span>
-                </div>
+                </div>{{-- /ck-shipping-wrap --}}
 
-                @error('delivery_area')<div class="ck-error">{{ $message }}</div>@enderror
+                @error('delivery_area')
+                  <div class="ck-error" id="areaError">{{ $message }}</div>
+                @else
+                  <div class="ck-error" id="areaError" style="display:none">
+                    অনুগ্রহ করে ডেলিভারি এলাকা সিলেক্ট করুন।
+                  </div>
+                @enderror
+
               </div>
             </div>
 
+            {{-- ── Order Note ────────────────────────────────────────────── --}}
             <div class="ck-form-row full">
               <div class="ck-field">
-                <label class="ck-label">Order Note <small style="font-weight:400;color:var(--muted)">(optional)</small></label>
+                <label class="ck-label">
+                  Order Note
+                  <small style="font-weight:400;color:var(--muted)">(optional)</small>
+                </label>
                 <textarea name="note" class="ck-input" rows="2"
                           placeholder="বিশেষ নির্দেশনা থাকলে লিখুন...">{{ old('note') }}</textarea>
               </div>
             </div>
-          </div>
+          </div>{{-- /ck-card customer-info --}}
 
-          {{-- Payment Method --}}
+          {{-- ── Payment Method ────────────────────────────────────────── --}}
           <div class="ck-card">
             <div class="ck-card-title">
               <i class="fas fa-credit-card"></i> Payment Method
             </div>
             <div class="ck-payment-grid">
-
               <label class="ck-pay-option">
                 <input type="radio" name="payment_method" value="cod" checked>
                 <div class="ck-pay-label">
@@ -354,7 +418,6 @@
                   <span class="ck-pay-name">Cash on Delivery</span>
                 </div>
               </label>
-
               <label class="ck-pay-option">
                 <input type="radio" name="payment_method" value="bkash">
                 <div class="ck-pay-label">
@@ -362,7 +425,6 @@
                   <span class="ck-pay-name">bKash</span>
                 </div>
               </label>
-
               <label class="ck-pay-option">
                 <input type="radio" name="payment_method" value="shurjopay">
                 <div class="ck-pay-label">
@@ -370,7 +432,6 @@
                   <span class="ck-pay-name">SurjoPay</span>
                 </div>
               </label>
-
               <label class="ck-pay-option">
                 <input type="radio" name="payment_method" value="uddoktapay">
                 <div class="ck-pay-label">
@@ -378,7 +439,6 @@
                   <span class="ck-pay-name">UddoktaPay</span>
                 </div>
               </label>
-
               <label class="ck-pay-option">
                 <input type="radio" name="payment_method" value="aamarpay">
                 <div class="ck-pay-label">
@@ -386,20 +446,21 @@
                   <span class="ck-pay-name">AamarPay</span>
                 </div>
               </label>
-
             </div>
-          </div>
+          </div>{{-- /ck-card payment --}}
 
-          {{-- Place Order Button (inside form) --}}
+          {{-- ── Place Order Button ────────────────────────────────────── --}}
           <button type="submit" class="ck-place-btn" id="placeOrderBtn">
             <i class="fas fa-shopping-bag"></i>
             অর্ডার করুন
           </button>
 
         </form>
-      </div>
+      </div>{{-- /left --}}
 
-      {{-- ── RIGHT: SUMMARY ── --}}
+      {{-- ══════════════════════════════════════════════════════════════════
+           RIGHT — ORDER SUMMARY
+      ══════════════════════════════════════════════════════════════════ --}}
       <div class="ck-summary">
         <div class="ck-card">
           <div class="ck-card-title">
@@ -407,39 +468,41 @@
           </div>
 
           {{-- Cart Items --}}
-          @foreach($cart as $productId => $item)
+          @forelse($cart as $productId => $item)
           @php
             $unitPrice = ($item['discount_price'] ?? null) ?: $item['price'];
             $imgPath   = $item['image'] ?? null;
+            $selColor  = $item['selected_color'] ?? null;
+            $selSize   = $item['selected_size']  ?? null;
           @endphp
           <div class="ck-summary-item">
             <div style="display:flex;gap:10px;align-items:flex-start;flex:1">
               @if($imgPath)
-              <img src="{{ asset('uploads/products/' . $imgPath) }}"
-                   alt="{{ $item['name'] }}" class="ck-summary-thumb">
+                <img src="{{ asset('uploads/products/' . $imgPath) }}"
+                     alt="{{ $item['name'] }}" class="ck-summary-thumb">
               @endif
-              <div>
+              <div style="min-width:0">
                 <div class="ck-summary-item-name">{{ Str::limit($item['name'], 40) }}</div>
-                @if(!empty($item['selected_color']) || !empty($item['selected_size']))
-                <div style="font-size:11px;color:var(--muted);margin-top:3px">
-                  @if(!empty($item['selected_color']))
-                    <span style="background:#f3f4f6;padding:1px 6px;border-radius:4px">
-                      🎨 {{ $item['selected_color'] }}
-                    </span>
-                  @endif
-                  @if(!empty($item['selected_size']))
-                    <span style="background:#f3f4f6;padding:1px 6px;border-radius:4px;margin-left:4px">
-                      📐 {{ $item['selected_size'] }}
-                    </span>
-                  @endif
-                </div>
+                @if($selColor || $selSize)
+                  <div class="ck-summary-chips">
+                    @if($selColor)
+                      <span class="ck-summary-chip color">🎨 {{ $selColor }}</span>
+                    @endif
+                    @if($selSize)
+                      <span class="ck-summary-chip size">📐 {{ $selSize }}</span>
+                    @endif
+                  </div>
                 @endif
                 <div class="ck-summary-item-qty">Qty: {{ $item['quantity'] }}</div>
               </div>
             </div>
-            <div class="ck-summary-item-price">৳{{ number_format($unitPrice * $item['quantity'], 2) }}</div>
+            <div class="ck-summary-item-price">
+              ৳{{ number_format($unitPrice * $item['quantity'], 2) }}
+            </div>
           </div>
-          @endforeach
+          @empty
+            <p style="color:var(--muted);font-size:13px;padding:10px 0">কার্টে কোনো পণ্য নেই।</p>
+          @endforelse
 
           {{-- Totals --}}
           <div class="ck-totals">
@@ -453,7 +516,8 @@
               <span class="label">
                 Coupon Discount
                 @if(session('coupon_code'))
-                  <span style="font-size:11px;color:var(--primary);background:#fff0f0;padding:1px 6px;border-radius:10px;margin-left:4px">
+                  <span style="font-size:11px;color:var(--primary);background:#fff0f0;
+                               padding:1px 6px;border-radius:10px;margin-left:4px">
                     {{ session('coupon_code') }}
                   </span>
                 @endif
@@ -467,14 +531,10 @@
               <span id="shippingDisplay" class="ck-shipping-pending">এলাকা সিলেক্ট করুন</span>
             </div>
 
-            <div class="ck-total-row grand" id="grandTotalRow">
+            <div class="ck-total-row grand">
               <span>Total</span>
               <span id="grandTotal">
-                @if($discount > 0)
-                  ৳{{ number_format($subtotal - $discount, 2) }} + shipping
-                @else
-                  ৳{{ number_format($subtotal, 2) }} + shipping
-                @endif
+                ৳{{ number_format($subtotal - $discount, 2) }} + shipping
               </span>
             </div>
           </div>
@@ -485,194 +545,246 @@
             <div class="ck-trust-item"><i class="fas fa-undo"></i> Easy Return</div>
             <div class="ck-trust-item"><i class="fas fa-headset"></i> 24/7 Support</div>
           </div>
-        </div>
+        </div>{{-- /ck-card summary --}}
 
-        {{-- Back to cart --}}
+        {{-- ✅ FIX: route('cart') → route('cart.index') --}}
         <div style="text-align:center;margin-top:10px">
-          <a href="{{ route('cart') }}" style="color:var(--muted);font-size:13px">
+          <a href="{{ route('cart.index') }}" style="color:var(--muted);font-size:13px">
             <i class="fas fa-arrow-left"></i> Back to Cart
           </a>
         </div>
-      </div>
+      </div>{{-- /right --}}
 
-    </div>{{-- /grid --}}
-  </div>{{-- /container --}}
+    </div>{{-- /checkout-page__grid --}}
+  </div>{{-- /checkout-page__container --}}
 </div>{{-- /checkout-page --}}
 
 <script>
 (function () {
   'use strict';
 
-  /* ═══════════════════════════════════════════════════════════════
+  /* ═══════════════════════════════════════════════════════════
      STATE
-  ═══════════════════════════════════════════════════════════════ */
-  var allShippingAreas = [];  // [{id, area_name, amount}, ...]
-  var selectedCharge   = null;
-  var loaded           = false;
+  ═══════════════════════════════════════════════════════════ */
+  var allAreas     = [];
+  var selArea      = null;     /* { id, area_name, amount } */
+  var dropdownOpen = false;
+  var loaded       = false;
 
-  var SUBTOTAL  = {{ $subtotal }};
-  var DISCOUNT  = {{ $discount }};
+  /* PHP থেকে পাস করা values */
+  var SUBTOTAL = {{ (float) $subtotal }};
+  var DISCOUNT = {{ (float) $discount }};
 
-  /* ─── DOM refs ─── */
-  var displayInput    = document.getElementById('shippingDisplayInput');
-  var hiddenArea      = document.getElementById('deliveryAreaValue');
-  var hiddenChargeId  = document.getElementById('shippingChargeId');
-  var dropdown        = document.getElementById('shippingDropdown');
-  var searchInput     = document.getElementById('shippingSearchInput');
-  var listEl          = document.getElementById('shippingList');
-  var selectedBadge   = document.getElementById('selectedAreaBadge');
-  var selectedText    = document.getElementById('selectedAreaText');
-  var shippingDisplay = document.getElementById('shippingDisplay');
-  var grandTotal      = document.getElementById('grandTotal');
+  /* ═══════════════════════════════════════════════════════════
+     DOM REFS
+  ═══════════════════════════════════════════════════════════ */
+  var trigger        = document.getElementById('shippingTrigger');
+  var dropdown       = document.getElementById('shippingDropdown');
+  var triggerName    = document.getElementById('triggerName');
+  var triggerFee     = document.getElementById('triggerFee');
+  var searchInput    = document.getElementById('shippingSearchInput');
+  var listEl         = document.getElementById('shippingList');
+  var hiddenArea     = document.getElementById('deliveryAreaValue');
+  var hiddenChargeId = document.getElementById('shippingChargeId');
+  var shippingDisp   = document.getElementById('shippingDisplay');
+  var grandTotalEl   = document.getElementById('grandTotal');
+  var areaError      = document.getElementById('areaError');
 
-  /* ═══════════════════════════════════════════════════════════════
-     FETCH shipping areas from server (AJAX)
-  ═══════════════════════════════════════════════════════════════ */
-  function loadShippingAreas() {
-    if (loaded) return;
-    listEl.innerHTML = '<div class="ck-shipping-loading"><span class="ck-spinner"></span> লোড হচ্ছে...</div>';
-
+  /* ═══════════════════════════════════════════════════════════
+     LOAD AREAS FROM SERVER
+  ═══════════════════════════════════════════════════════════ */
+  function loadAreas() {
     fetch('{{ route("shipping.areas") }}', {
       headers: { 'X-Requested-With': 'XMLHttpRequest' }
     })
-    .then(function(r){ return r.json(); })
-    .then(function(data) {
-      allShippingAreas = data;
-      loaded = true;
+    .then(function (r) {
+      if (!r.ok) throw new Error('Server error: ' + r.status);
+      return r.json();
+    })
+    .then(function (data) {
+      allAreas = data;
+      loaded   = true;
+
+      /* ─ পুরনো ফর্ম value restore (validation error এর পর) ─ */
+      var oldArea     = '{{ old("delivery_area", "") }}';
+      var oldChargeId = '{{ old("shipping_charge_id", "") }}';
+
+      if (oldArea && oldChargeId) {
+        var found = data.find(function (a) {
+          return String(a.id) === String(oldChargeId);
+        });
+        if (!found) {
+          found = data.find(function (a) {
+            return a.area_name === oldArea;
+          });
+        }
+        applySelection(found || (data.length ? data[0] : null), false);
+      } else if (data.length > 0) {
+        /* প্রথমবার লোডে — সবার প্রথম এলাকা auto-select */
+        applySelection(data[0], false);
+      } else {
+        triggerName.innerHTML =
+          '<span class="ck-shipping-trigger-placeholder">কোনো এলাকা পাওয়া যায়নি</span>';
+        listEl.innerHTML = '<div class="ck-shipping-empty">কোনো এলাকা পাওয়া যায়নি।</div>';
+      }
+
       renderList(data);
     })
-    .catch(function() {
-      listEl.innerHTML = '<div class="ck-shipping-empty">লোড করা যায়নি। রিফ্রেশ করুন।</div>';
+    .catch(function (err) {
+      console.error('Shipping load error:', err);
+      triggerName.innerHTML =
+        '<span class="ck-shipping-trigger-placeholder">লোড করা যায়নি</span>';
+      listEl.innerHTML =
+        '<div class="ck-shipping-empty">লোড করা যায়নি। পেজ রিফ্রেশ করুন।</div>';
     });
   }
 
-  /* ═══════════════════════════════════════════════════════════════
-     RENDER list items
-  ═══════════════════════════════════════════════════════════════ */
+  /* ═══════════════════════════════════════════════════════════
+     RENDER LIST
+  ═══════════════════════════════════════════════════════════ */
   function renderList(areas) {
-    if (!areas.length) {
+    if (!areas || !areas.length) {
       listEl.innerHTML = '<div class="ck-shipping-empty">কোনো এলাকা পাওয়া যায়নি।</div>';
       return;
     }
     var html = '';
-    areas.forEach(function(area) {
-      var isSelected = selectedCharge && selectedCharge.id === area.id;
-      html += '<div class="ck-shipping-item' + (isSelected ? ' selected' : '') + '"' +
-              ' data-id="' + area.id + '"' +
-              ' data-name="' + area.area_name.replace(/"/g,'&quot;') + '"' +
-              ' data-amount="' + area.amount + '"' +
-              ' onclick="selectArea(this)">' +
-              '<span class="ck-shipping-item-name">' + area.area_name + '</span>' +
-              '<span class="ck-shipping-item-price">৳' + parseFloat(area.amount).toLocaleString('bn-BD', {minimumFractionDigits:0}) + '</span>' +
-              '</div>';
+    areas.forEach(function (area) {
+      var isSel = selArea && String(selArea.id) === String(area.id);
+      html +=
+        '<div class="ck-shipping-item' + (isSel ? ' selected' : '') + '"'
+        + ' data-id="'     + area.id + '"'
+        + ' data-name="'   + area.area_name.replace(/"/g, '&quot;') + '"'
+        + ' data-amount="' + area.amount + '"'
+        + ' onclick="selectArea(this)">'
+        + '<span class="ck-shipping-item-name">' + area.area_name + '</span>'
+        + '<span class="ck-shipping-item-price">৳'
+          + parseFloat(area.amount).toFixed(0) + '</span>'
+        + '</div>';
     });
     listEl.innerHTML = html;
   }
 
-  /* ═══════════════════════════════════════════════════════════════
-     FILTER by search
-  ═══════════════════════════════════════════════════════════════ */
-  window.filterShipping = function(q) {
-    var query = q.trim().toLowerCase();
-    var filtered = allShippingAreas.filter(function(a) {
-      return a.area_name.toLowerCase().includes(query);
+  /* ═══════════════════════════════════════════════════════════
+     FILTER (search input)
+  ═══════════════════════════════════════════════════════════ */
+  window.filterShipping = function (q) {
+    var query    = q.trim().toLowerCase();
+    var filtered = allAreas.filter(function (a) {
+      return a.area_name.toLowerCase().indexOf(query) !== -1;
     });
     renderList(filtered);
   };
 
-  /* ═══════════════════════════════════════════════════════════════
-     SELECT area
-  ═══════════════════════════════════════════════════════════════ */
-  window.selectArea = function(el) {
-    var id     = el.dataset.id;
-    var name   = el.dataset.name;
-    var amount = parseFloat(el.dataset.amount);
-
-    selectedCharge = { id: id, area_name: name, amount: amount };
-
-    /* Update form inputs */
-    hiddenArea.value     = name;
-    hiddenChargeId.value = id;
-    displayInput.value   = name;
-
-    /* Update badge */
-    selectedText.textContent = name + ' — ৳' + amount.toFixed(2) + ' শিপিং চার্জ';
-    selectedBadge.classList.add('show');
-
-    /* Update totals */
-    updateTotals(amount);
-
-    /* Close dropdown */
-    closeShippingDropdown();
+  /* ═══════════════════════════════════════════════════════════
+     SELECT AREA (onclick of list item)
+  ═══════════════════════════════════════════════════════════ */
+  window.selectArea = function (el) {
+    applySelection({
+      id        : el.dataset.id,
+      area_name : el.dataset.name,
+      amount    : parseFloat(el.dataset.amount)
+    }, true);
+    closeDropdown();
   };
 
-  /* ═══════════════════════════════════════════════════════════════
-     UPDATE grand total in sidebar
-  ═══════════════════════════════════════════════════════════════ */
-  function updateTotals(shippingAmount) {
-    var total = SUBTOTAL - DISCOUNT + shippingAmount;
+  /* ═══════════════════════════════════════════════════════════
+     APPLY SELECTION
+  ═══════════════════════════════════════════════════════════ */
+  function applySelection(area, reRender) {
+    if (!area) return;
+    selArea = area;
 
-    shippingDisplay.className = 'ck-shipping-val';
-    shippingDisplay.textContent = '৳' + shippingAmount.toFixed(2);
+    /* Hidden inputs update */
+    hiddenArea.value     = area.area_name;
+    hiddenChargeId.value = area.id;
 
-    grandTotal.textContent = '৳' + total.toLocaleString('en-BD', {
-      minimumFractionDigits: 2, maximumFractionDigits: 2
+    /* Trigger button update */
+    triggerName.innerHTML =
+      '<span style="font-weight:600;color:var(--text)">' + area.area_name + '</span>';
+    triggerFee.textContent  = '৳' + parseFloat(area.amount).toFixed(0);
+    triggerFee.style.display = '';
+
+    /* Summary totals */
+    updateTotals(parseFloat(area.amount));
+
+    /* Clear validation error */
+    if (areaError) areaError.style.display = 'none';
+    trigger.style.borderColor = '';
+
+    /* Re-render list (selected state আপডেট) */
+    if (reRender && loaded) renderList(allAreas);
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+     UPDATE TOTALS
+  ═══════════════════════════════════════════════════════════ */
+  function updateTotals(shippingAmt) {
+    var total = SUBTOTAL - DISCOUNT + shippingAmt;
+
+    shippingDisp.className   = 'ck-shipping-val';
+    shippingDisp.textContent = '৳' + shippingAmt.toFixed(2);
+
+    grandTotalEl.textContent = '৳' + total.toLocaleString('en-BD', {
+      minimumFractionDigits : 2,
+      maximumFractionDigits : 2
     });
-    grandTotal.style.color = 'var(--primary)';
+    grandTotalEl.style.color = 'var(--primary)';
   }
 
-  /* ═══════════════════════════════════════════════════════════════
-     OPEN / CLOSE dropdown
-  ═══════════════════════════════════════════════════════════════ */
-  window.openShippingDropdown = function() {
-    dropdown.classList.add('open');
-    loadShippingAreas();
-    setTimeout(function(){ searchInput.focus(); }, 80);
+  /* ═══════════════════════════════════════════════════════════
+     DROPDOWN TOGGLE / OPEN / CLOSE
+  ═══════════════════════════════════════════════════════════ */
+  window.toggleShippingDropdown = function () {
+    dropdownOpen ? closeDropdown() : openDropdown();
   };
 
-  function closeShippingDropdown() {
-    dropdown.classList.remove('open');
-    searchInput.value = '';
-    if (loaded) renderList(allShippingAreas);
+  function openDropdown() {
+    dropdownOpen = true;
+    dropdown.classList.remove('hidden');
+    trigger.classList.add('open');
+    if (loaded) renderList(allAreas);
+    setTimeout(function () { searchInput.focus(); }, 60);
   }
 
-  /* Close on outside click */
-  document.addEventListener('click', function(e) {
-    if (!e.target.closest('.ck-shipping-wrap')) {
-      closeShippingDropdown();
+  function closeDropdown() {
+    dropdownOpen = false;
+    dropdown.classList.add('hidden');
+    trigger.classList.remove('open');
+    searchInput.value = '';
+    if (loaded) renderList(allAreas);
+  }
+
+  /* Dropdown বাইরে click করলে বন্ধ হবে */
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('#shippingWrap')) {
+      if (dropdownOpen) closeDropdown();
     }
   });
 
-  /* ═══════════════════════════════════════════════════════════════
-     FORM SUBMIT — validate shipping selected
-  ═══════════════════════════════════════════════════════════════ */
-  document.getElementById('checkoutForm').addEventListener('submit', function(e) {
-    if (!selectedCharge && !hiddenArea.value) {
+  /* ═══════════════════════════════════════════════════════════
+     FORM SUBMIT GUARD — এলাকা না বেছে submit আটকাবে
+  ═══════════════════════════════════════════════════════════ */
+  document.getElementById('checkoutForm').addEventListener('submit', function (e) {
+    if (!selArea) {
       e.preventDefault();
-      displayInput.style.borderColor = '#f87171';
-      displayInput.style.boxShadow   = '0 0 0 3px rgba(248,113,113,.2)';
-      displayInput.scrollIntoView({ behavior:'smooth', block:'center' });
-      var errEl = displayInput.closest('.ck-field').querySelector('.ck-error');
-      if (!errEl) {
-        var d = document.createElement('div');
-        d.className = 'ck-error';
-        d.textContent = 'অনুগ্রহ করে ডেলিভারি এলাকা সিলেক্ট করুন।';
-        displayInput.closest('.ck-shipping-wrap').after(d);
-      }
+      trigger.style.borderColor = '#f87171';
+      if (areaError) { areaError.style.display = 'block'; }
+      trigger.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    /* Submit করার সময় button disable করো (double-submit রোধ) */
+    var btn = document.getElementById('placeOrderBtn');
+    if (btn) {
+      btn.disabled   = true;
+      btn.innerHTML  = '<span class="ck-spinner"></span> প্রক্রিয়া হচ্ছে...';
     }
   });
 
-  /* Pre-select old value if validation failed and page reloaded */
-  @if(old('delivery_area'))
-  (function(){
-    var oldArea = '{{ old('delivery_area') }}';
-    displayInput.value = oldArea;
-    hiddenArea.value   = oldArea;
-    selectedText.textContent = oldArea;
-    selectedBadge.classList.add('show');
-    shippingDisplay.textContent = 'পূর্বের নির্বাচন';
-  })();
-  @endif
+  /* ═══════════════════════════════════════════════════════════
+     BOOT
+  ═══════════════════════════════════════════════════════════ */
+  loadAreas();
 
 })();
 </script>

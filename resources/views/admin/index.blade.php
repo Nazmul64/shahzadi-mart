@@ -8,338 +8,390 @@
         <h1>Dashboard</h1>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
-                <li class="breadcrumb-item active">Dashboard</li>
+                <li class="breadcrumb-item active">Home</li>
             </ol>
         </nav>
     </div>
 
-    {{-- ── Stat Cards Row 1 ─────────────────────────────── --}}
-    <div class="stat-grid" style="grid-template-columns:repeat(3,1fr);">
-        <div class="stat-card stat-card-orange">
-            <div>
-                <div class="stat-card-title">Orders Pending!</div>
-                <div class="stat-card-value">130</div>
+    {{-- Stats Cards --}}
+    <div class="stats-grid">
+
+        <div class="stat-card stat-pending">
+            <div class="stat-icon"><i class="bi bi-clock-history"></i></div>
+            <div class="stat-info">
+                <div class="stat-number">{{ $ordersPending }}</div>
+                <div class="stat-label">Pending Orders</div>
             </div>
-            <div class="stat-card-link"><a href="#">View All</a></div>
-            <i class="bi bi-currency-dollar stat-card-icon"></i>
         </div>
 
-        <div class="stat-card stat-card-blue">
-            <div>
-                <div class="stat-card-title">Orders Processing!</div>
-                <div class="stat-card-value">0</div>
+        <div class="stat-card stat-processing">
+            <div class="stat-icon"><i class="bi bi-arrow-repeat"></i></div>
+            <div class="stat-info">
+                <div class="stat-number">{{ $ordersProcessing }}</div>
+                <div class="stat-label">Processing Orders</div>
             </div>
-            <div class="stat-card-link"><a href="#">View All</a></div>
-            <i class="bi bi-truck stat-card-icon"></i>
         </div>
 
-        <div class="stat-card stat-card-teal">
-            <div>
-                <div class="stat-card-title">Orders Completed!</div>
-                <div class="stat-card-value">8</div>
+        <div class="stat-card stat-completed">
+            <div class="stat-icon"><i class="bi bi-check-circle"></i></div>
+            <div class="stat-info">
+                <div class="stat-number">{{ $ordersCompleted }}</div>
+                <div class="stat-label">Completed Orders</div>
             </div>
-            <div class="stat-card-link"><a href="#">View All</a></div>
-            <i class="bi bi-check-circle stat-card-icon"></i>
+        </div>
+
+        <div class="stat-card stat-products">
+            <div class="stat-icon"><i class="bi bi-box-seam"></i></div>
+            <div class="stat-info">
+                <div class="stat-number">{{ $totalProducts }}</div>
+                <div class="stat-label">Total Products</div>
+            </div>
+        </div>
+
+        <div class="stat-card stat-sales">
+            <div class="stat-icon"><i class="bi bi-graph-up-arrow"></i></div>
+            <div class="stat-info">
+                <div class="stat-number">{{ $salesLast30 }}</div>
+                <div class="stat-label">Sales (Last 30 Days)</div>
+            </div>
+        </div>
+
+        <div class="stat-card stat-alltime">
+            <div class="stat-icon"><i class="bi bi-trophy"></i></div>
+            <div class="stat-info">
+                <div class="stat-number">{{ $salesAllTime }}</div>
+                <div class="stat-label">Total Sales (All Time)</div>
+            </div>
+        </div>
+
+    </div>
+
+    {{-- Sales Chart --}}
+    <div class="data-card" style="margin-bottom:24px;">
+        <div class="data-card-header">
+            <h5 class="data-card-title">
+                <i class="bi bi-bar-chart-line me-2"></i>Last 30 Days Sales
+            </h5>
+        </div>
+        <div class="data-card-body" style="padding:20px;">
+            <canvas id="salesChart" style="max-height:280px;"></canvas>
         </div>
     </div>
 
-    {{-- ── Stat Cards Row 2 ─────────────────────────────── --}}
-    <div class="stat-grid" style="grid-template-columns:repeat(3,1fr);">
-        <div class="stat-card stat-card-purple">
-            <div>
-                <div class="stat-card-title">Total Products!</div>
-                <div class="stat-card-value">24</div>
-            </div>
-            <div class="stat-card-link"><a href="#">View All</a></div>
-            <i class="bi bi-cart stat-card-icon"></i>
-        </div>
+    {{-- Recent Orders + Popular Products --}}
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px;">
 
-        <div class="stat-card stat-card-red">
-            <div>
-                <div class="stat-card-title">Total Customers!</div>
-                <div class="stat-card-value">61</div>
-            </div>
-            <div class="stat-card-link"><a href="#">View All</a></div>
-            <i class="bi bi-people stat-card-icon"></i>
-        </div>
-
-        <div class="stat-card stat-card-green">
-            <div>
-                <div class="stat-card-title">Total Posts!</div>
-                <div class="stat-card-value">15</div>
-            </div>
-            <div class="stat-card-link"><a href="#">View All</a></div>
-            <i class="bi bi-newspaper stat-card-icon"></i>
-        </div>
-    </div>
-
-    {{-- ── Circle Stats ─────────────────────────────────── --}}
-    <div class="circle-stats-grid">
-        <div class="circle-stat-card">
-            <div class="circle-stat-ring ring-gold">0</div>
-            <div class="circle-stat-label">New Customers</div>
-            <div class="circle-stat-sublabel">Last 30 Days</div>
-        </div>
-        <div class="circle-stat-card">
-            <div class="circle-stat-ring ring-teal">61</div>
-            <div class="circle-stat-label">Total Customers</div>
-            <div class="circle-stat-sublabel">All Time</div>
-        </div>
-        <div class="circle-stat-card">
-            <div class="circle-stat-ring ring-purple">0</div>
-            <div class="circle-stat-label">Total Sales</div>
-            <div class="circle-stat-sublabel">Last 30 days</div>
-        </div>
-        <div class="circle-stat-card">
-            <div class="circle-stat-ring ring-green">8</div>
-            <div class="circle-stat-label">Total Sales</div>
-            <div class="circle-stat-sublabel">All Time</div>
-        </div>
-    </div>
-
-    {{-- ── Two-column: Recent Orders + Recent Customers ─── --}}
-    <div class="two-col">
         {{-- Recent Orders --}}
         <div class="data-card">
-            <div class="data-card-header">
-                <h5 class="data-card-title">Recent Order(s)</h5>
+            <div class="data-card-header"
+                 style="display:flex;justify-content:space-between;align-items:center;">
+                <h5 class="data-card-title">
+                    <i class="bi bi-receipt me-2"></i>Recent Orders
+                </h5>
+                <a href="{{ route('admin.order.allorder') }}"
+                   style="font-size:12px;color:#3d5a99;text-decoration:none;">
+                    View All →
+                </a>
             </div>
-            <div class="data-card-body">
-                <table class="admin-table">
-                    <thead>
-                        <tr>
-                            <th>Order Number</th>
-                            <th>Order Date</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>z9qz1772084754</td>
-                            <td>2026-02-26</td>
-                            <td><a href="#" class="btn-detail"><i class="bi bi-eye"></i> Details</a></td>
-                        </tr>
-                        <tr>
-                            <td>nK8L1768816175</td>
-                            <td>2026-01-19</td>
-                            <td><a href="#" class="btn-detail"><i class="bi bi-eye"></i> Details</a></td>
-                        </tr>
-                        <tr>
-                            <td>14VF1760993204</td>
-                            <td>2025-10-20</td>
-                            <td><a href="#" class="btn-detail"><i class="bi bi-eye"></i> Details</a></td>
-                        </tr>
-                        <tr>
-                            <td>vIPo1757936088</td>
-                            <td>2025-09-15</td>
-                            <td><a href="#" class="btn-detail"><i class="bi bi-eye"></i> Details</a></td>
-                        </tr>
-                        <tr>
-                            <td>b5fj1752750195</td>
-                            <td>2025-07-17</td>
-                            <td><a href="#" class="btn-detail"><i class="bi bi-eye"></i> Details</a></td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="data-card-body" style="padding:0;">
+                @if($recentOrders->isEmpty())
+                    <div style="text-align:center;padding:30px;color:#aaa;">
+                        <i class="bi bi-inbox" style="font-size:32px;display:block;margin-bottom:8px;"></i>
+                        কোনো অর্ডার নেই।
+                    </div>
+                @else
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>অর্ডার</th>
+                                <th>কাস্টমার</th>
+                                <th>মোট</th>
+                                <th>স্ট্যাটাস</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($recentOrders as $order)
+                            <tr>
+                                <td>
+                                    <a href="{{ route('admin.order.show', $order->id) }}"
+                                       style="font-weight:600;color:#3d5a99;font-size:12px;">
+                                        {{ $order->order_number }}
+                                    </a>
+                                    <div style="font-size:11px;color:#aaa;">
+                                        {{ $order->items->count() }} টি পণ্য
+                                    </div>
+                                </td>
+                                <td style="font-size:13px;">{{ $order->customer_name }}</td>
+                                <td style="font-size:13px;font-weight:600;">
+                                    ৳{{ number_format($order->total, 0) }}
+                                </td>
+                                <td>
+                                    @php
+                                        $statusConfig = [
+                                            'pending'    => ['bg' => '#fff8e6', 'color' => '#b7791f', 'label' => '⏳ Pending'],
+                                            'processing' => ['bg' => '#ebf8ff', 'color' => '#2b6cb0', 'label' => '🔄 Processing'],
+                                            'completed'  => ['bg' => '#f0fff4', 'color' => '#276749', 'label' => '✅ Completed'],
+                                            'cancelled'  => ['bg' => '#fff5f5', 'color' => '#c53030', 'label' => '❌ Cancelled'],
+                                        ];
+                                        $cfg = $statusConfig[$order->order_status] ?? ['bg' => '#f5f5f5', 'color' => '#888', 'label' => $order->order_status];
+                                    @endphp
+                                    <span style="background:{{ $cfg['bg'] }};color:{{ $cfg['color'] }};
+                                                 border-radius:20px;padding:2px 8px;font-size:11px;font-weight:500;">
+                                        {{ $cfg['label'] }}
+                                    </span>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                @endif
             </div>
         </div>
 
-        {{-- Recent Customers --}}
+        {{-- Popular Products --}}
         <div class="data-card">
             <div class="data-card-header">
-                <h5 class="data-card-title">Recent Customer(s)</h5>
+                <h5 class="data-card-title">
+                    <i class="bi bi-fire me-2"></i>Popular Products
+                </h5>
             </div>
-            <div class="data-card-body">
-                <table class="admin-table">
-                    <thead>
-                        <tr>
-                            <th>Customer Email</th>
-                            <th>Joined</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>sufialityyty@gmail.com</td>
-                            <td>2025-11-17 07:41:47</td>
-                            <td><a href="#" class="btn-detail"><i class="bi bi-eye"></i> Details</a></td>
-                        </tr>
-                        <tr>
-                            <td>bgblogin2345@gmail.com</td>
-                            <td>2025-10-01 12:45:44</td>
-                            <td><a href="#" class="btn-detail"><i class="bi bi-eye"></i> Details</a></td>
-                        </tr>
-                        <tr>
-                            <td>mmstfyalshhary@gmail.com</td>
-                            <td>2025-09-29 14:08:16</td>
-                            <td><a href="#" class="btn-detail"><i class="bi bi-eye"></i> Details</a></td>
-                        </tr>
-                        <tr>
-                            <td>archita@gmail.com</td>
-                            <td>2025-07-17 11:03:15</td>
-                            <td><a href="#" class="btn-detail"><i class="bi bi-eye"></i> Details</a></td>
-                        </tr>
-                        <tr>
-                            <td>webappmate.pm@gmail.com</td>
-                            <td>2025-07-10 04:39:05</td>
-                            <td><a href="#" class="btn-detail"><i class="bi bi-eye"></i> Details</a></td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="data-card-body" style="padding:0;">
+                @if($popularProducts->isEmpty())
+                    <div style="text-align:center;padding:30px;color:#aaa;">
+                        <i class="bi bi-box" style="font-size:32px;display:block;margin-bottom:8px;"></i>
+                        কোনো পণ্য নেই।
+                    </div>
+                @else
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>পণ্যের নাম</th>
+                                <th style="text-align:center;">অর্ডার সংখ্যা</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($popularProducts as $i => $product)
+                            <tr>
+                                <td style="font-weight:600;color:#3d5a99;">{{ $i + 1 }}</td>
+                                <td>
+                                    <div style="font-size:13px;font-weight:500;">
+                                        {{ $product->name }}
+                                    </div>
+                                    @if($product->price)
+                                        <div style="font-size:11px;color:#aaa;">
+                                            ৳{{ number_format($product->price, 0) }}
+                                        </div>
+                                    @endif
+                                </td>
+                                <td style="text-align:center;">
+                                    <span style="background:#ebf8ff;color:#2b6cb0;border-radius:20px;
+                                                 padding:2px 10px;font-size:12px;font-weight:600;">
+                                        {{ $product->order_items_count }}
+                                    </span>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                @endif
             </div>
         </div>
+
     </div>
 
-    {{-- ── Popular Products ─────────────────────────────── --}}
-    <div class="data-card">
+    {{-- Order Status Summary --}}
+    <div class="data-card" style="margin-bottom:24px;">
         <div class="data-card-header">
-            <h5 class="data-card-title">Popular Product(s)</h5>
+            <h5 class="data-card-title">
+                <i class="bi bi-pie-chart me-2"></i>Order Status Summary
+            </h5>
         </div>
         <div class="data-card-body">
-            <table class="admin-table">
-                <thead>
-                    <tr>
-                        <th>Featured Image</th>
-                        <th>Name</th>
-                        <th>Category</th>
-                        <th>Type</th>
-                        <th>Price</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><img src="https://images.unsplash.com/photo-1591348278863-a8fb3887e2aa?w=100" alt="" class="pop-img"></td>
-                        <td>Top Rated product title will be here according to ...</td>
-                        <td>Fashion & Beauty ACCESSORIES</td>
-                        <td>Physical</td>
-                        <td>110$</td>
-                        <td><a href="#" class="btn-detail"><i class="bi bi-eye"></i> Details</a></td>
-                    </tr>
-                    <tr>
-                        <td><img src="https://images.unsplash.com/photo-1594938298603-c8148c4b4de2?w=100" alt="" class="pop-img"></td>
-                        <td>Physical Product Title will be here</td>
-                        <td>Fashion & Beauty CLOTHINGS</td>
-                        <td>Physical</td>
-                        <td>40.70$</td>
-                        <td><a href="#" class="btn-detail"><i class="bi bi-eye"></i> Details</a></td>
-                    </tr>
-                    <tr>
-                        <td><img src="https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?w=100" alt="" class="pop-img"></td>
-                        <td>Revel - Real Estate Huuu</td>
-                        <td>Home decoration / LCD TV</td>
-                        <td>Physical</td>
-                        <td>335$</td>
-                        <td><a href="#" class="btn-detail"><i class="bi bi-eye"></i> Details</a></td>
-                    </tr>
-                    <tr>
-                        <td><img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=100" alt="" class="pop-img"></td>
-                        <td>Zain - Digital Agency and Startup HTML Template</td>
-                        <td>Fashion & Beauty SHOES</td>
-                        <td>Physical</td>
-                        <td>321$</td>
-                        <td><a href="#" class="btn-detail"><i class="bi bi-eye"></i> Details</a></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;">
 
-    {{-- ── Sales Chart ──────────────────────────────────── --}}
-    <div class="chart-card">
-        <h5>Total Sales in Last 30 Days</h5>
-        <canvas id="salesChart" height="90"></canvas>
-    </div>
+                <a href="{{ route('admin.order.allorder') }}"
+                   style="text-decoration:none;">
+                    <div style="background:#f8f9fa;border-radius:10px;padding:16px;text-align:center;
+                                border:1px solid #e5e7eb;transition:all .2s;"
+                         onmouseover="this.style.background='#e9ecef'"
+                         onmouseout="this.style.background='#f8f9fa'">
+                        <div style="font-size:24px;font-weight:700;color:#3d5a99;">
+                            {{ $statusCounts['all'] }}
+                        </div>
+                        <div style="font-size:12px;color:#888;margin-top:4px;">All Orders</div>
+                    </div>
+                </a>
 
-    {{-- ── Pie Charts ───────────────────────────────────── --}}
-    <div class="two-col">
-        <div class="chart-card">
-            <h5>Top Referrals</h5>
-            <div style="display:flex; align-items:center; gap:20px; flex-wrap:wrap;">
-                <canvas id="referralChart" style="max-width:220px; max-height:220px;"></canvas>
-                <div id="referralLegend" style="font-size:12px;"></div>
-            </div>
-        </div>
-        <div class="chart-card">
-            <h5>Most Used OS</h5>
-            <div style="display:flex; align-items:center; gap:20px; flex-wrap:wrap;">
-                <canvas id="osChart" style="max-width:220px; max-height:220px;"></canvas>
-                <div id="osLegend" style="font-size:12px;"></div>
+                <a href="{{ route('admin.order.allorder', ['status' => 'pending']) }}"
+                   style="text-decoration:none;">
+                    <div style="background:#fff8e6;border-radius:10px;padding:16px;text-align:center;
+                                border:1px solid #f6e05e;transition:all .2s;"
+                         onmouseover="this.style.opacity='.85'"
+                         onmouseout="this.style.opacity='1'">
+                        <div style="font-size:24px;font-weight:700;color:#b7791f;">
+                            {{ $statusCounts['pending'] }}
+                        </div>
+                        <div style="font-size:12px;color:#b7791f;margin-top:4px;">⏳ Pending</div>
+                    </div>
+                </a>
+
+                <a href="{{ route('admin.order.allorder', ['status' => 'processing']) }}"
+                   style="text-decoration:none;">
+                    <div style="background:#ebf8ff;border-radius:10px;padding:16px;text-align:center;
+                                border:1px solid #90cdf4;transition:all .2s;"
+                         onmouseover="this.style.opacity='.85'"
+                         onmouseout="this.style.opacity='1'">
+                        <div style="font-size:24px;font-weight:700;color:#2b6cb0;">
+                            {{ $statusCounts['processing'] }}
+                        </div>
+                        <div style="font-size:12px;color:#2b6cb0;margin-top:4px;">🔄 Processing</div>
+                    </div>
+                </a>
+
+                <a href="{{ route('admin.order.allorder', ['status' => 'completed']) }}"
+                   style="text-decoration:none;">
+                    <div style="background:#f0fff4;border-radius:10px;padding:16px;text-align:center;
+                                border:1px solid #9ae6b4;transition:all .2s;"
+                         onmouseover="this.style.opacity='.85'"
+                         onmouseout="this.style.opacity='1'">
+                        <div style="font-size:24px;font-weight:700;color:#276749;">
+                            {{ $statusCounts['completed'] }}
+                        </div>
+                        <div style="font-size:12px;color:#276749;margin-top:4px;">✅ Completed</div>
+                    </div>
+                </a>
+
+                <a href="{{ route('admin.order.allorder', ['status' => 'cancelled']) }}"
+                   style="text-decoration:none;">
+                    <div style="background:#fff5f5;border-radius:10px;padding:16px;text-align:center;
+                                border:1px solid #feb2b2;transition:all .2s;"
+                         onmouseover="this.style.opacity='.85'"
+                         onmouseout="this.style.opacity='1'">
+                        <div style="font-size:24px;font-weight:700;color:#c53030;">
+                            {{ $statusCounts['cancelled'] }}
+                        </div>
+                        <div style="font-size:12px;color:#c53030;margin-top:4px;">❌ Cancelled</div>
+                    </div>
+                </a>
+
             </div>
         </div>
     </div>
 
 </div>
-@endsection
 
-@push('scripts')
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+{{-- Chart.js --}}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-// Sales line chart
-const salesCtx = document.getElementById('salesChart').getContext('2d');
-const labels = [];
-const now = new Date();
-for (let i = 29; i >= 0; i--) {
-    const d = new Date(now);
-    d.setDate(d.getDate() - i);
-    labels.push(d.toLocaleDateString('en-GB', { day:'2-digit', month:'short' }));
-}
-new Chart(salesCtx, {
-    type : 'line',
-    data : {
-        labels  : labels,
-        datasets: [{
-            label          : 'Sales',
-            data           : labels.map(() => Math.floor(Math.random() * 3)),
-            borderColor    : '#3d5a99',
-            backgroundColor: 'rgba(61,90,153,0.08)',
-            tension        : 0.3,
-            pointRadius    : 3,
-            pointBackgroundColor: '#3d5a99',
-            fill           : true,
-        }]
-    },
-    options: {
-        plugins   : { legend: { display: false } },
-        scales    : {
-            x: { ticks: { font: { size: 10 }, maxRotation: 0, autoSkip: true, maxTicksLimit: 15 } },
-            y: { beginAtZero: true, ticks: { font: { size: 10 } } }
+    const ctx = document.getElementById('salesChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: @json($chartLabels),
+            datasets: [{
+                label: 'Completed Orders',
+                data: @json($chartData),
+                borderColor: '#3d5a99',
+                backgroundColor: 'rgba(61,90,153,0.08)',
+                borderWidth: 2,
+                pointBackgroundColor: '#3d5a99',
+                pointRadius: 3,
+                tension: 0.4,
+                fill: true,
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: ctx => ' ' + ctx.parsed.y + ' orders'
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: { stepSize: 1, font: { size: 11 } },
+                    grid: { color: 'rgba(0,0,0,0.05)' }
+                },
+                x: {
+                    ticks: { font: { size: 10 }, maxRotation: 45 },
+                    grid: { display: false }
+                }
+            }
         }
-    }
-});
+    });
+</script>
 
-// Helper: custom legend
-function buildLegend(containerId, labels, colors) {
-    const el = document.getElementById(containerId);
-    el.innerHTML = labels.map((l, i) =>
-        `<div style="display:flex;align-items:center;gap:6px;margin-bottom:5px;">
-            <span style="width:12px;height:12px;border-radius:50%;background:${colors[i]};flex-shrink:0;"></span>
-            <span>${l}</span>
-        </div>`
-    ).join('');
+<style>
+/* ── Stats Grid ─────────────────────────────────────────────────────── */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+.stat-card {
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border: 1px solid transparent;
+    transition: transform .2s, box-shadow .2s;
+}
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+.stat-icon {
+    font-size: 28px;
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.stat-number {
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1;
+}
+.stat-label {
+    font-size: 12px;
+    margin-top: 4px;
+    opacity: .75;
 }
 
-// Referral pie
-const refLabels = ['codecanyon.net', 'geniusocean.com', 's-o-s.net', 'www.google.com', 'connect.facebook.net'];
-const refData   = [71, 20.88, 4.69, 2.02, 1.41];
-const refColors = ['#4472ca', '#ed7d31', '#a9d18e', '#4db8c8', '#7030a0'];
-new Chart(document.getElementById('referralChart').getContext('2d'), {
-    type : 'pie',
-    data : { labels: refLabels, datasets: [{ data: refData, backgroundColor: refColors, borderWidth: 2, borderColor:'#fff' }] },
-    options: { plugins: { legend: { display: false } } }
-});
-buildLegend('referralLegend', refLabels, refColors);
+/* Card colours */
+.stat-pending    { background: #fff8e6; color: #b7791f; border-color: #f6e05e; }
+.stat-pending    .stat-icon { background: rgba(183,121,31,.12); }
 
-// OS pie
-const osLabels = ['Unknown OS Platform', 'Windows 10', 'Android', 'Mac OS X', 'Windows 7'];
-const osData   = [63.37, 22.62, 6.11, 5.7, 2.21];
-const osColors = ['#4472ca', '#ed7d31', '#a9d18e', '#4db8c8', '#7030a0'];
-new Chart(document.getElementById('osChart').getContext('2d'), {
-    type : 'pie',
-    data : { labels: osLabels, datasets: [{ data: osData, backgroundColor: osColors, borderWidth: 2, borderColor:'#fff' }] },
-    options: { plugins: { legend: { display: false } } }
-});
-buildLegend('osLegend', osLabels, osColors);
-</script>
-@endpush
+.stat-processing { background: #ebf8ff; color: #2b6cb0; border-color: #90cdf4; }
+.stat-processing .stat-icon { background: rgba(43,108,176,.12); }
+
+.stat-completed  { background: #f0fff4; color: #276749; border-color: #9ae6b4; }
+.stat-completed  .stat-icon { background: rgba(39,103,73,.12); }
+
+.stat-products   { background: #faf5ff; color: #6b46c1; border-color: #d6bcfa; }
+.stat-products   .stat-icon { background: rgba(107,70,193,.12); }
+
+.stat-sales      { background: #fff5f5; color: #c53030; border-color: #feb2b2; }
+.stat-sales      .stat-icon { background: rgba(197,48,48,.12); }
+
+.stat-alltime    { background: #f0f4ff; color: #3d5a99; border-color: #c3cfe2; }
+.stat-alltime    .stat-icon { background: rgba(61,90,153,.12); }
+
+/* Responsive */
+@media (max-width: 768px) {
+    div[style*="grid-template-columns:1fr 1fr"] {
+        grid-template-columns: 1fr !important;
+    }
+}
+</style>
+@endsection

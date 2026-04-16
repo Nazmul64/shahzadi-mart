@@ -322,18 +322,50 @@ body.sb-collapsed .sidebar-submenu { display: none; }
         </div>
 
         {{-- Orders --}}
-        <div class="sidebar-item {{ $ordersActive ? 'active open' : '' }}" onclick="sbToggle(this)">
-            <span class="item-left">
-                <i class="bi bi-cart-check nav-icon"></i>
-                <span class="item-text">Orders</span>
-            </span>
-            <i class="bi bi-chevron-right arrow"></i>
-        </div>
-        <div class="sidebar-submenu {{ $ordersActive ? 'open' : '' }}">
-            <a href="#"><i class="bi bi-list-ul"></i> All Orders</a>
-            <a href="#"><i class="bi bi-clock"></i> Pending</a>
-            <a href="#"><i class="bi bi-check-circle"></i> Completed</a>
-        </div>
+      {{-- Orders --}}
+<div class="sidebar-item {{ $ordersActive ? 'active open' : '' }}" onclick="sbToggle(this)">
+    <span class="item-left">
+        <i class="bi bi-cart-check nav-icon"></i>
+        <span class="item-text">Orders</span>
+    </span>
+    <i class="bi bi-chevron-right arrow"></i>
+</div>
+<div class="sidebar-submenu {{ $ordersActive ? 'open' : '' }}">
+    <a href="{{ route('admin.order.allorder') }}"
+       class="{{ request()->routeIs('admin.order.allorder') && !request()->filled('status') ? 'active' : '' }}">
+        <i class="bi bi-list-ul"></i> All Orders
+    </a>
+
+    <a href="{{ route('admin.order.allorder', ['status' => 'pending']) }}"
+       class="{{ request()->routeIs('admin.order.allorder') && request('status') === 'pending' ? 'active' : '' }}">
+        <i class="bi bi-clock"></i> Pending
+    </a>
+
+    <a href="{{ route('admin.order.allorder', ['status' => 'processing']) }}"
+       class="{{ request()->routeIs('admin.order.allorder') && request('status') === 'processing' ? 'active' : '' }}">
+        <i class="bi bi-gear"></i> Processing
+    </a>
+
+    <a href="{{ route('admin.order.allorder', ['status' => 'shipped']) }}"
+       class="{{ request()->routeIs('admin.order.allorder') && request('status') === 'shipped' ? 'active' : '' }}">
+        <i class="bi bi-truck"></i> Shipped
+    </a>
+
+    <a href="{{ route('admin.order.allorder', ['status' => 'delivered']) }}"
+       class="{{ request()->routeIs('admin.order.allorder') && request('status') === 'delivered' ? 'active' : '' }}">
+        <i class="bi bi-check-circle"></i> Delivered
+    </a>
+
+    <a href="{{ route('admin.order.allorder', ['status' => 'cancelled']) }}"
+       class="{{ request()->routeIs('admin.order.allorder') && request('status') === 'cancelled' ? 'active' : '' }}">
+        <i class="bi bi-x-circle"></i> Cancelled
+    </a>
+
+    <a href="{{ route('admin.order.create') }}"
+       class="{{ request()->routeIs('admin.order.create') ? 'active' : '' }}">
+        <i class="bi bi-plus-circle"></i> Create Order
+    </a>
+</div>
 
         {{-- Categories --}}
         <div class="sidebar-item {{ $catsActive ? 'active open' : '' }}" onclick="sbToggle(this)">
@@ -663,6 +695,16 @@ body.sb-collapsed .sidebar-submenu { display: none; }
                class="{{ request()->routeIs('admin.Generalsettings.*') ? 'active' : '' }}">
                 <i class="bi bi-image"></i> Logo Settings
             </a>
+
+             <a href="{{ route('admin.contact.index') }}"
+               class="{{ request()->routeIs('admin.contact.*') ? 'active' : '' }}">
+                <i class="bi bi-image"></i> Contact Settings
+            </a>
+              <a href="{{ route('admin.pixels.index') }}"
+               class="{{ request()->routeIs('admin.pixels.*') ? 'active' : '' }}">
+                <i class="bi bi-image"></i> pixels Settings
+            </a>
+            pixels
             <a href="{{ route('admin.websitefavicon.index') }}"
                class="{{ request()->routeIs('admin.websitefavicon.*') ? 'active' : '' }}">
                 <i class="bi bi-layout-text-sidebar"></i> Website Favicon
