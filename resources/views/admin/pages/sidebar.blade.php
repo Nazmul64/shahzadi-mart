@@ -737,6 +737,25 @@ body.sb-collapsed .sidebar-submenu { display: none; }
                class="{{ request()->routeIs('admin.paymentgetewaymanage.create') ? 'active' : '' }}">
                 <i class="bi bi-plus-circle"></i> Create Integration
             </a>
+             <a href="{{ route('admin.steadfastcourier.create') }}"
+               class="{{ request()->routeIs('admin.steadfastcourier.create') ? 'active' : '' }}">
+                <i class="bi bi-plus-circle"></i> Create Steadfast Courier
+            </a>
+              <a href="{{ route('admin.pathaocourier.create') }}"
+               class="{{ request()->routeIs('admin.pathaocourier.create') ? 'active' : '' }}">
+                <i class="bi bi-plus-circle"></i> Create pathaocourier Courier
+            </a>
+
+            </a>
+              <a href="{{ route('admin.Smsgatewaysetup.create') }}"
+               class="{{ request()->routeIs('admin.Smsgatewaysetup.create') ? 'active' : '' }}">
+                <i class="bi bi-plus-circle"></i> Create Smsgatewaysetup
+            </a>
+
+
+
+
+
         </div>
 
     </nav>

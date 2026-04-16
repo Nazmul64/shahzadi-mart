@@ -1,0 +1,95 @@
+@extends('admin.master')
+
+@section('main-content')
+
+<div class="container-fluid">
+
+    {{-- Success Alert --}}
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
+
+    {{-- ========================
+         Pathao Courier Section
+    ========================= --}}
+    <h5 class="mb-3 font-weight-bold">Pathao Courier</h5>
+
+    <div class="card mb-4" style="border-radius: 8px;">
+        <div class="card-body p-4">
+
+            @if($pathaocourier)
+                {{-- UPDATE form --}}
+                <form action="{{ route('admin.pathaocourier.update', $pathaocourier->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+            @else
+                {{-- STORE form --}}
+                <form action="{{ route('admin.pathaocourier.store') }}" method="POST">
+                    @csrf
+            @endif
+
+                <div class="row">
+                    {{-- URL --}}
+                    <div class="col-md-6 mb-3">
+                        <label for="url">URL <span class="text-danger">*</span></label>
+                        <input
+                            type="url"
+                            name="url"
+                            id="url"
+                            class="form-control @error('url') is-invalid @enderror"
+                            value="{{ old('url', $pathaocourier->url ?? '') }}"
+                            placeholder="https://api-hermes.pathao.com/aladdin"
+                        >
+                        @error('url')
+                            <span class="invalid-feedback">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    {{-- Token --}}
+                    <div class="col-md-6 mb-3">
+                        <label for="token">Token <span class="text-danger">*</span></label>
+                        <input
+                            type="text"
+                            name="token"
+                            id="token"
+                            class="form-control @error('token') is-invalid @enderror"
+                            value="{{ old('token', $pathaocourier->token ?? '') }}"
+                            placeholder="Enter Token"
+                        >
+                        @error('token')
+                            <span class="invalid-feedback">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    {{-- Status --}}
+                    <div class="col-md-6 mb-3">
+                        <label>Status</label><br>
+                        <div class="custom-control custom-switch mt-1">
+                            <input
+                                type="checkbox"
+                                name="status"
+                                class="custom-control-input"
+                                id="pathao_status"
+                                {{ old('status', $pathaocourier->status ?? 1) ? 'checked' : '' }}
+                            >
+                            <label class="custom-control-label" for="pathao_status"></label>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-success px-4" style="background-color:#2ec4b6; border-color:#2ec4b6;">
+                    Submit
+                </button>
+
+            </form>
+        </div>
+    </div>
+
+</div>
+
+@endsection

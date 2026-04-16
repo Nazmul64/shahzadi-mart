@@ -40,8 +40,10 @@ use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\OrderTrackController;
 use App\Http\Controllers\Frontend\SearchController;
 use App\Http\Controllers\Admin\GoogleTagmanagerController;
+use App\Http\Controllers\Admin\PathaocourierController;
 use App\Http\Controllers\Admin\PaymentgetewaymanageController;
-use App\Http\Controllers\PaymentgetewaymanageControllerController;
+use App\Http\Controllers\Admin\SmsgatewaysetupController;
+use App\Http\Controllers\Admin\SteadfastcourierController;
 
 Auth::routes();
 
@@ -273,7 +275,9 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
     Route::resource('paymentgetewaymanage', PaymentgetewaymanageController::class);
     // Optional: Quick status toggle route
     Route::patch('paymentgetewaymanage/{id}/toggle-status', [PaymentgetewaymanageController::class, 'toggleStatus'])->name('paymentgetewaymanage.toggle-status');
-
+    Route::resource('steadfastcourier', SteadfastcourierController::class);
+    Route::resource('pathaocourier',PathaocourierController::class);
+    Route::resource('Smsgatewaysetup', SmsgatewaysetupController::class);
 }); // end admin group
 
 // ══════════════════════════════════════════════════════════════════════════════
