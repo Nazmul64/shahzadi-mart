@@ -157,7 +157,7 @@
                                     <a href="{{ route('cart.add', $item->id) }}"
                                        class="sr-p-atc"
                                        onclick="event.stopPropagation()">
-                                        <i class="fas fa-cart-plus"></i> কার্টে যোগ করুন
+                                      <i class="fa-solid fa-cart-plus"></i> কার্টে যোগ করুন
                                     </a>
                                 @else
                                     <span class="sr-p-atc" style="background:#e5e7eb;color:#9ca3af;cursor:not-allowed;">

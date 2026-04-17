@@ -6,11 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\SubCategory;
 use App\Models\ChildSubCategory;
+use App\Models\Contact;
 use App\Models\Generalsetting;
 use App\Models\Product;
+use App\Models\Order;
+use App\Models\Wishlist;
 use App\Models\Slider;
 use App\Models\Websitefavicon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class FrontendController extends Controller
 {
@@ -208,10 +212,59 @@ class FrontendController extends Controller
     }
 
     // ─── User Dashboard ───────────────────────────────────────────────────────
-    public function user_dashboard()
-    {
-        return view('userdashboard.master');
+   public function user_dashboard()
+{
+    $userId = Auth::id();
+
+    // শুধুমাত্র লগইন করা ইউজারের অর্ডার
+    $orders = Order::where('user_id', $userId)
+                   ->with('items.product')
+                   ->latest()
+                   ->get();
+
+    // Wishlist — শুধু এই ইউজারের
+    $wishlistItems = Wishlist::where('user_id', $userId)
+                             ->with('product.category')
+                             ->latest()
+                             ->get();
+
+    // Stats
+    $totalOrders    = $orders->count();
+    $pendingOrders  = $orders->where('order_status', 'pending')->count();
+    $deliveredOrders= $orders->where('order_status', 'delivered')->count();
+    $cancelledOrders= $orders->where('order_status', 'cancelled')->count();
+    $wishlistCount  = $wishlistItems->count();
+
+    return view('userdashboard.index', compact(
+        'orders',
+        'wishlistItems',
+        'totalOrders',
+        'pendingOrders',
+        'deliveredOrders',
+        'cancelledOrders',
+        'wishlistCount'
+    ));
+}
+
+// ─── Cancel Order (শুধু নিজের অর্ডার) ────────────────────────────────────────
+public function cancelOrder($orderNumber)
+{
+    // Auth::id() দিয়ে নিশ্চিত করা হচ্ছে যে শুধু নিজের অর্ডারই cancel করতে পারবে
+    $order = Order::where('order_number', $orderNumber)
+                  ->where('user_id', Auth::id())
+                  ->firstOrFail();
+
+    // শুধু pending বা processing অর্ডার cancel করা যাবে
+    if (! in_array($order->order_status, ['pending', 'processing'])) {
+        return redirect()->back()->with('error', 'এই অর্ডারটি আর বাতিল করা সম্ভব নয়।');
     }
+
+    $order->update(['order_status' => 'cancelled']);
+
+    return redirect()->back()->with('success', 'অর্ডার #' . $order->order_number . ' সফলভাবে বাতিল হয়েছে।');
+}
+
+
     public function allProducts(Request $request)
 {
     $websetting        = Generalsetting::first();
@@ -396,5 +449,12 @@ public function newArrivals(Request $request)
     return view('frontend.new-arrivals', compact(
         'newArrivals', 'websetting', 'sidebarCategories'
     ));
+
 }
+   public function contactDetails()
+    {
+        $contact =Contact::latest()->first();
+        $websetting = Generalsetting::first();
+        return view('frontend.contactdetails.index', compact('contact', 'websetting'));
+    }
 }

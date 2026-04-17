@@ -78,13 +78,7 @@ class WishlistController extends Controller
     //  REMOVE FROM WISHLIST
     // ══════════════════════════════════════════════════════════════
 
-    public function remove($itemId)
-    {
-        $item = $this->wishlistQuery()->findOrFail($itemId);
-        $item->delete();
 
-        return redirect()->back()->with('success', 'পণ্যটি উইশলিস্ট থেকে সরানো হয়েছে।');
-    }
 
     // ══════════════════════════════════════════════════════════════
     //  MOVE TO CART  ← মূল পরিবর্তন এখানে
@@ -147,4 +141,15 @@ class WishlistController extends Controller
 
         return redirect()->route('wishlist')->with('success', 'উইশলিস্ট সম্পূর্ণ পরিষ্কার হয়েছে।');
     }
+    public function remove($id)
+{
+    $wishlist = session()->get('wishlist', []);
+
+    if (isset($wishlist[$id])) {
+        unset($wishlist[$id]);
+        session()->put('wishlist', $wishlist);
+    }
+
+    return redirect()->back()->with('success', 'উইশলিস্ট থেকে সরানো হয়েছে।');
+}
 }

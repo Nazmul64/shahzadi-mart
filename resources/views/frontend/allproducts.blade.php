@@ -729,7 +729,7 @@
                                         <a href="{{ route('cart.add', $item->id) }}"
                                            class="smp-ap-atc"
                                            onclick="event.stopPropagation()">
-                                            <i class="fas fa-cart-plus"></i> কার্টে যোগ করুন
+                                            <i class="fa-solid fa-cart-plus"></i> কার্টে যোগ করুন
                                         </a>
                                     @else
                                         <span class="smp-ap-atc"

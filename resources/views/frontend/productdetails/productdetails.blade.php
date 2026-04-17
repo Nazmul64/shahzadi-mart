@@ -855,7 +855,7 @@
                   class="pdp__prod-cart-btn"
                   data-url="{{ route('cart.add', $rp->id) }}"
                   onclick="event.preventDefault(); event.stopPropagation(); pdpRelatedCart(this)">
-            <i class="fas fa-cart-plus"></i> কার্টে যোগ করুন
+           <i class="fa-solid fa-cart-plus"></i> কার্টে যোগ করুন
           </button>
         </a>
         @endforeach

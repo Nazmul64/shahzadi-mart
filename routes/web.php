@@ -52,7 +52,12 @@ Auth::routes();
 // ══════════════════════════════════════════════════════════════════════════════
 Route::get('/',           [FrontendController::class, 'frontend'])->name('frontend');
 Route::get('/product/{slug}', [FrontendController::class, 'productdetails'])->name('product.detail');
-
+Route::get('/contactdetails', [FrontendController::class, 'contactDetails'])->name('contact.details');
+// User Dashboard — real DB data সহ
+Route::get('/dashboard', [FrontendController::class, 'user_dashboard'])->name('user.dashboard');
+// Order Cancel — শুধু নিজের অর্ডার cancel করতে পারবে
+// user_id check controller-এই হচ্ছে (firstOrFail + Auth::id())
+Route::post('/order/cancel/{orderNumber}', [FrontendController::class, 'cancelOrder'])->name('order.cancel');
 Route::get('/category/{slug}',                          [FrontendController::class, 'categoryPage'])->name('category.page');
 Route::get('/category/{catSlug}/{subSlug}',             [FrontendController::class, 'subCategoryPage'])->name('subcategory.page');
 Route::get('/category/{catSlug}/{subSlug}/{childSlug}', [FrontendController::class, 'childCategoryPage'])->name('childcategory.page');
@@ -75,7 +80,7 @@ Route::get('/new-arrivals', [FrontendController::class, 'newArrivals'])->name('n
 // ══════════════════════════════════════════════════════════════════════════════
 Route::prefix('cart')->name('cart.')->group(function () {
     Route::get('/',               [CartController::class, 'index'])->name('index');
-    Route::post('/add/{id}',      [CartController::class, 'add'])->name('add');
+    Route::get('/add/{id}',       [CartController::class, 'add'])->name('add');      // ← POST → GET
     Route::get('/remove/{key}',   [CartController::class, 'remove'])->name('remove');
     Route::get('/increase/{key}', [CartController::class, 'increase'])->name('increase');
     Route::get('/decrease/{key}', [CartController::class, 'decrease'])->name('decrease');

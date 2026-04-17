@@ -6,27 +6,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Shahzadimart Shop</title>
-    {{-- ── Google Fonts ── --}}
+
+    {{-- Google Fonts --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700;800;900&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    {{-- ── Bootstrap Icons ── --}}
+
+    {{-- Favicon --}}
     <link rel="icon" type="image/png" href="{{ asset($websitefavicon->favicon_logo ?? 'default/favicon.png') }}">
+
+    {{-- Bootstrap 5 CSS --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+
+    {{-- Bootstrap Icons --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    {{-- ── Toastr ── --}}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
-    {{-- ── Font Awesome ── --}}
+
+    {{-- Font Awesome --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    {{-- ── jQuery + Toastr JS ── --}}
+
+    {{-- Toastr --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
+
+    {{-- jQuery (before Bootstrap JS) --}}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
     <style>
     /* ═══════════════════════════════════════════════════════════
-       RESET & DESIGN TOKENS
+       DESIGN TOKENS
     ═══════════════════════════════════════════════════════════ */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
         --red:        #C8102E;
         --red-d:      #a00d25;
@@ -60,6 +67,7 @@
         --mob-nav:    60px;
     }
 
+    *, *::before, *::after { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
         font-family: 'Nunito', sans-serif;
@@ -71,7 +79,7 @@
     }
     img { display: block; max-width: 100%; }
     a   { text-decoration: none; color: inherit; }
-    ul  { list-style: none; }
+    ul  { list-style: none; padding: 0; margin: 0; }
 
     /* ═══════════════════════════════════════════════════════════
        TOP ANNOUNCEMENT BAR
@@ -79,7 +87,6 @@
     .top-bar {
         background: var(--dark);
         border-bottom: 1px solid #1a1a1a;
-        position: relative; overflow: hidden;
     }
     .top-bar__in {
         max-width: var(--wrap); margin: 0 auto;
@@ -109,16 +116,15 @@
     }
     .top-bar__nav a:hover { color: var(--gold); }
     .top-bar__track {
-        display: flex; align-items: center; gap: 6px;
+        display: flex !important; align-items: center; gap: 6px;
         color: #fff !important;
-        background: var(--red);
-        padding: 3px 11px;
-        border-radius: 20px;
+        background: var(--red) !important;
+        padding: 3px 11px !important;
+        border-radius: 20px !important;
         font-size: 10.5px !important;
         font-weight: 800 !important;
-        letter-spacing: .06em;
+        letter-spacing: .06em !important;
         text-transform: uppercase !important;
-        transition: background .2s !important;
         white-space: nowrap;
     }
     .top-bar__track:hover { background: var(--red-d) !important; color: #fff !important; }
@@ -196,12 +202,9 @@
         white-space: nowrap; transition: var(--t); flex-shrink: 0;
         border-radius: 0 50px 50px 0;
     }
-    .hdr-search.has-results .hdr-search__btn {
-        border-radius: 0 20px 0 0;
-    }
+    .hdr-search.has-results .hdr-search__btn { border-radius: 0 20px 0 0; }
     .hdr-search__btn:hover { background: var(--red-d); }
 
-    /* ── Clear button ── */
     .search-clear {
         background: none; border: none; cursor: pointer;
         color: var(--muted); font-size: 14px; padding: 0 6px;
@@ -211,7 +214,6 @@
     .search-clear:hover { color: var(--red); }
     .search-clear.visible { display: flex; }
 
-    /* ── Search Dropdown ── */
     .search-dropdown {
         position: absolute; top: 100%; left: 0; right: 0;
         background: var(--white);
@@ -220,17 +222,14 @@
         border-radius: 0 0 20px 20px;
         box-shadow: 0 12px 40px rgba(0,0,0,.14);
         z-index: 999;
-        max-height: 480px;
-        overflow-y: auto;
+        max-height: 480px; overflow-y: auto;
         display: none;
-        scrollbar-width: thin;
-        scrollbar-color: var(--border) transparent;
+        scrollbar-width: thin; scrollbar-color: var(--border) transparent;
     }
     .search-dropdown.active { display: block; }
     .search-dropdown::-webkit-scrollbar { width: 4px; }
     .search-dropdown::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
 
-    /* Loading state */
     .search-loading {
         padding: 20px; text-align: center;
         color: var(--muted); font-size: 13px;
@@ -246,7 +245,6 @@
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* Section header inside dropdown */
     .sd-section-hd {
         padding: 10px 16px 6px;
         font-size: 10px; font-weight: 800;
@@ -258,7 +256,6 @@
     .sd-section-hd:first-child { border-top: none; }
     .sd-section-hd i { font-size: 11px; color: var(--red); }
 
-    /* Category item */
     .sd-cat-item {
         display: flex; align-items: center; gap: 10px;
         padding: 8px 16px; cursor: pointer;
@@ -274,7 +271,6 @@
     .sd-cat-img img { width: 100%; height: 100%; object-fit: cover; }
     .sd-cat-name { font-size: 13px; font-weight: 600; }
 
-    /* Product item */
     .sd-prod-item {
         display: flex; align-items: center; gap: 12px;
         padding: 10px 16px; cursor: pointer;
@@ -295,9 +291,7 @@
         white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         margin-bottom: 3px;
     }
-    .sd-prod-cat {
-        font-size: 11px; color: var(--muted); font-weight: 500;
-    }
+    .sd-prod-cat { font-size: 11px; color: var(--muted); font-weight: 500; }
     .sd-prod-price-wrap { text-align: right; flex-shrink: 0; }
     .sd-prod-price { font-size: 14px; font-weight: 800; color: var(--red); }
     .sd-prod-old { font-size: 11px; color: var(--muted); text-decoration: line-through; }
@@ -309,15 +303,11 @@
         margin-top: 2px; letter-spacing: .04em;
     }
     .sd-prod-badge.out { background: #fee2e2; color: #991b1b; }
-
-    /* No results */
     .sd-empty {
         padding: 28px 16px; text-align: center;
         color: var(--muted); font-size: 13px;
     }
     .sd-empty i { font-size: 28px; display: block; margin-bottom: 8px; opacity: .4; }
-
-    /* View all footer */
     .sd-view-all {
         display: flex; align-items: center; justify-content: center; gap: 6px;
         padding: 12px; background: var(--light);
@@ -329,14 +319,10 @@
         letter-spacing: .04em; text-transform: uppercase;
     }
     .sd-view-all:hover { background: var(--red-glow); }
-
-    /* Highlight matched text */
     .search-highlight {
         background: rgba(200,16,46,.12);
         color: var(--red);
-        border-radius: 2px;
-        padding: 0 1px;
-        font-weight: 800;
+        border-radius: 2px; padding: 0 1px; font-weight: 800;
     }
 
     /* ═══════════════════════════════════════════════════════════
@@ -351,12 +337,8 @@
         border-radius: 50px;
         font-family: 'Nunito', sans-serif;
         font-size: 13px; font-weight: 800;
-        cursor: pointer;
-        white-space: nowrap;
-        flex-shrink: 0;
-        transition: var(--t);
-        text-decoration: none;
-        letter-spacing: .02em;
+        cursor: pointer; white-space: nowrap; flex-shrink: 0;
+        transition: var(--t); text-decoration: none; letter-spacing: .02em;
     }
     .track-order-btn .bi { font-size: 16px; transition: transform .3s var(--ease); }
     .track-order-btn:hover {
@@ -364,49 +346,6 @@
         box-shadow: var(--sh-red); transform: translateY(-1px);
     }
     .track-order-btn:hover .bi { transform: translateX(3px); }
-
-    /* ═══════════════════════════════════════════════════════════
-       NAV BAR
-    ═══════════════════════════════════════════════════════════ */
-    .site-nav {
-        background: var(--white);
-        border-bottom: 2px solid var(--border);
-        box-shadow: 0 2px 8px rgba(0,0,0,.04);
-    }
-    .site-nav__in {
-        max-width: var(--wrap); margin: 0 auto;
-        padding: 0 20px;
-        display: flex; align-items: center; gap: 0;
-        height: 46px;
-        overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
-    }
-    .site-nav__in::-webkit-scrollbar { display: none; }
-    .nav-item {
-        display: flex; align-items: center; gap: 7px;
-        padding: 0 16px; height: 100%;
-        font-size: 13px; font-weight: 700; color: var(--mid);
-        white-space: nowrap; cursor: pointer; text-decoration: none;
-        border-bottom: 2px solid transparent; margin-bottom: -2px;
-        transition: color .2s, border-color .2s; position: relative;
-    }
-    .nav-item .bi, .nav-item i { font-size: 15px; flex-shrink: 0; }
-    .nav-item:hover { color: var(--dark); border-color: var(--red); }
-    .nav-item.active { color: var(--red); border-color: var(--red); }
-    .nav-item--track {
-        color: var(--red) !important; font-weight: 800;
-        margin-left: auto;
-        background: var(--red-glow);
-        border-radius: var(--rm) var(--rm) 0 0;
-        padding: 0 18px;
-        border-bottom: 2px solid var(--red) !important;
-    }
-    .nav-item--track:hover { background: rgba(200,16,46,.18); color: var(--red-d) !important; }
-    .nav-item--track .bi { animation: truck-ride 2.4s ease-in-out infinite; }
-    @keyframes truck-ride {
-        0%,100% { transform: translateX(0); }
-        50%      { transform: translateX(4px); }
-    }
-    .nav-divider { width: 1px; height: 22px; background: var(--border); flex-shrink: 0; margin: 0 4px; }
 
     /* ═══════════════════════════════════════════════════════════
        ACTION ICONS
@@ -437,18 +376,23 @@
     .h-badge.zero { display: none; }
     @keyframes badge-pop { from { transform: scale(0); } to { transform: scale(1); } }
 
-    /* ── Account dropdown ── */
-    .acct { position: relative; }
-    .acct-drop {
+    /* ═══════════════════════════════════════════════════════════
+       SHARED HOVER DROPDOWN
+    ═══════════════════════════════════════════════════════════ */
+    .hdr-drop-wrap { position: relative; }
+    .hdr-drop {
         position: absolute; top: calc(100% + 10px); right: 0;
         background: var(--white); border: 1px solid var(--border);
         border-radius: var(--rl); box-shadow: var(--sh3);
-        min-width: 215px; z-index: 950;
+        z-index: 950;
         opacity: 0; visibility: hidden;
         transform: translateY(-8px) scale(.97);
         transition: all .25s var(--ease); overflow: hidden;
     }
-    .acct:hover .acct-drop { opacity: 1; visibility: visible; transform: none; }
+    .hdr-drop-wrap:hover .hdr-drop { opacity: 1; visibility: visible; transform: none; }
+
+    /* ── Account dropdown ── */
+    .acct-drop { min-width: 215px; }
     .acct-drop__hd {
         background: linear-gradient(135deg, var(--dark) 0%, var(--dark3) 100%);
         padding: 16px 14px; text-align: center;
@@ -472,6 +416,211 @@
     .acct-drop a:hover .bi { color: var(--red); }
     .acct-drop .logout { color: var(--red); }
     .acct-drop .logout .bi { color: var(--red); }
+
+    /* ── Wishlist Dropdown ── */
+    .wish-drop { min-width: 320px; max-width: 340px; }
+    .wish-drop__hd {
+        background: linear-gradient(135deg, var(--dark) 0%, var(--dark3) 100%);
+        padding: 13px 16px;
+        display: flex; align-items: center; gap: 8px;
+    }
+    .wish-drop__hd i { color: #f87171; font-size: 15px; }
+    .wish-drop__hd span { color: var(--white); font-size: 12px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; flex: 1; }
+    .wish-drop__hd .wish-count-pill {
+        background: var(--red); color: #fff;
+        font-size: 10px; font-weight: 900;
+        padding: 2px 8px; border-radius: 20px;
+    }
+    .wish-drop__body {
+        max-height: 320px; overflow-y: auto;
+        scrollbar-width: thin; scrollbar-color: var(--border) transparent;
+    }
+    .wish-drop__body::-webkit-scrollbar { width: 3px; }
+    .wish-drop__body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+    .wish-item {
+        display: flex; align-items: center; gap: 11px;
+        padding: 10px 14px; border-bottom: 1px solid var(--border);
+        transition: background .15s;
+    }
+    .wish-item:last-child { border-bottom: none; }
+    .wish-item:hover { background: var(--light); }
+    .wish-item__img {
+        width: 46px; height: 46px; border-radius: var(--r);
+        overflow: hidden; flex-shrink: 0;
+        border: 1px solid var(--border);
+    }
+    .wish-item__img img { width: 100%; height: 100%; object-fit: cover; }
+    .wish-item__info { flex: 1; min-width: 0; }
+    .wish-item__name {
+        font-size: 12.5px; font-weight: 700; color: var(--text);
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        display: block; text-decoration: none; margin-bottom: 2px;
+        transition: color .15s;
+    }
+    .wish-item:hover .wish-item__name { color: var(--red); }
+    .wish-item__price { font-size: 13px; font-weight: 800; color: var(--red); }
+    .wish-item__old  { font-size: 10.5px; color: var(--muted); text-decoration: line-through; margin-left: 4px; }
+    .wish-item__add {
+        width: 30px; height: 30px; flex-shrink: 0;
+        background: var(--red-glow); border: 1.5px solid rgba(200,16,46,.25);
+        border-radius: var(--r); color: var(--red);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 14px; cursor: pointer; transition: var(--t);
+        text-decoration: none;
+    }
+    .wish-item__add:hover { background: var(--red); color: var(--white); }
+    .wish-drop__empty {
+        padding: 30px 16px; text-align: center;
+        color: var(--muted); font-size: 13px;
+    }
+    .wish-drop__empty i { font-size: 30px; display: block; margin-bottom: 8px; opacity: .4; }
+    .wish-drop__foot {
+        display: flex; align-items: center; justify-content: center; gap: 6px;
+        padding: 11px; background: var(--light);
+        border-top: 1px solid var(--border);
+        font-size: 12px; font-weight: 800;
+        color: var(--red); text-decoration: none;
+        transition: background .2s;
+        letter-spacing: .04em; text-transform: uppercase;
+    }
+    .wish-drop__foot:hover { background: var(--red-glow); }
+
+    /* ── Cart Dropdown ── */
+    .cart-drop { min-width: 330px; max-width: 360px; }
+    .cart-drop__hd {
+        background: linear-gradient(135deg, var(--dark) 0%, var(--dark3) 100%);
+        padding: 13px 16px;
+        display: flex; align-items: center; gap: 8px;
+    }
+    .cart-drop__hd i { color: var(--gold); font-size: 15px; }
+    .cart-drop__hd span { color: var(--white); font-size: 12px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; flex: 1; }
+    .cart-drop__hd .cart-count-pill {
+        background: var(--red); color: #fff;
+        font-size: 10px; font-weight: 900;
+        padding: 2px 8px; border-radius: 20px;
+    }
+    .cart-drop__body {
+        max-height: 300px; overflow-y: auto;
+        scrollbar-width: thin; scrollbar-color: var(--border) transparent;
+    }
+    .cart-drop__body::-webkit-scrollbar { width: 3px; }
+    .cart-drop__body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+    .cart-mini-item {
+        display: flex; align-items: center; gap: 11px;
+        padding: 10px 14px; border-bottom: 1px solid var(--border);
+        transition: background .15s;
+    }
+    .cart-mini-item:last-child { border-bottom: none; }
+    .cart-mini-item:hover { background: var(--light); }
+    .cart-mini-img {
+        width: 46px; height: 46px; border-radius: var(--r);
+        overflow: hidden; flex-shrink: 0;
+        border: 1px solid var(--border);
+        position: relative;
+    }
+    .cart-mini-img img { width: 100%; height: 100%; object-fit: cover; }
+    .cart-mini-qty {
+        position: absolute; bottom: -4px; right: -4px;
+        background: var(--red); color: #fff;
+        font-size: 8px; font-weight: 900;
+        min-width: 16px; height: 16px; border-radius: 8px;
+        display: flex; align-items: center; justify-content: center;
+        border: 1.5px solid var(--white);
+    }
+    .cart-mini-info { flex: 1; min-width: 0; }
+    .cart-mini-name {
+        font-size: 12.5px; font-weight: 700; color: var(--text);
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        display: block; text-decoration: none; margin-bottom: 2px;
+        transition: color .15s;
+    }
+    .cart-mini-item:hover .cart-mini-name { color: var(--red); }
+    .cart-mini-variants { font-size: 10.5px; color: var(--muted); font-weight: 500; }
+    .cart-mini-price { font-size: 13px; font-weight: 800; color: var(--red); white-space: nowrap; }
+    .cart-mini-remove {
+        width: 24px; height: 24px; flex-shrink: 0;
+        background: #fff5f5; border: 1px solid #fecdd3;
+        border-radius: 5px; color: #f43f5e;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 12px; cursor: pointer; transition: var(--t);
+        text-decoration: none;
+    }
+    .cart-mini-remove:hover { background: var(--red); border-color: var(--red); color: var(--white); }
+    .cart-drop__empty {
+        padding: 30px 16px; text-align: center;
+        color: var(--muted); font-size: 13px;
+    }
+    .cart-drop__empty i { font-size: 30px; display: block; margin-bottom: 8px; opacity: .4; }
+    .cart-drop__summary {
+        padding: 12px 14px; background: var(--lighter);
+        border-top: 1px solid var(--border);
+    }
+    .cart-drop__total {
+        display: flex; justify-content: space-between; align-items: center;
+        margin-bottom: 10px;
+    }
+    .cart-drop__total-lbl { font-size: 12px; font-weight: 700; color: var(--mid); text-transform: uppercase; letter-spacing: .06em; }
+    .cart-drop__total-val { font-size: 17px; font-weight: 900; color: var(--dark); }
+    .cart-drop__btns { display: flex; gap: 8px; }
+    .cart-drop__btn {
+        flex: 1; padding: 9px 10px; border-radius: var(--rm);
+        font-family: 'Nunito', sans-serif; font-size: 12.5px; font-weight: 800;
+        text-align: center; text-decoration: none; transition: var(--t);
+        display: flex; align-items: center; justify-content: center; gap: 5px;
+        cursor: pointer; border: none; letter-spacing: .02em;
+    }
+    .cart-drop__btn--view {
+        background: var(--light); color: var(--text);
+        border: 1.5px solid var(--border);
+    }
+    .cart-drop__btn--view:hover { border-color: var(--red); color: var(--red); background: var(--red-glow); }
+    .cart-drop__btn--checkout {
+        background: var(--red); color: var(--white);
+    }
+    .cart-drop__btn--checkout:hover { background: var(--red-d); box-shadow: var(--sh-red); }
+
+    /* ═══════════════════════════════════════════════════════════
+       NAV BAR
+    ═══════════════════════════════════════════════════════════ */
+    .site-nav {
+        background: var(--white);
+        border-bottom: 2px solid var(--border);
+        box-shadow: 0 2px 8px rgba(0,0,0,.04);
+    }
+    .site-nav__in {
+        max-width: var(--wrap); margin: 0 auto;
+        padding: 0 20px;
+        display: flex; align-items: center;
+        height: 46px;
+        overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+    }
+    .site-nav__in::-webkit-scrollbar { display: none; }
+    .nav-item {
+        display: flex; align-items: center; gap: 7px;
+        padding: 0 16px; height: 100%;
+        font-size: 13px; font-weight: 700; color: var(--mid);
+        white-space: nowrap; cursor: pointer; text-decoration: none;
+        border-bottom: 2px solid transparent; margin-bottom: -2px;
+        transition: color .2s, border-color .2s; position: relative;
+    }
+    .nav-item .bi, .nav-item i { font-size: 15px; flex-shrink: 0; }
+    .nav-item:hover { color: var(--dark); border-color: var(--red); }
+    .nav-item.active { color: var(--red); border-color: var(--red); }
+    .nav-item--track {
+        color: var(--red) !important; font-weight: 800;
+        margin-left: auto;
+        background: var(--red-glow);
+        border-radius: var(--rm) var(--rm) 0 0;
+        padding: 0 18px;
+        border-bottom: 2px solid var(--red) !important;
+    }
+    .nav-item--track:hover { background: rgba(200,16,46,.18); }
+    .nav-item--track .bi { animation: truck-ride 2.4s ease-in-out infinite; }
+    @keyframes truck-ride {
+        0%,100% { transform: translateX(0); }
+        50%      { transform: translateX(4px); }
+    }
+    .nav-divider { width: 1px; height: 22px; background: var(--border); flex-shrink: 0; margin: 0 4px; }
 
     /* ── Sidebar overlay ── */
     .sidebar-overlay {
@@ -601,6 +750,9 @@
     }
     .mob-nav__badge.zero { display: none; }
 
+    /* ── Toast ── */
+    #toast-container > div { border-radius: var(--rm) !important; font-family: 'Nunito', sans-serif !important; }
+
     /* ═══════════════════════════════════════════════════════════
        RESPONSIVE
     ═══════════════════════════════════════════════════════════ */
@@ -624,6 +776,7 @@
         .mob-nav { display: block; }
         .track-order-btn { display: none; }
         .site-nav { display: none; }
+        .wish-drop, .cart-drop { display: none !important; }
     }
     @media (max-width: 768px) {
         .site-hdr__in { height: auto; flex-wrap: wrap; padding: 8px 12px 10px; gap: 0; row-gap: 0; }
@@ -642,7 +795,7 @@
         .h-badge { top: 1px; right: 0; min-width: 15px; height: 15px; font-size: 7.5px; border-width: 1.5px; }
         .top-bar__in { padding: 5px 12px; }
         .top-bar__promo { font-size: 10.5px; }
-        .top-bar__track { display: none; }
+        .top-bar__track { display: none !important; }
         .search-dropdown { border-radius: 0 0 var(--rm) var(--rm); }
         .sd-view-all { border-radius: 0 0 calc(var(--rm) - 2px) calc(var(--rm) - 2px); }
     }
@@ -652,9 +805,6 @@
         .h-act { padding: 5px 5px; }
         .h-act .bi { font-size: 18px; }
     }
-
-    /* ── Toast ── */
-    #toast-container > div { border-radius: var(--rm) !important; font-family: 'Nunito', sans-serif !important; }
     </style>
 
     {{-- ══ Toastr Flash ══ --}}
@@ -672,12 +822,21 @@
 
     {{-- ══ Pre-compute header badge counts ══ --}}
     @php
-        $headerCartCount = collect(session('cart', []))->sum('quantity');
-        if (Auth::check()) {
-            $headerWishCount = \App\Models\Wishlist::where('user_id', Auth::id())->count();
-        } else {
-            $headerWishCount = \App\Models\Wishlist::where('session_id', session()->getId())->count();
+        $headerCartCount    = collect(session('cart', []))->sum('quantity');
+        $headerCartItems    = session('cart', []);
+        $headerCartSubtotal = 0;
+        foreach ($headerCartItems as $item) {
+            $unitP = (!empty($item['discount_price']) && $item['discount_price'] > 0) ? $item['discount_price'] : $item['price'];
+            $headerCartSubtotal += $unitP * $item['quantity'];
         }
+        if (Auth::check()) {
+            $headerWishItems = \App\Models\Wishlist::with('product')->where('user_id', Auth::id())->latest()->take(6)->get();
+            $headerWishTotal = \App\Models\Wishlist::where('user_id', Auth::id())->count();
+        } else {
+            $headerWishItems = \App\Models\Wishlist::with('product')->where('session_id', session()->getId())->latest()->take(6)->get();
+            $headerWishTotal = \App\Models\Wishlist::where('session_id', session()->getId())->count();
+        }
+        $headerWishCount = $headerWishItems->count();
     @endphp
 </head>
 <body>
@@ -694,7 +853,6 @@
             <a href="{{ route('order.track') }}" class="top-bar__track">
                 <i class="bi bi-truck"></i> অর্ডার ট্র্যাক
             </a>
-            {{-- ✅ সব পণ্য লিংক top bar এ --}}
             <a href="{{ route('products.all') }}"><i class="bi bi-grid-3x3-gap"></i> সব পণ্য</a>
             <a href="#"><i class="bi bi-shop"></i> Sell on Shahzadi</a>
             <a href="#"><i class="bi bi-geo-alt"></i> Our Stores</a>
@@ -720,7 +878,7 @@
             <div class="logo__dot"></div>
         </a>
 
-        {{-- ══ AJAX SEARCH ══ --}}
+        {{-- AJAX SEARCH --}}
         <div class="hdr-search-wrap" id="searchWrap">
             <div class="hdr-search" id="hdrSearch">
                 <input type="search"
@@ -735,8 +893,6 @@
                     <i class="bi bi-search"></i> Search
                 </button>
             </div>
-
-            {{-- Dropdown --}}
             <div class="search-dropdown" id="searchDropdown">
                 <div class="search-loading" id="searchLoading">
                     <div class="search-spinner"></div>
@@ -746,22 +902,22 @@
             </div>
         </div>
 
-        {{-- Track Order Button (desktop) --}}
+        {{-- Track Order Button --}}
         <a href="{{ route('order.track') }}" class="track-order-btn" aria-label="Track Order">
             <i class="bi bi-truck"></i>
             <span class="track-lbl">অর্ডার ট্র্যাক</span>
         </a>
 
-        {{-- ── Actions ── --}}
+        {{-- Actions --}}
         <div class="hdr-actions">
 
-            {{-- Account --}}
-            <div class="acct">
+            {{-- ACCOUNT --}}
+            <div class="hdr-drop-wrap">
                 <div class="h-act" tabindex="0" role="button">
                     <i class="bi bi-person-circle"></i>
                     <span class="h-act__lbl">Account</span>
                 </div>
-                <div class="acct-drop">
+                <div class="hdr-drop acct-drop">
                     <div class="acct-drop__hd">
                         @auth
                             <p style="color:#ccc;font-weight:700">{{ Auth::user()->name }}</p>
@@ -773,11 +929,10 @@
                     <a href="{{ url('customer/account') }}"><i class="bi bi-person"></i> My Account</a>
                     <a href="{{ route('wishlist') }}">
                         <i class="bi bi-heart"></i> My Wishlist
-                        @if($headerWishCount > 0)
-                            <span style="margin-left:auto;background:var(--red);color:#fff;font-size:10px;font-weight:800;padding:1px 7px;border-radius:10px;">{{ $headerWishCount }}</span>
+                        @if($headerWishTotal > 0)
+                            <span style="margin-left:auto;background:var(--red);color:#fff;font-size:10px;font-weight:800;padding:1px 7px;border-radius:10px;">{{ $headerWishTotal }}</span>
                         @endif
                     </a>
-                    {{-- ✅ সব পণ্য লিংক account dropdown এ --}}
                     <a href="{{ route('products.all') }}"><i class="bi bi-grid-3x3-gap"></i> সব পণ্য</a>
                     <a href="{{ url('cart') }}"><i class="bi bi-bag"></i> My Orders</a>
                     <a href="{{ route('order.track') }}"><i class="bi bi-truck"></i> অর্ডার ট্র্যাক</a>
@@ -787,25 +942,155 @@
                 </div>
             </div>
 
-            {{-- Wishlist --}}
-            <a href="{{ route('wishlist') }}" class="h-act" title="Wishlist">
-                <i class="bi bi-heart"></i>
-                <span class="h-act__lbl">Wishlist</span>
-                <span class="h-badge {{ $headerWishCount == 0 ? 'zero' : '' }}" id="wishBadge">{{ $headerWishCount > 0 ? $headerWishCount : '' }}</span>
-            </a>
+            {{-- WISHLIST --}}
+            <div class="hdr-drop-wrap">
+                <a href="{{ route('wishlist') }}" class="h-act" title="Wishlist">
+                    <i class="bi bi-heart"></i>
+                    <span class="h-act__lbl">Wishlist</span>
+                    <span class="h-badge {{ $headerWishTotal == 0 ? 'zero' : '' }}" id="wishBadge">{{ $headerWishTotal > 0 ? $headerWishTotal : '' }}</span>
+                </a>
+                <div class="hdr-drop wish-drop">
+                    <div class="wish-drop__hd">
+                        <i class="bi bi-heart-fill"></i>
+                        <span>উইশলিস্ট</span>
+                        @if($headerWishTotal > 0)
+                            <span class="wish-count-pill">{{ $headerWishTotal }}</span>
+                        @endif
+                    </div>
+                    <div class="wish-drop__body">
+                        @if($headerWishItems->count() > 0)
+                            @foreach($headerWishItems as $wItem)
+                                @php
+                                    $wp = $wItem->product;
+                                    if (!$wp) continue;
+                                    $wHasDisc  = $wp->discount_price && $wp->discount_price > 0;
+                                    $wPrice    = $wHasDisc ? $wp->discount_price : ($wp->current_price ?? $wp->price ?? 0);
+                                    $wImgSrc   = $wp->feature_image ? asset('uploads/products/' . $wp->feature_image) : asset('images/placeholder.png');
+                                    $wName     = $wp->name ?? ($wp->product_name ?? 'Product');
+                                    $wInStock  = $wp->is_unlimited || (($wp->stock ?? 0) > 0);
+                                @endphp
+                                <div class="wish-item">
+                                    <div class="wish-item__img">
+                                        <img src="{{ $wImgSrc }}" alt="{{ $wName }}" onerror="this.src='{{ asset('images/placeholder.png') }}'">
+                                    </div>
+                                    <div class="wish-item__info">
+                                        <a href="{{ route('product.detail', $wp->slug) }}" class="wish-item__name">{{ $wName }}</a>
+                                        <div>
+                                            <span class="wish-item__price">৳ {{ number_format($wPrice, 0) }}</span>
+                                            @if($wHasDisc)
+                                                <span class="wish-item__old">৳ {{ number_format($wp->price, 0) }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    @if($wInStock)
+                                        <a href="{{ route('wishlist.moveToCart', $wItem->id) }}" class="wish-item__add" title="কার্টে যোগ করুন">
+                                            <i class="bi bi-cart-plus"></i>
+                                        </a>
+                                    @else
+                                        <span class="wish-item__add" style="opacity:.4;cursor:not-allowed;">
+                                            <i class="bi bi-x-circle"></i>
+                                        </span>
+                                    @endif
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="wish-drop__empty">
+                                <i class="bi bi-heart"></i>
+                                উইশলিস্ট খালি আছে।
+                            </div>
+                        @endif
+                    </div>
+                    <a href="{{ route('wishlist') }}" class="wish-drop__foot">
+                        সম্পূর্ণ উইশলিস্ট দেখুন <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
 
-            {{-- Help --}}
+            {{-- HELP --}}
             <a href="#" class="h-act">
                 <i class="bi bi-headset"></i>
                 <span class="h-act__lbl">Help</span>
             </a>
 
-            {{-- Cart --}}
-            <a href="{{ url('cart') }}" class="h-act" title="Cart">
-                <i class="bi bi-cart3"></i>
-                <span class="h-act__lbl">Cart</span>
-                <span class="h-badge {{ $headerCartCount == 0 ? 'zero' : '' }}" id="cartBadge">{{ $headerCartCount > 0 ? $headerCartCount : '' }}</span>
-            </a>
+            {{-- CART --}}
+            <div class="hdr-drop-wrap">
+                <a href="{{ url('cart') }}" class="h-act" title="Cart">
+                    <i class="bi bi-cart3"></i>
+                    <span class="h-act__lbl">Cart</span>
+                    <span class="h-badge {{ $headerCartCount == 0 ? 'zero' : '' }}" id="cartBadge">{{ $headerCartCount > 0 ? $headerCartCount : '' }}</span>
+                </a>
+                <div class="hdr-drop cart-drop">
+                    <div class="cart-drop__hd">
+                        <i class="bi bi-cart3"></i>
+                        <span>আমার কার্ট</span>
+                        @if($headerCartCount > 0)
+                            <span class="cart-count-pill">{{ $headerCartCount }}</span>
+                        @endif
+                    </div>
+                    <div class="cart-drop__body">
+                        @if(!empty($headerCartItems))
+                            @foreach($headerCartItems as $cKey => $cItem)
+                                @php
+                                    $cHasDisc   = isset($cItem['discount_price']) && $cItem['discount_price'] > 0;
+                                    $cUnitPrice = $cHasDisc ? $cItem['discount_price'] : $cItem['price'];
+                                    $cLineTotal = $cUnitPrice * $cItem['quantity'];
+                                    $cImgSrc    = !empty($cItem['image']) ? asset('uploads/products/' . $cItem['image']) : asset('images/placeholder.png');
+                                    $cVariants  = [];
+                                    if (!empty($cItem['selected_color'])) $cVariants[] = $cItem['selected_color'];
+                                    if (!empty($cItem['selected_size']))  $cVariants[] = $cItem['selected_size'];
+                                @endphp
+                                <div class="cart-mini-item">
+                                    <div class="cart-mini-img">
+                                        <img src="{{ $cImgSrc }}" alt="{{ $cItem['name'] }}" onerror="this.src='{{ asset('images/placeholder.png') }}'">
+                                        <span class="cart-mini-qty">{{ $cItem['quantity'] }}</span>
+                                    </div>
+                                    <div class="cart-mini-info">
+                                        <a href="{{ route('product.detail', $cItem['slug'] ?? $cKey) }}" class="cart-mini-name">{{ $cItem['name'] }}</a>
+                                        @if(!empty($cVariants))
+                                            <div class="cart-mini-variants">{{ implode(' · ', $cVariants) }}</div>
+                                        @endif
+                                        <div class="cart-mini-price">৳ {{ number_format($cLineTotal, 0) }}</div>
+                                    </div>
+                                    <a href="{{ route('cart.remove', $cKey) }}"
+                                       class="cart-mini-remove" title="সরান"
+                                       onclick="event.preventDefault(); if(confirm('সরিয়ে দেবেন?')) window.location.href=this.href;">
+                                        <i class="bi bi-trash3"></i>
+                                    </a>
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="cart-drop__empty">
+                                <i class="bi bi-cart-x"></i>
+                                কার্ট এখন খালি।
+                            </div>
+                        @endif
+                    </div>
+                    @if(!empty($headerCartItems))
+                    <div class="cart-drop__summary">
+                        <div class="cart-drop__total">
+                            <span class="cart-drop__total-lbl">সাবটোটাল</span>
+                            <span class="cart-drop__total-val">৳ {{ number_format($headerCartSubtotal, 0) }}</span>
+                        </div>
+                        <div class="cart-drop__btns">
+                            <a href="{{ url('cart') }}" class="cart-drop__btn cart-drop__btn--view">
+                                <i class="bi bi-bag"></i> কার্ট দেখুন
+                            </a>
+                            <a href="{{ route('checkout') }}" class="cart-drop__btn cart-drop__btn--checkout">
+                                <i class="bi bi-check-circle"></i> চেকআউট
+                            </a>
+                        </div>
+                    </div>
+                    @else
+                    <div style="padding:10px 14px;border-top:1px solid var(--border);">
+                        <a href="{{ route('products.all') }}"
+                           style="display:flex;align-items:center;justify-content:center;gap:6px;padding:10px;background:var(--red);color:#fff;border-radius:var(--rm);font-size:13px;font-weight:800;text-decoration:none;"
+                           onmouseover="this.style.background='var(--red-d)'" onmouseout="this.style.background='var(--red)'">
+                            <i class="bi bi-shop"></i> শপিং শুরু করুন
+                        </a>
+                    </div>
+                    @endif
+                </div>
+            </div>
 
         </div>
     </div>
@@ -818,7 +1103,6 @@
             <i class="bi bi-house"></i> হোম
         </a>
         <span class="nav-divider"></span>
-        {{-- ✅ সব পণ্য লিংক nav bar এ --}}
         <a href="{{ route('products.all') }}" class="nav-item {{ request()->routeIs('products.all') ? 'active' : '' }}">
             <i class="bi bi-grid-3x3-gap"></i> সব পণ্য
         </a>
@@ -835,7 +1119,7 @@
             <i class="bi bi-stars"></i> নতুন পণ্য
         </a>
         <span class="nav-divider"></span>
-        <a href="{{ url('contact') }}" class="nav-item {{ request()->is('contact*') ? 'active' : '' }}">
+        <a href="{{ route('contact.details') }}" class="nav-item {{ request()->is('contact*') ? 'active' : '' }}">
             <i class="bi bi-telephone"></i> যোগাযোগ
         </a>
         <a href="{{ route('order.track') }}" class="nav-item nav-item--track {{ request()->routeIs('order.track*') ? 'active' : '' }}">
@@ -853,7 +1137,6 @@
         <a href="{{ url('/') }}" class="mob-nav__item {{ request()->is('/') ? 'active' : '' }}">
             <i class="bi bi-house"></i> Home
         </a>
-        {{-- ✅ সব পণ্য লিংক mobile bottom nav এ --}}
         <a href="{{ route('products.all') }}" class="mob-nav__item {{ request()->routeIs('products.all') ? 'active' : '' }}">
             <i class="bi bi-grid-3x3-gap"></i> সব পণ্য
         </a>
@@ -869,6 +1152,11 @@
         </a>
     </div>
 </nav>
+
+{{-- Bootstrap 5 JS Bundle (Popper included) --}}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+{{-- Toastr JS --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 <script>
 /* ════════════════════════════════════════════════════════════
@@ -889,209 +1177,100 @@
     let activeIdx     = -1;
     let currentItems  = [];
 
-    /* ── Highlight matching text ── */
     function highlight(text, q) {
         if (!q) return text;
         const regex = new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
         return text.replace(regex, '<mark class="search-highlight">$1</mark>');
     }
+    function openDropdown()  { dropdown.classList.add('active'); searchBox.classList.add('has-results', 'focused'); }
+    function closeDropdown() { dropdown.classList.remove('active'); searchBox.classList.remove('has-results'); activeIdx = -1; currentItems = []; }
+    function showLoading()   { loading.classList.add('active'); results.innerHTML = ''; openDropdown(); }
+    function hideLoading()   { loading.classList.remove('active'); }
 
-    /* ── Open dropdown ── */
-    function openDropdown() {
-        dropdown.classList.add('active');
-        searchBox.classList.add('has-results', 'focused');
-    }
-
-    /* ── Close dropdown ── */
-    function closeDropdown() {
-        dropdown.classList.remove('active');
-        searchBox.classList.remove('has-results');
-        activeIdx    = -1;
-        currentItems = [];
-    }
-
-    /* ── Show loading ── */
-    function showLoading() {
-        loading.classList.add('active');
-        results.innerHTML = '';
-        openDropdown();
-    }
-
-    /* ── Hide loading ── */
-    function hideLoading() {
-        loading.classList.remove('active');
-    }
-
-    /* ── Render results ── */
     function renderResults(data, q) {
-        hideLoading();
-        results.innerHTML = '';
-        currentItems = [];
-        activeIdx = -1;
-
-        const hasProducts   = data.products && data.products.length > 0;
+        hideLoading(); results.innerHTML = ''; currentItems = []; activeIdx = -1;
+        const hasProducts   = data.products   && data.products.length   > 0;
         const hasCategories = data.categories && data.categories.length > 0;
-
         if (!hasProducts && !hasCategories) {
-            results.innerHTML = `
-                <div class="sd-empty">
-                    <i class="bi bi-search"></i>
-                    "<strong>${q}</strong>" এর জন্য কোনো পণ্য পাওয়া যায়নি।
-                </div>`;
+            results.innerHTML = `<div class="sd-empty"><i class="bi bi-search"></i>"<strong>${q}</strong>" এর জন্য কোনো পণ্য পাওয়া যায়নি।</div>`;
             return;
         }
-
-        /* Categories */
         if (hasCategories) {
             results.innerHTML += `<div class="sd-section-hd"><i class="bi bi-grid-3x3-gap"></i> ক্যাটাগরি</div>`;
             data.categories.forEach(cat => {
                 const el = document.createElement('a');
-                el.className   = 'sd-cat-item sd-item';
-                el.href        = cat.url;
-                el.innerHTML   = `
-                    <div class="sd-cat-img"><img src="${cat.image}" alt="${cat.name}" loading="lazy" onerror="this.src='{{ asset('default/no-image.png') }}'"></div>
-                    <span class="sd-cat-name">${highlight(cat.name, q)}</span>
-                    <i class="bi bi-chevron-right" style="color:var(--muted);font-size:11px;margin-left:auto"></i>`;
-                results.appendChild(el);
-                currentItems.push(el);
+                el.className = 'sd-cat-item sd-item'; el.href = cat.url;
+                el.innerHTML = `<div class="sd-cat-img"><img src="${cat.image}" alt="${cat.name}" loading="lazy" onerror="this.src='{{ asset('default/no-image.png') }}'"></div><span class="sd-cat-name">${highlight(cat.name, q)}</span><i class="bi bi-chevron-right" style="color:var(--muted);font-size:11px;margin-left:auto"></i>`;
+                results.appendChild(el); currentItems.push(el);
             });
         }
-
-        /* Products */
         if (hasProducts) {
             results.innerHTML += `<div class="sd-section-hd"><i class="bi bi-bag"></i> পণ্য</div>`;
             data.products.forEach(p => {
-                const badge = p.in_stock
-                    ? `<span class="sd-prod-badge">In Stock</span>`
-                    : `<span class="sd-prod-badge out">স্টক নেই</span>`;
+                const badge = p.in_stock ? `<span class="sd-prod-badge">In Stock</span>` : `<span class="sd-prod-badge out">স্টক নেই</span>`;
                 const el = document.createElement('a');
-                el.className = 'sd-prod-item sd-item';
-                el.href      = p.url;
-                el.innerHTML = `
-                    <div class="sd-prod-img"><img src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.src='{{ asset('default/no-image.png') }}'"></div>
-                    <div class="sd-prod-info">
-                        <div class="sd-prod-name">${highlight(p.name, q)}</div>
-                        <div class="sd-prod-cat">${p.category}</div>
-                        ${badge}
-                    </div>
-                    <div class="sd-prod-price-wrap">
-                        <div class="sd-prod-price">৳ ${p.price}</div>
-                        ${p.old_price ? `<div class="sd-prod-old">৳ ${p.old_price}</div>` : ''}
-                    </div>`;
-                results.appendChild(el);
-                currentItems.push(el);
+                el.className = 'sd-prod-item sd-item'; el.href = p.url;
+                el.innerHTML = `<div class="sd-prod-img"><img src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.src='{{ asset('default/no-image.png') }}'"></div><div class="sd-prod-info"><div class="sd-prod-name">${highlight(p.name, q)}</div><div class="sd-prod-cat">${p.category}</div>${badge}</div><div class="sd-prod-price-wrap"><div class="sd-prod-price">৳ ${p.price}</div>${p.old_price ? `<div class="sd-prod-old">৳ ${p.old_price}</div>` : ''}</div>`;
+                results.appendChild(el); currentItems.push(el);
             });
         }
-
-        /* View all link */
         const viewAll = document.createElement('a');
         viewAll.className = 'sd-view-all';
-        viewAll.href      = `${searchUrl}?q=${encodeURIComponent(q)}`;
+        viewAll.href = `${searchUrl}?q=${encodeURIComponent(q)}`;
         viewAll.innerHTML = `সব ফলাফল দেখুন "${q}" <i class="bi bi-arrow-right"></i>`;
         results.appendChild(viewAll);
     }
 
-    /* ── Keyboard nav highlight ── */
     function setActive(idx) {
-        currentItems.forEach((el, i) => {
-            el.style.background = i === idx ? 'var(--light)' : '';
-        });
+        currentItems.forEach((el, i) => { el.style.background = i === idx ? 'var(--light)' : ''; });
         activeIdx = idx;
     }
-
-    /* ── Main search fn ── */
     function doAjaxSearch(q) {
         if (q === lastQuery) return;
         lastQuery = q;
-
-        if (q.length < 2) {
-            closeDropdown();
-            return;
-        }
-
+        if (q.length < 2) { closeDropdown(); return; }
         showLoading();
-
-        fetch(`${ajaxUrl}?q=${encodeURIComponent(q)}`, {
-            headers: { 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json' }
-        })
-        .then(r => r.json())
-        .then(data => renderResults(data, q))
-        .catch(() => {
-            hideLoading();
-            results.innerHTML = `<div class="sd-empty"><i class="bi bi-wifi-off"></i> নেটওয়ার্ক সমস্যা হয়েছে।</div>`;
-        });
+        fetch(`${ajaxUrl}?q=${encodeURIComponent(q)}`, { headers: { 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json' } })
+            .then(r => r.json())
+            .then(data => renderResults(data, q))
+            .catch(() => { hideLoading(); results.innerHTML = `<div class="sd-empty"><i class="bi bi-wifi-off"></i> নেটওয়ার্ক সমস্যা হয়েছে।</div>`; });
     }
 
-    /* ── Input event ── */
     input.addEventListener('input', function () {
         const q = this.value.trim();
         clearBtn.classList.toggle('visible', q.length > 0);
-
         clearTimeout(debounceTimer);
         if (q.length < 2) { closeDropdown(); return; }
         debounceTimer = setTimeout(() => doAjaxSearch(q), 300);
     });
-
-    /* ── Keyboard navigation ── */
     input.addEventListener('keydown', function (e) {
         if (!dropdown.classList.contains('active')) return;
-
-        if (e.key === 'ArrowDown') {
-            e.preventDefault();
-            setActive(Math.min(activeIdx + 1, currentItems.length - 1));
-        } else if (e.key === 'ArrowUp') {
-            e.preventDefault();
-            setActive(Math.max(activeIdx - 1, 0));
-        } else if (e.key === 'Enter') {
-            if (activeIdx >= 0 && currentItems[activeIdx]) {
-                e.preventDefault();
-                currentItems[activeIdx].click();
-            } else {
-                doSearch();
-            }
-        } else if (e.key === 'Escape') {
-            closeDropdown();
-            input.blur();
-        }
+        if (e.key === 'ArrowDown')  { e.preventDefault(); setActive(Math.min(activeIdx + 1, currentItems.length - 1)); }
+        else if (e.key === 'ArrowUp')   { e.preventDefault(); setActive(Math.max(activeIdx - 1, 0)); }
+        else if (e.key === 'Enter')  { if (activeIdx >= 0 && currentItems[activeIdx]) { e.preventDefault(); currentItems[activeIdx].click(); } else { doSearch(); } }
+        else if (e.key === 'Escape') { closeDropdown(); input.blur(); }
     });
-
-    /* ── Focus ── */
     input.addEventListener('focus', function () {
         searchBox.classList.add('focused');
         const q = this.value.trim();
         if (q.length >= 2 && results.innerHTML.trim()) openDropdown();
     });
-
-    /* ── Clear button ── */
     clearBtn.addEventListener('click', function () {
-        input.value = '';
-        clearBtn.classList.remove('visible');
-        closeDropdown();
-        lastQuery = '';
-        input.focus();
+        input.value = ''; clearBtn.classList.remove('visible'); closeDropdown(); lastQuery = ''; input.focus();
     });
-
-    /* ── Click outside closes ── */
     document.addEventListener('click', function (e) {
         if (!document.getElementById('searchWrap').contains(e.target)) {
-            closeDropdown();
-            searchBox.classList.remove('focused');
+            closeDropdown(); searchBox.classList.remove('focused');
         }
     });
 })();
 
-/* ════════════════════════════════════════════════════════════
-   FULL SEARCH PAGE REDIRECT
-════════════════════════════════════════════════════════════ */
 function doSearch() {
     const q = document.getElementById('globalSearch')?.value.trim();
     if (q) window.location.href = '{{ route("search.results") }}?q=' + encodeURIComponent(q);
 }
-
 document.getElementById('globalSearch')?.addEventListener('keypress', function(e) {
-    if (e.key === 'Enter' && document.getElementById('searchDropdown').querySelector('.sd-item:focus') === null) {
-        doSearch();
-    }
+    if (e.key === 'Enter') doSearch();
 });
 
 /* ── Sidebar ── */
@@ -1104,10 +1283,7 @@ function toggleSidebar() {
     document.body.style.overflow = open ? 'hidden' : '';
 }
 document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') {
-        const sb = document.getElementById('sidebar');
-        if (sb?.classList.contains('is-open')) toggleSidebar();
-    }
+    if (e.key === 'Escape') { const sb = document.getElementById('sidebar'); if (sb?.classList.contains('is-open')) toggleSidebar(); }
 });
 
 /* ── Badge Sync ── */
