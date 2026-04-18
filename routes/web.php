@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminsellerregisterapprovedController;
 use App\Http\Controllers\Admin\AffiliateproductController;
 use App\Http\Controllers\Admin\AllorderController;
+use App\Http\Controllers\Admin\CampaigncreateController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ChildSubCategoryController;
 use App\Http\Controllers\Admin\ContactController;
@@ -44,6 +45,8 @@ use App\Http\Controllers\Admin\PathaocourierController;
 use App\Http\Controllers\Admin\PaymentgetewaymanageController;
 use App\Http\Controllers\Admin\SmsgatewaysetupController;
 use App\Http\Controllers\Admin\SteadfastcourierController;
+use App\Http\Controllers\Admin\SteadfastOrderController;
+use App\Http\Controllers\Frontend\Landingordercontroller;
 
 Auth::routes();
 
@@ -53,6 +56,9 @@ Auth::routes();
 Route::get('/',           [FrontendController::class, 'frontend'])->name('frontend');
 Route::get('/product/{slug}', [FrontendController::class, 'productdetails'])->name('product.detail');
 Route::get('/contactdetails', [FrontendController::class, 'contactDetails'])->name('contact.details');
+Route::get('campaign/manage/{id}', [FrontendController::class, 'campaignManage'])->name('campaign.manage');
+// ── Landing Page Order Store (JSON) ───────────────────────────
+Route::post('landing/order/store', [Landingordercontroller::class, 'store'])->name('order.store');
 // User Dashboard — real DB data সহ
 Route::get('/dashboard', [FrontendController::class, 'user_dashboard'])->name('user.dashboard');
 // Order Cancel — শুধু নিজের অর্ডার cancel করতে পারবে
@@ -74,6 +80,10 @@ Route::get('/all-products', [FrontendController::class, 'allProducts'])->name('p
 Route::get('/shop',         [FrontendController::class, 'shop'])->name('shop');
 Route::get('/offers',       [FrontendController::class, 'offers'])->name('offers');
 Route::get('/new-arrivals', [FrontendController::class, 'newArrivals'])->name('new-arrivals');
+
+
+
+
 
 // ══════════════════════════════════════════════════════════════════════════════
 // CART ROUTES  (session-based, no login required)
@@ -108,6 +118,7 @@ Route::prefix('checkout')->group(function () {
     Route::post('/place',                [CheckoutController::class, 'place'])->name('checkout.place');
     Route::get('/success/{orderNumber}', [CheckoutController::class, 'success'])->name('order.success');
 });
+
 
 // ══════════════════════════════════════════════════════════════════════════════
 // GENERAL AUTH
@@ -283,8 +294,15 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
     Route::resource('steadfastcourier', SteadfastcourierController::class);
     Route::resource('pathaocourier',PathaocourierController::class);
     Route::resource('Smsgatewaysetup', SmsgatewaysetupController::class);
+    // ── Steadfast Order Routes ─────────────────────────────────────────
+ // ✅ bulk আগে, তারপর {order}
+    Route::post('orders/bulk-send-steadfast',[SteadfastOrderController::class, 'bulkSend'])->name('steadfast.bulk-send');  // → admin.steadfast.bulk-send
+    Route::post('orders/{order}/send-steadfast',[SteadfastOrderController::class, 'send'])->name('steadfast.send');
+    Route::resource('campaigncreate', CampaigncreateController::class);
 }); // end admin group
-
+Route::post('webhook/steadfast',
+    [SteadfastOrderController::class, 'webhook'])
+    ->name('steadfast.webhook');
 // ══════════════════════════════════════════════════════════════════════════════
 // SELLER
 // ══════════════════════════════════════════════════════════════════════════════

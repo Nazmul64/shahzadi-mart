@@ -1,4 +1,3 @@
-{{-- resources/views/admin/orders/index.blade.php --}}
 @extends('admin.master')
 
 @section('main-content')
@@ -13,7 +12,6 @@
     font-family: 'Segoe UI', sans-serif;
 }
 
-/* ─── Top Header Bar ─────────────────────────────────────────────── */
 .ao-topbar {
     background: #fff;
     border-bottom: 1px solid #e8eaf0;
@@ -26,22 +24,13 @@
 
 .btn-add-new {
     background: linear-gradient(135deg, #f7617a, #e84b65);
-    color: #fff;
-    border: none;
-    border-radius: 22px;
-    padding: 9px 20px;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    text-decoration: none;
-    transition: opacity .2s;
+    color: #fff; border: none; border-radius: 22px;
+    padding: 9px 20px; font-size: 13px; font-weight: 600;
+    cursor: pointer; display: inline-flex; align-items: center;
+    gap: 6px; text-decoration: none; transition: opacity .2s;
 }
 .btn-add-new:hover { opacity: .88; color: #fff; text-decoration: none; }
 
-/* ─── Status Tabs ────────────────────────────────────────────────── */
 .ao-tabs {
     display: flex; gap: 6px; flex-wrap: wrap;
     padding: 14px 24px; background: #fff; border-bottom: 1px solid #e8eaf0;
@@ -60,7 +49,6 @@
 }
 .ao-tab.active .ao-tab-badge { background: rgba(255,255,255,0.25); }
 
-/* ─── Action Button Bar ──────────────────────────────────────────── */
 .ao-actionbar {
     background: #fff;
     padding: 12px 24px;
@@ -78,11 +66,11 @@
 .ao-btn:hover { opacity: .88; transform: translateY(-1px); text-decoration: none; }
 .ao-btn:active { transform: translateY(0); }
 
-.btn-status  { background: #9b59b6; color: #fff; }
-.btn-delete  { background: #e74c3c; color: #fff; }
-.btn-print   { background: #3498db; color: #fff; }
-.btn-courier { background: #f39c12; color: #fff; }
-.btn-pathao  { background: #00b894; color: #fff; }
+.btn-status    { background: #9b59b6; color: #fff; }
+.btn-delete    { background: #e74c3c; color: #fff; }
+.btn-print     { background: #3498db; color: #fff; }
+.btn-steadfast { background: #f39c12; color: #fff; }
+.btn-pathao    { background: #00b894; color: #fff; }
 
 .ao-search-wrap { margin-left: auto; display: flex; gap: 8px; align-items: center; }
 .ao-search-input {
@@ -95,7 +83,6 @@
     padding: 8px 20px; font-size: 13px; font-weight: 600; cursor: pointer;
 }
 
-/* ─── Table ──────────────────────────────────────────────────────── */
 .ao-content { padding: 20px 24px; }
 .ao-table-card {
     background: #fff; border-radius: 10px;
@@ -110,54 +97,57 @@
 .ao-table tbody tr { border-bottom: 1px solid #f0f2f8; transition: background .15s; }
 .ao-table tbody tr:hover { background: #fafbff; }
 .ao-table tbody tr:last-child { border-bottom: none; }
-.ao-table td { padding: 14px 14px; font-size: 13px; color: #3a4259; vertical-align: middle; }
+.ao-table td { padding: 12px 14px; font-size: 13px; color: #3a4259; vertical-align: middle; }
 
 .ao-checkbox { width: 16px; height: 16px; accent-color: #19cac4; cursor: pointer; }
 
-/* ─── Action Icons ───────────────────────────────────────────────── */
-.ao-actions { display: flex; gap: 6px; align-items: center; }
+.ao-actions { display: flex; gap: 5px; align-items: center; flex-wrap: wrap; }
 .ao-icon-btn {
     width: 30px; height: 30px; border-radius: 6px;
     display: inline-flex; align-items: center; justify-content: center;
-    font-size: 14px; cursor: pointer; border: 1px solid #e8eaf0;
+    font-size: 13px; cursor: pointer; border: 1px solid #e8eaf0;
     background: #fff; color: #555; text-decoration: none; transition: all .2s;
 }
 .ao-icon-btn:hover { background: #f0f2f8; color: #333; }
-.ao-icon-btn.view { color: #3498db; border-color: #bee3f8; }
-.ao-icon-btn.edit { color: #8e44ad; border-color: #e9d8fd; }
-.ao-icon-btn.del  { color: #e74c3c; border-color: #fecaca; }
+.ao-icon-btn.view    { color: #3498db; border-color: #bee3f8; }
+.ao-icon-btn.edit    { color: #8e44ad; border-color: #e9d8fd; }
+.ao-icon-btn.del     { color: #e74c3c; border-color: #fecaca; }
+.ao-icon-btn.courier { color: #f39c12; border-color: #feebc8; }
+.ao-icon-btn.courier.sent { color: #fff; background: #f39c12; border-color: #f39c12; }
 
 .ao-invoice-link { font-weight: 700; color: #3a4259; text-decoration: none; font-size: 13px; }
 .ao-invoice-link:hover { color: #19cac4; }
 
-/* ─── Status Select ──────────────────────────────────────────────── */
+.sf-badge {
+    display: inline-block; padding: 2px 8px; border-radius: 20px;
+    font-size: 10px; font-weight: 600; white-space: nowrap;
+}
+.sf-badge.sent     { background: #fff8e6; color: #b7791f; border: 1px solid #f6e05e; }
+.sf-badge.not-sent { background: #f4f6fb; color: #aaa;    border: 1px solid #e5e7eb; }
+
 .ao-status-select {
     border-radius: 6px; padding: 4px 8px; font-size: 12px; font-weight: 500;
     border: 1px solid #e5e7eb; cursor: pointer; outline: none;
-    transition: all 0.2s; min-width: 130px;
+    transition: all 0.2s; min-width: 125px;
 }
 .ao-status-select:focus { border-color: #2d3748; }
 
-/* Order status colors */
 .order-sel[data-current="pending"]    { background: #fff8e6; color: #b7791f; border-color: #f6e05e; }
 .order-sel[data-current="processing"] { background: #ebf8ff; color: #2b6cb0; border-color: #90cdf4; }
 .order-sel[data-current="shipped"]    { background: #e8f5e9; color: #2e7d32; border-color: #a5d6a7; }
 .order-sel[data-current="delivered"]  { background: #f0fff4; color: #276749; border-color: #9ae6b4; }
 .order-sel[data-current="cancelled"]  { background: #fff5f5; color: #c53030; border-color: #feb2b2; }
 
-/* Payment status colors */
 .pay-sel[data-current="pending"]  { background: #fff8e6; color: #b7791f; border-color: #f6e05e; }
 .pay-sel[data-current="paid"]     { background: #f0fff4; color: #276749; border-color: #9ae6b4; }
 .pay-sel[data-current="failed"]   { background: #fff5f5; color: #c53030; border-color: #feb2b2; }
 .pay-sel[data-current="refunded"] { background: #faf5ff; color: #6b46c1; border-color: #d6bcfa; }
 
-/* ─── Date / Customer ────────────────────────────────────────────── */
 .ao-date { font-size: 13px; color: #3a4259; }
 .ao-time { font-size: 11px; color: #aaa; }
 .ao-cust-name { font-weight: 600; font-size: 13px; color: #2d3748; }
-.ao-cust-addr { font-size: 11px; color: #888; margin-top: 2px; line-height: 1.4; }
+.ao-cust-addr { font-size: 11px; color: #888; margin-top: 2px; }
 
-/* ─── Bulk Status Modal ──────────────────────────────────────────── */
 .bulk-modal-overlay {
     display: none; position: fixed; inset: 0;
     background: rgba(0,0,0,0.45); z-index: 9999;
@@ -184,7 +174,6 @@
     border-radius: 8px; padding: 8px 20px; font-size: 13px; cursor: pointer; font-weight: 600;
 }
 
-/* ─── Pagination / Empty ─────────────────────────────────────────── */
 .ao-pagination { padding: 16px 20px; border-top: 1px solid #f0f2f8; }
 .ao-empty { text-align: center; padding: 60px 20px; color: #aaa; }
 .ao-empty i { font-size: 48px; display: block; margin-bottom: 12px; }
@@ -206,37 +195,24 @@
            class="ao-tab {{ !request('status') ? 'active' : '' }}">
             All <span class="ao-tab-badge">{{ $statusCounts['all'] }}</span>
         </a>
-        <a href="{{ route('admin.order.allorder', ['status' => 'pending']) }}"
-           class="ao-tab {{ request('status') === 'pending' ? 'active' : '' }}">
-            Pending <span class="ao-tab-badge">{{ $statusCounts['pending'] }}</span>
+        @foreach(['pending','processing','shipped','delivered','cancelled'] as $tab)
+        <a href="{{ route('admin.order.allorder', ['status' => $tab]) }}"
+           class="ao-tab {{ request('status') === $tab ? 'active' : '' }}">
+            {{ ucfirst($tab) }}
+            <span class="ao-tab-badge">{{ $statusCounts[$tab] }}</span>
         </a>
-        <a href="{{ route('admin.order.allorder', ['status' => 'processing']) }}"
-           class="ao-tab {{ request('status') === 'processing' ? 'active' : '' }}">
-            Processing <span class="ao-tab-badge">{{ $statusCounts['processing'] }}</span>
-        </a>
-        <a href="{{ route('admin.order.allorder', ['status' => 'shipped']) }}"
-           class="ao-tab {{ request('status') === 'shipped' ? 'active' : '' }}">
-            Shipped <span class="ao-tab-badge">{{ $statusCounts['shipped'] }}</span>
-        </a>
-        <a href="{{ route('admin.order.allorder', ['status' => 'delivered']) }}"
-           class="ao-tab {{ request('status') === 'delivered' ? 'active' : '' }}">
-            Delivered <span class="ao-tab-badge">{{ $statusCounts['delivered'] }}</span>
-        </a>
-        <a href="{{ route('admin.order.allorder', ['status' => 'cancelled']) }}"
-           class="ao-tab {{ request('status') === 'cancelled' ? 'active' : '' }}">
-            Cancelled <span class="ao-tab-badge">{{ $statusCounts['cancelled'] }}</span>
-        </a>
+        @endforeach
     </div>
 
     {{-- Action Bar --}}
     <div class="ao-actionbar">
 
-        {{-- Bulk Status Button --}}
+        {{-- Bulk Change Status --}}
         <button class="ao-btn btn-status" onclick="openBulkStatusModal()">
             <i class="bi bi-arrow-repeat"></i> Change Status
         </button>
 
-        {{-- Bulk Delete Form --}}
+        {{-- Bulk Delete --}}
         <form method="POST"
               action="{{ route('admin.order.bulk-delete') }}"
               id="bulk-delete-form"
@@ -249,12 +225,22 @@
             </button>
         </form>
 
+        {{-- Bulk Steadfast Send --}}
+        <form method="POST"
+              action="{{ route('admin.steadfast.bulk-send') }}"
+              id="bulk-steadfast-form"
+              onsubmit="return confirmSteadfastSend()">
+            @csrf
+            <div id="bulk-steadfast-ids"></div>
+            <button type="submit" class="ao-btn btn-steadfast">
+                <i class="bi bi-truck"></i> Steadfast Send
+            </button>
+        </form>
+
         <button class="ao-btn btn-print" onclick="window.print()">
             <i class="bi bi-printer"></i> Print
         </button>
-        <a href="#" class="ao-btn btn-courier">
-            <i class="bi bi-truck"></i> Courier
-        </a>
+
         <a href="#" class="ao-btn btn-pathao">
             <i class="bi bi-send"></i> Pathao
         </a>
@@ -314,17 +300,24 @@
                                 <th>Amount</th>
                                 <th>Payment</th>
                                 <th>Order Status</th>
+                                <th>Courier</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($orders as $index => $order)
+                            @php
+                                $sfOrder = $order->steadfastOrder;
+                                $isSent  = $sfOrder && $sfOrder->is_sent;
+                            @endphp
                             <tr>
                                 <td>
                                     <input type="checkbox" class="ao-checkbox row-check"
                                            value="{{ $order->id }}"
                                            onchange="updateBulkIds()">
                                 </td>
+
                                 <td>{{ $orders->firstItem() + $index }}</td>
+
                                 <td>
                                     <div class="ao-actions">
                                         <a href="{{ route('admin.order.show', $order->id) }}"
@@ -345,8 +338,22 @@
                                                 <i class="bi bi-trash"></i>
                                             </button>
                                         </form>
+
+                                        {{-- Single Steadfast Send --}}
+                                        <form method="POST"
+                                              action="{{ route('admin.steadfast.send', $order->id) }}"
+                                              onsubmit="return confirm('Steadfast-এ পাঠাতে চান?')"
+                                              style="margin:0;">
+                                            @csrf
+                                            <button type="submit"
+                                                    class="ao-icon-btn courier {{ $isSent ? 'sent' : '' }}"
+                                                    title="{{ $isSent ? 'Sent — পুনরায় পাঠান' : 'Steadfast-এ পাঠান' }}">
+                                                <i class="bi bi-truck"></i>
+                                            </button>
+                                        </form>
                                     </div>
                                 </td>
+
                                 <td>
                                     <a href="{{ route('admin.order.show', $order->id) }}"
                                        class="ao-invoice-link">
@@ -356,15 +363,19 @@
                                         {{ $order->items->count() }} items
                                     </div>
                                 </td>
+
                                 <td>
                                     <div class="ao-date">{{ $order->created_at->format('d-m-Y') }}</div>
                                     <div class="ao-time">{{ $order->created_at->format('h:i A') }}</div>
                                 </td>
+
                                 <td>
                                     <div class="ao-cust-name">{{ $order->customer_name }}</div>
                                     <div class="ao-cust-addr">{{ $order->delivery_area }}</div>
                                 </td>
+
                                 <td>{{ $order->phone }}</td>
+
                                 <td>
                                     <strong>৳{{ number_format($order->total, 0) }}</strong>
                                     @if($order->discount > 0)
@@ -374,7 +385,6 @@
                                     @endif
                                 </td>
 
-                                {{-- Payment Status --}}
                                 <td>
                                     <form method="POST"
                                           action="{{ route('admin.order.payment-status', $order->id) }}"
@@ -393,7 +403,6 @@
                                     </form>
                                 </td>
 
-                                {{-- Order Status --}}
                                 <td>
                                     <form method="POST"
                                           action="{{ route('admin.order.status', $order->id) }}"
@@ -412,6 +421,33 @@
                                         </select>
                                     </form>
                                 </td>
+
+                                <td>
+                                    @if($isSent)
+                                        <span class="sf-badge sent">
+                                            <i class="bi bi-check-circle-fill me-1"></i>Sent
+                                        </span>
+                                        <div style="font-size:10px;color:#888;margin-top:3px;">
+                                            {{ $sfOrder->tracking_code ?? $sfOrder->consignment_id }}
+                                        </div>
+                                        <div style="font-size:10px;margin-top:2px;">
+                                            @php
+                                                $sfStatus = $sfOrder->status;
+                                                $sfColor  = match($sfStatus) {
+                                                    'delivered'         => '#276749',
+                                                    'cancelled'         => '#c53030',
+                                                    'partial_delivered' => '#2b6cb0',
+                                                    default             => '#b7791f',
+                                                };
+                                            @endphp
+                                            <span style="color:{{ $sfColor }};font-weight:600;">
+                                                {{ ucfirst(str_replace('_', ' ', $sfStatus)) }}
+                                            </span>
+                                        </div>
+                                    @else
+                                        <span class="sf-badge not-sent">Not Sent</span>
+                                    @endif
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -427,7 +463,7 @@
 
 </div>
 
-{{-- ─── Bulk Status Modal ───────────────────────────────────────────── --}}
+{{-- Bulk Status Modal --}}
 <div class="bulk-modal-overlay" id="bulk-status-overlay">
     <div class="bulk-modal">
         <h4><i class="bi bi-arrow-repeat me-2"></i>Bulk Status Change</h4>
@@ -446,7 +482,6 @@
     </div>
 </div>
 
-{{-- Bulk Status Hidden Form --}}
 <form method="POST" action="{{ route('admin.order.bulk-status') }}" id="bulk-status-form">
     @csrf
     @method('PATCH')
@@ -455,7 +490,6 @@
 </form>
 
 <script>
-/* ── Checkbox helpers ──────────────────────────────────────────── */
 function toggleAll(master) {
     document.querySelectorAll('.row-check').forEach(cb => cb.checked = master.checked);
     updateBulkIds();
@@ -471,7 +505,6 @@ function updateBulkIds() {
         inp.value = cb.value;
         container.appendChild(inp);
     });
-
     const all     = document.querySelectorAll('.row-check');
     const checked = document.querySelectorAll('.row-check:checked');
     const master  = document.getElementById('check-all');
@@ -479,23 +512,30 @@ function updateBulkIds() {
     master.checked       = all.length > 0 && checked.length === all.length;
 }
 
-/* ── Bulk Delete ───────────────────────────────────────────────── */
 function confirmBulkDelete() {
     const ids = [...document.querySelectorAll('.row-check:checked')];
-    if (!ids.length) {
-        alert('কোনো অর্ডার নির্বাচন করুন।');
-        return false;
-    }
+    if (!ids.length) { alert('কোনো অর্ডার নির্বাচন করুন।'); return false; }
     return confirm(ids.length + 'টি অর্ডার মুছে ফেলতে চান?');
 }
 
-/* ── Bulk Status Modal ─────────────────────────────────────────── */
+function confirmSteadfastSend() {
+    const ids = [...document.querySelectorAll('.row-check:checked')];
+    if (!ids.length) { alert('কোনো অর্ডার নির্বাচন করুন।'); return false; }
+    const container = document.getElementById('bulk-steadfast-ids');
+    container.innerHTML = '';
+    ids.forEach(cb => {
+        const inp = document.createElement('input');
+        inp.type  = 'hidden';
+        inp.name  = 'ids[]';
+        inp.value = cb.value;
+        container.appendChild(inp);
+    });
+    return confirm(ids.length + 'টি অর্ডার Steadfast-এ পাঠাতে চান?');
+}
+
 function openBulkStatusModal() {
     const ids = [...document.querySelectorAll('.row-check:checked')];
-    if (!ids.length) {
-        alert('কোনো অর্ডার নির্বাচন করুন।');
-        return;
-    }
+    if (!ids.length) { alert('কোনো অর্ডার নির্বাচন করুন।'); return; }
     document.getElementById('bulk-status-overlay').classList.add('show');
 }
 
@@ -507,9 +547,7 @@ function closeBulkStatusModal() {
 function applyBulkStatus() {
     const status = document.getElementById('bulk-status-select').value;
     if (!status) { alert('একটি স্ট্যাটাস বেছে নিন।'); return; }
-
     const ids = [...document.querySelectorAll('.row-check:checked')].map(c => c.value);
-
     const idsContainer = document.getElementById('bulk-status-ids');
     idsContainer.innerHTML = '';
     ids.forEach(id => {
@@ -519,12 +557,10 @@ function applyBulkStatus() {
         inp.value = id;
         idsContainer.appendChild(inp);
     });
-
     document.getElementById('bulk-status-value').value = status;
     document.getElementById('bulk-status-form').submit();
 }
 
-/* Close modal on overlay click */
 document.getElementById('bulk-status-overlay').addEventListener('click', function(e) {
     if (e.target === this) closeBulkStatusModal();
 });

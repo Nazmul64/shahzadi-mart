@@ -16,4 +16,10 @@ class Steadfastcourier extends Model
     protected $casts = [
         'status' => 'boolean',
     ];
+
+    // ✅ Active settings সহজে পাওয়ার জন্য
+    public static function active(): ?self
+    {
+        return static::where('status', 1)->first();
+    }
 }

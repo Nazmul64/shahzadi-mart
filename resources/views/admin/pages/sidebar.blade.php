@@ -714,7 +714,13 @@ body.sb-collapsed .sidebar-submenu { display: none; }
                class="{{ request()->routeIs('admin.websitefavicon.*') ? 'active' : '' }}">
                 <i class="bi bi-layout-text-sidebar"></i> Website Favicon
             </a>
-            <a href="#"><i class="bi bi-envelope"></i> Email Settings</a>
+            <a href="{{ route('admin.campaigncreate.index') }}"
+               class="{{ request()->routeIs('admin.campaigncreate.*') ? 'active' : '' }}">
+                <i class="bi bi-layout-text-sidebar"></i> Campaign Create
+            </a>
+
+
+            <a href="{{ route('admin.campaigncreate.index') }}" class="{{ request()->routeIs('admin.campaigncreate.*') ? 'active' : '' }}"><i class="bi bi-envelope"></i> Email Settings</a>
             <a href="{{route('admin.shipping.index')}}"><i class="bi bi-cash-stack"></i>Shipping Charge</a>
             <a href="#"><i class="bi bi-share"></i> Social Settings</a>
             <a href="#"><i class="bi bi-translate"></i> Language Settings</a>
@@ -751,6 +757,8 @@ body.sb-collapsed .sidebar-submenu { display: none; }
                class="{{ request()->routeIs('admin.Smsgatewaysetup.create') ? 'active' : '' }}">
                 <i class="bi bi-plus-circle"></i> Create Smsgatewaysetup
             </a>
+
+
 
 
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Campaigncreate;
 use App\Models\Category;
 use App\Models\SubCategory;
 use App\Models\ChildSubCategory;
@@ -457,4 +458,16 @@ public function newArrivals(Request $request)
         $websetting = Generalsetting::first();
         return view('frontend.contactdetails.index', compact('contact', 'websetting'));
     }
+
+public function campaignManage($id)
+{
+    $websetting        = Generalsetting::first();
+    $sidebarCategories = $this->getSidebarCategories();
+    $campaign          = Campaigncreate::with('product')->findOrFail($id);
+
+    return view('frontend.campaignmanage', compact(
+        'websetting', 'sidebarCategories', 'campaign',
+    ));
+}
+
 }

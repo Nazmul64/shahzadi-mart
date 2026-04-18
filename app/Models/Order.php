@@ -84,4 +84,9 @@ class Order extends Model
 
         return $number;
     }
+// ✅ Order → SteadfastOrder relationship
+public function steadfastOrder()
+{
+    return $this->hasOne(SteadfastOrder::class);
+}
 }
