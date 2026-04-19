@@ -13,7 +13,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::4kEOiJXFWSAXY9VS',
+            '_route' => 'generated::GtlHEotovPCRprw7',
           ),
           1 => NULL,
           2 => 
@@ -196,7 +196,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::vnp8ywtsfyTYIHV6',
+            '_route' => 'generated::tHv9VWurbFr2fODM',
           ),
           1 => NULL,
           2 => 
@@ -236,6 +236,26 @@ app('router')->setCompiledRoutes(
           0 => 
           array (
             '_route' => 'contact.details',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/orderhistory' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'order.history',
           ),
           1 => NULL,
           2 => 
@@ -457,6 +477,25 @@ app('router')->setCompiledRoutes(
           array (
             'GET' => 0,
             'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/review/store' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'review.store',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
           ),
           3 => NULL,
           4 => false,
@@ -2455,6 +2494,26 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
+      '/steadfast/test' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.steadfast.test',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
       '/campaigncreate' => 
       array (
         0 => 
@@ -2498,6 +2557,26 @@ app('router')->setCompiledRoutes(
           0 => 
           array (
             '_route' => 'admin.campaigncreate.create',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/reviews' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.admin.reviews.index',
           ),
           1 => NULL,
           2 => 
@@ -2883,7 +2962,7 @@ app('router')->setCompiledRoutes(
     ),
     2 => 
     array (
-      0 => '{^(?|/p(?|a(?|ssword/reset/([^/]++)(*:37)|ymentgetewaymanage/([^/]++)(?|(*:74)|/(?|edit(*:89)|toggle\\-status(*:110))|(*:119))|thaocourier/([^/]++)(?|(*:151)|/edit(*:164)|(*:172)))|roduct(?|/([^/]++)(*:200)|s/([^/]++)(?|/(?|toggle\\-(?|status(*:242)|flash\\-sale(*:261)|new\\-arrival(*:281)|bestseller(*:299))|catalog\\-(?|add(*:323)|remove(*:337)|highlight(*:354)|gallery(*:369))|update\\-flash\\-sale(*:397)|edit(*:409))|(*:418)))|ermissions/([^/]++)(?|(*:450)|/edit(*:463)|(*:471))|ixels/([^/]++)(?|(*:497)|/edit(*:510)|(*:518)))|/c(?|a(?|mpaign(?|/manage/([^/]++)(*:562)|create/([^/]++)(?|(*:588)|/edit(*:601)|(*:609)))|tegory/(?|([^/]++)(?|(*:640)|/([^/]++)(?|(*:660)|/([^/]++)(*:677)))|create(*:693)|([^/]++)(?|(*:712)|/(?|edit(*:728)|toggle\\-(?|featured(*:755)|status(*:769)))|(*:779)))|rt/(?|add/([^/]++)(*:807)|remove/([^/]++)(*:830)|increase/([^/]++)(*:855)|decrease/([^/]++)(*:880)))|h(?|eckout/success/([^/]++)(*:917)|ildcategory/([^/]++)(?|(*:948)|/(?|edit(*:964)|toggle\\-(?|featured(*:991)|status(*:1005)))|(*:1016)))|ustomer/([^/]++)(?|(*:1046)|/(?|edit(*:1063)|status(*:1078)|make\\-vendor(*:1099))|(*:1109))|o(?|upons/([^/]++)(?|(*:1140)|/(?|edit(*:1157)|status(*:1172))|(*:1182))|ntact/([^/]++)(?|(*:1209)|/edit(*:1223)|(*:1232))))|/order(?|/cancel/([^/]++)(*:1269)|s/(?|([^/]++)(?|(*:1294)|/(?|edit(*:1311)|status(*:1326)|payment\\-status(*:1350))|(*:1360))|bulk\\-send\\-steadfast(*:1391)|([^/]++)/send\\-steadfast(*:1424)))|/w(?|ishlist/(?|add/([^/]++)(*:1463)|remove/([^/]++)(*:1487)|move\\-to\\-cart/([^/]++)(*:1519))|ebsitefavicon/([^/]++)(?|(*:1554)|/edit(*:1568)|(*:1577)))|/s(?|eller\\-registrations/([^/]++)/(?|approve(*:1633)|re(?|ject(*:1651)|activate(*:1668))|suspend(*:1685)|view(*:1698))|ubcategory/([^/]++)(?|(*:1730)|/(?|edit(*:1747)|toggle\\-(?|featured(*:1775)|status(*:1790)))|(*:1801))|lider/([^/]++)(?|(*:1828)|/edit(*:1842)|(*:1851))|hipping/([^/]++)(?|/edit(*:1885)|(*:1894))|t(?|eadfastcourier/([^/]++)(?|(*:1934)|/edit(*:1948)|(*:1957))|orage/(.*)(*:1977)))|/roles/([^/]++)(?|(*:2006)|/(?|edit(*:2023)|assign\\-permission(*:2050)|save\\-assigned\\-permission(*:2085))|(*:2095))|/users/([^/]++)(?|(*:2123)|/(?|edit(*:2140)|toggle\\-status(*:2163))|(*:2173))|/affiliateproduct/([^/]++)(?|/(?|toggle\\-status(*:2230)|edit(*:2243))|(*:2253))|/Generalsettings/([^/]++)(?|(*:2291)|/edit(*:2305)|(*:2314))|/toggle/([^/]++)(*:2340)|/googletagmanager/([^/]++)(?|(*:2378)|/edit(*:2392)|(*:2401))|/Smsgatewaysetup/([^/]++)(?|(*:2439)|/edit(*:2453)|(*:2462)))/?$}sDu',
+      0 => '{^(?|/p(?|a(?|ssword/reset/([^/]++)(*:37)|ymentgetewaymanage/([^/]++)(?|(*:74)|/(?|edit(*:89)|toggle\\-status(*:110))|(*:119))|thaocourier/([^/]++)(?|(*:151)|/edit(*:164)|(*:172)))|roduct(?|/([^/]++)(*:200)|s/([^/]++)(?|/(?|toggle\\-(?|status(*:242)|flash\\-sale(*:261)|new\\-arrival(*:281)|bestseller(*:299))|catalog\\-(?|add(*:323)|remove(*:337)|highlight(*:354)|gallery(*:369))|update\\-flash\\-sale(*:397)|edit(*:409))|(*:418)))|ermissions/([^/]++)(?|(*:450)|/edit(*:463)|(*:471))|ixels/([^/]++)(?|(*:497)|/edit(*:510)|(*:518)))|/c(?|a(?|mpaign(?|/manage/([^/]++)(*:562)|create/([^/]++)(?|(*:588)|/edit(*:601)|(*:609)))|tegory/(?|([^/]++)(?|(*:640)|/([^/]++)(?|(*:660)|/([^/]++)(*:677)))|create(*:693)|([^/]++)(?|(*:712)|/(?|edit(*:728)|toggle\\-(?|featured(*:755)|status(*:769)))|(*:779)))|rt/(?|add/([^/]++)(*:807)|remove/([^/]++)(*:830)|increase/([^/]++)(*:855)|decrease/([^/]++)(*:880)))|h(?|eckout/success/([^/]++)(*:917)|ildcategory/([^/]++)(?|(*:948)|/(?|edit(*:964)|toggle\\-(?|featured(*:991)|status(*:1005)))|(*:1016)))|ustomer/([^/]++)(?|(*:1046)|/(?|edit(*:1063)|status(*:1078)|make\\-vendor(*:1099))|(*:1109))|o(?|upons/([^/]++)(?|(*:1140)|/(?|edit(*:1157)|status(*:1172))|(*:1182))|ntact/([^/]++)(?|(*:1209)|/edit(*:1223)|(*:1232))))|/order(?|/cancel/([^/]++)(*:1269)|s/(?|([^/]++)(?|(*:1294)|/(?|edit(*:1311)|status(*:1326)|payment\\-status(*:1350))|(*:1360))|bulk\\-send\\-steadfast(*:1391)|([^/]++)/send\\-steadfast(*:1424)))|/w(?|ishlist/(?|add/([^/]++)(*:1463)|remove/([^/]++)(*:1487)|move\\-to\\-cart/([^/]++)(*:1519))|ebsitefavicon/([^/]++)(?|(*:1554)|/edit(*:1568)|(*:1577)))|/s(?|eller\\-registrations/([^/]++)/(?|approve(*:1633)|re(?|ject(*:1651)|activate(*:1668))|suspend(*:1685)|view(*:1698))|ubcategory/([^/]++)(?|(*:1730)|/(?|edit(*:1747)|toggle\\-(?|featured(*:1775)|status(*:1790)))|(*:1801))|lider/([^/]++)(?|(*:1828)|/edit(*:1842)|(*:1851))|hipping/([^/]++)(?|/edit(*:1885)|(*:1894))|t(?|eadfastcourier/([^/]++)(?|(*:1934)|/edit(*:1948)|(*:1957))|orage/(.*)(*:1977)))|/r(?|oles/([^/]++)(?|(*:2009)|/(?|edit(*:2026)|assign\\-permission(*:2053)|save\\-assigned\\-permission(*:2088))|(*:2098))|eviews/(?|([^/]++)(?|/(?|approve(*:2140)|unapprove(*:2158))|(*:2168))|bulk(*:2182)))|/users/([^/]++)(?|(*:2211)|/(?|edit(*:2228)|toggle\\-status(*:2251))|(*:2261))|/affiliateproduct/([^/]++)(?|/(?|toggle\\-status(*:2318)|edit(*:2331))|(*:2341))|/Generalsettings/([^/]++)(?|(*:2379)|/edit(*:2393)|(*:2402))|/toggle/([^/]++)(*:2428)|/googletagmanager/([^/]++)(?|(*:2466)|/edit(*:2480)|(*:2489))|/Smsgatewaysetup/([^/]++)(?|(*:2527)|/edit(*:2541)|(*:2550)))/?$}sDu',
     ),
     3 => 
     array (
@@ -5373,7 +5452,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2006 => 
+      2009 => 
       array (
         0 => 
         array (
@@ -5396,7 +5475,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2023 => 
+      2026 => 
       array (
         0 => 
         array (
@@ -5419,7 +5498,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2050 => 
+      2053 => 
       array (
         0 => 
         array (
@@ -5442,7 +5521,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2085 => 
+      2088 => 
       array (
         0 => 
         array (
@@ -5464,7 +5543,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2095 => 
+      2098 => 
       array (
         0 => 
         array (
@@ -5506,7 +5585,94 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2123 => 
+      2140 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.admin.reviews.approve',
+          ),
+          1 => 
+          array (
+            0 => 'id',
+          ),
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      2158 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.admin.reviews.unapprove',
+          ),
+          1 => 
+          array (
+            0 => 'id',
+          ),
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      2168 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.admin.reviews.destroy',
+          ),
+          1 => 
+          array (
+            0 => 'id',
+          ),
+          2 => 
+          array (
+            'DELETE' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      2182 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.admin.reviews.bulk',
+          ),
+          1 => 
+          array (
+          ),
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      2211 => 
       array (
         0 => 
         array (
@@ -5529,7 +5695,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2140 => 
+      2228 => 
       array (
         0 => 
         array (
@@ -5552,7 +5718,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2163 => 
+      2251 => 
       array (
         0 => 
         array (
@@ -5574,7 +5740,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2173 => 
+      2261 => 
       array (
         0 => 
         array (
@@ -5616,7 +5782,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2230 => 
+      2318 => 
       array (
         0 => 
         array (
@@ -5638,7 +5804,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2243 => 
+      2331 => 
       array (
         0 => 
         array (
@@ -5661,7 +5827,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2253 => 
+      2341 => 
       array (
         0 => 
         array (
@@ -5723,7 +5889,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2291 => 
+      2379 => 
       array (
         0 => 
         array (
@@ -5746,7 +5912,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2305 => 
+      2393 => 
       array (
         0 => 
         array (
@@ -5769,7 +5935,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2314 => 
+      2402 => 
       array (
         0 => 
         array (
@@ -5811,7 +5977,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2340 => 
+      2428 => 
       array (
         0 => 
         array (
@@ -5834,7 +6000,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2378 => 
+      2466 => 
       array (
         0 => 
         array (
@@ -5857,7 +6023,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2392 => 
+      2480 => 
       array (
         0 => 
         array (
@@ -5880,7 +6046,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2401 => 
+      2489 => 
       array (
         0 => 
         array (
@@ -5922,7 +6088,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2439 => 
+      2527 => 
       array (
         0 => 
         array (
@@ -5945,7 +6111,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2453 => 
+      2541 => 
       array (
         0 => 
         array (
@@ -5968,7 +6134,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2462 => 
+      2550 => 
       array (
         0 => 
         array (
@@ -6025,7 +6191,7 @@ app('router')->setCompiledRoutes(
   ),
   'attributes' => 
   array (
-    'generated::4kEOiJXFWSAXY9VS' => 
+    'generated::GtlHEotovPCRprw7' => 
     array (
       'methods' => 
       array (
@@ -6053,8 +6219,8 @@ app('router')->setCompiledRoutes(
                     return response(\\Illuminate\\Support\\Facades\\View::file(\'E:\\\\shahzadi-mart\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Foundation\\\\Configuration\'.\'/../resources/health-up.blade.php\', [
                         \'exception\' => $exception,
                     ]), status: $exception ? 500 : 200);
-                }";s:5:"scope";s:54:"Illuminate\\Foundation\\Configuration\\ApplicationBuilder";s:4:"this";N;s:4:"self";s:32:"00000000000006f70000000000000000";}}',
-        'as' => 'generated::4kEOiJXFWSAXY9VS',
+                }";s:5:"scope";s:54:"Illuminate\\Foundation\\Configuration\\ApplicationBuilder";s:4:"this";N;s:4:"self";s:32:"00000000000006ff0000000000000000";}}',
+        'as' => 'generated::GtlHEotovPCRprw7',
       ),
       'fallback' => false,
       'defaults' => 
@@ -6435,7 +6601,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::vnp8ywtsfyTYIHV6' => 
+    'generated::tHv9VWurbFr2fODM' => 
     array (
       'methods' => 
       array (
@@ -6455,7 +6621,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::vnp8ywtsfyTYIHV6',
+        'as' => 'generated::tHv9VWurbFr2fODM',
       ),
       'fallback' => false,
       'defaults' => 
@@ -6604,6 +6770,43 @@ app('router')->setCompiledRoutes(
         array (
         ),
         'as' => 'campaign.manage',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'order.history' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'orderhistory',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Frontend\\FrontendController@orderHistory',
+        'controller' => 'App\\Http\\Controllers\\Frontend\\FrontendController@orderHistory',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'order.history',
       ),
       'fallback' => false,
       'defaults' => 
@@ -7157,6 +7360,42 @@ app('router')->setCompiledRoutes(
         array (
         ),
         'as' => 'new-arrivals',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'review.store' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'review/store',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Frontend\\ProductReviewController@store',
+        'controller' => 'App\\Http\\Controllers\\Frontend\\ProductReviewController@store',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'review.store',
       ),
       'fallback' => false,
       'defaults' => 
@@ -15959,6 +16198,44 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
+    'admin.steadfast.test' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'steadfast/test',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Admin\\SteadfastOrderController@test',
+        'controller' => 'App\\Http\\Controllers\\Admin\\SteadfastOrderController@test',
+        'as' => 'admin.steadfast.test',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
     'admin.campaigncreate.index' => 
     array (
       'methods' => 
@@ -16203,6 +16480,192 @@ app('router')->setCompiledRoutes(
         'as' => 'admin.campaigncreate.destroy',
         'uses' => 'App\\Http\\Controllers\\Admin\\CampaigncreateController@destroy',
         'controller' => 'App\\Http\\Controllers\\Admin\\CampaigncreateController@destroy',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.admin.reviews.index' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'reviews',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Admin\\AdminproductReviewController@index',
+        'controller' => 'App\\Http\\Controllers\\Admin\\AdminproductReviewController@index',
+        'as' => 'admin.admin.reviews.index',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.admin.reviews.approve' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'reviews/{id}/approve',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Admin\\AdminproductReviewController@approve',
+        'controller' => 'App\\Http\\Controllers\\Admin\\AdminproductReviewController@approve',
+        'as' => 'admin.admin.reviews.approve',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.admin.reviews.unapprove' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'reviews/{id}/unapprove',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Admin\\AdminproductReviewController@unapprove',
+        'controller' => 'App\\Http\\Controllers\\Admin\\AdminproductReviewController@unapprove',
+        'as' => 'admin.admin.reviews.unapprove',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.admin.reviews.destroy' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'DELETE',
+      ),
+      'uri' => 'reviews/{id}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Admin\\AdminproductReviewController@destroy',
+        'controller' => 'App\\Http\\Controllers\\Admin\\AdminproductReviewController@destroy',
+        'as' => 'admin.admin.reviews.destroy',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.admin.reviews.bulk' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'reviews/bulk',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Admin\\AdminproductReviewController@bulk',
+        'controller' => 'App\\Http\\Controllers\\Admin\\AdminproductReviewController@bulk',
+        'as' => 'admin.admin.reviews.bulk',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 
@@ -16939,7 +17402,7 @@ app('router')->setCompiledRoutes(
                         $config,
                         $isProduction
                     ))($request, $path);
-                }";s:5:"scope";s:47:"Illuminate\\Filesystem\\FilesystemServiceProvider";s:4:"this";N;s:4:"self";s:32:"00000000000006f00000000000000000";}}',
+                }";s:5:"scope";s:47:"Illuminate\\Filesystem\\FilesystemServiceProvider";s:4:"this";N;s:4:"self";s:32:"00000000000006f80000000000000000";}}',
         'as' => 'storage.local',
       ),
       'fallback' => false,

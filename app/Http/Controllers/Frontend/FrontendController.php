@@ -11,6 +11,7 @@ use App\Models\Contact;
 use App\Models\Generalsetting;
 use App\Models\Product;
 use App\Models\Order;
+use App\Models\Producreview;
 use App\Models\Wishlist;
 use App\Models\Slider;
 use App\Models\Websitefavicon;
@@ -40,8 +41,7 @@ class FrontendController extends Controller
     public function frontend()
     {
         $websetting        = Generalsetting::first();
-        $websitefavicon = Websitefavicon::first();
-
+        $websitefavicon    = Websitefavicon::first();
         $slider            = Slider::all();
         $categories        = Category::where('status', 'active')->get();
         $sidebarCategories = $this->getSidebarCategories();
@@ -203,7 +203,6 @@ class FrontendController extends Controller
             ->take(8)
             ->get();
 
-        // ✅ এই দুইটা আগে missing ছিল — এখন add করা হয়েছে
         $sidebarCategories = $this->getSidebarCategories();
         $websetting        = Generalsetting::first();
 
@@ -213,261 +212,299 @@ class FrontendController extends Controller
     }
 
     // ─── User Dashboard ───────────────────────────────────────────────────────
-   public function user_dashboard()
-{
-    $userId = Auth::id();
-
-    // শুধুমাত্র লগইন করা ইউজারের অর্ডার
-    $orders = Order::where('user_id', $userId)
-                   ->with('items.product')
-                   ->latest()
-                   ->get();
-
-    // Wishlist — শুধু এই ইউজারের
-    $wishlistItems = Wishlist::where('user_id', $userId)
-                             ->with('product.category')
-                             ->latest()
-                             ->get();
-
-    // Stats
-    $totalOrders    = $orders->count();
-    $pendingOrders  = $orders->where('order_status', 'pending')->count();
-    $deliveredOrders= $orders->where('order_status', 'delivered')->count();
-    $cancelledOrders= $orders->where('order_status', 'cancelled')->count();
-    $wishlistCount  = $wishlistItems->count();
-
-    return view('userdashboard.index', compact(
-        'orders',
-        'wishlistItems',
-        'totalOrders',
-        'pendingOrders',
-        'deliveredOrders',
-        'cancelledOrders',
-        'wishlistCount'
-    ));
-}
-
-// ─── Cancel Order (শুধু নিজের অর্ডার) ────────────────────────────────────────
-public function cancelOrder($orderNumber)
-{
-    // Auth::id() দিয়ে নিশ্চিত করা হচ্ছে যে শুধু নিজের অর্ডারই cancel করতে পারবে
-    $order = Order::where('order_number', $orderNumber)
-                  ->where('user_id', Auth::id())
-                  ->firstOrFail();
-
-    // শুধু pending বা processing অর্ডার cancel করা যাবে
-    if (! in_array($order->order_status, ['pending', 'processing'])) {
-        return redirect()->back()->with('error', 'এই অর্ডারটি আর বাতিল করা সম্ভব নয়।');
-    }
-
-    $order->update(['order_status' => 'cancelled']);
-
-    return redirect()->back()->with('success', 'অর্ডার #' . $order->order_number . ' সফলভাবে বাতিল হয়েছে।');
-}
-
-
-    public function allProducts(Request $request)
-{
-    $websetting        = Generalsetting::first();
-    $categories        = Category::where('status', 'active')->get();
-    $sidebarCategories = $this->getSidebarCategories();
-
-    // ── Base Query ──
-    $query = Product::where('status', 'active');
-
-    // ── Filter: Category ──
-    if ($request->filled('category')) {
-        $cat = Category::where('slug', $request->category)->first();
-        if ($cat) {
-            $subIds   = $cat->subCategories()->pluck('id');
-            $childIds = \App\Models\ChildSubCategory::whereIn('sub_category_id', $subIds)->pluck('id');
-
-            $query->where(function ($q) use ($cat, $subIds, $childIds) {
-                $q->where('category_id', $cat->id)
-                  ->orWhereIn('sub_category_id', $subIds)
-                  ->orWhereIn('child_sub_category_id', $childIds);
-            });
-        }
-    }
-
-    // ── Filter: Search ──
-    if ($request->filled('search')) {
-        $search = $request->search;
-        $query->where(function ($q) use ($search) {
-            $q->where('name', 'like', "%{$search}%")
-              ->orWhere('description', 'like', "%{$search}%");
-        });
-    }
-
-    // ── Filter: Price Range ──
-    if ($request->filled('min_price')) {
-        $query->where(function ($q) use ($request) {
-            $q->whereRaw('COALESCE(discount_price, current_price) >= ?', [$request->min_price]);
-        });
-    }
-    if ($request->filled('max_price')) {
-        $query->where(function ($q) use ($request) {
-            $q->whereRaw('COALESCE(discount_price, current_price) <= ?', [$request->max_price]);
-        });
-    }
-
-    // ── Filter: In Stock ──
-    if ($request->filled('in_stock')) {
-        $query->where(function ($q) {
-            $q->where('is_unlimited', true)
-              ->orWhere('stock', '>', 0);
-        });
-    }
-
-    // ── Sort ──
-    switch ($request->get('sort', 'latest')) {
-        case 'price_low':
-            $query->orderByRaw('COALESCE(discount_price, current_price) ASC');
-            break;
-        case 'price_high':
-            $query->orderByRaw('COALESCE(discount_price, current_price) DESC');
-            break;
-        case 'name_asc':
-            $query->orderBy('name', 'asc');
-            break;
-        case 'discount':
-            $query->whereNotNull('discount_price')
-                  ->where('discount_price', '>', 0)
-                  ->orderByRaw('(current_price - discount_price) DESC');
-            break;
-        default: // 'latest'
-            $query->latest();
-            break;
-    }
-
-    $products = $query->paginate(20)->withQueryString();
-
-    return view('frontend.allproducts', compact(
-        'products', 'categories', 'websetting', 'sidebarCategories'
-    ));
-}
-// ─── Shop Page ────────────────────────────────────────────────────────────────
-public function shop(Request $request)
-{
-    $websetting        = Generalsetting::first();
-    $categories        = Category::where('status', 'active')->get();
-    $sidebarCategories = $this->getSidebarCategories();
-
-    $query = Product::where('status', 'active');
-
-    // Filter: Category
-    if ($request->filled('category')) {
-        $cat = Category::where('slug', $request->category)->first();
-        if ($cat) {
-            $subIds   = $cat->subCategories()->pluck('id');
-            $childIds = \App\Models\ChildSubCategory::whereIn('sub_category_id', $subIds)->pluck('id');
-            $query->where(function ($q) use ($cat, $subIds, $childIds) {
-                $q->where('category_id', $cat->id)
-                  ->orWhereIn('sub_category_id', $subIds)
-                  ->orWhereIn('child_sub_category_id', $childIds);
-            });
-        }
-    }
-
-    // Sort
-    switch ($request->get('sort', 'latest')) {
-        case 'price_low':
-            $query->orderByRaw('COALESCE(discount_price, current_price) ASC');
-            break;
-        case 'price_high':
-            $query->orderByRaw('COALESCE(discount_price, current_price) DESC');
-            break;
-        case 'name_asc':
-            $query->orderBy('name', 'asc');
-            break;
-        case 'discount':
-            $query->whereNotNull('discount_price')
-                  ->where('discount_price', '>', 0)
-                  ->orderByRaw('(current_price - discount_price) DESC');
-            break;
-        default:
-            $query->latest();
-            break;
-    }
-
-    $products = $query->paginate(20)->withQueryString();
-
-    return view('frontend.shop', compact(
-        'products', 'categories', 'websetting', 'sidebarCategories'
-    ));
-}
-
-// ─── Offers Page ──────────────────────────────────────────────────────────────
-public function offers(Request $request)
-{
-    $websetting        = Generalsetting::first();
-    $sidebarCategories = $this->getSidebarCategories();
-
-    // Flash sale products
-    $flashProducts = Product::where('status', 'active')
-                        ->where('is_flash_sale', true)
-                        ->latest()
-                        ->take(8)
-                        ->get();
-
-    // Discount products (paginated)
-    $query = Product::where('status', 'active')
-                    ->whereNotNull('discount_price')
-                    ->where('discount_price', '>', 0);
-
-    // Sort
-    if ($request->get('sort') === 'discount') {
-        $query->orderByRaw('(current_price - discount_price) DESC');
-    } else {
-        $query->orderByRaw('(current_price - discount_price) DESC');
-    }
-
-    $discountProducts = $query->paginate(16)->withQueryString();
-
-    return view('frontend.offers', compact(
-        'flashProducts', 'discountProducts', 'websetting', 'sidebarCategories'
-    ));
-}
-
-// ─── New Arrivals Page ────────────────────────────────────────────────────────
-public function newArrivals(Request $request)
-{
-    $websetting        = Generalsetting::first();
-    $sidebarCategories = $this->getSidebarCategories();
-
-    $query = Product::where('status', 'active')
-                    ->where('is_new_arrival', true);
-
-    // Filter: when
-    if ($request->get('when') === 'week') {
-        $query->where('arrived_at', '>=', now()->subWeek());
-    } elseif ($request->get('when') === 'month') {
-        $query->where('arrived_at', '>=', now()->subMonth());
-    }
-
-    $newArrivals = $query->latest('arrived_at')->paginate(20)->withQueryString();
-
-    return view('frontend.new-arrivals', compact(
-        'newArrivals', 'websetting', 'sidebarCategories'
-    ));
-
-}
-   public function contactDetails()
+    public function user_dashboard()
     {
-        $contact =Contact::latest()->first();
+        $userId = Auth::id();
+
+        // সব অর্ডার (সব স্ট্যাটাস) — items.product লোড করা
+        $orders = Order::where('user_id', $userId)
+                       ->with('items.product')
+                       ->latest()
+                       ->get();
+
+        // Wishlist
+        $wishlistItems = Wishlist::where('user_id', $userId)
+                                 ->with('product.category')
+                                 ->latest()
+                                 ->get();
+
+        // Stats
+        $totalOrders     = $orders->count();
+        $pendingOrders   = $orders->where('order_status', 'pending')->count();
+        $deliveredOrders = $orders->where('order_status', 'delivered')->count();
+        $cancelledOrders = $orders->where('order_status', 'cancelled')->count();
+        $wishlistCount   = $wishlistItems->count();
+
+        // ── রিভিউযোগ্য অর্ডার ──
+        // নিয়ম: pending/cancelled ছাড়া সব অর্ডারের আইটেমে রিভিউ দেওয়া যাবে
+        // (processing, shipped, in_transit, delivered — সবই)
+        $reviewableStatuses = ['processing', 'shipped', 'in_transit', 'delivered'];
+
+        $reviewableOrders = $orders->whereIn('order_status', $reviewableStatuses);
+
+        // এই user ইতোমধ্যে যেসব product-এ রিভিউ দিয়েছে
+        $myReviewMap = Producreview::where('user_id', $userId)
+                        ->get()
+                        ->keyBy('product_id');
+
+        // Pending review count (রিভিউ দেওয়া হয়নি এমন items)
+        $pendingReviewCount = 0;
+        foreach ($reviewableOrders as $_ord) {
+            foreach ($_ord->items as $_item) {
+                if ($_item->product_id && !isset($myReviewMap[$_item->product_id])) {
+                    $pendingReviewCount++;
+                }
+            }
+        }
+
+        return view('userdashboard.index', compact(
+            'orders',
+            'wishlistItems',
+            'totalOrders',
+            'pendingOrders',
+            'deliveredOrders',
+            'cancelledOrders',
+            'wishlistCount',
+            'reviewableOrders',
+            'myReviewMap',
+            'pendingReviewCount'
+        ));
+    }
+
+    // ─── Order History (separate full-page view) ──────────────────────────────
+    public function orderHistory(Request $request)
+    {
+        $userId = Auth::id();
+
+        $query = Order::where('user_id', $userId)->with('items.product');
+
+        // Filter by status
+        if ($request->filled('status') && $request->status !== 'all') {
+            $query->where('order_status', $request->status);
+        }
+
+        // Filter by date range
+        if ($request->filled('from')) {
+            $query->whereDate('created_at', '>=', $request->from);
+        }
+        if ($request->filled('to')) {
+            $query->whereDate('created_at', '<=', $request->to);
+        }
+
+        // Search by order number
+        if ($request->filled('search')) {
+            $query->where('order_number', 'like', '%' . $request->search . '%');
+        }
+
+        $orders = $query->latest()->paginate(15)->withQueryString();
+
+        // Stats for this user
+        $allOrders       = Order::where('user_id', $userId)->get();
+        $totalOrders     = $allOrders->count();
+        $pendingOrders   = $allOrders->where('order_status', 'pending')->count();
+        $processingOrders= $allOrders->where('order_status', 'processing')->count();
+        $shippedOrders   = $allOrders->where('order_status', 'shipped')->count();
+        $deliveredOrders = $allOrders->where('order_status', 'delivered')->count();
+        $cancelledOrders = $allOrders->where('order_status', 'cancelled')->count();
+
+        // Total spent
+        $totalSpent = $allOrders->whereIn('order_status', ['delivered', 'processing', 'shipped', 'in_transit'])
+                                ->sum('total');
+
+        $websetting = Generalsetting::first();
+
+        return view('userdashboard.order-history', compact(
+            'orders',
+            'totalOrders',
+            'pendingOrders',
+            'processingOrders',
+            'shippedOrders',
+            'deliveredOrders',
+            'cancelledOrders',
+            'totalSpent',
+            'websetting'
+        ));
+    }
+
+    // ─── Cancel Order ─────────────────────────────────────────────────────────
+    public function cancelOrder($orderNumber)
+    {
+        $order = Order::where('order_number', $orderNumber)
+                      ->where('user_id', Auth::id())
+                      ->firstOrFail();
+
+        if (!in_array($order->order_status, ['pending', 'processing'])) {
+            return redirect()->back()->with('error', 'এই অর্ডারটি আর বাতিল করা সম্ভব নয়।');
+        }
+
+        $order->update(['order_status' => 'cancelled']);
+
+        return redirect()->back()->with('success', 'অর্ডার #' . $order->order_number . ' সফলভাবে বাতিল হয়েছে।');
+    }
+
+    // ─── All Products ─────────────────────────────────────────────────────────
+    public function allProducts(Request $request)
+    {
+        $websetting        = Generalsetting::first();
+        $categories        = Category::where('status', 'active')->get();
+        $sidebarCategories = $this->getSidebarCategories();
+
+        $query = Product::where('status', 'active');
+
+        if ($request->filled('category')) {
+            $cat = Category::where('slug', $request->category)->first();
+            if ($cat) {
+                $subIds   = $cat->subCategories()->pluck('id');
+                $childIds = ChildSubCategory::whereIn('sub_category_id', $subIds)->pluck('id');
+                $query->where(function ($q) use ($cat, $subIds, $childIds) {
+                    $q->where('category_id', $cat->id)
+                      ->orWhereIn('sub_category_id', $subIds)
+                      ->orWhereIn('child_sub_category_id', $childIds);
+                });
+            }
+        }
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%");
+            });
+        }
+
+        if ($request->filled('min_price')) {
+            $query->whereRaw('COALESCE(discount_price, current_price) >= ?', [$request->min_price]);
+        }
+        if ($request->filled('max_price')) {
+            $query->whereRaw('COALESCE(discount_price, current_price) <= ?', [$request->max_price]);
+        }
+
+        if ($request->filled('in_stock')) {
+            $query->where(function ($q) {
+                $q->where('is_unlimited', true)->orWhere('stock', '>', 0);
+            });
+        }
+
+        switch ($request->get('sort', 'latest')) {
+            case 'price_low':  $query->orderByRaw('COALESCE(discount_price, current_price) ASC'); break;
+            case 'price_high': $query->orderByRaw('COALESCE(discount_price, current_price) DESC'); break;
+            case 'name_asc':   $query->orderBy('name', 'asc'); break;
+            case 'discount':
+                $query->whereNotNull('discount_price')->where('discount_price', '>', 0)
+                      ->orderByRaw('(current_price - discount_price) DESC');
+                break;
+            default: $query->latest(); break;
+        }
+
+        $products = $query->paginate(20)->withQueryString();
+
+        return view('frontend.allproducts', compact(
+            'products', 'categories', 'websetting', 'sidebarCategories'
+        ));
+    }
+
+    // ─── Shop Page ────────────────────────────────────────────────────────────
+    public function shop(Request $request)
+    {
+        $websetting        = Generalsetting::first();
+        $categories        = Category::where('status', 'active')->get();
+        $sidebarCategories = $this->getSidebarCategories();
+
+        $query = Product::where('status', 'active');
+
+        if ($request->filled('category')) {
+            $cat = Category::where('slug', $request->category)->first();
+            if ($cat) {
+                $subIds   = $cat->subCategories()->pluck('id');
+                $childIds = ChildSubCategory::whereIn('sub_category_id', $subIds)->pluck('id');
+                $query->where(function ($q) use ($cat, $subIds, $childIds) {
+                    $q->where('category_id', $cat->id)
+                      ->orWhereIn('sub_category_id', $subIds)
+                      ->orWhereIn('child_sub_category_id', $childIds);
+                });
+            }
+        }
+
+        switch ($request->get('sort', 'latest')) {
+            case 'price_low':  $query->orderByRaw('COALESCE(discount_price, current_price) ASC'); break;
+            case 'price_high': $query->orderByRaw('COALESCE(discount_price, current_price) DESC'); break;
+            case 'name_asc':   $query->orderBy('name', 'asc'); break;
+            case 'discount':
+                $query->whereNotNull('discount_price')->where('discount_price', '>', 0)
+                      ->orderByRaw('(current_price - discount_price) DESC');
+                break;
+            default: $query->latest(); break;
+        }
+
+        $products = $query->paginate(20)->withQueryString();
+
+        return view('frontend.shop', compact(
+            'products', 'categories', 'websetting', 'sidebarCategories'
+        ));
+    }
+
+    // ─── Offers Page ──────────────────────────────────────────────────────────
+    public function offers(Request $request)
+    {
+        $websetting        = Generalsetting::first();
+        $sidebarCategories = $this->getSidebarCategories();
+
+        $flashProducts = Product::where('status', 'active')
+                            ->where('is_flash_sale', true)
+                            ->latest()
+                            ->take(8)
+                            ->get();
+
+        $discountProducts = Product::where('status', 'active')
+                            ->whereNotNull('discount_price')
+                            ->where('discount_price', '>', 0)
+                            ->orderByRaw('(current_price - discount_price) DESC')
+                            ->paginate(16)
+                            ->withQueryString();
+
+        return view('frontend.offers', compact(
+            'flashProducts', 'discountProducts', 'websetting', 'sidebarCategories'
+        ));
+    }
+
+    // ─── New Arrivals Page ────────────────────────────────────────────────────
+    public function newArrivals(Request $request)
+    {
+        $websetting        = Generalsetting::first();
+        $sidebarCategories = $this->getSidebarCategories();
+
+        $query = Product::where('status', 'active')->where('is_new_arrival', true);
+
+        if ($request->get('when') === 'week') {
+            $query->where('arrived_at', '>=', now()->subWeek());
+        } elseif ($request->get('when') === 'month') {
+            $query->where('arrived_at', '>=', now()->subMonth());
+        }
+
+        $newArrivals = $query->latest('arrived_at')->paginate(20)->withQueryString();
+
+        return view('frontend.new-arrivals', compact(
+            'newArrivals', 'websetting', 'sidebarCategories'
+        ));
+    }
+
+    // ─── Contact ──────────────────────────────────────────────────────────────
+    public function contactDetails()
+    {
+        $contact    = Contact::latest()->first();
         $websetting = Generalsetting::first();
         return view('frontend.contactdetails.index', compact('contact', 'websetting'));
     }
 
-public function campaignManage($id)
-{
-    $websetting        = Generalsetting::first();
-    $sidebarCategories = $this->getSidebarCategories();
-    $campaign          = Campaigncreate::with('product')->findOrFail($id);
+    // ─── Campaign ─────────────────────────────────────────────────────────────
+    public function campaignManage($id)
+    {
+        $websetting        = Generalsetting::first();
+        $sidebarCategories = $this->getSidebarCategories();
+        $campaign          = Campaigncreate::with('product')->findOrFail($id);
 
-    return view('frontend.campaignmanage', compact(
-        'websetting', 'sidebarCategories', 'campaign',
-    ));
-}
-
+        return view('frontend.campaignmanage', compact(
+            'websetting', 'sidebarCategories', 'campaign',
+        ));
+    }
 }

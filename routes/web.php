@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminauthController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AdminproductReviewController;
 use App\Http\Controllers\Admin\AdminsellerregisterapprovedController;
 use App\Http\Controllers\Admin\AffiliateproductController;
 use App\Http\Controllers\Admin\AllorderController;
@@ -47,6 +48,8 @@ use App\Http\Controllers\Admin\SmsgatewaysetupController;
 use App\Http\Controllers\Admin\SteadfastcourierController;
 use App\Http\Controllers\Admin\SteadfastOrderController;
 use App\Http\Controllers\Frontend\Landingordercontroller;
+use App\Http\Controllers\Frontend\ProductReviewController;
+
 
 Auth::routes();
 
@@ -57,6 +60,7 @@ Route::get('/',           [FrontendController::class, 'frontend'])->name('fronte
 Route::get('/product/{slug}', [FrontendController::class, 'productdetails'])->name('product.detail');
 Route::get('/contactdetails', [FrontendController::class, 'contactDetails'])->name('contact.details');
 Route::get('campaign/manage/{id}', [FrontendController::class, 'campaignManage'])->name('campaign.manage');
+Route::get('orderhistory', [FrontendController::class, 'orderHistory'])->name('order.history');
 // ── Landing Page Order Store (JSON) ───────────────────────────
 Route::post('landing/order/store', [Landingordercontroller::class, 'store'])->name('order.store');
 // User Dashboard — real DB data সহ
@@ -80,6 +84,9 @@ Route::get('/all-products', [FrontendController::class, 'allProducts'])->name('p
 Route::get('/shop',         [FrontendController::class, 'shop'])->name('shop');
 Route::get('/offers',       [FrontendController::class, 'offers'])->name('offers');
 Route::get('/new-arrivals', [FrontendController::class, 'newArrivals'])->name('new-arrivals');
+Route::post('/review/store', [ProductReviewController::class, 'store'])->name('review.store');
+
+
 
 
 
@@ -135,8 +142,8 @@ Route::post('/logout',   [AuthController::class, 'logout'])->name('logout');
 Route::get('customer/login',         [FrontendauthContorller::class, 'customer_login'])->name('customer.login');
 Route::post('customer/login/submit', [FrontendauthContorller::class, 'customer_login_submit'])->name('customer.login.submit');
 Route::get('customer/register',      [FrontendauthContorller::class, 'customer_register'])->name('customer.register');
-Route::post('/customer/register',    [FrontendauthContorller::class, 'customer_register_submit'])->name('customer.register.submit');
-Route::post('/customer/logout',      [FrontendauthContorller::class, 'customer_logout'])->name('customer.logout');
+Route::post('customer/register',     [FrontendauthContorller::class, 'customer_register_submit'])->name('customer.register.submit');
+Route::post('customer/logout',       [FrontendauthContorller::class, 'customer_logout'])->name('customer.logout');
 Route::middleware(['customer'])->group(function () {
     Route::get('customer/dashboard', [FrontendController::class, 'user_dashboard'])->name('user.dashboard');
 });
@@ -298,11 +305,18 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
  // ✅ bulk আগে, তারপর {order}
     Route::post('orders/bulk-send-steadfast',[SteadfastOrderController::class, 'bulkSend'])->name('steadfast.bulk-send');  // → admin.steadfast.bulk-send
     Route::post('orders/{order}/send-steadfast',[SteadfastOrderController::class, 'send'])->name('steadfast.send');
+    Route::get('steadfast/test', [SteadfastOrderController::class, 'test'])->name('steadfast.test');
     Route::resource('campaigncreate', CampaigncreateController::class);
+
+    // ── Product Reviews (Admin) ───────────────────────────────────────────────
+    Route::get('/reviews', [AdminproductReviewController::class, 'index'])->name('admin.reviews.index');
+    Route::post('/reviews/{id}/approve', [AdminproductReviewController::class, 'approve'])->name('admin.reviews.approve');
+    Route::post('/reviews/{id}/unapprove', [AdminproductReviewController::class, 'unapprove'])->name('admin.reviews.unapprove');
+    Route::delete('/reviews/{id}', [AdminproductReviewController::class, 'destroy'])->name('admin.reviews.destroy');
+    Route::post('/reviews/bulk', [AdminproductReviewController::class, 'bulk'])->name('admin.reviews.bulk');
+     // ── Product Reviews End(Admin) ───────────────────────────────────────────────
 }); // end admin group
-Route::post('webhook/steadfast',
-    [SteadfastOrderController::class, 'webhook'])
-    ->name('steadfast.webhook');
+Route::post('webhook/steadfast',[SteadfastOrderController::class, 'webhook'])->name('steadfast.webhook');
 // ══════════════════════════════════════════════════════════════════════════════
 // SELLER
 // ══════════════════════════════════════════════════════════════════════════════

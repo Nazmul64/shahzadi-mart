@@ -109,27 +109,17 @@
 }
 .smhome-auth-btns { display: flex; gap: 8px; }
 .smhome-btn-reg {
-    flex: 1;
-    background: var(--light);
-    color: var(--text);
-    border: 1.5px solid var(--border);
-    padding: 10px 4px;
-    border-radius: 26px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px; font-weight: 700;
-    transition: var(--t); text-decoration: none;
-    display: flex; align-items: center; justify-content: center;
+    flex: 1; background: var(--light); color: var(--text);
+    border: 1.5px solid var(--border); padding: 10px 4px; border-radius: 26px;
+    font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 700;
+    transition: var(--t); text-decoration: none; display: flex; align-items: center; justify-content: center;
 }
 .smhome-btn-reg:hover { border-color: var(--red); color: var(--red); }
 .smhome-btn-sign {
-    flex: 1;
-    background: var(--red);
-    color: #fff; border: none;
+    flex: 1; background: var(--red); color: #fff; border: none;
     padding: 10px 4px; border-radius: 26px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px; font-weight: 700;
-    transition: var(--t); text-decoration: none;
-    display: flex; align-items: center; justify-content: center;
+    font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 700;
+    transition: var(--t); text-decoration: none; display: flex; align-items: center; justify-content: center;
 }
 .smhome-btn-sign:hover { background: var(--red-d); color: #fff; }
 
@@ -151,25 +141,17 @@
     background: radial-gradient(circle at 80% 20%, rgba(255,255,255,.13), transparent 55%);
 }
 .smhome-clearance-card small {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 9px; font-weight: 800;
-    letter-spacing: .2em; text-transform: uppercase;
-    opacity: .88; margin-top: 6px; display: block;
+    font-family: 'DM Sans', sans-serif; font-size: 9px; font-weight: 800;
+    letter-spacing: .2em; text-transform: uppercase; opacity: .88; margin-top: 6px; display: block;
 }
 .smhome-clearance-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 32px rgba(200,16,46,.45);
-    color: #fff;
+    transform: translateY(-3px); box-shadow: 0 12px 32px rgba(200,16,46,.45); color: #fff;
 }
 
 /* ── Mobile strip ── */
-.smhome-hero-mobile-strip {
-    display: none; gap: 10px; margin-bottom: 18px;
-}
+.smhome-hero-mobile-strip { display: none; gap: 10px; margin-bottom: 18px; }
 .smhome-hero-mobile-strip .smhome-welcome-card { flex: 1; }
-.smhome-hero-mobile-strip .smhome-clearance-card {
-    flex: 0 0 130px; min-height: 76px; font-size: 17px;
-}
+.smhome-hero-mobile-strip .smhome-clearance-card { flex: 0 0 130px; min-height: 76px; font-size: 17px; }
 
 /* ══ CATEGORY CIRCLES ══ */
 .smhome-circles-box {
@@ -201,24 +183,18 @@
 
 /* ══ SECTION HEADER ══ */
 .smhome-sec-head {
-    display: flex; align-items: center;
-    justify-content: space-between; margin: 28px 0 14px;
+    display: flex; align-items: center; justify-content: space-between; margin: 28px 0 14px;
 }
 .smhome-sec-head h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 24px; font-weight: 800; color: var(--dark);
-    display: flex; align-items: center; gap: 11px;
-    margin: 0;
+    font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 800; color: var(--dark);
+    display: flex; align-items: center; gap: 11px; margin: 0;
 }
 .smhome-sec-head h2::before {
-    content: ''; width: 5px; height: 24px;
-    background: var(--red); border-radius: 3px; flex-shrink: 0;
+    content: ''; width: 5px; height: 24px; background: var(--red); border-radius: 3px; flex-shrink: 0;
 }
 .smhome-see-all {
-    font-size: 12.5px; font-weight: 700; color: var(--red);
-    letter-spacing: .07em; text-transform: uppercase;
-    display: flex; align-items: center; gap: 5px;
-    transition: gap .2s; text-decoration: none;
+    font-size: 12.5px; font-weight: 700; color: var(--red); letter-spacing: .07em; text-transform: uppercase;
+    display: flex; align-items: center; gap: 5px; transition: gap .2s; text-decoration: none;
 }
 .smhome-see-all:hover { gap: 9px; color: var(--red); }
 
@@ -230,23 +206,15 @@
     margin-bottom: 12px; box-shadow: var(--sh1); flex-wrap: wrap;
 }
 .smhome-flash-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 22px; font-weight: 800; color: var(--dark);
+    font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 800; color: var(--dark);
     display: flex; align-items: center; gap: 8px; flex: 1; min-width: 130px;
 }
-.smhome-flash-title i {
-    color: var(--red);
-    animation: smhome-flash-pulse 1.4s ease-in-out infinite;
-}
-@keyframes smhome-flash-pulse {
-    0%,100% { opacity: 1; }
-    50%     { opacity: .3; }
-}
+.smhome-flash-title i { color: var(--red); animation: smhome-flash-pulse 1.4s ease-in-out infinite; }
+@keyframes smhome-flash-pulse { 0%,100% { opacity: 1; } 50% { opacity: .3; } }
 
 /* ══ PRODUCT GRID ══ */
 .smhome-prod-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
     gap: 16px; margin-bottom: 32px;
 }
 
@@ -257,21 +225,17 @@
     border-radius: var(--rm); overflow: hidden; position: relative;
     transition: var(--t); display: flex; flex-direction: column; height: 100%;
 }
-.smhome-p-card:hover {
-    box-shadow: var(--sh3); transform: translateY(-5px); border-color: var(--border-d);
-}
+.smhome-p-card:hover { box-shadow: var(--sh3); transform: translateY(-5px); border-color: var(--border-d); }
 .smhome-p-badge {
     position: absolute; top: 10px; left: 10px;
-    background: var(--red); color: #fff;
-    font-size: 10px; font-weight: 800;
+    background: var(--red); color: #fff; font-size: 10px; font-weight: 800;
     padding: 4px 9px; border-radius: 5px; letter-spacing: .04em; z-index: 2;
 }
 .smhome-p-wish {
     position: absolute; top: 9px; right: 9px;
     width: 34px; height: 34px; background: #fff; border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
-    font-size: 14px; color: #bbb;
-    box-shadow: 0 2px 8px rgba(0,0,0,.13);
+    font-size: 14px; color: #bbb; box-shadow: 0 2px 8px rgba(0,0,0,.13);
     z-index: 10; border: none; cursor: pointer;
     transition: color .2s, background .2s, transform .2s;
     opacity: 0; pointer-events: none; text-decoration: none;
@@ -285,30 +249,31 @@
     transition: transform .35s cubic-bezier(.4,0,.2,1); display: block;
 }
 .smhome-p-card:hover .smhome-p-img { transform: scale(1.06); }
-.smhome-p-body {
-    padding: 12px 13px 13px;
-    display: flex; flex-direction: column; flex: 1;
-}
+.smhome-p-body { padding: 12px 13px 13px; display: flex; flex-direction: column; flex: 1; }
 .smhome-p-name {
     font-size: 13.5px; font-weight: 600; color: var(--text);
     line-height: 1.48; margin-bottom: 8px;
-    display: -webkit-box; -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical; overflow: hidden;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
 }
 .smhome-p-price { font-size: 16px; font-weight: 900; color: var(--red); margin-bottom: 2px; }
-.smhome-p-old  { font-size: 12px; color: var(--muted); text-decoration: line-through; margin-bottom: 5px; }
+.smhome-p-old   { font-size: 12px; color: var(--muted); text-decoration: line-through; margin-bottom: 5px; }
 .smhome-p-stock { font-size: 11.5px; font-weight: 700; color: #d97706; margin-bottom: 5px; }
-.smhome-p-stars { color: #f59e0b; font-size: 12.5px; }
-.smhome-p-rc { color: var(--muted); font-size: 11.5px; margin-left: 3px; }
-.smhome-p-meta { margin-bottom: 10px; }
+.smhome-p-meta  { margin-bottom: 10px; }
+
+/* ── Star rating row ── */
+.smhome-p-stars-row {
+    display: flex; align-items: center; gap: 3px; margin-bottom: 3px;
+}
+.smhome-p-stars-row .sm-star { font-size: 11px; }
+.smhome-p-stars-row .sm-star.filled { color: #f59e0b; }
+.smhome-p-stars-row .sm-star.empty  { color: #d1d5db; }
+.smhome-p-rc { color: var(--muted); font-size: 11px; margin-left: 4px; }
 
 /* Add to Cart button */
 .smhome-p-atc {
     display: flex; align-items: center; justify-content: center; gap: 7px;
-    width: 100%; padding: 11px 0;
-    background: var(--red); color: #fff; border: none;
-    border-radius: var(--r);
-    font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 700;
+    width: 100%; padding: 11px 0; background: var(--red); color: #fff; border: none;
+    border-radius: var(--r); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 700;
     letter-spacing: .02em; cursor: pointer; transition: var(--t);
     margin-top: auto; text-decoration: none;
 }
@@ -319,6 +284,239 @@
 .smhome-p-atc:active { transform: scale(.97); }
 .smhome-p-atc i { font-size: 12px; }
 
+/* ══════════════════════════════════════
+   CUSTOMER REVIEWS SECTION
+══════════════════════════════════════ */
+.smhome-reviews-section {
+    margin-bottom: 40px;
+}
+
+/* Overall rating summary box */
+.smhome-review-summary {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--rm);
+    padding: 24px 28px;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    margin-bottom: 20px;
+    box-shadow: var(--sh1);
+    flex-wrap: wrap;
+}
+.smhome-review-big-score {
+    text-align: center;
+    flex-shrink: 0;
+}
+.smhome-review-big-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 56px;
+    font-weight: 900;
+    color: var(--dark);
+    line-height: 1;
+    margin-bottom: 6px;
+}
+.smhome-review-big-stars {
+    display: flex;
+    gap: 4px;
+    justify-content: center;
+    margin-bottom: 6px;
+}
+.smhome-review-big-stars i { font-size: 18px; color: #f59e0b; }
+.smhome-review-big-count {
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 500;
+}
+
+/* Rating bars */
+.smhome-review-bars {
+    flex: 1;
+    min-width: 180px;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+.smhome-review-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: var(--mid);
+    font-weight: 600;
+}
+.smhome-review-bar-track {
+    flex: 1;
+    height: 8px;
+    background: var(--light);
+    border-radius: 4px;
+    overflow: hidden;
+}
+.smhome-review-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #f59e0b, #fbbf24);
+    border-radius: 4px;
+    transition: width .6s ease;
+}
+.smhome-review-bar-pct {
+    font-size: 11px;
+    color: var(--muted);
+    width: 30px;
+    text-align: right;
+    flex-shrink: 0;
+}
+
+/* Review cards grid */
+.smhome-reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+}
+
+/* Individual review card */
+.smhome-rev-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--rm);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: var(--t);
+    position: relative;
+    overflow: hidden;
+}
+.smhome-rev-card::before {
+    content: '"';
+    position: absolute;
+    top: -8px;
+    right: 16px;
+    font-family: 'Playfair Display', serif;
+    font-size: 80px;
+    color: var(--red);
+    opacity: .07;
+    line-height: 1;
+    pointer-events: none;
+}
+.smhome-rev-card:hover {
+    box-shadow: var(--sh2);
+    border-color: var(--border-d);
+    transform: translateY(-3px);
+}
+
+/* Product strip inside review card */
+.smhome-rev-product {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+}
+.smhome-rev-product img {
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 1px solid var(--border);
+    flex-shrink: 0;
+}
+.smhome-rev-product-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    flex: 1;
+    text-decoration: none;
+}
+.smhome-rev-product-name:hover { color: var(--red); }
+
+/* Stars row in review card */
+.smhome-rev-stars {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+.smhome-rev-stars i { font-size: 13px; }
+.smhome-rev-stars .rev-star-filled { color: #f59e0b; }
+.smhome-rev-stars .rev-star-empty  { color: #d1d5db; }
+
+/* Review text */
+.smhome-rev-text {
+    font-size: 13.5px;
+    color: var(--mid);
+    line-height: 1.65;
+    font-style: italic;
+    flex: 1;
+}
+
+/* Reviewer info */
+.smhome-rev-footer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+}
+.smhome-rev-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--red), #8b0000);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 800;
+    color: #fff;
+    flex-shrink: 0;
+    font-family: 'Playfair Display', serif;
+}
+.smhome-rev-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+}
+.smhome-rev-date {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 1px;
+}
+.smhome-rev-verified {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    color: #16a34a;
+    background: rgba(22,163,74,.1);
+    border: 1px solid rgba(22,163,74,.2);
+    border-radius: 20px;
+    padding: 3px 9px;
+    flex-shrink: 0;
+}
+
+/* Empty state */
+.smhome-reviews-empty {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--rm);
+    padding: 48px 24px;
+    text-align: center;
+    color: var(--muted);
+}
+.smhome-reviews-empty i {
+    font-size: 40px;
+    color: var(--border-d, #d1d5db);
+    display: block;
+    margin-bottom: 12px;
+}
+.smhome-reviews-empty p { font-size: 14px; }
+
 /* ══ RESPONSIVE ══ */
 @media (max-width: 900px) {
     .smhome-hero { grid-template-columns: 1fr; }
@@ -326,34 +524,34 @@
     .smhome-hero-mobile-strip { display: flex; }
     .smhome-prod-grid { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 13px; }
     .smhome-p-wish { opacity: 1; pointer-events: auto; }
+    .smhome-reviews-grid { grid-template-columns: 1fr; }
+    .smhome-review-summary { gap: 20px; }
 }
 @media (max-width: 640px) {
-    .smhome-slide { height: 230px; }
-    .smhome-hero-slider { height: 230px; }
+    .smhome-slide { height: 230px; } .smhome-hero-slider { height: 230px; }
     .smhome-hero-mobile-strip .smhome-clearance-card { flex: 0 0 110px; font-size: 15px; }
     .smhome-sec-head h2 { font-size: 20px; }
     .smhome-prod-grid { grid-template-columns: repeat(2, 1fr); gap: 11px; }
     .smhome-p-img { height: 140px; }
     .smhome-flash-hd { padding: 11px 16px; gap: 9px; }
     .smhome-flash-title { font-size: 18px; }
+    .smhome-reviews-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+}
+@media (max-width: 480px) {
+    .smhome-reviews-grid { grid-template-columns: 1fr; }
+    .smhome-review-summary { flex-direction: column; align-items: flex-start; gap: 16px; }
 }
 @media (max-width: 420px) {
-    .smhome-slide { height: 195px; }
-    .smhome-hero-slider { height: 195px; }
+    .smhome-slide { height: 195px; } .smhome-hero-slider { height: 195px; }
     .smhome-hero-mobile-strip .smhome-clearance-card { flex: 0 0 96px; font-size: 14px; }
     .smhome-prod-grid { gap: 9px; }
-    .smhome-p-name { font-size: 12.5px; }
-    .smhome-p-price { font-size: 15px; }
-    .smhome-p-img { height: 130px; }
-    .smhome-circle-img { width: 63px; height: 63px; }
-    .smhome-circle-item p { font-size: 11.5px; }
-    .smhome-sec-head h2 { font-size: 18px; }
+    .smhome-p-name { font-size: 12.5px; } .smhome-p-price { font-size: 15px; }
+    .smhome-p-img { height: 130px; } .smhome-circle-img { width: 63px; height: 63px; }
+    .smhome-circle-item p { font-size: 11.5px; } .smhome-sec-head h2 { font-size: 18px; }
 }
 @media (max-width: 360px) {
     .smhome-hero-mobile-strip { flex-direction: column; }
-    .smhome-hero-mobile-strip .smhome-clearance-card {
-        flex: none; min-height: 64px; flex-direction: row; gap: 8px; font-size: 15px;
-    }
+    .smhome-hero-mobile-strip .smhome-clearance-card { flex: none; min-height: 64px; flex-direction: row; gap: 8px; font-size: 15px; }
     .smhome-prod-grid { grid-template-columns: repeat(2, 1fr); }
 }
 </style>
@@ -379,7 +577,6 @@
 
     {{-- ══ HERO ══ --}}
     <div class="smhome-hero">
-        {{-- Slider --}}
         <div class="smhome-hero-slider">
             <div class="smhome-slides-wrap">
                 @forelse ($slider as $item)
@@ -400,7 +597,6 @@
             </div>
         </div>
 
-        {{-- Right Panel (Desktop) --}}
         <div class="smhome-hero-panel">
             <div class="smhome-welcome-card">
                 <p class="smhome-welcome-card__label">Welcome Back</p>
@@ -436,17 +632,18 @@
     <div class="smhome-circles-box">
         <div class="smhome-circles-track">
             @foreach ($categories as $cat)
-                <a href="{{ url('category/' . $cat->slug) }}" class="smhome-circle-item">
+                <a href="{{ url('category/'.$cat->slug) }}" class="smhome-circle-item">
                     <div class="smhome-circle-img">
-                        <img src="{{ asset('uploads/category/' . $cat->category_photo) }}" alt="{{ $cat->category_name }}" loading="lazy">
+                        <img src="{{ asset('uploads/category/'.$cat->category_photo) }}" alt="{{ $cat->category_name }}" loading="lazy">
                     </div>
                     <p>{{ $cat->category_name }}</p>
                 </a>
             @endforeach
+            {{-- Duplicate for seamless loop --}}
             @foreach ($categories as $cat)
-                <a href="{{ url('category/' . $cat->slug) }}" class="smhome-circle-item">
+                <a href="{{ url('category/'.$cat->slug) }}" class="smhome-circle-item">
                     <div class="smhome-circle-img">
-                        <img src="{{ asset('uploads/category/' . $cat->category_photo) }}" alt="{{ $cat->category_name }}" loading="lazy">
+                        <img src="{{ asset('uploads/category/'.$cat->category_photo) }}" alt="{{ $cat->category_name }}" loading="lazy">
                     </div>
                     <p>{{ $cat->category_name }}</p>
                 </a>
@@ -473,6 +670,9 @@
                 $discount      = ($displayPrice < $originalPrice && $originalPrice > 0)
                     ? round((($originalPrice - $displayPrice) / $originalPrice) * 100) : null;
                 $inStock = $item->is_unlimited || ($item->stock ?? 0) > 0;
+
+                $revAvg   = \App\Models\Producreview::where('product_id',$item->id)->where('is_approved',true)->avg('rating') ?? 0;
+                $revCount = \App\Models\Producreview::where('product_id',$item->id)->where('is_approved',true)->count();
             @endphp
             <div style="position:relative">
                 <a href="{{ route('wishlist.add', $item->id) }}"
@@ -487,7 +687,7 @@
                         @endif
                         <div class="smhome-p-img-wrap">
                             <img class="smhome-p-img"
-                                 src="{{ asset('uploads/products/' . $item->feature_image) }}"
+                                 src="{{ asset('uploads/products/'.$item->feature_image) }}"
                                  alt="{{ $item->name }}" loading="lazy">
                         </div>
                         <div class="smhome-p-body">
@@ -498,15 +698,17 @@
                             @endif
                             <div class="smhome-p-meta">
                                 @if(!$item->is_unlimited && $item->stock !== null && $item->stock <= 10)
-                                    <p class="smhome-p-stock">
-                                        <i class="bi bi-fire" style="font-size:10px"></i> {{ $item->stock }} left
-                                    </p>
+                                    <p class="smhome-p-stock"><i class="bi bi-fire" style="font-size:10px"></i> {{ $item->stock }} left</p>
                                 @endif
-                                <span class="smhome-p-stars">★★★★☆</span>
+                                <div class="smhome-p-stars-row">
+                                    @for($s=1;$s<=5;$s++)
+                                        <i class="bi bi-star{{ $s <= round($revAvg) ? '-fill' : '' }} sm-star {{ $s <= round($revAvg) ? 'filled' : 'empty' }}"></i>
+                                    @endfor
+                                    <span class="smhome-p-rc">({{ $revCount }})</span>
+                                </div>
                             </div>
                             @if($inStock)
-                                <a href="{{ route('cart.add', $item->id) }}"
-                                   class="smhome-p-atc" onclick="event.stopPropagation()">
+                                <a href="{{ route('cart.add', $item->id) }}" class="smhome-p-atc" onclick="event.stopPropagation()">
                                     <i class="bi bi-cart-plus"></i> কার্টে যোগ করুন
                                 </a>
                             @else
@@ -526,21 +728,19 @@
     @if($newArrivals->isNotEmpty())
     <div class="smhome-sec-head">
         <h2>New Arrivals</h2>
-        <a href="{{ url('new-arrivals') }}" class="smhome-see-all">
-            SEE ALL <i class="bi bi-arrow-right"></i>
-        </a>
+        <a href="{{ url('new-arrivals') }}" class="smhome-see-all">SEE ALL <i class="bi bi-arrow-right"></i></a>
     </div>
     <div class="smhome-prod-grid">
         @foreach ($newArrivals as $item)
             @php
                 $discount = ($item->discount_price && $item->current_price > 0)
                     ? round((($item->current_price - $item->discount_price) / $item->current_price) * 100) : null;
-                $inStock = $item->is_unlimited || ($item->stock ?? 0) > 0;
+                $inStock  = $item->is_unlimited || ($item->stock ?? 0) > 0;
+                $revAvg   = \App\Models\Producreview::where('product_id',$item->id)->where('is_approved',true)->avg('rating') ?? 0;
+                $revCount = \App\Models\Producreview::where('product_id',$item->id)->where('is_approved',true)->count();
             @endphp
             <div style="position:relative">
-                <a href="{{ route('wishlist.add', $item->id) }}"
-                   class="smhome-p-wish" title="উইশলিস্টে যোগ করুন"
-                   onclick="event.stopPropagation()">
+                <a href="{{ route('wishlist.add', $item->id) }}" class="smhome-p-wish" title="উইশলিস্টে যোগ করুন" onclick="event.stopPropagation()">
                     <i class="bi bi-heart"></i>
                 </a>
                 <a href="{{ route('product.detail', $item->slug) }}" class="smhome-p-card-link">
@@ -549,9 +749,7 @@
                             <span class="smhome-p-badge">-{{ $discount }}%</span>
                         @endif
                         <div class="smhome-p-img-wrap">
-                            <img class="smhome-p-img"
-                                 src="{{ asset('uploads/products/' . $item->feature_image) }}"
-                                 alt="{{ $item->name }}" loading="lazy">
+                            <img class="smhome-p-img" src="{{ asset('uploads/products/'.$item->feature_image) }}" alt="{{ $item->name }}" loading="lazy">
                         </div>
                         <div class="smhome-p-body">
                             <p class="smhome-p-name">{{ $item->name }}</p>
@@ -561,15 +759,17 @@
                             @endif
                             <div class="smhome-p-meta">
                                 @if(!$item->is_unlimited && $item->stock !== null && $item->stock <= 10)
-                                    <p class="smhome-p-stock">
-                                        <i class="bi bi-fire" style="font-size:10px"></i> {{ $item->stock }} left
-                                    </p>
+                                    <p class="smhome-p-stock"><i class="bi bi-fire" style="font-size:10px"></i> {{ $item->stock }} left</p>
                                 @endif
-                                <span class="smhome-p-stars">★★★★☆</span>
+                                <div class="smhome-p-stars-row">
+                                    @for($s=1;$s<=5;$s++)
+                                        <i class="bi bi-star{{ $s <= round($revAvg) ? '-fill' : '' }} sm-star {{ $s <= round($revAvg) ? 'filled' : 'empty' }}"></i>
+                                    @endfor
+                                    <span class="smhome-p-rc">({{ $revCount }})</span>
+                                </div>
                             </div>
                             @if($inStock)
-                                <a href="{{ route('cart.add', $item->id) }}"
-                                   class="smhome-p-atc" onclick="event.stopPropagation()">
+                                <a href="{{ route('cart.add', $item->id) }}" class="smhome-p-atc" onclick="event.stopPropagation()">
                                     <i class="bi bi-cart-plus"></i> কার্টে যোগ করুন
                                 </a>
                             @else
@@ -589,21 +789,19 @@
     @if($bestSellers->isNotEmpty())
     <div class="smhome-sec-head" style="margin-top:6px">
         <h2>Best Sellers</h2>
-        <a href="{{ url('best-sellers') }}" class="smhome-see-all">
-            SEE ALL <i class="bi bi-arrow-right"></i>
-        </a>
+        <a href="{{ url('best-sellers') }}" class="smhome-see-all">SEE ALL <i class="bi bi-arrow-right"></i></a>
     </div>
     <div class="smhome-prod-grid">
         @foreach ($bestSellers as $item)
             @php
                 $discount = ($item->discount_price && $item->current_price > 0)
                     ? round((($item->current_price - $item->discount_price) / $item->current_price) * 100) : null;
-                $inStock = $item->is_unlimited || ($item->stock ?? 0) > 0;
+                $inStock  = $item->is_unlimited || ($item->stock ?? 0) > 0;
+                $revAvg   = \App\Models\Producreview::where('product_id',$item->id)->where('is_approved',true)->avg('rating') ?? 0;
+                $revCount = \App\Models\Producreview::where('product_id',$item->id)->where('is_approved',true)->count();
             @endphp
             <div style="position:relative">
-                <a href="{{ route('wishlist.add', $item->id) }}"
-                   class="smhome-p-wish" title="উইশলিস্টে যোগ করুন"
-                   onclick="event.stopPropagation()">
+                <a href="{{ route('wishlist.add', $item->id) }}" class="smhome-p-wish" title="উইশলিস্টে যোগ করুন" onclick="event.stopPropagation()">
                     <i class="bi bi-heart"></i>
                 </a>
                 <a href="{{ route('product.detail', $item->slug) }}" class="smhome-p-card-link">
@@ -612,9 +810,7 @@
                             <span class="smhome-p-badge">-{{ $discount }}%</span>
                         @endif
                         <div class="smhome-p-img-wrap">
-                            <img class="smhome-p-img"
-                                 src="{{ asset('uploads/products/' . $item->feature_image) }}"
-                                 alt="{{ $item->name }}" loading="lazy">
+                            <img class="smhome-p-img" src="{{ asset('uploads/products/'.$item->feature_image) }}" alt="{{ $item->name }}" loading="lazy">
                         </div>
                         <div class="smhome-p-body">
                             <p class="smhome-p-name">{{ $item->name }}</p>
@@ -624,15 +820,17 @@
                             @endif
                             <div class="smhome-p-meta">
                                 @if(!$item->is_unlimited && $item->stock !== null && $item->stock <= 10)
-                                    <p class="smhome-p-stock">
-                                        <i class="bi bi-fire" style="font-size:10px"></i> {{ $item->stock }} left
-                                    </p>
+                                    <p class="smhome-p-stock"><i class="bi bi-fire" style="font-size:10px"></i> {{ $item->stock }} left</p>
                                 @endif
-                                <span class="smhome-p-stars">★★★★☆</span>
+                                <div class="smhome-p-stars-row">
+                                    @for($s=1;$s<=5;$s++)
+                                        <i class="bi bi-star{{ $s <= round($revAvg) ? '-fill' : '' }} sm-star {{ $s <= round($revAvg) ? 'filled' : 'empty' }}"></i>
+                                    @endfor
+                                    <span class="smhome-p-rc">({{ $revCount }})</span>
+                                </div>
                             </div>
                             @if($inStock)
-                                <a href="{{ route('cart.add', $item->id) }}"
-                                   class="smhome-p-atc" onclick="event.stopPropagation()">
+                                <a href="{{ route('cart.add', $item->id) }}" class="smhome-p-atc" onclick="event.stopPropagation()">
                                     <i class="bi bi-cart-plus"></i> কার্টে যোগ করুন
                                 </a>
                             @else
@@ -647,6 +845,144 @@
         @endforeach
     </div>
     @endif
+
+    {{-- ══════════════════════════════════════════════
+         CUSTOMER REVIEWS SECTION
+         approved reviews গুলো এখানে দেখাবে
+    ══════════════════════════════════════════════ --}}
+    @php
+        // সব approved reviews — product এবং user সহ load করা
+        $homeReviews = \App\Models\Producreview::where('is_approved', true)
+                        ->with(['product', 'user'])
+                        ->latest()
+                        ->take(8)
+                        ->get();
+
+        // Overall stats
+        $totalReviewCount = \App\Models\Producreview::where('is_approved', true)->count();
+        $overallAvg       = $totalReviewCount > 0
+                            ? \App\Models\Producreview::where('is_approved', true)->avg('rating')
+                            : 0;
+
+        // Per-star counts
+        $starCounts = [];
+        for ($s = 5; $s >= 1; $s--) {
+            $starCounts[$s] = \App\Models\Producreview::where('is_approved', true)->where('rating', $s)->count();
+        }
+    @endphp
+
+    @if($homeReviews->isNotEmpty())
+    <div class="smhome-reviews-section">
+        <div class="smhome-sec-head">
+            <h2>Customer Reviews</h2>
+            {{-- optional see-all link যদি আলাদা reviews page থাকে --}}
+            {{-- <a href="{{ url('reviews') }}" class="smhome-see-all">SEE ALL <i class="bi bi-arrow-right"></i></a> --}}
+        </div>
+
+        {{-- ── Overall Rating Summary Box ── --}}
+        <div class="smhome-review-summary">
+            <div class="smhome-review-big-score">
+                <div class="smhome-review-big-num">{{ number_format($overallAvg, 1) }}</div>
+                <div class="smhome-review-big-stars">
+                    @for($s = 1; $s <= 5; $s++)
+                        <i class="bi bi-star{{ $s <= round($overallAvg) ? '-fill' : ($s - 0.5 <= $overallAvg ? '-half' : '') }}"></i>
+                    @endfor
+                </div>
+                <div class="smhome-review-big-count">{{ $totalReviewCount }} টি রিভিউ</div>
+            </div>
+
+            {{-- Rating Breakdown Bars --}}
+            <div class="smhome-review-bars">
+                @for($s = 5; $s >= 1; $s--)
+                    @php
+                        $cnt = $starCounts[$s] ?? 0;
+                        $pct = $totalReviewCount > 0 ? round(($cnt / $totalReviewCount) * 100) : 0;
+                    @endphp
+                    <div class="smhome-review-bar-row">
+                        <span style="width:14px;text-align:right;flex-shrink:0;">{{ $s }}</span>
+                        <i class="bi bi-star-fill" style="font-size:11px;color:#f59e0b;flex-shrink:0;"></i>
+                        <div class="smhome-review-bar-track">
+                            <div class="smhome-review-bar-fill" style="width:{{ $pct }}%;"></div>
+                        </div>
+                        <span class="smhome-review-bar-pct">{{ $pct }}%</span>
+                    </div>
+                @endfor
+            </div>
+
+            {{-- Summary text --}}
+            <div style="flex-shrink:0;text-align:center;padding:0 8px;">
+                <div style="font-size:13px;color:var(--mid);line-height:1.6;max-width:160px;">
+                    আমাদের গ্রাহকরা কেনাকাটার অভিজ্ঞতা শেয়ার করেছেন।
+                    আপনিও রিভিউ দিন!
+                </div>
+            </div>
+        </div>
+
+        {{-- ── Review Cards Grid ── --}}
+        <div class="smhome-reviews-grid">
+            @foreach($homeReviews as $rev)
+                @php
+                    $prod        = $rev->product;
+                    $reviewer    = $rev->user;
+                    $reviewerName = $reviewer ? $reviewer->name : 'Anonymous';
+                    $initial      = strtoupper(substr($reviewerName, 0, 1));
+                    $prodImg      = $prod && $prod->feature_image
+                                    ? asset('uploads/products/'.$prod->feature_image)
+                                    : 'https://via.placeholder.com/44/f3f4f6/9ca3af?text=P';
+                    $prodSlug     = $prod ? $prod->slug : '#';
+                    $prodName     = $prod ? $prod->name : 'Product';
+                @endphp
+                <div class="smhome-rev-card">
+
+                    {{-- Product thumbnail + name --}}
+                    <div class="smhome-rev-product">
+                        <img src="{{ $prodImg }}"
+                             alt="{{ $prodName }}"
+                             onerror="this.src='https://via.placeholder.com/44/f3f4f6/9ca3af?text=P'">
+                        <a href="{{ route('product.detail', $prodSlug) }}" class="smhome-rev-product-name">
+                            {{ $prodName }}
+                        </a>
+                    </div>
+
+                    {{-- Star rating --}}
+                    <div class="smhome-rev-stars">
+                        @for($s = 1; $s <= 5; $s++)
+                            <i class="bi bi-star{{ $s <= $rev->rating ? '-fill rev-star-filled' : ' rev-star-empty' }}"></i>
+                        @endfor
+                        <span style="font-size:12px;color:var(--muted);margin-left:6px;font-weight:600;">
+                            {{ $rev->rating }}/5
+                        </span>
+                    </div>
+
+                    {{-- Review text --}}
+                    @if($rev->review)
+                        <p class="smhome-rev-text">"{{ $rev->review }}"</p>
+                    @else
+                        <p class="smhome-rev-text" style="color:var(--muted);font-style:normal;font-size:12px;">
+                            (কোনো মন্তব্য করা হয়নি)
+                        </p>
+                    @endif
+
+                    {{-- Footer: reviewer info --}}
+                    <div class="smhome-rev-footer">
+                        <div class="smhome-rev-avatar">{{ $initial }}</div>
+                        <div>
+                            <div class="smhome-rev-name">{{ $reviewerName }}</div>
+                            <div class="smhome-rev-date">
+                                {{ $rev->created_at->format('d M Y') }}
+                            </div>
+                        </div>
+                        <div class="smhome-rev-verified">
+                            <i class="bi bi-patch-check-fill"></i> Verified
+                        </div>
+                    </div>
+
+                </div>
+            @endforeach
+        </div>
+    </div>
+    @endif
+    {{-- ══ END REVIEWS ══ --}}
 
 </div>{{-- /.smhome-ci --}}
 

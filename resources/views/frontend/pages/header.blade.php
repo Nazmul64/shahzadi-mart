@@ -392,12 +392,33 @@
     .hdr-drop-wrap:hover .hdr-drop { opacity: 1; visibility: visible; transform: none; }
 
     /* ── Account dropdown ── */
-    .acct-drop { min-width: 215px; }
+    .acct-drop { min-width: 230px; }
     .acct-drop__hd {
         background: linear-gradient(135deg, var(--dark) 0%, var(--dark3) 100%);
         padding: 16px 14px; text-align: center;
     }
     .acct-drop__hd p { color: #777; font-size: 11.5px; margin-bottom: 10px; letter-spacing: .04em; }
+    .acct-drop__hd .user-greeting {
+        color: #ccc; font-weight: 700; font-size: 13px;
+        margin-bottom: 6px; display: block;
+    }
+    .acct-drop__hd .user-email {
+        color: #666; font-size: 10.5px; margin-bottom: 10px; display: block;
+    }
+
+    /* ── Dashboard Button (logged in) ── */
+    .acct-dash-btn {
+        display: flex; align-items: center; justify-content: center; gap: 7px;
+        width: 100%; background: var(--red); color: #fff;
+        border: none; padding: 9px 0; border-radius: 30px;
+        font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 800;
+        cursor: pointer; transition: var(--t); text-decoration: none;
+        letter-spacing: .03em;
+    }
+    .acct-dash-btn:hover { background: var(--red-d); color: #fff; }
+    .acct-dash-btn .bi { font-size: 14px; }
+
+    /* ── Sign In Button (guest) ── */
     .acct-signin {
         width: 100%; background: var(--red); color: #fff;
         border: none; padding: 9px 0; border-radius: 30px;
@@ -405,6 +426,7 @@
         cursor: pointer; transition: var(--t);
     }
     .acct-signin:hover { background: var(--red-d); }
+
     .acct-drop a {
         display: flex; align-items: center; gap: 10px;
         padding: 10px 14px; font-size: 13px; font-weight: 600; color: var(--text);
@@ -911,33 +933,72 @@
         {{-- Actions --}}
         <div class="hdr-actions">
 
-            {{-- ACCOUNT --}}
+            {{-- ══ ACCOUNT DROPDOWN ══ --}}
             <div class="hdr-drop-wrap">
-                <div class="h-act" tabindex="0" role="button">
+                <div class="h-act" tabindex="0" role="button" aria-label="Account">
                     <i class="bi bi-person-circle"></i>
-                    <span class="h-act__lbl">Account</span>
+                    {{-- Label: login থাকলে Dashboard, না থাকলে Login --}}
+                    <span class="h-act__lbl">
+                        @auth Dashboard @else Login @endauth
+                    </span>
                 </div>
                 <div class="hdr-drop acct-drop">
                     <div class="acct-drop__hd">
                         @auth
-                            <p style="color:#ccc;font-weight:700">{{ Auth::user()->name }}</p>
+                            {{-- লগইন করা আছে: নাম ও Dashboard বাটন --}}
+                            <span class="user-greeting">
+                                <i class="bi bi-person-check" style="color:var(--gold);margin-right:4px;"></i>
+                                {{ Auth::user()->name }}
+                            </span>
+                            <span class="user-email">{{ Auth::user()->email }}</span>
+                            <a href="{{ route('user.dashboard') }}" class="acct-dash-btn">
+                                <i class="bi bi-speedometer2"></i> Dashboard
+                            </a>
                         @else
+                            {{-- Guest: Welcome + Sign In বাটন --}}
                             <p>Welcome to Shahzadi-mart</p>
-                            <button class="acct-signin" onclick="window.location.href='{{ url('customer/login') }}'">Sign In</button>
+                            <button class="acct-signin"
+                                    onclick="window.location.href='{{ url('customer/login') }}'">
+                                Sign In
+                            </button>
                         @endauth
                     </div>
-                    <a href="{{ url('customer/account') }}"><i class="bi bi-person"></i> My Account</a>
+
+                    {{-- Dropdown লিংকসমূহ --}}
+                    @auth
+                        <a href="{{ route('user.dashboard') }}">
+                            <i class="bi bi-speedometer2"></i> Dashboard
+                        </a>
+                    @endauth
+                    <a href="{{ url('customer/account') }}">
+                        <i class="bi bi-person"></i> My Account
+                    </a>
                     <a href="{{ route('wishlist') }}">
                         <i class="bi bi-heart"></i> My Wishlist
                         @if($headerWishTotal > 0)
                             <span style="margin-left:auto;background:var(--red);color:#fff;font-size:10px;font-weight:800;padding:1px 7px;border-radius:10px;">{{ $headerWishTotal }}</span>
                         @endif
                     </a>
-                    <a href="{{ route('products.all') }}"><i class="bi bi-grid-3x3-gap"></i> সব পণ্য</a>
-                    <a href="{{ url('cart') }}"><i class="bi bi-bag"></i> My Orders</a>
-                    <a href="{{ route('order.track') }}"><i class="bi bi-truck"></i> অর্ডার ট্র্যাক</a>
+                    <a href="{{ route('products.all') }}">
+                        <i class="bi bi-grid-3x3-gap"></i> সব পণ্য
+                    </a>
+                    <a href="{{ url('cart') }}">
+                        <i class="bi bi-bag"></i> My Orders
+                    </a>
+                    <a href="{{ route('order.track') }}">
+                        <i class="bi bi-truck"></i> অর্ডার ট্র্যাক
+                    </a>
                     @auth
-                    <a href="{{ url('customer/logout') }}" class="logout"><i class="bi bi-box-arrow-right"></i> Logout</a>
+                        <a href="{{ url('customer/logout') }}" class="logout">
+                            <i class="bi bi-box-arrow-right"></i> Logout
+                        </a>
+                    @else
+                        <a href="{{ url('customer/login') }}">
+                            <i class="bi bi-box-arrow-in-right"></i> Login
+                        </a>
+                        <a href="{{ url('customer/register') }}">
+                            <i class="bi bi-person-plus"></i> Register
+                        </a>
                     @endauth
                 </div>
             </div>
@@ -1092,8 +1153,8 @@
                 </div>
             </div>
 
-        </div>
-    </div>
+        </div>{{-- /.hdr-actions --}}
+    </div>{{-- /.site-hdr__in --}}
 </header>
 
 {{-- ══ SECONDARY NAV BAR ══ --}}
@@ -1147,13 +1208,20 @@
             <i class="bi bi-cart3"></i> Cart
             <span class="mob-nav__badge {{ $headerCartCount == 0 ? 'zero' : '' }}" id="mobCartBadge">{{ $headerCartCount > 0 ? $headerCartCount : '' }}</span>
         </a>
-        <a href="{{ url('customer/account') }}" class="mob-nav__item {{ request()->is('customer/account*') ? 'active' : '' }}">
-            <i class="bi bi-person-circle"></i> Account
-        </a>
+        {{-- Mobile: Login থাকলে Dashboard, না থাকলে Login page --}}
+        @auth
+            <a href="{{ route('user.dashboard') }}" class="mob-nav__item {{ request()->routeIs('user.dashboard*') ? 'active' : '' }}">
+                <i class="bi bi-speedometer2"></i> Dashboard
+            </a>
+        @else
+            <a href="{{ url('customer/login') }}" class="mob-nav__item {{ request()->is('customer/login*') ? 'active' : '' }}">
+                <i class="bi bi-person-circle"></i> Login
+            </a>
+        @endauth
     </div>
 </nav>
 
-{{-- Bootstrap 5 JS Bundle (Popper included) --}}
+{{-- Bootstrap 5 JS Bundle --}}
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 {{-- Toastr JS --}}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
@@ -1273,7 +1341,7 @@ document.getElementById('globalSearch')?.addEventListener('keypress', function(e
     if (e.key === 'Enter') doSearch();
 });
 
-/* ── Sidebar ── */
+/* ── Sidebar Toggle ── */
 function toggleSidebar() {
     const sb  = document.getElementById('sidebar');
     const ovl = document.getElementById('sidebarOverlay');
@@ -1283,10 +1351,13 @@ function toggleSidebar() {
     document.body.style.overflow = open ? 'hidden' : '';
 }
 document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') { const sb = document.getElementById('sidebar'); if (sb?.classList.contains('is-open')) toggleSidebar(); }
+    if (e.key === 'Escape') {
+        const sb = document.getElementById('sidebar');
+        if (sb?.classList.contains('is-open')) toggleSidebar();
+    }
 });
 
-/* ── Badge Sync ── */
+/* ── Badge Sync (AJAX cart/wishlist update থেকে call করা হয়) ── */
 function updateBadges(cartCount, wishCount) {
     const cartBadge    = document.getElementById('cartBadge');
     const mobCartBadge = document.getElementById('mobCartBadge');

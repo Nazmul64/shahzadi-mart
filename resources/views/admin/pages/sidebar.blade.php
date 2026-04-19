@@ -718,6 +718,11 @@ body.sb-collapsed .sidebar-submenu { display: none; }
                class="{{ request()->routeIs('admin.campaigncreate.*') ? 'active' : '' }}">
                 <i class="bi bi-layout-text-sidebar"></i> Campaign Create
             </a>
+               <a href="{{ route('admin.admin.reviews.index') }}"
+               class="{{ request()->routeIs('admin.campaigncreate.*') ? 'active' : '' }}">
+                <i class="bi bi-layout-text-sidebar"></i>Product Reviews
+            </a>
+
 
 
             <a href="{{ route('admin.campaigncreate.index') }}" class="{{ request()->routeIs('admin.campaigncreate.*') ? 'active' : '' }}"><i class="bi bi-envelope"></i> Email Settings</a>
