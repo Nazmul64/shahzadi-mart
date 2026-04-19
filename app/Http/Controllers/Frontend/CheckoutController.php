@@ -1,172 +1,81 @@
 <?php
+// ══════════════════════════════════════════════════════════════════════
+// app/Http/Controllers/Frontend/CheckoutController.php
+// COD + bKash Tokenized Checkout + ShurjoPay — সব একসাথে
+// ══════════════════════════════════════════════════════════════════════
 
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Bkash;
 use App\Models\Coupon;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
+use App\Models\Shurjopay;
 use App\Models\ShippingCharge;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class CheckoutController extends Controller
 {
-    // ══════════════════════════════════════════════════════════════
+    // ══════════════════════════════════════════════════════════════════
     //  SHOW CHECKOUT PAGE
-    // ══════════════════════════════════════════════════════════════
+    // ══════════════════════════════════════════════════════════════════
 
     public function index()
     {
         $cartItems = session()->get('cart', []);
 
         if (empty($cartItems)) {
-            return redirect()->route('cart')->with('error', 'কার্ট খালি আছে।');
+            return redirect()->route('cart.index')->with('error', 'কার্ট খালি আছে।');
         }
 
         return view('frontend.checkout');
     }
 
-    // ══════════════════════════════════════════════════════════════
-    //  PLACE ORDER
-    // ══════════════════════════════════════════════════════════════
+    // ══════════════════════════════════════════════════════════════════
+    //  PLACE ORDER — entry point for all payment methods
+    // ══════════════════════════════════════════════════════════════════
 
     public function place(Request $request)
     {
         $request->validate([
-            'customer_name'    => 'required|string|max:120',
-            'phone'            => 'required|string|max:20',
-            'address'          => 'required|string|max:500',
-            'delivery_area'    => 'required|string|max:100',
+            'customer_name'      => 'required|string|max:120',
+            'phone'              => 'required|string|max:20',
+            'address'            => 'required|string|max:500',
+            'delivery_area'      => 'required|string|max:100',
             'shipping_charge_id' => 'nullable|exists:shipping_charges,id',
-            'note'             => 'nullable|string|max:500',
-            'payment_method'   => 'required|in:cod,bkash,shurjopay,uddoktapay,aamarpay',
+            'note'               => 'nullable|string|max:500',
+            'payment_method'     => 'required|in:cod,bkash,shurjopay,uddoktapay,aamarpay',
         ]);
 
         $cartItems = session()->get('cart', []);
-
         if (empty($cartItems)) {
-            return redirect()->route('cart')->with('error', 'কার্ট খালি আছে।');
+            return redirect()->route('cart.index')->with('error', 'কার্ট খালি আছে।');
         }
 
-        // ── Delivery fee: DB থেকে নাও, না পেলে fallback ──────────
+        // ── Delivery fee ───────────────────────────────────────────
         $deliveryFee = 0;
         if ($request->filled('shipping_charge_id')) {
-            $shippingRecord = ShippingCharge::active()
-                                ->find($request->shipping_charge_id);
-            $deliveryFee = $shippingRecord ? (float) $shippingRecord->amount : 0;
+            $shippingRecord = ShippingCharge::active()->find($request->shipping_charge_id);
+            $deliveryFee    = $shippingRecord ? (float) $shippingRecord->amount : 0;
         }
 
-        // ── Calculate totals ────────────────────────────────────
+        // ── Totals ─────────────────────────────────────────────────
         $subtotal = 0;
         $discount = (float) session()->get('coupon_discount', 0);
-
         foreach ($cartItems as $item) {
             $price     = ($item['discount_price'] ?? null) ?: $item['price'];
             $subtotal += $price * $item['quantity'];
         }
-
         $total = $subtotal - $discount + $deliveryFee;
 
-        // ── Route to payment gateway if not COD ─────────────────
-        if ($request->payment_method !== 'cod') {
-            return $this->redirectToGateway($request, $subtotal, $discount, $deliveryFee, $total);
-        }
-
-        // ── Create order (DB transaction) ────────────────────────
-        DB::beginTransaction();
-        try {
-            $order = Order::create([
-                'order_number'   => Order::generateOrderNumber(),
-                'user_id'        => Auth::id(),
-                'customer_name'  => $request->customer_name,
-                'phone'          => $request->phone,
-                'address'        => $request->address,
-                'delivery_area'  => $request->delivery_area,
-                'note'           => $request->note,
-                'payment_method' => $request->payment_method,
-                'payment_status' => 'pending',
-                'order_status'   => 'pending',
-                'subtotal'       => $subtotal,
-                'discount'       => $discount,
-                'delivery_fee'   => $deliveryFee,
-                'total'          => $total,
-                'coupon_code'    => session()->get('coupon_code'),
-            ]);
-
-            foreach ($cartItems as $cartKey => $item) {
-                // ✅ product_id: item এ stored (variant-aware cart key এর জন্য)
-                $productId = $item['product_id'] ?? $cartKey;
-                $unitPrice = ($item['discount_price'] ?? null) ?: $item['price'];
-
-                OrderItem::create([
-                    'order_id'       => $order->id,
-                    'product_id'     => $productId,
-                    'product_name'   => $item['name'],
-                    'product_image'  => $item['image'] ?? null,
-                    'product_slug'   => $item['slug'] ?? null,
-                    'price'          => $unitPrice,
-                    'original_price' => $item['price'],
-                    'quantity'       => $item['quantity'],
-                    'subtotal'       => $unitPrice * $item['quantity'],
-                    // ✅ color & size যদি orders_items table এ column থাকে
-                    'selected_color' => $item['selected_color'] ?? null,
-                    'selected_size'  => $item['selected_size'] ?? null,
-                ]);
-
-                // ── Stock কমাও ──────────────────────────────────
-                $product = Product::find($productId);
-                if ($product && !$product->is_unlimited && $product->stock !== null) {
-                    $product->decrement('stock', $item['quantity']);
-                }
-            }
-
-            // ── কুপন used count ──────────────────────────────────
-            $couponId = session()->get('coupon_id');
-            if ($couponId) {
-                Coupon::where('id', $couponId)->increment('used');
-            }
-
-            DB::commit();
-
-        } catch (\Throwable $e) {
-            DB::rollBack();
-            return redirect()->back()->with('error', 'অর্ডার প্রক্রিয়া করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।');
-        }
-
-        session()->forget(['cart', 'coupon_code', 'coupon_discount', 'coupon_id']);
-
-        return redirect()->route('order.success', $order->order_number)
-                         ->with('success', 'আপনার অর্ডার সফলভাবে সম্পন্ন হয়েছে!');
-    }
-
-    // ══════════════════════════════════════════════════════════════
-    //  ORDER SUCCESS PAGE
-    // ══════════════════════════════════════════════════════════════
-
-    public function success($orderNumber)
-    {
-        $order = Order::with('items')
-                      ->where('order_number', $orderNumber)
-                      ->firstOrFail();
-
-        return view('frontend.order_success', compact('order'));
-    }
-
-    // ══════════════════════════════════════════════════════════════
-    //  PAYMENT GATEWAY REDIRECT (placeholder)
-    // ══════════════════════════════════════════════════════════════
-
-    private function redirectToGateway(
-        Request $request,
-        float $subtotal,
-        float $discount,
-        float $deliveryFee,
-        float $total
-    ) {
-        session()->put('pending_order', [
+        // ── Pending order data (gateway সেশনে রাখবে) ──────────────
+        $pending = [
             'customer_name'  => $request->customer_name,
             'phone'          => $request->phone,
             'address'        => $request->address,
@@ -179,9 +88,415 @@ class CheckoutController extends Controller
             'total'          => $total,
             'coupon_code'    => session()->get('coupon_code'),
             'coupon_id'      => session()->get('coupon_id'),
+        ];
+
+        switch ($request->payment_method) {
+
+            // ── Cash on Delivery ───────────────────────────────────
+            case 'cod':
+                return $this->finalizeOrder($pending, $cartItems, null, 'pending', 'pending');
+
+            // ── bKash ──────────────────────────────────────────────
+            case 'bkash':
+                $bkash = Bkash::first();
+                if (!$bkash || !$bkash->status) {
+                    return redirect()->back()->with('error', 'bKash এখন সক্রিয় নেই। অন্য পদ্ধতি ব্যবহার করুন।');
+                }
+                session()->put('pending_order', $pending);
+                return $this->bkashCreatePayment($bkash, $total, $request->phone);
+
+            // ── ShurjoPay ──────────────────────────────────────────
+            case 'shurjopay':
+                $shurjopay = Shurjopay::first();
+                if (!$shurjopay || !$shurjopay->status) {
+                    return redirect()->back()->with('error', 'ShurjoPay এখন সক্রিয় নেই। অন্য পদ্ধতি ব্যবহার করুন।');
+                }
+                session()->put('pending_order', $pending);
+                return $this->shurjopayInitiate($shurjopay, $pending);
+
+            // ── Others (uddoktapay, aamarpay) — placeholder ────────
+            default:
+                return redirect()->back()
+                    ->with('info', $request->payment_method . ' gateway শীঘ্রই চালু হবে। Cash on Delivery ব্যবহার করুন।');
+        }
+    }
+
+    // ══════════════════════════════════════════════════════════════════
+    //  FINALIZE ORDER — DB insert (COD + gateway callback উভয়ই ব্যবহার করে)
+    // ══════════════════════════════════════════════════════════════════
+
+    private function finalizeOrder(
+        array $pending,
+        array $cartItems,
+        ?string $transactionId,
+        string $paymentStatus,
+        string $orderStatus
+    ) {
+        DB::beginTransaction();
+        try {
+            $order = Order::create([
+                'order_number'   => Order::generateOrderNumber(),
+                'user_id'        => Auth::id(),
+                'customer_name'  => $pending['customer_name'],
+                'phone'          => $pending['phone'],
+                'address'        => $pending['address'],
+                'delivery_area'  => $pending['delivery_area'],
+                'note'           => $pending['note'] ?? null,
+                'payment_method' => $pending['payment_method'],
+                'payment_status' => $paymentStatus,
+                'transaction_id' => $transactionId,
+                'order_status'   => $orderStatus,
+                'subtotal'       => $pending['subtotal'],
+                'discount'       => $pending['discount'],
+                'delivery_fee'   => $pending['delivery_fee'],
+                'total'          => $pending['total'],
+                'coupon_code'    => $pending['coupon_code'] ?? null,
+            ]);
+
+            foreach ($cartItems as $cartKey => $item) {
+                $productId = $item['product_id'] ?? $cartKey;
+                $unitPrice = ($item['discount_price'] ?? null) ?: $item['price'];
+
+                OrderItem::create([
+                    'order_id'       => $order->id,
+                    'product_id'     => $productId,
+                    'product_name'   => $item['name'],
+                    'product_image'  => $item['image'] ?? null,
+                    'product_slug'   => $item['slug']  ?? null,
+                    'price'          => $unitPrice,
+                    'original_price' => $item['price'],
+                    'quantity'       => $item['quantity'],
+                    'subtotal'       => $unitPrice * $item['quantity'],
+                    'selected_color' => $item['selected_color'] ?? null,
+                    'selected_size'  => $item['selected_size']  ?? null,
+                ]);
+
+                // Stock decrement
+                $product = Product::find($productId);
+                if ($product && !($product->is_unlimited ?? false) && $product->stock !== null) {
+                    $product->decrement('stock', $item['quantity']);
+                }
+            }
+
+            // Coupon used++
+            $couponId = $pending['coupon_id'] ?? null;
+            if ($couponId) {
+                Coupon::where('id', $couponId)->increment('used');
+            }
+
+            DB::commit();
+
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            Log::error('Order finalize failed: ' . $e->getMessage());
+            $suffix = $transactionId
+                ? ' পেমেন্ট TrxID: ' . $transactionId . ' — support এ যোগাযোগ করুন।'
+                : ' আবার চেষ্টা করুন।';
+            return redirect()->route('checkout')->with('error', 'অর্ডার save করতে সমস্যা হয়েছে।' . $suffix);
+        }
+
+        // Clear all cart + coupon + payment sessions
+        session()->forget([
+            'cart', 'coupon_code', 'coupon_discount', 'coupon_id',
+            'pending_order',
+            'bkash_token', 'bkash_invoice',
+            'sp_token', 'sp_store_id', 'sp_order_id',
         ]);
 
-        return redirect()->back()
-                         ->with('info', $request->payment_method . ' gateway শীঘ্রই চালু হবে। Cash on Delivery ব্যবহার করুন।');
+        $msg = $transactionId
+            ? 'পেমেন্ট সফল হয়েছে! অর্ডার confirm হয়েছে।'
+            : 'আপনার অর্ডার সফলভাবে সম্পন্ন হয়েছে!';
+
+        return redirect()->route('order.success', $order->order_number)->with('success', $msg);
+    }
+
+    // ══════════════════════════════════════════════════════════════════
+    //  ORDER SUCCESS PAGE
+    // ══════════════════════════════════════════════════════════════════
+
+    public function success($orderNumber)
+    {
+        $order = Order::with('items')
+            ->where('order_number', $orderNumber)
+            ->firstOrFail();
+
+        return view('frontend.order_success', compact('order'));
+    }
+
+    // ══════════════════════════════════════════════════════════════════
+    //  ╔══════════════════════════════════╗
+    //  ║   bKash Tokenized Checkout API  ║
+    //  ╚══════════════════════════════════╝
+    //
+    //  Flow:
+    //    place() → bkashCreatePayment() → [bKash page]
+    //    → bkashCallback() (GET) → execute → finalizeOrder()
+    // ══════════════════════════════════════════════════════════════════
+
+    // ── Grant Token ───────────────────────────────────────────────────
+    private function bkashGrantToken(Bkash $cfg): ?string
+    {
+        $url = rtrim($cfg->base_url, '/') . '/tokenized/checkout/token/grant';
+        try {
+            $res  = Http::timeout(30)
+                ->withHeaders([
+                    'Content-Type' => 'application/json',
+                    'Accept'       => 'application/json',
+                    'username'     => $cfg->username,
+                    'password'     => $cfg->password,
+                ])
+                ->post($url, [
+                    'app_key'    => $cfg->app_key,
+                    'app_secret' => $cfg->app_secret,
+                ]);
+            $data = $res->json();
+            if (!empty($data['id_token'])) return $data['id_token'];
+            Log::error('bKash grantToken failed', $data ?? []);
+        } catch (\Throwable $e) {
+            Log::error('bKash grantToken exception: ' . $e->getMessage());
+        }
+        return null;
+    }
+
+    // ── Create Payment → redirect to bKashURL ─────────────────────────
+    private function bkashCreatePayment(Bkash $cfg, float $total, string $phone)
+    {
+        $token = $this->bkashGrantToken($cfg);
+        if (!$token) {
+            return redirect()->route('checkout')->with('error', 'bKash authentication failed. আবার চেষ্টা করুন।');
+        }
+
+        $invoice = 'INV-' . strtoupper(substr(md5(uniqid()), 0, 10));
+        session(['bkash_token' => $token, 'bkash_invoice' => $invoice]);
+
+        $url = rtrim($cfg->base_url, '/') . '/tokenized/checkout/create';
+        try {
+            $res  = Http::timeout(30)
+                ->withHeaders([
+                    'Content-Type'  => 'application/json',
+                    'Accept'        => 'application/json',
+                    'authorization' => $token,
+                    'x-app-key'     => $cfg->app_key,
+                ])
+                ->post($url, [
+                    'mode'                  => '0011',
+                    'payerReference'        => $phone,
+                    'callbackURL'           => route('bkash.callback'),
+                    'amount'                => number_format($total, 2, '.', ''),
+                    'currency'              => 'BDT',
+                    'intent'                => 'sale',
+                    'merchantInvoiceNumber' => $invoice,
+                ]);
+
+            $data = $res->json();
+
+            if (!empty($data['bkashURL'])) {
+                return redirect()->away($data['bkashURL']);
+            }
+
+            Log::error('bKash createPayment failed', $data ?? []);
+            return redirect()->route('checkout')
+                ->with('error', 'bKash payment তৈরি করা যায়নি: ' . ($data['statusMessage'] ?? 'Unknown'));
+
+        } catch (\Throwable $e) {
+            Log::error('bKash createPayment exception: ' . $e->getMessage());
+            return redirect()->route('checkout')->with('error', 'সার্ভার সমস্যা। আবার চেষ্টা করুন।');
+        }
+    }
+
+    // ── bKash Callback — bKash এই URL এ redirect করে ─────────────────
+    public function bkashCallback(Request $request)
+    {
+        $status    = $request->get('status');
+        $paymentID = $request->get('paymentID');
+
+        if ($status === 'cancel') {
+            return redirect()->route('checkout')->with('error', 'আপনি bKash পেমেন্ট বাতিল করেছেন।');
+        }
+        if ($status === 'failure' || !$paymentID) {
+            return redirect()->route('checkout')->with('error', 'bKash পেমেন্ট ব্যর্থ হয়েছে। আবার চেষ্টা করুন।');
+        }
+
+        $pending = session('pending_order');
+        $token   = session('bkash_token');
+        $cfg     = Bkash::first();
+
+        if (!$pending || !$token || !$cfg) {
+            return redirect()->route('checkout')->with('error', 'Session expired. পুনরায় অর্ডার করুন।');
+        }
+
+        // ── Execute Payment ────────────────────────────────────────
+        $url = rtrim($cfg->base_url, '/') . '/tokenized/checkout/execute';
+        try {
+            $res  = Http::timeout(30)
+                ->withHeaders([
+                    'Content-Type'  => 'application/json',
+                    'Accept'        => 'application/json',
+                    'authorization' => $token,
+                    'x-app-key'     => $cfg->app_key,
+                ])
+                ->post($url, ['paymentID' => $paymentID]);
+
+            $data = $res->json();
+
+            if (!empty($data['trxID']) && ($data['statusCode'] ?? '') === '0000') {
+                return $this->finalizeOrder(
+                    $pending,
+                    session()->get('cart', []),
+                    $data['trxID'],
+                    'paid',
+                    'processing'
+                );
+            }
+
+            Log::error('bKash execute failed', $data ?? []);
+            return redirect()->route('checkout')
+                ->with('error', 'bKash payment verify করা যায়নি: ' . ($data['statusMessage'] ?? 'Unknown'));
+
+        } catch (\Throwable $e) {
+            Log::error('bKash execute exception: ' . $e->getMessage());
+            return redirect()->route('checkout')->with('error', 'Payment verify করতে সমস্যা হয়েছে।');
+        }
+    }
+
+    // ══════════════════════════════════════════════════════════════════
+    //  ╔═══════════════════════════════════╗
+    //  ║   ShurjoPay Payment Gateway      ║
+    //  ╚═══════════════════════════════════╝
+    //
+    //  Flow:
+    //    place() → shurjopayInitiate() → [ShurjoPay page]
+    //    → shurjopayCallback() (GET/POST) → verify → finalizeOrder()
+    // ══════════════════════════════════════════════════════════════════
+
+    // ── Get Token ────────────────────────────────────────────────────
+    private function shurjopayGetToken(Shurjopay $cfg): ?array
+    {
+        $url = rtrim($cfg->base_url, '/') . '/api/get_token';
+        try {
+            $res  = Http::timeout(30)->asForm()->post($url, [
+                'username' => $cfg->username,
+                'password' => $cfg->password,
+            ]);
+            $data = $res->json();
+            if (!empty($data['token'])) return $data;
+            Log::error('ShurjoPay getToken failed', $data ?? []);
+        } catch (\Throwable $e) {
+            Log::error('ShurjoPay getToken exception: ' . $e->getMessage());
+        }
+        return null;
+    }
+
+    // ── Initiate Payment → redirect to ShurjoPay checkout URL ────────
+    private function shurjopayInitiate(Shurjopay $cfg, array $pending)
+    {
+        $tokenData = $this->shurjopayGetToken($cfg);
+        if (!$tokenData) {
+            return redirect()->route('checkout')->with('error', 'ShurjoPay authentication failed. আবার চেষ্টা করুন।');
+        }
+
+        $orderId = ($cfg->prefix ?? 'SP') . '-' . strtoupper(substr(md5(uniqid()), 0, 8));
+        session([
+            'sp_order_id' => $orderId,
+            'sp_token'    => $tokenData['token'],
+            'sp_store_id' => $tokenData['store_id'],
+        ]);
+
+        $successUrl  = $cfg->success_url ?: route('shurjopay.callback');
+        $returnUrl   = $cfg->return_url  ?: route('shurjopay.callback');
+        $executeUrl  = rtrim($cfg->base_url, '/') . '/api/secret-pay';
+
+        try {
+            $res = Http::timeout(30)
+                ->withToken($tokenData['token'])
+                ->asForm()
+                ->post($executeUrl, [
+                    'prefix'             => $cfg->prefix ?? 'SP',
+                    'token'              => $tokenData['token'],
+                    'store_id'           => $tokenData['store_id'],
+                    'return_url'         => $successUrl,
+                    'cancel_url'         => $returnUrl,
+                    'amount'             => number_format((float) $pending['total'], 2, '.', ''),
+                    'order_id'           => $orderId,
+                    'currency'           => 'BDT',
+                    'customer_name'      => $pending['customer_name'],
+                    'customer_address'   => $pending['address'],
+                    'customer_phone'     => $pending['phone'],
+                    'customer_city'      => $pending['delivery_area'],
+                    'customer_post_code' => '1000',
+                    'client_ip'          => request()->ip(),
+                ]);
+
+            $data = $res->json();
+
+            if (!empty($data['checkout_url'])) {
+                return redirect()->away($data['checkout_url']);
+            }
+
+            Log::error('ShurjoPay initiate failed', $data ?? []);
+            return redirect()->route('checkout')
+                ->with('error', 'ShurjoPay payment initiate সমস্যা: ' . ($data['message'] ?? 'Unknown'));
+
+        } catch (\Throwable $e) {
+            Log::error('ShurjoPay initiate exception: ' . $e->getMessage());
+            return redirect()->route('checkout')->with('error', 'সার্ভার সমস্যা। আবার চেষ্টা করুন।');
+        }
+    }
+
+    // ── ShurjoPay Callback — ShurjoPay এই URL এ redirect করে ─────────
+    public function shurjopayCallback(Request $request)
+    {
+        $orderId = $request->get('order_id') ?? session('sp_order_id');
+        $pending = session('pending_order');
+        $cfg     = Shurjopay::first();
+
+        if (!$orderId || !$pending || !$cfg) {
+            return redirect()->route('checkout')->with('error', 'Payment information পাওয়া যায়নি।');
+        }
+
+        $tokenData = $this->shurjopayGetToken($cfg);
+        if (!$tokenData) {
+            return redirect()->route('checkout')->with('error', 'Payment verify করা যায়নি (token error)।');
+        }
+
+        $verifyUrl = rtrim($cfg->base_url, '/') . '/api/verification';
+        try {
+            $res  = Http::timeout(30)
+                ->withToken($tokenData['token'])
+                ->asForm()
+                ->post($verifyUrl, [
+                    'order_id' => $orderId,
+                    'store_id' => $tokenData['store_id'],
+                ]);
+
+            $verifications = $res->json();
+            $data          = is_array($verifications) ? ($verifications[0] ?? []) : $verifications;
+            $spCode        = $data['sp_code'] ?? null;
+
+            // sp_code 1000 = success
+            if ($spCode == '1000') {
+                $trxId = $data['bank_trx_id'] ?? ($data['sp_transaction_id'] ?? $orderId);
+                return $this->finalizeOrder(
+                    $pending,
+                    session()->get('cart', []),
+                    $trxId,
+                    'paid',
+                    'processing'
+                );
+            }
+
+            // sp_code 1002 = cancelled
+            if ($spCode == '1002') {
+                return redirect()->route('checkout')->with('error', 'ShurjoPay পেমেন্ট বাতিল করা হয়েছে।');
+            }
+
+            Log::error('ShurjoPay verify failed', $data ?? []);
+            return redirect()->route('checkout')
+                ->with('error', 'ShurjoPay payment verify ব্যর্থ: ' . ($data['message'] ?? 'Unknown'));
+
+        } catch (\Throwable $e) {
+            Log::error('ShurjoPay verify exception: ' . $e->getMessage());
+            return redirect()->route('checkout')->with('error', 'Payment verify করতে সমস্যা হয়েছে।');
+        }
     }
 }

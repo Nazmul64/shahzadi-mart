@@ -11,15 +11,34 @@ use App\Models\Contact;
 use App\Models\Generalsetting;
 use App\Models\Product;
 use App\Models\Order;
+use App\Models\Pixel;
 use App\Models\Producreview;
 use App\Models\Wishlist;
 use App\Models\Slider;
+use App\Models\Tagmanager;
 use App\Models\Websitefavicon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\View;
 
 class FrontendController extends Controller
 {
+    // ─── Constructor — tracking vars সব view-এ share করা হচ্ছে ──────────────
+    public function __construct()
+    {
+        /*
+         * $Pixelid ও $GoogleAnalytics header/footer-এ দরকার।
+         * প্রতিটা method-এ আলাদা করে compact() এ দেওয়ার বদলে
+         * View::share() দিয়ে globally share করা হচ্ছে।
+         * এতে কোনো page থেকেই tracking miss হবে না।
+         */
+        $Pixelid         = Pixel::first();
+        $GoogleAnalytics = Tagmanager::first();
+
+        View::share('Pixelid',         $Pixelid);
+        View::share('GoogleAnalytics', $GoogleAnalytics);
+    }
+
     // ─── Reusable Sidebar Query ──────────────────────────────────────────────
     private function getSidebarCategories()
     {
@@ -73,7 +92,8 @@ class FrontendController extends Controller
             'slider', 'categories', 'websetting',
             'flashProducts', 'hotCategories',
             'newArrivals', 'bestSellers', 'sidebarCategories',
-            'websitefavicon',
+            'websitefavicon'
+            // $Pixelid ও $GoogleAnalytics constructor থেকে shared হচ্ছে
         ));
     }
 
@@ -216,38 +236,29 @@ class FrontendController extends Controller
     {
         $userId = Auth::id();
 
-        // সব অর্ডার (সব স্ট্যাটাস) — items.product লোড করা
         $orders = Order::where('user_id', $userId)
                        ->with('items.product')
                        ->latest()
                        ->get();
 
-        // Wishlist
         $wishlistItems = Wishlist::where('user_id', $userId)
                                  ->with('product.category')
                                  ->latest()
                                  ->get();
 
-        // Stats
         $totalOrders     = $orders->count();
         $pendingOrders   = $orders->where('order_status', 'pending')->count();
         $deliveredOrders = $orders->where('order_status', 'delivered')->count();
         $cancelledOrders = $orders->where('order_status', 'cancelled')->count();
         $wishlistCount   = $wishlistItems->count();
 
-        // ── রিভিউযোগ্য অর্ডার ──
-        // নিয়ম: pending/cancelled ছাড়া সব অর্ডারের আইটেমে রিভিউ দেওয়া যাবে
-        // (processing, shipped, in_transit, delivered — সবই)
         $reviewableStatuses = ['processing', 'shipped', 'in_transit', 'delivered'];
+        $reviewableOrders   = $orders->whereIn('order_status', $reviewableStatuses);
 
-        $reviewableOrders = $orders->whereIn('order_status', $reviewableStatuses);
-
-        // এই user ইতোমধ্যে যেসব product-এ রিভিউ দিয়েছে
         $myReviewMap = Producreview::where('user_id', $userId)
                         ->get()
                         ->keyBy('product_id');
 
-        // Pending review count (রিভিউ দেওয়া হয়নি এমন items)
         $pendingReviewCount = 0;
         foreach ($reviewableOrders as $_ord) {
             foreach ($_ord->items as $_item) {
@@ -271,45 +282,39 @@ class FrontendController extends Controller
         ));
     }
 
-    // ─── Order History (separate full-page view) ──────────────────────────────
+    // ─── Order History ────────────────────────────────────────────────────────
     public function orderHistory(Request $request)
     {
         $userId = Auth::id();
 
         $query = Order::where('user_id', $userId)->with('items.product');
 
-        // Filter by status
         if ($request->filled('status') && $request->status !== 'all') {
             $query->where('order_status', $request->status);
         }
-
-        // Filter by date range
         if ($request->filled('from')) {
             $query->whereDate('created_at', '>=', $request->from);
         }
         if ($request->filled('to')) {
             $query->whereDate('created_at', '<=', $request->to);
         }
-
-        // Search by order number
         if ($request->filled('search')) {
             $query->where('order_number', 'like', '%' . $request->search . '%');
         }
 
         $orders = $query->latest()->paginate(15)->withQueryString();
 
-        // Stats for this user
-        $allOrders       = Order::where('user_id', $userId)->get();
-        $totalOrders     = $allOrders->count();
-        $pendingOrders   = $allOrders->where('order_status', 'pending')->count();
-        $processingOrders= $allOrders->where('order_status', 'processing')->count();
-        $shippedOrders   = $allOrders->where('order_status', 'shipped')->count();
-        $deliveredOrders = $allOrders->where('order_status', 'delivered')->count();
-        $cancelledOrders = $allOrders->where('order_status', 'cancelled')->count();
+        $allOrders        = Order::where('user_id', $userId)->get();
+        $totalOrders      = $allOrders->count();
+        $pendingOrders    = $allOrders->where('order_status', 'pending')->count();
+        $processingOrders = $allOrders->where('order_status', 'processing')->count();
+        $shippedOrders    = $allOrders->where('order_status', 'shipped')->count();
+        $deliveredOrders  = $allOrders->where('order_status', 'delivered')->count();
+        $cancelledOrders  = $allOrders->where('order_status', 'cancelled')->count();
 
-        // Total spent
-        $totalSpent = $allOrders->whereIn('order_status', ['delivered', 'processing', 'shipped', 'in_transit'])
-                                ->sum('total');
+        $totalSpent = $allOrders
+            ->whereIn('order_status', ['delivered', 'processing', 'shipped', 'in_transit'])
+            ->sum('total');
 
         $websetting = Generalsetting::first();
 
@@ -378,7 +383,6 @@ class FrontendController extends Controller
         if ($request->filled('max_price')) {
             $query->whereRaw('COALESCE(discount_price, current_price) <= ?', [$request->max_price]);
         }
-
         if ($request->filled('in_stock')) {
             $query->where(function ($q) {
                 $q->where('is_unlimited', true)->orWhere('stock', '>', 0);
@@ -386,7 +390,7 @@ class FrontendController extends Controller
         }
 
         switch ($request->get('sort', 'latest')) {
-            case 'price_low':  $query->orderByRaw('COALESCE(discount_price, current_price) ASC'); break;
+            case 'price_low':  $query->orderByRaw('COALESCE(discount_price, current_price) ASC');  break;
             case 'price_high': $query->orderByRaw('COALESCE(discount_price, current_price) DESC'); break;
             case 'name_asc':   $query->orderBy('name', 'asc'); break;
             case 'discount':
@@ -426,7 +430,7 @@ class FrontendController extends Controller
         }
 
         switch ($request->get('sort', 'latest')) {
-            case 'price_low':  $query->orderByRaw('COALESCE(discount_price, current_price) ASC'); break;
+            case 'price_low':  $query->orderByRaw('COALESCE(discount_price, current_price) ASC');  break;
             case 'price_high': $query->orderByRaw('COALESCE(discount_price, current_price) DESC'); break;
             case 'name_asc':   $query->orderBy('name', 'asc'); break;
             case 'discount':
@@ -504,7 +508,7 @@ class FrontendController extends Controller
         $campaign          = Campaigncreate::with('product')->findOrFail($id);
 
         return view('frontend.campaignmanage', compact(
-            'websetting', 'sidebarCategories', 'campaign',
+            'websetting', 'sidebarCategories', 'campaign'
         ));
     }
 }

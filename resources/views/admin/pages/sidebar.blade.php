@@ -787,6 +787,11 @@ body.sb-collapsed .sidebar-submenu { display: none; }
                class="{{ request()->routeIs('admin.Smsgatewaysetup.create') ? 'active' : '' }}">
                 <i class="bi bi-plus-circle"></i> SMS Gateway Setup
             </a>
+            <a href="{{ route('admin.payment.index') }}"
+               class="{{ request()->routeIs('admin.payment.index') ? 'active' : '' }}">
+                <i class="bi bi-plus-circle"></i> payment-settings
+            </a>
+
         </div>
 
     </nav>

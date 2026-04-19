@@ -34,7 +34,7 @@ use App\Http\Controllers\Admin\ShippingChargeController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\WebsitefaviconController;
 use App\Http\Controllers\Admin\PixelController;
-
+use App\Http\Controllers\Admin\PaymentSettingController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\WishlistController;
@@ -48,9 +48,10 @@ use App\Http\Controllers\Admin\PaymentgetewaymanageController;
 use App\Http\Controllers\Admin\SmsgatewaysetupController;
 use App\Http\Controllers\Admin\SteadfastcourierController;
 use App\Http\Controllers\Admin\SteadfastOrderController;
+use App\Http\Controllers\Frontend\BkashController;
 use App\Http\Controllers\Frontend\Landingordercontroller;
 use App\Http\Controllers\Frontend\ProductReviewController;
-
+use App\Http\Controllers\Frontend\Shurjopaycontroller;
 
 Auth::routes();
 
@@ -86,13 +87,6 @@ Route::get('/shop',         [FrontendController::class, 'shop'])->name('shop');
 Route::get('/offers',       [FrontendController::class, 'offers'])->name('offers');
 Route::get('/new-arrivals', [FrontendController::class, 'newArrivals'])->name('new-arrivals');
 Route::post('/review/store', [ProductReviewController::class, 'store'])->name('review.store');
-
-
-
-
-
-
-
 // ══════════════════════════════════════════════════════════════════════════════
 // CART ROUTES  (session-based, no login required)
 // ══════════════════════════════════════════════════════════════════════════════
@@ -126,6 +120,30 @@ Route::prefix('checkout')->group(function () {
     Route::post('/place',                [CheckoutController::class, 'place'])->name('checkout.place');
     Route::get('/success/{orderNumber}', [CheckoutController::class, 'success'])->name('order.success');
 });
+
+
+// ── Checkout ──────────────────────────────────────────────────────────
+// Route::get('/checkout',        [CheckoutController::class, 'index'])->name('checkout.index');
+// Route::post('/checkout/place', [CheckoutController::class, 'place'])->name('checkout.place');
+// Route::get('/order/success/{orderNumber}', [CheckoutController::class, 'success'])->name('order.success');
+
+// ── bKash Tokenized Checkout ──────────────────────────────────────────
+Route::get('/payment/bkash',function () { return view('frontend.bkash_pay');})->name('bkash.initiate');
+
+Route::post('/payment/bkash/create',   [BkashController::class, 'createPayment'])->name('bkash.create');
+Route::get('/payment/bkash/callback',  [BkashController::class, 'callback'])->name('bkash.callback');
+
+// ── ShurjoPay ─────────────────────────────────────────────────────────
+Route::get('/payment/shurjopay',          [Shurjopaycontroller::class, 'initiatePayment'])->name('shurjopay.initiate');
+Route::get('/payment/shurjopay/callback', [ShurjopayController::class, 'callback'])->name('shurjopay.callback');
+Route::post('/payment/shurjopay/callback',[ShurjopayController::class, 'callback']); // POST fallback
+
+// bKash callback
+Route::get('/payment/bkash/callback', [CheckoutController::class, 'bkashCallback'])->name('bkash.callback');
+
+// ShurjoPay callback
+Route::get('/payment/shurjopay/callback',  [CheckoutController::class, 'shurjopayCallback'])->name('shurjopay.callback');
+Route::post('/payment/shurjopay/callback', [CheckoutController::class, 'shurjopayCallback']);
 
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -338,9 +356,6 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
     // Token এর অবস্থা দেখো
     Route::get('/token',   [PathaoOrderController::class, 'debugToken'])   ->name('token');
 
-
-
-
     // ── Product Reviews (Admin) ───────────────────────────────────────────────
     Route::get('/reviews', [AdminproductReviewController::class, 'index'])->name('admin.reviews.index');
     Route::post('/reviews/{id}/approve', [AdminproductReviewController::class, 'approve'])->name('admin.reviews.approve');
@@ -348,6 +363,32 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
     Route::delete('/reviews/{id}', [AdminproductReviewController::class, 'destroy'])->name('admin.reviews.destroy');
     Route::post('/reviews/bulk', [AdminproductReviewController::class, 'bulk'])->name('admin.reviews.bulk');
      // ── Product Reviews End(Admin) ───────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+    Route::get('/payment-settings',                    [PaymentSettingController::class, 'index'])->name('payment.index');
+    Route::post('/payment-settings/bkash',             [PaymentSettingController::class, 'bkashStore'])->name('payment.bkash.store');
+    Route::post('/payment-settings/shurjopay',         [PaymentSettingController::class, 'shurjopayStore'])->name('payment.shurjopay.store');
+    Route::post('/payment-settings/bkash/toggle',      [PaymentSettingController::class, 'bkashToggle'])->name('payment.bkash.toggle');
+    Route::post('/payment-settings/shurjopay/toggle',  [PaymentSettingController::class, 'shurjopayToggle'])->name('payment.shurjopay.toggle');
+
+    Route::get('/payment-settings',          [PaymentSettingController::class, 'index'])->name('payment.index');
+    Route::post('/payment-settings/bkash',   [PaymentSettingController::class, 'bkashStore'])->name('payment.bkash.store');
+    Route::post('/payment-settings/shurjopay', [PaymentSettingController::class, 'shurjopayStore'])->name('payment.shurjopay.store');
+    Route::post('/payment-settings/bkash/toggle',     [PaymentSettingController::class, 'bkashToggle'])->name('payment.bkash.toggle');
+    Route::post('/payment-settings/shurjopay/toggle', [PaymentSettingController::class, 'shurjopayToggle'])->name('payment.shurjopay.toggle');
+
+
+
+
+
 }); // end admin group
 Route::post('webhook/steadfast',[SteadfastOrderController::class, 'webhook'])->name('steadfast.webhook');
 // ══════════════════════════════════════════════════════════════════════════════
