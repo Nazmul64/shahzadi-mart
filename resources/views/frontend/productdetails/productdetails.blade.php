@@ -306,7 +306,312 @@
 .pdp__spec-row:last-child { border-bottom: none; }
 .pdp__spec-k { width: 200px; flex-shrink: 0; color: var(--muted); font-weight: 600; }
 .pdp__spec-v { flex: 1; }
-.pdp__no-reviews { text-align: center; color: var(--muted); font-size: 14px; padding: 30px 0; }
+
+/* ══════════════════════════════════════
+   REVIEWS TAB — COMPLETE SECTION
+══════════════════════════════════════ */
+
+/* Overall rating summary box */
+.pdp-rev-summary {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px 28px;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    margin-bottom: 28px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    flex-wrap: wrap;
+}
+.pdp-rev-big-score {
+    text-align: center;
+    flex-shrink: 0;
+    min-width: 100px;
+}
+.pdp-rev-big-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 58px;
+    font-weight: 900;
+    color: var(--text);
+    line-height: 1;
+    margin-bottom: 8px;
+}
+.pdp-rev-big-stars {
+    display: flex;
+    gap: 4px;
+    justify-content: center;
+    margin-bottom: 6px;
+}
+.pdp-rev-big-stars i { font-size: 18px; color: #f59e0b; }
+.pdp-rev-big-count {
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 500;
+}
+
+/* Rating bars */
+.pdp-rev-bars {
+    flex: 1;
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.pdp-rev-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 600;
+}
+.pdp-rev-bar-track {
+    flex: 1;
+    height: 8px;
+    background: #f3f4f6;
+    border-radius: 4px;
+    overflow: hidden;
+}
+.pdp-rev-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #f59e0b, #fbbf24);
+    border-radius: 4px;
+    transition: width .7s ease;
+}
+.pdp-rev-bar-pct {
+    font-size: 11px;
+    color: var(--muted);
+    width: 34px;
+    text-align: right;
+    flex-shrink: 0;
+}
+
+/* Write Review CTA box */
+.pdp-rev-write-cta {
+    flex-shrink: 0;
+    background: linear-gradient(135deg, var(--red-bg), #fff0f0);
+    border: 1.5px solid #f5a0aa;
+    border-radius: 10px;
+    padding: 16px 20px;
+    text-align: center;
+    min-width: 160px;
+}
+.pdp-rev-write-cta p {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.55;
+    margin-bottom: 10px;
+}
+.pdp-rev-write-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--red);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 9px 16px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background .2s, transform .2s;
+    font-family: inherit;
+}
+.pdp-rev-write-btn:hover { background: var(--red-d); transform: translateY(-1px); }
+
+/* Reviews grid */
+.pdp-rev-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+/* Individual review card */
+.pdp-rev-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: box-shadow .25s, transform .25s, border-color .25s;
+    position: relative;
+    overflow: hidden;
+}
+.pdp-rev-card::before {
+    content: '"';
+    position: absolute;
+    top: -10px;
+    right: 16px;
+    font-family: 'Playfair Display', serif;
+    font-size: 88px;
+    color: var(--red);
+    opacity: .06;
+    line-height: 1;
+    pointer-events: none;
+}
+.pdp-rev-card:hover {
+    box-shadow: 0 8px 24px rgba(0,0,0,.1);
+    border-color: #f5a0aa;
+    transform: translateY(-3px);
+}
+
+/* Stars row in review card */
+.pdp-rev-stars {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+.pdp-rev-stars i { font-size: 13px; }
+.pdp-rev-stars .rev-star-filled { color: #f59e0b; }
+.pdp-rev-stars .rev-star-empty  { color: #d1d5db; }
+.pdp-rev-score-label {
+    font-size: 12px;
+    color: var(--muted);
+    margin-left: 6px;
+    font-weight: 600;
+}
+
+/* Review text */
+.pdp-rev-text {
+    font-size: 13.5px;
+    color: #4b5563;
+    line-height: 1.7;
+    font-style: italic;
+    flex: 1;
+}
+
+/* Reviewer info footer */
+.pdp-rev-footer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+}
+.pdp-rev-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--red), #8b0000);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 800;
+    color: #fff;
+    flex-shrink: 0;
+    font-family: 'Playfair Display', serif;
+}
+.pdp-rev-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+}
+.pdp-rev-date {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 1px;
+}
+.pdp-rev-verified {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    color: #16a34a;
+    background: rgba(22,163,74,.1);
+    border: 1px solid rgba(22,163,74,.2);
+    border-radius: 20px;
+    padding: 3px 9px;
+    flex-shrink: 0;
+}
+
+/* No reviews empty state */
+.pdp-rev-empty {
+    text-align: center;
+    padding: 48px 24px;
+    color: var(--muted);
+}
+.pdp-rev-empty i {
+    font-size: 40px;
+    color: #e5e7eb;
+    display: block;
+    margin-bottom: 12px;
+}
+.pdp-rev-empty p { font-size: 14px; margin-bottom: 16px; }
+
+/* Write Review Modal */
+.pdp-rev-modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,.55);
+    z-index: 99998; display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none; transition: opacity .3s;
+    padding: 20px;
+}
+.pdp-rev-modal-overlay.active { opacity: 1; pointer-events: all; }
+.pdp-rev-modal {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 28px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 24px 60px rgba(0,0,0,.2);
+    transform: scale(.94) translateY(10px);
+    transition: transform .3s ease;
+}
+.pdp-rev-modal-overlay.active .pdp-rev-modal { transform: scale(1) translateY(0); }
+.pdp-rev-modal-head {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 20px;
+}
+.pdp-rev-modal-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px; font-weight: 800; color: var(--text);
+}
+.pdp-rev-modal-close {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: #f3f4f6; border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; color: var(--muted); transition: background .2s;
+}
+.pdp-rev-modal-close:hover { background: #e5e7eb; color: var(--text); }
+.pdp-rev-modal-label {
+    font-size: 12px; font-weight: 700; color: var(--muted);
+    text-transform: uppercase; letter-spacing: .08em; margin-bottom: 8px; display: block;
+}
+.pdp-rev-star-picker {
+    display: flex; gap: 6px; margin-bottom: 18px;
+}
+.pdp-rev-star-picker i {
+    font-size: 26px; color: #d1d5db; cursor: pointer;
+    transition: color .15s, transform .15s;
+}
+.pdp-rev-star-picker i:hover,
+.pdp-rev-star-picker i.selected { color: #f59e0b; transform: scale(1.18); }
+.pdp-rev-modal textarea {
+    width: 100%; border: 1.5px solid var(--border); border-radius: 8px;
+    padding: 12px 14px; font-size: 14px; font-family: inherit;
+    resize: vertical; min-height: 110px; color: var(--text);
+    transition: border-color .2s; outline: none; margin-bottom: 18px;
+}
+.pdp-rev-modal textarea:focus { border-color: var(--red); }
+.pdp-rev-modal-submit {
+    width: 100%; padding: 13px; background: var(--red); color: #fff;
+    border: none; border-radius: 8px; font-size: 14px; font-weight: 700;
+    cursor: pointer; font-family: inherit; transition: background .2s, box-shadow .2s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.pdp-rev-modal-submit:hover { background: var(--red-d); box-shadow: 0 4px 14px rgba(190,3,24,.35); }
+.pdp-rev-modal-submit:disabled { opacity: .65; cursor: not-allowed; }
+.pdp-rev-login-note {
+    text-align: center; padding: 24px;
+    font-size: 13px; color: var(--muted);
+}
+.pdp-rev-login-note a { color: var(--red); font-weight: 600; }
 
 /* ── RELATED ── */
 .pdp__related { background: var(--white); margin-top: 16px; border-radius: var(--radius); box-shadow: var(--shadow); padding: 24px; animation: fadeUp .4s .2s ease both; }
@@ -373,7 +678,11 @@
 .pdp__zoom-count { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(255,255,255,.15); color: #fff; font-size: 12px; font-weight: 600; padding: 5px 14px; border-radius: 20px; }
 
 /* ── RESPONSIVE ── */
-@media(max-width:768px){ .pdp__prod-grid { grid-template-columns: repeat(auto-fill,minmax(145px,1fr)); gap: 12px; } }
+@media(max-width:768px){
+    .pdp__prod-grid { grid-template-columns: repeat(auto-fill,minmax(145px,1fr)); gap: 12px; }
+    .pdp-rev-grid { grid-template-columns: 1fr; }
+    .pdp-rev-summary { gap: 20px; }
+}
 @media(max-width:480px){
   .pdp__title { font-size: 17px; }
   .pdp__price-cur { font-size: 22px; }
@@ -382,6 +691,8 @@
   .pdp__prod-grid { grid-template-columns: repeat(2,1fr); gap: 10px; }
   #pdp-toasts { top: auto; bottom: 20px; right: 10px; left: 10px; }
   .pdp-toast { max-width: 100%; }
+  .pdp-rev-summary { flex-direction: column; align-items: flex-start; }
+  .pdp-rev-big-score { min-width: auto; }
 }
 </style>
 
@@ -433,14 +744,93 @@
   $wishlistAddUrl = route('wishlist.add', $product->id);
   $checkoutUrl    = route('checkout');
   $csrfToken      = csrf_token();
+
+  /* ── REVIEWS DATA ── */
+  $productReviews   = \App\Models\Producreview::where('product_id', $product->id)
+                        ->where('is_approved', true)
+                        ->with('user')
+                        ->latest()
+                        ->get();
+
+  $totalRevCount    = $productReviews->count();
+  $avgRating        = $totalRevCount > 0 ? round($productReviews->avg('rating'), 1) : 0;
+
+  $starCounts = [];
+  for ($s = 5; $s >= 1; $s--) {
+      $starCounts[$s] = $productReviews->where('rating', $s)->count();
+  }
+
+  /* Has the logged-in user already reviewed this product? */
+  $userReview       = null;
+  $alreadyReviewed  = false;
+  if (auth()->check()) {
+      $userReview      = \App\Models\Producreview::where('product_id', $product->id)
+                          ->where('user_id', auth()->id())
+                          ->first();
+      $alreadyReviewed = (bool) $userReview;
+  }
+
+  $reviewStoreUrl = route('review.store', $product->id);
 @endphp
 
 {{-- ── TOAST CONTAINER ── --}}
 <div id="pdp-toasts"></div>
 
+{{-- ── REVIEW WRITE MODAL ── --}}
+<div class="pdp-rev-modal-overlay" id="pdpRevModal">
+    <div class="pdp-rev-modal">
+        <div class="pdp-rev-modal-head">
+            <span class="pdp-rev-modal-title">Write a Review</span>
+            <button class="pdp-rev-modal-close" id="pdpRevModalClose" type="button">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        @auth
+            @if($alreadyReviewed)
+                <div style="text-align:center;padding:20px 0">
+                    <i class="fas fa-check-circle" style="font-size:36px;color:#16a34a;display:block;margin-bottom:12px"></i>
+                    <p style="font-size:14px;color:#374151;font-weight:600">আপনি ইতোমধ্যে এই পণ্যটি রিভিউ করেছেন।</p>
+                    <p style="font-size:12px;color:var(--muted);margin-top:6px">Rating: {{ $userReview->rating }}/5 — "{{ Str::limit($userReview->review, 60) }}"</p>
+                </div>
+            @else
+                <form id="pdpRevForm" action="{{ $reviewStoreUrl }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="product_id" value="{{ $product->id }}">
+                    <input type="hidden" name="rating" id="pdpRevRatingInput" value="0">
+
+                    <label class="pdp-rev-modal-label">Your Rating *</label>
+                    <div class="pdp-rev-star-picker" id="pdpRevStarPicker">
+                        <i class="far fa-star" data-val="1"></i>
+                        <i class="far fa-star" data-val="2"></i>
+                        <i class="far fa-star" data-val="3"></i>
+                        <i class="far fa-star" data-val="4"></i>
+                        <i class="far fa-star" data-val="5"></i>
+                    </div>
+                    <div id="pdpRevRatingErr" style="font-size:11px;color:var(--red);margin-bottom:12px;display:none">
+                        অনুগ্রহ করে একটি রেটিং দিন।
+                    </div>
+
+                    <label class="pdp-rev-modal-label">Your Review (Optional)</label>
+                    <textarea name="review" placeholder="এই পণ্য সম্পর্কে আপনার মতামত লিখুন..."></textarea>
+
+                    <button type="submit" class="pdp-rev-modal-submit" id="pdpRevSubmit">
+                        <i class="fas fa-paper-plane"></i> রিভিউ জমা দিন
+                    </button>
+                </form>
+            @endif
+        @else
+            <div class="pdp-rev-login-note">
+                <i class="fas fa-lock" style="font-size:28px;color:#d1d5db;display:block;margin-bottom:12px"></i>
+                রিভিউ দিতে হলে আগে <a href="{{ url('customer/login') }}">লগইন করুন</a>।
+            </div>
+        @endauth
+    </div>
+</div>
+
 <div class="pdp">
 
-  {{-- Server-side flash fallback --}}
+  {{-- Server-side flash --}}
   <div class="pdp__wrap">
     @if(session('success'))
       <div class="pdp-alert pdp-alert--success"><i class="bi bi-check-circle-fill"></i> {{ session('success') }}</div>
@@ -480,30 +870,23 @@
 
         {{-- ── LEFT: GALLERY ── --}}
         <div class="pdp__gallery">
-
           <div class="pdp__main-wrap" id="pdpMainWrap">
-
             <button class="pdp__wish-btn" id="pdpWishBtn"
                     data-url="{{ $wishlistAddUrl }}"
                     title="উইশলিস্টে যোগ করুন">
               <i class="bi bi-heart"></i>
             </button>
-
             @if($product->vendor)
             <div class="pdp__badge-row">
               <span class="pdp__badge pdp__badge--vendor">{{ $product->vendor }}</span>
             </div>
             @endif
-
             <img id="pdpMainImg" class="pdp__main-img" src="{{ $featureImg }}" alt="{{ $product->name }}"/>
-
             <div class="pdp__zoom-hint"><i class="fas fa-search-plus" style="font-size:10px"></i> Click to zoom</div>
-
             <div class="pdp__img-counter">
               <i class="fas fa-camera"></i>
               <span id="pdpCounter">1 / {{ $totalImages }}</span>
             </div>
-
             <div class="pdp__img-popup">
               <div class="pdp__popup-title">{{ $product->name }}</div>
               <div class="pdp__popup-meta">
@@ -545,12 +928,10 @@
             <a href="https://twitter.com/intent/tweet?url={{ $shareUrl }}&text={{ $shareTitle }}" target="_blank" rel="noopener" class="pdp__soc-btn pdp__soc--tw"><i class="fab fa-twitter"></i></a>
             <a href="https://wa.me/?text={{ $shareTitle }}%20{{ $shareUrl }}" target="_blank" rel="noopener" class="pdp__soc-btn pdp__soc--wa"><i class="fab fa-whatsapp"></i></a>
           </div>
-
         </div>{{-- /GALLERY --}}
 
         {{-- ── MIDDLE: INFO ── --}}
         <div class="pdp__info">
-
           @if(!empty($featureTags))
           <div class="pdp__feature-tags">
             @foreach($featureTags as $ft)
@@ -570,6 +951,21 @@
               <strong>{{ $product->vendor }}</strong>
             @endif
           </div>
+
+          {{-- Inline rating summary under product name --}}
+          @if($totalRevCount > 0)
+          <div class="pdp__meta-row" style="margin-bottom:14px">
+            @for($s=1;$s<=5;$s++)
+              <i class="bi bi-star{{ $s <= round($avgRating) ? '-fill' : '' }}"
+                 style="font-size:13px;color:{{ $s <= round($avgRating) ? '#f59e0b' : '#d1d5db' }}"></i>
+            @endfor
+            <span style="font-size:13px;font-weight:700;color:var(--text)">{{ $avgRating }}</span>
+            <a href="#" onclick="pdpTab('reviews');return false;"
+               style="font-size:12px;color:var(--muted);text-decoration:underline">
+               ({{ $totalRevCount }} {{ $totalRevCount === 1 ? 'review' : 'reviews' }})
+            </a>
+          </div>
+          @endif
 
           <div class="pdp__viewers">
             <i class="fas fa-eye"></i>
@@ -662,19 +1058,12 @@
                 <i class="fas fa-times-circle"></i> Out of Stock
               </span>
             @else
-              <button type="button"
-                      class="pdp__btn pdp__btn--cart"
-                      id="pdpAddCart"
-                      data-url="{{ $cartAddUrl }}">
+              <button type="button" class="pdp__btn pdp__btn--cart" id="pdpAddCart" data-url="{{ $cartAddUrl }}">
                 <i class="fas fa-shopping-cart"></i>
                 <span class="pdp-btn-text">Add to Cart</span>
               </button>
-
-              <button type="button"
-                      class="pdp__btn pdp__btn--buy"
-                      id="pdpBuyNow"
-                      data-url="{{ $cartAddUrl }}"
-                      data-checkout="{{ $checkoutUrl }}">
+              <button type="button" class="pdp__btn pdp__btn--buy" id="pdpBuyNow"
+                      data-url="{{ $cartAddUrl }}" data-checkout="{{ $checkoutUrl }}">
                 <i class="fas fa-shopping-bag"></i>
                 <span class="pdp-btn-text">Buy Now</span>
               </button>
@@ -700,12 +1089,10 @@
             <span>{{ $product->return_policy }}</span>
           </div>
           @endif
-
         </div>{{-- /INFO --}}
 
         {{-- ── RIGHT: SIDEBAR ── --}}
         <div class="pdp__sidebar">
-
           <div class="pdp__s-card">
             <div class="pdp__card-head"><i class="fas fa-truck" style="margin-right:6px;color:var(--red)"></i>Delivery & Shipping</div>
             <div class="pdp__card-body">
@@ -771,24 +1158,36 @@
             </div>
           </div>
           @endif
-
         </div>{{-- /SIDEBAR --}}
 
       </div>{{-- /grid --}}
     </div>{{-- /card --}}
 
-    {{-- ── TABS ── --}}
+    {{-- ══ TABS ══ --}}
     <div class="pdp__tabs" id="pdpTabsSection">
       <div class="pdp__tab-nav">
-        <button class="pdp__tab-btn pdp__tab-btn--active" onclick="pdpTab('description')"><i class="fas fa-align-left"></i> Description</button>
-        <button class="pdp__tab-btn" onclick="pdpTab('specifications')"><i class="fas fa-list"></i> Specifications</button>
-        <button class="pdp__tab-btn" onclick="pdpTab('reviews')"><i class="fas fa-star"></i> Reviews</button>
+        <button class="pdp__tab-btn pdp__tab-btn--active" onclick="pdpTab('description')">
+          <i class="fas fa-align-left"></i> Description
+        </button>
+        <button class="pdp__tab-btn" onclick="pdpTab('specifications')">
+          <i class="fas fa-list"></i> Specifications
+        </button>
+        <button class="pdp__tab-btn" onclick="pdpTab('reviews')">
+          <i class="fas fa-star"></i> Reviews
+          @if($totalRevCount > 0)
+            <span style="background:var(--red);color:#fff;font-size:10px;font-weight:800;padding:2px 7px;border-radius:10px;margin-left:2px">
+              {{ $totalRevCount }}
+            </span>
+          @endif
+        </button>
       </div>
 
+      {{-- Description Tab --}}
       <div id="pdpDescription" class="pdp__tab-pane pdp__tab-pane--active">
         <div class="pdp__desc">{!! nl2br(e($product->description)) !!}</div>
       </div>
 
+      {{-- Specifications Tab --}}
       <div id="pdpSpecifications" class="pdp__tab-pane">
         <div class="pdp__spec-section">
           <div class="pdp__spec-head">Product Details</div>
@@ -799,7 +1198,6 @@
           @if($product->vendor)<div class="pdp__spec-row"><span class="pdp__spec-k">Vendor / Brand</span><span class="pdp__spec-v">{{ $product->vendor }}</span></div>@endif
           <div class="pdp__spec-row"><span class="pdp__spec-k">Availability</span><span class="pdp__spec-v">{{ $stockLabel }}</span></div>
         </div>
-
         @if($variants->count())
         <div class="pdp__spec-section">
           <div class="pdp__spec-head">Available Variants</div>
@@ -813,13 +1211,133 @@
         @endif
       </div>
 
+      {{-- ══ REVIEWS TAB ══ --}}
       <div id="pdpReviews" class="pdp__tab-pane">
-        <div class="pdp__no-reviews">
-          <i class="fas fa-star" style="color:var(--gold);font-size:28px;display:block;margin-bottom:10px"></i>
-          No reviews yet. Be the first to review this product!
-        </div>
-      </div>
-    </div>
+
+        {{-- Overall Rating Summary --}}
+        <div class="pdp-rev-summary">
+
+          {{-- Big Score --}}
+          <div class="pdp-rev-big-score">
+            <div class="pdp-rev-big-num">{{ $totalRevCount > 0 ? number_format($avgRating, 1) : '—' }}</div>
+            <div class="pdp-rev-big-stars">
+              @for($s = 1; $s <= 5; $s++)
+                <i class="bi bi-star{{ $s <= round($avgRating) ? '-fill' : ($s - 0.5 <= $avgRating ? '-half' : '') }}"
+                   style="color:{{ $totalRevCount > 0 ? '#f59e0b' : '#d1d5db' }}"></i>
+              @endfor
+            </div>
+            <div class="pdp-rev-big-count">
+              {{ $totalRevCount }} {{ $totalRevCount === 1 ? 'টি রিভিউ' : 'টি রিভিউ' }}
+            </div>
+          </div>
+
+          {{-- Rating Bars --}}
+          <div class="pdp-rev-bars">
+            @for($s = 5; $s >= 1; $s--)
+              @php
+                $cnt = $starCounts[$s] ?? 0;
+                $pct = $totalRevCount > 0 ? round(($cnt / $totalRevCount) * 100) : 0;
+              @endphp
+              <div class="pdp-rev-bar-row">
+                <span style="width:12px;text-align:right;flex-shrink:0;">{{ $s }}</span>
+                <i class="bi bi-star-fill" style="font-size:11px;color:#f59e0b;flex-shrink:0;"></i>
+                <div class="pdp-rev-bar-track">
+                  <div class="pdp-rev-bar-fill" style="width:{{ $pct }}%"></div>
+                </div>
+                <span class="pdp-rev-bar-pct">{{ $pct }}%</span>
+                <span style="font-size:11px;color:var(--muted);width:20px;flex-shrink:0">({{ $cnt }})</span>
+              </div>
+            @endfor
+          </div>
+
+          {{-- Write Review CTA --}}
+          <div class="pdp-rev-write-cta">
+            @auth
+              @if($alreadyReviewed)
+                <p>আপনি ইতোমধ্যে রিভিউ দিয়েছেন। ধন্যবাদ!</p>
+                <button class="pdp-rev-write-btn" type="button" id="pdpOpenRevModal" style="background:#6b7280">
+                  <i class="fas fa-eye"></i> আপনার রিভিউ
+                </button>
+              @else
+                <p>এই পণ্যটি কি পছন্দ হয়েছে? আপনার অভিজ্ঞতা শেয়ার করুন!</p>
+                <button class="pdp-rev-write-btn" type="button" id="pdpOpenRevModal">
+                  <i class="fas fa-pen"></i> রিভিউ লিখুন
+                </button>
+              @endif
+            @else
+              <p>রিভিউ দিতে লগইন করুন।</p>
+              <a href="{{ url('customer/login') }}" class="pdp-rev-write-btn" style="text-decoration:none;color:#fff">
+                <i class="fas fa-sign-in-alt"></i> লগইন করুন
+              </a>
+            @endauth
+          </div>
+
+        </div>{{-- /pdp-rev-summary --}}
+
+        {{-- Review Cards --}}
+        @if($productReviews->isNotEmpty())
+          <div class="pdp-rev-grid">
+            @foreach($productReviews as $rev)
+              @php
+                $reviewer     = $rev->user;
+                $reviewerName = $reviewer ? $reviewer->name : 'Anonymous';
+                $initial      = strtoupper(substr($reviewerName, 0, 1));
+              @endphp
+              <div class="pdp-rev-card">
+
+                {{-- Stars --}}
+                <div class="pdp-rev-stars">
+                  @for($s = 1; $s <= 5; $s++)
+                    <i class="bi bi-star{{ $s <= $rev->rating ? '-fill rev-star-filled' : ' rev-star-empty' }}"></i>
+                  @endfor
+                  <span class="pdp-rev-score-label">{{ $rev->rating }}/5</span>
+                </div>
+
+                {{-- Review text --}}
+                @if($rev->review)
+                  <p class="pdp-rev-text">"{{ $rev->review }}"</p>
+                @else
+                  <p class="pdp-rev-text" style="color:var(--muted);font-style:normal;font-size:12px">
+                    (কোনো মন্তব্য করা হয়নি)
+                  </p>
+                @endif
+
+                {{-- Footer --}}
+                <div class="pdp-rev-footer">
+                  <div class="pdp-rev-avatar">{{ $initial }}</div>
+                  <div>
+                    <div class="pdp-rev-name">{{ $reviewerName }}</div>
+                    <div class="pdp-rev-date">{{ $rev->created_at->format('d M Y') }}</div>
+                  </div>
+                  <div class="pdp-rev-verified">
+                    <i class="bi bi-patch-check-fill"></i> Verified
+                  </div>
+                </div>
+
+              </div>
+            @endforeach
+          </div>
+        @else
+          <div class="pdp-rev-empty">
+            <i class="fas fa-star"></i>
+            <p>এখনো কোনো রিভিউ নেই। প্রথম রিভিউটি আপনিই দিন!</p>
+            @auth
+              @if(!$alreadyReviewed)
+                <button class="pdp-rev-write-btn" type="button" id="pdpOpenRevModalEmpty">
+                  <i class="fas fa-pen"></i> রিভিউ লিখুন
+                </button>
+              @endif
+            @else
+              <a href="{{ url('customer/login') }}" class="pdp-rev-write-btn" style="text-decoration:none;color:#fff">
+                <i class="fas fa-sign-in-alt"></i> লগইন করুন
+              </a>
+            @endauth
+          </div>
+        @endif
+
+      </div>{{-- /pdpReviews tab --}}
+
+    </div>{{-- /tabs --}}
 
     {{-- ── RELATED PRODUCTS ── --}}
     @if(!empty($relatedProducts) && $relatedProducts->count())
@@ -881,11 +1399,9 @@
 (function () {
   'use strict';
 
-  /* ── CONFIG ─────────────────────────────────────────────────────────── */
   var IMGS     = @json($allImages->pluck('url')->values());
   var MAX_QTY  = {{ $product->is_unlimited ? 9999 : max(1, $product->stock ?? 1) }};
   var CHECKOUT = '{{ $checkoutUrl }}';
-  /* CSRF টোকেন একটাই জায়গায় রাখো */
   var CSRF     = document.querySelector('meta[name="csrf-token"]')
                    ? document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                    : '{{ $csrfToken }}';
@@ -893,18 +1409,13 @@
   var selColor = null;
   var selSize  = null;
 
-  /* ── TOAST ───────────────────────────────────────────────────────────── */
+  /* ── TOAST ── */
   function toast(msg, type, ms) {
-    type = type || 'success';
-    ms   = ms   || 3200;
-    var icons = {
-      success : 'bi bi-check-circle-fill',
-      error   : 'bi bi-x-circle-fill',
-      info    : 'bi bi-info-circle-fill'
-    };
+    type = type || 'success'; ms = ms || 3200;
+    var icons = { success:'bi bi-check-circle-fill', error:'bi bi-x-circle-fill', info:'bi bi-info-circle-fill' };
     var el = document.createElement('div');
     el.className = 'pdp-toast pdp-toast--' + type;
-    el.innerHTML = '<i class="' + (icons[type] || icons.info) + '"></i><span>' + msg + '</span>';
+    el.innerHTML = '<i class="' + (icons[type]||icons.info) + '"></i><span>' + msg + '</span>';
     var wrap = document.getElementById('pdp-toasts');
     if (wrap) wrap.appendChild(el);
     setTimeout(function () {
@@ -913,344 +1424,296 @@
     }, ms);
   }
 
-  /* ── UPDATE CART BADGE ───────────────────────────────────────────────── */
+  /* ── UPDATE CART BADGE ── */
   function updateBadge(n) {
     document.querySelectorAll('.cart-badge, #cart-count, .pdp-cart-count').forEach(function (b) {
-      b.textContent   = n;
-      b.style.display = n > 0 ? '' : 'none';
+      b.textContent = n; b.style.display = n > 0 ? '' : 'none';
     });
   }
 
-  /* ── CORE CART POST (fetch) ──────────────────────────────────────────── *
-   *  সমস্যা ছিল: FormData-তে _token ছিল + header-এও X-CSRF-TOKEN ছিল।
-   *  Laravel দুটো একসাথে accept করে, কিন্তু কিছু proxy/server reject করে।
-   *  Fix: শুধু header-এ পাঠাও, body-তে _token রেখো না।
-   * ─────────────────────────────────────────────────────────────────────── */
+  /* ── CART POST ── */
   function cartPost(url, qty, color, size, callback) {
     var fd = new FormData();
     fd.append('quantity', qty);
     if (color) fd.append('selected_color', color);
     if (size)  fd.append('selected_size',  size);
-    /* NOTE: _token FormData-তে নেই। শুধু header-এ আছে — এটাই সঠিক। */
-
     fetch(url, {
-      method  : 'POST',
-      headers : {
-        'X-Requested-With' : 'XMLHttpRequest',
-        'Accept'           : 'application/json',
-        'X-CSRF-TOKEN'     : CSRF
-      },
-      body    : fd
+      method: 'POST',
+      headers: { 'X-Requested-With':'XMLHttpRequest', 'Accept':'application/json', 'X-CSRF-TOKEN':CSRF },
+      body: fd
     })
     .then(function (res) {
-      /* 422 = validation error — তবুও JSON parse করতে হবে */
-      if (!res.ok && res.status !== 422) {
-        throw new Error('HTTP ' + res.status);
-      }
+      if (!res.ok && res.status !== 422) throw new Error('HTTP ' + res.status);
       return res.json();
     })
-    .then(function (data) {
-      if (typeof callback === 'function') callback(null, data);
-    })
-    .catch(function (err) {
-      console.error('[PDP Cart Error]', err);
-      if (typeof callback === 'function') callback(err, null);
-    });
+    .then(function (data) { if (typeof callback === 'function') callback(null, data); })
+    .catch(function (err) { console.error('[PDP Cart Error]', err); if (typeof callback === 'function') callback(err, null); });
   }
 
-  /* ── BUTTON LOADING HELPER ───────────────────────────────────────────── */
+  /* ── BUTTON LOADING ── */
   function btnLoad(btn, on) {
     if (!btn) return;
     var icon = btn.querySelector('i:not(.pdp-spinner)');
     if (on) {
       btn.disabled = true;
       if (!btn.querySelector('.pdp-spinner')) {
-        var s = document.createElement('span');
-        s.className = 'pdp-spinner';
-        btn.insertBefore(s, btn.firstChild);
+        var s = document.createElement('span'); s.className = 'pdp-spinner'; btn.insertBefore(s, btn.firstChild);
       }
       if (icon) icon.style.display = 'none';
     } else {
       btn.disabled = false;
-      var sp = btn.querySelector('.pdp-spinner');
-      if (sp) sp.parentNode.removeChild(sp);
+      var sp = btn.querySelector('.pdp-spinner'); if (sp) sp.parentNode.removeChild(sp);
       if (icon) icon.style.display = '';
     }
   }
 
-  /* ── ADD TO CART ─────────────────────────────────────────────────────── */
+  /* ── ADD TO CART ── */
   var addCartBtn = document.getElementById('pdpAddCart');
   if (addCartBtn) {
     addCartBtn.addEventListener('click', function () {
       var btn = this;
-      var url = btn.dataset.url;
-      var qty = parseInt(document.getElementById('pdpQtyInput').value, 10) || 1;
       btnLoad(btn, true);
-      cartPost(url, qty, selColor, selSize, function (err, data) {
+      cartPost(btn.dataset.url, parseInt(document.getElementById('pdpQtyInput').value,10)||1, selColor, selSize, function (err, data) {
         btnLoad(btn, false);
-        if (err) {
-          toast('নেটওয়ার্ক সমস্যা। আবার চেষ্টা করুন।', 'error');
-          return;
-        }
-        if (data && data.success) {
-          updateBadge(data.cart_count);
-          toast(data.message || 'কার্টে যোগ হয়েছে!', 'success');
-        } else {
-          toast((data && data.message) || 'কার্টে যোগ করতে সমস্যা হয়েছে।', 'error');
-        }
+        if (err) { toast('নেটওয়ার্ক সমস্যা। আবার চেষ্টা করুন।','error'); return; }
+        if (data && data.success) { updateBadge(data.cart_count); toast(data.message||'কার্টে যোগ হয়েছে!','success'); }
+        else toast((data&&data.message)||'কার্টে যোগ করতে সমস্যা হয়েছে।','error');
       });
     });
   }
 
-  /* ── BUY NOW ─────────────────────────────────────────────────────────── */
+  /* ── BUY NOW ── */
   var buyNowBtn = document.getElementById('pdpBuyNow');
   if (buyNowBtn) {
     buyNowBtn.addEventListener('click', function () {
       var btn = this;
-      var url = btn.dataset.url;
-      var qty = parseInt(document.getElementById('pdpQtyInput').value, 10) || 1;
       btnLoad(btn, true);
-      cartPost(url, qty, selColor, selSize, function (err, data) {
-        if (err) {
-          btnLoad(btn, false);
-          toast('নেটওয়ার্ক সমস্যা। আবার চেষ্টা করুন।', 'error');
-          return;
-        }
-        if (data && data.success) {
-          updateBadge(data.cart_count);
-          window.location.href = CHECKOUT;
-        } else {
-          btnLoad(btn, false);
-          toast((data && data.message) || 'কার্টে যোগ করতে সমস্যা হয়েছে।', 'error');
-        }
+      cartPost(btn.dataset.url, parseInt(document.getElementById('pdpQtyInput').value,10)||1, selColor, selSize, function (err, data) {
+        if (err) { btnLoad(btn,false); toast('নেটওয়ার্ক সমস্যা। আবার চেষ্টা করুন।','error'); return; }
+        if (data && data.success) { updateBadge(data.cart_count); window.location.href = CHECKOUT; }
+        else { btnLoad(btn,false); toast((data&&data.message)||'কার্টে যোগ করতে সমস্যা হয়েছে।','error'); }
       });
     });
   }
 
-  /* ── WISHLIST (AJAX GET) ─────────────────────────────────────────────── */
+  /* ── WISHLIST ── */
   var wishBtn = document.getElementById('pdpWishBtn');
   if (wishBtn) {
     wishBtn.addEventListener('click', function (e) {
       e.stopPropagation();
-      var btn = this;
-      var url = btn.dataset.url;
-      btn.disabled = true;
-      fetch(url, {
-        headers : {
-          'X-Requested-With' : 'XMLHttpRequest',
-          'Accept'           : 'application/json'
-        }
-      })
+      var btn = this; btn.disabled = true;
+      fetch(btn.dataset.url, { headers: { 'X-Requested-With':'XMLHttpRequest', 'Accept':'application/json' } })
       .then(function (r) { return r.json(); })
       .then(function (data) {
         btn.disabled = false;
         if (data.success || data.message) {
           btn.classList.toggle('pdp__wish-btn--active');
           var icon = btn.querySelector('i');
-          if (icon) {
-            var isActive = btn.classList.contains('pdp__wish-btn--active');
-            icon.className = isActive ? 'bi bi-heart-fill' : 'bi bi-heart';
-            icon.style.color = isActive ? '#ef4444' : '';
-          }
-          toast(data.message || 'উইশলিস্টে যোগ হয়েছে!', 'success');
-        } else {
-          toast(data.message || 'সমস্যা হয়েছে।', 'error');
-        }
+          if (icon) { var a = btn.classList.contains('pdp__wish-btn--active'); icon.className = a?'bi bi-heart-fill':'bi bi-heart'; icon.style.color = a?'#ef4444':''; }
+          toast(data.message||'উইশলিস্টে যোগ হয়েছে!','success');
+        } else toast(data.message||'সমস্যা হয়েছে।','error');
       })
-      .catch(function () {
-        btn.disabled = false;
-        /* AJAX fail হলে সরাসরি navigate করো */
-        window.location.href = url;
-      });
+      .catch(function () { btn.disabled = false; window.location.href = btn.dataset.url; });
     });
   }
 
-  /* ── RELATED PRODUCT CART ────────────────────────────────────────────── */
+  /* ── RELATED CART ── */
   window.pdpRelatedCart = function (btn) {
-    var url  = btn.dataset.url;
-    var orig = btn.innerHTML;
-    btn.disabled = true;
-    btn.innerHTML = '<span class="pdp-spinner" style="width:14px;height:14px;border-width:2px"></span> যোগ হচ্ছে...';
+    var url = btn.dataset.url; var orig = btn.innerHTML;
+    btn.disabled = true; btn.innerHTML = '<span class="pdp-spinner" style="width:14px;height:14px;border-width:2px"></span> যোগ হচ্ছে...';
     cartPost(url, 1, null, null, function (err, data) {
-      if (err) {
-        btn.innerHTML = orig;
-        btn.disabled  = false;
-        toast('নেটওয়ার্ক সমস্যা। আবার চেষ্টা করুন।', 'error');
-        return;
-      }
+      if (err) { btn.innerHTML = orig; btn.disabled = false; toast('নেটওয়ার্ক সমস্যা।','error'); return; }
       if (data && data.success) {
-        updateBadge(data.cart_count);
-        toast(data.message || 'কার্টে যোগ হয়েছে!', 'success');
+        updateBadge(data.cart_count); toast(data.message||'কার্টে যোগ হয়েছে!','success');
         btn.innerHTML = '<i class="fas fa-check"></i> যোগ হয়েছে!';
         setTimeout(function () { btn.innerHTML = orig; btn.disabled = false; }, 2000);
-      } else {
-        btn.innerHTML = orig;
-        btn.disabled  = false;
-        toast((data && data.message) || 'সমস্যা হয়েছে।', 'error');
-      }
+      } else { btn.innerHTML = orig; btn.disabled = false; toast((data&&data.message)||'সমস্যা হয়েছে।','error'); }
     });
   };
 
-  /* ── OPTION BUTTONS (color / size) ──────────────────────────────────── */
+  /* ── OPTION BUTTONS ── */
   document.querySelectorAll('.pdp__opt-btn').forEach(function (btn) {
     btn.addEventListener('click', function () {
-      var group     = this.dataset.group;
-      var value     = this.dataset.value;
+      var group = this.dataset.group; var value = this.dataset.value;
       var wasActive = this.classList.contains('pdp__opt-btn--active');
-
-      document.querySelectorAll('.pdp__opt-btn[data-group="' + group + '"]').forEach(function (b) {
-        b.classList.remove('pdp__opt-btn--active');
-      });
-
-      if (!wasActive) {
-        this.classList.add('pdp__opt-btn--active');
-        if (group === 'color') { selColor = value; _setLabel('pdpColorSel', value); }
-        else                   { selSize  = value; _setLabel('pdpSizeSel',  value); }
-      } else {
-        if (group === 'color') { selColor = null;  _setLabel('pdpColorSel', null); }
-        else                   { selSize  = null;  _setLabel('pdpSizeSel',  null); }
-      }
+      document.querySelectorAll('.pdp__opt-btn[data-group="'+group+'"]').forEach(function(b){ b.classList.remove('pdp__opt-btn--active'); });
+      if (!wasActive) { this.classList.add('pdp__opt-btn--active'); if(group==='color'){selColor=value;_setLabel('pdpColorSel',value);}else{selSize=value;_setLabel('pdpSizeSel',value);} }
+      else { if(group==='color'){selColor=null;_setLabel('pdpColorSel',null);}else{selSize=null;_setLabel('pdpSizeSel',null);} }
     });
   });
+  function _setLabel(id,val){ var el=document.getElementById(id); if(!el) return; el.textContent=val?'— '+val:''; el.style.display=val?'inline':'none'; }
 
-  function _setLabel(id, val) {
-    var el = document.getElementById(id);
-    if (!el) return;
-    el.textContent   = val ? '— ' + val : '';
-    el.style.display = val ? 'inline' : 'none';
-  }
-
-  /* ── QUANTITY ────────────────────────────────────────────────────────── */
+  /* ── QUANTITY ── */
   var qtyInput = document.getElementById('pdpQtyInput');
   var qtyInc   = document.getElementById('pdpQtyInc');
   var qtyDec   = document.getElementById('pdpQtyDec');
-  if (qtyInc) qtyInc.addEventListener('click', function () {
-    var v = parseInt(qtyInput.value, 10);
-    if (v < MAX_QTY) qtyInput.value = v + 1;
-  });
-  if (qtyDec) qtyDec.addEventListener('click', function () {
-    var v = parseInt(qtyInput.value, 10);
-    if (v > 1) qtyInput.value = v - 1;
-  });
+  if (qtyInc) qtyInc.addEventListener('click', function(){ var v=parseInt(qtyInput.value,10); if(v<MAX_QTY) qtyInput.value=v+1; });
+  if (qtyDec) qtyDec.addEventListener('click', function(){ var v=parseInt(qtyInput.value,10); if(v>1) qtyInput.value=v-1; });
 
-  /* ── GALLERY THUMBNAILS ──────────────────────────────────────────────── */
+  /* ── THUMBNAILS ── */
   var mainImg = document.getElementById('pdpMainImg');
   var counter = document.getElementById('pdpCounter');
   var thumbs  = document.querySelectorAll('.pdp__thumb');
-
   thumbs.forEach(function (t) {
     t.addEventListener('click', function (e) {
       e.stopPropagation();
-      thumbs.forEach(function (x) { x.classList.remove('pdp__thumb--active'); });
+      thumbs.forEach(function(x){x.classList.remove('pdp__thumb--active');});
       t.classList.add('pdp__thumb--active');
-      curIdx = parseInt(t.dataset.idx, 10);
-      mainImg.src = t.dataset.src;
-      counter.textContent = (curIdx + 1) + ' / ' + IMGS.length;
+      curIdx = parseInt(t.dataset.idx,10); mainImg.src = t.dataset.src;
+      counter.textContent = (curIdx+1)+' / '+IMGS.length;
     });
   });
 
-  /* ── ZOOM OVERLAY ────────────────────────────────────────────────────── */
-  var zoomEl    = document.getElementById('pdpZoom');
-  var zoomImg   = document.getElementById('pdpZoomImg');
+  /* ── ZOOM OVERLAY ── */
+  var zoomEl = document.getElementById('pdpZoom');
+  var zoomImg = document.getElementById('pdpZoomImg');
   var zoomCount = document.getElementById('pdpZoomCount');
+  function openZoom(idx){ curIdx=idx; zoomImg.src=IMGS[curIdx]; zoomImg.style.opacity='1'; zoomImg.style.transform=''; zoomCount.textContent=(curIdx+1)+' / '+IMGS.length; zoomEl.classList.add('pdp__zoom--active'); document.body.style.overflow='hidden'; }
+  function closeZoom(){ zoomEl.classList.remove('pdp__zoom--active'); document.body.style.overflow=''; }
+  function zoomNav(dir){
+    curIdx=(curIdx+dir+IMGS.length)%IMGS.length;
+    zoomImg.style.opacity='0'; zoomImg.style.transform='scale(.88)';
+    setTimeout(function(){
+      zoomImg.src=IMGS[curIdx]; zoomCount.textContent=(curIdx+1)+' / '+IMGS.length;
+      mainImg.src=IMGS[curIdx]; counter.textContent=(curIdx+1)+' / '+IMGS.length;
+      thumbs.forEach(function(t){ t.classList.toggle('pdp__thumb--active', parseInt(t.dataset.idx,10)===curIdx); });
+      zoomImg.style.opacity='1'; zoomImg.style.transform='scale(1)';
+    },160);
+  }
+  var mainWrap = document.getElementById('pdpMainWrap');
+  if (mainWrap) mainWrap.addEventListener('click', function(e){ if(e.target.closest('#pdpWishBtn')) return; openZoom(curIdx); });
+  document.getElementById('pdpZoomClose').addEventListener('click', function(e){ e.stopPropagation(); closeZoom(); });
+  zoomEl.addEventListener('click', function(e){ if(e.target===zoomEl) closeZoom(); });
+  zoomImg.addEventListener('click', closeZoom);
+  document.getElementById('pdpZoomPrev').addEventListener('click', function(e){ e.stopPropagation(); zoomNav(-1); });
+  document.getElementById('pdpZoomNext').addEventListener('click', function(e){ e.stopPropagation(); zoomNav(1); });
+  document.addEventListener('keydown', function(e){
+    if(!zoomEl.classList.contains('pdp__zoom--active')) return;
+    if(e.key==='Escape') closeZoom(); if(e.key==='ArrowLeft') zoomNav(-1); if(e.key==='ArrowRight') zoomNav(1);
+  });
 
-  function openZoom(idx) {
-    curIdx = idx;
-    zoomImg.src = IMGS[curIdx];
-    zoomImg.style.opacity   = '1';
-    zoomImg.style.transform = '';
-    zoomCount.textContent = (curIdx + 1) + ' / ' + IMGS.length;
-    zoomEl.classList.add('pdp__zoom--active');
+  /* ── COUNTDOWN TIMER ── */
+  @if($product->discount_price)
+  var _secs = 5994;
+  var _timerEl = { h:document.getElementById('pdpTH'), m:document.getElementById('pdpTM'), s:document.getElementById('pdpTS') };
+  setInterval(function(){
+    if(_secs<=0) return; _secs--;
+    var h=Math.floor(_secs/3600), m=Math.floor((_secs%3600)/60), s=_secs%60;
+    if(_timerEl.h) _timerEl.h.textContent=String(h).padStart(2,'0')+'h';
+    if(_timerEl.m) _timerEl.m.textContent=String(m).padStart(2,'0')+'m';
+    if(_timerEl.s) _timerEl.s.textContent=String(s).padStart(2,'0')+'s';
+  },1000);
+  @endif
+
+  /* ── VIEWER COUNT ── */
+  var _vc = document.getElementById('pdpViewers');
+  if (_vc) setInterval(function(){ var c=parseInt(_vc.textContent,10); _vc.textContent=Math.max(50,Math.min(80,c+(Math.random()<.5?1:-1))); },4000);
+
+  /* ── TABS ── */
+  var _tabMap = { description:0, specifications:1, reviews:2 };
+  window.pdpTab = function(id){
+    document.querySelectorAll('.pdp__tab-pane').forEach(function(c){ c.classList.remove('pdp__tab-pane--active'); });
+    document.querySelectorAll('.pdp__tab-btn').forEach(function(b){ b.classList.remove('pdp__tab-btn--active'); });
+    var cap = id.charAt(0).toUpperCase()+id.slice(1);
+    var pane = document.getElementById('pdp'+cap); var btns = document.querySelectorAll('.pdp__tab-btn');
+    if(pane) pane.classList.add('pdp__tab-pane--active');
+    if(btns[_tabMap[id]]) btns[_tabMap[id]].classList.add('pdp__tab-btn--active');
+    var sec = document.getElementById('pdpTabsSection'); if(sec) sec.scrollIntoView({behavior:'smooth',block:'start'});
+  };
+
+  /* ══════════════════════════════════════
+     REVIEW MODAL LOGIC
+  ══════════════════════════════════════ */
+  var revModal = document.getElementById('pdpRevModal');
+  var revModalClose = document.getElementById('pdpRevModalClose');
+
+  function openRevModal() {
+    if (revModal) revModal.classList.add('active');
     document.body.style.overflow = 'hidden';
   }
-
-  function closeZoom() {
-    zoomEl.classList.remove('pdp__zoom--active');
+  function closeRevModal() {
+    if (revModal) revModal.classList.remove('active');
     document.body.style.overflow = '';
   }
 
-  function zoomNav(dir) {
-    curIdx = (curIdx + dir + IMGS.length) % IMGS.length;
-    zoomImg.style.opacity   = '0';
-    zoomImg.style.transform = 'scale(.88)';
-    setTimeout(function () {
-      zoomImg.src = IMGS[curIdx];
-      zoomCount.textContent = (curIdx + 1) + ' / ' + IMGS.length;
-      mainImg.src = IMGS[curIdx];
-      counter.textContent = (curIdx + 1) + ' / ' + IMGS.length;
-      thumbs.forEach(function (t) {
-        t.classList.toggle('pdp__thumb--active', parseInt(t.dataset.idx, 10) === curIdx);
+  var openBtn = document.getElementById('pdpOpenRevModal');
+  if (openBtn) openBtn.addEventListener('click', openRevModal);
+
+  var openBtnEmpty = document.getElementById('pdpOpenRevModalEmpty');
+  if (openBtnEmpty) openBtnEmpty.addEventListener('click', openRevModal);
+
+  if (revModalClose) revModalClose.addEventListener('click', closeRevModal);
+  if (revModal) revModal.addEventListener('click', function(e){ if(e.target===revModal) closeRevModal(); });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeRevModal(); });
+
+  /* ── STAR PICKER ── */
+  var starPicker = document.getElementById('pdpRevStarPicker');
+  var ratingInput = document.getElementById('pdpRevRatingInput');
+  var selectedRating = 0;
+
+  if (starPicker) {
+    var stars = starPicker.querySelectorAll('i');
+    stars.forEach(function(star) {
+      star.addEventListener('mouseenter', function() {
+        var val = parseInt(this.dataset.val, 10);
+        stars.forEach(function(s, idx) {
+          s.className = idx < val ? 'fas fa-star selected' : 'far fa-star';
+        });
       });
-      zoomImg.style.opacity   = '1';
-      zoomImg.style.transform = 'scale(1)';
-    }, 160);
+      star.addEventListener('mouseleave', function() {
+        stars.forEach(function(s, idx) {
+          s.className = idx < selectedRating ? 'fas fa-star selected' : 'far fa-star';
+        });
+      });
+      star.addEventListener('click', function() {
+        selectedRating = parseInt(this.dataset.val, 10);
+        if (ratingInput) ratingInput.value = selectedRating;
+        var err = document.getElementById('pdpRevRatingErr');
+        if (err) err.style.display = 'none';
+        stars.forEach(function(s, idx) {
+          s.className = idx < selectedRating ? 'fas fa-star selected' : 'far fa-star';
+        });
+      });
+    });
   }
 
-  var mainWrap = document.getElementById('pdpMainWrap');
-  if (mainWrap) mainWrap.addEventListener('click', function (e) {
-    /* wish button click যেন zoom trigger না করে */
-    if (e.target.closest('#pdpWishBtn')) return;
-    openZoom(curIdx);
-  });
-  document.getElementById('pdpZoomClose').addEventListener('click', function (e) { e.stopPropagation(); closeZoom(); });
-  zoomEl.addEventListener('click', function (e) { if (e.target === zoomEl) closeZoom(); });
-  zoomImg.addEventListener('click', closeZoom);
-  document.getElementById('pdpZoomPrev').addEventListener('click', function (e) { e.stopPropagation(); zoomNav(-1); });
-  document.getElementById('pdpZoomNext').addEventListener('click', function (e) { e.stopPropagation(); zoomNav(1); });
-  document.addEventListener('keydown', function (e) {
-    if (!zoomEl.classList.contains('pdp__zoom--active')) return;
-    if (e.key === 'Escape')     closeZoom();
-    if (e.key === 'ArrowLeft')  zoomNav(-1);
-    if (e.key === 'ArrowRight') zoomNav(1);
-  });
+  /* ── REVIEW FORM SUBMIT ── */
+  var revForm = document.getElementById('pdpRevForm');
+  if (revForm) {
+    revForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      if (selectedRating === 0) {
+        var err = document.getElementById('pdpRevRatingErr');
+        if (err) err.style.display = 'block';
+        return;
+      }
+      var submitBtn = document.getElementById('pdpRevSubmit');
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.innerHTML = '<span class="pdp-spinner"></span> জমা হচ্ছে...'; }
 
-  /* ── COUNTDOWN TIMER ─────────────────────────────────────────────────── */
-  @if($product->discount_price)
-  var _secs = 5994; /* 1h 39m 54s */
-  var _timerEl = {
-    h : document.getElementById('pdpTH'),
-    m : document.getElementById('pdpTM'),
-    s : document.getElementById('pdpTS')
-  };
-  setInterval(function () {
-    if (_secs <= 0) return;
-    _secs--;
-    var h = Math.floor(_secs / 3600);
-    var m = Math.floor((_secs % 3600) / 60);
-    var s = _secs % 60;
-    if (_timerEl.h) _timerEl.h.textContent = String(h).padStart(2, '0') + 'h';
-    if (_timerEl.m) _timerEl.m.textContent = String(m).padStart(2, '0') + 'm';
-    if (_timerEl.s) _timerEl.s.textContent = String(s).padStart(2, '0') + 's';
-  }, 1000);
-  @endif
-
-  /* ── VIEWER COUNT FLICKER ────────────────────────────────────────────── */
-  var _vc = document.getElementById('pdpViewers');
-  if (_vc) {
-    setInterval(function () {
-      var cur = parseInt(_vc.textContent, 10);
-      var next = cur + (Math.random() < .5 ? 1 : -1);
-      _vc.textContent = Math.max(50, Math.min(80, next));
-    }, 4000);
+      var fd = new FormData(revForm);
+      fetch(revForm.action, {
+        method: 'POST',
+        headers: { 'X-Requested-With':'XMLHttpRequest', 'Accept':'application/json', 'X-CSRF-TOKEN':CSRF },
+        body: fd
+      })
+      .then(function(r){ return r.json(); })
+      .then(function(data){
+        if (data.success) {
+          closeRevModal();
+          toast(data.message || 'রিভিউ সফলভাবে জমা হয়েছে। অনুমোদনের পরে প্রকাশিত হবে।', 'success', 5000);
+          /* Reload after brief delay to show new review if auto-approved */
+          setTimeout(function(){ window.location.reload(); }, 2500);
+        } else {
+          toast(data.message || 'রিভিউ জমা দিতে সমস্যা হয়েছে।', 'error');
+          if (submitBtn) { submitBtn.disabled = false; submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> রিভিউ জমা দিন'; }
+        }
+      })
+      .catch(function(){
+        /* Fallback: regular form submit */
+        revForm.submit();
+      });
+    });
   }
-
-  /* ── TABS ────────────────────────────────────────────────────────────── */
-  var _tabMap = { description: 0, specifications: 1, reviews: 2 };
-  window.pdpTab = function (id) {
-    document.querySelectorAll('.pdp__tab-pane').forEach(function (c) {
-      c.classList.remove('pdp__tab-pane--active');
-    });
-    document.querySelectorAll('.pdp__tab-btn').forEach(function (b) {
-      b.classList.remove('pdp__tab-btn--active');
-    });
-    var cap = id.charAt(0).toUpperCase() + id.slice(1);
-    var pane = document.getElementById('pdp' + cap);
-    var btns = document.querySelectorAll('.pdp__tab-btn');
-    if (pane) pane.classList.add('pdp__tab-pane--active');
-    if (btns[_tabMap[id]]) btns[_tabMap[id]].classList.add('pdp__tab-btn--active');
-    var sec = document.getElementById('pdpTabsSection');
-    if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  };
 
 })();
 </script>

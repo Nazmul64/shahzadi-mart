@@ -84,23 +84,16 @@
     cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: opacity .2s;
 }
 .btn-update-status:hover { opacity: .88; }
-.btn-order-status   { background: linear-gradient(135deg, #3d5a99, #2e4a89); color: #fff; }
-.btn-payment-status { background: linear-gradient(135deg, #19cac4, #0fb8b2); color: #fff; }
-.btn-steadfast-send { background: linear-gradient(135deg, #f39c12, #e67e22); color: #fff; }
+.btn-order-status     { background: linear-gradient(135deg, #3d5a99, #2e4a89); color: #fff; }
+.btn-payment-status   { background: linear-gradient(135deg, #19cac4, #0fb8b2); color: #fff; }
+.btn-steadfast-send   { background: linear-gradient(135deg, #f39c12, #e67e22); color: #fff; }
 .btn-steadfast-resend { background: #f4f6fb; color: #888; border: 1px solid #e5e7eb; }
 
 .os-order-number { font-weight: 700; color: #19cac4; font-size: 15px; }
 
-/* ─── Steadfast Info Box ─────────────────────────────────────────── */
-.sf-info-box {
-    border-radius: 8px; padding: 12px 14px; margin-bottom: 14px;
-}
-.sf-info-box.sent {
-    background: #f0fff4; border: 1px solid #9ae6b4;
-}
-.sf-info-box.not-sent {
-    background: #fffbeb; border: 1px solid #f6e05e;
-}
+.sf-info-box { border-radius: 8px; padding: 12px 14px; margin-bottom: 14px; }
+.sf-info-box.sent     { background: #f0fff4; border: 1px solid #9ae6b4; }
+.sf-info-box.not-sent { background: #fffbeb; border: 1px solid #f6e05e; }
 .sf-info-row {
     display: flex; justify-content: space-between;
     font-size: 12px; color: #555; padding: 3px 0;
@@ -108,15 +101,12 @@
 .sf-info-row span:first-child { color: #888; }
 .sf-info-row span:last-child  { font-weight: 600; color: #2d3748; }
 
-.sf-status-badge {
-    display: inline-block; padding: 2px 10px; border-radius: 20px;
-    font-size: 11px; font-weight: 600;
-}
-.sf-status-pending          { background:#fff8e6; color:#b7791f; }
-.sf-status-delivered        { background:#f0fff4; color:#276749; }
-.sf-status-cancelled        { background:#fff5f5; color:#c53030; }
-.sf-status-partial_delivered{ background:#ebf8ff; color:#2b6cb0; }
-.sf-status-unknown          { background:#f4f6fb; color:#888; }
+.sf-status-badge { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+.sf-status-pending           { background:#fff8e6; color:#b7791f; }
+.sf-status-delivered         { background:#f0fff4; color:#276749; }
+.sf-status-cancelled         { background:#fff5f5; color:#c53030; }
+.sf-status-partial_delivered { background:#ebf8ff; color:#2b6cb0; }
+.sf-status-unknown           { background:#f4f6fb; color:#888; }
 
 @media (max-width: 900px) {
     .os-grid { grid-template-columns: 1fr; }
@@ -161,7 +151,15 @@
             </div>
         @endif
 
-        @php $sfOrder = $order->steadfastOrder; $isSent = $sfOrder && $sfOrder->is_sent; @endphp
+        @php
+            $sfOrder    = $order->steadfastOrder;
+            $isSent     = $sfOrder && $sfOrder->is_sent;
+            $pathaoOrd  = $order->pathaoOrder;
+            $pathaoSent = $pathaoOrd && $pathaoOrd->is_sent;
+
+            {{-- ✅ Pathao single send route — Laravel এ generate করো যাতে prefix ঠিক থাকে --}}
+            $pathaoSendUrl = route('admin.pathao.send', $order->id);
+        @endphp
 
         <div class="os-grid">
 
@@ -200,9 +198,7 @@
                                                     <i class="bi bi-image" style="color:#ccc;font-size:20px;"></i>
                                                 </div>
                                             @endif
-                                            <div>
-                                                <div style="font-weight:600;font-size:13px;">{{ $item->product_name }}</div>
-                                            </div>
+                                            <div style="font-weight:600;font-size:13px;">{{ $item->product_name }}</div>
                                         </div>
                                     </td>
                                     <td>৳{{ number_format($item->price, 2) }}</td>
@@ -307,7 +303,7 @@
                     </div>
                 </div>
 
-                {{-- Steadfast Courier Card --}}
+                {{-- ─── Steadfast Card ─── --}}
                 <div class="os-card">
                     <div class="os-card-header">
                         <h5 class="os-card-title">
@@ -354,8 +350,7 @@
                                     </span>
                                 </div>
                                 @if($sfOrder->tracking_message)
-                                <div style="font-size:11px;color:#888;margin-top:8px;
-                                            padding-top:8px;border-top:1px solid #c6f6d5;">
+                                <div style="font-size:11px;color:#888;margin-top:8px;padding-top:8px;border-top:1px solid #c6f6d5;">
                                     {{ $sfOrder->tracking_message }}
                                 </div>
                                 @endif
@@ -369,7 +364,6 @@
                             </div>
                         @endif
 
-                        {{-- Send / Resend Button --}}
                         <form method="POST"
                               action="{{ route('admin.steadfast.send', $order->id) }}"
                               onsubmit="return confirm('{{ $isSent ? 'পুনরায় Steadfast Courier-এ পাঠাতে চান?' : 'এই অর্ডারটি Steadfast Courier-এ পাঠাতে চান?' }}')">
@@ -384,7 +378,80 @@
                     </div>
                 </div>
 
-                {{-- Update Order Status --}}
+                {{-- ─── Pathao Card ─── --}}
+                <div class="os-card">
+                    <div class="os-card-header">
+                        <h5 class="os-card-title">
+                            <i class="bi bi-send me-1" style="color:#00b894;"></i>
+                            Pathao Courier
+                        </h5>
+                        @if($pathaoSent)
+                            <span style="font-size:11px;background:#f0fff4;color:#276749;
+                                         border:1px solid #9ae6b4;border-radius:20px;
+                                         padding:2px 10px;font-weight:600;">
+                                ✓ Sent
+                            </span>
+                        @endif
+                    </div>
+                    <div class="os-card-body">
+
+                        @if($pathaoSent)
+                            <div style="background:#f0fff4;border:1px solid #9ae6b4;border-radius:8px;
+                                        padding:12px 14px;margin-bottom:14px;">
+                                @if($pathaoOrd->consignment_id)
+                                <div class="sf-info-row">
+                                    <span>Consignment ID</span>
+                                    <span>{{ $pathaoOrd->consignment_id }}</span>
+                                </div>
+                                @endif
+                                @if($pathaoOrd->merchant_order_id)
+                                <div class="sf-info-row">
+                                    <span>Merchant Order ID</span>
+                                    <span>{{ $pathaoOrd->merchant_order_id }}</span>
+                                </div>
+                                @endif
+                                <div class="sf-info-row">
+                                    <span>COD Amount</span>
+                                    <span>৳{{ number_format($pathaoOrd->amount_to_collect, 0) }}</span>
+                                </div>
+                                @if($pathaoOrd->delivery_fee > 0)
+                                <div class="sf-info-row">
+                                    <span>Delivery Fee</span>
+                                    <span>৳{{ number_format($pathaoOrd->delivery_fee, 0) }}</span>
+                                </div>
+                                @endif
+                                <div class="sf-info-row" style="margin-top:6px;">
+                                    <span>Status</span>
+                                    <span style="font-weight:600;color:#276749;">
+                                        {{ $pathaoOrd->order_status ?? 'Pending' }}
+                                    </span>
+                                </div>
+                            </div>
+                        @else
+                            <div style="background:#fffbeb;border:1px solid #f6e05e;border-radius:8px;
+                                        padding:12px 14px;margin-bottom:14px;">
+                                <div style="font-size:12px;color:#b7791f;font-weight:500;">
+                                    <i class="bi bi-exclamation-circle me-1"></i>
+                                    এই অর্ডারটি এখনো Pathao-তে পাঠানো হয়নি।
+                                </div>
+                            </div>
+                        @endif
+
+                        {{-- ✅ onclick এ JS function call — URL PHP থেকে data-attribute হিসেবে পাঠাচ্ছি --}}
+                        <button type="button"
+                                onclick="openPathaoModal()"
+                                class="btn-update-status"
+                                style="background:{{ $pathaoSent ? '#f4f6fb' : 'linear-gradient(135deg,#00b894,#00a381)' }};
+                                       color:{{ $pathaoSent ? '#888' : '#fff' }};
+                                       border:{{ $pathaoSent ? '1px solid #e5e7eb' : 'none' }};">
+                            <i class="bi bi-send"></i>
+                            {{ $pathaoSent ? 'পুনরায় পাঠান (Resend)' : 'Pathao-তে পাঠান' }}
+                        </button>
+
+                    </div>
+                </div>
+
+                {{-- ─── Update Order Status ─── --}}
                 <div class="os-card">
                     <div class="os-card-header">
                         <h5 class="os-card-title">অর্ডার স্ট্যাটাস পরিবর্তন</h5>
@@ -412,7 +479,7 @@
                     </div>
                 </div>
 
-                {{-- Update Payment Status --}}
+                {{-- ─── Update Payment Status ─── --}}
                 <div class="os-card">
                     <div class="os-card-header">
                         <h5 class="os-card-title">পেমেন্ট স্ট্যাটাস পরিবর্তন</h5>
@@ -439,7 +506,7 @@
                     </div>
                 </div>
 
-                {{-- Delete Order --}}
+                {{-- ─── Delete Order ─── --}}
                 <div class="os-card">
                     <div class="os-card-body">
                         <form method="POST"
@@ -459,8 +526,260 @@
 
             </div>{{-- end right --}}
 
-        </div>{{-- end grid --}}
+        </div>{{-- end os-grid --}}
+    </div>{{-- end os-content --}}
+</div>{{-- end os-wrapper --}}
+
+
+{{-- ════════════════════════════════════════════════
+     PATHAO MODAL
+════════════════════════════════════════════════ --}}
+<div id="pathao-modal-overlay"
+     style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);
+            z-index:10000;align-items:center;justify-content:center;">
+    <div style="background:#fff;border-radius:12px;padding:28px 32px;width:440px;
+                max-width:95vw;box-shadow:0 8px 32px rgba(0,0,0,0.2);max-height:90vh;overflow-y:auto;">
+
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+            <h5 style="margin:0;font-size:16px;font-weight:700;color:#2d3748;">
+                <i class="bi bi-send me-2" style="color:#00b894;"></i>
+                Pathao Courier
+                <span style="font-size:12px;font-weight:400;color:#aaa;margin-left:6px;">
+                    #{{ $order->order_number }}
+                </span>
+            </h5>
+            <button onclick="closePathaoModal()"
+                    style="background:none;border:none;font-size:22px;cursor:pointer;color:#aaa;line-height:1;">×</button>
+        </div>
+
+        <div id="pathao-modal-info"
+             style="background:#f0fff4;border:1px solid #9ae6b4;border-radius:8px;
+                    padding:10px 14px;font-size:13px;color:#276749;margin-bottom:16px;display:none;"></div>
+        <div id="pathao-modal-error"
+             style="background:#fff5f5;border:1px solid #feb2b2;border-radius:8px;
+                    padding:10px 14px;font-size:13px;color:#c53030;margin-bottom:16px;display:none;"></div>
+
+        {{-- Store --}}
+        <div style="margin-bottom:14px;">
+            <label style="font-size:13px;font-weight:600;color:#3a4259;display:block;margin-bottom:6px;">
+                Store <span style="color:#e74c3c;">*</span>
+            </label>
+            <select id="pathao-store"
+                    style="width:100%;border:1px solid #dde2ec;border-radius:8px;padding:9px 12px;
+                           font-size:13px;outline:none;color:#3a4259;">
+                <option value="">Select Store...</option>
+            </select>
+        </div>
+
+        {{-- City --}}
+        <div style="margin-bottom:14px;">
+            <label style="font-size:13px;font-weight:600;color:#3a4259;display:block;margin-bottom:6px;">
+                City <span style="color:#e74c3c;">*</span>
+            </label>
+            <select id="pathao-city"
+                    onchange="loadZones(this.value)"
+                    style="width:100%;border:1px solid #dde2ec;border-radius:8px;padding:9px 12px;
+                           font-size:13px;outline:none;color:#3a4259;">
+                <option value="">Select City...</option>
+            </select>
+        </div>
+
+        {{-- Zone --}}
+        <div style="margin-bottom:14px;">
+            <label style="font-size:13px;font-weight:600;color:#3a4259;display:block;margin-bottom:6px;">
+                Zone <span style="color:#e74c3c;">*</span>
+            </label>
+            <select id="pathao-zone"
+                    onchange="loadAreas(this.value)"
+                    style="width:100%;border:1px solid #dde2ec;border-radius:8px;padding:9px 12px;
+                           font-size:13px;outline:none;color:#3a4259;">
+                <option value="">Select Zone...</option>
+            </select>
+        </div>
+
+        {{-- Area --}}
+        <div style="margin-bottom:22px;">
+            <label style="font-size:13px;font-weight:600;color:#3a4259;display:block;margin-bottom:6px;">
+                Area <span style="font-size:11px;color:#aaa;font-weight:400;">(Optional)</span>
+            </label>
+            <select id="pathao-area"
+                    style="width:100%;border:1px solid #dde2ec;border-radius:8px;padding:9px 12px;
+                           font-size:13px;outline:none;color:#3a4259;">
+                <option value="">Select Area (Optional)...</option>
+            </select>
+        </div>
+
+        <div style="display:flex;gap:10px;justify-content:flex-end;">
+            <button onclick="closePathaoModal()"
+                    style="background:#f4f6fb;color:#555;border:1px solid #e5e7eb;border-radius:8px;
+                           padding:9px 22px;font-size:13px;cursor:pointer;font-weight:600;">
+                Close
+            </button>
+            <button id="pathao-submit-btn"
+                    onclick="submitPathaoOrder()"
+                    style="background:#00b894;color:#fff;border:none;border-radius:8px;
+                           padding:9px 22px;font-size:13px;cursor:pointer;font-weight:600;
+                           display:inline-flex;align-items:center;gap:6px;">
+                <i class="bi bi-send"></i> Submit
+            </button>
+        </div>
+
     </div>
 </div>
+
+
+{{-- ════════════════════════════════════════════════
+     JAVASCRIPT — ✅ route() দিয়ে সঠিক URL
+════════════════════════════════════════════════ --}}
+<script>
+/* ── Open / Close ── */
+function openPathaoModal() {
+    document.getElementById('pathao-modal-info').style.display  = 'none';
+    document.getElementById('pathao-modal-error').style.display = 'none';
+    document.getElementById('pathao-zone').innerHTML = '<option value="">Select Zone...</option>';
+    document.getElementById('pathao-area').innerHTML = '<option value="">Select Area (Optional)...</option>';
+    document.getElementById('pathao-modal-overlay').style.display = 'flex';
+    loadStores();
+    loadCities();
+}
+
+function closePathaoModal() {
+    document.getElementById('pathao-modal-overlay').style.display = 'none';
+}
+
+document.getElementById('pathao-modal-overlay').addEventListener('click', function(e) {
+    if (e.target === this) closePathaoModal();
+});
+
+/* ── Helpers ── */
+function showErr(msg) {
+    const el = document.getElementById('pathao-modal-error');
+    el.innerHTML     = '<i class="bi bi-exclamation-circle me-1"></i>' + msg;
+    el.style.display = 'block';
+    document.getElementById('pathao-modal-info').style.display = 'none';
+}
+function showSuccess(msg) {
+    const el = document.getElementById('pathao-modal-info');
+    el.innerHTML     = '<i class="bi bi-check-circle me-1"></i>' + msg;
+    el.style.display = 'block';
+    document.getElementById('pathao-modal-error').style.display = 'none';
+}
+
+/* ── Data Loaders ── */
+function loadStores() {
+    fetch('{{ route("admin.pathao.stores") }}')
+        .then(r => r.json())
+        .then(res => {
+            const sel = document.getElementById('pathao-store');
+            sel.innerHTML = '<option value="">Select Store...</option>';
+            if (res.success && res.data && res.data.length) {
+                res.data.forEach(s => {
+                    sel.innerHTML += `<option value="${s.store_id}">${s.store_name}</option>`;
+                });
+            } else {
+                sel.innerHTML += '<option value="" disabled>No stores found</option>';
+            }
+        })
+        .catch(() => showErr('Store load করতে সমস্যা। API token চেক করুন।'));
+}
+
+function loadCities() {
+    fetch('{{ route("admin.pathao.cities") }}')
+        .then(r => r.json())
+        .then(res => {
+            const sel = document.getElementById('pathao-city');
+            sel.innerHTML = '<option value="">Select City...</option>';
+            if (res.success && res.data && res.data.length) {
+                res.data.forEach(c => {
+                    sel.innerHTML += `<option value="${c.city_id}">${c.city_name}</option>`;
+                });
+            }
+        })
+        .catch(() => showErr('City load failed.'));
+}
+
+function loadZones(cityId) {
+    if (!cityId) return;
+    const sel = document.getElementById('pathao-zone');
+    sel.innerHTML = '<option value="">Loading zones...</option>';
+    document.getElementById('pathao-area').innerHTML = '<option value="">Select Area (Optional)...</option>';
+
+    fetch('{{ route("admin.pathao.zones") }}?city_id=' + cityId)
+        .then(r => r.json())
+        .then(res => {
+            sel.innerHTML = '<option value="">Select Zone...</option>';
+            if (res.success && res.data && res.data.length) {
+                res.data.forEach(z => {
+                    sel.innerHTML += `<option value="${z.zone_id}">${z.zone_name}</option>`;
+                });
+            }
+        })
+        .catch(() => { sel.innerHTML = '<option value="">Zone load failed</option>'; });
+}
+
+function loadAreas(zoneId) {
+    if (!zoneId) return;
+    const sel = document.getElementById('pathao-area');
+    sel.innerHTML = '<option value="">Loading areas...</option>';
+
+    fetch('{{ route("admin.pathao.areas") }}?zone_id=' + zoneId)
+        .then(r => r.json())
+        .then(res => {
+            sel.innerHTML = '<option value="">Select Area (Optional)...</option>';
+            if (res.success && res.data && res.data.length) {
+                res.data.forEach(a => {
+                    sel.innerHTML += `<option value="${a.area_id}">${a.area_name}</option>`;
+                });
+            }
+        })
+        .catch(() => { sel.innerHTML = '<option value="">Select Area (Optional)...</option>'; });
+}
+
+/* ── Submit ── */
+function submitPathaoOrder() {
+    const store_id = document.getElementById('pathao-store').value;
+    const city_id  = document.getElementById('pathao-city').value;
+    const zone_id  = document.getElementById('pathao-zone').value;
+    const area_id  = document.getElementById('pathao-area').value;
+
+    document.getElementById('pathao-modal-error').style.display = 'none';
+    document.getElementById('pathao-modal-info').style.display  = 'none';
+
+    if (!store_id) { showErr('Store নির্বাচন করুন।'); return; }
+    if (!city_id)  { showErr('City নির্বাচন করুন।');  return; }
+    if (!zone_id)  { showErr('Zone নির্বাচন করুন।');  return; }
+
+    const btn = document.getElementById('pathao-submit-btn');
+    btn.disabled  = true;
+    btn.innerHTML = '<i class="bi bi-arrow-repeat"></i> Sending...';
+
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    const formData  = new FormData();
+    formData.append('_token',   csrfToken);
+    formData.append('store_id', store_id);
+    formData.append('city_id',  city_id);
+    formData.append('zone_id',  zone_id);
+    if (area_id) formData.append('area_id', area_id);
+
+    {{-- ✅ মূল Fix: route() দিয়ে সঠিক URL — admin prefix সহ --}}
+    const url = '{{ route("admin.pathao.send", $order->id) }}';
+
+    fetch(url, { method: 'POST', body: formData })
+        .then(r => r.json())
+        .then(res => {
+            if (res.success) {
+                showSuccess(res.message || 'সফলভাবে Pathao-তে পাঠানো হয়েছে!');
+                setTimeout(() => { closePathaoModal(); location.reload(); }, 1800);
+            } else {
+                showErr(res.message || 'Something went wrong.');
+            }
+        })
+        .catch(e => showErr('Network error: ' + e.message))
+        .finally(() => {
+            btn.disabled  = false;
+            btn.innerHTML = '<i class="bi bi-send"></i> Submit';
+        });
+}
+</script>
 
 @endsection

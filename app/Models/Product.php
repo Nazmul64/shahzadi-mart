@@ -177,4 +177,8 @@ public function getImageAttribute(): string
     {
         return $this->hasMany(OrderItem::class, 'product_id');
     }
+    public function pathaoOrder()
+{
+    return $this->hasOne(\App\Models\PathaoOrder::class);
+}
 }

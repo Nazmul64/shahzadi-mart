@@ -43,6 +43,7 @@ use App\Http\Controllers\Frontend\OrderTrackController;
 use App\Http\Controllers\Frontend\SearchController;
 use App\Http\Controllers\Admin\GoogleTagmanagerController;
 use App\Http\Controllers\Admin\PathaocourierController;
+use App\Http\Controllers\Admin\PathaoOrderController;
 use App\Http\Controllers\Admin\PaymentgetewaymanageController;
 use App\Http\Controllers\Admin\SmsgatewaysetupController;
 use App\Http\Controllers\Admin\SteadfastcourierController;
@@ -299,7 +300,13 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
     // Optional: Quick status toggle route
     Route::patch('paymentgetewaymanage/{id}/toggle-status', [PaymentgetewaymanageController::class, 'toggleStatus'])->name('paymentgetewaymanage.toggle-status');
     Route::resource('steadfastcourier', SteadfastcourierController::class);
-    Route::resource('pathaocourier',PathaocourierController::class);
+
+
+    // web.php — admin middleware group এর ভেতরে
+    Route::get('pathaocourier/generate-token', [PathaocourierController::class, 'generateToken'])->name('pathaocourier.generate-token');  // ← 'admin.' prefix group থেকে auto যোগ হবে
+    Route::resource('pathaocourier', PathaocourierController::class);
+
+
     Route::resource('Smsgatewaysetup', SmsgatewaysetupController::class);
     // ── Steadfast Order Routes ─────────────────────────────────────────
  // ✅ bulk আগে, তারপর {order}
@@ -307,6 +314,32 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
     Route::post('orders/{order}/send-steadfast',[SteadfastOrderController::class, 'send'])->name('steadfast.send');
     Route::get('steadfast/test', [SteadfastOrderController::class, 'test'])->name('steadfast.test');
     Route::resource('campaigncreate', CampaigncreateController::class);
+
+
+
+
+
+
+  // Pathao Order Routes — bulk আগে, তারপর {order}
+    Route::post('orders/bulk-send-pathao', [PathaoOrderController::class, 'bulkSend'])->name('pathao.bulk-send');
+    Route::post('orders/{order}/send-pathao', [PathaoOrderController::class, 'send'])->name('pathao.send');
+    Route::get('pathao/test', [PathaoOrderController::class, 'test'])->name('pathao.test');
+
+    // Pathao AJAX routes
+    Route::get('pathao/stores', [PathaoOrderController::class, 'getStores'])->name('pathao.stores');
+    Route::get('pathao/cities', [PathaoOrderController::class, 'getCities'])->name('pathao.cities');
+    Route::get('pathao/zones', [PathaoOrderController::class, 'getZones'])->name('pathao.zones');
+    Route::get('pathao/areas', [PathaoOrderController::class, 'getAreas'])->name('pathao.areas');
+
+// ফোন নম্বর কীভাবে sanitize হচ্ছে দেখো
+    Route::get('/phone',   [PathaoOrderController::class, 'debugPhone'])   ->name('phone');
+    // পুরো payload কী যাচ্ছে দেখো (?ids[]=1&ids[]=2 দিয়ে test করো)
+    Route::get('/payload', [PathaoOrderController::class, 'debugPayload']) ->name('payload');
+    // Token এর অবস্থা দেখো
+    Route::get('/token',   [PathaoOrderController::class, 'debugToken'])   ->name('token');
+
+
+
 
     // ── Product Reviews (Admin) ───────────────────────────────────────────────
     Route::get('/reviews', [AdminproductReviewController::class, 'index'])->name('admin.reviews.index');
