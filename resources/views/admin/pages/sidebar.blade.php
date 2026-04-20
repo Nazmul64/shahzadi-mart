@@ -680,10 +680,10 @@ body.sb-collapsed .sidebar-submenu { display: none; }
                 <span class="item-text">Customer Deposits</span>
             </span>
         </a>
-        <a href="#" class="sidebar-item">
+        <a href="{{ route('admin.chat.index') }}" class="sidebar-item">
             <span class="item-left">
                 <i class="bi bi-chat-dots nav-icon"></i>
-                <span class="item-text">Messages</span>
+                <span class="item-text">Live Chat</span>
             </span>
         </a>
 

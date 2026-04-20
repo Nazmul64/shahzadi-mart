@@ -53,7 +53,10 @@ use App\Http\Controllers\Frontend\Landingordercontroller;
 use App\Http\Controllers\Frontend\ProductReviewController;
 use App\Http\Controllers\Frontend\Shurjopaycontroller;
 use App\Http\Controllers\Frontend\IncompleteOrderController;
+use App\Http\Controllers\Frontend\ChatController;
 use App\Http\Controllers\Admin\AdminIncompleteOrderController;
+use App\Http\Controllers\Admin\AdminChatController;
+
 
 Auth::routes();
 
@@ -94,6 +97,14 @@ Route::prefix('cart')->name('cart.')->group(function () {
     Route::get('/clear',          [CartController::class, 'clear'])->name('clear');
     Route::post('/coupon',        [CartController::class, 'coupon'])->name('coupon');
     Route::get('/count',          [CartController::class, 'count'])->name('count');
+});
+
+// ── Frontend Chat (public — no admin prefix) ──────────────────────────────────
+Route::prefix('chat')->name('chat.')->group(function () {
+    Route::post('start',    [ChatController::class, 'start'])       ->name('start');
+    Route::post('send',     [ChatController::class, 'send'])        ->name('send');
+    Route::get('messages',  [ChatController::class, 'getMessages']) ->name('messages');
+    Route::post('close',    [ChatController::class, 'close'])       ->name('close');
 });
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -154,14 +165,14 @@ Route::middleware(['customer'])->group(function () {
 });
 
 // ══════════════════════════════════════════════════════════════════════════════
-// ADMIN AUTH (public)
+// ADMIN AUTH (public — outside middleware)
 // ══════════════════════════════════════════════════════════════════════════════
 Route::get('admin/login',   [AdminauthController::class, 'admin_login'])->name('admin.login');
 Route::post('admin/login',  [AdminauthController::class, 'admin_login_submit'])->name('admin.login.submit');
 Route::post('admin/logout', [AdminauthController::class, 'admin_logout'])->name('admin.logout');
 
 // ══════════════════════════════════════════════════════════════════════════════
-// ADMIN — CUSTOMER CRUD
+// ADMIN — CUSTOMER CRUD (separate middleware group — no name prefix)
 // ══════════════════════════════════════════════════════════════════════════════
 Route::middleware(['admin'])->group(function () {
     Route::resource('customer', CustomerController::class);
@@ -171,9 +182,11 @@ Route::middleware(['admin'])->group(function () {
 
 // ══════════════════════════════════════════════════════════════════════════════
 // ADMIN — ALL OTHER ROUTES
+// name prefix: 'admin.'
 // ══════════════════════════════════════════════════════════════════════════════
 Route::middleware(['admin'])->name('admin.')->group(function () {
 
+    // ── Dashboard ─────────────────────────────────────────────────────────────
     Route::get('dashboard', [AdminController::class, 'admin_dashboard'])->name('dashboard');
 
     // ── Seller Registration ───────────────────────────────────────────────────
@@ -226,11 +239,11 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
     Route::get('products/new-arrivals',        [ProductController::class, 'newArrivalsIndex'])->name('products.new-arrivals');
     Route::get('products/bestsellers',         [ProductController::class, 'bestsellersIndex'])->name('products.bestsellers');
     Route::get('products/catalog',             [ProductController::class, 'catalogIndex'])->name('products.catalog');
-    Route::get ('products/{id}/toggle-status',     [ProductController::class, 'toggleStatus'])->name('products.toggle-status');
-    Route::get ('products/{id}/catalog-add',       [ProductController::class, 'catalogAdd'])->name('products.catalog.add');
-    Route::post('products/{id}/catalog-remove',    [ProductController::class, 'catalogRemove'])->name('products.catalog.remove');
-    Route::post('products/{id}/catalog-highlight', [ProductController::class, 'catalogHighlight'])->name('products.catalog.highlight');
-    Route::get ('products/{id}/catalog-gallery',   [ProductController::class, 'catalogGallery'])->name('products.catalog.gallery');
+    Route::get ('products/{id}/toggle-status',      [ProductController::class, 'toggleStatus'])->name('products.toggle-status');
+    Route::get ('products/{id}/catalog-add',        [ProductController::class, 'catalogAdd'])->name('products.catalog.add');
+    Route::post('products/{id}/catalog-remove',     [ProductController::class, 'catalogRemove'])->name('products.catalog.remove');
+    Route::post('products/{id}/catalog-highlight',  [ProductController::class, 'catalogHighlight'])->name('products.catalog.highlight');
+    Route::get ('products/{id}/catalog-gallery',    [ProductController::class, 'catalogGallery'])->name('products.catalog.gallery');
     Route::post('products/{id}/toggle-flash-sale',  [ProductController::class, 'toggleFlashSale'])->name('products.toggle-flash-sale');
     Route::post('products/{id}/update-flash-sale',  [ProductController::class, 'updateFlashSale'])->name('products.update-flash-sale');
     Route::post('products/{id}/toggle-new-arrival', [ProductController::class, 'toggleNewArrival'])->name('products.toggle-new-arrival');
@@ -266,33 +279,31 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
 
     // ══════════════════════════════════════════════════════════════════════════
     // ORDERS
-    // Static/named routes MUST come BEFORE parameterised ones
+    // ⚠️ Static routes MUST be before parameterised ones
     // ══════════════════════════════════════════════════════════════════════════
     Route::delete('orders/bulk-delete', [AllorderController::class, 'bulkDelete'])->name('order.bulk-delete');
     Route::patch ('orders/bulk-status', [AllorderController::class, 'bulkStatus'])->name('order.bulk-status');
-    Route::get ('orders/create',        [OrderController::class, 'create'])->name('order.create');
-    Route::post('orders',               [OrderController::class, 'store'])->name('order.store');
-    Route::get  ('orders',              [AllorderController::class, 'allorder'])->name('order.allorder');
-    Route::get  ('orders/{id}',         [AllorderController::class, 'show'])->name('order.show');
-    Route::get  ('orders/{id}/edit',    [OrderController::class, 'edit'])->name('order.edit');
-    Route::put  ('orders/{id}',         [OrderController::class, 'update'])->name('order.update');
+    Route::get   ('orders/create',      [OrderController::class,    'create'])->name('order.create');
+    Route::post  ('orders',             [OrderController::class,    'store'])->name('order.store');
+    Route::get   ('orders',             [AllorderController::class, 'allorder'])->name('order.allorder');
+    Route::get   ('orders/{id}',        [AllorderController::class, 'show'])->name('order.show');
+    Route::get   ('orders/{id}/edit',   [OrderController::class,    'edit'])->name('order.edit');
+    Route::put   ('orders/{id}',        [OrderController::class,    'update'])->name('order.update');
     Route::patch ('orders/{id}/status',         [AllorderController::class, 'updateStatus'])->name('order.status');
     Route::patch ('orders/{id}/payment-status', [AllorderController::class, 'updatePaymentStatus'])->name('order.payment-status');
     Route::delete('orders/{id}',                [AllorderController::class, 'destroy'])->name('order.destroy');
 
-    // ── Steadfast Order (regular orders) ──────────────────────────────────────
-    // bulk আগে, তারপর single
-    Route::post('orders/bulk-send-steadfast',   [SteadfastOrderController::class, 'bulkSend'])->name('steadfast.bulk-send');
-    Route::post('orders/{order}/send-steadfast',[SteadfastOrderController::class, 'send'])->name('steadfast.send');
-    Route::get ('steadfast/test',               [SteadfastOrderController::class, 'test'])->name('steadfast.test');
+    // ── Steadfast — regular orders ────────────────────────────────────────────
+    Route::post('orders/bulk-send-steadfast',    [SteadfastOrderController::class, 'bulkSend'])->name('steadfast.bulk-send');
+    Route::post('orders/{order}/send-steadfast', [SteadfastOrderController::class, 'send'])->name('steadfast.send');
+    Route::get ('steadfast/test',                [SteadfastOrderController::class, 'test'])->name('steadfast.test');
 
-    // ── Pathao Order (regular orders) ────────────────────────────────────────
-    // bulk আগে, তারপর single
-    Route::post('orders/bulk-send-pathao',   [PathaoOrderController::class, 'bulkSend'])->name('pathao.bulk-send');
-    Route::post('orders/{order}/send-pathao',[PathaoOrderController::class, 'send'])->name('pathao.send');
-    Route::get ('pathao/test',               [PathaoOrderController::class, 'test'])->name('pathao.test');
+    // ── Pathao — regular orders ───────────────────────────────────────────────
+    Route::post('orders/bulk-send-pathao',    [PathaoOrderController::class, 'bulkSend'])->name('pathao.bulk-send');
+    Route::post('orders/{order}/send-pathao', [PathaoOrderController::class, 'send'])->name('pathao.send');
+    Route::get ('pathao/test',                [PathaoOrderController::class, 'test'])->name('pathao.test');
 
-    // Pathao AJAX (city/zone/area/store)
+    // Pathao AJAX
     Route::get('pathao/stores', [PathaoOrderController::class, 'getStores'])->name('pathao.stores');
     Route::get('pathao/cities', [PathaoOrderController::class, 'getCities'])->name('pathao.cities');
     Route::get('pathao/zones',  [PathaoOrderController::class, 'getZones'])->name('pathao.zones');
@@ -317,57 +328,71 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
 
     // ══════════════════════════════════════════════════════════════════════════
     // INCOMPLETE ORDERS (Admin)
-    // ══════════════════════════════════════════════════════════════════════════
-    // ⚠️ CRITICAL ORDER:
-    //   1. Static string routes আগে  (bulk-delete, bulk-status, steadfast/bulk-send, pathao/bulk-send)
-    //   2. Parameterised routes পরে  (/{incompleteOrder}/...)
+    // ⚠️ Static routes MUST be before parameterised ones
+    // route name prefix: admin.incomplete-orders.*
     // ══════════════════════════════════════════════════════════════════════════
     Route::prefix('incomplete-orders')->name('incomplete-orders.')->group(function () {
 
-        // List
         Route::get('/', [AdminIncompleteOrderController::class, 'index'])->name('index');
 
-        // ── Bulk actions (static — MUST be before /{incompleteOrder}) ─────────
-        Route::delete('/bulk-delete',  [AdminIncompleteOrderController::class, 'bulkDelete'])->name('bulk-delete');
-        Route::patch('/bulk-status',   [AdminIncompleteOrderController::class, 'bulkStatus'])->name('bulk-status');
+        // Bulk (static — before parameterised)
+        Route::delete('/bulk-delete', [AdminIncompleteOrderController::class, 'bulkDelete'])->name('bulk-delete');
+        Route::patch ('/bulk-status', [AdminIncompleteOrderController::class, 'bulkStatus'])->name('bulk-status');
 
-        // ── Steadfast bulk (static) ───────────────────────────────────────────
+        // Steadfast & Pathao bulk
         Route::post('/steadfast/bulk-send', [AdminIncompleteOrderController::class, 'steadfastBulkSend'])->name('steadfast.bulk-send');
+        Route::post('/pathao/bulk-send',    [AdminIncompleteOrderController::class, 'pathaoBulkSend'])->name('pathao.bulk-send');
 
-        // ── Pathao bulk (static) ──────────────────────────────────────────────
-        Route::post('/pathao/bulk-send', [AdminIncompleteOrderController::class, 'pathaoBulkSend'])->name('pathao.bulk-send');
+        // Single record (parameterised — after static)
+        Route::get   ('/{incompleteOrder}',           [AdminIncompleteOrderController::class, 'show'])->name('show');
+        Route::delete('/{incompleteOrder}',           [AdminIncompleteOrderController::class, 'destroy'])->name('destroy');
+        Route::patch ('/{incompleteOrder}/status',    [AdminIncompleteOrderController::class, 'updateStatus'])->name('update-status');
+        Route::patch ('/{incompleteOrder}/contacted', [AdminIncompleteOrderController::class, 'markContacted'])->name('contacted');
+        Route::patch ('/{incompleteOrder}/recovered', [AdminIncompleteOrderController::class, 'markRecovered'])->name('recovered');
 
-        // ── Single record routes (parameterised — AFTER all static routes) ────
-        Route::get   ('/{incompleteOrder}',             [AdminIncompleteOrderController::class, 'show'])->name('show');
-        Route::delete('/{incompleteOrder}',             [AdminIncompleteOrderController::class, 'destroy'])->name('destroy');
-        Route::patch ('/{incompleteOrder}/status',      [AdminIncompleteOrderController::class, 'updateStatus'])->name('update-status');
-        Route::patch ('/{incompleteOrder}/contacted',   [AdminIncompleteOrderController::class, 'markContacted'])->name('contacted');
-        Route::patch ('/{incompleteOrder}/recovered',   [AdminIncompleteOrderController::class, 'markRecovered'])->name('recovered');
-
-        // ── Steadfast single ──────────────────────────────────────────────────
+        // Steadfast & Pathao single
         Route::post('/{incompleteOrder}/steadfast-send', [AdminIncompleteOrderController::class, 'steadfastSend'])->name('steadfast.send');
+        Route::post('/{incompleteOrder}/pathao-send',    [AdminIncompleteOrderController::class, 'pathaoSend'])->name('pathao.send');
 
-        // ── Pathao single ─────────────────────────────────────────────────────
-        Route::post('/{incompleteOrder}/pathao-send', [AdminIncompleteOrderController::class, 'pathaoSend'])->name('pathao.send');
-    });
+    }); // end incomplete-orders group
 
-    // ── Product Reviews (Admin) ───────────────────────────────────────────────
-    Route::get   ('/reviews',              [AdminproductReviewController::class, 'index'])->name('reviews.index');
-    Route::post  ('/reviews/{id}/approve', [AdminproductReviewController::class, 'approve'])->name('reviews.approve');
+    // ══════════════════════════════════════════════════════════════════════════
+    // ADMIN CHAT PANEL
+    // ✅ FIXED: এখন incomplete-orders group এর বাইরে, সরাসরি admin.* group এ
+    // route names: admin.chat.index, admin.chat.show, admin.chat.reply, etc.
+    // ══════════════════════════════════════════════════════════════════════════
+    Route::prefix('chat')->name('chat.')->group(function () {
+        Route::get  ('/',                       [AdminChatController::class, 'index'])      ->name('index');
+        Route::get  ('/unread-count',           [AdminChatController::class, 'unreadCount'])->name('unread');
+        Route::get  ('/{chatSession}',          [AdminChatController::class, 'show'])       ->name('show');
+        Route::post ('/{chatSession}/reply',    [AdminChatController::class, 'reply'])      ->name('reply');
+        Route::get  ('/{chatSession}/messages', [AdminChatController::class, 'getMessages'])->name('messages');
+        Route::post ('/{chatSession}/close',    [AdminChatController::class, 'close'])      ->name('close');
+    }); // end admin.chat group
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // PRODUCT REVIEWS (Admin)
+    // route names: admin.reviews.*
+    // ══════════════════════════════════════════════════════════════════════════
+    Route::get   ('/reviews',               [AdminproductReviewController::class, 'index'])->name('reviews.index');
+    Route::post  ('/reviews/{id}/approve',  [AdminproductReviewController::class, 'approve'])->name('reviews.approve');
     Route::post  ('/reviews/{id}/unapprove',[AdminproductReviewController::class, 'unapprove'])->name('reviews.unapprove');
-    Route::delete('/reviews/{id}',         [AdminproductReviewController::class, 'destroy'])->name('reviews.destroy');
-    Route::post  ('/reviews/bulk',         [AdminproductReviewController::class, 'bulk'])->name('reviews.bulk');
+    Route::delete('/reviews/{id}',          [AdminproductReviewController::class, 'destroy'])->name('reviews.destroy');
+    Route::post  ('/reviews/bulk',          [AdminproductReviewController::class, 'bulk'])->name('reviews.bulk');
 
-    // ── Payment Settings ──────────────────────────────────────────────────────
-    Route::get ('/payment-settings',                   [PaymentSettingController::class, 'index'])->name('payment.index');
-    Route::post('/payment-settings/bkash',             [PaymentSettingController::class, 'bkashStore'])->name('payment.bkash.store');
-    Route::post('/payment-settings/shurjopay',         [PaymentSettingController::class, 'shurjopayStore'])->name('payment.shurjopay.store');
-    Route::post('/payment-settings/bkash/toggle',      [PaymentSettingController::class, 'bkashToggle'])->name('payment.bkash.toggle');
-    Route::post('/payment-settings/shurjopay/toggle',  [PaymentSettingController::class, 'shurjopayToggle'])->name('payment.shurjopay.toggle');
+    // ══════════════════════════════════════════════════════════════════════════
+    // PAYMENT SETTINGS (Admin)
+    // route names: admin.payment.*
+    // ══════════════════════════════════════════════════════════════════════════
+    Route::get ('/payment-settings',                  [PaymentSettingController::class, 'index'])->name('payment.index');
+    Route::post('/payment-settings/bkash',            [PaymentSettingController::class, 'bkashStore'])->name('payment.bkash.store');
+    Route::post('/payment-settings/shurjopay',        [PaymentSettingController::class, 'shurjopayStore'])->name('payment.shurjopay.store');
+    Route::post('/payment-settings/bkash/toggle',     [PaymentSettingController::class, 'bkashToggle'])->name('payment.bkash.toggle');
+    Route::post('/payment-settings/shurjopay/toggle', [PaymentSettingController::class, 'shurjopayToggle'])->name('payment.shurjopay.toggle');
 
 }); // end admin group
 
-// ── Steadfast Webhook (outside admin auth) ────────────────────────────────────
+// ── Steadfast Webhook (outside admin auth — public) ───────────────────────────
 Route::post('webhook/steadfast', [SteadfastOrderController::class, 'webhook'])->name('steadfast.webhook');
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -385,9 +410,9 @@ Route::middleware(['saller'])->group(function () {
 // ══════════════════════════════════════════════════════════════════════════════
 // EMPLOYEE
 // ══════════════════════════════════════════════════════════════════════════════
-Route::get ('emplee/login',         [EmpleeController::class, 'emplee'])->name('emplee.login');
-Route::post('emplee/login/submit',  [EmpleeController::class, 'loginSubmit'])->name('emplee.login.submit');
-Route::post('emplee/logout',        [EmpleeController::class, 'emplee_logout'])->name('emplee.logout');
+Route::get ('emplee/login',        [EmpleeController::class, 'emplee'])->name('emplee.login');
+Route::post('emplee/login/submit', [EmpleeController::class, 'loginSubmit'])->name('emplee.login.submit');
+Route::post('emplee/logout',       [EmpleeController::class, 'emplee_logout'])->name('emplee.logout');
 Route::middleware(['emplee'])->group(function () {
     Route::get('emplee/dashboard', [EmpleeController::class, 'emplee_dashboard'])->name('emplee.dashboard');
 });
@@ -395,9 +420,9 @@ Route::middleware(['emplee'])->group(function () {
 // ══════════════════════════════════════════════════════════════════════════════
 // MANAGER
 // ══════════════════════════════════════════════════════════════════════════════
-Route::get ('manager/login',         [ManagerController::class, 'manager_login'])->name('manager.login');
-Route::post('manager/login/submit',  [ManagerController::class, 'manager_login_submit'])->name('manager.login.submit');
-Route::get ('manager/logout',        [ManagerController::class, 'manager_logout'])->name('manager.logout');
+Route::get ('manager/login',        [ManagerController::class, 'manager_login'])->name('manager.login');
+Route::post('manager/login/submit', [ManagerController::class, 'manager_login_submit'])->name('manager.login.submit');
+Route::get ('manager/logout',       [ManagerController::class, 'manager_logout'])->name('manager.logout');
 Route::middleware(['manager'])->group(function () {
     Route::get('manager/dashboard', [ManagerController::class, 'manager_dashboard'])->name('manager.dashboard');
 });
@@ -405,9 +430,9 @@ Route::middleware(['manager'])->group(function () {
 // ══════════════════════════════════════════════════════════════════════════════
 // SUB-ADMIN
 // ══════════════════════════════════════════════════════════════════════════════
-Route::get ('subadmin/login',         [SubadminController::class, 'subadmin_login'])->name('subadmin.login');
-Route::post('subadmin/login/submit',  [SubadminController::class, 'subadmin_login_submit'])->name('subadmin.login.submit');
-Route::get ('subadmin/logout',        [SubadminController::class, 'subadmin_logout'])->name('subadmin.logout');
+Route::get ('subadmin/login',        [SubadminController::class, 'subadmin_login'])->name('subadmin.login');
+Route::post('subadmin/login/submit', [SubadminController::class, 'subadmin_login_submit'])->name('subadmin.login.submit');
+Route::get ('subadmin/logout',       [SubadminController::class, 'subadmin_logout'])->name('subadmin.logout');
 Route::middleware(['subadmin'])->group(function () {
     Route::get('subadmin/dashboard', [SubadminController::class, 'subadmin_dashboard'])->name('subadmin.dashboard');
 });

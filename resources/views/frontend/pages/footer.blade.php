@@ -117,35 +117,51 @@
     <span class="fc-notif" id="fcNotif"></span>
 </div>
 
-{{-- Live Chat Modal --}}
+{{-- ── LIVE CHAT MODAL ── --}}
 <div class="lc-overlay" id="lcOverlay" onclick="closeLiveChat()"></div>
 <div class="lc-modal" id="lcModal" role="dialog" aria-label="Live Chat">
+
+    {{-- Header --}}
     <div class="lc-header">
         <div class="lc-header__info">
             <div class="lc-avatar"><i class="bi bi-headset"></i></div>
             <div>
                 <p class="lc-header__name">Shahzadi-mart Support</p>
-                <p class="lc-header__status"><span class="lc-dot"></span> Online now</p>
+                <p class="lc-header__status"><span class="lc-dot"></span> <span id="lcStatusText">Online now</span></p>
             </div>
         </div>
         <button class="lc-close" type="button" onclick="closeLiveChat()" aria-label="Close chat">
             <i class="bi bi-x-lg"></i>
         </button>
     </div>
-    <div class="lc-body" id="lcBody">
-        <div class="lc-bubble lc-bubble--in">
-            <p>Hello! 👋 Welcome to <strong>Shahzadi-mart</strong>. How can we help you today?</p>
-            <span class="lc-time">Just now</span>
+
+    {{-- ── STEP 1: Guest info form (hidden for logged-in users) ── --}}
+    @guest
+    <div class="lc-guest-form" id="lcGuestForm">
+        <div class="lc-gf-inner">
+            <p class="lc-gf-title">👋 Hi there! Before we chat…</p>
+            <input type="text"  id="lcGuestName"  class="lc-gf-input" placeholder="Your Name *" maxlength="100">
+            <input type="email" id="lcGuestEmail" class="lc-gf-input" placeholder="Your Email *" maxlength="191">
+            <button class="lc-gf-btn" type="button" onclick="startChat()">
+                <i class="bi bi-chat-dots-fill me-1"></i> Start Chat
+            </button>
         </div>
     </div>
-    <div class="lc-footer">
+    @endguest
+
+    {{-- ── STEP 2: Chat body ── --}}
+    <div class="lc-body" id="lcBody" style="display:none"></div>
+
+    {{-- ── STEP 3: Message input ── --}}
+    <div class="lc-footer" id="lcFooter" style="display:none">
         <input type="text" id="lcInput" class="lc-input" placeholder="Type a message…"
                onkeydown="if(event.key==='Enter') sendLCMsg()">
         <button class="lc-send" type="button" onclick="sendLCMsg()" aria-label="Send message">
             <i class="bi bi-send-fill"></i>
         </button>
     </div>
-</div>
+
+</div>{{-- /.lc-modal --}}
 
 <style>
 /* ── FOOTER ── */
@@ -218,10 +234,10 @@
 /* ── LIVE CHAT MODAL ── */
 .lc-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:9998;opacity:0;pointer-events:none;transition:opacity .25s}
 .lc-overlay.is-open{opacity:1;pointer-events:auto}
-.lc-modal{position:fixed;bottom:160px;right:18px;width:320px;max-height:480px;background:#fff;border-radius:18px;box-shadow:0 8px 40px rgba(0,0,0,.22);display:flex;flex-direction:column;overflow:hidden;z-index:9999;opacity:0;pointer-events:none;transform:translateY(20px) scale(.97);transition:opacity .28s ease,transform .28s cubic-bezier(.34,1.3,.64,1)}
+.lc-modal{position:fixed;bottom:160px;right:18px;width:330px;max-height:520px;background:#fff;border-radius:18px;box-shadow:0 8px 40px rgba(0,0,0,.22);display:flex;flex-direction:column;overflow:hidden;z-index:9999;opacity:0;pointer-events:none;transform:translateY(20px) scale(.97);transition:opacity .28s ease,transform .28s cubic-bezier(.34,1.3,.64,1)}
 .lc-modal.is-open{opacity:1;pointer-events:auto;transform:translateY(0) scale(1)}
 @media(max-width:400px){.lc-modal{width:calc(100vw - 36px);bottom:150px}}
-.lc-header{background:#25d366;padding:14px 16px;display:flex;align-items:center;justify-content:space-between}
+.lc-header{background:#25d366;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
 .lc-header__info{display:flex;align-items:center;gap:10px}
 .lc-avatar{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff}
 .lc-header__name{color:#fff;font-size:13px;font-weight:700;margin:0}
@@ -229,49 +245,65 @@
 .lc-dot{width:7px;height:7px;background:#fff;border-radius:50%;display:inline-block;animation:fc-pulse 1.8s ease infinite}
 .lc-close{background:rgba(255,255,255,.2);border:none;border-radius:50%;width:30px;height:30px;color:#fff;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s}
 .lc-close:hover{background:rgba(255,255,255,.35)}
-.lc-body{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;background:#f0f4f8}
+.lc-guest-form{flex:1;display:flex;align-items:center;justify-content:center;padding:20px;background:#f0f4f8}
+.lc-gf-inner{width:100%;display:flex;flex-direction:column;gap:10px}
+.lc-gf-title{font-size:14px;font-weight:700;color:#222;margin:0 0 4px;text-align:center}
+.lc-gf-input{border:1px solid #ddd;border-radius:10px;padding:10px 14px;font-size:13px;font-family:'Nunito',sans-serif;outline:none;transition:border-color .2s}
+.lc-gf-input:focus{border-color:#25d366}
+.lc-gf-btn{background:#25d366;color:#fff;border:none;border-radius:10px;padding:11px;font-size:13px;font-weight:700;cursor:pointer;transition:background .2s;font-family:'Nunito',sans-serif}
+.lc-gf-btn:hover{background:#1ebe5d}
+.lc-body{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;background:#f0f4f8}
 .lc-bubble{max-width:78%;padding:10px 13px;border-radius:16px;font-size:13px;line-height:1.55}
 .lc-bubble p{margin:0}
 .lc-bubble--in{background:#fff;color:#222;border-bottom-left-radius:4px;align-self:flex-start;box-shadow:0 1px 4px rgba(0,0,0,.07)}
 .lc-bubble--out{background:#25d366;color:#fff;border-bottom-right-radius:4px;align-self:flex-end}
 .lc-time{display:block;font-size:10px;color:#aaa;margin-top:4px}
 .lc-bubble--out .lc-time{color:rgba(255,255,255,.7)}
-.lc-footer{padding:10px 12px;background:#fff;border-top:1px solid #eee;display:flex;gap:8px;align-items:center}
+.lc-footer{padding:10px 12px;background:#fff;border-top:1px solid #eee;display:flex;gap:8px;align-items:center;flex-shrink:0}
 .lc-input{flex:1;border:1px solid #ddd;border-radius:22px;padding:9px 14px;font-size:13px;outline:none;font-family:'Nunito',sans-serif;transition:border-color .2s}
 .lc-input:focus{border-color:#25d366}
 .lc-send{width:38px;height:38px;border-radius:50%;background:#25d366;border:none;color:#fff;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s,transform .2s}
 .lc-send:hover{background:#1ebe5d;transform:scale(1.08)}
+.lc-typing{display:flex;gap:5px;align-items:center;padding:8px 12px;background:#fff;border-radius:16px;border-bottom-left-radius:4px;align-self:flex-start;box-shadow:0 1px 4px rgba(0,0,0,.07);width:fit-content}
+.lc-typing span{width:7px;height:7px;background:#bbb;border-radius:50%;animation:lc-bounce .9s ease infinite}
+.lc-typing span:nth-child(2){animation-delay:.15s}
+.lc-typing span:nth-child(3){animation-delay:.3s}
+@keyframes lc-bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-6px)}}
 </style>
 
 <script>
-/* ── Newsletter subscribe ── */
-function subscribeNewsletter() {
-    var input = document.getElementById('nlEmail');
-    if (!input) return;
-    var email = input.value.trim();
-    if (!email || !email.includes('@')) {
-        if (typeof toastr !== 'undefined') toastr.error('Please enter a valid email address.');
-        return;
-    }
-    {{-- Fire Pixel Lead event only if pixel is active --}}
-    @if(isset($fbPixelId) && $fbPixelId)
-    if (typeof fbq === 'function') fbq('track', 'Lead', { content_name: 'Newsletter Subscribe' });
-    @endif
-    if (typeof toastr !== 'undefined') toastr.success("You've subscribed to our newsletter!");
-    input.value = '';
-}
+/* ═══════════════════════════════════════════════════════════════
+   CHAT API URLS — url() helper ব্যবহার করা হয়েছে
+   route() helper ব্যবহার করা হয়নি কারণ route name
+   cache হলে "not defined" error আসে।
+═══════════════════════════════════════════════════════════════ */
+var _chatUrl = {
+    start    : '{{ url("/chat/start") }}',
+    send     : '{{ url("/chat/send") }}',
+    messages : '{{ url("/chat/messages") }}',
+    close    : '{{ url("/chat/close") }}'
+};
 
-/* ── Floating Chat toggle ── */
-var _fcOpen = false;
+/* ── State variables ── */
+var _fcOpen        = false;
+var _lcSessionUuid = null;
+var _lcLastMsgId   = 0;
+var _lcPollTimer   = null;
+var _lcStarted     = false;
+var _isLoggedIn    = @auth true @else false @endauth;
+var _csrfToken     = '{{ csrf_token() }}';
+
+/* ══ Floating chat toggle ══════════════════════════════════════ */
 function toggleFloatChat() {
     _fcOpen = !_fcOpen;
-    var btn     = document.getElementById('fcMainBtn');
-    var subList = document.getElementById('fcSubList');
-    var notif   = document.getElementById('fcNotif');
-    btn.classList.toggle('is-open', _fcOpen);
-    subList.classList.toggle('is-open', _fcOpen);
-    if (_fcOpen && notif) notif.classList.add('hide');
+    document.getElementById('fcMainBtn').classList.toggle('is-open', _fcOpen);
+    document.getElementById('fcSubList').classList.toggle('is-open', _fcOpen);
+    if (_fcOpen) {
+        var notif = document.getElementById('fcNotif');
+        if (notif) notif.classList.add('hide');
+    }
 }
+
 document.addEventListener('click', function (e) {
     var wrap = document.getElementById('fcWrap');
     if (_fcOpen && wrap && !wrap.contains(e.target)) {
@@ -281,53 +313,256 @@ document.addEventListener('click', function (e) {
     }
 });
 
-/* ── Live Chat modal ── */
+/* ══ Open / Close modal ═══════════════════════════════════════ */
 function openLiveChat() {
     document.getElementById('lcModal').classList.add('is-open');
     document.getElementById('lcOverlay').classList.add('is-open');
     _fcOpen = false;
     document.getElementById('fcMainBtn').classList.remove('is-open');
     document.getElementById('fcSubList').classList.remove('is-open');
-    setTimeout(function () {
-        var inp = document.getElementById('lcInput');
-        if (inp) inp.focus();
-    }, 300);
+
+    // Logged-in user → auto-start
+    if (_isLoggedIn && !_lcStarted) {
+        startChat();
+        return;
+    }
+
+    // Guest → check localStorage-এ পুরনো session আছে কিনা
+    if (!_isLoggedIn && !_lcStarted) {
+        var storedUuid = localStorage.getItem('lc_session_uuid');
+        if (storedUuid) {
+            _lcSessionUuid = storedUuid;
+            startChat(true); // resume করো
+        }
+        // নতুন guest → form দেখাবে (already visible)
+    }
+
     @if(isset($fbPixelId) && $fbPixelId)
     if (typeof fbq === 'function') fbq('track', 'Contact');
     @endif
 }
+
 function closeLiveChat() {
     document.getElementById('lcModal').classList.remove('is-open');
     document.getElementById('lcOverlay').classList.remove('is-open');
+    stopPolling();
 }
 
-/* ── Live Chat send ── */
+/* ══ Start / resume chat session ══════════════════════════════ */
+function startChat(isResume) {
+    var payload = {};
+
+    if (!_isLoggedIn && !isResume) {
+        // নতুন guest → form validate করো
+        var nameEl  = document.getElementById('lcGuestName');
+        var emailEl = document.getElementById('lcGuestEmail');
+        var name    = nameEl  ? nameEl.value.trim()  : '';
+        var email   = emailEl ? emailEl.value.trim() : '';
+        if (!name)                          { _lcAlert('Please enter your name.');          return; }
+        if (!email || !email.includes('@')) { _lcAlert('Please enter a valid email.');      return; }
+        payload.guest_name  = name;
+        payload.guest_email = email;
+    }
+
+    // guest resume → UUID পাঠাও
+    if (!_isLoggedIn && isResume && _lcSessionUuid) {
+        payload.session_uuid = _lcSessionUuid;
+    }
+
+    fetch(_chatUrl.start, {
+        method  : 'POST',
+        headers : {
+            'Content-Type' : 'application/json',
+            'X-CSRF-TOKEN' : _csrfToken
+        },
+        body: JSON.stringify(payload)
+    })
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+        if (!d.success) {
+            // Guest-এর পুরনো session expire হলে form-এ ফেরাও
+            if (isResume) {
+                localStorage.removeItem('lc_session_uuid');
+                _lcSessionUuid = null;
+                var gf = document.getElementById('lcGuestForm');
+                if (gf) gf.style.display = 'flex';
+            }
+            _lcAlert(d.message || 'Could not start chat. Please try again.');
+            return;
+        }
+
+        _lcSessionUuid = d.session_uuid;
+        _lcStarted     = true;
+
+        // Guest-এর UUID localStorage-এ সংরক্ষণ করো
+        if (!_isLoggedIn) {
+            localStorage.setItem('lc_session_uuid', _lcSessionUuid);
+        }
+
+        // Guest form লুকাও, body ও footer দেখাও
+        var guestForm = document.getElementById('lcGuestForm');
+        if (guestForm) guestForm.style.display = 'none';
+        document.getElementById('lcBody').style.display   = 'flex';
+        document.getElementById('lcFooter').style.display = 'flex';
+
+        // পুরনো message render করো
+        var chatBody = document.getElementById('lcBody');
+        chatBody.innerHTML = '';
+        if (d.messages && d.messages.length) {
+            d.messages.forEach(function (m) { appendBubble(m); });
+            _lcLastMsgId = d.messages[d.messages.length - 1].id;
+        } else {
+            // প্রথমবার → welcome message
+            appendInBubble('Hello! 👋 Welcome to <strong>Shahzadi-mart</strong>. How can we help you today?');
+        }
+
+        _lcScrollBottom();
+        startPolling();
+
+        // Input-এ focus দাও
+        setTimeout(function () {
+            var inp = document.getElementById('lcInput');
+            if (inp) inp.focus();
+        }, 300);
+    })
+    .catch(function () {
+        _lcAlert('Network error. Please check your connection and try again.');
+    });
+}
+
+/* ══ Send message ══════════════════════════════════════════════ */
 function sendLCMsg() {
     var input = document.getElementById('lcInput');
-    var body  = document.getElementById('lcBody');
-    if (!input || !body) return;
+    if (!input) return;
     var text = input.value.trim();
     if (!text) return;
-    var now  = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    var out  = document.createElement('div');
-    out.className = 'lc-bubble lc-bubble--out';
-    out.innerHTML = '<p>' + _escHtml(text) + '</p><span class="lc-time">' + now + '</span>';
-    body.appendChild(out);
     input.value = '';
-    body.scrollTop = body.scrollHeight;
-    setTimeout(function () {
-        var rep = document.createElement('div');
-        rep.className = 'lc-bubble lc-bubble--in';
-        rep.innerHTML = '<p>Thanks for reaching out! Our team will get back to you shortly. 😊</p><span class="lc-time">Just now</span>';
-        body.appendChild(rep);
-        body.scrollTop = body.scrollHeight;
-    }, 1200);
-}
-function _escHtml(str) {
-    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+    var payload = { message: text };
+    if (!_isLoggedIn && _lcSessionUuid) {
+        payload.session_uuid = _lcSessionUuid;
+    }
+
+    fetch(_chatUrl.send, {
+        method  : 'POST',
+        headers : {
+            'Content-Type' : 'application/json',
+            'X-CSRF-TOKEN' : _csrfToken
+        },
+        body: JSON.stringify(payload)
+    })
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+        if (d.success) {
+            appendBubble(d.message);
+            _lcLastMsgId = d.message.id;
+            _lcScrollBottom();
+        }
+    })
+    .catch(function () { /* silent fail — message already typed */ });
 }
 
-/* ── Pixel / DataLayer helpers (safe — pixel only loaded once in header) ── */
+/* ══ Polling — প্রতি ৩ সেকেন্ডে নতুন message আনো ════════════ */
+function startPolling() {
+    stopPolling();
+    _lcPollTimer = setInterval(pollMessages, 3000);
+}
+
+function stopPolling() {
+    if (_lcPollTimer) {
+        clearInterval(_lcPollTimer);
+        _lcPollTimer = null;
+    }
+}
+
+function pollMessages() {
+    if (!_lcStarted) return;
+
+    var url = _chatUrl.messages + '?after_id=' + _lcLastMsgId;
+    if (!_isLoggedIn && _lcSessionUuid) {
+        url += '&session_uuid=' + encodeURIComponent(_lcSessionUuid);
+    }
+
+    fetch(url, {
+        headers: { 'X-CSRF-TOKEN': _csrfToken }
+    })
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+        if (d.success && d.messages && d.messages.length) {
+            d.messages.forEach(function (m) {
+                appendBubble(m);
+                _lcLastMsgId = m.id;
+            });
+            _lcScrollBottom();
+        }
+    })
+    .catch(function () { /* silent — next poll চেষ্টা করবে */ });
+}
+
+/* ══ Bubble render helpers ════════════════════════════════════ */
+function appendBubble(msg) {
+    var chatBody = document.getElementById('lcBody');
+    var isOwn    = msg.is_own;
+    var wrapper  = document.createElement('div');
+    wrapper.style.cssText = 'display:flex;flex-direction:column;align-items:' + (isOwn ? 'flex-end' : 'flex-start');
+    wrapper.innerHTML =
+        '<div class="lc-bubble lc-bubble--' + (isOwn ? 'out' : 'in') + '">' +
+            '<p>' + _escHtml(msg.message) + '</p>' +
+            '<span class="lc-time">' + (msg.time || '') + '</span>' +
+        '</div>';
+    chatBody.appendChild(wrapper);
+}
+
+function appendInBubble(html) {
+    var chatBody = document.getElementById('lcBody');
+    var wrapper  = document.createElement('div');
+    wrapper.style.cssText = 'display:flex;flex-direction:column;align-items:flex-start';
+    wrapper.innerHTML =
+        '<div class="lc-bubble lc-bubble--in">' +
+            '<p>' + html + '</p>' +
+            '<span class="lc-time">Just now</span>' +
+        '</div>';
+    chatBody.appendChild(wrapper);
+}
+
+function _lcScrollBottom() {
+    var b = document.getElementById('lcBody');
+    if (b) b.scrollTop = b.scrollHeight;
+}
+
+function _escHtml(str) {
+    if (!str) return '';
+    return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+}
+
+function _lcAlert(msg) {
+    if (typeof toastr !== 'undefined') {
+        toastr.error(msg);
+    } else {
+        alert(msg);
+    }
+}
+
+/* ══ Newsletter subscribe ══════════════════════════════════════ */
+function subscribeNewsletter() {
+    var input = document.getElementById('nlEmail');
+    if (!input) return;
+    var email = input.value.trim();
+    if (!email || !email.includes('@')) {
+        if (typeof toastr !== 'undefined') toastr.error('Please enter a valid email address.');
+        return;
+    }
+    @if(isset($fbPixelId) && $fbPixelId)
+    if (typeof fbq === 'function') fbq('track', 'Lead', { content_name: 'Newsletter Subscribe' });
+    @endif
+    if (typeof toastr !== 'undefined') toastr.success("You've subscribed to our newsletter!");
+    input.value = '';
+}
+
+/* ══ DataLayer / Pixel helpers ════════════════════════════════ */
 window.dataLayer = window.dataLayer || [];
 function pushDataLayer(obj) { window.dataLayer.push(obj); }
 @if(isset($fbPixelId) && $fbPixelId)
@@ -335,7 +570,7 @@ function trackPixelEvent(event, params) {
     if (typeof fbq === 'function') fbq('track', event, params || {});
 }
 @else
-function trackPixelEvent() {} // no-op when pixel inactive
+function trackPixelEvent() {}
 @endif
 </script>
 
