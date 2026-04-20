@@ -16,6 +16,8 @@ use App\Models\Producreview;
 use App\Models\Wishlist;
 use App\Models\Slider;
 use App\Models\Tagmanager;
+use App\Models\Contactinfomationadmin;
+
 use App\Models\Websitefavicon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -87,12 +89,13 @@ class FrontendController extends Controller
                             ->orderByRaw('(current_price - discount_price) DESC')
                             ->take(20)
                             ->get();
+        $contactinformationadmin=Contactinfomationadmin::latest()->first();
 
         return view('frontend.index', compact(
             'slider', 'categories', 'websetting',
             'flashProducts', 'hotCategories',
             'newArrivals', 'bestSellers', 'sidebarCategories',
-            'websitefavicon'
+            'websitefavicon','contactinformationadmin'
             // $Pixelid ও $GoogleAnalytics constructor থেকে shared হচ্ছে
         ));
     }

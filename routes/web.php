@@ -47,6 +47,7 @@ use App\Http\Controllers\Admin\PathaoOrderController;
 use App\Http\Controllers\Admin\PaymentgetewaymanageController;
 use App\Http\Controllers\Admin\SmsgatewaysetupController;
 use App\Http\Controllers\Admin\SteadfastcourierController;
+use App\Http\Controllers\Admin\ContactinfomationadminController;
 use App\Http\Controllers\Admin\SteadfastOrderController;
 use App\Http\Controllers\Frontend\BkashController;
 use App\Http\Controllers\Frontend\Landingordercontroller;
@@ -389,6 +390,8 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
     Route::post('/payment-settings/shurjopay',        [PaymentSettingController::class, 'shurjopayStore'])->name('payment.shurjopay.store');
     Route::post('/payment-settings/bkash/toggle',     [PaymentSettingController::class, 'bkashToggle'])->name('payment.bkash.toggle');
     Route::post('/payment-settings/shurjopay/toggle', [PaymentSettingController::class, 'shurjopayToggle'])->name('payment.shurjopay.toggle');
+    // ── Contactinfomationadmin ────────────────────────────────────────────────────────────────
+    Route::resource('contactinfomationadmins', ContactinfomationadminController::class);
 
 }); // end admin group
 

@@ -1,17 +1,15 @@
 {{-- resources/views/frontend/pages/header.blade.php --}}
 
 @php
-    /*
-     * ── Tracking IDs ──────────────────────────────────────────────────────────
-     * DB-তে status column integer (1=active, 0=inactive)।
-     * $Pixelid / $GoogleAnalytics controller থেকে pass না হলে DB থেকে নেওয়া হয়।
-     * Footer-এ শুধু এই variable দুটো ব্যবহার হবে — আর কোনো re-resolve নেই।
-     */
     $pixelData     = $Pixelid         ?? \App\Models\Pixel::first();
     $analyticsData = $GoogleAnalytics ?? \App\Models\Tagmanager::first();
 
     $fbPixelId = ($pixelData     && $pixelData->status     == 1) ? trim($pixelData->pixel_id)         : null;
     $gtmId     = ($analyticsData && $analyticsData->status == 1) ? trim($analyticsData->google_tag_id) : null;
+
+    // Contact info for floating widget
+    $contactinformationadmin = $contactinformationadmin
+        ?? \App\Models\Contactinfomationadmin::latest()->first();
 @endphp
 
 <!DOCTYPE html>
@@ -41,7 +39,7 @@
     })(window,document,'script','dataLayer','{{ $gtmId }}');</script>
     @endif
 
-    {{-- ══ FACEBOOK PIXEL — <head> only (fires once) ══ --}}
+    {{-- ══ FACEBOOK PIXEL ══ --}}
     @if($fbPixelId)
     <script>
     !function(f,b,e,v,n,t,s){
@@ -55,7 +53,6 @@
     fbq('init','{{ $fbPixelId }}');
     fbq('track','PageView');
     </script>
-    {{-- noscript fallback: only for JS-disabled browsers --}}
     <noscript>
         <img height="1" width="1" style="display:none"
              src="https://www.facebook.com/tr?id={{ $fbPixelId }}&ev=PageView&noscript=1"/>
@@ -172,7 +169,6 @@
     .hdr-drop-wrap{position:relative}
     .hdr-drop{position:absolute;top:calc(100% + 10px);right:0;background:var(--white);border:1px solid var(--border);border-radius:var(--rl);box-shadow:var(--sh3);z-index:950;opacity:0;visibility:hidden;transform:translateY(-8px) scale(.97);transition:all .25s var(--ease);overflow:hidden}
     .hdr-drop-wrap:hover .hdr-drop{opacity:1;visibility:visible;transform:none}
-    /* Account dropdown */
     .acct-drop{min-width:230px}
     .acct-drop__hd{background:linear-gradient(135deg,var(--dark) 0%,var(--dark3) 100%);padding:16px 14px;text-align:center}
     .acct-drop__hd p{color:#777;font-size:11.5px;margin-bottom:10px;letter-spacing:.04em}
@@ -190,7 +186,6 @@
     .acct-drop a:hover .bi{color:var(--red)}
     .acct-drop .logout{color:var(--red)}
     .acct-drop .logout .bi{color:var(--red)}
-    /* Wishlist dropdown */
     .wish-drop{min-width:320px;max-width:340px}
     .wish-drop__hd{background:linear-gradient(135deg,var(--dark) 0%,var(--dark3) 100%);padding:13px 16px;display:flex;align-items:center;gap:8px}
     .wish-drop__hd i{color:#f87171;font-size:15px}
@@ -215,7 +210,6 @@
     .wish-drop__empty i{font-size:30px;display:block;margin-bottom:8px;opacity:.4}
     .wish-drop__foot{display:flex;align-items:center;justify-content:center;gap:6px;padding:11px;background:var(--light);border-top:1px solid var(--border);font-size:12px;font-weight:800;color:var(--red);text-decoration:none;transition:background .2s;letter-spacing:.04em;text-transform:uppercase}
     .wish-drop__foot:hover{background:var(--red-glow)}
-    /* Cart dropdown */
     .cart-drop{min-width:330px;max-width:360px}
     .cart-drop__hd{background:linear-gradient(135deg,var(--dark) 0%,var(--dark3) 100%);padding:13px 16px;display:flex;align-items:center;gap:8px}
     .cart-drop__hd i{color:var(--gold);font-size:15px}
@@ -317,6 +311,150 @@
     .mob-nav__badge.zero{display:none}
     #toast-container > div{border-radius:var(--rm)!important;font-family:'Nunito',sans-serif!important}
 
+    /* ══════════════════════════════════════════════════════════════
+       ── FLOATING CONTACT WIDGET ──
+    ══════════════════════════════════════════════════════════════ */
+    .float-contact-wrap {
+        position: fixed;
+        bottom: 30px;
+        right: 24px;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 10px;
+        /* mobile এ bottom nav এর উপরে */
+    }
+
+    /* Action items — hidden by default */
+    .float-contact-items {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        align-items: flex-end;
+        overflow: hidden;
+        max-height: 0;
+        opacity: 0;
+        transform: translateY(12px) scale(.96);
+        transition: max-height .38s cubic-bezier(.4,0,.2,1),
+                    opacity .28s ease,
+                    transform .28s cubic-bezier(.34,1.56,.64,1);
+        pointer-events: none;
+    }
+    .float-contact-wrap.open .float-contact-items {
+        max-height: 300px;
+        opacity: 1;
+        transform: none;
+        pointer-events: auto;
+    }
+
+    /* Each action row */
+    .float-contact-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        cursor: pointer;
+        animation: slide-up .25s ease both;
+    }
+    @keyframes slide-up {
+        from { opacity: 0; transform: translateY(10px); }
+        to   { opacity: 1; transform: none; }
+    }
+
+    .float-contact-label {
+        background: #fff;
+        color: #2d3748;
+        font-size: 13px;
+        font-weight: 700;
+        padding: 7px 14px;
+        border-radius: 8px;
+        white-space: nowrap;
+        box-shadow: 0 4px 16px rgba(0,0,0,.12);
+        border: 1px solid #e8eaf0;
+        letter-spacing: .01em;
+    }
+
+    .float-contact-icon {
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        flex-shrink: 0;
+        box-shadow: 0 4px 16px rgba(0,0,0,.18);
+        transition: transform .22s cubic-bezier(.34,1.56,.64,1), box-shadow .2s ease;
+        color: #fff;
+    }
+    .float-contact-item:hover .float-contact-icon {
+        transform: scale(1.12);
+        box-shadow: 0 6px 22px rgba(0,0,0,.24);
+    }
+    .float-icon-chat     { background: linear-gradient(135deg, #43b89c, #2ecc71); }
+    .float-icon-messenger{ background: linear-gradient(135deg, #0084ff, #0055d4); }
+    .float-icon-whatsapp { background: linear-gradient(135deg, #25D366, #128C7E); }
+    .float-icon-call     { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+
+    /* Main toggle button */
+    .float-contact-toggle {
+        width: 54px;
+        height: 54px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--red), var(--red-d));
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        cursor: pointer;
+        box-shadow: 0 6px 24px rgba(200,16,46,.35);
+        border: none;
+        transition: transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .2s ease;
+        flex-shrink: 0;
+        position: relative;
+    }
+    .float-contact-toggle:hover {
+        transform: scale(1.08);
+        box-shadow: 0 8px 30px rgba(200,16,46,.45);
+    }
+    .float-contact-toggle .icon-open,
+    .float-contact-toggle .icon-close {
+        position: absolute;
+        transition: opacity .2s ease, transform .25s cubic-bezier(.34,1.56,.64,1);
+    }
+    .float-contact-toggle .icon-close {
+        opacity: 0;
+        transform: rotate(-90deg) scale(.6);
+    }
+    .float-contact-wrap.open .float-contact-toggle .icon-open {
+        opacity: 0;
+        transform: rotate(90deg) scale(.6);
+    }
+    .float-contact-wrap.open .float-contact-toggle .icon-close {
+        opacity: 1;
+        transform: none;
+    }
+    /* Pulse ring on toggle */
+    .float-contact-toggle::after {
+        content: '';
+        position: absolute;
+        inset: -4px;
+        border-radius: 50%;
+        border: 2px solid rgba(200,16,46,.35);
+        animation: ring-pulse 2.5s ease-in-out infinite;
+    }
+    @keyframes ring-pulse {
+        0%,100% { transform: scale(1); opacity: .6; }
+        50%      { transform: scale(1.18); opacity: 0; }
+    }
+
+    /* Mobile adjustment */
+    @media(max-width:900px) {
+        .float-contact-wrap { bottom: calc(var(--mob-nav) + 16px); right: 16px; }
+    }
+
     /* ── RESPONSIVE ── */
     @media(max-width:1100px){:root{--sb:240px}.track-order-btn .track-lbl{display:none}.track-order-btn{padding:8px 12px;gap:0}.nav-item{padding:0 12px;font-size:12.5px}}
     @media(max-width:900px){
@@ -341,6 +479,7 @@
         .top-bar__track{display:none!important}
         .search-dropdown{border-radius:0 0 var(--rm) var(--rm)}
         .sd-view-all{border-radius:0 0 calc(var(--rm) - 2px) calc(var(--rm) - 2px)}
+        .float-contact-label{display:none}
     }
     @media(max-width:400px){.logo{font-size:17px}.top-bar__nav{display:none}.h-act{padding:5px 5px}.h-act .bi{font-size:18px}}
     </style>
@@ -359,7 +498,6 @@
     @endif
 
     @php
-        // ── Cart & Wishlist counts for header badges ──
         $headerCartCount    = collect(session('cart', []))->sum('quantity');
         $headerCartItems    = session('cart', []);
         $headerCartSubtotal = 0;
@@ -379,7 +517,7 @@
 </head>
 <body>
 
-{{-- GTM noscript — must be immediately after <body> --}}
+{{-- GTM noscript --}}
 @if($gtmId)
 <noscript>
     <iframe src="https://www.googletagmanager.com/ns.html?id={{ $gtmId }}"
@@ -408,26 +546,21 @@
 <header class="site-hdr">
     <div class="site-hdr__in">
 
-        {{-- Hamburger (mobile) --}}
         <button class="hamb" onclick="toggleSidebar()" aria-label="Toggle menu">
             <i class="bi bi-list"></i>
         </button>
 
-        {{-- Logo --}}
         <a href="{{ url('/') }}" class="logo">
             <img src="{{ !empty($websetting?->header_logo) ? asset($websetting->header_logo) : asset('default/logo.png') }}"
                  alt="Shahzadimart Logo" style="height:70px;width:auto;">
             <div class="logo__dot"></div>
         </a>
 
-        {{-- Search --}}
         <div class="hdr-search-wrap" id="searchWrap">
             <div class="hdr-search" id="hdrSearch">
-                <input type="search"
-                       id="globalSearch"
+                <input type="search" id="globalSearch"
                        placeholder="পণ্য, ব্র্যান্ড, ক্যাটাগরি খুঁজুন…"
-                       autocomplete="off"
-                       aria-label="Search products">
+                       autocomplete="off" aria-label="Search products">
                 <button class="search-clear" id="searchClear" type="button" title="Clear">
                     <i class="bi bi-x-lg"></i>
                 </button>
@@ -443,13 +576,11 @@
             </div>
         </div>
 
-        {{-- Track Order button (desktop) --}}
         <a href="{{ route('order.track') }}" class="track-order-btn" aria-label="Track Order">
             <i class="bi bi-truck"></i>
             <span class="track-lbl">অর্ডার ট্র্যাক</span>
         </a>
 
-        {{-- Action icons --}}
         <div class="hdr-actions">
 
             {{-- Account --}}
@@ -471,9 +602,7 @@
                             </a>
                         @else
                             <p>Welcome to Shahzadi-mart</p>
-                            <button class="acct-signin" onclick="window.location.href='{{ url('customer/login') }}'">
-                                Sign In
-                            </button>
+                            <button class="acct-signin" onclick="window.location.href='{{ url('customer/login') }}'">Sign In</button>
                         @endauth
                     </div>
                     @auth
@@ -521,11 +650,11 @@
                                 @php
                                     $wp = $wItem->product;
                                     if (!$wp) continue;
-                                    $wHasDisc  = $wp->discount_price && $wp->discount_price > 0;
-                                    $wPrice    = $wHasDisc ? $wp->discount_price : ($wp->current_price ?? $wp->price ?? 0);
-                                    $wImgSrc   = $wp->feature_image ? asset('uploads/products/'.$wp->feature_image) : asset('images/placeholder.png');
-                                    $wName     = $wp->name ?? ($wp->product_name ?? 'Product');
-                                    $wInStock  = $wp->is_unlimited || (($wp->stock ?? 0) > 0);
+                                    $wHasDisc = $wp->discount_price && $wp->discount_price > 0;
+                                    $wPrice   = $wHasDisc ? $wp->discount_price : ($wp->current_price ?? $wp->price ?? 0);
+                                    $wImgSrc  = $wp->feature_image ? asset('uploads/products/'.$wp->feature_image) : asset('images/placeholder.png');
+                                    $wName    = $wp->name ?? ($wp->product_name ?? 'Product');
+                                    $wInStock = $wp->is_unlimited || (($wp->stock ?? 0) > 0);
                                 @endphp
                                 <div class="wish-item">
                                     <div class="wish-item__img">
@@ -587,11 +716,11 @@
                     <div class="cart-drop__body">
                         @forelse($headerCartItems as $cKey => $cItem)
                             @php
-                                $cHasDisc  = isset($cItem['discount_price']) && $cItem['discount_price'] > 0;
-                                $cUnitP    = $cHasDisc ? $cItem['discount_price'] : $cItem['price'];
-                                $cLineTotal= $cUnitP * $cItem['quantity'];
-                                $cImgSrc   = !empty($cItem['image']) ? asset('uploads/products/'.$cItem['image']) : asset('images/placeholder.png');
-                                $cVariants = array_filter([$cItem['selected_color'] ?? null, $cItem['selected_size'] ?? null]);
+                                $cHasDisc   = isset($cItem['discount_price']) && $cItem['discount_price'] > 0;
+                                $cUnitP     = $cHasDisc ? $cItem['discount_price'] : $cItem['price'];
+                                $cLineTotal = $cUnitP * $cItem['quantity'];
+                                $cImgSrc    = !empty($cItem['image']) ? asset('uploads/products/'.$cItem['image']) : asset('images/placeholder.png');
+                                $cVariants  = array_filter([$cItem['selected_color'] ?? null, $cItem['selected_size'] ?? null]);
                             @endphp
                             <div class="cart-mini-item">
                                 <div class="cart-mini-img">
@@ -683,7 +812,7 @@
     </div>
 </nav>
 
-{{-- Sidebar overlay (mobile) --}}
+{{-- Sidebar overlay --}}
 <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
 
 {{-- ── MOBILE BOTTOM NAV ── --}}
@@ -716,20 +845,102 @@
     </div>
 </nav>
 
+
+{{-- ══════════════════════════════════════════════════════════════
+     ── FLOATING CONTACT WIDGET ──
+     DB থেকে: watsapp_url, messanger_url, phone
+══════════════════════════════════════════════════════════════ --}}
+@if($contactinformationadmin)
+<div class="float-contact-wrap" id="floatContactWrap">
+
+    {{-- Action items (hidden until toggle opens) --}}
+    <div class="float-contact-items" id="floatContactItems">
+
+        {{-- Live Chat (messenger দিয়ে) --}}
+        @if($contactinformationadmin->messanger_url)
+        <a href="{{ $contactinformationadmin->messanger_url }}" target="_blank" rel="noopener"
+           class="float-contact-item" style="animation-delay:.05s;" title="Live Chat">
+            <span class="float-contact-label">Live Chat</span>
+            <span class="float-contact-icon float-icon-chat">
+                <i class="bi bi-chat-dots-fill"></i>
+            </span>
+        </a>
+        @endif
+
+        {{-- Messenger --}}
+        @if($contactinformationadmin->messanger_url)
+        <a href="{{ $contactinformationadmin->messanger_url }}" target="_blank" rel="noopener"
+           class="float-contact-item" style="animation-delay:.10s;" title="Messenger">
+            <span class="float-contact-label">Messenger</span>
+            <span class="float-contact-icon float-icon-messenger">
+                <i class="bi bi-messenger"></i>
+            </span>
+        </a>
+        @endif
+
+        {{-- WhatsApp --}}
+        @if($contactinformationadmin->watsapp_url)
+        <a href="{{ $contactinformationadmin->watsapp_url }}" target="_blank" rel="noopener"
+           class="float-contact-item" style="animation-delay:.15s;" title="WhatsApp">
+            <span class="float-contact-label">WhatsApp</span>
+            <span class="float-contact-icon float-icon-whatsapp">
+                <i class="bi bi-whatsapp"></i>
+            </span>
+        </a>
+        @endif
+
+        {{-- Call Us --}}
+        @if($contactinformationadmin->phone)
+        <a href="tel:{{ $contactinformationadmin->phone }}"
+           class="float-contact-item" style="animation-delay:.20s;" title="Call Us">
+            <span class="float-contact-label">Call Us</span>
+            <span class="float-contact-icon float-icon-call">
+                <i class="bi bi-telephone-fill"></i>
+            </span>
+        </a>
+        @endif
+
+    </div>
+
+    {{-- Main toggle button --}}
+    <button class="float-contact-toggle" id="floatContactToggle"
+            onclick="toggleFloatContact()" aria-label="Contact Us" title="আমাদের সাথে যোগাযোগ করুন">
+        <i class="bi bi-headset icon-open"></i>
+        <i class="bi bi-x-lg icon-close"></i>
+    </button>
+
+</div>
+@endif
+{{-- ── /FLOATING CONTACT WIDGET ── --}}
+
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 <script>
+/* ── Floating Contact Toggle ── */
+function toggleFloatContact() {
+    var wrap = document.getElementById('floatContactWrap');
+    if (wrap) wrap.classList.toggle('open');
+}
+// Click outside বন্ধ করে
+document.addEventListener('click', function(e) {
+    var wrap = document.getElementById('floatContactWrap');
+    if (wrap && wrap.classList.contains('open') && !wrap.contains(e.target)) {
+        wrap.classList.remove('open');
+    }
+});
+
 /* ── Live Search ── */
 (function () {
-    var input      = document.getElementById('globalSearch'),
-        dropdown   = document.getElementById('searchDropdown'),
-        results    = document.getElementById('searchResults'),
-        loading    = document.getElementById('searchLoading'),
-        clearBtn   = document.getElementById('searchClear'),
-        searchBox  = document.getElementById('hdrSearch'),
-        ajaxUrl    = '{{ route("search.ajax") }}',
-        searchUrl  = '{{ route("search.results") }}';
+    var input     = document.getElementById('globalSearch'),
+        dropdown  = document.getElementById('searchDropdown'),
+        results   = document.getElementById('searchResults'),
+        loading   = document.getElementById('searchLoading'),
+        clearBtn  = document.getElementById('searchClear'),
+        searchBox = document.getElementById('hdrSearch'),
+        ajaxUrl   = '{{ route("search.ajax") }}',
+        searchUrl = '{{ route("search.results") }}';
 
     var debounceTimer = null, lastQuery = '', activeIdx = -1, currentItems = [];
 
@@ -738,7 +949,7 @@
         return t.replace(new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi'),
             '<mark class="search-highlight">$1</mark>');
     }
-    function openDrop()  { dropdown.classList.add('active');    searchBox.classList.add('has-results', 'focused'); }
+    function openDrop()  { dropdown.classList.add('active');    searchBox.classList.add('has-results','focused'); }
     function closeDrop() { dropdown.classList.remove('active'); searchBox.classList.remove('has-results'); activeIdx = -1; currentItems = []; }
     function showLoad()  { loading.classList.add('active');    results.innerHTML = ''; openDrop(); }
     function hideLoad()  { loading.classList.remove('active'); }
@@ -757,7 +968,7 @@
                 var el = document.createElement('a');
                 el.className = 'sd-cat-item sd-item';
                 el.href = cat.url;
-                el.innerHTML = '<div class="sd-cat-img"><img src="' + cat.image + '" alt="' + cat.name + '" loading="lazy" onerror="this.src=\'{{ asset('default/no-image.png') }}\'"></div>'
+                el.innerHTML = '<div class="sd-cat-img"><img src="' + cat.image + '" alt="' + cat.name + '" loading="lazy"></div>'
                     + '<span class="sd-cat-name">' + highlight(cat.name, q) + '</span>'
                     + '<i class="bi bi-chevron-right" style="color:var(--muted);font-size:11px;margin-left:auto"></i>';
                 results.appendChild(el); currentItems.push(el);
@@ -769,7 +980,7 @@
                 var badge = p.in_stock ? '<span class="sd-prod-badge">In Stock</span>' : '<span class="sd-prod-badge out">স্টক নেই</span>';
                 var el = document.createElement('a');
                 el.className = 'sd-prod-item sd-item'; el.href = p.url;
-                el.innerHTML = '<div class="sd-prod-img"><img src="' + p.image + '" alt="' + p.name + '" loading="lazy" onerror="this.src=\'{{ asset('default/no-image.png') }}\'"></div>'
+                el.innerHTML = '<div class="sd-prod-img"><img src="' + p.image + '" alt="' + p.name + '" loading="lazy"></div>'
                     + '<div class="sd-prod-info"><div class="sd-prod-name">' + highlight(p.name, q) + '</div>'
                     + '<div class="sd-prod-cat">' + p.category + '</div>' + badge + '</div>'
                     + '<div class="sd-prod-price-wrap"><div class="sd-prod-price">৳ ' + p.price + '</div>'
@@ -796,9 +1007,9 @@
         showLoad();
         fetch(ajaxUrl + '?q=' + encodeURIComponent(q), {
             headers: { 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json' }
-        }).then(function (r) { return r.json(); })
-          .then(function (data) { renderResults(data, q); })
-          .catch(function () {
+        }).then(function(r) { return r.json(); })
+          .then(function(data) { renderResults(data, q); })
+          .catch(function() {
               hideLoad();
               results.innerHTML = '<div class="sd-empty"><i class="bi bi-wifi-off"></i> নেটওয়ার্ক সমস্যা হয়েছে।</div>';
           });
@@ -837,7 +1048,6 @@
     });
 })();
 
-/* ── Global search submit ── */
 function doSearch() {
     var q = (document.getElementById('globalSearch') || {}).value;
     if (q && q.trim()) window.location.href = '{{ route("search.results") }}?q=' + encodeURIComponent(q.trim());
@@ -862,7 +1072,7 @@ document.addEventListener('keydown', function (e) {
     }
 });
 
-/* ── Badge updater (called by cart/wishlist AJAX elsewhere) ── */
+/* ── Badge updater ── */
 function updateBadges(cartCount, wishCount) {
     var cb = document.getElementById('cartBadge');
     var mb = document.getElementById('mobCartBadge');

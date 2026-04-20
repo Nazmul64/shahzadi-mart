@@ -674,10 +674,10 @@ body.sb-collapsed .sidebar-submenu { display: none; }
                 <span class="item-text">Riders</span>
             </span>
         </a>
-        <a href="#" class="sidebar-item">
+        <a href="{{ route('admin.contactinfomationadmins.index') }}" class="sidebar-item">
             <span class="item-left">
                 <i class="bi bi-wallet2 nav-icon"></i>
-                <span class="item-text">Customer Deposits</span>
+                <span class="item-text">Contact Info Admin</span>
             </span>
         </a>
         <a href="{{ route('admin.chat.index') }}" class="sidebar-item">
