@@ -806,6 +806,9 @@
         <a href="{{ route('contact.details') }}" class="nav-item {{ request()->is('contact*') ? 'active' : '' }}">
             <i class="bi bi-telephone"></i> যোগাযোগ
         </a>
+        <a href="{{ route('about.company') }}" class="nav-item {{ request()->is('about*') ? 'active' : '' }}">
+            <i class="bi bi-info-circle"></i> আমাদের সম্পর্কে
+        </a>
         <a href="{{ route('order.track') }}" class="nav-item nav-item--track {{ request()->routeIs('order.track*') ? 'active' : '' }}">
             <i class="bi bi-truck"></i> অর্ডার ট্র্যাক করুন
         </a>

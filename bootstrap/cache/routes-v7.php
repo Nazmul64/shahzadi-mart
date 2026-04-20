@@ -13,7 +13,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::ETqmLQpuO32G8m0Y',
+            '_route' => 'generated::akVWxbMcq2pVGyAf',
           ),
           1 => NULL,
           2 => 
@@ -196,7 +196,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::3WcuAaTuolrUMFNR',
+            '_route' => 'generated::UYu7lE2Dj3ADespn',
           ),
           1 => NULL,
           2 => 
@@ -216,6 +216,26 @@ app('router')->setCompiledRoutes(
           0 => 
           array (
             '_route' => 'frontend',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/about-company' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'about.company',
           ),
           1 => NULL,
           2 => 
@@ -840,7 +860,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::7siLiNBhe5UNfxQG',
+            '_route' => 'generated::nZmOs9AZGDO1gphD',
           ),
           1 => NULL,
           2 => 
@@ -3288,6 +3308,62 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
+      '/aboutcompany' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.aboutcompany.index',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.aboutcompany.store',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/aboutcompany/create' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.aboutcompany.create',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
       '/webhook/steadfast' => 
       array (
         0 => 
@@ -3660,7 +3736,7 @@ app('router')->setCompiledRoutes(
     ),
     2 => 
     array (
-      0 => '{^(?|/p(?|a(?|ssword/reset/([^/]++)(*:37)|ymentgetewaymanage/([^/]++)(?|(*:74)|/(?|edit(*:89)|toggle\\-status(*:110))|(*:119))|thaocourier/([^/]++)(?|(*:151)|/edit(*:164)|(*:172)))|roduct(?|/([^/]++)(*:200)|s/([^/]++)(?|/(?|toggle\\-(?|status(*:242)|flash\\-sale(*:261)|new\\-arrival(*:281)|bestseller(*:299))|catalog\\-(?|add(*:323)|remove(*:337)|highlight(*:354)|gallery(*:369))|update\\-flash\\-sale(*:397)|edit(*:409))|(*:418)))|ermissions/([^/]++)(?|(*:450)|/edit(*:463)|(*:471))|ixels/([^/]++)(?|(*:497)|/edit(*:510)|(*:518)))|/c(?|a(?|mpaign(?|/manage/([^/]++)(*:562)|create/([^/]++)(?|(*:588)|/edit(*:601)|(*:609)))|tegory/(?|([^/]++)(?|(*:640)|/([^/]++)(?|(*:660)|/([^/]++)(*:677)))|create(*:693)|([^/]++)(?|(*:712)|/(?|edit(*:728)|toggle\\-(?|featured(*:755)|status(*:769)))|(*:779)))|rt/(?|add/([^/]++)(*:807)|remove/([^/]++)(*:830)|increase/([^/]++)(*:855)|decrease/([^/]++)(*:880)))|h(?|eckout/success/([^/]++)(*:917)|ildcategory/([^/]++)(?|(*:948)|/(?|edit(*:964)|toggle\\-(?|featured(*:991)|status(*:1005)))|(*:1016))|at/([^/]++)(?|(*:1040)|/(?|reply(*:1058)|messages(*:1075)|close(*:1089))))|ustomer/([^/]++)(?|(*:1120)|/(?|edit(*:1137)|status(*:1152)|make\\-vendor(*:1173))|(*:1183))|o(?|upons/([^/]++)(?|(*:1214)|/(?|edit(*:1231)|status(*:1246))|(*:1256))|ntact(?|/([^/]++)(?|(*:1286)|/edit(*:1300)|(*:1309))|infomationadmins/([^/]++)(?|(*:1347)|/edit(*:1361)|(*:1370)))))|/order(?|/cancel/([^/]++)(*:1408)|s/(?|([^/]++)(?|(*:1433)|/(?|edit(*:1450)|status(*:1465)|payment\\-status(*:1489))|(*:1499))|bulk\\-send\\-steadfast(*:1530)|([^/]++)/send\\-steadfast(*:1563)|bulk\\-send\\-pathao(*:1590)|([^/]++)/send\\-pathao(*:1620)))|/w(?|ishlist/(?|add/([^/]++)(*:1659)|remove/([^/]++)(*:1683)|move\\-to\\-cart/([^/]++)(*:1715))|ebsitefavicon/([^/]++)(?|(*:1750)|/edit(*:1764)|(*:1773)))|/s(?|eller\\-registrations/([^/]++)/(?|approve(*:1829)|re(?|ject(*:1847)|activate(*:1864))|suspend(*:1881)|view(*:1894))|ubcategory/([^/]++)(?|(*:1926)|/(?|edit(*:1943)|toggle\\-(?|featured(*:1971)|status(*:1986)))|(*:1997))|lider/([^/]++)(?|(*:2024)|/edit(*:2038)|(*:2047))|hipping/([^/]++)(?|/edit(*:2081)|(*:2090))|t(?|eadfastcourier/([^/]++)(?|(*:2130)|/edit(*:2144)|(*:2153))|orage/(.*)(*:2173)))|/r(?|oles/([^/]++)(?|(*:2205)|/(?|edit(*:2222)|assign\\-permission(*:2249)|save\\-assigned\\-permission(*:2284))|(*:2294))|eviews/(?|([^/]++)(?|/(?|approve(*:2336)|unapprove(*:2354))|(*:2364))|bulk(*:2378)))|/users/([^/]++)(?|(*:2407)|/(?|edit(*:2424)|toggle\\-status(*:2447))|(*:2457))|/affiliateproduct/([^/]++)(?|/(?|toggle\\-status(*:2514)|edit(*:2527))|(*:2537))|/Generalsettings/([^/]++)(?|(*:2575)|/edit(*:2589)|(*:2598))|/toggle/([^/]++)(*:2624)|/googletagmanager/([^/]++)(?|(*:2662)|/edit(*:2676)|(*:2685))|/Smsgatewaysetup/([^/]++)(?|(*:2723)|/edit(*:2737)|(*:2746))|/incomplete\\-orders/([^/]++)(?|(*:2787)|/(?|st(?|atus(*:2809)|eadfast\\-send(*:2831))|contacted(*:2850)|recovered(*:2868)|pathao\\-send(*:2889))))/?$}sDu',
+      0 => '{^(?|/p(?|a(?|ssword/reset/([^/]++)(*:37)|ymentgetewaymanage/([^/]++)(?|(*:74)|/(?|edit(*:89)|toggle\\-status(*:110))|(*:119))|thaocourier/([^/]++)(?|(*:151)|/edit(*:164)|(*:172)))|roduct(?|/([^/]++)(*:200)|s/([^/]++)(?|/(?|toggle\\-(?|status(*:242)|flash\\-sale(*:261)|new\\-arrival(*:281)|bestseller(*:299))|catalog\\-(?|add(*:323)|remove(*:337)|highlight(*:354)|gallery(*:369))|update\\-flash\\-sale(*:397)|edit(*:409))|(*:418)))|ermissions/([^/]++)(?|(*:450)|/edit(*:463)|(*:471))|ixels/([^/]++)(?|(*:497)|/edit(*:510)|(*:518)))|/c(?|a(?|mpaign(?|/manage/([^/]++)(*:562)|create/([^/]++)(?|(*:588)|/edit(*:601)|(*:609)))|tegory/(?|([^/]++)(?|(*:640)|/([^/]++)(?|(*:660)|/([^/]++)(*:677)))|create(*:693)|([^/]++)(?|(*:712)|/(?|edit(*:728)|toggle\\-(?|featured(*:755)|status(*:769)))|(*:779)))|rt/(?|add/([^/]++)(*:807)|remove/([^/]++)(*:830)|increase/([^/]++)(*:855)|decrease/([^/]++)(*:880)))|h(?|eckout/success/([^/]++)(*:917)|ildcategory/([^/]++)(?|(*:948)|/(?|edit(*:964)|toggle\\-(?|featured(*:991)|status(*:1005)))|(*:1016))|at/([^/]++)(?|(*:1040)|/(?|reply(*:1058)|messages(*:1075)|close(*:1089))))|ustomer/([^/]++)(?|(*:1120)|/(?|edit(*:1137)|status(*:1152)|make\\-vendor(*:1173))|(*:1183))|o(?|upons/([^/]++)(?|(*:1214)|/(?|edit(*:1231)|status(*:1246))|(*:1256))|ntact(?|/([^/]++)(?|(*:1286)|/edit(*:1300)|(*:1309))|infomationadmins/([^/]++)(?|(*:1347)|/edit(*:1361)|(*:1370)))))|/order(?|/cancel/([^/]++)(*:1408)|s/(?|([^/]++)(?|(*:1433)|/(?|edit(*:1450)|status(*:1465)|payment\\-status(*:1489))|(*:1499))|bulk\\-send\\-steadfast(*:1530)|([^/]++)/send\\-steadfast(*:1563)|bulk\\-send\\-pathao(*:1590)|([^/]++)/send\\-pathao(*:1620)))|/w(?|ishlist/(?|add/([^/]++)(*:1659)|remove/([^/]++)(*:1683)|move\\-to\\-cart/([^/]++)(*:1715))|ebsitefavicon/([^/]++)(?|(*:1750)|/edit(*:1764)|(*:1773)))|/s(?|eller\\-registrations/([^/]++)/(?|approve(*:1829)|re(?|ject(*:1847)|activate(*:1864))|suspend(*:1881)|view(*:1894))|ubcategory/([^/]++)(?|(*:1926)|/(?|edit(*:1943)|toggle\\-(?|featured(*:1971)|status(*:1986)))|(*:1997))|lider/([^/]++)(?|(*:2024)|/edit(*:2038)|(*:2047))|hipping/([^/]++)(?|/edit(*:2081)|(*:2090))|t(?|eadfastcourier/([^/]++)(?|(*:2130)|/edit(*:2144)|(*:2153))|orage/(.*)(*:2173)))|/r(?|oles/([^/]++)(?|(*:2205)|/(?|edit(*:2222)|assign\\-permission(*:2249)|save\\-assigned\\-permission(*:2284))|(*:2294))|eviews/(?|([^/]++)(?|/(?|approve(*:2336)|unapprove(*:2354))|(*:2364))|bulk(*:2378)))|/users/([^/]++)(?|(*:2407)|/(?|edit(*:2424)|toggle\\-status(*:2447))|(*:2457))|/a(?|ffiliateproduct/([^/]++)(?|/(?|toggle\\-status(*:2517)|edit(*:2530))|(*:2540))|boutcompany/([^/]++)(?|(*:2573)|/edit(*:2587)|(*:2596)))|/Generalsettings/([^/]++)(?|(*:2635)|/edit(*:2649)|(*:2658))|/toggle/([^/]++)(*:2684)|/googletagmanager/([^/]++)(?|(*:2722)|/edit(*:2736)|(*:2745))|/Smsgatewaysetup/([^/]++)(?|(*:2783)|/edit(*:2797)|(*:2806))|/incomplete\\-orders/([^/]++)(?|(*:2847)|/(?|st(?|atus(*:2869)|eadfast\\-send(*:2891))|contacted(*:2910)|recovered(*:2928)|pathao\\-send(*:2949))))/?$}sDu',
     ),
     3 => 
     array (
@@ -6701,7 +6777,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2514 => 
+      2517 => 
       array (
         0 => 
         array (
@@ -6723,7 +6799,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2527 => 
+      2530 => 
       array (
         0 => 
         array (
@@ -6746,7 +6822,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2537 => 
+      2540 => 
       array (
         0 => 
         array (
@@ -6808,7 +6884,95 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2575 => 
+      2573 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.aboutcompany.show',
+          ),
+          1 => 
+          array (
+            0 => 'aboutcompany',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      2587 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.aboutcompany.edit',
+          ),
+          1 => 
+          array (
+            0 => 'aboutcompany',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      2596 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.aboutcompany.update',
+          ),
+          1 => 
+          array (
+            0 => 'aboutcompany',
+          ),
+          2 => 
+          array (
+            'PUT' => 0,
+            'PATCH' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.aboutcompany.destroy',
+          ),
+          1 => 
+          array (
+            0 => 'aboutcompany',
+          ),
+          2 => 
+          array (
+            'DELETE' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      2635 => 
       array (
         0 => 
         array (
@@ -6831,7 +6995,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2589 => 
+      2649 => 
       array (
         0 => 
         array (
@@ -6854,7 +7018,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2598 => 
+      2658 => 
       array (
         0 => 
         array (
@@ -6896,7 +7060,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2624 => 
+      2684 => 
       array (
         0 => 
         array (
@@ -6919,7 +7083,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2662 => 
+      2722 => 
       array (
         0 => 
         array (
@@ -6942,7 +7106,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2676 => 
+      2736 => 
       array (
         0 => 
         array (
@@ -6965,7 +7129,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2685 => 
+      2745 => 
       array (
         0 => 
         array (
@@ -7007,7 +7171,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2723 => 
+      2783 => 
       array (
         0 => 
         array (
@@ -7030,7 +7194,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2737 => 
+      2797 => 
       array (
         0 => 
         array (
@@ -7053,7 +7217,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2746 => 
+      2806 => 
       array (
         0 => 
         array (
@@ -7095,7 +7259,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2787 => 
+      2847 => 
       array (
         0 => 
         array (
@@ -7137,7 +7301,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2809 => 
+      2869 => 
       array (
         0 => 
         array (
@@ -7159,7 +7323,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2831 => 
+      2891 => 
       array (
         0 => 
         array (
@@ -7181,7 +7345,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2850 => 
+      2910 => 
       array (
         0 => 
         array (
@@ -7203,7 +7367,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2868 => 
+      2928 => 
       array (
         0 => 
         array (
@@ -7225,7 +7389,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2889 => 
+      2949 => 
       array (
         0 => 
         array (
@@ -7262,7 +7426,7 @@ app('router')->setCompiledRoutes(
   ),
   'attributes' => 
   array (
-    'generated::ETqmLQpuO32G8m0Y' => 
+    'generated::akVWxbMcq2pVGyAf' => 
     array (
       'methods' => 
       array (
@@ -7290,8 +7454,8 @@ app('router')->setCompiledRoutes(
                     return response(\\Illuminate\\Support\\Facades\\View::file(\'E:\\\\shahzadi-mart\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Foundation\\\\Configuration\'.\'/../resources/health-up.blade.php\', [
                         \'exception\' => $exception,
                     ]), status: $exception ? 500 : 200);
-                }";s:5:"scope";s:54:"Illuminate\\Foundation\\Configuration\\ApplicationBuilder";s:4:"this";N;s:4:"self";s:32:"00000000000007360000000000000000";}}',
-        'as' => 'generated::ETqmLQpuO32G8m0Y',
+                }";s:5:"scope";s:54:"Illuminate\\Foundation\\Configuration\\ApplicationBuilder";s:4:"this";N;s:4:"self";s:32:"000000000000073e0000000000000000";}}',
+        'as' => 'generated::akVWxbMcq2pVGyAf',
       ),
       'fallback' => false,
       'defaults' => 
@@ -7672,7 +7836,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::3WcuAaTuolrUMFNR' => 
+    'generated::UYu7lE2Dj3ADespn' => 
     array (
       'methods' => 
       array (
@@ -7692,7 +7856,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::3WcuAaTuolrUMFNR',
+        'as' => 'generated::UYu7lE2Dj3ADespn',
       ),
       'fallback' => false,
       'defaults' => 
@@ -7767,6 +7931,43 @@ app('router')->setCompiledRoutes(
         array (
         ),
         'as' => 'product.detail',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'about.company' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'about-company',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Frontend\\FrontendController@aboutcompany',
+        'controller' => 'App\\Http\\Controllers\\Frontend\\FrontendController@aboutcompany',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'about.company',
       ),
       'fallback' => false,
       'defaults' => 
@@ -9231,7 +9432,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 'web',
         ),
-        'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:51:"function () { return \\view(\'frontend.bkash_pay\'); }";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000007520000000000000000";}}',
+        'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:51:"function () { return \\view(\'frontend.bkash_pay\'); }";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"000000000000075b0000000000000000";}}',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 
@@ -9400,7 +9601,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::7siLiNBhe5UNfxQG' => 
+    'generated::nZmOs9AZGDO1gphD' => 
     array (
       'methods' => 
       array (
@@ -9420,7 +9621,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::7siLiNBhe5UNfxQG',
+        'as' => 'generated::nZmOs9AZGDO1gphD',
       ),
       'fallback' => false,
       'defaults' => 
@@ -19731,6 +19932,270 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
+    'admin.aboutcompany.index' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'aboutcompany',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.aboutcompany.index',
+        'uses' => 'App\\Http\\Controllers\\Admin\\AboutForCompanyController@index',
+        'controller' => 'App\\Http\\Controllers\\Admin\\AboutForCompanyController@index',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.aboutcompany.create' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'aboutcompany/create',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.aboutcompany.create',
+        'uses' => 'App\\Http\\Controllers\\Admin\\AboutForCompanyController@create',
+        'controller' => 'App\\Http\\Controllers\\Admin\\AboutForCompanyController@create',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.aboutcompany.store' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'aboutcompany',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.aboutcompany.store',
+        'uses' => 'App\\Http\\Controllers\\Admin\\AboutForCompanyController@store',
+        'controller' => 'App\\Http\\Controllers\\Admin\\AboutForCompanyController@store',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.aboutcompany.show' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'aboutcompany/{aboutcompany}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.aboutcompany.show',
+        'uses' => 'App\\Http\\Controllers\\Admin\\AboutForCompanyController@show',
+        'controller' => 'App\\Http\\Controllers\\Admin\\AboutForCompanyController@show',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.aboutcompany.edit' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'aboutcompany/{aboutcompany}/edit',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.aboutcompany.edit',
+        'uses' => 'App\\Http\\Controllers\\Admin\\AboutForCompanyController@edit',
+        'controller' => 'App\\Http\\Controllers\\Admin\\AboutForCompanyController@edit',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.aboutcompany.update' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'PUT',
+        1 => 'PATCH',
+      ),
+      'uri' => 'aboutcompany/{aboutcompany}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.aboutcompany.update',
+        'uses' => 'App\\Http\\Controllers\\Admin\\AboutForCompanyController@update',
+        'controller' => 'App\\Http\\Controllers\\Admin\\AboutForCompanyController@update',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.aboutcompany.destroy' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'DELETE',
+      ),
+      'uri' => 'aboutcompany/{aboutcompany}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.aboutcompany.destroy',
+        'uses' => 'App\\Http\\Controllers\\Admin\\AboutForCompanyController@destroy',
+        'controller' => 'App\\Http\\Controllers\\Admin\\AboutForCompanyController@destroy',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
     'steadfast.webhook' => 
     array (
       'methods' => 
@@ -20447,7 +20912,7 @@ app('router')->setCompiledRoutes(
                         $config,
                         $isProduction
                     ))($request, $path);
-                }";s:5:"scope";s:47:"Illuminate\\Filesystem\\FilesystemServiceProvider";s:4:"this";N;s:4:"self";s:32:"00000000000008970000000000000000";}}',
+                }";s:5:"scope";s:47:"Illuminate\\Filesystem\\FilesystemServiceProvider";s:4:"this";N;s:4:"self";s:32:"00000000000008a70000000000000000";}}',
         'as' => 'storage.local',
       ),
       'fallback' => false,

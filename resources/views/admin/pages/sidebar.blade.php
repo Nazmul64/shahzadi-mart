@@ -668,12 +668,14 @@ body.sb-collapsed .sidebar-submenu { display: none; }
                 <span class="item-text">Subscription Plans</span>
             </span>
         </a>
-        <a href="#" class="sidebar-item">
+        <a href="{{ route('admin.aboutcompany.index') }}" class="sidebar-item">
             <span class="item-left">
                 <i class="bi bi-bicycle nav-icon"></i>
-                <span class="item-text">Riders</span>
+                <span class="item-text">About Company</span>
             </span>
         </a>
+
+
         <a href="{{ route('admin.contactinfomationadmins.index') }}" class="sidebar-item">
             <span class="item-left">
                 <i class="bi bi-wallet2 nav-icon"></i>

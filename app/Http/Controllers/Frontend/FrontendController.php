@@ -17,7 +17,7 @@ use App\Models\Wishlist;
 use App\Models\Slider;
 use App\Models\Tagmanager;
 use App\Models\Contactinfomationadmin;
-
+use App\Models\AboutForCompany;
 use App\Models\Websitefavicon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -514,4 +514,11 @@ class FrontendController extends Controller
             'websetting', 'sidebarCategories', 'campaign'
         ));
     }
+
+    // ─── About Company ───────────────────────────────────────────────────────
+    public function aboutcompany()
+    {
+        $websetting = Generalsetting::first();
+        $aboutcompany = AboutForCompany::latest()->first();
+        return view('frontend.aboutcompany', compact('websetting', 'aboutcompany'));}
 }
