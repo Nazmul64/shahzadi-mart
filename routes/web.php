@@ -58,9 +58,7 @@ use App\Http\Controllers\Frontend\ChatController;
 use App\Http\Controllers\Admin\AdminIncompleteOrderController;
 use App\Http\Controllers\Admin\AdminChatController;
 use App\Http\Controllers\Admin\AboutForCompanyController;
-
-
-
+use App\Http\Controllers\Admin\TremsandcondationsController;
 Auth::routes();
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -69,6 +67,7 @@ Auth::routes();
 Route::get('/',           [FrontendController::class, 'frontend'])->name('frontend');
 Route::get('/product/{slug}', [FrontendController::class, 'productdetails'])->name('product.detail');
 Route::get('/about-company', [FrontendController::class, 'aboutcompany'])->name('about.company');
+Route::get('/terms-and-conditions', [FrontendController::class, 'termsAndConditions'])->name('terms.conditions');
 Route::get('/contactdetails', [FrontendController::class, 'contactDetails'])->name('contact.details');
 Route::get('campaign/manage/{id}', [FrontendController::class, 'campaignManage'])->name('campaign.manage');
 Route::get('orderhistory', [FrontendController::class, 'orderHistory'])->name('order.history');
@@ -396,6 +395,7 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
     // ── Contactinfomationadmin ────────────────────────────────────────────────────────────────
     Route::resource('contactinfomationadmins', ContactinfomationadminController::class);
     Route::resource('aboutcompany', AboutForCompanyController::class);
+    Route::resource('tremsandcondation',TremsandcondationsController::class);
 }); // end admin group
 
 // ── Steadfast Webhook (outside admin auth — public) ───────────────────────────

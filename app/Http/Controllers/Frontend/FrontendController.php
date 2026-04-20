@@ -19,6 +19,7 @@ use App\Models\Tagmanager;
 use App\Models\Contactinfomationadmin;
 use App\Models\AboutForCompany;
 use App\Models\Websitefavicon;
+use App\Models\Tremsandcondation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
@@ -520,5 +521,12 @@ class FrontendController extends Controller
     {
         $websetting = Generalsetting::first();
         $aboutcompany = AboutForCompany::latest()->first();
-        return view('frontend.aboutcompany', compact('websetting', 'aboutcompany'));}
+        return view('frontend.aboutcompany', compact('websetting', 'aboutcompany'));
+     }
+      public function termsAndConditions()
+    {
+        $websetting = Generalsetting::first();
+        $termsAndConditions = Tremsandcondation::latest()->first();
+        return view('frontend.terms-and-conditions', compact('websetting', 'termsAndConditions'));
+     }
 }

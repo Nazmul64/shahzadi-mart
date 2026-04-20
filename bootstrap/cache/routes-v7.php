@@ -13,7 +13,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::akVWxbMcq2pVGyAf',
+            '_route' => 'generated::Y4c9PHRtGPfINNb2',
           ),
           1 => NULL,
           2 => 
@@ -196,7 +196,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::UYu7lE2Dj3ADespn',
+            '_route' => 'generated::Az99foViNW1A2B6G',
           ),
           1 => NULL,
           2 => 
@@ -236,6 +236,26 @@ app('router')->setCompiledRoutes(
           0 => 
           array (
             '_route' => 'about.company',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/terms-and-conditions' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'terms.conditions',
           ),
           1 => NULL,
           2 => 
@@ -860,7 +880,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::nZmOs9AZGDO1gphD',
+            '_route' => 'generated::YjPGxwnr3T4RH74e',
           ),
           1 => NULL,
           2 => 
@@ -3364,6 +3384,62 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
+      '/tremsandcondation' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.tremsandcondation.index',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.tremsandcondation.store',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/tremsandcondation/create' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.tremsandcondation.create',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
       '/webhook/steadfast' => 
       array (
         0 => 
@@ -3736,7 +3812,7 @@ app('router')->setCompiledRoutes(
     ),
     2 => 
     array (
-      0 => '{^(?|/p(?|a(?|ssword/reset/([^/]++)(*:37)|ymentgetewaymanage/([^/]++)(?|(*:74)|/(?|edit(*:89)|toggle\\-status(*:110))|(*:119))|thaocourier/([^/]++)(?|(*:151)|/edit(*:164)|(*:172)))|roduct(?|/([^/]++)(*:200)|s/([^/]++)(?|/(?|toggle\\-(?|status(*:242)|flash\\-sale(*:261)|new\\-arrival(*:281)|bestseller(*:299))|catalog\\-(?|add(*:323)|remove(*:337)|highlight(*:354)|gallery(*:369))|update\\-flash\\-sale(*:397)|edit(*:409))|(*:418)))|ermissions/([^/]++)(?|(*:450)|/edit(*:463)|(*:471))|ixels/([^/]++)(?|(*:497)|/edit(*:510)|(*:518)))|/c(?|a(?|mpaign(?|/manage/([^/]++)(*:562)|create/([^/]++)(?|(*:588)|/edit(*:601)|(*:609)))|tegory/(?|([^/]++)(?|(*:640)|/([^/]++)(?|(*:660)|/([^/]++)(*:677)))|create(*:693)|([^/]++)(?|(*:712)|/(?|edit(*:728)|toggle\\-(?|featured(*:755)|status(*:769)))|(*:779)))|rt/(?|add/([^/]++)(*:807)|remove/([^/]++)(*:830)|increase/([^/]++)(*:855)|decrease/([^/]++)(*:880)))|h(?|eckout/success/([^/]++)(*:917)|ildcategory/([^/]++)(?|(*:948)|/(?|edit(*:964)|toggle\\-(?|featured(*:991)|status(*:1005)))|(*:1016))|at/([^/]++)(?|(*:1040)|/(?|reply(*:1058)|messages(*:1075)|close(*:1089))))|ustomer/([^/]++)(?|(*:1120)|/(?|edit(*:1137)|status(*:1152)|make\\-vendor(*:1173))|(*:1183))|o(?|upons/([^/]++)(?|(*:1214)|/(?|edit(*:1231)|status(*:1246))|(*:1256))|ntact(?|/([^/]++)(?|(*:1286)|/edit(*:1300)|(*:1309))|infomationadmins/([^/]++)(?|(*:1347)|/edit(*:1361)|(*:1370)))))|/order(?|/cancel/([^/]++)(*:1408)|s/(?|([^/]++)(?|(*:1433)|/(?|edit(*:1450)|status(*:1465)|payment\\-status(*:1489))|(*:1499))|bulk\\-send\\-steadfast(*:1530)|([^/]++)/send\\-steadfast(*:1563)|bulk\\-send\\-pathao(*:1590)|([^/]++)/send\\-pathao(*:1620)))|/w(?|ishlist/(?|add/([^/]++)(*:1659)|remove/([^/]++)(*:1683)|move\\-to\\-cart/([^/]++)(*:1715))|ebsitefavicon/([^/]++)(?|(*:1750)|/edit(*:1764)|(*:1773)))|/s(?|eller\\-registrations/([^/]++)/(?|approve(*:1829)|re(?|ject(*:1847)|activate(*:1864))|suspend(*:1881)|view(*:1894))|ubcategory/([^/]++)(?|(*:1926)|/(?|edit(*:1943)|toggle\\-(?|featured(*:1971)|status(*:1986)))|(*:1997))|lider/([^/]++)(?|(*:2024)|/edit(*:2038)|(*:2047))|hipping/([^/]++)(?|/edit(*:2081)|(*:2090))|t(?|eadfastcourier/([^/]++)(?|(*:2130)|/edit(*:2144)|(*:2153))|orage/(.*)(*:2173)))|/r(?|oles/([^/]++)(?|(*:2205)|/(?|edit(*:2222)|assign\\-permission(*:2249)|save\\-assigned\\-permission(*:2284))|(*:2294))|eviews/(?|([^/]++)(?|/(?|approve(*:2336)|unapprove(*:2354))|(*:2364))|bulk(*:2378)))|/users/([^/]++)(?|(*:2407)|/(?|edit(*:2424)|toggle\\-status(*:2447))|(*:2457))|/a(?|ffiliateproduct/([^/]++)(?|/(?|toggle\\-status(*:2517)|edit(*:2530))|(*:2540))|boutcompany/([^/]++)(?|(*:2573)|/edit(*:2587)|(*:2596)))|/Generalsettings/([^/]++)(?|(*:2635)|/edit(*:2649)|(*:2658))|/toggle/([^/]++)(*:2684)|/googletagmanager/([^/]++)(?|(*:2722)|/edit(*:2736)|(*:2745))|/Smsgatewaysetup/([^/]++)(?|(*:2783)|/edit(*:2797)|(*:2806))|/incomplete\\-orders/([^/]++)(?|(*:2847)|/(?|st(?|atus(*:2869)|eadfast\\-send(*:2891))|contacted(*:2910)|recovered(*:2928)|pathao\\-send(*:2949))))/?$}sDu',
+      0 => '{^(?|/p(?|a(?|ssword/reset/([^/]++)(*:37)|ymentgetewaymanage/([^/]++)(?|(*:74)|/(?|edit(*:89)|toggle\\-status(*:110))|(*:119))|thaocourier/([^/]++)(?|(*:151)|/edit(*:164)|(*:172)))|roduct(?|/([^/]++)(*:200)|s/([^/]++)(?|/(?|toggle\\-(?|status(*:242)|flash\\-sale(*:261)|new\\-arrival(*:281)|bestseller(*:299))|catalog\\-(?|add(*:323)|remove(*:337)|highlight(*:354)|gallery(*:369))|update\\-flash\\-sale(*:397)|edit(*:409))|(*:418)))|ermissions/([^/]++)(?|(*:450)|/edit(*:463)|(*:471))|ixels/([^/]++)(?|(*:497)|/edit(*:510)|(*:518)))|/c(?|a(?|mpaign(?|/manage/([^/]++)(*:562)|create/([^/]++)(?|(*:588)|/edit(*:601)|(*:609)))|tegory/(?|([^/]++)(?|(*:640)|/([^/]++)(?|(*:660)|/([^/]++)(*:677)))|create(*:693)|([^/]++)(?|(*:712)|/(?|edit(*:728)|toggle\\-(?|featured(*:755)|status(*:769)))|(*:779)))|rt/(?|add/([^/]++)(*:807)|remove/([^/]++)(*:830)|increase/([^/]++)(*:855)|decrease/([^/]++)(*:880)))|h(?|eckout/success/([^/]++)(*:917)|ildcategory/([^/]++)(?|(*:948)|/(?|edit(*:964)|toggle\\-(?|featured(*:991)|status(*:1005)))|(*:1016))|at/([^/]++)(?|(*:1040)|/(?|reply(*:1058)|messages(*:1075)|close(*:1089))))|ustomer/([^/]++)(?|(*:1120)|/(?|edit(*:1137)|status(*:1152)|make\\-vendor(*:1173))|(*:1183))|o(?|upons/([^/]++)(?|(*:1214)|/(?|edit(*:1231)|status(*:1246))|(*:1256))|ntact(?|/([^/]++)(?|(*:1286)|/edit(*:1300)|(*:1309))|infomationadmins/([^/]++)(?|(*:1347)|/edit(*:1361)|(*:1370)))))|/order(?|/cancel/([^/]++)(*:1408)|s/(?|([^/]++)(?|(*:1433)|/(?|edit(*:1450)|status(*:1465)|payment\\-status(*:1489))|(*:1499))|bulk\\-send\\-steadfast(*:1530)|([^/]++)/send\\-steadfast(*:1563)|bulk\\-send\\-pathao(*:1590)|([^/]++)/send\\-pathao(*:1620)))|/w(?|ishlist/(?|add/([^/]++)(*:1659)|remove/([^/]++)(*:1683)|move\\-to\\-cart/([^/]++)(*:1715))|ebsitefavicon/([^/]++)(?|(*:1750)|/edit(*:1764)|(*:1773)))|/s(?|eller\\-registrations/([^/]++)/(?|approve(*:1829)|re(?|ject(*:1847)|activate(*:1864))|suspend(*:1881)|view(*:1894))|ubcategory/([^/]++)(?|(*:1926)|/(?|edit(*:1943)|toggle\\-(?|featured(*:1971)|status(*:1986)))|(*:1997))|lider/([^/]++)(?|(*:2024)|/edit(*:2038)|(*:2047))|hipping/([^/]++)(?|/edit(*:2081)|(*:2090))|t(?|eadfastcourier/([^/]++)(?|(*:2130)|/edit(*:2144)|(*:2153))|orage/(.*)(*:2173)))|/r(?|oles/([^/]++)(?|(*:2205)|/(?|edit(*:2222)|assign\\-permission(*:2249)|save\\-assigned\\-permission(*:2284))|(*:2294))|eviews/(?|([^/]++)(?|/(?|approve(*:2336)|unapprove(*:2354))|(*:2364))|bulk(*:2378)))|/users/([^/]++)(?|(*:2407)|/(?|edit(*:2424)|toggle\\-status(*:2447))|(*:2457))|/a(?|ffiliateproduct/([^/]++)(?|/(?|toggle\\-status(*:2517)|edit(*:2530))|(*:2540))|boutcompany/([^/]++)(?|(*:2573)|/edit(*:2587)|(*:2596)))|/Generalsettings/([^/]++)(?|(*:2635)|/edit(*:2649)|(*:2658))|/t(?|oggle/([^/]++)(*:2687)|remsandcondation/([^/]++)(?|(*:2724)|/edit(*:2738)|(*:2747)))|/googletagmanager/([^/]++)(?|(*:2787)|/edit(*:2801)|(*:2810))|/Smsgatewaysetup/([^/]++)(?|(*:2848)|/edit(*:2862)|(*:2871))|/incomplete\\-orders/([^/]++)(?|(*:2912)|/(?|st(?|atus(*:2934)|eadfast\\-send(*:2956))|contacted(*:2975)|recovered(*:2993)|pathao\\-send(*:3014))))/?$}sDu',
     ),
     3 => 
     array (
@@ -7060,7 +7136,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2684 => 
+      2687 => 
       array (
         0 => 
         array (
@@ -7083,7 +7159,95 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2722 => 
+      2724 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.tremsandcondation.show',
+          ),
+          1 => 
+          array (
+            0 => 'tremsandcondation',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      2738 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.tremsandcondation.edit',
+          ),
+          1 => 
+          array (
+            0 => 'tremsandcondation',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      2747 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.tremsandcondation.update',
+          ),
+          1 => 
+          array (
+            0 => 'tremsandcondation',
+          ),
+          2 => 
+          array (
+            'PUT' => 0,
+            'PATCH' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.tremsandcondation.destroy',
+          ),
+          1 => 
+          array (
+            0 => 'tremsandcondation',
+          ),
+          2 => 
+          array (
+            'DELETE' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      2787 => 
       array (
         0 => 
         array (
@@ -7106,7 +7270,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2736 => 
+      2801 => 
       array (
         0 => 
         array (
@@ -7129,7 +7293,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2745 => 
+      2810 => 
       array (
         0 => 
         array (
@@ -7171,7 +7335,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2783 => 
+      2848 => 
       array (
         0 => 
         array (
@@ -7194,7 +7358,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2797 => 
+      2862 => 
       array (
         0 => 
         array (
@@ -7217,7 +7381,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2806 => 
+      2871 => 
       array (
         0 => 
         array (
@@ -7259,7 +7423,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2847 => 
+      2912 => 
       array (
         0 => 
         array (
@@ -7301,7 +7465,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2869 => 
+      2934 => 
       array (
         0 => 
         array (
@@ -7323,7 +7487,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2891 => 
+      2956 => 
       array (
         0 => 
         array (
@@ -7345,7 +7509,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2910 => 
+      2975 => 
       array (
         0 => 
         array (
@@ -7367,7 +7531,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2928 => 
+      2993 => 
       array (
         0 => 
         array (
@@ -7389,7 +7553,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2949 => 
+      3014 => 
       array (
         0 => 
         array (
@@ -7426,7 +7590,7 @@ app('router')->setCompiledRoutes(
   ),
   'attributes' => 
   array (
-    'generated::akVWxbMcq2pVGyAf' => 
+    'generated::Y4c9PHRtGPfINNb2' => 
     array (
       'methods' => 
       array (
@@ -7454,8 +7618,8 @@ app('router')->setCompiledRoutes(
                     return response(\\Illuminate\\Support\\Facades\\View::file(\'E:\\\\shahzadi-mart\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Foundation\\\\Configuration\'.\'/../resources/health-up.blade.php\', [
                         \'exception\' => $exception,
                     ]), status: $exception ? 500 : 200);
-                }";s:5:"scope";s:54:"Illuminate\\Foundation\\Configuration\\ApplicationBuilder";s:4:"this";N;s:4:"self";s:32:"000000000000073e0000000000000000";}}',
-        'as' => 'generated::akVWxbMcq2pVGyAf',
+                }";s:5:"scope";s:54:"Illuminate\\Foundation\\Configuration\\ApplicationBuilder";s:4:"this";N;s:4:"self";s:32:"00000000000007460000000000000000";}}',
+        'as' => 'generated::Y4c9PHRtGPfINNb2',
       ),
       'fallback' => false,
       'defaults' => 
@@ -7836,7 +8000,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::UYu7lE2Dj3ADespn' => 
+    'generated::Az99foViNW1A2B6G' => 
     array (
       'methods' => 
       array (
@@ -7856,7 +8020,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::UYu7lE2Dj3ADespn',
+        'as' => 'generated::Az99foViNW1A2B6G',
       ),
       'fallback' => false,
       'defaults' => 
@@ -7968,6 +8132,43 @@ app('router')->setCompiledRoutes(
         array (
         ),
         'as' => 'about.company',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'terms.conditions' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'terms-and-conditions',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Frontend\\FrontendController@termsAndConditions',
+        'controller' => 'App\\Http\\Controllers\\Frontend\\FrontendController@termsAndConditions',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'terms.conditions',
       ),
       'fallback' => false,
       'defaults' => 
@@ -9432,7 +9633,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 'web',
         ),
-        'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:51:"function () { return \\view(\'frontend.bkash_pay\'); }";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"000000000000075b0000000000000000";}}',
+        'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:51:"function () { return \\view(\'frontend.bkash_pay\'); }";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000007640000000000000000";}}',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 
@@ -9601,7 +9802,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::nZmOs9AZGDO1gphD' => 
+    'generated::YjPGxwnr3T4RH74e' => 
     array (
       'methods' => 
       array (
@@ -9621,7 +9822,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::nZmOs9AZGDO1gphD',
+        'as' => 'generated::YjPGxwnr3T4RH74e',
       ),
       'fallback' => false,
       'defaults' => 
@@ -20196,6 +20397,270 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
+    'admin.tremsandcondation.index' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'tremsandcondation',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.tremsandcondation.index',
+        'uses' => 'App\\Http\\Controllers\\Admin\\TremsandcondationsController@index',
+        'controller' => 'App\\Http\\Controllers\\Admin\\TremsandcondationsController@index',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.tremsandcondation.create' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'tremsandcondation/create',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.tremsandcondation.create',
+        'uses' => 'App\\Http\\Controllers\\Admin\\TremsandcondationsController@create',
+        'controller' => 'App\\Http\\Controllers\\Admin\\TremsandcondationsController@create',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.tremsandcondation.store' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'tremsandcondation',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.tremsandcondation.store',
+        'uses' => 'App\\Http\\Controllers\\Admin\\TremsandcondationsController@store',
+        'controller' => 'App\\Http\\Controllers\\Admin\\TremsandcondationsController@store',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.tremsandcondation.show' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'tremsandcondation/{tremsandcondation}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.tremsandcondation.show',
+        'uses' => 'App\\Http\\Controllers\\Admin\\TremsandcondationsController@show',
+        'controller' => 'App\\Http\\Controllers\\Admin\\TremsandcondationsController@show',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.tremsandcondation.edit' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'tremsandcondation/{tremsandcondation}/edit',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.tremsandcondation.edit',
+        'uses' => 'App\\Http\\Controllers\\Admin\\TremsandcondationsController@edit',
+        'controller' => 'App\\Http\\Controllers\\Admin\\TremsandcondationsController@edit',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.tremsandcondation.update' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'PUT',
+        1 => 'PATCH',
+      ),
+      'uri' => 'tremsandcondation/{tremsandcondation}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.tremsandcondation.update',
+        'uses' => 'App\\Http\\Controllers\\Admin\\TremsandcondationsController@update',
+        'controller' => 'App\\Http\\Controllers\\Admin\\TremsandcondationsController@update',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.tremsandcondation.destroy' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'DELETE',
+      ),
+      'uri' => 'tremsandcondation/{tremsandcondation}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.tremsandcondation.destroy',
+        'uses' => 'App\\Http\\Controllers\\Admin\\TremsandcondationsController@destroy',
+        'controller' => 'App\\Http\\Controllers\\Admin\\TremsandcondationsController@destroy',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
     'steadfast.webhook' => 
     array (
       'methods' => 
@@ -20912,7 +21377,7 @@ app('router')->setCompiledRoutes(
                         $config,
                         $isProduction
                     ))($request, $path);
-                }";s:5:"scope";s:47:"Illuminate\\Filesystem\\FilesystemServiceProvider";s:4:"this";N;s:4:"self";s:32:"00000000000008a70000000000000000";}}',
+                }";s:5:"scope";s:47:"Illuminate\\Filesystem\\FilesystemServiceProvider";s:4:"this";N;s:4:"self";s:32:"00000000000008b70000000000000000";}}',
         'as' => 'storage.local',
       ),
       'fallback' => false,

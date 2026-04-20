@@ -662,10 +662,10 @@ body.sb-collapsed .sidebar-submenu { display: none; }
                 <span class="item-text">Vendor Verifications</span>
             </span>
         </a>
-        <a href="#" class="sidebar-item">
+        <a href="{{ route('admin.tremsandcondation.index') }}" class="sidebar-item">
             <span class="item-left">
                 <i class="bi bi-credit-card nav-icon"></i>
-                <span class="item-text">Subscription Plans</span>
+                <span class="item-text">Terms & Conditions</span>
             </span>
         </a>
         <a href="{{ route('admin.aboutcompany.index') }}" class="sidebar-item">
