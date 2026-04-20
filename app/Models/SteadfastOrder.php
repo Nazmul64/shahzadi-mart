@@ -8,6 +8,7 @@ class SteadfastOrder extends Model
 {
     protected $fillable = [
         'order_id',
+        'incomplete_order_id',
         'consignment_id',
         'invoice',
         'tracking_code',
@@ -16,31 +17,47 @@ class SteadfastOrder extends Model
         'status',
         'delivery_charge',
         'tracking_message',
-        'response_message',  // longText — JSON store হবে
+        'response_message',
         'is_sent',
     ];
 
     protected $casts = [
-        'is_sent'          => 'boolean',
-        'cod_amount'       => 'float',
-        'delivery_charge'  => 'float',
+        'is_sent'         => 'boolean',
+        'cod_amount'      => 'float',
+        'delivery_charge' => 'float',
     ];
 
-    // SteadfastOrder → Order
-    public function order()
+    // ─── Relationships ────────────────────────────────────────────
+
+    public function order(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Order::class);
     }
 
-    // response_message থেকে parsed array পাও
+    public function incompleteOrder(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(IncompleteOrder::class);
+    }
+
+    // ─── Accessors ────────────────────────────────────────────────
+
+    /**
+     * response_message (JSON string) থেকে parsed array পাও
+     */
     public function getResponseDataAttribute(): array
     {
-        if (empty($this->response_message)) return [];
+        if (empty($this->response_message)) {
+            return [];
+        }
+
         $decoded = json_decode($this->response_message, true);
+
         return is_array($decoded) ? $decoded : [];
     }
 
-    // Steadfast status থেকে বাংলা label
+    /**
+     * Steadfast status থেকে বাংলা label
+     */
     public function getStatusLabelAttribute(): string
     {
         return match ($this->status) {

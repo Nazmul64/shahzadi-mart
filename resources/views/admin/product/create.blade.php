@@ -57,11 +57,13 @@
     .btn-remove-tag              { background:#dc3545; color:#fff; border:none; border-radius:50%; width:28px; height:28px; font-size:.8rem; cursor:pointer; flex-shrink:0; }
 
     /* ── Variant rows ── */
+    .variant-table-wrap          { display:none; margin-top:10px; } /* ✅ default hidden */
+    .variant-table-wrap.has-rows { display:block; }
     .variant-header              { display:grid; grid-template-columns:1fr 80px 80px 90px 32px; gap:6px; margin-bottom:4px; }
     .variant-header span         { font-size:.75rem; font-weight:600; color:#6c757d; }
     .variant-row                 { display:grid; grid-template-columns:1fr 80px 80px 90px 32px; gap:6px; align-items:center; margin-bottom:8px; }
     .variant-row input[type="color"] { width:100%; height:38px; border:1px solid #ced4da; border-radius:4px; padding:2px; cursor:pointer; }
-    .btn-remove-variant          { background:#dc3545; color:#fff; border:none; border-radius:50%; width:28px; height:28px; font-size:.8rem; cursor:pointer; flex-shrink:0; }
+    .btn-remove-variant          { background:#dc3545; color:#fff; border:none; border-radius:50%; width:28px; height:28px; font-size:.8rem; cursor:pointer; flex-shrink:0; display:flex; align-items:center; justify-content:center; }
 
     /* ── Gallery ── */
     .gallery-preview             { display:flex; flex-wrap:wrap; gap:10px; margin-top:10px; }
@@ -74,6 +76,24 @@
     .seo-section                 { border:1px solid #e0e7ff; border-radius:8px; background:#f8f9ff; padding:16px; margin-top:6px; }
     .seo-toggle-label            { font-size:.9rem; font-weight:600; color:#1a2b6b; cursor:pointer; user-select:none; display:flex; align-items:center; gap:8px; }
     .seo-toggle-label input[type="checkbox"] { width:17px; height:17px; cursor:pointer; accent-color:#1a2b6b; }
+
+    /* ── Variant add btn ── */
+    .btn-add-variant-main {
+        background: none;
+        border: 1px dashed #1a2b6b;
+        color: #1a2b6b;
+        border-radius: 4px;
+        padding: 8px 16px;
+        font-size: .85rem;
+        cursor: pointer;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        transition: background .2s;
+    }
+    .btn-add-variant-main:hover { background: #e8ecf8; }
 </style>
 
 {{-- Page header --}}
@@ -206,22 +226,34 @@
                     </div>
                 </div>
 
-                {{-- Variants --}}
+                {{-- ══ Variants ══
+                     ✅ Default: শুধু "+ Add Variant" বাটন দেখাবে
+                     ✅ বাটন ক্লিক করলে header + row দেখাবে
+                --}}
                 <div class="mb-3">
-                    <label class="form-label-custom">Product Variants <span class="optional-badge">Optional</span></label>
-                    <div class="variant-header">
-                        <span>Size</span><span>Color</span><span>Stock</span><span>Price (USD)</span><span></span>
-                    </div>
-                    <div id="variantContainer">
-                        <div class="variant-row">
-                            <input type="text"   name="variant_size[]"  class="form-control form-control-sm" placeholder="e.g. M / XL">
-                            <input type="color"  name="variant_color[]" value="#000000">
-                            <input type="number" name="variant_stock[]" class="form-control form-control-sm" placeholder="0" min="0" value="0">
-                            <input type="number" name="variant_price[]" class="form-control form-control-sm" placeholder="0.00" step="0.01" min="0">
-                            <button type="button" class="btn-remove-variant" onclick="removeVariantRow(this)">&#10005;</button>
+                    <label class="form-label-custom">
+                        Product Variants <span class="optional-badge">Optional</span>
+                    </label>
+                    <small class="text-muted d-block mb-2" style="font-size:.75rem;">
+                        কোনো variant না থাকলে "+ Add Variant" বাটনে ক্লিক করার দরকার নেই।
+                    </small>
+
+                    {{-- Header + Rows (default: hidden) --}}
+                    <div class="variant-table-wrap" id="variantTableWrap">
+                        <div class="variant-header">
+                            <span>Size / Name</span>
+                            <span>Color</span>
+                            <span>Stock</span>
+                            <span>Price (BDT)</span>
+                            <span></span>
                         </div>
+                        <div id="variantContainer"></div>
                     </div>
-                    <button type="button" class="btn-add-tag mt-1" onclick="addVariantRow()">+ Add Variant</button>
+
+                    {{-- Add Variant button --}}
+                    <button type="button" class="btn-add-variant-main" id="btnAddVariant" onclick="addVariantRow()">
+                        <span style="font-size:1.1rem;line-height:1;">+</span> Add Variant
+                    </button>
                 </div>
 
                 {{-- Description --}}
@@ -266,14 +298,14 @@
             {{-- Pricing & Stock --}}
             <div class="sidebar-card">
                 <div class="mb-3">
-                    <label class="form-label-custom">Product Current Price* <span class="form-label-sub">(In USD)</span></label>
+                    <label class="form-label-custom">Product Current Price* <span class="form-label-sub">(In BDT)</span></label>
                     <input type="number" step="0.01" name="current_price" class="form-control"
-                           placeholder="e.g 20.00" value="{{ old('current_price') }}">
+                           placeholder="e.g 500" value="{{ old('current_price') }}">
                 </div>
                 <div class="mb-3">
                     <label class="form-label-custom">Product Discount Price <span class="form-label-sub">(Optional)</span></label>
                     <input type="number" step="0.01" name="discount_price" class="form-control"
-                           placeholder="e.g 15.00" value="{{ old('discount_price') }}">
+                           placeholder="e.g 450" value="{{ old('discount_price') }}">
                 </div>
                 <div class="mb-3">
                     <div class="d-flex align-items-center justify-content-between mb-1">
@@ -307,9 +339,9 @@
                 </div>
                 <div class="flash-sale-fields" id="flashSaleFields" style="{{ old('is_flash_sale') ? '' : 'display:none;' }}">
                     <div class="mb-3">
-                        <label class="form-label-custom">Flash Sale Price* <span class="form-label-sub">(In USD)</span></label>
+                        <label class="form-label-custom">Flash Sale Price* <span class="form-label-sub">(In BDT)</span></label>
                         <input type="number" step="0.01" name="flash_sale_price" class="form-control"
-                               placeholder="e.g 9.99" value="{{ old('flash_sale_price') }}">
+                               placeholder="e.g 399" value="{{ old('flash_sale_price') }}">
                         <small class="text-muted" style="font-size:.75rem;">This price overrides discount price during the sale</small>
                     </div>
                     <div class="mb-3">
@@ -337,7 +369,7 @@
                     </div>
                 </div>
                 <small class="text-muted d-block mt-2" style="font-size:.75rem;">
-                    Product will appear in the New Arrivals section. Arrival date will be set automatically to now.
+                    Product will appear in the New Arrivals section.
                 </small>
             </div>
 
@@ -382,7 +414,6 @@
     </div>
 </form>
 
-{{-- Scripts --}}
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-bs5.min.js"></script>
@@ -400,7 +431,11 @@ $(document).ready(function () {
     $('#return_policy').summernote({ height: 200 });
 
     // Select2 tag input
-    $('#product_tags').select2({ tags: true, tokenSeparators: [','], placeholder: 'Type and press Enter' });
+    $('#product_tags').select2({
+        tags: true,
+        tokenSeparators: [','],
+        placeholder: 'Type and press Enter'
+    });
 
     // SEO toggle
     $('#allow_seo_checkbox').on('change', function () {
@@ -429,7 +464,9 @@ $(document).ready(function () {
         $.get(URL_SUB, { category_id: catId })
             .done(function (data) {
                 var html = '<option value="">-- Select Sub Category (Optional) --</option>';
-                $.each(data, function (i, r) { html += '<option value="' + r.id + '">' + r.sub_name + '</option>'; });
+                $.each(data, function (i, r) {
+                    html += '<option value="' + r.id + '">' + r.sub_name + '</option>';
+                });
                 $('#product_subcategory').html(html);
                 $('#sub_hint').html(data.length
                     ? '<span style="color:green;">&#10003; ' + data.length + ' sub category found</span>'
@@ -454,7 +491,9 @@ $(document).ready(function () {
         $.get(URL_CHILD, { sub_category_id: subId })
             .done(function (data) {
                 var html = '<option value="">-- Select Child Category (Optional) --</option>';
-                $.each(data, function (i, r) { html += '<option value="' + r.id + '">' + r.child_sub_name + '</option>'; });
+                $.each(data, function (i, r) {
+                    html += '<option value="' + r.id + '">' + r.child_sub_name + '</option>';
+                });
                 $('#product_childcategory').html(html);
                 $('#child_hint').html(data.length
                     ? '<span style="color:green;">&#10003; ' + data.length + ' child category found</span>'
@@ -499,7 +538,7 @@ $(document).ready(function () {
     });
 });
 
-// ── Toggle helpers ────────────────────────────────────────────────
+// ── Toggle helpers ─────────────────────────────────────────────
 function toggleUnlimited(cb) {
     document.getElementById('stock_input').disabled = cb.checked;
     if (cb.checked) document.getElementById('stock_input').value = '';
@@ -509,7 +548,7 @@ function toggleFlashSale(cb) {
     cb.checked ? $('#flashSaleFields').slideDown(250) : $('#flashSaleFields').slideUp(250);
 }
 
-// ── Gallery helpers ───────────────────────────────────────────────
+// ── Gallery helpers ────────────────────────────────────────────
 function renderGallery() {
     var preview = $('#galleryPreview');
     preview.empty();
@@ -547,26 +586,35 @@ function removeGalleryItem(idx) {
     renderGallery();
 }
 
-// ── Variant helpers ───────────────────────────────────────────────
+// ── Variant helpers ────────────────────────────────────────────
+// ✅ প্রথমে table hidden, + Add Variant ক্লিকে row যোগ হয় এবং table দেখা যায়
 function addVariantRow() {
-    $('#variantContainer').append(
-        '<div class="variant-row">' +
-        '<input type="text"   name="variant_size[]"  class="form-control form-control-sm" placeholder="e.g. M / XL">' +
-        '<input type="color"  name="variant_color[]" value="#000000">' +
+    var wrap = document.getElementById('variantTableWrap');
+    wrap.classList.add('has-rows'); // table দেখাও
+
+    var row = document.createElement('div');
+    row.className = 'variant-row';
+    row.innerHTML =
+        '<input type="text"   name="variant_size[]"  class="form-control form-control-sm" placeholder="e.g. M / XL / Red Shirt">' +
+        '<input type="color"  name="variant_color[]" value="#1a2b6b">' +
         '<input type="number" name="variant_stock[]" class="form-control form-control-sm" placeholder="0" min="0" value="0">' +
         '<input type="number" name="variant_price[]" class="form-control form-control-sm" placeholder="0.00" step="0.01" min="0">' +
-        '<button type="button" class="btn-remove-variant" onclick="removeVariantRow(this)">&#10005;</button>' +
-        '</div>'
-    );
+        '<button type="button" class="btn-remove-variant" onclick="removeVariantRow(this)" title="Remove">&#10005;</button>';
+
+    document.getElementById('variantContainer').appendChild(row);
 }
 
 function removeVariantRow(btn) {
-    if ($('#variantContainer .variant-row').length > 1) {
-        $(btn).closest('.variant-row').remove();
+    var container = document.getElementById('variantContainer');
+    btn.closest('.variant-row').remove();
+
+    // সব row চলে গেলে table আবার hide করো
+    if (container.querySelectorAll('.variant-row').length === 0) {
+        document.getElementById('variantTableWrap').classList.remove('has-rows');
     }
 }
 
-// ── Feature tag helpers ───────────────────────────────────────────
+// ── Feature tag helpers ────────────────────────────────────────
 function addTagRow() {
     $('#featureTagsContainer').append(
         '<div class="tag-row">' +

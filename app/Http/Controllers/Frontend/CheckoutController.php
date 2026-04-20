@@ -1,7 +1,7 @@
 <?php
 // ══════════════════════════════════════════════════════════════════════
 // app/Http/Controllers/Frontend/CheckoutController.php
-// COD + bKash Tokenized Checkout + ShurjoPay — সব একসাথে
+// COD + bKash Tokenized + ShurjoPay + Incomplete Order Recovery
 // ══════════════════════════════════════════════════════════════════════
 
 namespace App\Http\Controllers\Frontend;
@@ -9,6 +9,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Bkash;
 use App\Models\Coupon;
+use App\Models\IncompleteOrder;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
@@ -38,7 +39,7 @@ class CheckoutController extends Controller
     }
 
     // ══════════════════════════════════════════════════════════════════
-    //  PLACE ORDER — entry point for all payment methods
+    //  PLACE ORDER — সব payment method এর entry point
     // ══════════════════════════════════════════════════════════════════
 
     public function place(Request $request)
@@ -74,7 +75,7 @@ class CheckoutController extends Controller
         }
         $total = $subtotal - $discount + $deliveryFee;
 
-        // ── Pending order data (gateway সেশনে রাখবে) ──────────────
+        // ── Pending order data ─────────────────────────────────────
         $pending = [
             'customer_name'  => $request->customer_name,
             'phone'          => $request->phone,
@@ -94,13 +95,17 @@ class CheckoutController extends Controller
 
             // ── Cash on Delivery ───────────────────────────────────
             case 'cod':
-                return $this->finalizeOrder($pending, $cartItems, null, 'pending', 'pending');
+                return $this->finalizeOrder(
+                    $pending, $cartItems,
+                    null, 'pending', 'pending'
+                );
 
-            // ── bKash ──────────────────────────────────────────────
+            // ── bKash Tokenized ────────────────────────────────────
             case 'bkash':
                 $bkash = Bkash::first();
                 if (!$bkash || !$bkash->status) {
-                    return redirect()->back()->with('error', 'bKash এখন সক্রিয় নেই। অন্য পদ্ধতি ব্যবহার করুন।');
+                    return redirect()->back()
+                        ->with('error', 'bKash এখন সক্রিয় নেই। অন্য পদ্ধতি ব্যবহার করুন।');
                 }
                 session()->put('pending_order', $pending);
                 return $this->bkashCreatePayment($bkash, $total, $request->phone);
@@ -109,12 +114,13 @@ class CheckoutController extends Controller
             case 'shurjopay':
                 $shurjopay = Shurjopay::first();
                 if (!$shurjopay || !$shurjopay->status) {
-                    return redirect()->back()->with('error', 'ShurjoPay এখন সক্রিয় নেই। অন্য পদ্ধতি ব্যবহার করুন।');
+                    return redirect()->back()
+                        ->with('error', 'ShurjoPay এখন সক্রিয় নেই। অন্য পদ্ধতি ব্যবহার করুন।');
                 }
                 session()->put('pending_order', $pending);
                 return $this->shurjopayInitiate($shurjopay, $pending);
 
-            // ── Others (uddoktapay, aamarpay) — placeholder ────────
+            // ── Others placeholder ─────────────────────────────────
             default:
                 return redirect()->back()
                     ->with('info', $request->payment_method . ' gateway শীঘ্রই চালু হবে। Cash on Delivery ব্যবহার করুন।');
@@ -122,18 +128,21 @@ class CheckoutController extends Controller
     }
 
     // ══════════════════════════════════════════════════════════════════
-    //  FINALIZE ORDER — DB insert (COD + gateway callback উভয়ই ব্যবহার করে)
+    //  FINALIZE ORDER
+    //  COD এবং সব gateway callback উভয়ই এই method ব্যবহার করে।
+    //  অর্ডার সম্পন্ন হলে IncompleteOrder → recovered mark হয়।
     // ══════════════════════════════════════════════════════════════════
 
     private function finalizeOrder(
-        array $pending,
-        array $cartItems,
+        array   $pending,
+        array   $cartItems,
         ?string $transactionId,
-        string $paymentStatus,
-        string $orderStatus
+        string  $paymentStatus,
+        string  $orderStatus
     ) {
         DB::beginTransaction();
         try {
+            // ── Create Order ───────────────────────────────────────
             $order = Order::create([
                 'order_number'   => Order::generateOrderNumber(),
                 'user_id'        => Auth::id(),
@@ -141,7 +150,7 @@ class CheckoutController extends Controller
                 'phone'          => $pending['phone'],
                 'address'        => $pending['address'],
                 'delivery_area'  => $pending['delivery_area'],
-                'note'           => $pending['note'] ?? null,
+                'note'           => $pending['note']           ?? null,
                 'payment_method' => $pending['payment_method'],
                 'payment_status' => $paymentStatus,
                 'transaction_id' => $transactionId,
@@ -150,9 +159,10 @@ class CheckoutController extends Controller
                 'discount'       => $pending['discount'],
                 'delivery_fee'   => $pending['delivery_fee'],
                 'total'          => $pending['total'],
-                'coupon_code'    => $pending['coupon_code'] ?? null,
+                'coupon_code'    => $pending['coupon_code']    ?? null,
             ]);
 
+            // ── Order Items + Stock Decrement ──────────────────────
             foreach ($cartItems as $cartKey => $item) {
                 $productId = $item['product_id'] ?? $cartKey;
                 $unitPrice = ($item['discount_price'] ?? null) ?: $item['price'];
@@ -161,41 +171,52 @@ class CheckoutController extends Controller
                     'order_id'       => $order->id,
                     'product_id'     => $productId,
                     'product_name'   => $item['name'],
-                    'product_image'  => $item['image'] ?? null,
-                    'product_slug'   => $item['slug']  ?? null,
+                    'product_image'  => $item['image']          ?? null,
+                    'product_slug'   => $item['slug']            ?? null,
                     'price'          => $unitPrice,
                     'original_price' => $item['price'],
                     'quantity'       => $item['quantity'],
                     'subtotal'       => $unitPrice * $item['quantity'],
-                    'selected_color' => $item['selected_color'] ?? null,
-                    'selected_size'  => $item['selected_size']  ?? null,
+                    'selected_color' => $item['selected_color']  ?? null,
+                    'selected_size'  => $item['selected_size']   ?? null,
                 ]);
 
-                // Stock decrement
-                $product = Product::find($productId);
-                if ($product && !($product->is_unlimited ?? false) && $product->stock !== null) {
-                    $product->decrement('stock', $item['quantity']);
+                // Stock decrement (unlimited নয় এমন product এ)
+                if ($productId) {
+                    $product = Product::find($productId);
+                    if ($product && !($product->is_unlimited ?? false) && $product->stock !== null) {
+                        $product->decrement('stock', $item['quantity']);
+                    }
                 }
             }
 
-            // Coupon used++
-            $couponId = $pending['coupon_id'] ?? null;
-            if ($couponId) {
-                Coupon::where('id', $couponId)->increment('used');
+            // ── Coupon usage count বাড়ানো ─────────────────────────
+            if (!empty($pending['coupon_id'])) {
+                Coupon::where('id', $pending['coupon_id'])->increment('used');
             }
+
+            // ── Incomplete Order → Recovered ───────────────────────
+            // Phone দেওয়ার পর যে incomplete order সেভ হয়েছিল,
+            // এখন সেটাকে 'recovered' mark করা হচ্ছে।
+            $this->recoverIncompleteOrder($pending['phone']);
 
             DB::commit();
 
         } catch (\Throwable $e) {
             DB::rollBack();
-            Log::error('Order finalize failed: ' . $e->getMessage());
+            Log::error('Order finalize failed: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString(),
+            ]);
+
             $suffix = $transactionId
                 ? ' পেমেন্ট TrxID: ' . $transactionId . ' — support এ যোগাযোগ করুন।'
                 : ' আবার চেষ্টা করুন।';
-            return redirect()->route('checkout')->with('error', 'অর্ডার save করতে সমস্যা হয়েছে।' . $suffix);
+
+            return redirect()->route('checkout')
+                ->with('error', 'অর্ডার save করতে সমস্যা হয়েছে।' . $suffix);
         }
 
-        // Clear all cart + coupon + payment sessions
+        // ── Clear sessions ─────────────────────────────────────────
         session()->forget([
             'cart', 'coupon_code', 'coupon_discount', 'coupon_id',
             'pending_order',
@@ -207,7 +228,44 @@ class CheckoutController extends Controller
             ? 'পেমেন্ট সফল হয়েছে! অর্ডার confirm হয়েছে।'
             : 'আপনার অর্ডার সফলভাবে সম্পন্ন হয়েছে!';
 
-        return redirect()->route('order.success', $order->order_number)->with('success', $msg);
+        return redirect()->route('order.success', $order->order_number)
+            ->with('success', $msg);
+    }
+
+    // ══════════════════════════════════════════════════════════════════
+    //  RECOVER INCOMPLETE ORDER
+    //  session_id অথবা phone দিয়ে match করে recovered mark করে।
+    // ══════════════════════════════════════════════════════════════════
+
+    private function recoverIncompleteOrder(string $phone): void
+    {
+        try {
+            $sessionId = session()->getId();
+
+            // প্রথমে session match করে খোঁজা
+            $updated = IncompleteOrder::where('session_id', $sessionId)
+                ->where('status', 'incomplete')
+                ->update([
+                    'status'           => 'recovered',
+                    'last_activity_at' => now(),
+                ]);
+
+            // session match না হলে phone দিয়ে খোঁজা
+            // (gateway redirect এর পর session বদলে গেলে)
+            if (!$updated) {
+                IncompleteOrder::where('phone', $phone)
+                    ->where('status', 'incomplete')
+                    ->latest()
+                    ->limit(1)
+                    ->update([
+                        'status'           => 'recovered',
+                        'last_activity_at' => now(),
+                    ]);
+            }
+        } catch (\Throwable $e) {
+            // Incomplete order recovery failure অর্ডারকে block করবে না
+            Log::warning('IncompleteOrder recovery failed: ' . $e->getMessage());
+        }
     }
 
     // ══════════════════════════════════════════════════════════════════
@@ -233,12 +291,12 @@ class CheckoutController extends Controller
     //    → bkashCallback() (GET) → execute → finalizeOrder()
     // ══════════════════════════════════════════════════════════════════
 
-    // ── Grant Token ───────────────────────────────────────────────────
+    // ── Step 1: Grant Token ───────────────────────────────────────────
     private function bkashGrantToken(Bkash $cfg): ?string
     {
         $url = rtrim($cfg->base_url, '/') . '/tokenized/checkout/token/grant';
         try {
-            $res  = Http::timeout(30)
+            $res = Http::timeout(30)
                 ->withHeaders([
                     'Content-Type' => 'application/json',
                     'Accept'       => 'application/json',
@@ -249,8 +307,10 @@ class CheckoutController extends Controller
                     'app_key'    => $cfg->app_key,
                     'app_secret' => $cfg->app_secret,
                 ]);
+
             $data = $res->json();
             if (!empty($data['id_token'])) return $data['id_token'];
+
             Log::error('bKash grantToken failed', $data ?? []);
         } catch (\Throwable $e) {
             Log::error('bKash grantToken exception: ' . $e->getMessage());
@@ -258,12 +318,13 @@ class CheckoutController extends Controller
         return null;
     }
 
-    // ── Create Payment → redirect to bKashURL ─────────────────────────
+    // ── Step 2: Create Payment → redirect to bKash URL ───────────────
     private function bkashCreatePayment(Bkash $cfg, float $total, string $phone)
     {
         $token = $this->bkashGrantToken($cfg);
         if (!$token) {
-            return redirect()->route('checkout')->with('error', 'bKash authentication failed. আবার চেষ্টা করুন।');
+            return redirect()->route('checkout')
+                ->with('error', 'bKash authentication failed। আবার চেষ্টা করুন।');
         }
 
         $invoice = 'INV-' . strtoupper(substr(md5(uniqid()), 0, 10));
@@ -271,7 +332,7 @@ class CheckoutController extends Controller
 
         $url = rtrim($cfg->base_url, '/') . '/tokenized/checkout/create';
         try {
-            $res  = Http::timeout(30)
+            $res = Http::timeout(30)
                 ->withHeaders([
                     'Content-Type'  => 'application/json',
                     'Accept'        => 'application/json',
@@ -300,21 +361,24 @@ class CheckoutController extends Controller
 
         } catch (\Throwable $e) {
             Log::error('bKash createPayment exception: ' . $e->getMessage());
-            return redirect()->route('checkout')->with('error', 'সার্ভার সমস্যা। আবার চেষ্টা করুন।');
+            return redirect()->route('checkout')
+                ->with('error', 'সার্ভার সমস্যা। আবার চেষ্টা করুন।');
         }
     }
 
-    // ── bKash Callback — bKash এই URL এ redirect করে ─────────────────
+    // ── Step 3: bKash Callback ────────────────────────────────────────
     public function bkashCallback(Request $request)
     {
         $status    = $request->get('status');
         $paymentID = $request->get('paymentID');
 
         if ($status === 'cancel') {
-            return redirect()->route('checkout')->with('error', 'আপনি bKash পেমেন্ট বাতিল করেছেন।');
+            return redirect()->route('checkout')
+                ->with('error', 'আপনি bKash পেমেন্ট বাতিল করেছেন।');
         }
         if ($status === 'failure' || !$paymentID) {
-            return redirect()->route('checkout')->with('error', 'bKash পেমেন্ট ব্যর্থ হয়েছে। আবার চেষ্টা করুন।');
+            return redirect()->route('checkout')
+                ->with('error', 'bKash পেমেন্ট ব্যর্থ হয়েছে। আবার চেষ্টা করুন।');
         }
 
         $pending = session('pending_order');
@@ -322,13 +386,14 @@ class CheckoutController extends Controller
         $cfg     = Bkash::first();
 
         if (!$pending || !$token || !$cfg) {
-            return redirect()->route('checkout')->with('error', 'Session expired. পুনরায় অর্ডার করুন।');
+            return redirect()->route('checkout')
+                ->with('error', 'Session expired। পুনরায় অর্ডার করুন।');
         }
 
         // ── Execute Payment ────────────────────────────────────────
         $url = rtrim($cfg->base_url, '/') . '/tokenized/checkout/execute';
         try {
-            $res  = Http::timeout(30)
+            $res = Http::timeout(30)
                 ->withHeaders([
                     'Content-Type'  => 'application/json',
                     'Accept'        => 'application/json',
@@ -355,7 +420,8 @@ class CheckoutController extends Controller
 
         } catch (\Throwable $e) {
             Log::error('bKash execute exception: ' . $e->getMessage());
-            return redirect()->route('checkout')->with('error', 'Payment verify করতে সমস্যা হয়েছে।');
+            return redirect()->route('checkout')
+                ->with('error', 'Payment verify করতে সমস্যা হয়েছে।');
         }
     }
 
@@ -369,7 +435,7 @@ class CheckoutController extends Controller
     //    → shurjopayCallback() (GET/POST) → verify → finalizeOrder()
     // ══════════════════════════════════════════════════════════════════
 
-    // ── Get Token ────────────────────────────────────────────────────
+    // ── Step 1: Get Token ─────────────────────────────────────────────
     private function shurjopayGetToken(Shurjopay $cfg): ?array
     {
         $url = rtrim($cfg->base_url, '/') . '/api/get_token';
@@ -380,6 +446,7 @@ class CheckoutController extends Controller
             ]);
             $data = $res->json();
             if (!empty($data['token'])) return $data;
+
             Log::error('ShurjoPay getToken failed', $data ?? []);
         } catch (\Throwable $e) {
             Log::error('ShurjoPay getToken exception: ' . $e->getMessage());
@@ -387,12 +454,13 @@ class CheckoutController extends Controller
         return null;
     }
 
-    // ── Initiate Payment → redirect to ShurjoPay checkout URL ────────
+    // ── Step 2: Initiate → redirect to ShurjoPay checkout URL ────────
     private function shurjopayInitiate(Shurjopay $cfg, array $pending)
     {
         $tokenData = $this->shurjopayGetToken($cfg);
         if (!$tokenData) {
-            return redirect()->route('checkout')->with('error', 'ShurjoPay authentication failed. আবার চেষ্টা করুন।');
+            return redirect()->route('checkout')
+                ->with('error', 'ShurjoPay authentication failed। আবার চেষ্টা করুন।');
         }
 
         $orderId = ($cfg->prefix ?? 'SP') . '-' . strtoupper(substr(md5(uniqid()), 0, 8));
@@ -402,8 +470,8 @@ class CheckoutController extends Controller
             'sp_store_id' => $tokenData['store_id'],
         ]);
 
-        $successUrl  = $cfg->success_url ?: route('shurjopay.callback');
-        $returnUrl   = $cfg->return_url  ?: route('shurjopay.callback');
+        $callbackUrl = $cfg->success_url ?: route('shurjopay.callback');
+        $cancelUrl   = $cfg->return_url  ?: route('shurjopay.callback');
         $executeUrl  = rtrim($cfg->base_url, '/') . '/api/secret-pay';
 
         try {
@@ -414,8 +482,8 @@ class CheckoutController extends Controller
                     'prefix'             => $cfg->prefix ?? 'SP',
                     'token'              => $tokenData['token'],
                     'store_id'           => $tokenData['store_id'],
-                    'return_url'         => $successUrl,
-                    'cancel_url'         => $returnUrl,
+                    'return_url'         => $callbackUrl,
+                    'cancel_url'         => $cancelUrl,
                     'amount'             => number_format((float) $pending['total'], 2, '.', ''),
                     'order_id'           => $orderId,
                     'currency'           => 'BDT',
@@ -439,11 +507,12 @@ class CheckoutController extends Controller
 
         } catch (\Throwable $e) {
             Log::error('ShurjoPay initiate exception: ' . $e->getMessage());
-            return redirect()->route('checkout')->with('error', 'সার্ভার সমস্যা। আবার চেষ্টা করুন।');
+            return redirect()->route('checkout')
+                ->with('error', 'সার্ভার সমস্যা। আবার চেষ্টা করুন।');
         }
     }
 
-    // ── ShurjoPay Callback — ShurjoPay এই URL এ redirect করে ─────────
+    // ── Step 3: ShurjoPay Callback ────────────────────────────────────
     public function shurjopayCallback(Request $request)
     {
         $orderId = $request->get('order_id') ?? session('sp_order_id');
@@ -451,17 +520,19 @@ class CheckoutController extends Controller
         $cfg     = Shurjopay::first();
 
         if (!$orderId || !$pending || !$cfg) {
-            return redirect()->route('checkout')->with('error', 'Payment information পাওয়া যায়নি।');
+            return redirect()->route('checkout')
+                ->with('error', 'Payment information পাওয়া যায়নি।');
         }
 
         $tokenData = $this->shurjopayGetToken($cfg);
         if (!$tokenData) {
-            return redirect()->route('checkout')->with('error', 'Payment verify করা যায়নি (token error)।');
+            return redirect()->route('checkout')
+                ->with('error', 'Payment verify করা যায়নি (token error)।');
         }
 
         $verifyUrl = rtrim($cfg->base_url, '/') . '/api/verification';
         try {
-            $res  = Http::timeout(30)
+            $res = Http::timeout(30)
                 ->withToken($tokenData['token'])
                 ->asForm()
                 ->post($verifyUrl, [
@@ -475,7 +546,10 @@ class CheckoutController extends Controller
 
             // sp_code 1000 = success
             if ($spCode == '1000') {
-                $trxId = $data['bank_trx_id'] ?? ($data['sp_transaction_id'] ?? $orderId);
+                $trxId = $data['bank_trx_id']
+                      ?? $data['sp_transaction_id']
+                      ?? $orderId;
+
                 return $this->finalizeOrder(
                     $pending,
                     session()->get('cart', []),
@@ -487,7 +561,8 @@ class CheckoutController extends Controller
 
             // sp_code 1002 = cancelled
             if ($spCode == '1002') {
-                return redirect()->route('checkout')->with('error', 'ShurjoPay পেমেন্ট বাতিল করা হয়েছে।');
+                return redirect()->route('checkout')
+                    ->with('error', 'ShurjoPay পেমেন্ট বাতিল করা হয়েছে।');
             }
 
             Log::error('ShurjoPay verify failed', $data ?? []);
@@ -496,7 +571,8 @@ class CheckoutController extends Controller
 
         } catch (\Throwable $e) {
             Log::error('ShurjoPay verify exception: ' . $e->getMessage());
-            return redirect()->route('checkout')->with('error', 'Payment verify করতে সমস্যা হয়েছে।');
+            return redirect()->route('checkout')
+                ->with('error', 'Payment verify করতে সমস্যা হয়েছে।');
         }
     }
 }

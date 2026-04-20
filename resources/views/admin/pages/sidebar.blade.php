@@ -1,40 +1,68 @@
 {{-- ============================================================
      SIDEBAR — resources/views/admin/partials/sidebar.blade.php
+     Fully audited & corrected against web.php route names
 ============================================================ --}}
 
 @php
-    $dashActive     = request()->routeIs('admin.dashboard');
-    $ordersActive   = request()->routeIs('admin.orders*') || request()->routeIs('admin.order*');
-    $catsActive     = request()->routeIs('admin.category.*')
-                   || request()->routeIs('admin.subcategory.*')
-                   || request()->routeIs('admin.childcategory.*');
-    $prodsActive    = request()->routeIs('admin.products.*')
-                   || request()->routeIs('admin.product.settings.*');
-    $affActive      = request()->routeIs('admin.affiliateproduct.*');
-    $couponsActive  = request()->routeIs('admin.coupons.*');
-    $custsActive    = request()->routeIs('customer.*');
-    $usersActive    = request()->routeIs('admin.users.*');
-    $vendorsActive  = request()->routeIs('admin.vendors*');
-    $rolesActive    = request()->routeIs('admin.roles.*');
-    $permsActive    = request()->routeIs('admin.permissions.*');
-    $blogsActive    = request()->routeIs('admin.blog*');
-    $sliderActive   = request()->routeIs('admin.slider.*');
-    $reviewsActive  = request()->routeIs('admin.reviews.*');
-    $settingsActive = request()->routeIs('admin.Generalsettings.*')
-                   || request()->routeIs('admin.websitefavicon.*')
-                   || request()->routeIs('admin.contact.*')
-                   || request()->routeIs('admin.pixels.*')
-                   || request()->routeIs('admin.googletagmanager.*')
-                   || request()->routeIs('admin.campaigncreate.*')
-                   || request()->routeIs('admin.shipping.*')
-                   || $reviewsActive;
-    $apiActive      = request()->routeIs('admin.paymentgetewaymanage.*')
-                   || request()->routeIs('admin.steadfastcourier.*')
-                   || request()->routeIs('admin.pathaocourier.*')
-                   || request()->routeIs('admin.Smsgatewaysetup.*');
+    $dashActive       = request()->routeIs('admin.dashboard');
+
+    $ordersActive     = request()->routeIs('admin.order.*')
+                     || request()->routeIs('admin.orders.*');
+
+    $catsActive       = request()->routeIs('admin.category.*')
+                     || request()->routeIs('admin.subcategory.*')
+                     || request()->routeIs('admin.childcategory.*');
+
+    $prodsActive      = request()->routeIs('admin.products.*')
+                     || request()->routeIs('admin.product.settings.*');
+
+    $affActive        = request()->routeIs('admin.affiliateproduct.*');
+
+    $couponsActive    = request()->routeIs('admin.coupons.*');
+
+    $custsActive      = request()->routeIs('customer.*');
+
+    $usersActive      = request()->routeIs('admin.users.*');
+
+    $vendorsActive    = request()->routeIs('admin.vendors.*');
+
+    $rolesActive      = request()->routeIs('admin.roles.*');
+
+    $permsActive      = request()->routeIs('admin.permissions.*');
+
+    $blogsActive      = request()->routeIs('admin.blog*');
+
+    $sliderActive     = request()->routeIs('admin.slider.*');
+
+    $reviewsActive    = request()->routeIs('admin.reviews.*');
+
+    // incomplete-orders — full name: admin.incomplete-orders.*
+    $incompleteActive = request()->routeIs('admin.incomplete-orders.*');
+
+    $campaignActive   = request()->routeIs('admin.campaigncreate.*');
+
+    $shippingActive   = request()->routeIs('admin.shipping.*');
+
+    $settingsActive   = request()->routeIs('admin.Generalsettings.*')
+                     || request()->routeIs('admin.websitefavicon.*')
+                     || request()->routeIs('admin.contact.*')
+                     || request()->routeIs('admin.pixels.*')
+                     || request()->routeIs('admin.googletagmanager.*')
+                     || $campaignActive
+                     || $shippingActive
+                     || $reviewsActive;
+
+    $apiActive        = request()->routeIs('admin.paymentgetewaymanage.*')
+                     || request()->routeIs('admin.steadfastcourier.*')
+                     || request()->routeIs('admin.pathaocourier.*')
+                     || request()->routeIs('admin.Smsgatewaysetup.*')
+                     || request()->routeIs('admin.payment.*');
 @endphp
 
 <style>
+/* ══════════════════════════════════════════════════════════════════
+   SIDEBAR VARIABLES & RESET
+══════════════════════════════════════════════════════════════════ */
 :root {
     --sb-width       : 260px;
     --sb-collapsed-w : 68px;
@@ -53,6 +81,10 @@
     --sb-sub-bg      : rgba(0,0,0,.18);
     --sb-ease        : 240ms cubic-bezier(.4,0,.2,1);
 }
+
+/* ══════════════════════════════════════════════════════════════════
+   SIDEBAR SHELL
+══════════════════════════════════════════════════════════════════ */
 #sidebar {
     position       : fixed;
     top: 0; left: 0; bottom: 0;
@@ -67,10 +99,15 @@
     box-shadow     : 4px 0 24px rgba(0,0,0,.28);
 }
 body.sb-collapsed #sidebar { width: var(--sb-collapsed-w); }
+
 @media (max-width: 991px) {
     #sidebar { transform: translateX(-100%); width: var(--sb-width); box-shadow: none; }
     body.sb-open #sidebar { transform: translateX(0); box-shadow: 4px 0 32px rgba(0,0,0,.45); }
 }
+
+/* ══════════════════════════════════════════════════════════════════
+   MAIN CONTENT PUSH
+══════════════════════════════════════════════════════════════════ */
 #main-content {
     margin-left : var(--sb-width);
     transition  : margin-left var(--sb-ease);
@@ -80,6 +117,10 @@ body.sb-collapsed #sidebar { width: var(--sb-collapsed-w); }
 body.sb-collapsed #main-content { margin-left: var(--sb-collapsed-w); }
 @media (max-width: 991px) { #main-content { margin-left: 0 !important; } }
 .page-wrapper { width: 100%; padding: 20px 24px; box-sizing: border-box; }
+
+/* ══════════════════════════════════════════════════════════════════
+   OVERLAY (mobile)
+══════════════════════════════════════════════════════════════════ */
 .sb-overlay {
     display    : none;
     position   : fixed;
@@ -90,7 +131,9 @@ body.sb-collapsed #main-content { margin-left: var(--sb-collapsed-w); }
 }
 body.sb-open .sb-overlay { display: block; }
 
-/* ── Brand ── */
+/* ══════════════════════════════════════════════════════════════════
+   BRAND
+══════════════════════════════════════════════════════════════════ */
 .sidebar-brand {
     height         : var(--sb-brand-h);
     display        : flex;
@@ -138,7 +181,9 @@ body.sb-open .sb-overlay { display: block; }
 body.sb-collapsed .sb-brand-text,
 body.sb-collapsed .sidebar-section-label { display: none; }
 
-/* ── Nav ── */
+/* ══════════════════════════════════════════════════════════════════
+   SCROLLABLE NAV
+══════════════════════════════════════════════════════════════════ */
 .sidebar-nav {
     flex           : 1;
     overflow-y     : auto;
@@ -151,6 +196,9 @@ body.sb-collapsed .sidebar-section-label { display: none; }
 .sidebar-nav::-webkit-scrollbar-track { background: transparent; }
 .sidebar-nav::-webkit-scrollbar-thumb { background: rgba(255,255,255,.1); border-radius: 4px; }
 
+/* ══════════════════════════════════════════════════════════════════
+   SECTION LABELS
+══════════════════════════════════════════════════════════════════ */
 .sidebar-section-label {
     font-size     : 10px;
     font-weight   : 700;
@@ -162,7 +210,9 @@ body.sb-collapsed .sidebar-section-label { display: none; }
     overflow      : hidden;
 }
 
-/* ── Items ── */
+/* ══════════════════════════════════════════════════════════════════
+   NAV ITEMS
+══════════════════════════════════════════════════════════════════ */
 .sidebar-item {
     display        : flex;
     align-items    : center;
@@ -226,7 +276,9 @@ body.sb-collapsed .item-text { opacity: 0; width: 0; pointer-events: none; }
 body.sb-collapsed .arrow          { opacity: 0; }
 .sidebar-item.open .arrow         { transform: rotate(90deg); color: var(--sb-active-text); }
 
-/* ── Submenu ── */
+/* ══════════════════════════════════════════════════════════════════
+   SUBMENUS
+══════════════════════════════════════════════════════════════════ */
 .sidebar-submenu {
     max-height   : 0;
     overflow     : hidden;
@@ -259,10 +311,14 @@ body.sb-collapsed .sidebar-submenu { display: none; }
 .sidebar-submenu a.active     { color: var(--sb-active-text); }
 .sidebar-submenu a.active i   { color: var(--sb-active-text); }
 
-/* ── Separator ── */
+/* ══════════════════════════════════════════════════════════════════
+   SEPARATOR
+══════════════════════════════════════════════════════════════════ */
 .sb-sep { height: 1px; background: var(--sb-border); margin: 8px 16px; }
 
-/* ── Logout ── */
+/* ══════════════════════════════════════════════════════════════════
+   LOGOUT
+══════════════════════════════════════════════════════════════════ */
 .sb-logout-form { padding: 6px 8px 8px; }
 .sb-logout-btn {
     display      : flex;
@@ -286,7 +342,9 @@ body.sb-collapsed .sidebar-submenu { display: none; }
 .sb-logout-btn:hover { background: rgba(239,68,68,.18); color: #fecaca; }
 .sb-logout-btn i     { font-size: 16px; flex-shrink: 0; }
 
-/* ── Tooltip (collapsed mode) ── */
+/* ══════════════════════════════════════════════════════════════════
+   TOOLTIP (collapsed mode)
+══════════════════════════════════════════════════════════════════ */
 .sb-tooltip {
     position      : fixed;
     background    : #1e293b;
@@ -305,7 +363,7 @@ body.sb-collapsed .sidebar-submenu { display: none; }
 
 <aside id="sidebar">
 
-    {{-- ══ Brand ══ --}}
+    {{-- ══ BRAND ══ --}}
     <a href="{{ route('admin.dashboard') }}" class="sidebar-brand">
         <div class="sb-logo-icon"><i class="bi bi-shop"></i></div>
         <div class="sb-brand-text">
@@ -316,7 +374,7 @@ body.sb-collapsed .sidebar-submenu { display: none; }
 
     <nav class="sidebar-nav">
 
-        {{-- ════════════════ MAIN ════════════════ --}}
+        {{-- ════ MAIN ════ --}}
         <div class="sidebar-section-label">Main</div>
 
         <a href="{{ route('admin.dashboard') }}"
@@ -327,7 +385,7 @@ body.sb-collapsed .sidebar-submenu { display: none; }
             </span>
         </a>
 
-        {{-- ════════════════ E-COMMERCE ════════════════ --}}
+        {{-- ════ E-COMMERCE ════ --}}
         <div class="sb-sep"></div>
         <div class="sidebar-section-label">E-Commerce</div>
 
@@ -359,6 +417,7 @@ body.sb-collapsed .sidebar-submenu { display: none; }
             <i class="bi bi-chevron-right arrow"></i>
         </div>
         <div class="sidebar-submenu {{ $ordersActive ? 'open' : '' }}">
+            {{-- route: admin.order.allorder --}}
             <a href="{{ route('admin.order.allorder') }}"
                class="{{ request()->routeIs('admin.order.allorder') && !request()->filled('status') ? 'active' : '' }}">
                 <i class="bi bi-list-ul"></i> All Orders
@@ -383,11 +442,22 @@ body.sb-collapsed .sidebar-submenu { display: none; }
                class="{{ request()->routeIs('admin.order.allorder') && request('status') === 'cancelled' ? 'active' : '' }}">
                 <i class="bi bi-x-circle"></i> Cancelled
             </a>
+            {{-- route: admin.order.create --}}
             <a href="{{ route('admin.order.create') }}"
                class="{{ request()->routeIs('admin.order.create') ? 'active' : '' }}">
                 <i class="bi bi-plus-circle"></i> Create Order
             </a>
         </div>
+
+        {{-- Incomplete Orders — direct link (no submenu) --}}
+        {{-- route: admin.incomplete-orders.index --}}
+        <a href="{{ route('admin.incomplete-orders.index') }}"
+           class="sidebar-item {{ $incompleteActive ? 'active' : '' }}">
+            <span class="item-left">
+                <i class="bi bi-cart-x nav-icon"></i>
+                <span class="item-text">Incomplete Orders</span>
+            </span>
+        </a>
 
         {{-- Categories --}}
         <div class="sidebar-item {{ $catsActive ? 'active open' : '' }}" onclick="sbToggle(this)">
@@ -449,8 +519,9 @@ body.sb-collapsed .sidebar-submenu { display: none; }
                class="{{ request()->routeIs('admin.products.catalog') ? 'active' : '' }}">
                 <i class="bi bi-journal-text"></i> Catalog
             </a>
+            {{-- route: admin.product.settings.index --}}
             <a href="{{ route('admin.product.settings.index') }}"
-               class="{{ request()->routeIs('admin.product.settings.index') ? 'active' : '' }}">
+               class="{{ request()->routeIs('admin.product.settings.*') ? 'active' : '' }}">
                 <i class="bi bi-gear"></i> Product Settings
             </a>
         </div>
@@ -472,10 +543,9 @@ body.sb-collapsed .sidebar-submenu { display: none; }
                class="{{ request()->routeIs('admin.affiliateproduct.create') ? 'active' : '' }}">
                 <i class="bi bi-plus-circle"></i> Add Affiliate Product
             </a>
-            <a href="#"><i class="bi bi-x-circle"></i> Deactivated</a>
         </div>
 
-        {{-- Bulk Upload --}}
+        {{-- Bulk Upload (placeholder) --}}
         <a href="#" class="sidebar-item">
             <span class="item-left">
                 <i class="bi bi-cloud-upload nav-icon"></i>
@@ -511,6 +581,7 @@ body.sb-collapsed .sidebar-submenu { display: none; }
             <i class="bi bi-chevron-right arrow"></i>
         </div>
         <div class="sidebar-submenu {{ $custsActive ? 'open' : '' }}">
+            {{-- route: customer.index (outside admin group) --}}
             <a href="{{ route('customer.index') }}"
                class="{{ request()->routeIs('customer.index') ? 'active' : '' }}">
                 <i class="bi bi-list-ul"></i> All Customers
@@ -521,23 +592,19 @@ body.sb-collapsed .sidebar-submenu { display: none; }
             </a>
         </div>
 
-        {{-- Product Discussion --}}
+        {{-- Placeholders --}}
         <a href="#" class="sidebar-item">
             <span class="item-left">
                 <i class="bi bi-chat-text nav-icon"></i>
                 <span class="item-text">Product Discussion</span>
             </span>
         </a>
-
-        {{-- Total Earning --}}
         <a href="#" class="sidebar-item">
             <span class="item-left">
                 <i class="bi bi-cash-coin nav-icon"></i>
                 <span class="item-text">Total Earning</span>
             </span>
         </a>
-
-        {{-- Manage Country --}}
         <a href="#" class="sidebar-item">
             <span class="item-left">
                 <i class="bi bi-globe nav-icon"></i>
@@ -545,7 +612,7 @@ body.sb-collapsed .sidebar-submenu { display: none; }
             </span>
         </a>
 
-        {{-- ════════════════ USER MANAGEMENT ════════════════ --}}
+        {{-- ════ USER MANAGEMENT ════ --}}
         <div class="sb-sep"></div>
         <div class="sidebar-section-label">User Management</div>
 
@@ -558,6 +625,7 @@ body.sb-collapsed .sidebar-submenu { display: none; }
             <i class="bi bi-chevron-right arrow"></i>
         </div>
         <div class="sidebar-submenu {{ $usersActive ? 'open' : '' }}">
+            {{-- route: admin.users.index --}}
             <a href="{{ route('admin.users.index') }}"
                class="{{ request()->routeIs('admin.users.index') ? 'active' : '' }}">
                 <i class="bi bi-list-ul"></i> All Users
@@ -568,7 +636,7 @@ body.sb-collapsed .sidebar-submenu { display: none; }
             </a>
         </div>
 
-        {{-- Vendors --}}
+        {{-- Vendors (placeholder) --}}
         <div class="sidebar-item {{ $vendorsActive ? 'active open' : '' }}" onclick="sbToggle(this)">
             <span class="item-left">
                 <i class="bi bi-shop nav-icon"></i>
@@ -581,55 +649,37 @@ body.sb-collapsed .sidebar-submenu { display: none; }
             <a href="#"><i class="bi bi-plus-circle"></i> Add Vendor</a>
         </div>
 
-        {{-- Vendor Subscriptions --}}
+        {{-- Placeholders --}}
         <a href="#" class="sidebar-item">
             <span class="item-left">
                 <i class="bi bi-star nav-icon"></i>
                 <span class="item-text">Vendor Subscriptions</span>
             </span>
         </a>
-
-        {{-- Vendor Verifications --}}
         <a href="#" class="sidebar-item">
             <span class="item-left">
                 <i class="bi bi-shield-check nav-icon"></i>
                 <span class="item-text">Vendor Verifications</span>
             </span>
         </a>
-
-        {{-- Subscription Plans --}}
         <a href="#" class="sidebar-item">
             <span class="item-left">
                 <i class="bi bi-credit-card nav-icon"></i>
                 <span class="item-text">Subscription Plans</span>
             </span>
         </a>
-
-        {{-- Riders --}}
         <a href="#" class="sidebar-item">
             <span class="item-left">
                 <i class="bi bi-bicycle nav-icon"></i>
                 <span class="item-text">Riders</span>
             </span>
         </a>
-
-        {{-- Customer Deposits --}}
         <a href="#" class="sidebar-item">
             <span class="item-left">
                 <i class="bi bi-wallet2 nav-icon"></i>
                 <span class="item-text">Customer Deposits</span>
             </span>
         </a>
-
-        {{-- Subscribers --}}
-        <a href="#" class="sidebar-item">
-            <span class="item-left">
-                <i class="bi bi-people-fill nav-icon"></i>
-                <span class="item-text">Subscribers</span>
-            </span>
-        </a>
-
-        {{-- Messages --}}
         <a href="#" class="sidebar-item">
             <span class="item-left">
                 <i class="bi bi-chat-dots nav-icon"></i>
@@ -637,7 +687,7 @@ body.sb-collapsed .sidebar-submenu { display: none; }
             </span>
         </a>
 
-        {{-- ════════════════ ACCESS CONTROL ════════════════ --}}
+        {{-- ════ ACCESS CONTROL ════ --}}
         <div class="sb-sep"></div>
         <div class="sidebar-section-label">Access Control</div>
 
@@ -650,6 +700,7 @@ body.sb-collapsed .sidebar-submenu { display: none; }
             <i class="bi bi-chevron-right arrow"></i>
         </div>
         <div class="sidebar-submenu {{ $rolesActive ? 'open' : '' }}">
+            {{-- route: admin.roles.index --}}
             <a href="{{ route('admin.roles.index') }}"
                class="{{ request()->routeIs('admin.roles.index') ? 'active' : '' }}">
                 <i class="bi bi-list-ul"></i> All Roles
@@ -669,6 +720,7 @@ body.sb-collapsed .sidebar-submenu { display: none; }
             <i class="bi bi-chevron-right arrow"></i>
         </div>
         <div class="sidebar-submenu {{ $permsActive ? 'open' : '' }}">
+            {{-- route: admin.permissions.index --}}
             <a href="{{ route('admin.permissions.index') }}"
                class="{{ request()->routeIs('admin.permissions.index') ? 'active' : '' }}">
                 <i class="bi bi-list-ul"></i> All Permissions
@@ -679,7 +731,6 @@ body.sb-collapsed .sidebar-submenu { display: none; }
             </a>
         </div>
 
-        {{-- Manage Staffs --}}
         <a href="#" class="sidebar-item">
             <span class="item-left">
                 <i class="bi bi-person-workspace nav-icon"></i>
@@ -687,11 +738,11 @@ body.sb-collapsed .sidebar-submenu { display: none; }
             </span>
         </a>
 
-        {{-- ════════════════ SETTINGS ════════════════ --}}
+        {{-- ════ SETTINGS ════ --}}
         <div class="sb-sep"></div>
         <div class="sidebar-section-label">Settings</div>
 
-        {{-- Blog --}}
+        {{-- Blog (placeholder) --}}
         <div class="sidebar-item {{ $blogsActive ? 'active open' : '' }}" onclick="sbToggle(this)">
             <span class="item-left">
                 <i class="bi bi-pencil-square nav-icon"></i>
@@ -713,41 +764,42 @@ body.sb-collapsed .sidebar-submenu { display: none; }
             <i class="bi bi-chevron-right arrow"></i>
         </div>
         <div class="sidebar-submenu {{ $settingsActive ? 'open' : '' }}">
+            {{-- route: admin.Generalsettings.index --}}
             <a href="{{ route('admin.Generalsettings.index') }}"
                class="{{ request()->routeIs('admin.Generalsettings.*') ? 'active' : '' }}">
                 <i class="bi bi-image"></i> Logo Settings
             </a>
+            {{-- route: admin.contact.index --}}
             <a href="{{ route('admin.contact.index') }}"
                class="{{ request()->routeIs('admin.contact.*') ? 'active' : '' }}">
                 <i class="bi bi-telephone"></i> Contact Settings
             </a>
+            {{-- route: admin.pixels.index --}}
             <a href="{{ route('admin.pixels.index') }}"
                class="{{ request()->routeIs('admin.pixels.*') ? 'active' : '' }}">
                 <i class="bi bi-code-square"></i> Pixels Settings
             </a>
+            {{-- route: admin.googletagmanager.index --}}
             <a href="{{ route('admin.googletagmanager.index') }}"
                class="{{ request()->routeIs('admin.googletagmanager.*') ? 'active' : '' }}">
                 <i class="bi bi-google"></i> Google Tag Manager
             </a>
+            {{-- route: admin.websitefavicon.index --}}
             <a href="{{ route('admin.websitefavicon.index') }}"
                class="{{ request()->routeIs('admin.websitefavicon.*') ? 'active' : '' }}">
                 <i class="bi bi-layout-text-sidebar"></i> Website Favicon
             </a>
+            {{-- route: admin.campaigncreate.index --}}
             <a href="{{ route('admin.campaigncreate.index') }}"
                class="{{ request()->routeIs('admin.campaigncreate.*') ? 'active' : '' }}">
                 <i class="bi bi-megaphone"></i> Campaign Create
             </a>
-
-            {{-- ★ Product Reviews — FIXED ROUTE ★ --}}
-            <a href="{{ route('admin.admin.reviews.index') }}"
-               class="{{ request()->routeIs('admin.admin.reviews.*') ? 'active' : '' }}">
+            {{-- route: admin.reviews.index  ✅ FIXED (was admin.admin.reviews.index) --}}
+            <a href="{{ route('admin.reviews.index') }}"
+               class="{{ request()->routeIs('admin.reviews.*') ? 'active' : '' }}">
                 <i class="bi bi-star-half"></i> Product Reviews
             </a>
-
-            <a href="{{ route('admin.campaigncreate.index') }}"
-               class="{{ request()->routeIs('admin.campaigncreate.*') ? 'active' : '' }}">
-                <i class="bi bi-envelope"></i> Email Settings
-            </a>
+            {{-- route: admin.shipping.index --}}
             <a href="{{ route('admin.shipping.index') }}"
                class="{{ request()->routeIs('admin.shipping.*') ? 'active' : '' }}">
                 <i class="bi bi-cash-stack"></i> Shipping Charge
@@ -761,42 +813,46 @@ body.sb-collapsed .sidebar-submenu { display: none; }
         {{-- API Integration --}}
         <div class="sidebar-item {{ $apiActive ? 'active open' : '' }}" onclick="sbToggle(this)">
             <span class="item-left">
-                <i class="bi bi-key nav-icon"></i>
+                <i class="bi bi-plug nav-icon"></i>
                 <span class="item-text">API Integration</span>
             </span>
             <i class="bi bi-chevron-right arrow"></i>
         </div>
         <div class="sidebar-submenu {{ $apiActive ? 'open' : '' }}">
+            {{-- route: admin.paymentgetewaymanage.index --}}
             <a href="{{ route('admin.paymentgetewaymanage.index') }}"
                class="{{ request()->routeIs('admin.paymentgetewaymanage.index') ? 'active' : '' }}">
-                <i class="bi bi-list-ul"></i> All Integration
+                <i class="bi bi-list-ul"></i> All Integrations
             </a>
             <a href="{{ route('admin.paymentgetewaymanage.create') }}"
                class="{{ request()->routeIs('admin.paymentgetewaymanage.create') ? 'active' : '' }}">
                 <i class="bi bi-plus-circle"></i> Create Integration
             </a>
+            {{-- route: admin.steadfastcourier.create --}}
             <a href="{{ route('admin.steadfastcourier.create') }}"
-               class="{{ request()->routeIs('admin.steadfastcourier.create') ? 'active' : '' }}">
-                <i class="bi bi-plus-circle"></i> Steadfast Courier
+               class="{{ request()->routeIs('admin.steadfastcourier.*') ? 'active' : '' }}">
+                <i class="bi bi-truck"></i> Steadfast Courier
             </a>
+            {{-- route: admin.pathaocourier.create --}}
             <a href="{{ route('admin.pathaocourier.create') }}"
-               class="{{ request()->routeIs('admin.pathaocourier.create') ? 'active' : '' }}">
-                <i class="bi bi-plus-circle"></i> Pathao Courier
+               class="{{ request()->routeIs('admin.pathaocourier.*') ? 'active' : '' }}">
+                <i class="bi bi-bicycle"></i> Pathao Courier
             </a>
+            {{-- route: admin.Smsgatewaysetup.create --}}
             <a href="{{ route('admin.Smsgatewaysetup.create') }}"
-               class="{{ request()->routeIs('admin.Smsgatewaysetup.create') ? 'active' : '' }}">
-                <i class="bi bi-plus-circle"></i> SMS Gateway Setup
+               class="{{ request()->routeIs('admin.Smsgatewaysetup.*') ? 'active' : '' }}">
+                <i class="bi bi-chat-square-dots"></i> SMS Gateway
             </a>
+            {{-- route: admin.payment.index --}}
             <a href="{{ route('admin.payment.index') }}"
-               class="{{ request()->routeIs('admin.payment.index') ? 'active' : '' }}">
-                <i class="bi bi-plus-circle"></i> payment-settings
+               class="{{ request()->routeIs('admin.payment.*') ? 'active' : '' }}">
+                <i class="bi bi-credit-card-2-front"></i> Payment Settings
             </a>
-
         </div>
 
     </nav>
 
-    {{-- ══ Logout ══ --}}
+    {{-- ══ LOGOUT ══ --}}
     <div class="sb-sep" style="margin:0;"></div>
     <form method="POST" action="{{ route('admin.logout') }}" class="sb-logout-form">
         @csrf
@@ -830,18 +886,22 @@ body.sb-collapsed .sidebar-submenu { display: none; }
         var sub = trigger.nextElementSibling;
         if (!sub || !sub.classList.contains('sidebar-submenu')) return;
         var isOpen = sub.classList.contains('open');
+
+        // Close all open submenus
         document.querySelectorAll('.sidebar-submenu.open').forEach(function (s) {
             s.classList.remove('open');
             var prev = s.previousElementSibling;
             if (prev) prev.classList.remove('open');
         });
+
+        // Open clicked if it was closed
         if (!isOpen) {
             sub.classList.add('open');
             trigger.classList.add('open');
         }
     };
 
-    // Auto-open active submenu on page load
+    // Auto-open active submenu on load
     document.querySelectorAll('.sidebar-submenu').forEach(function (sub) {
         if (sub.querySelector('a.active')) {
             sub.classList.add('open');
@@ -850,12 +910,12 @@ body.sb-collapsed .sidebar-submenu { display: none; }
         }
     });
 
-    // Keyboard ESC closes sidebar
+    // ESC closes mobile sidebar
     document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') window.sbClose();
     });
 
-    // Touch swipe to close
+    // Touch swipe-left to close
     var startX = 0;
     var sb = document.getElementById('sidebar');
     if (sb) {
@@ -867,7 +927,7 @@ body.sb-collapsed .sidebar-submenu { display: none; }
         }, { passive: true });
     }
 
-    // Tooltip in collapsed mode
+    // Tooltip on collapsed mode
     document.querySelectorAll('#sidebar .sidebar-item').forEach(function (el) {
         var textEl = el.querySelector('.item-text');
         if (!textEl) return;
