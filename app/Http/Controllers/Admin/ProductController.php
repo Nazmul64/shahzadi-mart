@@ -14,6 +14,61 @@ use Illuminate\Support\Carbon;
 class ProductController extends Controller
 {
     // ══════════════════════════════════════════════════════════════
+    //  ALLOWED IMAGE MIMES & EXTENSIONS
+    // ══════════════════════════════════════════════════════════════
+
+    private array $allowedImageMimes = [
+        'jpg', 'jpeg', 'png', 'webp', 'gif', 'svg',
+    ];
+
+    private array $allowedImageMimeTypes = [
+        'image/jpeg',
+        'image/png',
+        'image/webp',
+        'image/gif',
+        'image/svg+xml',
+    ];
+
+    // ══════════════════════════════════════════════════════════════
+    //  HELPER — Upload a single image file
+    // ══════════════════════════════════════════════════════════════
+
+    private function uploadImage($file, string $folder = 'uploads/products'): string
+    {
+        $ext      = strtolower($file->getClientOriginalExtension());
+        $filename = time() . rand(100, 9999) . '_' . Str::slug(
+                        pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)
+                    ) . '.' . $ext;
+
+        $file->move(public_path($folder), $filename);
+
+        return $filename;
+    }
+
+    // ══════════════════════════════════════════════════════════════
+    //  HELPER — Delete a file safely
+    // ══════════════════════════════════════════════════════════════
+
+    private function deleteFile(?string $filename, string $folder = 'uploads/products'): void
+    {
+        if ($filename && file_exists(public_path($folder . '/' . $filename))) {
+            unlink(public_path($folder . '/' . $filename));
+        }
+    }
+
+    // ══════════════════════════════════════════════════════════════
+    //  IMAGE VALIDATION RULE STRING
+    // ══════════════════════════════════════════════════════════════
+
+    private function imageRule(bool $required = true): string
+    {
+        $mimes = implode(',', $this->allowedImageMimes);
+        $rule  = $required ? 'required' : 'nullable';
+
+        return "{$rule}|file|mimes:{$mimes}|max:5120";
+    }
+
+    // ══════════════════════════════════════════════════════════════
     //  INDEX
     // ══════════════════════════════════════════════════════════════
 
@@ -38,23 +93,29 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
+        $mimes = implode(',', $this->allowedImageMimes);
+
         $request->validate([
             'name'                 => 'required|string|max:255',
             'category_id'          => 'required|exists:categories,id',
             'current_price'        => 'required|numeric|min:0',
             'description'          => 'required',
-            'feature_image'        => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'feature_image'        => "required|file|mimes:{$mimes}|max:5120",
+            'gallery_images.*'     => "nullable|file|mimes:{$mimes}|max:5120",
             'flash_sale_price'     => 'nullable|numeric|min:0',
             'flash_sale_starts_at' => 'nullable|date',
             'flash_sale_ends_at'   => 'nullable|date|after_or_equal:flash_sale_starts_at',
+        ], [
+            'feature_image.mimes'      => "Feature image must be: jpg, jpeg, png, webp, gif, svg.",
+            'gallery_images.*.mimes'   => "Gallery images must be: jpg, jpeg, png, webp, gif, svg.",
+            'feature_image.max'        => 'Feature image must not exceed 5MB.',
+            'gallery_images.*.max'     => 'Each gallery image must not exceed 5MB.',
         ]);
 
         // ── Feature Image ──────────────────────────────────────────
         $featureImageName = null;
         if ($request->hasFile('feature_image')) {
-            $img              = $request->file('feature_image');
-            $featureImageName = time() . '_' . $img->getClientOriginalName();
-            $img->move(public_path('uploads/products'), $featureImageName);
+            $featureImageName = $this->uploadImage($request->file('feature_image'));
         }
 
         // ── Gallery Images ─────────────────────────────────────────
@@ -66,8 +127,7 @@ class ProductController extends Controller
 
             foreach ($files as $i => $file) {
                 if ($file && $file->isValid()) {
-                    $gName = time() . rand(100, 999) . '_' . $file->getClientOriginalName();
-                    $file->move(public_path('uploads/products'), $gName);
+                    $gName = $this->uploadImage($file);
                     $galleryImages[] = [
                         'image' => $gName,
                         'color' => $colors[$i] ?? null,
@@ -86,43 +146,13 @@ class ProductController extends Controller
         }
 
         // ── Variants ───────────────────────────────────────────────
-        $variants = [];
-        if ($request->has('variant_size')) {
-            foreach ($request->variant_size as $i => $size) {
-                $color  = $request->variant_color[$i] ?? null;
-                $vStock = $request->variant_stock[$i] ?? 0;
-                $vPrice = $request->variant_price[$i] ?? null;
-
-                if (!empty(trim((string)$size)) || !empty(trim((string)($color ?? '')))) {
-                    $variants[] = [
-                        'size'  => trim((string)$size),
-                        'color' => trim((string)($color ?? '')),
-                        'stock' => (int) $vStock,
-                        'price' => $vPrice !== null && $vPrice !== '' ? (float) $vPrice : null,
-                    ];
-                }
-            }
-        }
+        $variants = $this->buildVariants($request);
 
         // ── Feature Tags ───────────────────────────────────────────
-        $featureTags = [];
-        if ($request->has('tag_keyword')) {
-            foreach ($request->tag_keyword as $i => $keyword) {
-                if (!empty(trim((string)$keyword))) {
-                    $featureTags[] = [
-                        'keyword' => trim((string)$keyword),
-                        'color'   => $request->tag_color[$i] ?? '#000000',
-                    ];
-                }
-            }
-        }
+        $featureTags = $this->buildFeatureTags($request);
 
         // ── Tags ───────────────────────────────────────────────────
-        $tags = [];
-        if ($request->filled('tags')) {
-            $raw  = is_array($request->tags) ? implode(',', $request->tags) : $request->tags;
-            $tags = array_values(array_filter(array_map('trim', explode(',', $raw))));
-        }
+        $tags = $this->buildTags($request);
 
         // ── Stock ──────────────────────────────────────────────────
         $isUnlimited = $request->boolean('is_unlimited');
@@ -134,13 +164,8 @@ class ProductController extends Controller
             : strtoupper(Str::random(3)) . rand(100000, 999999) . strtolower(Str::random(2));
 
         // ── Flash Sale ─────────────────────────────────────────────
-        $isFlashSale     = $request->boolean('is_flash_sale');
-        $flashSalePrice  = $isFlashSale && $request->filled('flash_sale_price')
-                               ? (float) $request->flash_sale_price : null;
-        $flashSaleStarts = $isFlashSale && $request->filled('flash_sale_starts_at')
-                               ? Carbon::parse($request->flash_sale_starts_at) : null;
-        $flashSaleEnds   = $isFlashSale && $request->filled('flash_sale_ends_at')
-                               ? Carbon::parse($request->flash_sale_ends_at) : null;
+        [$isFlashSale, $flashSalePrice, $flashSaleStarts, $flashSaleEnds]
+            = $this->buildFlashSale($request);
 
         // ── New Arrival ────────────────────────────────────────────
         $isNewArrival = $request->boolean('is_new_arrival');
@@ -154,7 +179,7 @@ class ProductController extends Controller
             'name'                  => $request->name,
             'slug'                  => Str::slug($request->name),
             'sku'                   => $sku,
-            'vendor'                => $request->vendor ?: null,
+            'vendor'                => $request->vendor                ?: null,
             'category_id'           => $request->category_id,
             'sub_category_id'       => $request->sub_category_id       ?: null,
             'child_sub_category_id' => $request->child_sub_category_id ?: null,
@@ -226,35 +251,42 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
 
+        $mimes = implode(',', $this->allowedImageMimes);
+
         $request->validate([
             'name'                 => 'required|string|max:255',
             'category_id'          => 'required|exists:categories,id',
             'current_price'        => 'required|numeric|min:0',
             'description'          => 'required',
+            'feature_image'        => "nullable|file|mimes:{$mimes}|max:5120",
+            'gallery_images.*'     => "nullable|file|mimes:{$mimes}|max:5120",
             'flash_sale_price'     => 'nullable|numeric|min:0',
             'flash_sale_starts_at' => 'nullable|date',
             'flash_sale_ends_at'   => 'nullable|date|after_or_equal:flash_sale_starts_at',
+        ], [
+            'feature_image.mimes'    => "Feature image must be: jpg, jpeg, png, webp, gif, svg.",
+            'gallery_images.*.mimes' => "Gallery images must be: jpg, jpeg, png, webp, gif, svg.",
+            'feature_image.max'      => 'Feature image must not exceed 5MB.',
+            'gallery_images.*.max'   => 'Each gallery image must not exceed 5MB.',
         ]);
 
         // ── Feature Image ──────────────────────────────────────────
         $featureImageName = $product->feature_image;
         if ($request->hasFile('feature_image')) {
-            if ($featureImageName && file_exists(public_path('uploads/products/' . $featureImageName))) {
-                unlink(public_path('uploads/products/' . $featureImageName));
-            }
-            $img              = $request->file('feature_image');
-            $featureImageName = time() . '_' . $img->getClientOriginalName();
-            $img->move(public_path('uploads/products'), $featureImageName);
+            $this->deleteFile($featureImageName);
+            $featureImageName = $this->uploadImage($request->file('feature_image'));
         }
 
         // ── Gallery: keep existing + append new ────────────────────
         $existingGallery = $product->gallery_images ?? [];
         $keepImages      = $request->input('keep_gallery', []);
 
-        $galleryImages = array_values(array_filter($existingGallery, function ($item) use ($keepImages) {
-            $imgName = is_array($item) ? $item['image'] : $item;
-            return in_array($imgName, $keepImages);
-        }));
+        $galleryImages = array_values(
+            array_filter($existingGallery, function ($item) use ($keepImages) {
+                $imgName = is_array($item) ? $item['image'] : $item;
+                return in_array($imgName, $keepImages);
+            })
+        );
 
         if ($request->hasFile('gallery_images')) {
             $files  = $request->file('gallery_images');
@@ -263,8 +295,7 @@ class ProductController extends Controller
 
             foreach ($files as $i => $file) {
                 if ($file && $file->isValid()) {
-                    $gName = time() . rand(100, 999) . '_' . $file->getClientOriginalName();
-                    $file->move(public_path('uploads/products'), $gName);
+                    $gName = $this->uploadImage($file);
                     $galleryImages[] = [
                         'image' => $gName,
                         'color' => $colors[$i] ?? null,
@@ -277,67 +308,26 @@ class ProductController extends Controller
         // ── Product File ───────────────────────────────────────────
         $productFile = $product->product_file;
         if ($request->hasFile('product_file')) {
-            if ($productFile && file_exists(public_path('uploads/products/' . $productFile))) {
-                unlink(public_path('uploads/products/' . $productFile));
-            }
+            $this->deleteFile($productFile);
             $file        = $request->file('product_file');
             $productFile = time() . '_' . $file->getClientOriginalName();
             $file->move(public_path('uploads/products'), $productFile);
         }
 
-        // ── Variants ───────────────────────────────────────────────
-        $variants = [];
-        if ($request->has('variant_size')) {
-            foreach ($request->variant_size as $i => $size) {
-                $color  = $request->variant_color[$i] ?? null;
-                $vStock = $request->variant_stock[$i] ?? 0;
-                $vPrice = $request->variant_price[$i] ?? null;
-
-                if (!empty(trim((string)$size)) || !empty(trim((string)($color ?? '')))) {
-                    $variants[] = [
-                        'size'  => trim((string)$size),
-                        'color' => trim((string)($color ?? '')),
-                        'stock' => (int) $vStock,
-                        'price' => $vPrice !== null && $vPrice !== '' ? (float) $vPrice : null,
-                    ];
-                }
-            }
-        }
-
-        // ── Feature Tags ───────────────────────────────────────────
-        $featureTags = [];
-        if ($request->has('tag_keyword')) {
-            foreach ($request->tag_keyword as $i => $keyword) {
-                if (!empty(trim((string)$keyword))) {
-                    $featureTags[] = [
-                        'keyword' => trim((string)$keyword),
-                        'color'   => $request->tag_color[$i] ?? '#000000',
-                    ];
-                }
-            }
-        }
-
-        // ── Tags ───────────────────────────────────────────────────
-        $tags = [];
-        if ($request->filled('tags')) {
-            $raw  = is_array($request->tags) ? implode(',', $request->tags) : $request->tags;
-            $tags = array_values(array_filter(array_map('trim', explode(',', $raw))));
-        }
+        // ── Variants / Feature Tags / Tags ─────────────────────────
+        $variants    = $this->buildVariants($request);
+        $featureTags = $this->buildFeatureTags($request);
+        $tags        = $this->buildTags($request);
 
         // ── Stock ──────────────────────────────────────────────────
         $isUnlimited = $request->boolean('is_unlimited');
         $stock       = $isUnlimited ? null : (int) $request->stock;
 
         // ── Flash Sale ─────────────────────────────────────────────
-        $isFlashSale     = $request->boolean('is_flash_sale');
-        $flashSalePrice  = $isFlashSale && $request->filled('flash_sale_price')
-                               ? (float) $request->flash_sale_price : null;
-        $flashSaleStarts = $isFlashSale && $request->filled('flash_sale_starts_at')
-                               ? Carbon::parse($request->flash_sale_starts_at) : null;
-        $flashSaleEnds   = $isFlashSale && $request->filled('flash_sale_ends_at')
-                               ? Carbon::parse($request->flash_sale_ends_at) : null;
+        [$isFlashSale, $flashSalePrice, $flashSaleStarts, $flashSaleEnds]
+            = $this->buildFlashSale($request);
 
-        // ── New Arrival (preserve original arrived_at if already set) ──
+        // ── New Arrival (preserve original arrived_at if already set)
         $isNewArrival = $request->boolean('is_new_arrival');
         $arrivedAt    = match(true) {
             $isNewArrival && !$product->is_new_arrival => Carbon::now(),
@@ -345,7 +335,7 @@ class ProductController extends Controller
             default                                    => null,
         };
 
-        // ── Bestseller (preserve original bestseller_at if already set) ──
+        // ── Bestseller (preserve original bestseller_at if already set)
         $isBestseller = $request->boolean('is_bestseller');
         $bestsellerAt = match(true) {
             $isBestseller && !$product->is_bestseller => Carbon::now(),
@@ -402,22 +392,16 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
 
         // Delete feature image
-        if ($product->feature_image && file_exists(public_path('uploads/products/' . $product->feature_image))) {
-            unlink(public_path('uploads/products/' . $product->feature_image));
-        }
+        $this->deleteFile($product->feature_image);
 
         // Delete gallery images
         foreach ($product->gallery_images ?? [] as $item) {
             $imgName = is_array($item) ? $item['image'] : $item;
-            if ($imgName && file_exists(public_path('uploads/products/' . $imgName))) {
-                unlink(public_path('uploads/products/' . $imgName));
-            }
+            $this->deleteFile($imgName);
         }
 
         // Delete product file
-        if ($product->product_file && file_exists(public_path('uploads/products/' . $product->product_file))) {
-            unlink(public_path('uploads/products/' . $product->product_file));
-        }
+        $this->deleteFile($product->product_file);
 
         $product->delete();
 
@@ -656,5 +640,77 @@ class ProductController extends Controller
             : 'Product removed from bestsellers';
 
         return redirect()->back()->with('success', $msg);
+    }
+
+    // ══════════════════════════════════════════════════════════════
+    //  PRIVATE BUILDER HELPERS
+    // ══════════════════════════════════════════════════════════════
+
+    private function buildVariants(Request $request): array
+    {
+        $variants = [];
+
+        if ($request->has('variant_size')) {
+            foreach ($request->variant_size as $i => $size) {
+                $color  = $request->variant_color[$i] ?? null;
+                $vStock = $request->variant_stock[$i] ?? 0;
+                $vPrice = $request->variant_price[$i] ?? null;
+
+                if (!empty(trim((string)$size)) || !empty(trim((string)($color ?? '')))) {
+                    $variants[] = [
+                        'size'  => trim((string)$size),
+                        'color' => trim((string)($color ?? '')),
+                        'stock' => (int) $vStock,
+                        'price' => $vPrice !== null && $vPrice !== '' ? (float) $vPrice : null,
+                    ];
+                }
+            }
+        }
+
+        return $variants;
+    }
+
+    private function buildFeatureTags(Request $request): array
+    {
+        $featureTags = [];
+
+        if ($request->has('tag_keyword')) {
+            foreach ($request->tag_keyword as $i => $keyword) {
+                if (!empty(trim((string)$keyword))) {
+                    $featureTags[] = [
+                        'keyword' => trim((string)$keyword),
+                        'color'   => $request->tag_color[$i] ?? '#000000',
+                    ];
+                }
+            }
+        }
+
+        return $featureTags;
+    }
+
+    private function buildTags(Request $request): array
+    {
+        if (!$request->filled('tags')) {
+            return [];
+        }
+
+        $raw = is_array($request->tags)
+            ? implode(',', $request->tags)
+            : $request->tags;
+
+        return array_values(array_filter(array_map('trim', explode(',', $raw))));
+    }
+
+    private function buildFlashSale(Request $request): array
+    {
+        $isFlashSale     = $request->boolean('is_flash_sale');
+        $flashSalePrice  = $isFlashSale && $request->filled('flash_sale_price')
+                               ? (float) $request->flash_sale_price : null;
+        $flashSaleStarts = $isFlashSale && $request->filled('flash_sale_starts_at')
+                               ? Carbon::parse($request->flash_sale_starts_at) : null;
+        $flashSaleEnds   = $isFlashSale && $request->filled('flash_sale_ends_at')
+                               ? Carbon::parse($request->flash_sale_ends_at) : null;
+
+        return [$isFlashSale, $flashSalePrice, $flashSaleStarts, $flashSaleEnds];
     }
 }

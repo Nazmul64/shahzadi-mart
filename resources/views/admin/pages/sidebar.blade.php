@@ -806,8 +806,10 @@ body.sb-collapsed .sidebar-submenu { display: none; }
                class="{{ request()->routeIs('admin.shipping.*') ? 'active' : '' }}">
                 <i class="bi bi-cash-stack"></i> Shipping Charge
             </a>
-            <a href="#"><i class="bi bi-share"></i> Social Settings</a>
-            <a href="#"><i class="bi bi-translate"></i> Language Settings</a>
+            <a href="{{route('admin.alltaxes.index')}}" class="{{ request()->routeIs('admin.alltaxes.*') ? 'active' : '' }}"><i class="bi bi-share"></i> All Taxes</a>
+            <a href="{{ route('admin.aiprompt.index') }}" class="{{ request()->routeIs('admin.aiprompt.*') ? 'active' : '' }}">
+                <i class="bi bi-translate"></i> Ai Prompt Settings
+            </a>
             <a href="#"><i class="bi bi-fonts"></i> Font Options</a>
             <a href="#"><i class="bi bi-graph-up-arrow"></i> SEO Tools</a>
         </div>

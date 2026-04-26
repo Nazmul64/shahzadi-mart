@@ -13,7 +13,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::Y4c9PHRtGPfINNb2',
+            '_route' => 'generated::87eF2GWVZ5n5Sqq4',
           ),
           1 => NULL,
           2 => 
@@ -196,7 +196,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::Az99foViNW1A2B6G',
+            '_route' => 'generated::cTBuDKJf1HGhdesq',
           ),
           1 => NULL,
           2 => 
@@ -574,8 +574,7 @@ app('router')->setCompiledRoutes(
           1 => NULL,
           2 => 
           array (
-            'GET' => 0,
-            'HEAD' => 1,
+            'POST' => 0,
           ),
           3 => NULL,
           4 => false,
@@ -880,7 +879,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::YjPGxwnr3T4RH74e',
+            '_route' => 'generated::1lPSQxfnRpVHBUdN',
           ),
           1 => NULL,
           2 => 
@@ -3440,6 +3439,155 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
+      '/alltaxes' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.alltaxes.index',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.alltaxes.store',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/alltaxes/create' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.alltaxes.create',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/aiprompt' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.aiprompt.index',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.aiprompt.store',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/aiprompt/update-product' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.aiprompt.update-product',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/aiprompt/update-page' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.aiprompt.update-page',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/aiprompt/update-blog' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.aiprompt.update-blog',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
       '/webhook/steadfast' => 
       array (
         0 => 
@@ -3812,7 +3960,7 @@ app('router')->setCompiledRoutes(
     ),
     2 => 
     array (
-      0 => '{^(?|/p(?|a(?|ssword/reset/([^/]++)(*:37)|ymentgetewaymanage/([^/]++)(?|(*:74)|/(?|edit(*:89)|toggle\\-status(*:110))|(*:119))|thaocourier/([^/]++)(?|(*:151)|/edit(*:164)|(*:172)))|roduct(?|/([^/]++)(*:200)|s/([^/]++)(?|/(?|toggle\\-(?|status(*:242)|flash\\-sale(*:261)|new\\-arrival(*:281)|bestseller(*:299))|catalog\\-(?|add(*:323)|remove(*:337)|highlight(*:354)|gallery(*:369))|update\\-flash\\-sale(*:397)|edit(*:409))|(*:418)))|ermissions/([^/]++)(?|(*:450)|/edit(*:463)|(*:471))|ixels/([^/]++)(?|(*:497)|/edit(*:510)|(*:518)))|/c(?|a(?|mpaign(?|/manage/([^/]++)(*:562)|create/([^/]++)(?|(*:588)|/edit(*:601)|(*:609)))|tegory/(?|([^/]++)(?|(*:640)|/([^/]++)(?|(*:660)|/([^/]++)(*:677)))|create(*:693)|([^/]++)(?|(*:712)|/(?|edit(*:728)|toggle\\-(?|featured(*:755)|status(*:769)))|(*:779)))|rt/(?|add/([^/]++)(*:807)|remove/([^/]++)(*:830)|increase/([^/]++)(*:855)|decrease/([^/]++)(*:880)))|h(?|eckout/success/([^/]++)(*:917)|ildcategory/([^/]++)(?|(*:948)|/(?|edit(*:964)|toggle\\-(?|featured(*:991)|status(*:1005)))|(*:1016))|at/([^/]++)(?|(*:1040)|/(?|reply(*:1058)|messages(*:1075)|close(*:1089))))|ustomer/([^/]++)(?|(*:1120)|/(?|edit(*:1137)|status(*:1152)|make\\-vendor(*:1173))|(*:1183))|o(?|upons/([^/]++)(?|(*:1214)|/(?|edit(*:1231)|status(*:1246))|(*:1256))|ntact(?|/([^/]++)(?|(*:1286)|/edit(*:1300)|(*:1309))|infomationadmins/([^/]++)(?|(*:1347)|/edit(*:1361)|(*:1370)))))|/order(?|/cancel/([^/]++)(*:1408)|s/(?|([^/]++)(?|(*:1433)|/(?|edit(*:1450)|status(*:1465)|payment\\-status(*:1489))|(*:1499))|bulk\\-send\\-steadfast(*:1530)|([^/]++)/send\\-steadfast(*:1563)|bulk\\-send\\-pathao(*:1590)|([^/]++)/send\\-pathao(*:1620)))|/w(?|ishlist/(?|add/([^/]++)(*:1659)|remove/([^/]++)(*:1683)|move\\-to\\-cart/([^/]++)(*:1715))|ebsitefavicon/([^/]++)(?|(*:1750)|/edit(*:1764)|(*:1773)))|/s(?|eller\\-registrations/([^/]++)/(?|approve(*:1829)|re(?|ject(*:1847)|activate(*:1864))|suspend(*:1881)|view(*:1894))|ubcategory/([^/]++)(?|(*:1926)|/(?|edit(*:1943)|toggle\\-(?|featured(*:1971)|status(*:1986)))|(*:1997))|lider/([^/]++)(?|(*:2024)|/edit(*:2038)|(*:2047))|hipping/([^/]++)(?|/edit(*:2081)|(*:2090))|t(?|eadfastcourier/([^/]++)(?|(*:2130)|/edit(*:2144)|(*:2153))|orage/(.*)(*:2173)))|/r(?|oles/([^/]++)(?|(*:2205)|/(?|edit(*:2222)|assign\\-permission(*:2249)|save\\-assigned\\-permission(*:2284))|(*:2294))|eviews/(?|([^/]++)(?|/(?|approve(*:2336)|unapprove(*:2354))|(*:2364))|bulk(*:2378)))|/users/([^/]++)(?|(*:2407)|/(?|edit(*:2424)|toggle\\-status(*:2447))|(*:2457))|/a(?|ffiliateproduct/([^/]++)(?|/(?|toggle\\-status(*:2517)|edit(*:2530))|(*:2540))|boutcompany/([^/]++)(?|(*:2573)|/edit(*:2587)|(*:2596)))|/Generalsettings/([^/]++)(?|(*:2635)|/edit(*:2649)|(*:2658))|/t(?|oggle/([^/]++)(*:2687)|remsandcondation/([^/]++)(?|(*:2724)|/edit(*:2738)|(*:2747)))|/googletagmanager/([^/]++)(?|(*:2787)|/edit(*:2801)|(*:2810))|/Smsgatewaysetup/([^/]++)(?|(*:2848)|/edit(*:2862)|(*:2871))|/incomplete\\-orders/([^/]++)(?|(*:2912)|/(?|st(?|atus(*:2934)|eadfast\\-send(*:2956))|contacted(*:2975)|recovered(*:2993)|pathao\\-send(*:3014))))/?$}sDu',
+      0 => '{^(?|/p(?|a(?|ssword/reset/([^/]++)(*:37)|ymentgetewaymanage/([^/]++)(?|(*:74)|/(?|edit(*:89)|toggle\\-status(*:110))|(*:119))|thaocourier/([^/]++)(?|(*:151)|/edit(*:164)|(*:172)))|roduct(?|/([^/]++)(*:200)|s/([^/]++)(?|/(?|toggle\\-(?|status(*:242)|flash\\-sale(*:261)|new\\-arrival(*:281)|bestseller(*:299))|catalog\\-(?|add(*:323)|remove(*:337)|highlight(*:354)|gallery(*:369))|update\\-flash\\-sale(*:397)|edit(*:409))|(*:418)))|ermissions/([^/]++)(?|(*:450)|/edit(*:463)|(*:471))|ixels/([^/]++)(?|(*:497)|/edit(*:510)|(*:518)))|/c(?|a(?|mpaign(?|/manage/([^/]++)(*:562)|create/([^/]++)(?|(*:588)|/edit(*:601)|(*:609)))|tegory/(?|([^/]++)(?|(*:640)|/([^/]++)(?|(*:660)|/([^/]++)(*:677)))|create(*:693)|([^/]++)(?|(*:712)|/(?|edit(*:728)|toggle\\-(?|featured(*:755)|status(*:769)))|(*:779)))|rt/(?|add/([^/]++)(*:807)|remove/([^/]++)(*:830)|increase/([^/]++)(*:855)|decrease/([^/]++)(*:880)))|h(?|eckout/success/([^/]++)(*:917)|ildcategory/([^/]++)(?|(*:948)|/(?|edit(*:964)|toggle\\-(?|featured(*:991)|status(*:1005)))|(*:1016))|at/([^/]++)(?|(*:1040)|/(?|reply(*:1058)|messages(*:1075)|close(*:1089))))|ustomer/([^/]++)(?|(*:1120)|/(?|edit(*:1137)|status(*:1152)|make\\-vendor(*:1173))|(*:1183))|o(?|upons/([^/]++)(?|(*:1214)|/(?|edit(*:1231)|status(*:1246))|(*:1256))|ntact(?|/([^/]++)(?|(*:1286)|/edit(*:1300)|(*:1309))|infomationadmins/([^/]++)(?|(*:1347)|/edit(*:1361)|(*:1370)))))|/order(?|/cancel/([^/]++)(*:1408)|s/(?|([^/]++)(?|(*:1433)|/(?|edit(*:1450)|status(*:1465)|payment\\-status(*:1489))|(*:1499))|bulk\\-send\\-steadfast(*:1530)|([^/]++)/send\\-steadfast(*:1563)|bulk\\-send\\-pathao(*:1590)|([^/]++)/send\\-pathao(*:1620)))|/w(?|ishlist/(?|add/([^/]++)(*:1659)|remove/([^/]++)(*:1683)|move\\-to\\-cart/([^/]++)(*:1715))|ebsitefavicon/([^/]++)(?|(*:1750)|/edit(*:1764)|(*:1773)))|/s(?|eller\\-registrations/([^/]++)/(?|approve(*:1829)|re(?|ject(*:1847)|activate(*:1864))|suspend(*:1881)|view(*:1894))|ubcategory/([^/]++)(?|(*:1926)|/(?|edit(*:1943)|toggle\\-(?|featured(*:1971)|status(*:1986)))|(*:1997))|lider/([^/]++)(?|(*:2024)|/edit(*:2038)|(*:2047))|hipping/([^/]++)(?|/edit(*:2081)|(*:2090))|t(?|eadfastcourier/([^/]++)(?|(*:2130)|/edit(*:2144)|(*:2153))|orage/(.*)(*:2173)))|/r(?|oles/([^/]++)(?|(*:2205)|/(?|edit(*:2222)|assign\\-permission(*:2249)|save\\-assigned\\-permission(*:2284))|(*:2294))|eviews/(?|([^/]++)(?|/(?|approve(*:2336)|unapprove(*:2354))|(*:2364))|bulk(*:2378)))|/users/([^/]++)(?|(*:2407)|/(?|edit(*:2424)|toggle\\-status(*:2447))|(*:2457))|/a(?|ffiliateproduct/([^/]++)(?|/(?|toggle\\-status(*:2517)|edit(*:2530))|(*:2540))|boutcompany/([^/]++)(?|(*:2573)|/edit(*:2587)|(*:2596))|lltaxes/([^/]++)(?|(*:2625)|/(?|edit(*:2642)|toggle(*:2657))|(*:2667)))|/Generalsettings/([^/]++)(?|(*:2706)|/edit(*:2720)|(*:2729))|/t(?|oggle/([^/]++)(*:2758)|remsandcondation/([^/]++)(?|(*:2795)|/edit(*:2809)|(*:2818)))|/googletagmanager/([^/]++)(?|(*:2858)|/edit(*:2872)|(*:2881))|/Smsgatewaysetup/([^/]++)(?|(*:2919)|/edit(*:2933)|(*:2942))|/incomplete\\-orders/([^/]++)(?|(*:2983)|/(?|st(?|atus(*:3005)|eadfast\\-send(*:3027))|contacted(*:3046)|recovered(*:3064)|pathao\\-send(*:3085))))/?$}sDu',
     ),
     3 => 
     array (
@@ -4875,8 +5023,7 @@ app('router')->setCompiledRoutes(
           ),
           2 => 
           array (
-            'GET' => 0,
-            'HEAD' => 1,
+            'POST' => 0,
           ),
           3 => NULL,
           4 => false,
@@ -4898,8 +5045,7 @@ app('router')->setCompiledRoutes(
           ),
           2 => 
           array (
-            'GET' => 0,
-            'HEAD' => 1,
+            'POST' => 0,
           ),
           3 => NULL,
           4 => false,
@@ -4921,8 +5067,7 @@ app('router')->setCompiledRoutes(
           ),
           2 => 
           array (
-            'GET' => 0,
-            'HEAD' => 1,
+            'POST' => 0,
           ),
           3 => NULL,
           4 => false,
@@ -4944,8 +5089,7 @@ app('router')->setCompiledRoutes(
           ),
           2 => 
           array (
-            'GET' => 0,
-            'HEAD' => 1,
+            'POST' => 0,
           ),
           3 => NULL,
           4 => false,
@@ -7048,7 +7192,117 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2635 => 
+      2625 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.alltaxes.show',
+          ),
+          1 => 
+          array (
+            0 => 'alltax',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      2642 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.alltaxes.edit',
+          ),
+          1 => 
+          array (
+            0 => 'alltax',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      2657 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.alltaxes.toggle',
+          ),
+          1 => 
+          array (
+            0 => 'alltaxes',
+          ),
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      2667 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.alltaxes.update',
+          ),
+          1 => 
+          array (
+            0 => 'alltax',
+          ),
+          2 => 
+          array (
+            'PUT' => 0,
+            'PATCH' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.alltaxes.destroy',
+          ),
+          1 => 
+          array (
+            0 => 'alltax',
+          ),
+          2 => 
+          array (
+            'DELETE' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      2706 => 
       array (
         0 => 
         array (
@@ -7071,7 +7325,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2649 => 
+      2720 => 
       array (
         0 => 
         array (
@@ -7094,7 +7348,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2658 => 
+      2729 => 
       array (
         0 => 
         array (
@@ -7136,7 +7390,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2687 => 
+      2758 => 
       array (
         0 => 
         array (
@@ -7159,7 +7413,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2724 => 
+      2795 => 
       array (
         0 => 
         array (
@@ -7182,7 +7436,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2738 => 
+      2809 => 
       array (
         0 => 
         array (
@@ -7205,7 +7459,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2747 => 
+      2818 => 
       array (
         0 => 
         array (
@@ -7247,7 +7501,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2787 => 
+      2858 => 
       array (
         0 => 
         array (
@@ -7270,7 +7524,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2801 => 
+      2872 => 
       array (
         0 => 
         array (
@@ -7293,7 +7547,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2810 => 
+      2881 => 
       array (
         0 => 
         array (
@@ -7335,7 +7589,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2848 => 
+      2919 => 
       array (
         0 => 
         array (
@@ -7358,7 +7612,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2862 => 
+      2933 => 
       array (
         0 => 
         array (
@@ -7381,7 +7635,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2871 => 
+      2942 => 
       array (
         0 => 
         array (
@@ -7423,7 +7677,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2912 => 
+      2983 => 
       array (
         0 => 
         array (
@@ -7465,7 +7719,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2934 => 
+      3005 => 
       array (
         0 => 
         array (
@@ -7487,7 +7741,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2956 => 
+      3027 => 
       array (
         0 => 
         array (
@@ -7509,7 +7763,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2975 => 
+      3046 => 
       array (
         0 => 
         array (
@@ -7531,7 +7785,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2993 => 
+      3064 => 
       array (
         0 => 
         array (
@@ -7553,7 +7807,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      3014 => 
+      3085 => 
       array (
         0 => 
         array (
@@ -7590,7 +7844,7 @@ app('router')->setCompiledRoutes(
   ),
   'attributes' => 
   array (
-    'generated::Y4c9PHRtGPfINNb2' => 
+    'generated::87eF2GWVZ5n5Sqq4' => 
     array (
       'methods' => 
       array (
@@ -7618,8 +7872,8 @@ app('router')->setCompiledRoutes(
                     return response(\\Illuminate\\Support\\Facades\\View::file(\'E:\\\\shahzadi-mart\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Foundation\\\\Configuration\'.\'/../resources/health-up.blade.php\', [
                         \'exception\' => $exception,
                     ]), status: $exception ? 500 : 200);
-                }";s:5:"scope";s:54:"Illuminate\\Foundation\\Configuration\\ApplicationBuilder";s:4:"this";N;s:4:"self";s:32:"00000000000007460000000000000000";}}',
-        'as' => 'generated::Y4c9PHRtGPfINNb2',
+                }";s:5:"scope";s:54:"Illuminate\\Foundation\\Configuration\\ApplicationBuilder";s:4:"this";N;s:4:"self";s:32:"00000000000007530000000000000000";}}',
+        'as' => 'generated::87eF2GWVZ5n5Sqq4',
       ),
       'fallback' => false,
       'defaults' => 
@@ -8000,7 +8254,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::Az99foViNW1A2B6G' => 
+    'generated::cTBuDKJf1HGhdesq' => 
     array (
       'methods' => 
       array (
@@ -8020,7 +8274,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::Az99foViNW1A2B6G',
+        'as' => 'generated::cTBuDKJf1HGhdesq',
       ),
       'fallback' => false,
       'defaults' => 
@@ -8925,8 +9179,7 @@ app('router')->setCompiledRoutes(
     array (
       'methods' => 
       array (
-        0 => 'GET',
-        1 => 'HEAD',
+        0 => 'POST',
       ),
       'uri' => 'cart/add/{id}',
       'action' => 
@@ -8962,8 +9215,7 @@ app('router')->setCompiledRoutes(
     array (
       'methods' => 
       array (
-        0 => 'GET',
-        1 => 'HEAD',
+        0 => 'POST',
       ),
       'uri' => 'cart/remove/{key}',
       'action' => 
@@ -8999,8 +9251,7 @@ app('router')->setCompiledRoutes(
     array (
       'methods' => 
       array (
-        0 => 'GET',
-        1 => 'HEAD',
+        0 => 'POST',
       ),
       'uri' => 'cart/increase/{key}',
       'action' => 
@@ -9036,8 +9287,7 @@ app('router')->setCompiledRoutes(
     array (
       'methods' => 
       array (
-        0 => 'GET',
-        1 => 'HEAD',
+        0 => 'POST',
       ),
       'uri' => 'cart/decrease/{key}',
       'action' => 
@@ -9073,8 +9323,7 @@ app('router')->setCompiledRoutes(
     array (
       'methods' => 
       array (
-        0 => 'GET',
-        1 => 'HEAD',
+        0 => 'POST',
       ),
       'uri' => 'cart/clear',
       'action' => 
@@ -9633,7 +9882,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 'web',
         ),
-        'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:51:"function () { return \\view(\'frontend.bkash_pay\'); }";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000007640000000000000000";}}',
+        'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:51:"function () { return \\view(\'frontend.bkash_pay\'); }";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000007710000000000000000";}}',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 
@@ -9802,7 +10051,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::YjPGxwnr3T4RH74e' => 
+    'generated::1lPSQxfnRpVHBUdN' => 
     array (
       'methods' => 
       array (
@@ -9822,7 +10071,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::YjPGxwnr3T4RH74e',
+        'as' => 'generated::1lPSQxfnRpVHBUdN',
       ),
       'fallback' => false,
       'defaults' => 
@@ -20661,6 +20910,493 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
+    'admin.alltaxes.index' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'alltaxes',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.alltaxes.index',
+        'uses' => 'App\\Http\\Controllers\\Admin\\AlltaxesController@index',
+        'controller' => 'App\\Http\\Controllers\\Admin\\AlltaxesController@index',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.alltaxes.create' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'alltaxes/create',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.alltaxes.create',
+        'uses' => 'App\\Http\\Controllers\\Admin\\AlltaxesController@create',
+        'controller' => 'App\\Http\\Controllers\\Admin\\AlltaxesController@create',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.alltaxes.store' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'alltaxes',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.alltaxes.store',
+        'uses' => 'App\\Http\\Controllers\\Admin\\AlltaxesController@store',
+        'controller' => 'App\\Http\\Controllers\\Admin\\AlltaxesController@store',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.alltaxes.show' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'alltaxes/{alltax}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.alltaxes.show',
+        'uses' => 'App\\Http\\Controllers\\Admin\\AlltaxesController@show',
+        'controller' => 'App\\Http\\Controllers\\Admin\\AlltaxesController@show',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.alltaxes.edit' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'alltaxes/{alltax}/edit',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.alltaxes.edit',
+        'uses' => 'App\\Http\\Controllers\\Admin\\AlltaxesController@edit',
+        'controller' => 'App\\Http\\Controllers\\Admin\\AlltaxesController@edit',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.alltaxes.update' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'PUT',
+        1 => 'PATCH',
+      ),
+      'uri' => 'alltaxes/{alltax}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.alltaxes.update',
+        'uses' => 'App\\Http\\Controllers\\Admin\\AlltaxesController@update',
+        'controller' => 'App\\Http\\Controllers\\Admin\\AlltaxesController@update',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.alltaxes.destroy' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'DELETE',
+      ),
+      'uri' => 'alltaxes/{alltax}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.alltaxes.destroy',
+        'uses' => 'App\\Http\\Controllers\\Admin\\AlltaxesController@destroy',
+        'controller' => 'App\\Http\\Controllers\\Admin\\AlltaxesController@destroy',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.alltaxes.toggle' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'alltaxes/{alltaxes}/toggle',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Admin\\AlltaxesController@toggleStatus',
+        'controller' => 'App\\Http\\Controllers\\Admin\\AlltaxesController@toggleStatus',
+        'as' => 'admin.alltaxes.toggle',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.aiprompt.index' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'aiprompt',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.aiprompt.index',
+        'uses' => 'App\\Http\\Controllers\\Admin\\AipromptController@index',
+        'controller' => 'App\\Http\\Controllers\\Admin\\AipromptController@index',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.aiprompt.store' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'aiprompt',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.aiprompt.store',
+        'uses' => 'App\\Http\\Controllers\\Admin\\AipromptController@store',
+        'controller' => 'App\\Http\\Controllers\\Admin\\AipromptController@store',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.aiprompt.update-product' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'aiprompt/update-product',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Admin\\AipromptController@updateProduct',
+        'controller' => 'App\\Http\\Controllers\\Admin\\AipromptController@updateProduct',
+        'as' => 'admin.aiprompt.update-product',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.aiprompt.update-page' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'aiprompt/update-page',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Admin\\AipromptController@updatePage',
+        'controller' => 'App\\Http\\Controllers\\Admin\\AipromptController@updatePage',
+        'as' => 'admin.aiprompt.update-page',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.aiprompt.update-blog' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'aiprompt/update-blog',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Admin\\AipromptController@updateBlog',
+        'controller' => 'App\\Http\\Controllers\\Admin\\AipromptController@updateBlog',
+        'as' => 'admin.aiprompt.update-blog',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
     'steadfast.webhook' => 
     array (
       'methods' => 
@@ -21377,7 +22113,7 @@ app('router')->setCompiledRoutes(
                         $config,
                         $isProduction
                     ))($request, $path);
-                }";s:5:"scope";s:47:"Illuminate\\Filesystem\\FilesystemServiceProvider";s:4:"this";N;s:4:"self";s:32:"00000000000008b70000000000000000";}}',
+                }";s:5:"scope";s:47:"Illuminate\\Filesystem\\FilesystemServiceProvider";s:4:"this";N;s:4:"self";s:32:"00000000000008d10000000000000000";}}',
         'as' => 'storage.local',
       ),
       'fallback' => false,

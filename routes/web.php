@@ -58,6 +58,8 @@ use App\Http\Controllers\Frontend\ChatController;
 use App\Http\Controllers\Admin\AdminIncompleteOrderController;
 use App\Http\Controllers\Admin\AdminChatController;
 use App\Http\Controllers\Admin\AboutForCompanyController;
+use App\Http\Controllers\Admin\AipromptController;
+use App\Http\Controllers\Admin\AlltaxesController;
 use App\Http\Controllers\Admin\TremsandcondationsController;
 Auth::routes();
 
@@ -92,14 +94,14 @@ Route::post('/review/store', [ProductReviewController::class, 'store'])->name('r
 // CART ROUTES
 // ══════════════════════════════════════════════════════════════════════════════
 Route::prefix('cart')->name('cart.')->group(function () {
-    Route::get('/',               [CartController::class, 'index'])->name('index');
-    Route::get('/add/{id}',       [CartController::class, 'add'])->name('add');
-    Route::get('/remove/{key}',   [CartController::class, 'remove'])->name('remove');
-    Route::get('/increase/{key}', [CartController::class, 'increase'])->name('increase');
-    Route::get('/decrease/{key}', [CartController::class, 'decrease'])->name('decrease');
-    Route::get('/clear',          [CartController::class, 'clear'])->name('clear');
-    Route::post('/coupon',        [CartController::class, 'coupon'])->name('coupon');
-    Route::get('/count',          [CartController::class, 'count'])->name('count');
+    Route::get ('/',               [CartController::class, 'index']   )->name('index');
+    Route::post('/add/{id}',       [CartController::class, 'add']     )->name('add');      // ✅ GET→POST
+    Route::post('/remove/{key}',   [CartController::class, 'remove']  )->name('remove');   // ✅ GET→POST
+    Route::post('/increase/{key}', [CartController::class, 'increase'])->name('increase'); // ✅ GET→POST
+    Route::post('/decrease/{key}', [CartController::class, 'decrease'])->name('decrease'); // ✅ GET→POST
+    Route::post('/clear',          [CartController::class, 'clear']   )->name('clear');    // ✅ GET→POST
+    Route::post('/coupon',         [CartController::class, 'coupon']  )->name('coupon');
+    Route::get ('/count',          [CartController::class, 'count']   )->name('count');
 });
 
 // ── Frontend Chat (public — no admin prefix) ──────────────────────────────────
@@ -396,6 +398,15 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
     Route::resource('contactinfomationadmins', ContactinfomationadminController::class);
     Route::resource('aboutcompany', AboutForCompanyController::class);
     Route::resource('tremsandcondation',TremsandcondationsController::class);
+
+    // ── VAT & Taxes ───────────────────────────────────────────────────────────
+    Route::resource('alltaxes', AlltaxesController::class);
+    Route::post('alltaxes/{alltaxes}/toggle', [AlltaxesController::class, 'toggleStatus'])->name('alltaxes.toggle');
+     // ── AI Prompt ─────────────────────────────────────────────────────────────
+    Route::resource('aiprompt', AipromptController::class)->names('aiprompt')->except(['show', 'create', 'edit', 'update', 'destroy']);
+    Route::post('aiprompt/update-product', [AipromptController::class, 'updateProduct'])->name('aiprompt.update-product');
+    Route::post('aiprompt/update-page',    [AipromptController::class, 'updatePage'])   ->name('aiprompt.update-page');
+    Route::post('aiprompt/update-blog',    [AipromptController::class, 'updateBlog'])   ->name('aiprompt.update-blog');
 }); // end admin group
 
 // ── Steadfast Webhook (outside admin auth — public) ───────────────────────────

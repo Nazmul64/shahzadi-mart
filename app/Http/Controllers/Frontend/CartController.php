@@ -13,7 +13,7 @@ use Illuminate\View\View;
 class CartController extends Controller
 {
     // ══════════════════════════════════════════════════════════════════════════
-    //  CART INDEX
+    //  CART INDEX  ─ GET /cart
     // ══════════════════════════════════════════════════════════════════════════
 
     public function index(): View
@@ -28,12 +28,8 @@ class CartController extends Controller
     // ══════════════════════════════════════════════════════════════════════════
     //  ADD TO CART  ─ POST /cart/add/{id}
     //
-    //  Fix: Laravel CSRF verification দুইভাবে করে —
-    //       1) request body-তে _token field
-    //       2) X-CSRF-TOKEN request header
-    //  Blade-এ শুধু header পাঠানো হচ্ছে (FormData-তে _token নেই)।
-    //  তাই verifyRequestNotGet() middleware header থেকে token নেবে।
-    //  এটা Laravel-এর built-in behavior, কোনো extra কাজ লাগবে না।
+    //  JS থেকে FormData তে _token এবং X-CSRF-TOKEN header দুটোই পাঠানো হচ্ছে।
+    //  Laravel built-in VerifyCsrfToken middleware যেকোনো একটা পেলেই pass করে।
     // ══════════════════════════════════════════════════════════════════════════
 
     public function add(Request $request, int $id): JsonResponse|RedirectResponse
@@ -105,7 +101,8 @@ class CartController extends Controller
     }
 
     // ══════════════════════════════════════════════════════════════════════════
-    //  REMOVE FROM CART  ─ DELETE /cart/remove/{key}
+    //  REMOVE FROM CART  ─ POST /cart/remove/{key}
+    //  (আগে GET ছিল, এখন POST — CSRF protection এর জন্য)
     // ══════════════════════════════════════════════════════════════════════════
 
     public function remove(Request $request, string $key): JsonResponse|RedirectResponse
@@ -127,7 +124,7 @@ class CartController extends Controller
     }
 
     // ══════════════════════════════════════════════════════════════════════════
-    //  INCREASE QTY  ─ PATCH /cart/increase/{key}
+    //  INCREASE QTY  ─ POST /cart/increase/{key}
     // ══════════════════════════════════════════════════════════════════════════
 
     public function increase(Request $request, string $key): JsonResponse|RedirectResponse
@@ -155,7 +152,7 @@ class CartController extends Controller
     }
 
     // ══════════════════════════════════════════════════════════════════════════
-    //  DECREASE QTY  ─ PATCH /cart/decrease/{key}
+    //  DECREASE QTY  ─ POST /cart/decrease/{key}
     // ══════════════════════════════════════════════════════════════════════════
 
     public function decrease(Request $request, string $key): JsonResponse|RedirectResponse
@@ -184,7 +181,7 @@ class CartController extends Controller
     }
 
     // ══════════════════════════════════════════════════════════════════════════
-    //  CLEAR CART  ─ DELETE /cart/clear
+    //  CLEAR CART  ─ POST /cart/clear
     // ══════════════════════════════════════════════════════════════════════════
 
     public function clear(Request $request): JsonResponse|RedirectResponse
@@ -285,10 +282,8 @@ class CartController extends Controller
 
     /**
      * AJAX request কিনা নির্ণয়।
-     *
-     * Laravel-এর $request->ajax() শুধু X-Requested-With header দেখে।
-     * $request->wantsJson() Accept header দেখে।
-     * দুটো মিলিয়ে check করলেই যথেষ্ট।
+     * Laravel এর ajax() = X-Requested-With header চেক করে।
+     * wantsJson() / expectsJson() = Accept header চেক করে।
      */
     private function isAjax(Request $request): bool
     {

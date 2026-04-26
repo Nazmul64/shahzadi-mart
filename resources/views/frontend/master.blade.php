@@ -1,7 +1,6 @@
 {{-- resources/views/frontend/master.blade.php --}}
 
 @include('frontend.pages.header')
-
     <div class="page-wrap">
 
         {{-- Left: category sidebar --}}
