@@ -418,7 +418,7 @@ body.sb-collapsed .sidebar-submenu { display: none; }
 
 
 
-             {{-- POS Management --}}
+             {{-- Color & Size Management --}}
         <div class="sidebar-item {{ $posActive ? 'active open' : '' }}" onclick="sbToggle(this)">
             <span class="item-left">
                 <i class="bi bi-shop-window nav-icon"></i>
@@ -427,24 +427,43 @@ body.sb-collapsed .sidebar-submenu { display: none; }
             <i class="bi bi-chevron-right arrow"></i>
         </div>
         <div class="sidebar-submenu {{ $posActive ? 'open' : '' }}">
-            {{-- route: admin.pos.index --}}
+            {{-- route: admin.Size.index --}}
             <a href="{{ route('admin.color.index') }}"
                class="{{ request()->routeIs('admin.color.index') ? 'active' : '' }}">
                 <i class="bi bi-display"></i> Color Add
             </a>
-            {{-- route: admin.pos.orders (POS Sales History) --}}
+            {{-- route: admin.Size.orders (POS Sales History) --}}
             <a href="{{ route('admin.size.index') }}"
                class="{{ request()->routeIs('admin.size.index') ? 'active' : '' }}">
                 <i class="bi bi-clock-history"></i>Size Add
             </a>
-               <a href="{{ route('admin.unit.index') }}"
+            <a href="{{ route('admin.unit.index') }}"
                class="{{ request()->routeIs('admin.unit.index') ? 'active' : '' }}">
                 <i class="bi bi-clock-history"></i>Unit Add
+            </a>
+             <a href="{{ route('admin.productbrands.index') }}"
+               class="{{ request()->routeIs('admin.productbrands.index') ? 'active' : '' }}">
+                <i class="bi bi-clock-history"></i>Product Brand
             </a>
 
         </div>
 
+        {{-- Duplicateorder Management --}}
+        <div class="sidebar-item {{ $posActive ? 'active open' : '' }}" onclick="sbToggle(this)">
+            <span class="item-left">
+                <i class="bi bi-shop-window nav-icon"></i>
+                <span class="item-text">Duplicateorder Setting</span>
+            </span>
+            <i class="bi bi-chevron-right arrow"></i>
+        </div>
+        <div class="sidebar-submenu {{ $posActive ? 'open' : '' }}">
+            {{-- route: admin.Size.index --}}
+            <a href="{{ route('admin.duplicateordersetting.index') }}"
+               class="{{ request()->routeIs('admin.duplicateordersetting.index') ? 'active' : '' }}">
+                <i class="bi bi-display"></i> Duplicateorder Setting
+            </a>
 
+        </div>
 
         {{-- ════ E-COMMERCE ════ --}}
         <div class="sb-sep"></div>

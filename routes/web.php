@@ -62,8 +62,10 @@ use App\Http\Controllers\Admin\AboutForCompanyController;
 use App\Http\Controllers\Admin\AipromptController;
 use App\Http\Controllers\Admin\AlltaxesController;
 use App\Http\Controllers\Admin\ColorController;
+use App\Http\Controllers\Admin\DuplicateordersettingController;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\PosController;
+use App\Http\Controllers\Admin\ProductBrandController;
 use App\Http\Controllers\Admin\SizeController;
 use App\Http\Controllers\Admin\TremsandcondationsController;
 use App\Http\Controllers\Admin\UnitController;
@@ -495,7 +497,13 @@ Route::middleware(['admin'])
     // ── Units ────────────────────────────────────────────────
     Route::resource('unit', UnitController::class);
     Route::post('unit/{unit}/toggle', [UnitController::class, 'toggleStatus'])->name('unit.toggle');
-
+    // ── Product Brands ────────────────────────────────────────────────────────
+  // ── Product Brands ────────────────────────────────────────────────────────
+    Route::resource('productbrands', ProductBrandController::class);
+    Route::post('productbrands/{productbrand}/toggle', [ProductBrandController::class, 'toggleStatus'])->name('productbrands.toggle');
+     // ── Duplicate Order Setting ───────────────────────────────────────────────
+    Route::resource('duplicateordersetting', DuplicateordersettingController::class);
+    Route::patch('duplicateordersetting/{duplicateordersetting}/toggle-status', [DuplicateordersettingController::class, 'toggleStatus'])->name('duplicateordersetting.toggleStatus');
 }); // end admin group
 
 // ══════════════════════════════════════════════════════════════════════════════
