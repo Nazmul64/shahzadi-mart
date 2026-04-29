@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\EmpleeController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\Admin\FootercategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\Productsettingcontroller;
 use App\Http\Controllers\Admin\RoleController;
@@ -60,6 +61,7 @@ use App\Http\Controllers\Admin\AdminChatController;
 use App\Http\Controllers\Admin\AboutForCompanyController;
 use App\Http\Controllers\Admin\AipromptController;
 use App\Http\Controllers\Admin\AlltaxesController;
+use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\TremsandcondationsController;
 Auth::routes();
 
@@ -89,6 +91,7 @@ Route::get('/shop',         [FrontendController::class, 'shop'])->name('shop');
 Route::get('/offers',       [FrontendController::class, 'offers'])->name('offers');
 Route::get('/new-arrivals', [FrontendController::class, 'newArrivals'])->name('new-arrivals');
 Route::post('/review/store', [ProductReviewController::class, 'store'])->name('review.store');
+Route::get('/page/{id}', [FrontendController::class, 'multiplepage'])->name('multi.plepage');
 
 // ══════════════════════════════════════════════════════════════════════════════
 // CART ROUTES
@@ -407,6 +410,9 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
     Route::post('aiprompt/update-product', [AipromptController::class, 'updateProduct'])->name('aiprompt.update-product');
     Route::post('aiprompt/update-page',    [AipromptController::class, 'updatePage'])   ->name('aiprompt.update-page');
     Route::post('aiprompt/update-blog',    [AipromptController::class, 'updateBlog'])   ->name('aiprompt.update-blog');
+    // ── Page Management ───────────────────────────────────────────────────────
+    Route::resource('pages',PageController::class);
+    Route::resource('footercategory',FootercategoryController ::class);
 }); // end admin group
 
 // ── Steadfast Webhook (outside admin auth — public) ───────────────────────────

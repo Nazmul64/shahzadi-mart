@@ -16,8 +16,11 @@ use App\Models\Producreview;
 use App\Models\Wishlist;
 use App\Models\Slider;
 use App\Models\Tagmanager;
+use App\Models\Page;
+
 use App\Models\Contactinfomationadmin;
 use App\Models\AboutForCompany;
+use App\Models\Footercategory;
 use App\Models\Websitefavicon;
 use App\Models\Tremsandcondation;
 use Illuminate\Http\Request;
@@ -91,12 +94,13 @@ class FrontendController extends Controller
                             ->take(20)
                             ->get();
         $contactinformationadmin=Contactinfomationadmin::latest()->first();
+        $pagecrate = Footercategory::with(['pages' => function($q) {$q->where('status', 1);}])->get();
 
         return view('frontend.index', compact(
             'slider', 'categories', 'websetting',
             'flashProducts', 'hotCategories',
             'newArrivals', 'bestSellers', 'sidebarCategories',
-            'websitefavicon','contactinformationadmin'
+            'websitefavicon','contactinformationadmin','pagecrate'
             // $Pixelid ও $GoogleAnalytics constructor থেকে shared হচ্ছে
         ));
     }
@@ -529,4 +533,25 @@ class FrontendController extends Controller
         $termsAndConditions = Tremsandcondation::latest()->first();
         return view('frontend.terms-and-conditions', compact('websetting', 'termsAndConditions'));
      }
+
+
+
+
+public function multiplepage($id)
+{
+    $page = Page::where('id', $id)->where('status', 1)->firstOrFail();
+
+    // frontend master layout এ যা যা লাগে
+    $websetting       = Generalsetting::first();
+    $websitefavicon   = Websitefavicon::first();
+    $contactinformationadmin = Contactinfomationadmin::latest()->first();
+    $pagecrate        = Footercategory::with(['pages' => function($q) {
+                            $q->where('status', 1);
+                        }])->get();
+
+    return view('frontend.multiplepage', compact(
+        'page', 'websetting', 'websitefavicon',
+        'contactinformationadmin', 'pagecrate'
+    ));
+}
 }

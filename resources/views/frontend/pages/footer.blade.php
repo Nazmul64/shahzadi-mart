@@ -27,44 +27,26 @@
                     <a href="#" class="soc-btn" aria-label="TikTok"><i class="bi bi-tiktok"></i></a>
                 </div>
             </div>
-
-            {{-- About --}}
+           @foreach($pagecrate as $footercat)
+            @if($footercat->pages->isNotEmpty())
             <div class="footer-col">
-                <h4 class="footer-col__title">About Us</h4>
-                <ul class="footer-col__list">
-                    <li><a href="#"><i class="bi bi-chevron-right"></i> About Shahzadi-mart</a></li>
-                    <li><a href="#"><i class="bi bi-chevron-right"></i> Contact Us</a></li>
-                    <li><a href="#"><i class="bi bi-chevron-right"></i> Terms &amp; Conditions</a></li>
-                    <li><a href="#"><i class="bi bi-chevron-right"></i> Privacy Policy</a></li>
-                    <li><a href="#"><i class="bi bi-chevron-right"></i> Careers</a></li>
-                    <li><a href="#"><i class="bi bi-chevron-right"></i> Press &amp; Media</a></li>
-                </ul>
-            </div>
 
-            {{-- Make Money --}}
-            <div class="footer-col">
-                <h4 class="footer-col__title">Make Money</h4>
-                <ul class="footer-col__list">
-                    <li><a href="#"><i class="bi bi-chevron-right"></i> Sell on Shahzadi-mart</a></li>
-                    <li><a href="#"><i class="bi bi-chevron-right"></i> Affiliate Program</a></li>
-                    <li><a href="#"><i class="bi bi-chevron-right"></i> Apply to Deliver</a></li>
-                    <li><a href="#"><i class="bi bi-chevron-right"></i> Pickup Station</a></li>
-                    <li><a href="#"><i class="bi bi-chevron-right"></i> Advertise With Us</a></li>
-                </ul>
-            </div>
+                <h4 class="footer-col__title">{{ $footercat->category_name }}</h4>
 
-            {{-- Customer Care --}}
-            <div class="footer-col">
-                <h4 class="footer-col__title">Customer Care</h4>
                 <ul class="footer-col__list">
-                    <li><a href="#"><i class="bi bi-chevron-right"></i> Return Policy</a></li>
-                    <li><a href="#"><i class="bi bi-chevron-right"></i> Refund Policy</a></li>
-                    <li><a href="#"><i class="bi bi-chevron-right"></i> Shipping Policy</a></li>
-                    <li><a href="#"><i class="bi bi-chevron-right"></i> Help Center</a></li>
-                    <li><a href="{{ route('order.track') }}"><i class="bi bi-chevron-right"></i> Track Your Order</a></li>
-                    <li><a href="#"><i class="bi bi-chevron-right"></i> Report a Problem</a></li>
+                    @foreach($footercat->pages as $page)
+                    <li>
+                        <a href="{{ route('multi.plepage', $page->id) }}">
+                            <i class="bi bi-chevron-right"></i>
+                            {{ $page->name }}
+                        </a>
+                    </li>
+                    @endforeach
                 </ul>
+
             </div>
+            @endif
+        @endforeach
 
         </div>{{-- /.footer-grid --}}
 

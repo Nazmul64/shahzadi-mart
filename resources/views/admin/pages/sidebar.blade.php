@@ -810,8 +810,8 @@ body.sb-collapsed .sidebar-submenu { display: none; }
             <a href="{{ route('admin.aiprompt.index') }}" class="{{ request()->routeIs('admin.aiprompt.*') ? 'active' : '' }}">
                 <i class="bi bi-translate"></i> Ai Prompt Settings
             </a>
-            <a href="#"><i class="bi bi-fonts"></i> Font Options</a>
-            <a href="#"><i class="bi bi-graph-up-arrow"></i> SEO Tools</a>
+            <a href="{{route('admin.pages.index')}}"><i class="bi bi-fonts"></i> Page Management</a>
+            <a href="{{route('admin.footercategory.index')}}"><i class="bi bi-graph-up-arrow"></i>Footer Category</a>
         </div>
 
         {{-- API Integration --}}
