@@ -6,6 +6,8 @@
 @php
     $dashActive       = request()->routeIs('admin.dashboard');
 
+    $posActive        = request()->routeIs('admin.pos.*');
+
     $ordersActive     = request()->routeIs('admin.order.*')
                      || request()->routeIs('admin.orders.*');
 
@@ -36,7 +38,6 @@
 
     $reviewsActive    = request()->routeIs('admin.reviews.*');
 
-    // incomplete-orders — full name: admin.incomplete-orders.*
     $incompleteActive = request()->routeIs('admin.incomplete-orders.*');
 
     $campaignActive   = request()->routeIs('admin.campaigncreate.*');
@@ -377,6 +378,7 @@ body.sb-collapsed .sidebar-submenu { display: none; }
         {{-- ════ MAIN ════ --}}
         <div class="sidebar-section-label">Main</div>
 
+        {{-- Dashboard --}}
         <a href="{{ route('admin.dashboard') }}"
            class="sidebar-item {{ $dashActive ? 'active' : '' }}">
             <span class="item-left">
@@ -384,6 +386,32 @@ body.sb-collapsed .sidebar-submenu { display: none; }
                 <span class="item-text">Dashboard</span>
             </span>
         </a>
+
+        {{-- POS Management --}}
+        <div class="sidebar-item {{ $posActive ? 'active open' : '' }}" onclick="sbToggle(this)">
+            <span class="item-left">
+                <i class="bi bi-shop-window nav-icon"></i>
+                <span class="item-text">POS Management</span>
+            </span>
+            <i class="bi bi-chevron-right arrow"></i>
+        </div>
+        <div class="sidebar-submenu {{ $posActive ? 'open' : '' }}">
+            {{-- route: admin.pos.index --}}
+            <a href="{{ route('admin.pos.index') }}"
+               class="{{ request()->routeIs('admin.pos.index') ? 'active' : '' }}">
+                <i class="bi bi-display"></i> POS
+            </a>
+            {{-- route: admin.pos.orders (POS Sales History) --}}
+            <a href="{{ route('admin.pos.orders') }}"
+               class="{{ request()->routeIs('admin.pos.orders') ? 'active' : '' }}">
+                <i class="bi bi-clock-history"></i> POS Sales History
+            </a>
+            {{-- POS Draft — placeholder until route exists --}}
+            <a href="#"
+               class="{{ request()->routeIs('admin.pos.draft') ? 'active' : '' }}">
+                <i class="bi bi-file-earmark-text"></i> POS Draft
+            </a>
+        </div>
 
         {{-- ════ E-COMMERCE ════ --}}
         <div class="sb-sep"></div>
@@ -417,7 +445,6 @@ body.sb-collapsed .sidebar-submenu { display: none; }
             <i class="bi bi-chevron-right arrow"></i>
         </div>
         <div class="sidebar-submenu {{ $ordersActive ? 'open' : '' }}">
-            {{-- route: admin.order.allorder --}}
             <a href="{{ route('admin.order.allorder') }}"
                class="{{ request()->routeIs('admin.order.allorder') && !request()->filled('status') ? 'active' : '' }}">
                 <i class="bi bi-list-ul"></i> All Orders
@@ -442,15 +469,13 @@ body.sb-collapsed .sidebar-submenu { display: none; }
                class="{{ request()->routeIs('admin.order.allorder') && request('status') === 'cancelled' ? 'active' : '' }}">
                 <i class="bi bi-x-circle"></i> Cancelled
             </a>
-            {{-- route: admin.order.create --}}
             <a href="{{ route('admin.order.create') }}"
                class="{{ request()->routeIs('admin.order.create') ? 'active' : '' }}">
                 <i class="bi bi-plus-circle"></i> Create Order
             </a>
         </div>
 
-        {{-- Incomplete Orders — direct link (no submenu) --}}
-        {{-- route: admin.incomplete-orders.index --}}
+        {{-- Incomplete Orders --}}
         <a href="{{ route('admin.incomplete-orders.index') }}"
            class="sidebar-item {{ $incompleteActive ? 'active' : '' }}">
             <span class="item-left">
@@ -519,7 +544,6 @@ body.sb-collapsed .sidebar-submenu { display: none; }
                class="{{ request()->routeIs('admin.products.catalog') ? 'active' : '' }}">
                 <i class="bi bi-journal-text"></i> Catalog
             </a>
-            {{-- route: admin.product.settings.index --}}
             <a href="{{ route('admin.product.settings.index') }}"
                class="{{ request()->routeIs('admin.product.settings.*') ? 'active' : '' }}">
                 <i class="bi bi-gear"></i> Product Settings
@@ -581,7 +605,6 @@ body.sb-collapsed .sidebar-submenu { display: none; }
             <i class="bi bi-chevron-right arrow"></i>
         </div>
         <div class="sidebar-submenu {{ $custsActive ? 'open' : '' }}">
-            {{-- route: customer.index (outside admin group) --}}
             <a href="{{ route('customer.index') }}"
                class="{{ request()->routeIs('customer.index') ? 'active' : '' }}">
                 <i class="bi bi-list-ul"></i> All Customers
@@ -625,7 +648,6 @@ body.sb-collapsed .sidebar-submenu { display: none; }
             <i class="bi bi-chevron-right arrow"></i>
         </div>
         <div class="sidebar-submenu {{ $usersActive ? 'open' : '' }}">
-            {{-- route: admin.users.index --}}
             <a href="{{ route('admin.users.index') }}"
                class="{{ request()->routeIs('admin.users.index') ? 'active' : '' }}">
                 <i class="bi bi-list-ul"></i> All Users
@@ -636,7 +658,7 @@ body.sb-collapsed .sidebar-submenu { display: none; }
             </a>
         </div>
 
-        {{-- Vendors (placeholder) --}}
+        {{-- Vendors --}}
         <div class="sidebar-item {{ $vendorsActive ? 'active open' : '' }}" onclick="sbToggle(this)">
             <span class="item-left">
                 <i class="bi bi-shop nav-icon"></i>
@@ -674,8 +696,6 @@ body.sb-collapsed .sidebar-submenu { display: none; }
                 <span class="item-text">About Company</span>
             </span>
         </a>
-
-
         <a href="{{ route('admin.contactinfomationadmins.index') }}" class="sidebar-item">
             <span class="item-left">
                 <i class="bi bi-wallet2 nav-icon"></i>
@@ -702,7 +722,6 @@ body.sb-collapsed .sidebar-submenu { display: none; }
             <i class="bi bi-chevron-right arrow"></i>
         </div>
         <div class="sidebar-submenu {{ $rolesActive ? 'open' : '' }}">
-            {{-- route: admin.roles.index --}}
             <a href="{{ route('admin.roles.index') }}"
                class="{{ request()->routeIs('admin.roles.index') ? 'active' : '' }}">
                 <i class="bi bi-list-ul"></i> All Roles
@@ -722,7 +741,6 @@ body.sb-collapsed .sidebar-submenu { display: none; }
             <i class="bi bi-chevron-right arrow"></i>
         </div>
         <div class="sidebar-submenu {{ $permsActive ? 'open' : '' }}">
-            {{-- route: admin.permissions.index --}}
             <a href="{{ route('admin.permissions.index') }}"
                class="{{ request()->routeIs('admin.permissions.index') ? 'active' : '' }}">
                 <i class="bi bi-list-ul"></i> All Permissions
@@ -744,7 +762,7 @@ body.sb-collapsed .sidebar-submenu { display: none; }
         <div class="sb-sep"></div>
         <div class="sidebar-section-label">Settings</div>
 
-        {{-- Blog (placeholder) --}}
+        {{-- Blog --}}
         <div class="sidebar-item {{ $blogsActive ? 'active open' : '' }}" onclick="sbToggle(this)">
             <span class="item-left">
                 <i class="bi bi-pencil-square nav-icon"></i>
@@ -766,52 +784,54 @@ body.sb-collapsed .sidebar-submenu { display: none; }
             <i class="bi bi-chevron-right arrow"></i>
         </div>
         <div class="sidebar-submenu {{ $settingsActive ? 'open' : '' }}">
-            {{-- route: admin.Generalsettings.index --}}
             <a href="{{ route('admin.Generalsettings.index') }}"
                class="{{ request()->routeIs('admin.Generalsettings.*') ? 'active' : '' }}">
                 <i class="bi bi-image"></i> Logo Settings
             </a>
-            {{-- route: admin.contact.index --}}
             <a href="{{ route('admin.contact.index') }}"
                class="{{ request()->routeIs('admin.contact.*') ? 'active' : '' }}">
                 <i class="bi bi-telephone"></i> Contact Settings
             </a>
-            {{-- route: admin.pixels.index --}}
             <a href="{{ route('admin.pixels.index') }}"
                class="{{ request()->routeIs('admin.pixels.*') ? 'active' : '' }}">
                 <i class="bi bi-code-square"></i> Pixels Settings
             </a>
-            {{-- route: admin.googletagmanager.index --}}
             <a href="{{ route('admin.googletagmanager.index') }}"
                class="{{ request()->routeIs('admin.googletagmanager.*') ? 'active' : '' }}">
                 <i class="bi bi-google"></i> Google Tag Manager
             </a>
-            {{-- route: admin.websitefavicon.index --}}
             <a href="{{ route('admin.websitefavicon.index') }}"
                class="{{ request()->routeIs('admin.websitefavicon.*') ? 'active' : '' }}">
                 <i class="bi bi-layout-text-sidebar"></i> Website Favicon
             </a>
-            {{-- route: admin.campaigncreate.index --}}
             <a href="{{ route('admin.campaigncreate.index') }}"
                class="{{ request()->routeIs('admin.campaigncreate.*') ? 'active' : '' }}">
                 <i class="bi bi-megaphone"></i> Campaign Create
             </a>
-            {{-- route: admin.reviews.index  ✅ FIXED (was admin.admin.reviews.index) --}}
             <a href="{{ route('admin.reviews.index') }}"
                class="{{ request()->routeIs('admin.reviews.*') ? 'active' : '' }}">
                 <i class="bi bi-star-half"></i> Product Reviews
             </a>
-            {{-- route: admin.shipping.index --}}
             <a href="{{ route('admin.shipping.index') }}"
                class="{{ request()->routeIs('admin.shipping.*') ? 'active' : '' }}">
                 <i class="bi bi-cash-stack"></i> Shipping Charge
             </a>
-            <a href="{{route('admin.alltaxes.index')}}" class="{{ request()->routeIs('admin.alltaxes.*') ? 'active' : '' }}"><i class="bi bi-share"></i> All Taxes</a>
-            <a href="{{ route('admin.aiprompt.index') }}" class="{{ request()->routeIs('admin.aiprompt.*') ? 'active' : '' }}">
-                <i class="bi bi-translate"></i> Ai Prompt Settings
+            <a href="{{ route('admin.alltaxes.index') }}"
+               class="{{ request()->routeIs('admin.alltaxes.*') ? 'active' : '' }}">
+                <i class="bi bi-share"></i> All Taxes
             </a>
-            <a href="{{route('admin.pages.index')}}"><i class="bi bi-fonts"></i> Page Management</a>
-            <a href="{{route('admin.footercategory.index')}}"><i class="bi bi-graph-up-arrow"></i>Footer Category</a>
+            <a href="{{ route('admin.aiprompt.index') }}"
+               class="{{ request()->routeIs('admin.aiprompt.*') ? 'active' : '' }}">
+                <i class="bi bi-translate"></i> AI Prompt Settings
+            </a>
+            <a href="{{ route('admin.pages.index') }}"
+               class="{{ request()->routeIs('admin.pages.*') ? 'active' : '' }}">
+                <i class="bi bi-fonts"></i> Page Management
+            </a>
+            <a href="{{ route('admin.footercategory.index') }}"
+               class="{{ request()->routeIs('admin.footercategory.*') ? 'active' : '' }}">
+                <i class="bi bi-graph-up-arrow"></i> Footer Category
+            </a>
         </div>
 
         {{-- API Integration --}}
@@ -823,7 +843,6 @@ body.sb-collapsed .sidebar-submenu { display: none; }
             <i class="bi bi-chevron-right arrow"></i>
         </div>
         <div class="sidebar-submenu {{ $apiActive ? 'open' : '' }}">
-            {{-- route: admin.paymentgetewaymanage.index --}}
             <a href="{{ route('admin.paymentgetewaymanage.index') }}"
                class="{{ request()->routeIs('admin.paymentgetewaymanage.index') ? 'active' : '' }}">
                 <i class="bi bi-list-ul"></i> All Integrations
@@ -832,22 +851,18 @@ body.sb-collapsed .sidebar-submenu { display: none; }
                class="{{ request()->routeIs('admin.paymentgetewaymanage.create') ? 'active' : '' }}">
                 <i class="bi bi-plus-circle"></i> Create Integration
             </a>
-            {{-- route: admin.steadfastcourier.create --}}
             <a href="{{ route('admin.steadfastcourier.create') }}"
                class="{{ request()->routeIs('admin.steadfastcourier.*') ? 'active' : '' }}">
                 <i class="bi bi-truck"></i> Steadfast Courier
             </a>
-            {{-- route: admin.pathaocourier.create --}}
             <a href="{{ route('admin.pathaocourier.create') }}"
                class="{{ request()->routeIs('admin.pathaocourier.*') ? 'active' : '' }}">
                 <i class="bi bi-bicycle"></i> Pathao Courier
             </a>
-            {{-- route: admin.Smsgatewaysetup.create --}}
             <a href="{{ route('admin.Smsgatewaysetup.create') }}"
                class="{{ request()->routeIs('admin.Smsgatewaysetup.*') ? 'active' : '' }}">
                 <i class="bi bi-chat-square-dots"></i> SMS Gateway
             </a>
-            {{-- route: admin.payment.index --}}
             <a href="{{ route('admin.payment.index') }}"
                class="{{ request()->routeIs('admin.payment.*') ? 'active' : '' }}">
                 <i class="bi bi-credit-card-2-front"></i> Payment Settings

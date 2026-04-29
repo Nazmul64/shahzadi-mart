@@ -13,7 +13,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::FxqYFF1GO8AcvAkX',
+            '_route' => 'generated::zHyFmCvuP8PGrFzh',
           ),
           1 => NULL,
           2 => 
@@ -196,7 +196,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::43aNlQU1hEmQdNhX',
+            '_route' => 'generated::YqpoYXG86EIMRZel',
           ),
           1 => NULL,
           2 => 
@@ -334,7 +334,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'admin.dashboard',
+            '_route' => 'user.dashboard',
           ),
           1 => NULL,
           2 => 
@@ -879,7 +879,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::EkUnVvFLVxpNnS7n',
+            '_route' => 'generated::BSQPx8rdPewxlb1B',
           ),
           1 => NULL,
           2 => 
@@ -1030,7 +1030,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'user.dashboard',
+            '_route' => 'customer.dashboard',
           ),
           1 => NULL,
           2 => 
@@ -1155,7 +1155,183 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/sellerregistercheck' => 
+      '/webhook/steadfast' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'steadfast.webhook',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/admin/dashboard' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.dashboard',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/admin/pos' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.pos.index',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/admin/pos/search-products' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.pos.searchProducts',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/admin/pos/search-customers' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.pos.searchCustomers',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/admin/pos/store-customer' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.pos.storeCustomer',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/admin/pos/apply-coupon' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.pos.applyCoupon',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/admin/pos/place-order' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.pos.placeOrder',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/admin/pos/orders' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.pos.orders',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/admin/sellerregistercheck' => 
       array (
         0 => 
         array (
@@ -1175,7 +1351,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/seller/register/status' => 
+      '/admin/seller/register/status' => 
       array (
         0 => 
         array (
@@ -1195,7 +1371,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/seller-registrations' => 
+      '/admin/seller-registrations' => 
       array (
         0 => 
         array (
@@ -1215,7 +1391,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/seller-registrations/export' => 
+      '/admin/seller-registrations/export' => 
       array (
         0 => 
         array (
@@ -1235,7 +1411,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/coupons' => 
+      '/admin/coupons' => 
       array (
         0 => 
         array (
@@ -1271,7 +1447,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/coupons/create' => 
+      '/admin/coupons/create' => 
       array (
         0 => 
         array (
@@ -1291,7 +1467,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/roles' => 
+      '/admin/roles' => 
       array (
         0 => 
         array (
@@ -1327,7 +1503,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/roles/create' => 
+      '/admin/roles/create' => 
       array (
         0 => 
         array (
@@ -1347,7 +1523,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/permissions/bulk-create' => 
+      '/admin/permissions/bulk-create' => 
       array (
         0 => 
         array (
@@ -1366,7 +1542,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/permissions' => 
+      '/admin/permissions' => 
       array (
         0 => 
         array (
@@ -1402,7 +1578,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/permissions/create' => 
+      '/admin/permissions/create' => 
       array (
         0 => 
         array (
@@ -1422,7 +1598,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/users' => 
+      '/admin/users' => 
       array (
         0 => 
         array (
@@ -1458,7 +1634,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/users/create' => 
+      '/admin/users/create' => 
       array (
         0 => 
         array (
@@ -1478,7 +1654,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/category' => 
+      '/admin/category' => 
       array (
         0 => 
         array (
@@ -1514,7 +1690,27 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/subcategory' => 
+      '/admin/category/create' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.category.create',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/admin/subcategory' => 
       array (
         0 => 
         array (
@@ -1550,7 +1746,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/subcategory/create' => 
+      '/admin/subcategory/create' => 
       array (
         0 => 
         array (
@@ -1570,7 +1766,27 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/childcategory' => 
+      '/admin/get-subcategories' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.childcategory.getSubCategories',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/admin/childcategory' => 
       array (
         0 => 
         array (
@@ -1606,7 +1822,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/childcategory/create' => 
+      '/admin/childcategory/create' => 
       array (
         0 => 
         array (
@@ -1626,27 +1842,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/get-subcategories' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.childcategory.getSubCategories',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      '/products/get-subcategories' => 
+      '/admin/products/get-subcategories' => 
       array (
         0 => 
         array (
@@ -1666,7 +1862,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/products/get-childcategories' => 
+      '/admin/products/get-childcategories' => 
       array (
         0 => 
         array (
@@ -1686,7 +1882,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/products/deactivated' => 
+      '/admin/products/deactivated' => 
       array (
         0 => 
         array (
@@ -1706,7 +1902,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/products/flash-sales' => 
+      '/admin/products/flash-sales' => 
       array (
         0 => 
         array (
@@ -1726,7 +1922,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/products/new-arrivals' => 
+      '/admin/products/new-arrivals' => 
       array (
         0 => 
         array (
@@ -1746,7 +1942,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/products/bestsellers' => 
+      '/admin/products/bestsellers' => 
       array (
         0 => 
         array (
@@ -1766,7 +1962,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/products/catalog' => 
+      '/admin/products/catalog' => 
       array (
         0 => 
         array (
@@ -1786,7 +1982,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/products' => 
+      '/admin/products' => 
       array (
         0 => 
         array (
@@ -1822,7 +2018,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/products/create' => 
+      '/admin/products/create' => 
       array (
         0 => 
         array (
@@ -1842,7 +2038,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/product-settings' => 
+      '/admin/product-settings' => 
       array (
         0 => 
         array (
@@ -1862,7 +2058,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/product-settings/update' => 
+      '/admin/product-settings/update' => 
       array (
         0 => 
         array (
@@ -1881,7 +2077,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/affiliateproduct/get-sub-categories' => 
+      '/admin/affiliateproduct/get-sub-categories' => 
       array (
         0 => 
         array (
@@ -1901,7 +2097,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/affiliateproduct/get-child-categories' => 
+      '/admin/affiliateproduct/get-child-categories' => 
       array (
         0 => 
         array (
@@ -1921,7 +2117,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/affiliateproduct' => 
+      '/admin/affiliateproduct' => 
       array (
         0 => 
         array (
@@ -1957,7 +2153,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/affiliateproduct/create' => 
+      '/admin/affiliateproduct/create' => 
       array (
         0 => 
         array (
@@ -1977,7 +2173,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/Generalsettings/upload-logo' => 
+      '/admin/Generalsettings/upload-logo' => 
       array (
         0 => 
         array (
@@ -1996,7 +2192,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/Generalsettings/delete-logo' => 
+      '/admin/Generalsettings/delete-logo' => 
       array (
         0 => 
         array (
@@ -2015,7 +2211,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/Generalsettings' => 
+      '/admin/Generalsettings' => 
       array (
         0 => 
         array (
@@ -2051,7 +2247,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/Generalsettings/create' => 
+      '/admin/Generalsettings/create' => 
       array (
         0 => 
         array (
@@ -2071,7 +2267,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/websitefavicon/upload-logo' => 
+      '/admin/websitefavicon/upload-logo' => 
       array (
         0 => 
         array (
@@ -2090,7 +2286,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/websitefavicon/delete-logo' => 
+      '/admin/websitefavicon/delete-logo' => 
       array (
         0 => 
         array (
@@ -2109,7 +2305,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/websitefavicon' => 
+      '/admin/websitefavicon' => 
       array (
         0 => 
         array (
@@ -2145,7 +2341,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/websitefavicon/create' => 
+      '/admin/websitefavicon/create' => 
       array (
         0 => 
         array (
@@ -2165,7 +2361,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/slider' => 
+      '/admin/slider' => 
       array (
         0 => 
         array (
@@ -2201,7 +2397,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/slider/create' => 
+      '/admin/slider/create' => 
       array (
         0 => 
         array (
@@ -2221,7 +2417,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/shipping' => 
+      '/admin/shipping' => 
       array (
         0 => 
         array (
@@ -2257,7 +2453,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/shipping/create' => 
+      '/admin/shipping/create' => 
       array (
         0 => 
         array (
@@ -2277,7 +2473,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/orders/bulk-delete' => 
+      '/admin/orders/bulk-delete' => 
       array (
         0 => 
         array (
@@ -2296,7 +2492,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/orders/bulk-status' => 
+      '/admin/orders/bulk-status' => 
       array (
         0 => 
         array (
@@ -2315,7 +2511,45 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/orders/create' => 
+      '/admin/orders/bulk-send-steadfast' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.steadfast.bulk-send',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/admin/orders/bulk-send-pathao' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.pathao.bulk-send',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/admin/orders/create' => 
       array (
         0 => 
         array (
@@ -2335,7 +2569,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/orders' => 
+      '/admin/orders' => 
       array (
         0 => 
         array (
@@ -2371,7 +2605,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/steadfast/test' => 
+      '/admin/steadfast/test' => 
       array (
         0 => 
         array (
@@ -2391,7 +2625,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/pathao/test' => 
+      '/admin/pathao/test' => 
       array (
         0 => 
         array (
@@ -2411,7 +2645,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/pathao/stores' => 
+      '/admin/pathao/stores' => 
       array (
         0 => 
         array (
@@ -2431,7 +2665,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/pathao/cities' => 
+      '/admin/pathao/cities' => 
       array (
         0 => 
         array (
@@ -2451,7 +2685,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/pathao/zones' => 
+      '/admin/pathao/zones' => 
       array (
         0 => 
         array (
@@ -2471,7 +2705,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/pathao/areas' => 
+      '/admin/pathao/areas' => 
       array (
         0 => 
         array (
@@ -2491,7 +2725,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/pathao/debug/phone' => 
+      '/admin/pathao/debug/phone' => 
       array (
         0 => 
         array (
@@ -2511,7 +2745,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/pathao/debug/payload' => 
+      '/admin/pathao/debug/payload' => 
       array (
         0 => 
         array (
@@ -2531,7 +2765,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/pathao/debug/token' => 
+      '/admin/pathao/debug/token' => 
       array (
         0 => 
         array (
@@ -2551,7 +2785,259 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/contact' => 
+      '/admin/incomplete-orders' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.incomplete-orders.index',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/admin/incomplete-orders/bulk-delete' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.incomplete-orders.bulk-delete',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'DELETE' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/admin/incomplete-orders/bulk-status' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.incomplete-orders.bulk-status',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'PATCH' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/admin/incomplete-orders/steadfast/bulk-send' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.incomplete-orders.steadfast.bulk-send',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/admin/incomplete-orders/pathao/bulk-send' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.incomplete-orders.pathao.bulk-send',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/admin/chat' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.chat.index',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/admin/chat/unread-count' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.chat.unread',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/admin/reviews' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.reviews.index',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/admin/payment-settings' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.payment.index',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/admin/payment-settings/bkash' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.payment.bkash.store',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/admin/payment-settings/shurjopay' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.payment.shurjopay.store',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/admin/payment-settings/bkash/toggle' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.payment.bkash.toggle',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/admin/payment-settings/shurjopay/toggle' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.payment.shurjopay.toggle',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/admin/contact' => 
       array (
         0 => 
         array (
@@ -2587,7 +3073,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/contact/create' => 
+      '/admin/contact/create' => 
       array (
         0 => 
         array (
@@ -2607,7 +3093,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/pixels' => 
+      '/admin/pixels' => 
       array (
         0 => 
         array (
@@ -2643,7 +3129,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/pixels/create' => 
+      '/admin/pixels/create' => 
       array (
         0 => 
         array (
@@ -2663,7 +3149,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/googletagmanager' => 
+      '/admin/googletagmanager' => 
       array (
         0 => 
         array (
@@ -2699,7 +3185,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/googletagmanager/create' => 
+      '/admin/googletagmanager/create' => 
       array (
         0 => 
         array (
@@ -2719,7 +3205,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/paymentgetewaymanage' => 
+      '/admin/paymentgetewaymanage' => 
       array (
         0 => 
         array (
@@ -2755,7 +3241,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/paymentgetewaymanage/create' => 
+      '/admin/paymentgetewaymanage/create' => 
       array (
         0 => 
         array (
@@ -2775,7 +3261,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/steadfastcourier' => 
+      '/admin/steadfastcourier' => 
       array (
         0 => 
         array (
@@ -2811,7 +3297,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/steadfastcourier/create' => 
+      '/admin/steadfastcourier/create' => 
       array (
         0 => 
         array (
@@ -2831,7 +3317,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/pathaocourier/generate-token' => 
+      '/admin/pathaocourier/generate-token' => 
       array (
         0 => 
         array (
@@ -2851,7 +3337,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/pathaocourier' => 
+      '/admin/pathaocourier' => 
       array (
         0 => 
         array (
@@ -2887,7 +3373,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/pathaocourier/create' => 
+      '/admin/pathaocourier/create' => 
       array (
         0 => 
         array (
@@ -2907,7 +3393,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/Smsgatewaysetup' => 
+      '/admin/Smsgatewaysetup' => 
       array (
         0 => 
         array (
@@ -2943,7 +3429,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/Smsgatewaysetup/create' => 
+      '/admin/Smsgatewaysetup/create' => 
       array (
         0 => 
         array (
@@ -2963,7 +3449,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/campaigncreate' => 
+      '/admin/campaigncreate' => 
       array (
         0 => 
         array (
@@ -2999,7 +3485,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/campaigncreate/create' => 
+      '/admin/campaigncreate/create' => 
       array (
         0 => 
         array (
@@ -3019,259 +3505,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/incomplete-orders' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.incomplete-orders.index',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      '/incomplete-orders/bulk-delete' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.incomplete-orders.bulk-delete',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'DELETE' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      '/incomplete-orders/bulk-status' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.incomplete-orders.bulk-status',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'PATCH' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      '/incomplete-orders/steadfast/bulk-send' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.incomplete-orders.steadfast.bulk-send',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      '/incomplete-orders/pathao/bulk-send' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.incomplete-orders.pathao.bulk-send',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      '/chat' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.chat.index',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      '/chat/unread-count' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.chat.unread',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      '/reviews' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.reviews.index',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      '/payment-settings' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.payment.index',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      '/payment-settings/bkash' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.payment.bkash.store',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      '/payment-settings/shurjopay' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.payment.shurjopay.store',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      '/payment-settings/bkash/toggle' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.payment.bkash.toggle',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      '/payment-settings/shurjopay/toggle' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.payment.shurjopay.toggle',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      '/contactinfomationadmins' => 
+      '/admin/contactinfomationadmins' => 
       array (
         0 => 
         array (
@@ -3307,7 +3541,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/contactinfomationadmins/create' => 
+      '/admin/contactinfomationadmins/create' => 
       array (
         0 => 
         array (
@@ -3327,7 +3561,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/aboutcompany' => 
+      '/admin/aboutcompany' => 
       array (
         0 => 
         array (
@@ -3363,7 +3597,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/aboutcompany/create' => 
+      '/admin/aboutcompany/create' => 
       array (
         0 => 
         array (
@@ -3383,7 +3617,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/tremsandcondation' => 
+      '/admin/tremsandcondation' => 
       array (
         0 => 
         array (
@@ -3419,7 +3653,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/tremsandcondation/create' => 
+      '/admin/tremsandcondation/create' => 
       array (
         0 => 
         array (
@@ -3439,156 +3673,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/alltaxes' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.alltaxes.index',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-        1 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.alltaxes.store',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      '/alltaxes/create' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.alltaxes.create',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      '/aiprompt' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.aiprompt.index',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-        1 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.aiprompt.store',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      '/aiprompt/update-product' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.aiprompt.update-product',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      '/aiprompt/update-page' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.aiprompt.update-page',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      '/aiprompt/update-blog' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.aiprompt.update-blog',
-          ),
-          1 => NULL,
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      '/pages' => 
+      '/admin/pages' => 
       array (
         0 => 
         array (
@@ -3624,7 +3709,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/pages/create' => 
+      '/admin/pages/create' => 
       array (
         0 => 
         array (
@@ -3644,7 +3729,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/footercategory' => 
+      '/admin/footercategory' => 
       array (
         0 => 
         array (
@@ -3680,7 +3765,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/footercategory/create' => 
+      '/admin/footercategory/create' => 
       array (
         0 => 
         array (
@@ -3700,13 +3785,143 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/webhook/steadfast' => 
+      '/admin/alltaxes' => 
       array (
         0 => 
         array (
           0 => 
           array (
-            '_route' => 'steadfast.webhook',
+            '_route' => 'admin.alltaxes.index',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.alltaxes.store',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/admin/alltaxes/create' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.alltaxes.create',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/admin/aiprompt' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.aiprompt.index',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.aiprompt.store',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/admin/aiprompt/update-product' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.aiprompt.update-product',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/admin/aiprompt/update-page' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.aiprompt.update-page',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/admin/aiprompt/update-blog' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.aiprompt.update-blog',
           ),
           1 => NULL,
           2 => 
@@ -4072,7 +4287,7 @@ app('router')->setCompiledRoutes(
     ),
     2 => 
     array (
-      0 => '{^(?|/p(?|a(?|ssword/reset/([^/]++)(*:37)|ge(?|/([^/]++)(*:58)|s/([^/]++)(?|(*:78)|/edit(*:90)|(*:97)))|ymentgetewaymanage/([^/]++)(?|(*:136)|/(?|edit(*:152)|toggle\\-status(*:174))|(*:183))|thaocourier/([^/]++)(?|(*:215)|/edit(*:228)|(*:236)))|roduct(?|/([^/]++)(*:264)|s/([^/]++)(?|/(?|toggle\\-(?|status(*:306)|flash\\-sale(*:325)|new\\-arrival(*:345)|bestseller(*:363))|catalog\\-(?|add(*:387)|remove(*:401)|highlight(*:418)|gallery(*:433))|update\\-flash\\-sale(*:461)|edit(*:473))|(*:482)))|ermissions/([^/]++)(?|(*:514)|/edit(*:527)|(*:535))|ixels/([^/]++)(?|(*:561)|/edit(*:574)|(*:582)))|/c(?|a(?|mpaign(?|/manage/([^/]++)(*:626)|create/([^/]++)(?|(*:652)|/edit(*:665)|(*:673)))|tegory/(?|([^/]++)(?|(*:704)|/([^/]++)(?|(*:724)|/([^/]++)(*:741)))|create(*:757)|([^/]++)(?|(*:776)|/(?|edit(*:792)|toggle\\-(?|featured(*:819)|status(*:833)))|(*:843)))|rt/(?|add/([^/]++)(*:871)|remove/([^/]++)(*:894)|increase/([^/]++)(*:919)|decrease/([^/]++)(*:944)))|h(?|eckout/success/([^/]++)(*:981)|ildcategory/([^/]++)(?|(*:1012)|/(?|edit(*:1029)|toggle\\-(?|featured(*:1057)|status(*:1072)))|(*:1083))|at/([^/]++)(?|(*:1107)|/(?|reply(*:1125)|messages(*:1142)|close(*:1156))))|ustomer/([^/]++)(?|(*:1187)|/(?|edit(*:1204)|status(*:1219)|make\\-vendor(*:1240))|(*:1250))|o(?|upons/([^/]++)(?|(*:1281)|/(?|edit(*:1298)|status(*:1313))|(*:1323))|ntact(?|/([^/]++)(?|(*:1353)|/edit(*:1367)|(*:1376))|infomationadmins/([^/]++)(?|(*:1414)|/edit(*:1428)|(*:1437)))))|/order(?|/cancel/([^/]++)(*:1475)|s/(?|([^/]++)(?|(*:1500)|/(?|edit(*:1517)|status(*:1532)|payment\\-status(*:1556))|(*:1566))|bulk\\-send\\-steadfast(*:1597)|([^/]++)/send\\-steadfast(*:1630)|bulk\\-send\\-pathao(*:1657)|([^/]++)/send\\-pathao(*:1687)))|/w(?|ishlist/(?|add/([^/]++)(*:1726)|remove/([^/]++)(*:1750)|move\\-to\\-cart/([^/]++)(*:1782))|ebsitefavicon/([^/]++)(?|(*:1817)|/edit(*:1831)|(*:1840)))|/s(?|eller\\-registrations/([^/]++)/(?|approve(*:1896)|re(?|ject(*:1914)|activate(*:1931))|suspend(*:1948)|view(*:1961))|ubcategory/([^/]++)(?|(*:1993)|/(?|edit(*:2010)|toggle\\-(?|featured(*:2038)|status(*:2053)))|(*:2064))|lider/([^/]++)(?|(*:2091)|/edit(*:2105)|(*:2114))|hipping/([^/]++)(?|/edit(*:2148)|(*:2157))|t(?|eadfastcourier/([^/]++)(?|(*:2197)|/edit(*:2211)|(*:2220))|orage/(.*)(*:2240)))|/r(?|oles/([^/]++)(?|(*:2272)|/(?|edit(*:2289)|assign\\-permission(*:2316)|save\\-assigned\\-permission(*:2351))|(*:2361))|eviews/(?|([^/]++)(?|/(?|approve(*:2403)|unapprove(*:2421))|(*:2431))|bulk(*:2445)))|/users/([^/]++)(?|(*:2474)|/(?|edit(*:2491)|toggle\\-status(*:2514))|(*:2524))|/a(?|ffiliateproduct/([^/]++)(?|/(?|toggle\\-status(*:2584)|edit(*:2597))|(*:2607))|boutcompany/([^/]++)(?|(*:2640)|/edit(*:2654)|(*:2663))|lltaxes/([^/]++)(?|(*:2692)|/(?|edit(*:2709)|toggle(*:2724))|(*:2734)))|/Generalsettings/([^/]++)(?|(*:2773)|/edit(*:2787)|(*:2796))|/t(?|oggle/([^/]++)(*:2825)|remsandcondation/([^/]++)(?|(*:2862)|/edit(*:2876)|(*:2885)))|/googletagmanager/([^/]++)(?|(*:2925)|/edit(*:2939)|(*:2948))|/Smsgatewaysetup/([^/]++)(?|(*:2986)|/edit(*:3000)|(*:3009))|/incomplete\\-orders/([^/]++)(?|(*:3050)|/(?|st(?|atus(*:3072)|eadfast\\-send(*:3094))|contacted(*:3113)|recovered(*:3131)|pathao\\-send(*:3152)))|/footercategory/([^/]++)(?|(*:3190)|/edit(*:3204)|(*:3213)))/?$}sDu',
+      0 => '{^(?|/p(?|a(?|ssword/reset/([^/]++)(*:37)|ge/([^/]++)(*:55))|roduct/([^/]++)(*:78))|/c(?|a(?|mpaign/manage/([^/]++)(*:117)|tegory/([^/]++)(?|(*:143)|/([^/]++)(?|(*:163)|/([^/]++)(*:180)))|rt/(?|add/([^/]++)(*:208)|remove/([^/]++)(*:231)|increase/([^/]++)(*:256)|decrease/([^/]++)(*:281)))|heckout/success/([^/]++)(*:315)|ustomer/([^/]++)(?|(*:342)|/(?|edit(*:358)|status(*:372)|make\\-vendor(*:392))|(*:401)))|/order/cancel/([^/]++)(*:433)|/wishlist/(?|add/([^/]++)(*:466)|remove/([^/]++)(*:489)|move\\-to\\-cart/([^/]++)(*:520))|/admin/(?|p(?|os/(?|cancel\\-order/([^/]++)(*:571)|invoice/([^/]++)(*:595))|ermissions/([^/]++)(?|(*:626)|/edit(*:639)|(*:647))|roducts/([^/]++)(?|/(?|toggle\\-(?|status(*:696)|flash\\-sale(*:715)|new\\-arrival(*:735)|bestseller(*:753))|catalog\\-(?|add(*:777)|remove(*:791)|highlight(*:808)|gallery(*:823))|update\\-flash\\-sale(*:851)|edit(*:863))|(*:872))|ixels/([^/]++)(?|(*:898)|/edit(*:911)|(*:919))|a(?|ymentgetewaymanage/([^/]++)(?|(*:962)|/(?|edit(*:978)|toggle\\-status(*:1000))|(*:1010))|thaocourier/([^/]++)(?|(*:1043)|/edit(*:1057)|(*:1066))|ges/([^/]++)(?|(*:1091)|/edit(*:1105)|(*:1114))))|s(?|eller\\-registrations/([^/]++)/(?|view(*:1167)|approve(*:1183)|re(?|ject(*:1201)|activate(*:1218))|suspend(*:1235))|ubcategory/([^/]++)(?|/(?|toggle\\-(?|featured(*:1290)|status(*:1305))|edit(*:1319))|(*:1329))|lider/([^/]++)(?|(*:1356)|/edit(*:1370)|(*:1379))|hipping/([^/]++)(?|/edit(*:1413)|(*:1422))|teadfastcourier/([^/]++)(?|(*:1459)|/edit(*:1473)|(*:1482)))|c(?|o(?|upons/([^/]++)(?|(*:1518)|/(?|edit(*:1535)|status(*:1550))|(*:1560))|ntact(?|/([^/]++)(?|(*:1590)|/edit(*:1604)|(*:1613))|infomationadmins/([^/]++)(?|(*:1651)|/edit(*:1665)|(*:1674))))|a(?|tegory/([^/]++)(?|/(?|toggle\\-(?|featured(*:1731)|status(*:1746))|edit(*:1760))|(*:1770))|mpaigncreate/([^/]++)(?|(*:1804)|/edit(*:1818)|(*:1827)))|h(?|ildcategory/([^/]++)(?|/(?|toggle\\-(?|featured(*:1888)|status(*:1903))|edit(*:1917))|(*:1927))|at/([^/]++)(?|(*:1951)|/(?|reply(*:1969)|messages(*:1986)|close(*:2000)))))|r(?|oles/([^/]++)(?|(*:2033)|/(?|edit(*:2050)|assign\\-permission(*:2077)|save\\-assigned\\-permission(*:2112))|(*:2122))|eviews/(?|([^/]++)(?|/(?|approve(*:2164)|unapprove(*:2182))|(*:2192))|bulk(*:2206)))|users/([^/]++)(?|(*:2234)|/(?|edit(*:2251)|toggle\\-status(*:2274))|(*:2284))|a(?|ffiliateproduct/([^/]++)(?|/(?|toggle\\-status(*:2343)|edit(*:2356))|(*:2366))|boutcompany/([^/]++)(?|(*:2399)|/edit(*:2413)|(*:2422))|lltaxes/([^/]++)(?|(*:2451)|/(?|edit(*:2468)|toggle(*:2483))|(*:2493)))|Generalsettings/([^/]++)(?|(*:2531)|/edit(*:2545)|(*:2554))|websitefavicon/([^/]++)(?|(*:2590)|/edit(*:2604)|(*:2613))|t(?|oggle/([^/]++)(*:2641)|remsandcondation/([^/]++)(?|(*:2678)|/edit(*:2692)|(*:2701)))|orders/([^/]++)(?|(*:2730)|/(?|edit(*:2747)|s(?|tatus(*:2765)|end\\-(?|steadfast(*:2791)|pathao(*:2806)))|payment\\-status(*:2832))|(*:2842))|incomplete\\-orders/([^/]++)(?|(*:2882)|/(?|st(?|atus(*:2904)|eadfast\\-send(*:2926))|contacted(*:2945)|recovered(*:2963)|pathao\\-send(*:2984)))|googletagmanager/([^/]++)(?|(*:3023)|/edit(*:3037)|(*:3046))|Smsgatewaysetup/([^/]++)(?|(*:3083)|/edit(*:3097)|(*:3106))|footercategory/([^/]++)(?|(*:3142)|/edit(*:3156)|(*:3165)))|/storage/(.*)(*:3189))/?$}sDu',
     ),
     3 => 
     array (
@@ -4099,7 +4314,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      58 => 
+      55 => 
       array (
         0 => 
         array (
@@ -4128,292 +4343,6 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'admin.pages.show',
-          ),
-          1 => 
-          array (
-            0 => 'page',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      90 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.pages.edit',
-          ),
-          1 => 
-          array (
-            0 => 'page',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      97 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.pages.update',
-          ),
-          1 => 
-          array (
-            0 => 'page',
-          ),
-          2 => 
-          array (
-            'PUT' => 0,
-            'PATCH' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-        1 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.pages.destroy',
-          ),
-          1 => 
-          array (
-            0 => 'page',
-          ),
-          2 => 
-          array (
-            'DELETE' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      136 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.paymentgetewaymanage.show',
-          ),
-          1 => 
-          array (
-            0 => 'paymentgetewaymanage',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      152 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.paymentgetewaymanage.edit',
-          ),
-          1 => 
-          array (
-            0 => 'paymentgetewaymanage',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      174 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.paymentgetewaymanage.toggle-status',
-          ),
-          1 => 
-          array (
-            0 => 'id',
-          ),
-          2 => 
-          array (
-            'PATCH' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      183 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.paymentgetewaymanage.update',
-          ),
-          1 => 
-          array (
-            0 => 'paymentgetewaymanage',
-          ),
-          2 => 
-          array (
-            'PUT' => 0,
-            'PATCH' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-        1 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.paymentgetewaymanage.destroy',
-          ),
-          1 => 
-          array (
-            0 => 'paymentgetewaymanage',
-          ),
-          2 => 
-          array (
-            'DELETE' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      215 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.pathaocourier.show',
-          ),
-          1 => 
-          array (
-            0 => 'pathaocourier',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      228 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.pathaocourier.edit',
-          ),
-          1 => 
-          array (
-            0 => 'pathaocourier',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      236 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.pathaocourier.update',
-          ),
-          1 => 
-          array (
-            0 => 'pathaocourier',
-          ),
-          2 => 
-          array (
-            'PUT' => 0,
-            'PATCH' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-        1 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.pathaocourier.destroy',
-          ),
-          1 => 
-          array (
-            0 => 'pathaocourier',
-          ),
-          2 => 
-          array (
-            'DELETE' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      264 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
             '_route' => 'product.detail',
           ),
           1 => 
@@ -4431,7 +4360,569 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      306 => 
+      117 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'campaign.manage',
+          ),
+          1 => 
+          array (
+            0 => 'id',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      143 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'category.page',
+          ),
+          1 => 
+          array (
+            0 => 'slug',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      163 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'subcategory.page',
+          ),
+          1 => 
+          array (
+            0 => 'catSlug',
+            1 => 'subSlug',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      180 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'childcategory.page',
+          ),
+          1 => 
+          array (
+            0 => 'catSlug',
+            1 => 'subSlug',
+            2 => 'childSlug',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      208 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'cart.add',
+          ),
+          1 => 
+          array (
+            0 => 'id',
+          ),
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      231 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'cart.remove',
+          ),
+          1 => 
+          array (
+            0 => 'key',
+          ),
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      256 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'cart.increase',
+          ),
+          1 => 
+          array (
+            0 => 'key',
+          ),
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      281 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'cart.decrease',
+          ),
+          1 => 
+          array (
+            0 => 'key',
+          ),
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      315 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'order.success',
+          ),
+          1 => 
+          array (
+            0 => 'orderNumber',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      342 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'customer.show',
+          ),
+          1 => 
+          array (
+            0 => 'customer',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      358 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'customer.edit',
+          ),
+          1 => 
+          array (
+            0 => 'customer',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      372 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'customer.status',
+          ),
+          1 => 
+          array (
+            0 => 'id',
+          ),
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      392 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'customer.makeVendor',
+          ),
+          1 => 
+          array (
+            0 => 'id',
+          ),
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      401 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'customer.update',
+          ),
+          1 => 
+          array (
+            0 => 'customer',
+          ),
+          2 => 
+          array (
+            'PUT' => 0,
+            'PATCH' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'customer.destroy',
+          ),
+          1 => 
+          array (
+            0 => 'customer',
+          ),
+          2 => 
+          array (
+            'DELETE' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      433 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'order.cancel',
+          ),
+          1 => 
+          array (
+            0 => 'orderNumber',
+          ),
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      466 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'wishlist.add',
+          ),
+          1 => 
+          array (
+            0 => 'id',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      489 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'wishlist.remove',
+          ),
+          1 => 
+          array (
+            0 => 'id',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      520 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'wishlist.moveToCart',
+          ),
+          1 => 
+          array (
+            0 => 'itemId',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      571 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.pos.cancelOrder',
+          ),
+          1 => 
+          array (
+            0 => 'session',
+          ),
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      595 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.pos.invoice',
+          ),
+          1 => 
+          array (
+            0 => 'session',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      626 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.permissions.show',
+          ),
+          1 => 
+          array (
+            0 => 'permission',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      639 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.permissions.edit',
+          ),
+          1 => 
+          array (
+            0 => 'permission',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      647 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.permissions.update',
+          ),
+          1 => 
+          array (
+            0 => 'permission',
+          ),
+          2 => 
+          array (
+            'PUT' => 0,
+            'PATCH' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.permissions.destroy',
+          ),
+          1 => 
+          array (
+            0 => 'permission',
+          ),
+          2 => 
+          array (
+            'DELETE' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      696 => 
       array (
         0 => 
         array (
@@ -4454,7 +4945,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      325 => 
+      715 => 
       array (
         0 => 
         array (
@@ -4476,7 +4967,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      345 => 
+      735 => 
       array (
         0 => 
         array (
@@ -4498,7 +4989,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      363 => 
+      753 => 
       array (
         0 => 
         array (
@@ -4520,7 +5011,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      387 => 
+      777 => 
       array (
         0 => 
         array (
@@ -4543,7 +5034,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      401 => 
+      791 => 
       array (
         0 => 
         array (
@@ -4565,7 +5056,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      418 => 
+      808 => 
       array (
         0 => 
         array (
@@ -4587,7 +5078,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      433 => 
+      823 => 
       array (
         0 => 
         array (
@@ -4610,7 +5101,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      461 => 
+      851 => 
       array (
         0 => 
         array (
@@ -4632,7 +5123,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      473 => 
+      863 => 
       array (
         0 => 
         array (
@@ -4655,7 +5146,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      482 => 
+      872 => 
       array (
         0 => 
         array (
@@ -4717,95 +5208,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      514 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.permissions.show',
-          ),
-          1 => 
-          array (
-            0 => 'permission',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      527 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.permissions.edit',
-          ),
-          1 => 
-          array (
-            0 => 'permission',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      535 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.permissions.update',
-          ),
-          1 => 
-          array (
-            0 => 'permission',
-          ),
-          2 => 
-          array (
-            'PUT' => 0,
-            'PATCH' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-        1 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.permissions.destroy',
-          ),
-          1 => 
-          array (
-            0 => 'permission',
-          ),
-          2 => 
-          array (
-            'DELETE' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      561 => 
+      898 => 
       array (
         0 => 
         array (
@@ -4828,7 +5231,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      574 => 
+      911 => 
       array (
         0 => 
         array (
@@ -4851,7 +5254,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      582 => 
+      919 => 
       array (
         0 => 
         array (
@@ -4893,17 +5296,17 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      626 => 
+      962 => 
       array (
         0 => 
         array (
           0 => 
           array (
-            '_route' => 'campaign.manage',
+            '_route' => 'admin.paymentgetewaymanage.show',
           ),
           1 => 
           array (
-            0 => 'id',
+            0 => 'paymentgetewaymanage',
           ),
           2 => 
           array (
@@ -4916,40 +5319,17 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      652 => 
+      978 => 
       array (
         0 => 
         array (
           0 => 
           array (
-            '_route' => 'admin.campaigncreate.show',
+            '_route' => 'admin.paymentgetewaymanage.edit',
           ),
           1 => 
           array (
-            0 => 'campaigncreate',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      665 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.campaigncreate.edit',
-          ),
-          1 => 
-          array (
-            0 => 'campaigncreate',
+            0 => 'paymentgetewaymanage',
           ),
           2 => 
           array (
@@ -4962,17 +5342,39 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      673 => 
+      1000 => 
       array (
         0 => 
         array (
           0 => 
           array (
-            '_route' => 'admin.campaigncreate.update',
+            '_route' => 'admin.paymentgetewaymanage.toggle-status',
           ),
           1 => 
           array (
-            0 => 'campaigncreate',
+            0 => 'id',
+          ),
+          2 => 
+          array (
+            'PATCH' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      1010 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.paymentgetewaymanage.update',
+          ),
+          1 => 
+          array (
+            0 => 'paymentgetewaymanage',
           ),
           2 => 
           array (
@@ -4988,11 +5390,11 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'admin.campaigncreate.destroy',
+            '_route' => 'admin.paymentgetewaymanage.destroy',
           ),
           1 => 
           array (
-            0 => 'campaigncreate',
+            0 => 'paymentgetewaymanage',
           ),
           2 => 
           array (
@@ -5004,17 +5406,17 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      704 => 
+      1043 => 
       array (
         0 => 
         array (
           0 => 
           array (
-            '_route' => 'category.page',
+            '_route' => 'admin.pathaocourier.show',
           ),
           1 => 
           array (
-            0 => 'slug',
+            0 => 'pathaocourier',
           ),
           2 => 
           array (
@@ -5024,368 +5426,6 @@ app('router')->setCompiledRoutes(
           3 => NULL,
           4 => false,
           5 => true,
-          6 => NULL,
-        ),
-      ),
-      724 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'subcategory.page',
-          ),
-          1 => 
-          array (
-            0 => 'catSlug',
-            1 => 'subSlug',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      741 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'childcategory.page',
-          ),
-          1 => 
-          array (
-            0 => 'catSlug',
-            1 => 'subSlug',
-            2 => 'childSlug',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      757 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.category.create',
-          ),
-          1 => 
-          array (
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      776 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.category.show',
-          ),
-          1 => 
-          array (
-            0 => 'category',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      792 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.category.edit',
-          ),
-          1 => 
-          array (
-            0 => 'category',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      819 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.category.toggle-featured',
-          ),
-          1 => 
-          array (
-            0 => 'id',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      833 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.category.toggle-status',
-          ),
-          1 => 
-          array (
-            0 => 'id',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      843 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.category.update',
-          ),
-          1 => 
-          array (
-            0 => 'category',
-          ),
-          2 => 
-          array (
-            'PUT' => 0,
-            'PATCH' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-        1 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.category.destroy',
-          ),
-          1 => 
-          array (
-            0 => 'category',
-          ),
-          2 => 
-          array (
-            'DELETE' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      871 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'cart.add',
-          ),
-          1 => 
-          array (
-            0 => 'id',
-          ),
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      894 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'cart.remove',
-          ),
-          1 => 
-          array (
-            0 => 'key',
-          ),
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      919 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'cart.increase',
-          ),
-          1 => 
-          array (
-            0 => 'key',
-          ),
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      944 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'cart.decrease',
-          ),
-          1 => 
-          array (
-            0 => 'key',
-          ),
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      981 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'order.success',
-          ),
-          1 => 
-          array (
-            0 => 'orderNumber',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      1012 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.childcategory.show',
-          ),
-          1 => 
-          array (
-            0 => 'childcategory',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      1029 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.childcategory.edit',
-          ),
-          1 => 
-          array (
-            0 => 'childcategory',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
           6 => NULL,
         ),
       ),
@@ -5395,11 +5435,11 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'admin.childcategory.toggle-featured',
+            '_route' => 'admin.pathaocourier.edit',
           ),
           1 => 
           array (
-            0 => 'id',
+            0 => 'pathaocourier',
           ),
           2 => 
           array (
@@ -5412,40 +5452,17 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1072 => 
+      1066 => 
       array (
         0 => 
         array (
           0 => 
           array (
-            '_route' => 'admin.childcategory.toggle-status',
+            '_route' => 'admin.pathaocourier.update',
           ),
           1 => 
           array (
-            0 => 'id',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      1083 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.childcategory.update',
-          ),
-          1 => 
-          array (
-            0 => 'childcategory',
+            0 => 'pathaocourier',
           ),
           2 => 
           array (
@@ -5461,11 +5478,11 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'admin.childcategory.destroy',
+            '_route' => 'admin.pathaocourier.destroy',
           ),
           1 => 
           array (
-            0 => 'childcategory',
+            0 => 'pathaocourier',
           ),
           2 => 
           array (
@@ -5477,17 +5494,17 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1107 => 
+      1091 => 
       array (
         0 => 
         array (
           0 => 
           array (
-            '_route' => 'admin.chat.show',
+            '_route' => 'admin.pages.show',
           ),
           1 => 
           array (
-            0 => 'chatSession',
+            0 => 'page',
           ),
           2 => 
           array (
@@ -5500,39 +5517,17 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1125 => 
+      1105 => 
       array (
         0 => 
         array (
           0 => 
           array (
-            '_route' => 'admin.chat.reply',
+            '_route' => 'admin.pages.edit',
           ),
           1 => 
           array (
-            0 => 'chatSession',
-          ),
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      1142 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.chat.messages',
-          ),
-          1 => 
-          array (
-            0 => 'chatSession',
+            0 => 'page',
           ),
           2 => 
           array (
@@ -5545,129 +5540,17 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1156 => 
+      1114 => 
       array (
         0 => 
         array (
           0 => 
           array (
-            '_route' => 'admin.chat.close',
+            '_route' => 'admin.pages.update',
           ),
           1 => 
           array (
-            0 => 'chatSession',
-          ),
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      1187 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'customer.show',
-          ),
-          1 => 
-          array (
-            0 => 'customer',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      1204 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'customer.edit',
-          ),
-          1 => 
-          array (
-            0 => 'customer',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      1219 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'customer.status',
-          ),
-          1 => 
-          array (
-            0 => 'id',
-          ),
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      1240 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'customer.makeVendor',
-          ),
-          1 => 
-          array (
-            0 => 'id',
-          ),
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      1250 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'customer.update',
-          ),
-          1 => 
-          array (
-            0 => 'customer',
+            0 => 'page',
           ),
           2 => 
           array (
@@ -5683,11 +5566,11 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'customer.destroy',
+            '_route' => 'admin.pages.destroy',
           ),
           1 => 
           array (
-            0 => 'customer',
+            0 => 'page',
           ),
           2 => 
           array (
@@ -5699,777 +5582,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1281 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.coupons.show',
-          ),
-          1 => 
-          array (
-            0 => 'coupon',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      1298 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.coupons.edit',
-          ),
-          1 => 
-          array (
-            0 => 'coupon',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      1313 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.coupons.status',
-          ),
-          1 => 
-          array (
-            0 => 'id',
-          ),
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      1323 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.coupons.update',
-          ),
-          1 => 
-          array (
-            0 => 'coupon',
-          ),
-          2 => 
-          array (
-            'PUT' => 0,
-            'PATCH' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-        1 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.coupons.destroy',
-          ),
-          1 => 
-          array (
-            0 => 'coupon',
-          ),
-          2 => 
-          array (
-            'DELETE' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      1353 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.contact.show',
-          ),
-          1 => 
-          array (
-            0 => 'contact',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      1367 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.contact.edit',
-          ),
-          1 => 
-          array (
-            0 => 'contact',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      1376 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.contact.update',
-          ),
-          1 => 
-          array (
-            0 => 'contact',
-          ),
-          2 => 
-          array (
-            'PUT' => 0,
-            'PATCH' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-        1 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.contact.destroy',
-          ),
-          1 => 
-          array (
-            0 => 'contact',
-          ),
-          2 => 
-          array (
-            'DELETE' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      1414 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.contactinfomationadmins.show',
-          ),
-          1 => 
-          array (
-            0 => 'contactinfomationadmin',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      1428 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.contactinfomationadmins.edit',
-          ),
-          1 => 
-          array (
-            0 => 'contactinfomationadmin',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      1437 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.contactinfomationadmins.update',
-          ),
-          1 => 
-          array (
-            0 => 'contactinfomationadmin',
-          ),
-          2 => 
-          array (
-            'PUT' => 0,
-            'PATCH' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-        1 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.contactinfomationadmins.destroy',
-          ),
-          1 => 
-          array (
-            0 => 'contactinfomationadmin',
-          ),
-          2 => 
-          array (
-            'DELETE' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      1475 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'order.cancel',
-          ),
-          1 => 
-          array (
-            0 => 'orderNumber',
-          ),
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      1500 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.order.show',
-          ),
-          1 => 
-          array (
-            0 => 'id',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      1517 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.order.edit',
-          ),
-          1 => 
-          array (
-            0 => 'id',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      1532 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.order.status',
-          ),
-          1 => 
-          array (
-            0 => 'id',
-          ),
-          2 => 
-          array (
-            'PATCH' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      1556 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.order.payment-status',
-          ),
-          1 => 
-          array (
-            0 => 'id',
-          ),
-          2 => 
-          array (
-            'PATCH' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      1566 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.order.update',
-          ),
-          1 => 
-          array (
-            0 => 'id',
-          ),
-          2 => 
-          array (
-            'PUT' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-        1 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.order.destroy',
-          ),
-          1 => 
-          array (
-            0 => 'id',
-          ),
-          2 => 
-          array (
-            'DELETE' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      1597 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.steadfast.bulk-send',
-          ),
-          1 => 
-          array (
-          ),
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      1630 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.steadfast.send',
-          ),
-          1 => 
-          array (
-            0 => 'order',
-          ),
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      1657 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.pathao.bulk-send',
-          ),
-          1 => 
-          array (
-          ),
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      1687 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.pathao.send',
-          ),
-          1 => 
-          array (
-            0 => 'order',
-          ),
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      1726 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'wishlist.add',
-          ),
-          1 => 
-          array (
-            0 => 'id',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      1750 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'wishlist.remove',
-          ),
-          1 => 
-          array (
-            0 => 'id',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      1782 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'wishlist.moveToCart',
-          ),
-          1 => 
-          array (
-            0 => 'itemId',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      1817 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.websitefavicon.show',
-          ),
-          1 => 
-          array (
-            0 => 'websitefavicon',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      1831 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.websitefavicon.edit',
-          ),
-          1 => 
-          array (
-            0 => 'websitefavicon',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      1840 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.websitefavicon.update',
-          ),
-          1 => 
-          array (
-            0 => 'websitefavicon',
-          ),
-          2 => 
-          array (
-            'PUT' => 0,
-            'PATCH' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-        1 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.websitefavicon.destroy',
-          ),
-          1 => 
-          array (
-            0 => 'websitefavicon',
-          ),
-          2 => 
-          array (
-            'DELETE' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      1896 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.seller.register.approve',
-          ),
-          1 => 
-          array (
-            0 => 'id',
-          ),
-          2 => 
-          array (
-            'PUT' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      1914 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.seller.register.reject',
-          ),
-          1 => 
-          array (
-            0 => 'id',
-          ),
-          2 => 
-          array (
-            'PUT' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      1931 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.seller.register.reactivate',
-          ),
-          1 => 
-          array (
-            0 => 'id',
-          ),
-          2 => 
-          array (
-            'PUT' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      1948 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.seller.register.suspend',
-          ),
-          1 => 
-          array (
-            0 => 'id',
-          ),
-          2 => 
-          array (
-            'PUT' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      1961 => 
+      1167 => 
       array (
         0 => 
         array (
@@ -6492,45 +5605,21 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1993 => 
+      1183 => 
       array (
         0 => 
         array (
           0 => 
           array (
-            '_route' => 'admin.subcategory.show',
+            '_route' => 'admin.seller.register.approve',
           ),
           1 => 
           array (
-            0 => 'subcategory',
+            0 => 'id',
           ),
           2 => 
           array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      2010 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.subcategory.edit',
-          ),
-          1 => 
-          array (
-            0 => 'subcategory',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
+            'PUT' => 0,
           ),
           3 => NULL,
           4 => false,
@@ -6538,7 +5627,73 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2038 => 
+      1201 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.seller.register.reject',
+          ),
+          1 => 
+          array (
+            0 => 'id',
+          ),
+          2 => 
+          array (
+            'PUT' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      1218 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.seller.register.reactivate',
+          ),
+          1 => 
+          array (
+            0 => 'id',
+          ),
+          2 => 
+          array (
+            'PUT' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      1235 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.seller.register.suspend',
+          ),
+          1 => 
+          array (
+            0 => 'id',
+          ),
+          2 => 
+          array (
+            'PUT' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      1290 => 
       array (
         0 => 
         array (
@@ -6561,7 +5716,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2053 => 
+      1305 => 
       array (
         0 => 
         array (
@@ -6584,9 +5739,52 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2064 => 
+      1319 => 
       array (
         0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.subcategory.edit',
+          ),
+          1 => 
+          array (
+            0 => 'subcategory',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      1329 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.subcategory.show',
+          ),
+          1 => 
+          array (
+            0 => 'subcategory',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+        1 => 
         array (
           0 => 
           array (
@@ -6606,7 +5804,7 @@ app('router')->setCompiledRoutes(
           5 => true,
           6 => NULL,
         ),
-        1 => 
+        2 => 
         array (
           0 => 
           array (
@@ -6626,7 +5824,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2091 => 
+      1356 => 
       array (
         0 => 
         array (
@@ -6649,7 +5847,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2105 => 
+      1370 => 
       array (
         0 => 
         array (
@@ -6672,7 +5870,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2114 => 
+      1379 => 
       array (
         0 => 
         array (
@@ -6714,7 +5912,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2148 => 
+      1413 => 
       array (
         0 => 
         array (
@@ -6737,7 +5935,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2157 => 
+      1422 => 
       array (
         0 => 
         array (
@@ -6779,7 +5977,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2197 => 
+      1459 => 
       array (
         0 => 
         array (
@@ -6802,7 +6000,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2211 => 
+      1473 => 
       array (
         0 => 
         array (
@@ -6825,7 +6023,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2220 => 
+      1482 => 
       array (
         0 => 
         array (
@@ -6867,17 +6065,17 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2240 => 
+      1518 => 
       array (
         0 => 
         array (
           0 => 
           array (
-            '_route' => 'storage.local',
+            '_route' => 'admin.coupons.show',
           ),
           1 => 
           array (
-            0 => 'path',
+            0 => 'coupon',
           ),
           2 => 
           array (
@@ -6890,7 +6088,710 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2272 => 
+      1535 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.coupons.edit',
+          ),
+          1 => 
+          array (
+            0 => 'coupon',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      1550 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.coupons.status',
+          ),
+          1 => 
+          array (
+            0 => 'id',
+          ),
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      1560 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.coupons.update',
+          ),
+          1 => 
+          array (
+            0 => 'coupon',
+          ),
+          2 => 
+          array (
+            'PUT' => 0,
+            'PATCH' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.coupons.destroy',
+          ),
+          1 => 
+          array (
+            0 => 'coupon',
+          ),
+          2 => 
+          array (
+            'DELETE' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      1590 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.contact.show',
+          ),
+          1 => 
+          array (
+            0 => 'contact',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      1604 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.contact.edit',
+          ),
+          1 => 
+          array (
+            0 => 'contact',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      1613 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.contact.update',
+          ),
+          1 => 
+          array (
+            0 => 'contact',
+          ),
+          2 => 
+          array (
+            'PUT' => 0,
+            'PATCH' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.contact.destroy',
+          ),
+          1 => 
+          array (
+            0 => 'contact',
+          ),
+          2 => 
+          array (
+            'DELETE' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      1651 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.contactinfomationadmins.show',
+          ),
+          1 => 
+          array (
+            0 => 'contactinfomationadmin',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      1665 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.contactinfomationadmins.edit',
+          ),
+          1 => 
+          array (
+            0 => 'contactinfomationadmin',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      1674 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.contactinfomationadmins.update',
+          ),
+          1 => 
+          array (
+            0 => 'contactinfomationadmin',
+          ),
+          2 => 
+          array (
+            'PUT' => 0,
+            'PATCH' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.contactinfomationadmins.destroy',
+          ),
+          1 => 
+          array (
+            0 => 'contactinfomationadmin',
+          ),
+          2 => 
+          array (
+            'DELETE' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      1731 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.category.toggle-featured',
+          ),
+          1 => 
+          array (
+            0 => 'id',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      1746 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.category.toggle-status',
+          ),
+          1 => 
+          array (
+            0 => 'id',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      1760 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.category.edit',
+          ),
+          1 => 
+          array (
+            0 => 'category',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      1770 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.category.show',
+          ),
+          1 => 
+          array (
+            0 => 'category',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.category.update',
+          ),
+          1 => 
+          array (
+            0 => 'category',
+          ),
+          2 => 
+          array (
+            'PUT' => 0,
+            'PATCH' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+        2 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.category.destroy',
+          ),
+          1 => 
+          array (
+            0 => 'category',
+          ),
+          2 => 
+          array (
+            'DELETE' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      1804 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.campaigncreate.show',
+          ),
+          1 => 
+          array (
+            0 => 'campaigncreate',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      1818 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.campaigncreate.edit',
+          ),
+          1 => 
+          array (
+            0 => 'campaigncreate',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      1827 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.campaigncreate.update',
+          ),
+          1 => 
+          array (
+            0 => 'campaigncreate',
+          ),
+          2 => 
+          array (
+            'PUT' => 0,
+            'PATCH' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.campaigncreate.destroy',
+          ),
+          1 => 
+          array (
+            0 => 'campaigncreate',
+          ),
+          2 => 
+          array (
+            'DELETE' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      1888 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.childcategory.toggle-featured',
+          ),
+          1 => 
+          array (
+            0 => 'id',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      1903 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.childcategory.toggle-status',
+          ),
+          1 => 
+          array (
+            0 => 'id',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      1917 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.childcategory.edit',
+          ),
+          1 => 
+          array (
+            0 => 'childcategory',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      1927 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.childcategory.show',
+          ),
+          1 => 
+          array (
+            0 => 'childcategory',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.childcategory.update',
+          ),
+          1 => 
+          array (
+            0 => 'childcategory',
+          ),
+          2 => 
+          array (
+            'PUT' => 0,
+            'PATCH' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+        2 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.childcategory.destroy',
+          ),
+          1 => 
+          array (
+            0 => 'childcategory',
+          ),
+          2 => 
+          array (
+            'DELETE' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      1951 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.chat.show',
+          ),
+          1 => 
+          array (
+            0 => 'chatSession',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      1969 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.chat.reply',
+          ),
+          1 => 
+          array (
+            0 => 'chatSession',
+          ),
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      1986 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.chat.messages',
+          ),
+          1 => 
+          array (
+            0 => 'chatSession',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      2000 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.chat.close',
+          ),
+          1 => 
+          array (
+            0 => 'chatSession',
+          ),
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      2033 => 
       array (
         0 => 
         array (
@@ -6913,7 +6814,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2289 => 
+      2050 => 
       array (
         0 => 
         array (
@@ -6936,7 +6837,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2316 => 
+      2077 => 
       array (
         0 => 
         array (
@@ -6959,7 +6860,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2351 => 
+      2112 => 
       array (
         0 => 
         array (
@@ -6981,7 +6882,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2361 => 
+      2122 => 
       array (
         0 => 
         array (
@@ -7023,7 +6924,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2403 => 
+      2164 => 
       array (
         0 => 
         array (
@@ -7045,7 +6946,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2421 => 
+      2182 => 
       array (
         0 => 
         array (
@@ -7067,7 +6968,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2431 => 
+      2192 => 
       array (
         0 => 
         array (
@@ -7089,7 +6990,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2445 => 
+      2206 => 
       array (
         0 => 
         array (
@@ -7110,7 +7011,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2474 => 
+      2234 => 
       array (
         0 => 
         array (
@@ -7133,7 +7034,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2491 => 
+      2251 => 
       array (
         0 => 
         array (
@@ -7156,7 +7057,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2514 => 
+      2274 => 
       array (
         0 => 
         array (
@@ -7178,7 +7079,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2524 => 
+      2284 => 
       array (
         0 => 
         array (
@@ -7220,7 +7121,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2584 => 
+      2343 => 
       array (
         0 => 
         array (
@@ -7242,7 +7143,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2597 => 
+      2356 => 
       array (
         0 => 
         array (
@@ -7265,7 +7166,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2607 => 
+      2366 => 
       array (
         0 => 
         array (
@@ -7327,7 +7228,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2640 => 
+      2399 => 
       array (
         0 => 
         array (
@@ -7350,7 +7251,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2654 => 
+      2413 => 
       array (
         0 => 
         array (
@@ -7373,7 +7274,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2663 => 
+      2422 => 
       array (
         0 => 
         array (
@@ -7415,7 +7316,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2692 => 
+      2451 => 
       array (
         0 => 
         array (
@@ -7438,7 +7339,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2709 => 
+      2468 => 
       array (
         0 => 
         array (
@@ -7461,7 +7362,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2724 => 
+      2483 => 
       array (
         0 => 
         array (
@@ -7483,7 +7384,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2734 => 
+      2493 => 
       array (
         0 => 
         array (
@@ -7525,7 +7426,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2773 => 
+      2531 => 
       array (
         0 => 
         array (
@@ -7548,7 +7449,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2787 => 
+      2545 => 
       array (
         0 => 
         array (
@@ -7571,7 +7472,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2796 => 
+      2554 => 
       array (
         0 => 
         array (
@@ -7613,7 +7514,95 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2825 => 
+      2590 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.websitefavicon.show',
+          ),
+          1 => 
+          array (
+            0 => 'websitefavicon',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      2604 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.websitefavicon.edit',
+          ),
+          1 => 
+          array (
+            0 => 'websitefavicon',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      2613 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.websitefavicon.update',
+          ),
+          1 => 
+          array (
+            0 => 'websitefavicon',
+          ),
+          2 => 
+          array (
+            'PUT' => 0,
+            'PATCH' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.websitefavicon.destroy',
+          ),
+          1 => 
+          array (
+            0 => 'websitefavicon',
+          ),
+          2 => 
+          array (
+            'DELETE' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      2641 => 
       array (
         0 => 
         array (
@@ -7636,7 +7625,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2862 => 
+      2678 => 
       array (
         0 => 
         array (
@@ -7659,7 +7648,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2876 => 
+      2692 => 
       array (
         0 => 
         array (
@@ -7682,7 +7671,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2885 => 
+      2701 => 
       array (
         0 => 
         array (
@@ -7724,17 +7713,17 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2925 => 
+      2730 => 
       array (
         0 => 
         array (
           0 => 
           array (
-            '_route' => 'admin.googletagmanager.show',
+            '_route' => 'admin.order.show',
           ),
           1 => 
           array (
-            0 => 'googletagmanager',
+            0 => 'id',
           ),
           2 => 
           array (
@@ -7747,105 +7736,17 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      2939 => 
+      2747 => 
       array (
         0 => 
         array (
           0 => 
           array (
-            '_route' => 'admin.googletagmanager.edit',
+            '_route' => 'admin.order.edit',
           ),
           1 => 
           array (
-            0 => 'googletagmanager',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      2948 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.googletagmanager.update',
-          ),
-          1 => 
-          array (
-            0 => 'googletagmanager',
-          ),
-          2 => 
-          array (
-            'PUT' => 0,
-            'PATCH' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-        1 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.googletagmanager.destroy',
-          ),
-          1 => 
-          array (
-            0 => 'googletagmanager',
-          ),
-          2 => 
-          array (
-            'DELETE' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      2986 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.Smsgatewaysetup.show',
-          ),
-          1 => 
-          array (
-            0 => 'Smsgatewaysetup',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      3000 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.Smsgatewaysetup.edit',
-          ),
-          1 => 
-          array (
-            0 => 'Smsgatewaysetup',
+            0 => 'id',
           ),
           2 => 
           array (
@@ -7858,22 +7759,109 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      3009 => 
+      2765 => 
       array (
         0 => 
         array (
           0 => 
           array (
-            '_route' => 'admin.Smsgatewaysetup.update',
+            '_route' => 'admin.order.status',
           ),
           1 => 
           array (
-            0 => 'Smsgatewaysetup',
+            0 => 'id',
+          ),
+          2 => 
+          array (
+            'PATCH' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      2791 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.steadfast.send',
+          ),
+          1 => 
+          array (
+            0 => 'order',
+          ),
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      2806 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.pathao.send',
+          ),
+          1 => 
+          array (
+            0 => 'order',
+          ),
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      2832 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.order.payment-status',
+          ),
+          1 => 
+          array (
+            0 => 'id',
+          ),
+          2 => 
+          array (
+            'PATCH' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      2842 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.order.update',
+          ),
+          1 => 
+          array (
+            0 => 'id',
           ),
           2 => 
           array (
             'PUT' => 0,
-            'PATCH' => 1,
           ),
           3 => NULL,
           4 => false,
@@ -7884,11 +7872,11 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'admin.Smsgatewaysetup.destroy',
+            '_route' => 'admin.order.destroy',
           ),
           1 => 
           array (
-            0 => 'Smsgatewaysetup',
+            0 => 'id',
           ),
           2 => 
           array (
@@ -7900,7 +7888,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      3050 => 
+      2882 => 
       array (
         0 => 
         array (
@@ -7942,7 +7930,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      3072 => 
+      2904 => 
       array (
         0 => 
         array (
@@ -7964,7 +7952,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      3094 => 
+      2926 => 
       array (
         0 => 
         array (
@@ -7986,7 +7974,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      3113 => 
+      2945 => 
       array (
         0 => 
         array (
@@ -8008,7 +7996,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      3131 => 
+      2963 => 
       array (
         0 => 
         array (
@@ -8030,7 +8018,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      3152 => 
+      2984 => 
       array (
         0 => 
         array (
@@ -8052,7 +8040,183 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      3190 => 
+      3023 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.googletagmanager.show',
+          ),
+          1 => 
+          array (
+            0 => 'googletagmanager',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      3037 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.googletagmanager.edit',
+          ),
+          1 => 
+          array (
+            0 => 'googletagmanager',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      3046 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.googletagmanager.update',
+          ),
+          1 => 
+          array (
+            0 => 'googletagmanager',
+          ),
+          2 => 
+          array (
+            'PUT' => 0,
+            'PATCH' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.googletagmanager.destroy',
+          ),
+          1 => 
+          array (
+            0 => 'googletagmanager',
+          ),
+          2 => 
+          array (
+            'DELETE' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      3083 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.Smsgatewaysetup.show',
+          ),
+          1 => 
+          array (
+            0 => 'Smsgatewaysetup',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      3097 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.Smsgatewaysetup.edit',
+          ),
+          1 => 
+          array (
+            0 => 'Smsgatewaysetup',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      3106 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.Smsgatewaysetup.update',
+          ),
+          1 => 
+          array (
+            0 => 'Smsgatewaysetup',
+          ),
+          2 => 
+          array (
+            'PUT' => 0,
+            'PATCH' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.Smsgatewaysetup.destroy',
+          ),
+          1 => 
+          array (
+            0 => 'Smsgatewaysetup',
+          ),
+          2 => 
+          array (
+            'DELETE' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      3142 => 
       array (
         0 => 
         array (
@@ -8075,7 +8239,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      3204 => 
+      3156 => 
       array (
         0 => 
         array (
@@ -8098,7 +8262,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      3213 => 
+      3165 => 
       array (
         0 => 
         array (
@@ -8139,7 +8303,30 @@ app('router')->setCompiledRoutes(
           5 => true,
           6 => NULL,
         ),
-        2 => 
+      ),
+      3189 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'storage.local',
+          ),
+          1 => 
+          array (
+            0 => 'path',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+        1 => 
         array (
           0 => NULL,
           1 => NULL,
@@ -8155,7 +8342,7 @@ app('router')->setCompiledRoutes(
   ),
   'attributes' => 
   array (
-    'generated::FxqYFF1GO8AcvAkX' => 
+    'generated::zHyFmCvuP8PGrFzh' => 
     array (
       'methods' => 
       array (
@@ -8183,8 +8370,8 @@ app('router')->setCompiledRoutes(
                     return response(\\Illuminate\\Support\\Facades\\View::file(\'E:\\\\shahzadi-mart\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Foundation\\\\Configuration\'.\'/../resources/health-up.blade.php\', [
                         \'exception\' => $exception,
                     ]), status: $exception ? 500 : 200);
-                }";s:5:"scope";s:54:"Illuminate\\Foundation\\Configuration\\ApplicationBuilder";s:4:"this";N;s:4:"self";s:32:"00000000000007620000000000000000";}}',
-        'as' => 'generated::FxqYFF1GO8AcvAkX',
+                }";s:5:"scope";s:54:"Illuminate\\Foundation\\Configuration\\ApplicationBuilder";s:4:"this";N;s:4:"self";s:32:"000000000000076c0000000000000000";}}',
+        'as' => 'generated::zHyFmCvuP8PGrFzh',
       ),
       'fallback' => false,
       'defaults' => 
@@ -8565,7 +8752,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::43aNlQU1hEmQdNhX' => 
+    'generated::YqpoYXG86EIMRZel' => 
     array (
       'methods' => 
       array (
@@ -8585,7 +8772,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::43aNlQU1hEmQdNhX',
+        'as' => 'generated::YqpoYXG86EIMRZel',
       ),
       'fallback' => false,
       'defaults' => 
@@ -8896,7 +9083,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'admin.dashboard' => 
+    'user.dashboard' => 
     array (
       'methods' => 
       array (
@@ -8909,16 +9096,15 @@ app('router')->setCompiledRoutes(
         'middleware' => 
         array (
           0 => 'web',
-          1 => 'admin',
         ),
-        'uses' => 'App\\Http\\Controllers\\Admin\\AdminController@admin_dashboard',
-        'controller' => 'App\\Http\\Controllers\\Admin\\AdminController@admin_dashboard',
-        'as' => 'admin.dashboard',
+        'uses' => 'App\\Http\\Controllers\\Frontend\\FrontendController@user_dashboard',
+        'controller' => 'App\\Http\\Controllers\\Frontend\\FrontendController@user_dashboard',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 
         array (
         ),
+        'as' => 'user.dashboard',
       ),
       'fallback' => false,
       'defaults' => 
@@ -10230,7 +10416,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 'web',
         ),
-        'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:51:"function () { return \\view(\'frontend.bkash_pay\'); }";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000007810000000000000000";}}',
+        'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:41:"fn() => \\view(\'frontend.bkash_pay\')      ";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"000000000000078b0000000000000000";}}',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 
@@ -10399,7 +10585,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::EkUnVvFLVxpNnS7n' => 
+    'generated::BSQPx8rdPewxlb1B' => 
     array (
       'methods' => 
       array (
@@ -10419,7 +10605,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::EkUnVvFLVxpNnS7n',
+        'as' => 'generated::BSQPx8rdPewxlb1B',
       ),
       'fallback' => false,
       'defaults' => 
@@ -10689,7 +10875,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'user.dashboard' => 
+    'customer.dashboard' => 
     array (
       'methods' => 
       array (
@@ -10711,7 +10897,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'user.dashboard',
+        'as' => 'customer.dashboard',
       ),
       'fallback' => false,
       'defaults' => 
@@ -11174,6 +11360,418 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
+    'steadfast.webhook' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'webhook/steadfast',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Admin\\SteadfastOrderController@webhook',
+        'controller' => 'App\\Http\\Controllers\\Admin\\SteadfastOrderController@webhook',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'steadfast.webhook',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.dashboard' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/dashboard',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Admin\\AdminController@admin_dashboard',
+        'controller' => 'App\\Http\\Controllers\\Admin\\AdminController@admin_dashboard',
+        'as' => 'admin.dashboard',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.pos.index' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/pos',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Admin\\PosController@index',
+        'controller' => 'App\\Http\\Controllers\\Admin\\PosController@index',
+        'as' => 'admin.pos.index',
+        'namespace' => NULL,
+        'prefix' => 'admin/pos',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.pos.searchProducts' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/pos/search-products',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Admin\\PosController@searchProducts',
+        'controller' => 'App\\Http\\Controllers\\Admin\\PosController@searchProducts',
+        'as' => 'admin.pos.searchProducts',
+        'namespace' => NULL,
+        'prefix' => 'admin/pos',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.pos.searchCustomers' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/pos/search-customers',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Admin\\PosController@searchCustomers',
+        'controller' => 'App\\Http\\Controllers\\Admin\\PosController@searchCustomers',
+        'as' => 'admin.pos.searchCustomers',
+        'namespace' => NULL,
+        'prefix' => 'admin/pos',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.pos.storeCustomer' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'admin/pos/store-customer',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Admin\\PosController@storeCustomer',
+        'controller' => 'App\\Http\\Controllers\\Admin\\PosController@storeCustomer',
+        'as' => 'admin.pos.storeCustomer',
+        'namespace' => NULL,
+        'prefix' => 'admin/pos',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.pos.applyCoupon' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'admin/pos/apply-coupon',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Admin\\PosController@applyCoupon',
+        'controller' => 'App\\Http\\Controllers\\Admin\\PosController@applyCoupon',
+        'as' => 'admin.pos.applyCoupon',
+        'namespace' => NULL,
+        'prefix' => 'admin/pos',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.pos.placeOrder' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'admin/pos/place-order',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Admin\\PosController@placeOrder',
+        'controller' => 'App\\Http\\Controllers\\Admin\\PosController@placeOrder',
+        'as' => 'admin.pos.placeOrder',
+        'namespace' => NULL,
+        'prefix' => 'admin/pos',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.pos.cancelOrder' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'admin/pos/cancel-order/{session}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Admin\\PosController@cancelOrder',
+        'controller' => 'App\\Http\\Controllers\\Admin\\PosController@cancelOrder',
+        'as' => 'admin.pos.cancelOrder',
+        'namespace' => NULL,
+        'prefix' => 'admin/pos',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.pos.invoice' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/pos/invoice/{session}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Admin\\PosController@invoice',
+        'controller' => 'App\\Http\\Controllers\\Admin\\PosController@invoice',
+        'as' => 'admin.pos.invoice',
+        'namespace' => NULL,
+        'prefix' => 'admin/pos',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.pos.orders' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/pos/orders',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Admin\\PosController@orders',
+        'controller' => 'App\\Http\\Controllers\\Admin\\PosController@orders',
+        'as' => 'admin.pos.orders',
+        'namespace' => NULL,
+        'prefix' => 'admin/pos',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
     'admin.seller.register.check' => 
     array (
       'methods' => 
@@ -11181,7 +11779,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'sellerregistercheck',
+      'uri' => 'admin/sellerregistercheck',
       'action' => 
       array (
         'middleware' => 
@@ -11193,7 +11791,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\AdminsellerregisterapprovedController@seller_register_check',
         'as' => 'admin.seller.register.check',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -11219,7 +11817,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'seller/register/status',
+      'uri' => 'admin/seller/register/status',
       'action' => 
       array (
         'middleware' => 
@@ -11231,7 +11829,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\AdminsellerregisterapprovedController@seller_register_status',
         'as' => 'admin.seller.register.status',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -11257,7 +11855,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'seller-registrations',
+      'uri' => 'admin/seller-registrations',
       'action' => 
       array (
         'middleware' => 
@@ -11269,155 +11867,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\AdminsellerregisterapprovedController@seller_register_check',
         'as' => 'admin.seller.register.list',
         'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.seller.register.approve' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'PUT',
-      ),
-      'uri' => 'seller-registrations/{id}/approve',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'uses' => 'App\\Http\\Controllers\\Admin\\AdminsellerregisterapprovedController@seller_register_approve',
-        'controller' => 'App\\Http\\Controllers\\Admin\\AdminsellerregisterapprovedController@seller_register_approve',
-        'as' => 'admin.seller.register.approve',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.seller.register.reject' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'PUT',
-      ),
-      'uri' => 'seller-registrations/{id}/reject',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'uses' => 'App\\Http\\Controllers\\Admin\\AdminsellerregisterapprovedController@seller_register_reject',
-        'controller' => 'App\\Http\\Controllers\\Admin\\AdminsellerregisterapprovedController@seller_register_reject',
-        'as' => 'admin.seller.register.reject',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.seller.register.suspend' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'PUT',
-      ),
-      'uri' => 'seller-registrations/{id}/suspend',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'uses' => 'App\\Http\\Controllers\\Admin\\AdminsellerregisterapprovedController@seller_register_suspend',
-        'controller' => 'App\\Http\\Controllers\\Admin\\AdminsellerregisterapprovedController@seller_register_suspend',
-        'as' => 'admin.seller.register.suspend',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.seller.register.reactivate' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'PUT',
-      ),
-      'uri' => 'seller-registrations/{id}/reactivate',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'uses' => 'App\\Http\\Controllers\\Admin\\AdminsellerregisterapprovedController@seller_register_reactivate',
-        'controller' => 'App\\Http\\Controllers\\Admin\\AdminsellerregisterapprovedController@seller_register_reactivate',
-        'as' => 'admin.seller.register.reactivate',
-        'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -11443,7 +11893,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'seller-registrations/export',
+      'uri' => 'admin/seller-registrations/export',
       'action' => 
       array (
         'middleware' => 
@@ -11455,7 +11905,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\AdminsellerregisterapprovedController@seller_register_export',
         'as' => 'admin.seller.register.export',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -11481,7 +11931,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'seller-registrations/{id}/view',
+      'uri' => 'admin/seller-registrations/{id}/view',
       'action' => 
       array (
         'middleware' => 
@@ -11493,7 +11943,155 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\AdminsellerregisterapprovedController@seller_register_view',
         'as' => 'admin.seller.register.view',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.seller.register.approve' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'PUT',
+      ),
+      'uri' => 'admin/seller-registrations/{id}/approve',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Admin\\AdminsellerregisterapprovedController@seller_register_approve',
+        'controller' => 'App\\Http\\Controllers\\Admin\\AdminsellerregisterapprovedController@seller_register_approve',
+        'as' => 'admin.seller.register.approve',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.seller.register.reject' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'PUT',
+      ),
+      'uri' => 'admin/seller-registrations/{id}/reject',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Admin\\AdminsellerregisterapprovedController@seller_register_reject',
+        'controller' => 'App\\Http\\Controllers\\Admin\\AdminsellerregisterapprovedController@seller_register_reject',
+        'as' => 'admin.seller.register.reject',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.seller.register.suspend' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'PUT',
+      ),
+      'uri' => 'admin/seller-registrations/{id}/suspend',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Admin\\AdminsellerregisterapprovedController@seller_register_suspend',
+        'controller' => 'App\\Http\\Controllers\\Admin\\AdminsellerregisterapprovedController@seller_register_suspend',
+        'as' => 'admin.seller.register.suspend',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.seller.register.reactivate' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'PUT',
+      ),
+      'uri' => 'admin/seller-registrations/{id}/reactivate',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Admin\\AdminsellerregisterapprovedController@seller_register_reactivate',
+        'controller' => 'App\\Http\\Controllers\\Admin\\AdminsellerregisterapprovedController@seller_register_reactivate',
+        'as' => 'admin.seller.register.reactivate',
+        'namespace' => NULL,
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -11519,7 +12117,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'coupons',
+      'uri' => 'admin/coupons',
       'action' => 
       array (
         'middleware' => 
@@ -11531,7 +12129,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\CouponController@index',
         'controller' => 'App\\Http\\Controllers\\Admin\\CouponController@index',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -11557,7 +12155,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'coupons/create',
+      'uri' => 'admin/coupons/create',
       'action' => 
       array (
         'middleware' => 
@@ -11569,7 +12167,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\CouponController@create',
         'controller' => 'App\\Http\\Controllers\\Admin\\CouponController@create',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -11594,7 +12192,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'POST',
       ),
-      'uri' => 'coupons',
+      'uri' => 'admin/coupons',
       'action' => 
       array (
         'middleware' => 
@@ -11606,7 +12204,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\CouponController@store',
         'controller' => 'App\\Http\\Controllers\\Admin\\CouponController@store',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -11632,7 +12230,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'coupons/{coupon}',
+      'uri' => 'admin/coupons/{coupon}',
       'action' => 
       array (
         'middleware' => 
@@ -11644,7 +12242,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\CouponController@show',
         'controller' => 'App\\Http\\Controllers\\Admin\\CouponController@show',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -11670,7 +12268,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'coupons/{coupon}/edit',
+      'uri' => 'admin/coupons/{coupon}/edit',
       'action' => 
       array (
         'middleware' => 
@@ -11682,7 +12280,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\CouponController@edit',
         'controller' => 'App\\Http\\Controllers\\Admin\\CouponController@edit',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -11708,7 +12306,7 @@ app('router')->setCompiledRoutes(
         0 => 'PUT',
         1 => 'PATCH',
       ),
-      'uri' => 'coupons/{coupon}',
+      'uri' => 'admin/coupons/{coupon}',
       'action' => 
       array (
         'middleware' => 
@@ -11720,7 +12318,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\CouponController@update',
         'controller' => 'App\\Http\\Controllers\\Admin\\CouponController@update',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -11745,7 +12343,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'DELETE',
       ),
-      'uri' => 'coupons/{coupon}',
+      'uri' => 'admin/coupons/{coupon}',
       'action' => 
       array (
         'middleware' => 
@@ -11757,7 +12355,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\CouponController@destroy',
         'controller' => 'App\\Http\\Controllers\\Admin\\CouponController@destroy',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -11782,7 +12380,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'POST',
       ),
-      'uri' => 'coupons/{id}/status',
+      'uri' => 'admin/coupons/{id}/status',
       'action' => 
       array (
         'middleware' => 
@@ -11794,7 +12392,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\CouponController@updateStatus',
         'as' => 'admin.coupons.status',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -11820,7 +12418,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'roles',
+      'uri' => 'admin/roles',
       'action' => 
       array (
         'middleware' => 
@@ -11832,7 +12430,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\RoleController@index',
         'controller' => 'App\\Http\\Controllers\\Admin\\RoleController@index',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -11858,7 +12456,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'roles/create',
+      'uri' => 'admin/roles/create',
       'action' => 
       array (
         'middleware' => 
@@ -11870,7 +12468,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\RoleController@create',
         'controller' => 'App\\Http\\Controllers\\Admin\\RoleController@create',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -11895,7 +12493,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'POST',
       ),
-      'uri' => 'roles',
+      'uri' => 'admin/roles',
       'action' => 
       array (
         'middleware' => 
@@ -11907,7 +12505,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\RoleController@store',
         'controller' => 'App\\Http\\Controllers\\Admin\\RoleController@store',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -11933,7 +12531,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'roles/{role}',
+      'uri' => 'admin/roles/{role}',
       'action' => 
       array (
         'middleware' => 
@@ -11945,7 +12543,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\RoleController@show',
         'controller' => 'App\\Http\\Controllers\\Admin\\RoleController@show',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -11971,7 +12569,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'roles/{role}/edit',
+      'uri' => 'admin/roles/{role}/edit',
       'action' => 
       array (
         'middleware' => 
@@ -11983,7 +12581,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\RoleController@edit',
         'controller' => 'App\\Http\\Controllers\\Admin\\RoleController@edit',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -12009,7 +12607,7 @@ app('router')->setCompiledRoutes(
         0 => 'PUT',
         1 => 'PATCH',
       ),
-      'uri' => 'roles/{role}',
+      'uri' => 'admin/roles/{role}',
       'action' => 
       array (
         'middleware' => 
@@ -12021,7 +12619,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\RoleController@update',
         'controller' => 'App\\Http\\Controllers\\Admin\\RoleController@update',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -12046,7 +12644,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'DELETE',
       ),
-      'uri' => 'roles/{role}',
+      'uri' => 'admin/roles/{role}',
       'action' => 
       array (
         'middleware' => 
@@ -12058,7 +12656,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\RoleController@destroy',
         'controller' => 'App\\Http\\Controllers\\Admin\\RoleController@destroy',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -12084,7 +12682,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'roles/{role}/assign-permission',
+      'uri' => 'admin/roles/{role}/assign-permission',
       'action' => 
       array (
         'middleware' => 
@@ -12096,7 +12694,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\RoleController@assignPermission',
         'as' => 'admin.roles.assignPermission',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -12121,7 +12719,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'PUT',
       ),
-      'uri' => 'roles/{role}/save-assigned-permission',
+      'uri' => 'admin/roles/{role}/save-assigned-permission',
       'action' => 
       array (
         'middleware' => 
@@ -12133,7 +12731,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\RoleController@saveAssignedPermission',
         'as' => 'admin.roles.saveAssignedPermission',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -12158,7 +12756,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'POST',
       ),
-      'uri' => 'permissions/bulk-create',
+      'uri' => 'admin/permissions/bulk-create',
       'action' => 
       array (
         'middleware' => 
@@ -12170,7 +12768,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\PermissionController@bulkCreate',
         'as' => 'admin.permissions.bulkCreate',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -12196,7 +12794,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'permissions',
+      'uri' => 'admin/permissions',
       'action' => 
       array (
         'middleware' => 
@@ -12208,7 +12806,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\PermissionController@index',
         'controller' => 'App\\Http\\Controllers\\Admin\\PermissionController@index',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -12234,7 +12832,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'permissions/create',
+      'uri' => 'admin/permissions/create',
       'action' => 
       array (
         'middleware' => 
@@ -12246,7 +12844,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\PermissionController@create',
         'controller' => 'App\\Http\\Controllers\\Admin\\PermissionController@create',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -12271,7 +12869,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'POST',
       ),
-      'uri' => 'permissions',
+      'uri' => 'admin/permissions',
       'action' => 
       array (
         'middleware' => 
@@ -12283,7 +12881,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\PermissionController@store',
         'controller' => 'App\\Http\\Controllers\\Admin\\PermissionController@store',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -12309,7 +12907,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'permissions/{permission}',
+      'uri' => 'admin/permissions/{permission}',
       'action' => 
       array (
         'middleware' => 
@@ -12321,7 +12919,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\PermissionController@show',
         'controller' => 'App\\Http\\Controllers\\Admin\\PermissionController@show',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -12347,7 +12945,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'permissions/{permission}/edit',
+      'uri' => 'admin/permissions/{permission}/edit',
       'action' => 
       array (
         'middleware' => 
@@ -12359,7 +12957,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\PermissionController@edit',
         'controller' => 'App\\Http\\Controllers\\Admin\\PermissionController@edit',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -12385,7 +12983,7 @@ app('router')->setCompiledRoutes(
         0 => 'PUT',
         1 => 'PATCH',
       ),
-      'uri' => 'permissions/{permission}',
+      'uri' => 'admin/permissions/{permission}',
       'action' => 
       array (
         'middleware' => 
@@ -12397,7 +12995,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\PermissionController@update',
         'controller' => 'App\\Http\\Controllers\\Admin\\PermissionController@update',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -12422,7 +13020,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'DELETE',
       ),
-      'uri' => 'permissions/{permission}',
+      'uri' => 'admin/permissions/{permission}',
       'action' => 
       array (
         'middleware' => 
@@ -12434,7 +13032,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\PermissionController@destroy',
         'controller' => 'App\\Http\\Controllers\\Admin\\PermissionController@destroy',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -12460,7 +13058,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'users',
+      'uri' => 'admin/users',
       'action' => 
       array (
         'middleware' => 
@@ -12472,7 +13070,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\UserController@index',
         'controller' => 'App\\Http\\Controllers\\UserController@index',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -12498,7 +13096,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'users/create',
+      'uri' => 'admin/users/create',
       'action' => 
       array (
         'middleware' => 
@@ -12510,7 +13108,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\UserController@create',
         'controller' => 'App\\Http\\Controllers\\UserController@create',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -12535,7 +13133,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'POST',
       ),
-      'uri' => 'users',
+      'uri' => 'admin/users',
       'action' => 
       array (
         'middleware' => 
@@ -12547,7 +13145,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\UserController@store',
         'controller' => 'App\\Http\\Controllers\\UserController@store',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -12573,7 +13171,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'users/{user}',
+      'uri' => 'admin/users/{user}',
       'action' => 
       array (
         'middleware' => 
@@ -12585,7 +13183,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\UserController@show',
         'controller' => 'App\\Http\\Controllers\\UserController@show',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -12611,7 +13209,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'users/{user}/edit',
+      'uri' => 'admin/users/{user}/edit',
       'action' => 
       array (
         'middleware' => 
@@ -12623,7 +13221,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\UserController@edit',
         'controller' => 'App\\Http\\Controllers\\UserController@edit',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -12649,7 +13247,7 @@ app('router')->setCompiledRoutes(
         0 => 'PUT',
         1 => 'PATCH',
       ),
-      'uri' => 'users/{user}',
+      'uri' => 'admin/users/{user}',
       'action' => 
       array (
         'middleware' => 
@@ -12661,7 +13259,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\UserController@update',
         'controller' => 'App\\Http\\Controllers\\UserController@update',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -12686,7 +13284,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'DELETE',
       ),
-      'uri' => 'users/{user}',
+      'uri' => 'admin/users/{user}',
       'action' => 
       array (
         'middleware' => 
@@ -12698,7 +13296,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\UserController@destroy',
         'controller' => 'App\\Http\\Controllers\\UserController@destroy',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -12723,7 +13321,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'PATCH',
       ),
-      'uri' => 'users/{user}/toggle-status',
+      'uri' => 'admin/users/{user}/toggle-status',
       'action' => 
       array (
         'middleware' => 
@@ -12735,271 +13333,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\UserController@toggleStatus',
         'as' => 'admin.users.toggleStatus',
         'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.category.index' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'category',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.category.index',
-        'uses' => 'App\\Http\\Controllers\\Admin\\CategoryController@index',
-        'controller' => 'App\\Http\\Controllers\\Admin\\CategoryController@index',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.category.create' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'category/create',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.category.create',
-        'uses' => 'App\\Http\\Controllers\\Admin\\CategoryController@create',
-        'controller' => 'App\\Http\\Controllers\\Admin\\CategoryController@create',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.category.store' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'POST',
-      ),
-      'uri' => 'category',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.category.store',
-        'uses' => 'App\\Http\\Controllers\\Admin\\CategoryController@store',
-        'controller' => 'App\\Http\\Controllers\\Admin\\CategoryController@store',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.category.show' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'category/{category}',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.category.show',
-        'uses' => 'App\\Http\\Controllers\\Admin\\CategoryController@show',
-        'controller' => 'App\\Http\\Controllers\\Admin\\CategoryController@show',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.category.edit' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'category/{category}/edit',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.category.edit',
-        'uses' => 'App\\Http\\Controllers\\Admin\\CategoryController@edit',
-        'controller' => 'App\\Http\\Controllers\\Admin\\CategoryController@edit',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.category.update' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'PUT',
-        1 => 'PATCH',
-      ),
-      'uri' => 'category/{category}',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.category.update',
-        'uses' => 'App\\Http\\Controllers\\Admin\\CategoryController@update',
-        'controller' => 'App\\Http\\Controllers\\Admin\\CategoryController@update',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.category.destroy' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'DELETE',
-      ),
-      'uri' => 'category/{category}',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.category.destroy',
-        'uses' => 'App\\Http\\Controllers\\Admin\\CategoryController@destroy',
-        'controller' => 'App\\Http\\Controllers\\Admin\\CategoryController@destroy',
-        'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -13025,7 +13359,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'category/{id}/toggle-featured',
+      'uri' => 'admin/category/{id}/toggle-featured',
       'action' => 
       array (
         'middleware' => 
@@ -13037,7 +13371,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\CategoryController@toggleFeatured',
         'as' => 'admin.category.toggle-featured',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -13063,7 +13397,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'category/{id}/toggle-status',
+      'uri' => 'admin/category/{id}/toggle-status',
       'action' => 
       array (
         'middleware' => 
@@ -13075,7 +13409,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\CategoryController@toggleStatus',
         'as' => 'admin.category.toggle-status',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -13094,14 +13428,14 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'admin.subcategory.index' => 
+    'admin.category.index' => 
     array (
       'methods' => 
       array (
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'subcategory',
+      'uri' => 'admin/category',
       'action' => 
       array (
         'middleware' => 
@@ -13109,11 +13443,11 @@ app('router')->setCompiledRoutes(
           0 => 'web',
           1 => 'admin',
         ),
-        'as' => 'admin.subcategory.index',
-        'uses' => 'App\\Http\\Controllers\\Admin\\SubCategoryController@index',
-        'controller' => 'App\\Http\\Controllers\\Admin\\SubCategoryController@index',
+        'as' => 'admin.category.index',
+        'uses' => 'App\\Http\\Controllers\\Admin\\CategoryController@index',
+        'controller' => 'App\\Http\\Controllers\\Admin\\CategoryController@index',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -13132,14 +13466,14 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'admin.subcategory.create' => 
+    'admin.category.create' => 
     array (
       'methods' => 
       array (
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'subcategory/create',
+      'uri' => 'admin/category/create',
       'action' => 
       array (
         'middleware' => 
@@ -13147,11 +13481,11 @@ app('router')->setCompiledRoutes(
           0 => 'web',
           1 => 'admin',
         ),
-        'as' => 'admin.subcategory.create',
-        'uses' => 'App\\Http\\Controllers\\Admin\\SubCategoryController@create',
-        'controller' => 'App\\Http\\Controllers\\Admin\\SubCategoryController@create',
+        'as' => 'admin.category.create',
+        'uses' => 'App\\Http\\Controllers\\Admin\\CategoryController@create',
+        'controller' => 'App\\Http\\Controllers\\Admin\\CategoryController@create',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -13170,13 +13504,13 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'admin.subcategory.store' => 
+    'admin.category.store' => 
     array (
       'methods' => 
       array (
         0 => 'POST',
       ),
-      'uri' => 'subcategory',
+      'uri' => 'admin/category',
       'action' => 
       array (
         'middleware' => 
@@ -13184,11 +13518,11 @@ app('router')->setCompiledRoutes(
           0 => 'web',
           1 => 'admin',
         ),
-        'as' => 'admin.subcategory.store',
-        'uses' => 'App\\Http\\Controllers\\Admin\\SubCategoryController@store',
-        'controller' => 'App\\Http\\Controllers\\Admin\\SubCategoryController@store',
+        'as' => 'admin.category.store',
+        'uses' => 'App\\Http\\Controllers\\Admin\\CategoryController@store',
+        'controller' => 'App\\Http\\Controllers\\Admin\\CategoryController@store',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -13207,14 +13541,14 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'admin.subcategory.show' => 
+    'admin.category.show' => 
     array (
       'methods' => 
       array (
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'subcategory/{subcategory}',
+      'uri' => 'admin/category/{category}',
       'action' => 
       array (
         'middleware' => 
@@ -13222,11 +13556,11 @@ app('router')->setCompiledRoutes(
           0 => 'web',
           1 => 'admin',
         ),
-        'as' => 'admin.subcategory.show',
-        'uses' => 'App\\Http\\Controllers\\Admin\\SubCategoryController@show',
-        'controller' => 'App\\Http\\Controllers\\Admin\\SubCategoryController@show',
+        'as' => 'admin.category.show',
+        'uses' => 'App\\Http\\Controllers\\Admin\\CategoryController@show',
+        'controller' => 'App\\Http\\Controllers\\Admin\\CategoryController@show',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -13245,14 +13579,14 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'admin.subcategory.edit' => 
+    'admin.category.edit' => 
     array (
       'methods' => 
       array (
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'subcategory/{subcategory}/edit',
+      'uri' => 'admin/category/{category}/edit',
       'action' => 
       array (
         'middleware' => 
@@ -13260,11 +13594,11 @@ app('router')->setCompiledRoutes(
           0 => 'web',
           1 => 'admin',
         ),
-        'as' => 'admin.subcategory.edit',
-        'uses' => 'App\\Http\\Controllers\\Admin\\SubCategoryController@edit',
-        'controller' => 'App\\Http\\Controllers\\Admin\\SubCategoryController@edit',
+        'as' => 'admin.category.edit',
+        'uses' => 'App\\Http\\Controllers\\Admin\\CategoryController@edit',
+        'controller' => 'App\\Http\\Controllers\\Admin\\CategoryController@edit',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -13283,14 +13617,14 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'admin.subcategory.update' => 
+    'admin.category.update' => 
     array (
       'methods' => 
       array (
         0 => 'PUT',
         1 => 'PATCH',
       ),
-      'uri' => 'subcategory/{subcategory}',
+      'uri' => 'admin/category/{category}',
       'action' => 
       array (
         'middleware' => 
@@ -13298,11 +13632,11 @@ app('router')->setCompiledRoutes(
           0 => 'web',
           1 => 'admin',
         ),
-        'as' => 'admin.subcategory.update',
-        'uses' => 'App\\Http\\Controllers\\Admin\\SubCategoryController@update',
-        'controller' => 'App\\Http\\Controllers\\Admin\\SubCategoryController@update',
+        'as' => 'admin.category.update',
+        'uses' => 'App\\Http\\Controllers\\Admin\\CategoryController@update',
+        'controller' => 'App\\Http\\Controllers\\Admin\\CategoryController@update',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -13321,13 +13655,13 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'admin.subcategory.destroy' => 
+    'admin.category.destroy' => 
     array (
       'methods' => 
       array (
         0 => 'DELETE',
       ),
-      'uri' => 'subcategory/{subcategory}',
+      'uri' => 'admin/category/{category}',
       'action' => 
       array (
         'middleware' => 
@@ -13335,11 +13669,11 @@ app('router')->setCompiledRoutes(
           0 => 'web',
           1 => 'admin',
         ),
-        'as' => 'admin.subcategory.destroy',
-        'uses' => 'App\\Http\\Controllers\\Admin\\SubCategoryController@destroy',
-        'controller' => 'App\\Http\\Controllers\\Admin\\SubCategoryController@destroy',
+        'as' => 'admin.category.destroy',
+        'uses' => 'App\\Http\\Controllers\\Admin\\CategoryController@destroy',
+        'controller' => 'App\\Http\\Controllers\\Admin\\CategoryController@destroy',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -13365,7 +13699,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'subcategory/{id}/toggle-featured',
+      'uri' => 'admin/subcategory/{id}/toggle-featured',
       'action' => 
       array (
         'middleware' => 
@@ -13377,7 +13711,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\SubCategoryController@toggleFeatured',
         'as' => 'admin.subcategory.toggle-featured',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -13403,7 +13737,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'subcategory/{id}/toggle-status',
+      'uri' => 'admin/subcategory/{id}/toggle-status',
       'action' => 
       array (
         'middleware' => 
@@ -13415,7 +13749,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\SubCategoryController@toggleStatus',
         'as' => 'admin.subcategory.toggle-status',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -13434,14 +13768,14 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'admin.childcategory.index' => 
+    'admin.subcategory.index' => 
     array (
       'methods' => 
       array (
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'childcategory',
+      'uri' => 'admin/subcategory',
       'action' => 
       array (
         'middleware' => 
@@ -13449,11 +13783,11 @@ app('router')->setCompiledRoutes(
           0 => 'web',
           1 => 'admin',
         ),
-        'as' => 'admin.childcategory.index',
-        'uses' => 'App\\Http\\Controllers\\Admin\\ChildSubCategoryController@index',
-        'controller' => 'App\\Http\\Controllers\\Admin\\ChildSubCategoryController@index',
+        'as' => 'admin.subcategory.index',
+        'uses' => 'App\\Http\\Controllers\\Admin\\SubCategoryController@index',
+        'controller' => 'App\\Http\\Controllers\\Admin\\SubCategoryController@index',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -13472,14 +13806,14 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'admin.childcategory.create' => 
+    'admin.subcategory.create' => 
     array (
       'methods' => 
       array (
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'childcategory/create',
+      'uri' => 'admin/subcategory/create',
       'action' => 
       array (
         'middleware' => 
@@ -13487,11 +13821,11 @@ app('router')->setCompiledRoutes(
           0 => 'web',
           1 => 'admin',
         ),
-        'as' => 'admin.childcategory.create',
-        'uses' => 'App\\Http\\Controllers\\Admin\\ChildSubCategoryController@create',
-        'controller' => 'App\\Http\\Controllers\\Admin\\ChildSubCategoryController@create',
+        'as' => 'admin.subcategory.create',
+        'uses' => 'App\\Http\\Controllers\\Admin\\SubCategoryController@create',
+        'controller' => 'App\\Http\\Controllers\\Admin\\SubCategoryController@create',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -13510,13 +13844,13 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'admin.childcategory.store' => 
+    'admin.subcategory.store' => 
     array (
       'methods' => 
       array (
         0 => 'POST',
       ),
-      'uri' => 'childcategory',
+      'uri' => 'admin/subcategory',
       'action' => 
       array (
         'middleware' => 
@@ -13524,11 +13858,11 @@ app('router')->setCompiledRoutes(
           0 => 'web',
           1 => 'admin',
         ),
-        'as' => 'admin.childcategory.store',
-        'uses' => 'App\\Http\\Controllers\\Admin\\ChildSubCategoryController@store',
-        'controller' => 'App\\Http\\Controllers\\Admin\\ChildSubCategoryController@store',
+        'as' => 'admin.subcategory.store',
+        'uses' => 'App\\Http\\Controllers\\Admin\\SubCategoryController@store',
+        'controller' => 'App\\Http\\Controllers\\Admin\\SubCategoryController@store',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -13547,14 +13881,14 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'admin.childcategory.show' => 
+    'admin.subcategory.show' => 
     array (
       'methods' => 
       array (
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'childcategory/{childcategory}',
+      'uri' => 'admin/subcategory/{subcategory}',
       'action' => 
       array (
         'middleware' => 
@@ -13562,11 +13896,11 @@ app('router')->setCompiledRoutes(
           0 => 'web',
           1 => 'admin',
         ),
-        'as' => 'admin.childcategory.show',
-        'uses' => 'App\\Http\\Controllers\\Admin\\ChildSubCategoryController@show',
-        'controller' => 'App\\Http\\Controllers\\Admin\\ChildSubCategoryController@show',
+        'as' => 'admin.subcategory.show',
+        'uses' => 'App\\Http\\Controllers\\Admin\\SubCategoryController@show',
+        'controller' => 'App\\Http\\Controllers\\Admin\\SubCategoryController@show',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -13585,14 +13919,14 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'admin.childcategory.edit' => 
+    'admin.subcategory.edit' => 
     array (
       'methods' => 
       array (
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'childcategory/{childcategory}/edit',
+      'uri' => 'admin/subcategory/{subcategory}/edit',
       'action' => 
       array (
         'middleware' => 
@@ -13600,11 +13934,11 @@ app('router')->setCompiledRoutes(
           0 => 'web',
           1 => 'admin',
         ),
-        'as' => 'admin.childcategory.edit',
-        'uses' => 'App\\Http\\Controllers\\Admin\\ChildSubCategoryController@edit',
-        'controller' => 'App\\Http\\Controllers\\Admin\\ChildSubCategoryController@edit',
+        'as' => 'admin.subcategory.edit',
+        'uses' => 'App\\Http\\Controllers\\Admin\\SubCategoryController@edit',
+        'controller' => 'App\\Http\\Controllers\\Admin\\SubCategoryController@edit',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -13623,14 +13957,14 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'admin.childcategory.update' => 
+    'admin.subcategory.update' => 
     array (
       'methods' => 
       array (
         0 => 'PUT',
         1 => 'PATCH',
       ),
-      'uri' => 'childcategory/{childcategory}',
+      'uri' => 'admin/subcategory/{subcategory}',
       'action' => 
       array (
         'middleware' => 
@@ -13638,11 +13972,11 @@ app('router')->setCompiledRoutes(
           0 => 'web',
           1 => 'admin',
         ),
-        'as' => 'admin.childcategory.update',
-        'uses' => 'App\\Http\\Controllers\\Admin\\ChildSubCategoryController@update',
-        'controller' => 'App\\Http\\Controllers\\Admin\\ChildSubCategoryController@update',
+        'as' => 'admin.subcategory.update',
+        'uses' => 'App\\Http\\Controllers\\Admin\\SubCategoryController@update',
+        'controller' => 'App\\Http\\Controllers\\Admin\\SubCategoryController@update',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -13661,13 +13995,13 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'admin.childcategory.destroy' => 
+    'admin.subcategory.destroy' => 
     array (
       'methods' => 
       array (
         0 => 'DELETE',
       ),
-      'uri' => 'childcategory/{childcategory}',
+      'uri' => 'admin/subcategory/{subcategory}',
       'action' => 
       array (
         'middleware' => 
@@ -13675,11 +14009,11 @@ app('router')->setCompiledRoutes(
           0 => 'web',
           1 => 'admin',
         ),
-        'as' => 'admin.childcategory.destroy',
-        'uses' => 'App\\Http\\Controllers\\Admin\\ChildSubCategoryController@destroy',
-        'controller' => 'App\\Http\\Controllers\\Admin\\ChildSubCategoryController@destroy',
+        'as' => 'admin.subcategory.destroy',
+        'uses' => 'App\\Http\\Controllers\\Admin\\SubCategoryController@destroy',
+        'controller' => 'App\\Http\\Controllers\\Admin\\SubCategoryController@destroy',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -13705,7 +14039,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'childcategory/{id}/toggle-featured',
+      'uri' => 'admin/childcategory/{id}/toggle-featured',
       'action' => 
       array (
         'middleware' => 
@@ -13717,7 +14051,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\ChildSubCategoryController@childtoggleFeatured',
         'as' => 'admin.childcategory.toggle-featured',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -13743,7 +14077,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'childcategory/{id}/toggle-status',
+      'uri' => 'admin/childcategory/{id}/toggle-status',
       'action' => 
       array (
         'middleware' => 
@@ -13755,7 +14089,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\ChildSubCategoryController@childtoggleStatus',
         'as' => 'admin.childcategory.toggle-status',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -13781,7 +14115,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'get-subcategories',
+      'uri' => 'admin/get-subcategories',
       'action' => 
       array (
         'middleware' => 
@@ -13793,7 +14127,271 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\ChildSubCategoryController@getSubCategories',
         'as' => 'admin.childcategory.getSubCategories',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.childcategory.index' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/childcategory',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.childcategory.index',
+        'uses' => 'App\\Http\\Controllers\\Admin\\ChildSubCategoryController@index',
+        'controller' => 'App\\Http\\Controllers\\Admin\\ChildSubCategoryController@index',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.childcategory.create' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/childcategory/create',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.childcategory.create',
+        'uses' => 'App\\Http\\Controllers\\Admin\\ChildSubCategoryController@create',
+        'controller' => 'App\\Http\\Controllers\\Admin\\ChildSubCategoryController@create',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.childcategory.store' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'admin/childcategory',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.childcategory.store',
+        'uses' => 'App\\Http\\Controllers\\Admin\\ChildSubCategoryController@store',
+        'controller' => 'App\\Http\\Controllers\\Admin\\ChildSubCategoryController@store',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.childcategory.show' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/childcategory/{childcategory}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.childcategory.show',
+        'uses' => 'App\\Http\\Controllers\\Admin\\ChildSubCategoryController@show',
+        'controller' => 'App\\Http\\Controllers\\Admin\\ChildSubCategoryController@show',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.childcategory.edit' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/childcategory/{childcategory}/edit',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.childcategory.edit',
+        'uses' => 'App\\Http\\Controllers\\Admin\\ChildSubCategoryController@edit',
+        'controller' => 'App\\Http\\Controllers\\Admin\\ChildSubCategoryController@edit',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.childcategory.update' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'PUT',
+        1 => 'PATCH',
+      ),
+      'uri' => 'admin/childcategory/{childcategory}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.childcategory.update',
+        'uses' => 'App\\Http\\Controllers\\Admin\\ChildSubCategoryController@update',
+        'controller' => 'App\\Http\\Controllers\\Admin\\ChildSubCategoryController@update',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.childcategory.destroy' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'DELETE',
+      ),
+      'uri' => 'admin/childcategory/{childcategory}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.childcategory.destroy',
+        'uses' => 'App\\Http\\Controllers\\Admin\\ChildSubCategoryController@destroy',
+        'controller' => 'App\\Http\\Controllers\\Admin\\ChildSubCategoryController@destroy',
+        'namespace' => NULL,
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -13819,7 +14417,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'products/get-subcategories',
+      'uri' => 'admin/products/get-subcategories',
       'action' => 
       array (
         'middleware' => 
@@ -13831,7 +14429,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\ProductController@getSubCategories',
         'as' => 'admin.products.getSubCategories',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -13857,7 +14455,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'products/get-childcategories',
+      'uri' => 'admin/products/get-childcategories',
       'action' => 
       array (
         'middleware' => 
@@ -13869,7 +14467,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\ProductController@getChildCategories',
         'as' => 'admin.products.getChildCategories',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -13895,7 +14493,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'products/deactivated',
+      'uri' => 'admin/products/deactivated',
       'action' => 
       array (
         'middleware' => 
@@ -13907,7 +14505,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\ProductController@deactivated',
         'as' => 'admin.products.deactivated',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -13933,7 +14531,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'products/flash-sales',
+      'uri' => 'admin/products/flash-sales',
       'action' => 
       array (
         'middleware' => 
@@ -13945,7 +14543,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\ProductController@flashSalesIndex',
         'as' => 'admin.products.flash-sales',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -13971,7 +14569,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'products/new-arrivals',
+      'uri' => 'admin/products/new-arrivals',
       'action' => 
       array (
         'middleware' => 
@@ -13983,7 +14581,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\ProductController@newArrivalsIndex',
         'as' => 'admin.products.new-arrivals',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -14009,7 +14607,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'products/bestsellers',
+      'uri' => 'admin/products/bestsellers',
       'action' => 
       array (
         'middleware' => 
@@ -14021,7 +14619,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\ProductController@bestsellersIndex',
         'as' => 'admin.products.bestsellers',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -14047,7 +14645,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'products/catalog',
+      'uri' => 'admin/products/catalog',
       'action' => 
       array (
         'middleware' => 
@@ -14059,7 +14657,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\ProductController@catalogIndex',
         'as' => 'admin.products.catalog',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -14085,7 +14683,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'products/{id}/toggle-status',
+      'uri' => 'admin/products/{id}/toggle-status',
       'action' => 
       array (
         'middleware' => 
@@ -14097,7 +14695,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\ProductController@toggleStatus',
         'as' => 'admin.products.toggle-status',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -14123,7 +14721,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'products/{id}/catalog-add',
+      'uri' => 'admin/products/{id}/catalog-add',
       'action' => 
       array (
         'middleware' => 
@@ -14135,7 +14733,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\ProductController@catalogAdd',
         'as' => 'admin.products.catalog.add',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -14160,7 +14758,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'POST',
       ),
-      'uri' => 'products/{id}/catalog-remove',
+      'uri' => 'admin/products/{id}/catalog-remove',
       'action' => 
       array (
         'middleware' => 
@@ -14172,7 +14770,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\ProductController@catalogRemove',
         'as' => 'admin.products.catalog.remove',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -14197,7 +14795,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'POST',
       ),
-      'uri' => 'products/{id}/catalog-highlight',
+      'uri' => 'admin/products/{id}/catalog-highlight',
       'action' => 
       array (
         'middleware' => 
@@ -14209,7 +14807,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\ProductController@catalogHighlight',
         'as' => 'admin.products.catalog.highlight',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -14235,7 +14833,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'products/{id}/catalog-gallery',
+      'uri' => 'admin/products/{id}/catalog-gallery',
       'action' => 
       array (
         'middleware' => 
@@ -14247,7 +14845,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\ProductController@catalogGallery',
         'as' => 'admin.products.catalog.gallery',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -14272,7 +14870,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'POST',
       ),
-      'uri' => 'products/{id}/toggle-flash-sale',
+      'uri' => 'admin/products/{id}/toggle-flash-sale',
       'action' => 
       array (
         'middleware' => 
@@ -14284,7 +14882,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\ProductController@toggleFlashSale',
         'as' => 'admin.products.toggle-flash-sale',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -14309,7 +14907,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'POST',
       ),
-      'uri' => 'products/{id}/update-flash-sale',
+      'uri' => 'admin/products/{id}/update-flash-sale',
       'action' => 
       array (
         'middleware' => 
@@ -14321,7 +14919,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\ProductController@updateFlashSale',
         'as' => 'admin.products.update-flash-sale',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -14346,7 +14944,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'POST',
       ),
-      'uri' => 'products/{id}/toggle-new-arrival',
+      'uri' => 'admin/products/{id}/toggle-new-arrival',
       'action' => 
       array (
         'middleware' => 
@@ -14358,7 +14956,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\ProductController@toggleNewArrival',
         'as' => 'admin.products.toggle-new-arrival',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -14383,7 +14981,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'POST',
       ),
-      'uri' => 'products/{id}/toggle-bestseller',
+      'uri' => 'admin/products/{id}/toggle-bestseller',
       'action' => 
       array (
         'middleware' => 
@@ -14395,7 +14993,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\ProductController@toggleBestseller',
         'as' => 'admin.products.toggle-bestseller',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -14421,7 +15019,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'products',
+      'uri' => 'admin/products',
       'action' => 
       array (
         'middleware' => 
@@ -14433,7 +15031,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\ProductController@index',
         'controller' => 'App\\Http\\Controllers\\Admin\\ProductController@index',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -14459,7 +15057,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'products/create',
+      'uri' => 'admin/products/create',
       'action' => 
       array (
         'middleware' => 
@@ -14471,7 +15069,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\ProductController@create',
         'controller' => 'App\\Http\\Controllers\\Admin\\ProductController@create',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -14496,7 +15094,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'POST',
       ),
-      'uri' => 'products',
+      'uri' => 'admin/products',
       'action' => 
       array (
         'middleware' => 
@@ -14508,7 +15106,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\ProductController@store',
         'controller' => 'App\\Http\\Controllers\\Admin\\ProductController@store',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -14534,7 +15132,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'products/{product}',
+      'uri' => 'admin/products/{product}',
       'action' => 
       array (
         'middleware' => 
@@ -14546,7 +15144,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\ProductController@show',
         'controller' => 'App\\Http\\Controllers\\Admin\\ProductController@show',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -14572,7 +15170,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'products/{product}/edit',
+      'uri' => 'admin/products/{product}/edit',
       'action' => 
       array (
         'middleware' => 
@@ -14584,7 +15182,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\ProductController@edit',
         'controller' => 'App\\Http\\Controllers\\Admin\\ProductController@edit',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -14610,7 +15208,7 @@ app('router')->setCompiledRoutes(
         0 => 'PUT',
         1 => 'PATCH',
       ),
-      'uri' => 'products/{product}',
+      'uri' => 'admin/products/{product}',
       'action' => 
       array (
         'middleware' => 
@@ -14622,7 +15220,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\ProductController@update',
         'controller' => 'App\\Http\\Controllers\\Admin\\ProductController@update',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -14647,7 +15245,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'DELETE',
       ),
-      'uri' => 'products/{product}',
+      'uri' => 'admin/products/{product}',
       'action' => 
       array (
         'middleware' => 
@@ -14659,7 +15257,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\ProductController@destroy',
         'controller' => 'App\\Http\\Controllers\\Admin\\ProductController@destroy',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -14685,7 +15283,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'product-settings',
+      'uri' => 'admin/product-settings',
       'action' => 
       array (
         'middleware' => 
@@ -14697,7 +15295,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\Productsettingcontroller@index',
         'as' => 'admin.product.settings.index',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -14722,7 +15320,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'PUT',
       ),
-      'uri' => 'product-settings/update',
+      'uri' => 'admin/product-settings/update',
       'action' => 
       array (
         'middleware' => 
@@ -14734,7 +15332,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\Productsettingcontroller@update',
         'as' => 'admin.product.settings.update',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -14760,7 +15358,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'affiliateproduct/get-sub-categories',
+      'uri' => 'admin/affiliateproduct/get-sub-categories',
       'action' => 
       array (
         'middleware' => 
@@ -14772,7 +15370,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\AffiliateproductController@getSubCategories',
         'as' => 'admin.affiliateproduct.sub-categories',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -14798,7 +15396,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'affiliateproduct/get-child-categories',
+      'uri' => 'admin/affiliateproduct/get-child-categories',
       'action' => 
       array (
         'middleware' => 
@@ -14810,7 +15408,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\AffiliateproductController@getChildCategories',
         'as' => 'admin.affiliateproduct.child-categories',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -14835,7 +15433,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'POST',
       ),
-      'uri' => 'affiliateproduct/{id}/toggle-status',
+      'uri' => 'admin/affiliateproduct/{id}/toggle-status',
       'action' => 
       array (
         'middleware' => 
@@ -14847,7 +15445,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\AffiliateproductController@toggleStatus',
         'as' => 'admin.affiliateproduct.toggle-status',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -14873,7 +15471,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'affiliateproduct',
+      'uri' => 'admin/affiliateproduct',
       'action' => 
       array (
         'middleware' => 
@@ -14885,7 +15483,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\AffiliateproductController@index',
         'controller' => 'App\\Http\\Controllers\\Admin\\AffiliateproductController@index',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -14911,7 +15509,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'affiliateproduct/create',
+      'uri' => 'admin/affiliateproduct/create',
       'action' => 
       array (
         'middleware' => 
@@ -14923,7 +15521,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\AffiliateproductController@create',
         'controller' => 'App\\Http\\Controllers\\Admin\\AffiliateproductController@create',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -14948,7 +15546,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'POST',
       ),
-      'uri' => 'affiliateproduct',
+      'uri' => 'admin/affiliateproduct',
       'action' => 
       array (
         'middleware' => 
@@ -14960,7 +15558,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\AffiliateproductController@store',
         'controller' => 'App\\Http\\Controllers\\Admin\\AffiliateproductController@store',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -14986,7 +15584,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'affiliateproduct/{affiliateproduct}',
+      'uri' => 'admin/affiliateproduct/{affiliateproduct}',
       'action' => 
       array (
         'middleware' => 
@@ -14998,7 +15596,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\AffiliateproductController@show',
         'controller' => 'App\\Http\\Controllers\\Admin\\AffiliateproductController@show',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -15024,7 +15622,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'affiliateproduct/{affiliateproduct}/edit',
+      'uri' => 'admin/affiliateproduct/{affiliateproduct}/edit',
       'action' => 
       array (
         'middleware' => 
@@ -15036,7 +15634,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\AffiliateproductController@edit',
         'controller' => 'App\\Http\\Controllers\\Admin\\AffiliateproductController@edit',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -15062,7 +15660,7 @@ app('router')->setCompiledRoutes(
         0 => 'PUT',
         1 => 'PATCH',
       ),
-      'uri' => 'affiliateproduct/{affiliateproduct}',
+      'uri' => 'admin/affiliateproduct/{affiliateproduct}',
       'action' => 
       array (
         'middleware' => 
@@ -15074,7 +15672,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\AffiliateproductController@update',
         'controller' => 'App\\Http\\Controllers\\Admin\\AffiliateproductController@update',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -15099,7 +15697,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'DELETE',
       ),
-      'uri' => 'affiliateproduct/{affiliateproduct}',
+      'uri' => 'admin/affiliateproduct/{affiliateproduct}',
       'action' => 
       array (
         'middleware' => 
@@ -15111,7 +15709,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\AffiliateproductController@destroy',
         'controller' => 'App\\Http\\Controllers\\Admin\\AffiliateproductController@destroy',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -15136,7 +15734,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'POST',
       ),
-      'uri' => 'Generalsettings/upload-logo',
+      'uri' => 'admin/Generalsettings/upload-logo',
       'action' => 
       array (
         'middleware' => 
@@ -15148,7 +15746,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\GeneralsettingController@uploadLogo',
         'as' => 'admin.Generalsettings.upload-logo',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -15173,7 +15771,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'POST',
       ),
-      'uri' => 'Generalsettings/delete-logo',
+      'uri' => 'admin/Generalsettings/delete-logo',
       'action' => 
       array (
         'middleware' => 
@@ -15185,7 +15783,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\GeneralsettingController@deleteLogo',
         'as' => 'admin.Generalsettings.delete-logo',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -15211,7 +15809,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'Generalsettings',
+      'uri' => 'admin/Generalsettings',
       'action' => 
       array (
         'middleware' => 
@@ -15223,7 +15821,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\GeneralsettingController@index',
         'controller' => 'App\\Http\\Controllers\\Admin\\GeneralsettingController@index',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -15249,7 +15847,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'Generalsettings/create',
+      'uri' => 'admin/Generalsettings/create',
       'action' => 
       array (
         'middleware' => 
@@ -15261,7 +15859,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\GeneralsettingController@create',
         'controller' => 'App\\Http\\Controllers\\Admin\\GeneralsettingController@create',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -15286,7 +15884,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'POST',
       ),
-      'uri' => 'Generalsettings',
+      'uri' => 'admin/Generalsettings',
       'action' => 
       array (
         'middleware' => 
@@ -15298,7 +15896,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\GeneralsettingController@store',
         'controller' => 'App\\Http\\Controllers\\Admin\\GeneralsettingController@store',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -15324,7 +15922,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'Generalsettings/{Generalsetting}',
+      'uri' => 'admin/Generalsettings/{Generalsetting}',
       'action' => 
       array (
         'middleware' => 
@@ -15336,7 +15934,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\GeneralsettingController@show',
         'controller' => 'App\\Http\\Controllers\\Admin\\GeneralsettingController@show',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -15362,7 +15960,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'Generalsettings/{Generalsetting}/edit',
+      'uri' => 'admin/Generalsettings/{Generalsetting}/edit',
       'action' => 
       array (
         'middleware' => 
@@ -15374,7 +15972,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\GeneralsettingController@edit',
         'controller' => 'App\\Http\\Controllers\\Admin\\GeneralsettingController@edit',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -15400,7 +15998,7 @@ app('router')->setCompiledRoutes(
         0 => 'PUT',
         1 => 'PATCH',
       ),
-      'uri' => 'Generalsettings/{Generalsetting}',
+      'uri' => 'admin/Generalsettings/{Generalsetting}',
       'action' => 
       array (
         'middleware' => 
@@ -15412,7 +16010,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\GeneralsettingController@update',
         'controller' => 'App\\Http\\Controllers\\Admin\\GeneralsettingController@update',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -15437,7 +16035,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'DELETE',
       ),
-      'uri' => 'Generalsettings/{Generalsetting}',
+      'uri' => 'admin/Generalsettings/{Generalsetting}',
       'action' => 
       array (
         'middleware' => 
@@ -15449,7 +16047,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\GeneralsettingController@destroy',
         'controller' => 'App\\Http\\Controllers\\Admin\\GeneralsettingController@destroy',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -15474,7 +16072,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'POST',
       ),
-      'uri' => 'websitefavicon/upload-logo',
+      'uri' => 'admin/websitefavicon/upload-logo',
       'action' => 
       array (
         'middleware' => 
@@ -15486,7 +16084,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\WebsitefaviconController@uploadLogo',
         'as' => 'admin.websitefavicon.upload-logo',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -15511,7 +16109,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'POST',
       ),
-      'uri' => 'websitefavicon/delete-logo',
+      'uri' => 'admin/websitefavicon/delete-logo',
       'action' => 
       array (
         'middleware' => 
@@ -15523,7 +16121,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\WebsitefaviconController@deleteLogo',
         'as' => 'admin.websitefavicon.delete-logo',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -15549,7 +16147,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'websitefavicon',
+      'uri' => 'admin/websitefavicon',
       'action' => 
       array (
         'middleware' => 
@@ -15561,7 +16159,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\WebsitefaviconController@index',
         'controller' => 'App\\Http\\Controllers\\Admin\\WebsitefaviconController@index',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -15587,7 +16185,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'websitefavicon/create',
+      'uri' => 'admin/websitefavicon/create',
       'action' => 
       array (
         'middleware' => 
@@ -15599,7 +16197,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\WebsitefaviconController@create',
         'controller' => 'App\\Http\\Controllers\\Admin\\WebsitefaviconController@create',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -15624,7 +16222,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'POST',
       ),
-      'uri' => 'websitefavicon',
+      'uri' => 'admin/websitefavicon',
       'action' => 
       array (
         'middleware' => 
@@ -15636,7 +16234,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\WebsitefaviconController@store',
         'controller' => 'App\\Http\\Controllers\\Admin\\WebsitefaviconController@store',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -15662,7 +16260,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'websitefavicon/{websitefavicon}',
+      'uri' => 'admin/websitefavicon/{websitefavicon}',
       'action' => 
       array (
         'middleware' => 
@@ -15674,7 +16272,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\WebsitefaviconController@show',
         'controller' => 'App\\Http\\Controllers\\Admin\\WebsitefaviconController@show',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -15700,7 +16298,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'websitefavicon/{websitefavicon}/edit',
+      'uri' => 'admin/websitefavicon/{websitefavicon}/edit',
       'action' => 
       array (
         'middleware' => 
@@ -15712,7 +16310,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\WebsitefaviconController@edit',
         'controller' => 'App\\Http\\Controllers\\Admin\\WebsitefaviconController@edit',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -15738,7 +16336,7 @@ app('router')->setCompiledRoutes(
         0 => 'PUT',
         1 => 'PATCH',
       ),
-      'uri' => 'websitefavicon/{websitefavicon}',
+      'uri' => 'admin/websitefavicon/{websitefavicon}',
       'action' => 
       array (
         'middleware' => 
@@ -15750,7 +16348,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\WebsitefaviconController@update',
         'controller' => 'App\\Http\\Controllers\\Admin\\WebsitefaviconController@update',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -15775,7 +16373,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'DELETE',
       ),
-      'uri' => 'websitefavicon/{websitefavicon}',
+      'uri' => 'admin/websitefavicon/{websitefavicon}',
       'action' => 
       array (
         'middleware' => 
@@ -15787,7 +16385,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\WebsitefaviconController@destroy',
         'controller' => 'App\\Http\\Controllers\\Admin\\WebsitefaviconController@destroy',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -15813,7 +16411,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'slider',
+      'uri' => 'admin/slider',
       'action' => 
       array (
         'middleware' => 
@@ -15825,7 +16423,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\SliderController@index',
         'controller' => 'App\\Http\\Controllers\\Admin\\SliderController@index',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -15851,7 +16449,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'slider/create',
+      'uri' => 'admin/slider/create',
       'action' => 
       array (
         'middleware' => 
@@ -15863,7 +16461,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\SliderController@create',
         'controller' => 'App\\Http\\Controllers\\Admin\\SliderController@create',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -15888,7 +16486,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'POST',
       ),
-      'uri' => 'slider',
+      'uri' => 'admin/slider',
       'action' => 
       array (
         'middleware' => 
@@ -15900,7 +16498,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\SliderController@store',
         'controller' => 'App\\Http\\Controllers\\Admin\\SliderController@store',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -15926,7 +16524,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'slider/{slider}',
+      'uri' => 'admin/slider/{slider}',
       'action' => 
       array (
         'middleware' => 
@@ -15938,7 +16536,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\SliderController@show',
         'controller' => 'App\\Http\\Controllers\\Admin\\SliderController@show',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -15964,7 +16562,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'slider/{slider}/edit',
+      'uri' => 'admin/slider/{slider}/edit',
       'action' => 
       array (
         'middleware' => 
@@ -15976,7 +16574,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\SliderController@edit',
         'controller' => 'App\\Http\\Controllers\\Admin\\SliderController@edit',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -16002,7 +16600,7 @@ app('router')->setCompiledRoutes(
         0 => 'PUT',
         1 => 'PATCH',
       ),
-      'uri' => 'slider/{slider}',
+      'uri' => 'admin/slider/{slider}',
       'action' => 
       array (
         'middleware' => 
@@ -16014,7 +16612,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\SliderController@update',
         'controller' => 'App\\Http\\Controllers\\Admin\\SliderController@update',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -16039,7 +16637,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'DELETE',
       ),
-      'uri' => 'slider/{slider}',
+      'uri' => 'admin/slider/{slider}',
       'action' => 
       array (
         'middleware' => 
@@ -16051,233 +16649,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\SliderController@destroy',
         'controller' => 'App\\Http\\Controllers\\Admin\\SliderController@destroy',
         'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.shipping.index' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'shipping',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.shipping.index',
-        'uses' => 'App\\Http\\Controllers\\Admin\\ShippingChargeController@index',
-        'controller' => 'App\\Http\\Controllers\\Admin\\ShippingChargeController@index',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.shipping.create' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'shipping/create',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.shipping.create',
-        'uses' => 'App\\Http\\Controllers\\Admin\\ShippingChargeController@create',
-        'controller' => 'App\\Http\\Controllers\\Admin\\ShippingChargeController@create',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.shipping.store' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'POST',
-      ),
-      'uri' => 'shipping',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.shipping.store',
-        'uses' => 'App\\Http\\Controllers\\Admin\\ShippingChargeController@store',
-        'controller' => 'App\\Http\\Controllers\\Admin\\ShippingChargeController@store',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.shipping.edit' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'shipping/{shipping}/edit',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.shipping.edit',
-        'uses' => 'App\\Http\\Controllers\\Admin\\ShippingChargeController@edit',
-        'controller' => 'App\\Http\\Controllers\\Admin\\ShippingChargeController@edit',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.shipping.update' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'PUT',
-        1 => 'PATCH',
-      ),
-      'uri' => 'shipping/{shipping}',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.shipping.update',
-        'uses' => 'App\\Http\\Controllers\\Admin\\ShippingChargeController@update',
-        'controller' => 'App\\Http\\Controllers\\Admin\\ShippingChargeController@update',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.shipping.destroy' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'DELETE',
-      ),
-      'uri' => 'shipping/{shipping}',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.shipping.destroy',
-        'uses' => 'App\\Http\\Controllers\\Admin\\ShippingChargeController@destroy',
-        'controller' => 'App\\Http\\Controllers\\Admin\\ShippingChargeController@destroy',
-        'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -16303,7 +16675,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'toggle/{shipping}',
+      'uri' => 'admin/toggle/{shipping}',
       'action' => 
       array (
         'middleware' => 
@@ -16315,7 +16687,233 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\ShippingChargeController@toggleStatus',
         'as' => 'admin.toggle',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.shipping.index' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/shipping',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.shipping.index',
+        'uses' => 'App\\Http\\Controllers\\Admin\\ShippingChargeController@index',
+        'controller' => 'App\\Http\\Controllers\\Admin\\ShippingChargeController@index',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.shipping.create' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/shipping/create',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.shipping.create',
+        'uses' => 'App\\Http\\Controllers\\Admin\\ShippingChargeController@create',
+        'controller' => 'App\\Http\\Controllers\\Admin\\ShippingChargeController@create',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.shipping.store' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'admin/shipping',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.shipping.store',
+        'uses' => 'App\\Http\\Controllers\\Admin\\ShippingChargeController@store',
+        'controller' => 'App\\Http\\Controllers\\Admin\\ShippingChargeController@store',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.shipping.edit' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/shipping/{shipping}/edit',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.shipping.edit',
+        'uses' => 'App\\Http\\Controllers\\Admin\\ShippingChargeController@edit',
+        'controller' => 'App\\Http\\Controllers\\Admin\\ShippingChargeController@edit',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.shipping.update' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'PUT',
+        1 => 'PATCH',
+      ),
+      'uri' => 'admin/shipping/{shipping}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.shipping.update',
+        'uses' => 'App\\Http\\Controllers\\Admin\\ShippingChargeController@update',
+        'controller' => 'App\\Http\\Controllers\\Admin\\ShippingChargeController@update',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.shipping.destroy' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'DELETE',
+      ),
+      'uri' => 'admin/shipping/{shipping}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.shipping.destroy',
+        'uses' => 'App\\Http\\Controllers\\Admin\\ShippingChargeController@destroy',
+        'controller' => 'App\\Http\\Controllers\\Admin\\ShippingChargeController@destroy',
+        'namespace' => NULL,
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -16340,7 +16938,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'DELETE',
       ),
-      'uri' => 'orders/bulk-delete',
+      'uri' => 'admin/orders/bulk-delete',
       'action' => 
       array (
         'middleware' => 
@@ -16352,7 +16950,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\AllorderController@bulkDelete',
         'as' => 'admin.order.bulk-delete',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -16377,7 +16975,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'PATCH',
       ),
-      'uri' => 'orders/bulk-status',
+      'uri' => 'admin/orders/bulk-status',
       'action' => 
       array (
         'middleware' => 
@@ -16389,7 +16987,81 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\AllorderController@bulkStatus',
         'as' => 'admin.order.bulk-status',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.steadfast.bulk-send' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'admin/orders/bulk-send-steadfast',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Admin\\SteadfastOrderController@bulkSend',
+        'controller' => 'App\\Http\\Controllers\\Admin\\SteadfastOrderController@bulkSend',
+        'as' => 'admin.steadfast.bulk-send',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.pathao.bulk-send' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'admin/orders/bulk-send-pathao',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Admin\\PathaoOrderController@bulkSend',
+        'controller' => 'App\\Http\\Controllers\\Admin\\PathaoOrderController@bulkSend',
+        'as' => 'admin.pathao.bulk-send',
+        'namespace' => NULL,
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -16415,7 +17087,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'orders/create',
+      'uri' => 'admin/orders/create',
       'action' => 
       array (
         'middleware' => 
@@ -16427,7 +17099,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\OrderController@create',
         'as' => 'admin.order.create',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -16452,7 +17124,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'POST',
       ),
-      'uri' => 'orders',
+      'uri' => 'admin/orders',
       'action' => 
       array (
         'middleware' => 
@@ -16464,7 +17136,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\OrderController@store',
         'as' => 'admin.order.store',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -16490,7 +17162,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'orders',
+      'uri' => 'admin/orders',
       'action' => 
       array (
         'middleware' => 
@@ -16502,7 +17174,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\AllorderController@allorder',
         'as' => 'admin.order.allorder',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -16528,7 +17200,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'orders/{id}',
+      'uri' => 'admin/orders/{id}',
       'action' => 
       array (
         'middleware' => 
@@ -16540,7 +17212,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\AllorderController@show',
         'as' => 'admin.order.show',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -16566,7 +17238,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'orders/{id}/edit',
+      'uri' => 'admin/orders/{id}/edit',
       'action' => 
       array (
         'middleware' => 
@@ -16578,7 +17250,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\OrderController@edit',
         'as' => 'admin.order.edit',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -16603,7 +17275,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'PUT',
       ),
-      'uri' => 'orders/{id}',
+      'uri' => 'admin/orders/{id}',
       'action' => 
       array (
         'middleware' => 
@@ -16615,7 +17287,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\OrderController@update',
         'as' => 'admin.order.update',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -16640,7 +17312,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'PATCH',
       ),
-      'uri' => 'orders/{id}/status',
+      'uri' => 'admin/orders/{id}/status',
       'action' => 
       array (
         'middleware' => 
@@ -16652,7 +17324,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\AllorderController@updateStatus',
         'as' => 'admin.order.status',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -16677,7 +17349,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'PATCH',
       ),
-      'uri' => 'orders/{id}/payment-status',
+      'uri' => 'admin/orders/{id}/payment-status',
       'action' => 
       array (
         'middleware' => 
@@ -16689,7 +17361,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\AllorderController@updatePaymentStatus',
         'as' => 'admin.order.payment-status',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -16714,7 +17386,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'DELETE',
       ),
-      'uri' => 'orders/{id}',
+      'uri' => 'admin/orders/{id}',
       'action' => 
       array (
         'middleware' => 
@@ -16726,44 +17398,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\AllorderController@destroy',
         'as' => 'admin.order.destroy',
         'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.steadfast.bulk-send' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'POST',
-      ),
-      'uri' => 'orders/bulk-send-steadfast',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'uses' => 'App\\Http\\Controllers\\Admin\\SteadfastOrderController@bulkSend',
-        'controller' => 'App\\Http\\Controllers\\Admin\\SteadfastOrderController@bulkSend',
-        'as' => 'admin.steadfast.bulk-send',
-        'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -16788,7 +17423,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'POST',
       ),
-      'uri' => 'orders/{order}/send-steadfast',
+      'uri' => 'admin/orders/{order}/send-steadfast',
       'action' => 
       array (
         'middleware' => 
@@ -16800,7 +17435,44 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\SteadfastOrderController@send',
         'as' => 'admin.steadfast.send',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.pathao.send' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'admin/orders/{order}/send-pathao',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Admin\\PathaoOrderController@send',
+        'controller' => 'App\\Http\\Controllers\\Admin\\PathaoOrderController@send',
+        'as' => 'admin.pathao.send',
+        'namespace' => NULL,
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -16826,7 +17498,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'steadfast/test',
+      'uri' => 'admin/steadfast/test',
       'action' => 
       array (
         'middleware' => 
@@ -16838,81 +17510,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\SteadfastOrderController@test',
         'as' => 'admin.steadfast.test',
         'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.pathao.bulk-send' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'POST',
-      ),
-      'uri' => 'orders/bulk-send-pathao',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'uses' => 'App\\Http\\Controllers\\Admin\\PathaoOrderController@bulkSend',
-        'controller' => 'App\\Http\\Controllers\\Admin\\PathaoOrderController@bulkSend',
-        'as' => 'admin.pathao.bulk-send',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.pathao.send' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'POST',
-      ),
-      'uri' => 'orders/{order}/send-pathao',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'uses' => 'App\\Http\\Controllers\\Admin\\PathaoOrderController@send',
-        'controller' => 'App\\Http\\Controllers\\Admin\\PathaoOrderController@send',
-        'as' => 'admin.pathao.send',
-        'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -16938,7 +17536,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'pathao/test',
+      'uri' => 'admin/pathao/test',
       'action' => 
       array (
         'middleware' => 
@@ -16950,7 +17548,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\PathaoOrderController@test',
         'as' => 'admin.pathao.test',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -16976,7 +17574,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'pathao/stores',
+      'uri' => 'admin/pathao/stores',
       'action' => 
       array (
         'middleware' => 
@@ -16988,7 +17586,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\PathaoOrderController@getStores',
         'as' => 'admin.pathao.stores',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -17014,7 +17612,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'pathao/cities',
+      'uri' => 'admin/pathao/cities',
       'action' => 
       array (
         'middleware' => 
@@ -17026,7 +17624,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\PathaoOrderController@getCities',
         'as' => 'admin.pathao.cities',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -17052,7 +17650,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'pathao/zones',
+      'uri' => 'admin/pathao/zones',
       'action' => 
       array (
         'middleware' => 
@@ -17064,7 +17662,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\PathaoOrderController@getZones',
         'as' => 'admin.pathao.zones',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -17090,7 +17688,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'pathao/areas',
+      'uri' => 'admin/pathao/areas',
       'action' => 
       array (
         'middleware' => 
@@ -17102,7 +17700,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\PathaoOrderController@getAreas',
         'as' => 'admin.pathao.areas',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -17128,7 +17726,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'pathao/debug/phone',
+      'uri' => 'admin/pathao/debug/phone',
       'action' => 
       array (
         'middleware' => 
@@ -17140,7 +17738,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\PathaoOrderController@debugPhone',
         'as' => 'admin.pathao.debug.phone',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -17166,7 +17764,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'pathao/debug/payload',
+      'uri' => 'admin/pathao/debug/payload',
       'action' => 
       array (
         'middleware' => 
@@ -17178,7 +17776,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\PathaoOrderController@debugPayload',
         'as' => 'admin.pathao.debug.payload',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -17204,7 +17802,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'pathao/debug/token',
+      'uri' => 'admin/pathao/debug/token',
       'action' => 
       array (
         'middleware' => 
@@ -17216,2194 +17814,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\PathaoOrderController@debugToken',
         'as' => 'admin.pathao.debug.token',
         'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.contact.index' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'contact',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.contact.index',
-        'uses' => 'App\\Http\\Controllers\\Admin\\ContactController@index',
-        'controller' => 'App\\Http\\Controllers\\Admin\\ContactController@index',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.contact.create' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'contact/create',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.contact.create',
-        'uses' => 'App\\Http\\Controllers\\Admin\\ContactController@create',
-        'controller' => 'App\\Http\\Controllers\\Admin\\ContactController@create',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.contact.store' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'POST',
-      ),
-      'uri' => 'contact',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.contact.store',
-        'uses' => 'App\\Http\\Controllers\\Admin\\ContactController@store',
-        'controller' => 'App\\Http\\Controllers\\Admin\\ContactController@store',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.contact.show' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'contact/{contact}',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.contact.show',
-        'uses' => 'App\\Http\\Controllers\\Admin\\ContactController@show',
-        'controller' => 'App\\Http\\Controllers\\Admin\\ContactController@show',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.contact.edit' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'contact/{contact}/edit',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.contact.edit',
-        'uses' => 'App\\Http\\Controllers\\Admin\\ContactController@edit',
-        'controller' => 'App\\Http\\Controllers\\Admin\\ContactController@edit',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.contact.update' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'PUT',
-        1 => 'PATCH',
-      ),
-      'uri' => 'contact/{contact}',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.contact.update',
-        'uses' => 'App\\Http\\Controllers\\Admin\\ContactController@update',
-        'controller' => 'App\\Http\\Controllers\\Admin\\ContactController@update',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.contact.destroy' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'DELETE',
-      ),
-      'uri' => 'contact/{contact}',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.contact.destroy',
-        'uses' => 'App\\Http\\Controllers\\Admin\\ContactController@destroy',
-        'controller' => 'App\\Http\\Controllers\\Admin\\ContactController@destroy',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.pixels.index' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'pixels',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.pixels.index',
-        'uses' => 'App\\Http\\Controllers\\Admin\\PixelController@index',
-        'controller' => 'App\\Http\\Controllers\\Admin\\PixelController@index',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.pixels.create' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'pixels/create',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.pixels.create',
-        'uses' => 'App\\Http\\Controllers\\Admin\\PixelController@create',
-        'controller' => 'App\\Http\\Controllers\\Admin\\PixelController@create',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.pixels.store' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'POST',
-      ),
-      'uri' => 'pixels',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.pixels.store',
-        'uses' => 'App\\Http\\Controllers\\Admin\\PixelController@store',
-        'controller' => 'App\\Http\\Controllers\\Admin\\PixelController@store',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.pixels.show' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'pixels/{pixel}',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.pixels.show',
-        'uses' => 'App\\Http\\Controllers\\Admin\\PixelController@show',
-        'controller' => 'App\\Http\\Controllers\\Admin\\PixelController@show',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.pixels.edit' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'pixels/{pixel}/edit',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.pixels.edit',
-        'uses' => 'App\\Http\\Controllers\\Admin\\PixelController@edit',
-        'controller' => 'App\\Http\\Controllers\\Admin\\PixelController@edit',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.pixels.update' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'PUT',
-        1 => 'PATCH',
-      ),
-      'uri' => 'pixels/{pixel}',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.pixels.update',
-        'uses' => 'App\\Http\\Controllers\\Admin\\PixelController@update',
-        'controller' => 'App\\Http\\Controllers\\Admin\\PixelController@update',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.pixels.destroy' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'DELETE',
-      ),
-      'uri' => 'pixels/{pixel}',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.pixels.destroy',
-        'uses' => 'App\\Http\\Controllers\\Admin\\PixelController@destroy',
-        'controller' => 'App\\Http\\Controllers\\Admin\\PixelController@destroy',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.googletagmanager.index' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'googletagmanager',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.googletagmanager.index',
-        'uses' => 'App\\Http\\Controllers\\Admin\\GoogleTagmanagerController@index',
-        'controller' => 'App\\Http\\Controllers\\Admin\\GoogleTagmanagerController@index',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.googletagmanager.create' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'googletagmanager/create',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.googletagmanager.create',
-        'uses' => 'App\\Http\\Controllers\\Admin\\GoogleTagmanagerController@create',
-        'controller' => 'App\\Http\\Controllers\\Admin\\GoogleTagmanagerController@create',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.googletagmanager.store' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'POST',
-      ),
-      'uri' => 'googletagmanager',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.googletagmanager.store',
-        'uses' => 'App\\Http\\Controllers\\Admin\\GoogleTagmanagerController@store',
-        'controller' => 'App\\Http\\Controllers\\Admin\\GoogleTagmanagerController@store',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.googletagmanager.show' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'googletagmanager/{googletagmanager}',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.googletagmanager.show',
-        'uses' => 'App\\Http\\Controllers\\Admin\\GoogleTagmanagerController@show',
-        'controller' => 'App\\Http\\Controllers\\Admin\\GoogleTagmanagerController@show',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.googletagmanager.edit' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'googletagmanager/{googletagmanager}/edit',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.googletagmanager.edit',
-        'uses' => 'App\\Http\\Controllers\\Admin\\GoogleTagmanagerController@edit',
-        'controller' => 'App\\Http\\Controllers\\Admin\\GoogleTagmanagerController@edit',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.googletagmanager.update' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'PUT',
-        1 => 'PATCH',
-      ),
-      'uri' => 'googletagmanager/{googletagmanager}',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.googletagmanager.update',
-        'uses' => 'App\\Http\\Controllers\\Admin\\GoogleTagmanagerController@update',
-        'controller' => 'App\\Http\\Controllers\\Admin\\GoogleTagmanagerController@update',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.googletagmanager.destroy' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'DELETE',
-      ),
-      'uri' => 'googletagmanager/{googletagmanager}',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.googletagmanager.destroy',
-        'uses' => 'App\\Http\\Controllers\\Admin\\GoogleTagmanagerController@destroy',
-        'controller' => 'App\\Http\\Controllers\\Admin\\GoogleTagmanagerController@destroy',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.paymentgetewaymanage.index' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'paymentgetewaymanage',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.paymentgetewaymanage.index',
-        'uses' => 'App\\Http\\Controllers\\Admin\\PaymentgetewaymanageController@index',
-        'controller' => 'App\\Http\\Controllers\\Admin\\PaymentgetewaymanageController@index',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.paymentgetewaymanage.create' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'paymentgetewaymanage/create',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.paymentgetewaymanage.create',
-        'uses' => 'App\\Http\\Controllers\\Admin\\PaymentgetewaymanageController@create',
-        'controller' => 'App\\Http\\Controllers\\Admin\\PaymentgetewaymanageController@create',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.paymentgetewaymanage.store' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'POST',
-      ),
-      'uri' => 'paymentgetewaymanage',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.paymentgetewaymanage.store',
-        'uses' => 'App\\Http\\Controllers\\Admin\\PaymentgetewaymanageController@store',
-        'controller' => 'App\\Http\\Controllers\\Admin\\PaymentgetewaymanageController@store',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.paymentgetewaymanage.show' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'paymentgetewaymanage/{paymentgetewaymanage}',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.paymentgetewaymanage.show',
-        'uses' => 'App\\Http\\Controllers\\Admin\\PaymentgetewaymanageController@show',
-        'controller' => 'App\\Http\\Controllers\\Admin\\PaymentgetewaymanageController@show',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.paymentgetewaymanage.edit' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'paymentgetewaymanage/{paymentgetewaymanage}/edit',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.paymentgetewaymanage.edit',
-        'uses' => 'App\\Http\\Controllers\\Admin\\PaymentgetewaymanageController@edit',
-        'controller' => 'App\\Http\\Controllers\\Admin\\PaymentgetewaymanageController@edit',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.paymentgetewaymanage.update' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'PUT',
-        1 => 'PATCH',
-      ),
-      'uri' => 'paymentgetewaymanage/{paymentgetewaymanage}',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.paymentgetewaymanage.update',
-        'uses' => 'App\\Http\\Controllers\\Admin\\PaymentgetewaymanageController@update',
-        'controller' => 'App\\Http\\Controllers\\Admin\\PaymentgetewaymanageController@update',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.paymentgetewaymanage.destroy' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'DELETE',
-      ),
-      'uri' => 'paymentgetewaymanage/{paymentgetewaymanage}',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.paymentgetewaymanage.destroy',
-        'uses' => 'App\\Http\\Controllers\\Admin\\PaymentgetewaymanageController@destroy',
-        'controller' => 'App\\Http\\Controllers\\Admin\\PaymentgetewaymanageController@destroy',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.paymentgetewaymanage.toggle-status' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'PATCH',
-      ),
-      'uri' => 'paymentgetewaymanage/{id}/toggle-status',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'uses' => 'App\\Http\\Controllers\\Admin\\PaymentgetewaymanageController@toggleStatus',
-        'controller' => 'App\\Http\\Controllers\\Admin\\PaymentgetewaymanageController@toggleStatus',
-        'as' => 'admin.paymentgetewaymanage.toggle-status',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.steadfastcourier.index' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'steadfastcourier',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.steadfastcourier.index',
-        'uses' => 'App\\Http\\Controllers\\Admin\\SteadfastcourierController@index',
-        'controller' => 'App\\Http\\Controllers\\Admin\\SteadfastcourierController@index',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.steadfastcourier.create' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'steadfastcourier/create',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.steadfastcourier.create',
-        'uses' => 'App\\Http\\Controllers\\Admin\\SteadfastcourierController@create',
-        'controller' => 'App\\Http\\Controllers\\Admin\\SteadfastcourierController@create',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.steadfastcourier.store' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'POST',
-      ),
-      'uri' => 'steadfastcourier',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.steadfastcourier.store',
-        'uses' => 'App\\Http\\Controllers\\Admin\\SteadfastcourierController@store',
-        'controller' => 'App\\Http\\Controllers\\Admin\\SteadfastcourierController@store',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.steadfastcourier.show' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'steadfastcourier/{steadfastcourier}',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.steadfastcourier.show',
-        'uses' => 'App\\Http\\Controllers\\Admin\\SteadfastcourierController@show',
-        'controller' => 'App\\Http\\Controllers\\Admin\\SteadfastcourierController@show',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.steadfastcourier.edit' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'steadfastcourier/{steadfastcourier}/edit',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.steadfastcourier.edit',
-        'uses' => 'App\\Http\\Controllers\\Admin\\SteadfastcourierController@edit',
-        'controller' => 'App\\Http\\Controllers\\Admin\\SteadfastcourierController@edit',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.steadfastcourier.update' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'PUT',
-        1 => 'PATCH',
-      ),
-      'uri' => 'steadfastcourier/{steadfastcourier}',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.steadfastcourier.update',
-        'uses' => 'App\\Http\\Controllers\\Admin\\SteadfastcourierController@update',
-        'controller' => 'App\\Http\\Controllers\\Admin\\SteadfastcourierController@update',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.steadfastcourier.destroy' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'DELETE',
-      ),
-      'uri' => 'steadfastcourier/{steadfastcourier}',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.steadfastcourier.destroy',
-        'uses' => 'App\\Http\\Controllers\\Admin\\SteadfastcourierController@destroy',
-        'controller' => 'App\\Http\\Controllers\\Admin\\SteadfastcourierController@destroy',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.pathaocourier.generate-token' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'pathaocourier/generate-token',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'uses' => 'App\\Http\\Controllers\\Admin\\PathaocourierController@generateToken',
-        'controller' => 'App\\Http\\Controllers\\Admin\\PathaocourierController@generateToken',
-        'as' => 'admin.pathaocourier.generate-token',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.pathaocourier.index' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'pathaocourier',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.pathaocourier.index',
-        'uses' => 'App\\Http\\Controllers\\Admin\\PathaocourierController@index',
-        'controller' => 'App\\Http\\Controllers\\Admin\\PathaocourierController@index',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.pathaocourier.create' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'pathaocourier/create',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.pathaocourier.create',
-        'uses' => 'App\\Http\\Controllers\\Admin\\PathaocourierController@create',
-        'controller' => 'App\\Http\\Controllers\\Admin\\PathaocourierController@create',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.pathaocourier.store' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'POST',
-      ),
-      'uri' => 'pathaocourier',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.pathaocourier.store',
-        'uses' => 'App\\Http\\Controllers\\Admin\\PathaocourierController@store',
-        'controller' => 'App\\Http\\Controllers\\Admin\\PathaocourierController@store',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.pathaocourier.show' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'pathaocourier/{pathaocourier}',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.pathaocourier.show',
-        'uses' => 'App\\Http\\Controllers\\Admin\\PathaocourierController@show',
-        'controller' => 'App\\Http\\Controllers\\Admin\\PathaocourierController@show',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.pathaocourier.edit' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'pathaocourier/{pathaocourier}/edit',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.pathaocourier.edit',
-        'uses' => 'App\\Http\\Controllers\\Admin\\PathaocourierController@edit',
-        'controller' => 'App\\Http\\Controllers\\Admin\\PathaocourierController@edit',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.pathaocourier.update' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'PUT',
-        1 => 'PATCH',
-      ),
-      'uri' => 'pathaocourier/{pathaocourier}',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.pathaocourier.update',
-        'uses' => 'App\\Http\\Controllers\\Admin\\PathaocourierController@update',
-        'controller' => 'App\\Http\\Controllers\\Admin\\PathaocourierController@update',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.pathaocourier.destroy' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'DELETE',
-      ),
-      'uri' => 'pathaocourier/{pathaocourier}',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.pathaocourier.destroy',
-        'uses' => 'App\\Http\\Controllers\\Admin\\PathaocourierController@destroy',
-        'controller' => 'App\\Http\\Controllers\\Admin\\PathaocourierController@destroy',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.Smsgatewaysetup.index' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'Smsgatewaysetup',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.Smsgatewaysetup.index',
-        'uses' => 'App\\Http\\Controllers\\Admin\\SmsgatewaysetupController@index',
-        'controller' => 'App\\Http\\Controllers\\Admin\\SmsgatewaysetupController@index',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.Smsgatewaysetup.create' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'Smsgatewaysetup/create',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.Smsgatewaysetup.create',
-        'uses' => 'App\\Http\\Controllers\\Admin\\SmsgatewaysetupController@create',
-        'controller' => 'App\\Http\\Controllers\\Admin\\SmsgatewaysetupController@create',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.Smsgatewaysetup.store' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'POST',
-      ),
-      'uri' => 'Smsgatewaysetup',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.Smsgatewaysetup.store',
-        'uses' => 'App\\Http\\Controllers\\Admin\\SmsgatewaysetupController@store',
-        'controller' => 'App\\Http\\Controllers\\Admin\\SmsgatewaysetupController@store',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.Smsgatewaysetup.show' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'Smsgatewaysetup/{Smsgatewaysetup}',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.Smsgatewaysetup.show',
-        'uses' => 'App\\Http\\Controllers\\Admin\\SmsgatewaysetupController@show',
-        'controller' => 'App\\Http\\Controllers\\Admin\\SmsgatewaysetupController@show',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.Smsgatewaysetup.edit' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'Smsgatewaysetup/{Smsgatewaysetup}/edit',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.Smsgatewaysetup.edit',
-        'uses' => 'App\\Http\\Controllers\\Admin\\SmsgatewaysetupController@edit',
-        'controller' => 'App\\Http\\Controllers\\Admin\\SmsgatewaysetupController@edit',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.Smsgatewaysetup.update' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'PUT',
-        1 => 'PATCH',
-      ),
-      'uri' => 'Smsgatewaysetup/{Smsgatewaysetup}',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.Smsgatewaysetup.update',
-        'uses' => 'App\\Http\\Controllers\\Admin\\SmsgatewaysetupController@update',
-        'controller' => 'App\\Http\\Controllers\\Admin\\SmsgatewaysetupController@update',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.Smsgatewaysetup.destroy' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'DELETE',
-      ),
-      'uri' => 'Smsgatewaysetup/{Smsgatewaysetup}',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.Smsgatewaysetup.destroy',
-        'uses' => 'App\\Http\\Controllers\\Admin\\SmsgatewaysetupController@destroy',
-        'controller' => 'App\\Http\\Controllers\\Admin\\SmsgatewaysetupController@destroy',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.campaigncreate.index' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'campaigncreate',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.campaigncreate.index',
-        'uses' => 'App\\Http\\Controllers\\Admin\\CampaigncreateController@index',
-        'controller' => 'App\\Http\\Controllers\\Admin\\CampaigncreateController@index',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.campaigncreate.create' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'campaigncreate/create',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.campaigncreate.create',
-        'uses' => 'App\\Http\\Controllers\\Admin\\CampaigncreateController@create',
-        'controller' => 'App\\Http\\Controllers\\Admin\\CampaigncreateController@create',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.campaigncreate.store' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'POST',
-      ),
-      'uri' => 'campaigncreate',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.campaigncreate.store',
-        'uses' => 'App\\Http\\Controllers\\Admin\\CampaigncreateController@store',
-        'controller' => 'App\\Http\\Controllers\\Admin\\CampaigncreateController@store',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.campaigncreate.show' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'campaigncreate/{campaigncreate}',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.campaigncreate.show',
-        'uses' => 'App\\Http\\Controllers\\Admin\\CampaigncreateController@show',
-        'controller' => 'App\\Http\\Controllers\\Admin\\CampaigncreateController@show',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.campaigncreate.edit' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'campaigncreate/{campaigncreate}/edit',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.campaigncreate.edit',
-        'uses' => 'App\\Http\\Controllers\\Admin\\CampaigncreateController@edit',
-        'controller' => 'App\\Http\\Controllers\\Admin\\CampaigncreateController@edit',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.campaigncreate.update' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'PUT',
-        1 => 'PATCH',
-      ),
-      'uri' => 'campaigncreate/{campaigncreate}',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.campaigncreate.update',
-        'uses' => 'App\\Http\\Controllers\\Admin\\CampaigncreateController@update',
-        'controller' => 'App\\Http\\Controllers\\Admin\\CampaigncreateController@update',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.campaigncreate.destroy' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'DELETE',
-      ),
-      'uri' => 'campaigncreate/{campaigncreate}',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.campaigncreate.destroy',
-        'uses' => 'App\\Http\\Controllers\\Admin\\CampaigncreateController@destroy',
-        'controller' => 'App\\Http\\Controllers\\Admin\\CampaigncreateController@destroy',
-        'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -19429,7 +17840,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'incomplete-orders',
+      'uri' => 'admin/incomplete-orders',
       'action' => 
       array (
         'middleware' => 
@@ -19441,7 +17852,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\AdminIncompleteOrderController@index',
         'as' => 'admin.incomplete-orders.index',
         'namespace' => NULL,
-        'prefix' => '/incomplete-orders',
+        'prefix' => 'admin/incomplete-orders',
         'where' => 
         array (
         ),
@@ -19466,7 +17877,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'DELETE',
       ),
-      'uri' => 'incomplete-orders/bulk-delete',
+      'uri' => 'admin/incomplete-orders/bulk-delete',
       'action' => 
       array (
         'middleware' => 
@@ -19478,7 +17889,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\AdminIncompleteOrderController@bulkDelete',
         'as' => 'admin.incomplete-orders.bulk-delete',
         'namespace' => NULL,
-        'prefix' => '/incomplete-orders',
+        'prefix' => 'admin/incomplete-orders',
         'where' => 
         array (
         ),
@@ -19503,7 +17914,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'PATCH',
       ),
-      'uri' => 'incomplete-orders/bulk-status',
+      'uri' => 'admin/incomplete-orders/bulk-status',
       'action' => 
       array (
         'middleware' => 
@@ -19515,7 +17926,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\AdminIncompleteOrderController@bulkStatus',
         'as' => 'admin.incomplete-orders.bulk-status',
         'namespace' => NULL,
-        'prefix' => '/incomplete-orders',
+        'prefix' => 'admin/incomplete-orders',
         'where' => 
         array (
         ),
@@ -19540,7 +17951,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'POST',
       ),
-      'uri' => 'incomplete-orders/steadfast/bulk-send',
+      'uri' => 'admin/incomplete-orders/steadfast/bulk-send',
       'action' => 
       array (
         'middleware' => 
@@ -19552,7 +17963,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\AdminIncompleteOrderController@steadfastBulkSend',
         'as' => 'admin.incomplete-orders.steadfast.bulk-send',
         'namespace' => NULL,
-        'prefix' => '/incomplete-orders',
+        'prefix' => 'admin/incomplete-orders',
         'where' => 
         array (
         ),
@@ -19577,7 +17988,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'POST',
       ),
-      'uri' => 'incomplete-orders/pathao/bulk-send',
+      'uri' => 'admin/incomplete-orders/pathao/bulk-send',
       'action' => 
       array (
         'middleware' => 
@@ -19589,7 +18000,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\AdminIncompleteOrderController@pathaoBulkSend',
         'as' => 'admin.incomplete-orders.pathao.bulk-send',
         'namespace' => NULL,
-        'prefix' => '/incomplete-orders',
+        'prefix' => 'admin/incomplete-orders',
         'where' => 
         array (
         ),
@@ -19615,7 +18026,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'incomplete-orders/{incompleteOrder}',
+      'uri' => 'admin/incomplete-orders/{incompleteOrder}',
       'action' => 
       array (
         'middleware' => 
@@ -19627,7 +18038,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\AdminIncompleteOrderController@show',
         'as' => 'admin.incomplete-orders.show',
         'namespace' => NULL,
-        'prefix' => '/incomplete-orders',
+        'prefix' => 'admin/incomplete-orders',
         'where' => 
         array (
         ),
@@ -19652,7 +18063,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'DELETE',
       ),
-      'uri' => 'incomplete-orders/{incompleteOrder}',
+      'uri' => 'admin/incomplete-orders/{incompleteOrder}',
       'action' => 
       array (
         'middleware' => 
@@ -19664,7 +18075,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\AdminIncompleteOrderController@destroy',
         'as' => 'admin.incomplete-orders.destroy',
         'namespace' => NULL,
-        'prefix' => '/incomplete-orders',
+        'prefix' => 'admin/incomplete-orders',
         'where' => 
         array (
         ),
@@ -19689,7 +18100,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'PATCH',
       ),
-      'uri' => 'incomplete-orders/{incompleteOrder}/status',
+      'uri' => 'admin/incomplete-orders/{incompleteOrder}/status',
       'action' => 
       array (
         'middleware' => 
@@ -19701,7 +18112,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\AdminIncompleteOrderController@updateStatus',
         'as' => 'admin.incomplete-orders.update-status',
         'namespace' => NULL,
-        'prefix' => '/incomplete-orders',
+        'prefix' => 'admin/incomplete-orders',
         'where' => 
         array (
         ),
@@ -19726,7 +18137,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'PATCH',
       ),
-      'uri' => 'incomplete-orders/{incompleteOrder}/contacted',
+      'uri' => 'admin/incomplete-orders/{incompleteOrder}/contacted',
       'action' => 
       array (
         'middleware' => 
@@ -19738,7 +18149,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\AdminIncompleteOrderController@markContacted',
         'as' => 'admin.incomplete-orders.contacted',
         'namespace' => NULL,
-        'prefix' => '/incomplete-orders',
+        'prefix' => 'admin/incomplete-orders',
         'where' => 
         array (
         ),
@@ -19763,7 +18174,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'PATCH',
       ),
-      'uri' => 'incomplete-orders/{incompleteOrder}/recovered',
+      'uri' => 'admin/incomplete-orders/{incompleteOrder}/recovered',
       'action' => 
       array (
         'middleware' => 
@@ -19775,7 +18186,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\AdminIncompleteOrderController@markRecovered',
         'as' => 'admin.incomplete-orders.recovered',
         'namespace' => NULL,
-        'prefix' => '/incomplete-orders',
+        'prefix' => 'admin/incomplete-orders',
         'where' => 
         array (
         ),
@@ -19800,7 +18211,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'POST',
       ),
-      'uri' => 'incomplete-orders/{incompleteOrder}/steadfast-send',
+      'uri' => 'admin/incomplete-orders/{incompleteOrder}/steadfast-send',
       'action' => 
       array (
         'middleware' => 
@@ -19812,7 +18223,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\AdminIncompleteOrderController@steadfastSend',
         'as' => 'admin.incomplete-orders.steadfast.send',
         'namespace' => NULL,
-        'prefix' => '/incomplete-orders',
+        'prefix' => 'admin/incomplete-orders',
         'where' => 
         array (
         ),
@@ -19837,7 +18248,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'POST',
       ),
-      'uri' => 'incomplete-orders/{incompleteOrder}/pathao-send',
+      'uri' => 'admin/incomplete-orders/{incompleteOrder}/pathao-send',
       'action' => 
       array (
         'middleware' => 
@@ -19849,7 +18260,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\AdminIncompleteOrderController@pathaoSend',
         'as' => 'admin.incomplete-orders.pathao.send',
         'namespace' => NULL,
-        'prefix' => '/incomplete-orders',
+        'prefix' => 'admin/incomplete-orders',
         'where' => 
         array (
         ),
@@ -19875,7 +18286,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'chat',
+      'uri' => 'admin/chat',
       'action' => 
       array (
         'middleware' => 
@@ -19887,7 +18298,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\AdminChatController@index',
         'as' => 'admin.chat.index',
         'namespace' => NULL,
-        'prefix' => '/chat',
+        'prefix' => 'admin/chat',
         'where' => 
         array (
         ),
@@ -19913,7 +18324,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'chat/unread-count',
+      'uri' => 'admin/chat/unread-count',
       'action' => 
       array (
         'middleware' => 
@@ -19925,7 +18336,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\AdminChatController@unreadCount',
         'as' => 'admin.chat.unread',
         'namespace' => NULL,
-        'prefix' => '/chat',
+        'prefix' => 'admin/chat',
         'where' => 
         array (
         ),
@@ -19951,7 +18362,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'chat/{chatSession}',
+      'uri' => 'admin/chat/{chatSession}',
       'action' => 
       array (
         'middleware' => 
@@ -19963,7 +18374,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\AdminChatController@show',
         'as' => 'admin.chat.show',
         'namespace' => NULL,
-        'prefix' => '/chat',
+        'prefix' => 'admin/chat',
         'where' => 
         array (
         ),
@@ -19988,7 +18399,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'POST',
       ),
-      'uri' => 'chat/{chatSession}/reply',
+      'uri' => 'admin/chat/{chatSession}/reply',
       'action' => 
       array (
         'middleware' => 
@@ -20000,7 +18411,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\AdminChatController@reply',
         'as' => 'admin.chat.reply',
         'namespace' => NULL,
-        'prefix' => '/chat',
+        'prefix' => 'admin/chat',
         'where' => 
         array (
         ),
@@ -20026,7 +18437,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'chat/{chatSession}/messages',
+      'uri' => 'admin/chat/{chatSession}/messages',
       'action' => 
       array (
         'middleware' => 
@@ -20038,7 +18449,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\AdminChatController@getMessages',
         'as' => 'admin.chat.messages',
         'namespace' => NULL,
-        'prefix' => '/chat',
+        'prefix' => 'admin/chat',
         'where' => 
         array (
         ),
@@ -20063,7 +18474,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'POST',
       ),
-      'uri' => 'chat/{chatSession}/close',
+      'uri' => 'admin/chat/{chatSession}/close',
       'action' => 
       array (
         'middleware' => 
@@ -20075,7 +18486,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\AdminChatController@close',
         'as' => 'admin.chat.close',
         'namespace' => NULL,
-        'prefix' => '/chat',
+        'prefix' => 'admin/chat',
         'where' => 
         array (
         ),
@@ -20101,7 +18512,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'reviews',
+      'uri' => 'admin/reviews',
       'action' => 
       array (
         'middleware' => 
@@ -20113,7 +18524,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\AdminproductReviewController@index',
         'as' => 'admin.reviews.index',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -20138,7 +18549,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'POST',
       ),
-      'uri' => 'reviews/{id}/approve',
+      'uri' => 'admin/reviews/{id}/approve',
       'action' => 
       array (
         'middleware' => 
@@ -20150,7 +18561,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\AdminproductReviewController@approve',
         'as' => 'admin.reviews.approve',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -20175,7 +18586,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'POST',
       ),
-      'uri' => 'reviews/{id}/unapprove',
+      'uri' => 'admin/reviews/{id}/unapprove',
       'action' => 
       array (
         'middleware' => 
@@ -20187,7 +18598,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\AdminproductReviewController@unapprove',
         'as' => 'admin.reviews.unapprove',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -20212,7 +18623,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'DELETE',
       ),
-      'uri' => 'reviews/{id}',
+      'uri' => 'admin/reviews/{id}',
       'action' => 
       array (
         'middleware' => 
@@ -20224,7 +18635,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\AdminproductReviewController@destroy',
         'as' => 'admin.reviews.destroy',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -20249,7 +18660,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'POST',
       ),
-      'uri' => 'reviews/bulk',
+      'uri' => 'admin/reviews/bulk',
       'action' => 
       array (
         'middleware' => 
@@ -20261,7 +18672,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\AdminproductReviewController@bulk',
         'as' => 'admin.reviews.bulk',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -20287,7 +18698,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'payment-settings',
+      'uri' => 'admin/payment-settings',
       'action' => 
       array (
         'middleware' => 
@@ -20299,7 +18710,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\PaymentSettingController@index',
         'as' => 'admin.payment.index',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -20324,7 +18735,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'POST',
       ),
-      'uri' => 'payment-settings/bkash',
+      'uri' => 'admin/payment-settings/bkash',
       'action' => 
       array (
         'middleware' => 
@@ -20336,7 +18747,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\PaymentSettingController@bkashStore',
         'as' => 'admin.payment.bkash.store',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -20361,7 +18772,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'POST',
       ),
-      'uri' => 'payment-settings/shurjopay',
+      'uri' => 'admin/payment-settings/shurjopay',
       'action' => 
       array (
         'middleware' => 
@@ -20373,7 +18784,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\PaymentSettingController@shurjopayStore',
         'as' => 'admin.payment.shurjopay.store',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -20398,7 +18809,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'POST',
       ),
-      'uri' => 'payment-settings/bkash/toggle',
+      'uri' => 'admin/payment-settings/bkash/toggle',
       'action' => 
       array (
         'middleware' => 
@@ -20410,7 +18821,7 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\PaymentSettingController@bkashToggle',
         'as' => 'admin.payment.bkash.toggle',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -20435,7 +18846,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'POST',
       ),
-      'uri' => 'payment-settings/shurjopay/toggle',
+      'uri' => 'admin/payment-settings/shurjopay/toggle',
       'action' => 
       array (
         'middleware' => 
@@ -20447,7 +18858,2194 @@ app('router')->setCompiledRoutes(
         'controller' => 'App\\Http\\Controllers\\Admin\\PaymentSettingController@shurjopayToggle',
         'as' => 'admin.payment.shurjopay.toggle',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.contact.index' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/contact',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.contact.index',
+        'uses' => 'App\\Http\\Controllers\\Admin\\ContactController@index',
+        'controller' => 'App\\Http\\Controllers\\Admin\\ContactController@index',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.contact.create' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/contact/create',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.contact.create',
+        'uses' => 'App\\Http\\Controllers\\Admin\\ContactController@create',
+        'controller' => 'App\\Http\\Controllers\\Admin\\ContactController@create',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.contact.store' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'admin/contact',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.contact.store',
+        'uses' => 'App\\Http\\Controllers\\Admin\\ContactController@store',
+        'controller' => 'App\\Http\\Controllers\\Admin\\ContactController@store',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.contact.show' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/contact/{contact}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.contact.show',
+        'uses' => 'App\\Http\\Controllers\\Admin\\ContactController@show',
+        'controller' => 'App\\Http\\Controllers\\Admin\\ContactController@show',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.contact.edit' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/contact/{contact}/edit',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.contact.edit',
+        'uses' => 'App\\Http\\Controllers\\Admin\\ContactController@edit',
+        'controller' => 'App\\Http\\Controllers\\Admin\\ContactController@edit',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.contact.update' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'PUT',
+        1 => 'PATCH',
+      ),
+      'uri' => 'admin/contact/{contact}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.contact.update',
+        'uses' => 'App\\Http\\Controllers\\Admin\\ContactController@update',
+        'controller' => 'App\\Http\\Controllers\\Admin\\ContactController@update',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.contact.destroy' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'DELETE',
+      ),
+      'uri' => 'admin/contact/{contact}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.contact.destroy',
+        'uses' => 'App\\Http\\Controllers\\Admin\\ContactController@destroy',
+        'controller' => 'App\\Http\\Controllers\\Admin\\ContactController@destroy',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.pixels.index' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/pixels',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.pixels.index',
+        'uses' => 'App\\Http\\Controllers\\Admin\\PixelController@index',
+        'controller' => 'App\\Http\\Controllers\\Admin\\PixelController@index',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.pixels.create' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/pixels/create',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.pixels.create',
+        'uses' => 'App\\Http\\Controllers\\Admin\\PixelController@create',
+        'controller' => 'App\\Http\\Controllers\\Admin\\PixelController@create',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.pixels.store' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'admin/pixels',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.pixels.store',
+        'uses' => 'App\\Http\\Controllers\\Admin\\PixelController@store',
+        'controller' => 'App\\Http\\Controllers\\Admin\\PixelController@store',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.pixels.show' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/pixels/{pixel}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.pixels.show',
+        'uses' => 'App\\Http\\Controllers\\Admin\\PixelController@show',
+        'controller' => 'App\\Http\\Controllers\\Admin\\PixelController@show',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.pixels.edit' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/pixels/{pixel}/edit',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.pixels.edit',
+        'uses' => 'App\\Http\\Controllers\\Admin\\PixelController@edit',
+        'controller' => 'App\\Http\\Controllers\\Admin\\PixelController@edit',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.pixels.update' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'PUT',
+        1 => 'PATCH',
+      ),
+      'uri' => 'admin/pixels/{pixel}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.pixels.update',
+        'uses' => 'App\\Http\\Controllers\\Admin\\PixelController@update',
+        'controller' => 'App\\Http\\Controllers\\Admin\\PixelController@update',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.pixels.destroy' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'DELETE',
+      ),
+      'uri' => 'admin/pixels/{pixel}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.pixels.destroy',
+        'uses' => 'App\\Http\\Controllers\\Admin\\PixelController@destroy',
+        'controller' => 'App\\Http\\Controllers\\Admin\\PixelController@destroy',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.googletagmanager.index' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/googletagmanager',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.googletagmanager.index',
+        'uses' => 'App\\Http\\Controllers\\Admin\\GoogleTagmanagerController@index',
+        'controller' => 'App\\Http\\Controllers\\Admin\\GoogleTagmanagerController@index',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.googletagmanager.create' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/googletagmanager/create',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.googletagmanager.create',
+        'uses' => 'App\\Http\\Controllers\\Admin\\GoogleTagmanagerController@create',
+        'controller' => 'App\\Http\\Controllers\\Admin\\GoogleTagmanagerController@create',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.googletagmanager.store' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'admin/googletagmanager',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.googletagmanager.store',
+        'uses' => 'App\\Http\\Controllers\\Admin\\GoogleTagmanagerController@store',
+        'controller' => 'App\\Http\\Controllers\\Admin\\GoogleTagmanagerController@store',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.googletagmanager.show' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/googletagmanager/{googletagmanager}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.googletagmanager.show',
+        'uses' => 'App\\Http\\Controllers\\Admin\\GoogleTagmanagerController@show',
+        'controller' => 'App\\Http\\Controllers\\Admin\\GoogleTagmanagerController@show',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.googletagmanager.edit' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/googletagmanager/{googletagmanager}/edit',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.googletagmanager.edit',
+        'uses' => 'App\\Http\\Controllers\\Admin\\GoogleTagmanagerController@edit',
+        'controller' => 'App\\Http\\Controllers\\Admin\\GoogleTagmanagerController@edit',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.googletagmanager.update' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'PUT',
+        1 => 'PATCH',
+      ),
+      'uri' => 'admin/googletagmanager/{googletagmanager}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.googletagmanager.update',
+        'uses' => 'App\\Http\\Controllers\\Admin\\GoogleTagmanagerController@update',
+        'controller' => 'App\\Http\\Controllers\\Admin\\GoogleTagmanagerController@update',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.googletagmanager.destroy' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'DELETE',
+      ),
+      'uri' => 'admin/googletagmanager/{googletagmanager}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.googletagmanager.destroy',
+        'uses' => 'App\\Http\\Controllers\\Admin\\GoogleTagmanagerController@destroy',
+        'controller' => 'App\\Http\\Controllers\\Admin\\GoogleTagmanagerController@destroy',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.paymentgetewaymanage.index' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/paymentgetewaymanage',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.paymentgetewaymanage.index',
+        'uses' => 'App\\Http\\Controllers\\Admin\\PaymentgetewaymanageController@index',
+        'controller' => 'App\\Http\\Controllers\\Admin\\PaymentgetewaymanageController@index',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.paymentgetewaymanage.create' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/paymentgetewaymanage/create',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.paymentgetewaymanage.create',
+        'uses' => 'App\\Http\\Controllers\\Admin\\PaymentgetewaymanageController@create',
+        'controller' => 'App\\Http\\Controllers\\Admin\\PaymentgetewaymanageController@create',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.paymentgetewaymanage.store' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'admin/paymentgetewaymanage',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.paymentgetewaymanage.store',
+        'uses' => 'App\\Http\\Controllers\\Admin\\PaymentgetewaymanageController@store',
+        'controller' => 'App\\Http\\Controllers\\Admin\\PaymentgetewaymanageController@store',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.paymentgetewaymanage.show' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/paymentgetewaymanage/{paymentgetewaymanage}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.paymentgetewaymanage.show',
+        'uses' => 'App\\Http\\Controllers\\Admin\\PaymentgetewaymanageController@show',
+        'controller' => 'App\\Http\\Controllers\\Admin\\PaymentgetewaymanageController@show',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.paymentgetewaymanage.edit' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/paymentgetewaymanage/{paymentgetewaymanage}/edit',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.paymentgetewaymanage.edit',
+        'uses' => 'App\\Http\\Controllers\\Admin\\PaymentgetewaymanageController@edit',
+        'controller' => 'App\\Http\\Controllers\\Admin\\PaymentgetewaymanageController@edit',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.paymentgetewaymanage.update' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'PUT',
+        1 => 'PATCH',
+      ),
+      'uri' => 'admin/paymentgetewaymanage/{paymentgetewaymanage}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.paymentgetewaymanage.update',
+        'uses' => 'App\\Http\\Controllers\\Admin\\PaymentgetewaymanageController@update',
+        'controller' => 'App\\Http\\Controllers\\Admin\\PaymentgetewaymanageController@update',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.paymentgetewaymanage.destroy' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'DELETE',
+      ),
+      'uri' => 'admin/paymentgetewaymanage/{paymentgetewaymanage}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.paymentgetewaymanage.destroy',
+        'uses' => 'App\\Http\\Controllers\\Admin\\PaymentgetewaymanageController@destroy',
+        'controller' => 'App\\Http\\Controllers\\Admin\\PaymentgetewaymanageController@destroy',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.paymentgetewaymanage.toggle-status' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'PATCH',
+      ),
+      'uri' => 'admin/paymentgetewaymanage/{id}/toggle-status',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Admin\\PaymentgetewaymanageController@toggleStatus',
+        'controller' => 'App\\Http\\Controllers\\Admin\\PaymentgetewaymanageController@toggleStatus',
+        'as' => 'admin.paymentgetewaymanage.toggle-status',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.steadfastcourier.index' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/steadfastcourier',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.steadfastcourier.index',
+        'uses' => 'App\\Http\\Controllers\\Admin\\SteadfastcourierController@index',
+        'controller' => 'App\\Http\\Controllers\\Admin\\SteadfastcourierController@index',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.steadfastcourier.create' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/steadfastcourier/create',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.steadfastcourier.create',
+        'uses' => 'App\\Http\\Controllers\\Admin\\SteadfastcourierController@create',
+        'controller' => 'App\\Http\\Controllers\\Admin\\SteadfastcourierController@create',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.steadfastcourier.store' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'admin/steadfastcourier',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.steadfastcourier.store',
+        'uses' => 'App\\Http\\Controllers\\Admin\\SteadfastcourierController@store',
+        'controller' => 'App\\Http\\Controllers\\Admin\\SteadfastcourierController@store',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.steadfastcourier.show' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/steadfastcourier/{steadfastcourier}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.steadfastcourier.show',
+        'uses' => 'App\\Http\\Controllers\\Admin\\SteadfastcourierController@show',
+        'controller' => 'App\\Http\\Controllers\\Admin\\SteadfastcourierController@show',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.steadfastcourier.edit' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/steadfastcourier/{steadfastcourier}/edit',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.steadfastcourier.edit',
+        'uses' => 'App\\Http\\Controllers\\Admin\\SteadfastcourierController@edit',
+        'controller' => 'App\\Http\\Controllers\\Admin\\SteadfastcourierController@edit',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.steadfastcourier.update' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'PUT',
+        1 => 'PATCH',
+      ),
+      'uri' => 'admin/steadfastcourier/{steadfastcourier}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.steadfastcourier.update',
+        'uses' => 'App\\Http\\Controllers\\Admin\\SteadfastcourierController@update',
+        'controller' => 'App\\Http\\Controllers\\Admin\\SteadfastcourierController@update',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.steadfastcourier.destroy' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'DELETE',
+      ),
+      'uri' => 'admin/steadfastcourier/{steadfastcourier}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.steadfastcourier.destroy',
+        'uses' => 'App\\Http\\Controllers\\Admin\\SteadfastcourierController@destroy',
+        'controller' => 'App\\Http\\Controllers\\Admin\\SteadfastcourierController@destroy',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.pathaocourier.generate-token' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/pathaocourier/generate-token',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Admin\\PathaocourierController@generateToken',
+        'controller' => 'App\\Http\\Controllers\\Admin\\PathaocourierController@generateToken',
+        'as' => 'admin.pathaocourier.generate-token',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.pathaocourier.index' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/pathaocourier',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.pathaocourier.index',
+        'uses' => 'App\\Http\\Controllers\\Admin\\PathaocourierController@index',
+        'controller' => 'App\\Http\\Controllers\\Admin\\PathaocourierController@index',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.pathaocourier.create' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/pathaocourier/create',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.pathaocourier.create',
+        'uses' => 'App\\Http\\Controllers\\Admin\\PathaocourierController@create',
+        'controller' => 'App\\Http\\Controllers\\Admin\\PathaocourierController@create',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.pathaocourier.store' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'admin/pathaocourier',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.pathaocourier.store',
+        'uses' => 'App\\Http\\Controllers\\Admin\\PathaocourierController@store',
+        'controller' => 'App\\Http\\Controllers\\Admin\\PathaocourierController@store',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.pathaocourier.show' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/pathaocourier/{pathaocourier}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.pathaocourier.show',
+        'uses' => 'App\\Http\\Controllers\\Admin\\PathaocourierController@show',
+        'controller' => 'App\\Http\\Controllers\\Admin\\PathaocourierController@show',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.pathaocourier.edit' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/pathaocourier/{pathaocourier}/edit',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.pathaocourier.edit',
+        'uses' => 'App\\Http\\Controllers\\Admin\\PathaocourierController@edit',
+        'controller' => 'App\\Http\\Controllers\\Admin\\PathaocourierController@edit',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.pathaocourier.update' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'PUT',
+        1 => 'PATCH',
+      ),
+      'uri' => 'admin/pathaocourier/{pathaocourier}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.pathaocourier.update',
+        'uses' => 'App\\Http\\Controllers\\Admin\\PathaocourierController@update',
+        'controller' => 'App\\Http\\Controllers\\Admin\\PathaocourierController@update',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.pathaocourier.destroy' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'DELETE',
+      ),
+      'uri' => 'admin/pathaocourier/{pathaocourier}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.pathaocourier.destroy',
+        'uses' => 'App\\Http\\Controllers\\Admin\\PathaocourierController@destroy',
+        'controller' => 'App\\Http\\Controllers\\Admin\\PathaocourierController@destroy',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.Smsgatewaysetup.index' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/Smsgatewaysetup',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.Smsgatewaysetup.index',
+        'uses' => 'App\\Http\\Controllers\\Admin\\SmsgatewaysetupController@index',
+        'controller' => 'App\\Http\\Controllers\\Admin\\SmsgatewaysetupController@index',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.Smsgatewaysetup.create' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/Smsgatewaysetup/create',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.Smsgatewaysetup.create',
+        'uses' => 'App\\Http\\Controllers\\Admin\\SmsgatewaysetupController@create',
+        'controller' => 'App\\Http\\Controllers\\Admin\\SmsgatewaysetupController@create',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.Smsgatewaysetup.store' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'admin/Smsgatewaysetup',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.Smsgatewaysetup.store',
+        'uses' => 'App\\Http\\Controllers\\Admin\\SmsgatewaysetupController@store',
+        'controller' => 'App\\Http\\Controllers\\Admin\\SmsgatewaysetupController@store',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.Smsgatewaysetup.show' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/Smsgatewaysetup/{Smsgatewaysetup}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.Smsgatewaysetup.show',
+        'uses' => 'App\\Http\\Controllers\\Admin\\SmsgatewaysetupController@show',
+        'controller' => 'App\\Http\\Controllers\\Admin\\SmsgatewaysetupController@show',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.Smsgatewaysetup.edit' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/Smsgatewaysetup/{Smsgatewaysetup}/edit',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.Smsgatewaysetup.edit',
+        'uses' => 'App\\Http\\Controllers\\Admin\\SmsgatewaysetupController@edit',
+        'controller' => 'App\\Http\\Controllers\\Admin\\SmsgatewaysetupController@edit',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.Smsgatewaysetup.update' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'PUT',
+        1 => 'PATCH',
+      ),
+      'uri' => 'admin/Smsgatewaysetup/{Smsgatewaysetup}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.Smsgatewaysetup.update',
+        'uses' => 'App\\Http\\Controllers\\Admin\\SmsgatewaysetupController@update',
+        'controller' => 'App\\Http\\Controllers\\Admin\\SmsgatewaysetupController@update',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.Smsgatewaysetup.destroy' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'DELETE',
+      ),
+      'uri' => 'admin/Smsgatewaysetup/{Smsgatewaysetup}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.Smsgatewaysetup.destroy',
+        'uses' => 'App\\Http\\Controllers\\Admin\\SmsgatewaysetupController@destroy',
+        'controller' => 'App\\Http\\Controllers\\Admin\\SmsgatewaysetupController@destroy',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.campaigncreate.index' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/campaigncreate',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.campaigncreate.index',
+        'uses' => 'App\\Http\\Controllers\\Admin\\CampaigncreateController@index',
+        'controller' => 'App\\Http\\Controllers\\Admin\\CampaigncreateController@index',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.campaigncreate.create' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/campaigncreate/create',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.campaigncreate.create',
+        'uses' => 'App\\Http\\Controllers\\Admin\\CampaigncreateController@create',
+        'controller' => 'App\\Http\\Controllers\\Admin\\CampaigncreateController@create',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.campaigncreate.store' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'admin/campaigncreate',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.campaigncreate.store',
+        'uses' => 'App\\Http\\Controllers\\Admin\\CampaigncreateController@store',
+        'controller' => 'App\\Http\\Controllers\\Admin\\CampaigncreateController@store',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.campaigncreate.show' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/campaigncreate/{campaigncreate}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.campaigncreate.show',
+        'uses' => 'App\\Http\\Controllers\\Admin\\CampaigncreateController@show',
+        'controller' => 'App\\Http\\Controllers\\Admin\\CampaigncreateController@show',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.campaigncreate.edit' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/campaigncreate/{campaigncreate}/edit',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.campaigncreate.edit',
+        'uses' => 'App\\Http\\Controllers\\Admin\\CampaigncreateController@edit',
+        'controller' => 'App\\Http\\Controllers\\Admin\\CampaigncreateController@edit',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.campaigncreate.update' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'PUT',
+        1 => 'PATCH',
+      ),
+      'uri' => 'admin/campaigncreate/{campaigncreate}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.campaigncreate.update',
+        'uses' => 'App\\Http\\Controllers\\Admin\\CampaigncreateController@update',
+        'controller' => 'App\\Http\\Controllers\\Admin\\CampaigncreateController@update',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.campaigncreate.destroy' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'DELETE',
+      ),
+      'uri' => 'admin/campaigncreate/{campaigncreate}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.campaigncreate.destroy',
+        'uses' => 'App\\Http\\Controllers\\Admin\\CampaigncreateController@destroy',
+        'controller' => 'App\\Http\\Controllers\\Admin\\CampaigncreateController@destroy',
+        'namespace' => NULL,
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -20473,7 +21071,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'contactinfomationadmins',
+      'uri' => 'admin/contactinfomationadmins',
       'action' => 
       array (
         'middleware' => 
@@ -20485,7 +21083,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\ContactinfomationadminController@index',
         'controller' => 'App\\Http\\Controllers\\Admin\\ContactinfomationadminController@index',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -20511,7 +21109,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'contactinfomationadmins/create',
+      'uri' => 'admin/contactinfomationadmins/create',
       'action' => 
       array (
         'middleware' => 
@@ -20523,7 +21121,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\ContactinfomationadminController@create',
         'controller' => 'App\\Http\\Controllers\\Admin\\ContactinfomationadminController@create',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -20548,7 +21146,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'POST',
       ),
-      'uri' => 'contactinfomationadmins',
+      'uri' => 'admin/contactinfomationadmins',
       'action' => 
       array (
         'middleware' => 
@@ -20560,7 +21158,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\ContactinfomationadminController@store',
         'controller' => 'App\\Http\\Controllers\\Admin\\ContactinfomationadminController@store',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -20586,7 +21184,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'contactinfomationadmins/{contactinfomationadmin}',
+      'uri' => 'admin/contactinfomationadmins/{contactinfomationadmin}',
       'action' => 
       array (
         'middleware' => 
@@ -20598,7 +21196,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\ContactinfomationadminController@show',
         'controller' => 'App\\Http\\Controllers\\Admin\\ContactinfomationadminController@show',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -20624,7 +21222,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'contactinfomationadmins/{contactinfomationadmin}/edit',
+      'uri' => 'admin/contactinfomationadmins/{contactinfomationadmin}/edit',
       'action' => 
       array (
         'middleware' => 
@@ -20636,7 +21234,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\ContactinfomationadminController@edit',
         'controller' => 'App\\Http\\Controllers\\Admin\\ContactinfomationadminController@edit',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -20662,7 +21260,7 @@ app('router')->setCompiledRoutes(
         0 => 'PUT',
         1 => 'PATCH',
       ),
-      'uri' => 'contactinfomationadmins/{contactinfomationadmin}',
+      'uri' => 'admin/contactinfomationadmins/{contactinfomationadmin}',
       'action' => 
       array (
         'middleware' => 
@@ -20674,7 +21272,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\ContactinfomationadminController@update',
         'controller' => 'App\\Http\\Controllers\\Admin\\ContactinfomationadminController@update',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -20699,7 +21297,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'DELETE',
       ),
-      'uri' => 'contactinfomationadmins/{contactinfomationadmin}',
+      'uri' => 'admin/contactinfomationadmins/{contactinfomationadmin}',
       'action' => 
       array (
         'middleware' => 
@@ -20711,7 +21309,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\ContactinfomationadminController@destroy',
         'controller' => 'App\\Http\\Controllers\\Admin\\ContactinfomationadminController@destroy',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -20737,7 +21335,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'aboutcompany',
+      'uri' => 'admin/aboutcompany',
       'action' => 
       array (
         'middleware' => 
@@ -20749,7 +21347,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\AboutForCompanyController@index',
         'controller' => 'App\\Http\\Controllers\\Admin\\AboutForCompanyController@index',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -20775,7 +21373,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'aboutcompany/create',
+      'uri' => 'admin/aboutcompany/create',
       'action' => 
       array (
         'middleware' => 
@@ -20787,7 +21385,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\AboutForCompanyController@create',
         'controller' => 'App\\Http\\Controllers\\Admin\\AboutForCompanyController@create',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -20812,7 +21410,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'POST',
       ),
-      'uri' => 'aboutcompany',
+      'uri' => 'admin/aboutcompany',
       'action' => 
       array (
         'middleware' => 
@@ -20824,7 +21422,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\AboutForCompanyController@store',
         'controller' => 'App\\Http\\Controllers\\Admin\\AboutForCompanyController@store',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -20850,7 +21448,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'aboutcompany/{aboutcompany}',
+      'uri' => 'admin/aboutcompany/{aboutcompany}',
       'action' => 
       array (
         'middleware' => 
@@ -20862,7 +21460,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\AboutForCompanyController@show',
         'controller' => 'App\\Http\\Controllers\\Admin\\AboutForCompanyController@show',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -20888,7 +21486,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'aboutcompany/{aboutcompany}/edit',
+      'uri' => 'admin/aboutcompany/{aboutcompany}/edit',
       'action' => 
       array (
         'middleware' => 
@@ -20900,7 +21498,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\AboutForCompanyController@edit',
         'controller' => 'App\\Http\\Controllers\\Admin\\AboutForCompanyController@edit',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -20926,7 +21524,7 @@ app('router')->setCompiledRoutes(
         0 => 'PUT',
         1 => 'PATCH',
       ),
-      'uri' => 'aboutcompany/{aboutcompany}',
+      'uri' => 'admin/aboutcompany/{aboutcompany}',
       'action' => 
       array (
         'middleware' => 
@@ -20938,7 +21536,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\AboutForCompanyController@update',
         'controller' => 'App\\Http\\Controllers\\Admin\\AboutForCompanyController@update',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -20963,7 +21561,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'DELETE',
       ),
-      'uri' => 'aboutcompany/{aboutcompany}',
+      'uri' => 'admin/aboutcompany/{aboutcompany}',
       'action' => 
       array (
         'middleware' => 
@@ -20975,7 +21573,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\AboutForCompanyController@destroy',
         'controller' => 'App\\Http\\Controllers\\Admin\\AboutForCompanyController@destroy',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -21001,7 +21599,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'tremsandcondation',
+      'uri' => 'admin/tremsandcondation',
       'action' => 
       array (
         'middleware' => 
@@ -21013,7 +21611,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\TremsandcondationsController@index',
         'controller' => 'App\\Http\\Controllers\\Admin\\TremsandcondationsController@index',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -21039,7 +21637,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'tremsandcondation/create',
+      'uri' => 'admin/tremsandcondation/create',
       'action' => 
       array (
         'middleware' => 
@@ -21051,7 +21649,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\TremsandcondationsController@create',
         'controller' => 'App\\Http\\Controllers\\Admin\\TremsandcondationsController@create',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -21076,7 +21674,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'POST',
       ),
-      'uri' => 'tremsandcondation',
+      'uri' => 'admin/tremsandcondation',
       'action' => 
       array (
         'middleware' => 
@@ -21088,7 +21686,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\TremsandcondationsController@store',
         'controller' => 'App\\Http\\Controllers\\Admin\\TremsandcondationsController@store',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -21114,7 +21712,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'tremsandcondation/{tremsandcondation}',
+      'uri' => 'admin/tremsandcondation/{tremsandcondation}',
       'action' => 
       array (
         'middleware' => 
@@ -21126,7 +21724,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\TremsandcondationsController@show',
         'controller' => 'App\\Http\\Controllers\\Admin\\TremsandcondationsController@show',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -21152,7 +21750,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'tremsandcondation/{tremsandcondation}/edit',
+      'uri' => 'admin/tremsandcondation/{tremsandcondation}/edit',
       'action' => 
       array (
         'middleware' => 
@@ -21164,7 +21762,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\TremsandcondationsController@edit',
         'controller' => 'App\\Http\\Controllers\\Admin\\TremsandcondationsController@edit',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -21190,7 +21788,7 @@ app('router')->setCompiledRoutes(
         0 => 'PUT',
         1 => 'PATCH',
       ),
-      'uri' => 'tremsandcondation/{tremsandcondation}',
+      'uri' => 'admin/tremsandcondation/{tremsandcondation}',
       'action' => 
       array (
         'middleware' => 
@@ -21202,7 +21800,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\TremsandcondationsController@update',
         'controller' => 'App\\Http\\Controllers\\Admin\\TremsandcondationsController@update',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -21227,7 +21825,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'DELETE',
       ),
-      'uri' => 'tremsandcondation/{tremsandcondation}',
+      'uri' => 'admin/tremsandcondation/{tremsandcondation}',
       'action' => 
       array (
         'middleware' => 
@@ -21239,494 +21837,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\TremsandcondationsController@destroy',
         'controller' => 'App\\Http\\Controllers\\Admin\\TremsandcondationsController@destroy',
         'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.alltaxes.index' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'alltaxes',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.alltaxes.index',
-        'uses' => 'App\\Http\\Controllers\\Admin\\AlltaxesController@index',
-        'controller' => 'App\\Http\\Controllers\\Admin\\AlltaxesController@index',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.alltaxes.create' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'alltaxes/create',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.alltaxes.create',
-        'uses' => 'App\\Http\\Controllers\\Admin\\AlltaxesController@create',
-        'controller' => 'App\\Http\\Controllers\\Admin\\AlltaxesController@create',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.alltaxes.store' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'POST',
-      ),
-      'uri' => 'alltaxes',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.alltaxes.store',
-        'uses' => 'App\\Http\\Controllers\\Admin\\AlltaxesController@store',
-        'controller' => 'App\\Http\\Controllers\\Admin\\AlltaxesController@store',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.alltaxes.show' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'alltaxes/{alltax}',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.alltaxes.show',
-        'uses' => 'App\\Http\\Controllers\\Admin\\AlltaxesController@show',
-        'controller' => 'App\\Http\\Controllers\\Admin\\AlltaxesController@show',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.alltaxes.edit' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'alltaxes/{alltax}/edit',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.alltaxes.edit',
-        'uses' => 'App\\Http\\Controllers\\Admin\\AlltaxesController@edit',
-        'controller' => 'App\\Http\\Controllers\\Admin\\AlltaxesController@edit',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.alltaxes.update' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'PUT',
-        1 => 'PATCH',
-      ),
-      'uri' => 'alltaxes/{alltax}',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.alltaxes.update',
-        'uses' => 'App\\Http\\Controllers\\Admin\\AlltaxesController@update',
-        'controller' => 'App\\Http\\Controllers\\Admin\\AlltaxesController@update',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.alltaxes.destroy' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'DELETE',
-      ),
-      'uri' => 'alltaxes/{alltax}',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.alltaxes.destroy',
-        'uses' => 'App\\Http\\Controllers\\Admin\\AlltaxesController@destroy',
-        'controller' => 'App\\Http\\Controllers\\Admin\\AlltaxesController@destroy',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.alltaxes.toggle' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'POST',
-      ),
-      'uri' => 'alltaxes/{alltaxes}/toggle',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'uses' => 'App\\Http\\Controllers\\Admin\\AlltaxesController@toggleStatus',
-        'controller' => 'App\\Http\\Controllers\\Admin\\AlltaxesController@toggleStatus',
-        'as' => 'admin.alltaxes.toggle',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.aiprompt.index' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'GET',
-        1 => 'HEAD',
-      ),
-      'uri' => 'aiprompt',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.aiprompt.index',
-        'uses' => 'App\\Http\\Controllers\\Admin\\AipromptController@index',
-        'controller' => 'App\\Http\\Controllers\\Admin\\AipromptController@index',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.aiprompt.store' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'POST',
-      ),
-      'uri' => 'aiprompt',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'as' => 'admin.aiprompt.store',
-        'uses' => 'App\\Http\\Controllers\\Admin\\AipromptController@store',
-        'controller' => 'App\\Http\\Controllers\\Admin\\AipromptController@store',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.aiprompt.update-product' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'POST',
-      ),
-      'uri' => 'aiprompt/update-product',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'uses' => 'App\\Http\\Controllers\\Admin\\AipromptController@updateProduct',
-        'controller' => 'App\\Http\\Controllers\\Admin\\AipromptController@updateProduct',
-        'as' => 'admin.aiprompt.update-product',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.aiprompt.update-page' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'POST',
-      ),
-      'uri' => 'aiprompt/update-page',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'uses' => 'App\\Http\\Controllers\\Admin\\AipromptController@updatePage',
-        'controller' => 'App\\Http\\Controllers\\Admin\\AipromptController@updatePage',
-        'as' => 'admin.aiprompt.update-page',
-        'namespace' => NULL,
-        'prefix' => '',
-        'where' => 
-        array (
-        ),
-      ),
-      'fallback' => false,
-      'defaults' => 
-      array (
-      ),
-      'wheres' => 
-      array (
-      ),
-      'bindingFields' => 
-      array (
-      ),
-      'lockSeconds' => NULL,
-      'waitSeconds' => NULL,
-      'withTrashed' => false,
-    ),
-    'admin.aiprompt.update-blog' => 
-    array (
-      'methods' => 
-      array (
-        0 => 'POST',
-      ),
-      'uri' => 'aiprompt/update-blog',
-      'action' => 
-      array (
-        'middleware' => 
-        array (
-          0 => 'web',
-          1 => 'admin',
-        ),
-        'uses' => 'App\\Http\\Controllers\\Admin\\AipromptController@updateBlog',
-        'controller' => 'App\\Http\\Controllers\\Admin\\AipromptController@updateBlog',
-        'as' => 'admin.aiprompt.update-blog',
-        'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -21752,7 +21863,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'pages',
+      'uri' => 'admin/pages',
       'action' => 
       array (
         'middleware' => 
@@ -21764,7 +21875,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\PageController@index',
         'controller' => 'App\\Http\\Controllers\\Admin\\PageController@index',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -21790,7 +21901,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'pages/create',
+      'uri' => 'admin/pages/create',
       'action' => 
       array (
         'middleware' => 
@@ -21802,7 +21913,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\PageController@create',
         'controller' => 'App\\Http\\Controllers\\Admin\\PageController@create',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -21827,7 +21938,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'POST',
       ),
-      'uri' => 'pages',
+      'uri' => 'admin/pages',
       'action' => 
       array (
         'middleware' => 
@@ -21839,7 +21950,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\PageController@store',
         'controller' => 'App\\Http\\Controllers\\Admin\\PageController@store',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -21865,7 +21976,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'pages/{page}',
+      'uri' => 'admin/pages/{page}',
       'action' => 
       array (
         'middleware' => 
@@ -21877,7 +21988,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\PageController@show',
         'controller' => 'App\\Http\\Controllers\\Admin\\PageController@show',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -21903,7 +22014,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'pages/{page}/edit',
+      'uri' => 'admin/pages/{page}/edit',
       'action' => 
       array (
         'middleware' => 
@@ -21915,7 +22026,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\PageController@edit',
         'controller' => 'App\\Http\\Controllers\\Admin\\PageController@edit',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -21941,7 +22052,7 @@ app('router')->setCompiledRoutes(
         0 => 'PUT',
         1 => 'PATCH',
       ),
-      'uri' => 'pages/{page}',
+      'uri' => 'admin/pages/{page}',
       'action' => 
       array (
         'middleware' => 
@@ -21953,7 +22064,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\PageController@update',
         'controller' => 'App\\Http\\Controllers\\Admin\\PageController@update',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -21978,7 +22089,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'DELETE',
       ),
-      'uri' => 'pages/{page}',
+      'uri' => 'admin/pages/{page}',
       'action' => 
       array (
         'middleware' => 
@@ -21990,7 +22101,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\PageController@destroy',
         'controller' => 'App\\Http\\Controllers\\Admin\\PageController@destroy',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -22016,7 +22127,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'footercategory',
+      'uri' => 'admin/footercategory',
       'action' => 
       array (
         'middleware' => 
@@ -22028,7 +22139,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\FootercategoryController@index',
         'controller' => 'App\\Http\\Controllers\\Admin\\FootercategoryController@index',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -22054,7 +22165,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'footercategory/create',
+      'uri' => 'admin/footercategory/create',
       'action' => 
       array (
         'middleware' => 
@@ -22066,7 +22177,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\FootercategoryController@create',
         'controller' => 'App\\Http\\Controllers\\Admin\\FootercategoryController@create',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -22091,7 +22202,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'POST',
       ),
-      'uri' => 'footercategory',
+      'uri' => 'admin/footercategory',
       'action' => 
       array (
         'middleware' => 
@@ -22103,7 +22214,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\FootercategoryController@store',
         'controller' => 'App\\Http\\Controllers\\Admin\\FootercategoryController@store',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -22129,7 +22240,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'footercategory/{footercategory}',
+      'uri' => 'admin/footercategory/{footercategory}',
       'action' => 
       array (
         'middleware' => 
@@ -22141,7 +22252,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\FootercategoryController@show',
         'controller' => 'App\\Http\\Controllers\\Admin\\FootercategoryController@show',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -22167,7 +22278,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'footercategory/{footercategory}/edit',
+      'uri' => 'admin/footercategory/{footercategory}/edit',
       'action' => 
       array (
         'middleware' => 
@@ -22179,7 +22290,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\FootercategoryController@edit',
         'controller' => 'App\\Http\\Controllers\\Admin\\FootercategoryController@edit',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -22205,7 +22316,7 @@ app('router')->setCompiledRoutes(
         0 => 'PUT',
         1 => 'PATCH',
       ),
-      'uri' => 'footercategory/{footercategory}',
+      'uri' => 'admin/footercategory/{footercategory}',
       'action' => 
       array (
         'middleware' => 
@@ -22217,7 +22328,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\FootercategoryController@update',
         'controller' => 'App\\Http\\Controllers\\Admin\\FootercategoryController@update',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -22242,7 +22353,7 @@ app('router')->setCompiledRoutes(
       array (
         0 => 'DELETE',
       ),
-      'uri' => 'footercategory/{footercategory}',
+      'uri' => 'admin/footercategory/{footercategory}',
       'action' => 
       array (
         'middleware' => 
@@ -22254,7 +22365,7 @@ app('router')->setCompiledRoutes(
         'uses' => 'App\\Http\\Controllers\\Admin\\FootercategoryController@destroy',
         'controller' => 'App\\Http\\Controllers\\Admin\\FootercategoryController@destroy',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
@@ -22273,27 +22384,478 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'steadfast.webhook' => 
+    'admin.alltaxes.index' => 
     array (
       'methods' => 
       array (
-        0 => 'POST',
+        0 => 'GET',
+        1 => 'HEAD',
       ),
-      'uri' => 'webhook/steadfast',
+      'uri' => 'admin/alltaxes',
       'action' => 
       array (
         'middleware' => 
         array (
           0 => 'web',
+          1 => 'admin',
         ),
-        'uses' => 'App\\Http\\Controllers\\Admin\\SteadfastOrderController@webhook',
-        'controller' => 'App\\Http\\Controllers\\Admin\\SteadfastOrderController@webhook',
+        'as' => 'admin.alltaxes.index',
+        'uses' => 'App\\Http\\Controllers\\Admin\\AlltaxesController@index',
+        'controller' => 'App\\Http\\Controllers\\Admin\\AlltaxesController@index',
         'namespace' => NULL,
-        'prefix' => '',
+        'prefix' => '/admin',
         'where' => 
         array (
         ),
-        'as' => 'steadfast.webhook',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.alltaxes.create' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/alltaxes/create',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.alltaxes.create',
+        'uses' => 'App\\Http\\Controllers\\Admin\\AlltaxesController@create',
+        'controller' => 'App\\Http\\Controllers\\Admin\\AlltaxesController@create',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.alltaxes.store' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'admin/alltaxes',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.alltaxes.store',
+        'uses' => 'App\\Http\\Controllers\\Admin\\AlltaxesController@store',
+        'controller' => 'App\\Http\\Controllers\\Admin\\AlltaxesController@store',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.alltaxes.show' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/alltaxes/{alltax}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.alltaxes.show',
+        'uses' => 'App\\Http\\Controllers\\Admin\\AlltaxesController@show',
+        'controller' => 'App\\Http\\Controllers\\Admin\\AlltaxesController@show',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.alltaxes.edit' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/alltaxes/{alltax}/edit',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.alltaxes.edit',
+        'uses' => 'App\\Http\\Controllers\\Admin\\AlltaxesController@edit',
+        'controller' => 'App\\Http\\Controllers\\Admin\\AlltaxesController@edit',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.alltaxes.update' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'PUT',
+        1 => 'PATCH',
+      ),
+      'uri' => 'admin/alltaxes/{alltax}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.alltaxes.update',
+        'uses' => 'App\\Http\\Controllers\\Admin\\AlltaxesController@update',
+        'controller' => 'App\\Http\\Controllers\\Admin\\AlltaxesController@update',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.alltaxes.destroy' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'DELETE',
+      ),
+      'uri' => 'admin/alltaxes/{alltax}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.alltaxes.destroy',
+        'uses' => 'App\\Http\\Controllers\\Admin\\AlltaxesController@destroy',
+        'controller' => 'App\\Http\\Controllers\\Admin\\AlltaxesController@destroy',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.alltaxes.toggle' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'admin/alltaxes/{alltaxes}/toggle',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Admin\\AlltaxesController@toggleStatus',
+        'controller' => 'App\\Http\\Controllers\\Admin\\AlltaxesController@toggleStatus',
+        'as' => 'admin.alltaxes.toggle',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.aiprompt.index' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/aiprompt',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.aiprompt.index',
+        'uses' => 'App\\Http\\Controllers\\Admin\\AipromptController@index',
+        'controller' => 'App\\Http\\Controllers\\Admin\\AipromptController@index',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.aiprompt.store' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'admin/aiprompt',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.aiprompt.store',
+        'uses' => 'App\\Http\\Controllers\\Admin\\AipromptController@store',
+        'controller' => 'App\\Http\\Controllers\\Admin\\AipromptController@store',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.aiprompt.update-product' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'admin/aiprompt/update-product',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Admin\\AipromptController@updateProduct',
+        'controller' => 'App\\Http\\Controllers\\Admin\\AipromptController@updateProduct',
+        'as' => 'admin.aiprompt.update-product',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.aiprompt.update-page' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'admin/aiprompt/update-page',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Admin\\AipromptController@updatePage',
+        'controller' => 'App\\Http\\Controllers\\Admin\\AipromptController@updatePage',
+        'as' => 'admin.aiprompt.update-page',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.aiprompt.update-blog' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'admin/aiprompt/update-blog',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Admin\\AipromptController@updateBlog',
+        'controller' => 'App\\Http\\Controllers\\Admin\\AipromptController@updateBlog',
+        'as' => 'admin.aiprompt.update-blog',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
       ),
       'fallback' => false,
       'defaults' => 
@@ -22989,7 +23551,7 @@ app('router')->setCompiledRoutes(
                         $config,
                         $isProduction
                     ))($request, $path);
-                }";s:5:"scope";s:47:"Illuminate\\Filesystem\\FilesystemServiceProvider";s:4:"this";N;s:4:"self";s:32:"00000000000008ef0000000000000000";}}',
+                }";s:5:"scope";s:47:"Illuminate\\Filesystem\\FilesystemServiceProvider";s:4:"this";N;s:4:"self";s:32:"00000000000009020000000000000000";}}',
         'as' => 'storage.local',
       ),
       'fallback' => false,
