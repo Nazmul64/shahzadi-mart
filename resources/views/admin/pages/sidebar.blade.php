@@ -413,6 +413,35 @@ body.sb-collapsed .sidebar-submenu { display: none; }
             </a>
         </div>
 
+
+
+
+
+
+             {{-- POS Management --}}
+        <div class="sidebar-item {{ $posActive ? 'active open' : '' }}" onclick="sbToggle(this)">
+            <span class="item-left">
+                <i class="bi bi-shop-window nav-icon"></i>
+                <span class="item-text">Color & Size</span>
+            </span>
+            <i class="bi bi-chevron-right arrow"></i>
+        </div>
+        <div class="sidebar-submenu {{ $posActive ? 'open' : '' }}">
+            {{-- route: admin.pos.index --}}
+            <a href="{{ route('admin.color.index') }}"
+               class="{{ request()->routeIs('admin.color.index') ? 'active' : '' }}">
+                <i class="bi bi-display"></i> Color Add
+            </a>
+            {{-- route: admin.pos.orders (POS Sales History) --}}
+            <a href="{{ route('admin.color.index') }}"
+               class="{{ request()->routeIs('admin.color.index') ? 'active' : '' }}">
+                <i class="bi bi-clock-history"></i>Size Add
+            </a>
+
+        </div>
+
+
+
         {{-- ════ E-COMMERCE ════ --}}
         <div class="sb-sep"></div>
         <div class="sidebar-section-label">E-Commerce</div>

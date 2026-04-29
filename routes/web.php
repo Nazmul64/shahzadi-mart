@@ -61,6 +61,7 @@ use App\Http\Controllers\Admin\AdminChatController;
 use App\Http\Controllers\Admin\AboutForCompanyController;
 use App\Http\Controllers\Admin\AipromptController;
 use App\Http\Controllers\Admin\AlltaxesController;
+use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\PosController;
 use App\Http\Controllers\Admin\TremsandcondationsController;
@@ -473,12 +474,20 @@ Route::middleware(['admin'])
     // ──────────────────────────────────────────────────────────────────────────
     // AI PROMPT
     // ──────────────────────────────────────────────────────────────────────────
-    Route::resource('aiprompt', AipromptController::class)
-         ->names('aiprompt')
-         ->except(['show', 'create', 'edit', 'update', 'destroy']);
+    Route::resource('aiprompt', AipromptController::class)->names('aiprompt')->except(['show', 'create', 'edit', 'update', 'destroy']);
     Route::post('aiprompt/update-product', [AipromptController::class, 'updateProduct'])->name('aiprompt.update-product');
     Route::post('aiprompt/update-page',    [AipromptController::class, 'updatePage']   )->name('aiprompt.update-page');
     Route::post('aiprompt/update-blog',    [AipromptController::class, 'updateBlog']   )->name('aiprompt.update-blog');
+    // ──────────────────────────────────────────────────────────────────────────
+    // Size
+    // ──────────────────────────────────────────────────────────────────────────
+    Route::resource('alltaxes', AlltaxesController::class);
+    // ── Colors ───────────────────────────────────────────────────────────────────
+    Route::resource('color', ColorController::class);
+    Route::post('color/{color}/toggle', [ColorController::class, 'toggleStatus'])->name('color.toggle');
+      // ── Sizes ─────────────────────────────────────────────────────────────────
+    Route::resource('size', SizeController::class)->names('admin.sizes')->except(['show', 'create']);
+    Route::post('size/{size}/toggle', [SizeController::class, 'toggleStatus'])->name('admin.sizes.toggle');
 
 }); // end admin group
 
