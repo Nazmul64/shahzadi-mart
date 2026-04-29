@@ -63,6 +63,7 @@ use App\Http\Controllers\Admin\AipromptController;
 use App\Http\Controllers\Admin\AlltaxesController;
 use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\DuplicateordersettingController;
+use App\Http\Controllers\Admin\IpblockmanageController;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\PosController;
 use App\Http\Controllers\Admin\ProductBrandController;
@@ -504,6 +505,9 @@ Route::middleware(['admin'])
      // ── Duplicate Order Setting ───────────────────────────────────────────────
     Route::resource('duplicateordersetting', DuplicateordersettingController::class);
     Route::patch('duplicateordersetting/{duplicateordersetting}/toggle-status', [DuplicateordersettingController::class, 'toggleStatus'])->name('duplicateordersetting.toggleStatus');
+        // ── IP Block Manage ───────────────────────────────────────────────────────
+    Route::resource('Ipblockmanage', IpblockmanageController::class);
+    Route::patch('Ipblockmanage/{Ipblockmanage}/toggle-status', [IpblockmanageController::class, 'toggleStatus'])->name('Ipblockmanage.toggleStatus');
 }); // end admin group
 
 // ══════════════════════════════════════════════════════════════════════════════

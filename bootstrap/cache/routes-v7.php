@@ -13,7 +13,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::ncYTd1Ggt4m0ayAk',
+            '_route' => 'generated::Y389hzvWNhzoItSX',
           ),
           1 => NULL,
           2 => 
@@ -196,7 +196,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::518Wd8CAAQShoz2z',
+            '_route' => 'generated::z7PprKrTP2lI5K5K',
           ),
           1 => NULL,
           2 => 
@@ -879,7 +879,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::E0tSZbAEquf17gy2',
+            '_route' => 'generated::RDhvrEmNMxDFqSVv',
           ),
           1 => NULL,
           2 => 
@@ -4214,6 +4214,62 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
+      '/admin/Ipblockmanage' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.Ipblockmanage.index',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.Ipblockmanage.store',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/admin/Ipblockmanage/create' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.Ipblockmanage.create',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
       '/seller/login' => 
       array (
         0 => 
@@ -4567,7 +4623,7 @@ app('router')->setCompiledRoutes(
     ),
     2 => 
     array (
-      0 => '{^(?|/p(?|a(?|ssword/reset/([^/]++)(*:37)|ge/([^/]++)(*:55))|roduct/([^/]++)(*:78))|/c(?|a(?|mpaign/manage/([^/]++)(*:117)|tegory/([^/]++)(?|(*:143)|/([^/]++)(?|(*:163)|/([^/]++)(*:180)))|rt/(?|add/([^/]++)(*:208)|remove/([^/]++)(*:231)|increase/([^/]++)(*:256)|decrease/([^/]++)(*:281)))|heckout/success/([^/]++)(*:315)|ustomer/([^/]++)(?|(*:342)|/(?|edit(*:358)|status(*:372)|make\\-vendor(*:392))|(*:401)))|/order/cancel/([^/]++)(*:433)|/wishlist/(?|add/([^/]++)(*:466)|remove/([^/]++)(*:489)|move\\-to\\-cart/([^/]++)(*:520))|/admin/(?|p(?|os/(?|cancel\\-order/([^/]++)(*:571)|invoice/([^/]++)(*:595))|ermissions/([^/]++)(?|(*:626)|/edit(*:639)|(*:647))|roduct(?|s/([^/]++)(?|/(?|toggle\\-(?|status(*:699)|flash\\-sale(*:718)|new\\-arrival(*:738)|bestseller(*:756))|catalog\\-(?|add(*:780)|remove(*:794)|highlight(*:811)|gallery(*:826))|update\\-flash\\-sale(*:854)|edit(*:866))|(*:875))|brands/([^/]++)(?|(*:902)|/(?|edit(*:918)|toggle(*:932))|(*:941)))|ixels/([^/]++)(?|(*:968)|/edit(*:981)|(*:989))|a(?|ymentgetewaymanage/([^/]++)(?|(*:1032)|/(?|edit(*:1049)|toggle\\-status(*:1072))|(*:1082))|thaocourier/([^/]++)(?|(*:1115)|/edit(*:1129)|(*:1138))|ges/([^/]++)(?|(*:1163)|/edit(*:1177)|(*:1186))))|s(?|eller\\-registrations/([^/]++)/(?|view(*:1239)|approve(*:1255)|re(?|ject(*:1273)|activate(*:1290))|suspend(*:1307))|ubcategory/([^/]++)(?|/(?|toggle\\-(?|featured(*:1362)|status(*:1377))|edit(*:1391))|(*:1401))|lider/([^/]++)(?|(*:1428)|/edit(*:1442)|(*:1451))|hipping/([^/]++)(?|/edit(*:1485)|(*:1494))|teadfastcourier/([^/]++)(?|(*:1531)|/edit(*:1545)|(*:1554))|ize/([^/]++)(?|(*:1579)|/(?|edit(*:1596)|toggle(*:1611))|(*:1621)))|c(?|o(?|upons/([^/]++)(?|(*:1657)|/(?|edit(*:1674)|status(*:1689))|(*:1699))|ntact(?|/([^/]++)(?|(*:1729)|/edit(*:1743)|(*:1752))|infomationadmins/([^/]++)(?|(*:1790)|/edit(*:1804)|(*:1813)))|lor/([^/]++)(?|(*:1839)|/(?|edit(*:1856)|toggle(*:1871))|(*:1881)))|a(?|tegory/([^/]++)(?|/(?|toggle\\-(?|featured(*:1937)|status(*:1952))|edit(*:1966))|(*:1976))|mpaigncreate/([^/]++)(?|(*:2010)|/edit(*:2024)|(*:2033)))|h(?|ildcategory/([^/]++)(?|/(?|toggle\\-(?|featured(*:2094)|status(*:2109))|edit(*:2123))|(*:2133))|at/([^/]++)(?|(*:2157)|/(?|reply(*:2175)|messages(*:2192)|close(*:2206)))))|r(?|oles/([^/]++)(?|(*:2239)|/(?|edit(*:2256)|assign\\-permission(*:2283)|save\\-assigned\\-permission(*:2318))|(*:2328))|eviews/(?|([^/]++)(?|/(?|approve(*:2370)|unapprove(*:2388))|(*:2398))|bulk(*:2412)))|u(?|sers/([^/]++)(?|(*:2443)|/(?|edit(*:2460)|toggle\\-status(*:2483))|(*:2493))|nit/([^/]++)(?|(*:2518)|/(?|edit(*:2535)|toggle(*:2550))|(*:2560)))|a(?|ffiliateproduct/([^/]++)(?|/(?|toggle\\-status(*:2620)|edit(*:2633))|(*:2643))|boutcompany/([^/]++)(?|(*:2676)|/edit(*:2690)|(*:2699))|lltaxes/([^/]++)(?|(*:2728)|/(?|edit(*:2745)|toggle(*:2760))|(*:2770)))|Generalsettings/([^/]++)(?|(*:2808)|/edit(*:2822)|(*:2831))|websitefavicon/([^/]++)(?|(*:2867)|/edit(*:2881)|(*:2890))|t(?|oggle/([^/]++)(*:2918)|remsandcondation/([^/]++)(?|(*:2955)|/edit(*:2969)|(*:2978)))|orders/([^/]++)(?|(*:3007)|/(?|edit(*:3024)|s(?|tatus(*:3042)|end\\-(?|steadfast(*:3068)|pathao(*:3083)))|payment\\-status(*:3109))|(*:3119))|incomplete\\-orders/([^/]++)(?|(*:3159)|/(?|st(?|atus(*:3181)|eadfast\\-send(*:3203))|contacted(*:3222)|recovered(*:3240)|pathao\\-send(*:3261)))|googletagmanager/([^/]++)(?|(*:3300)|/edit(*:3314)|(*:3323))|Smsgatewaysetup/([^/]++)(?|(*:3360)|/edit(*:3374)|(*:3383))|footercategory/([^/]++)(?|(*:3419)|/edit(*:3433)|(*:3442))|duplicateordersetting/([^/]++)(?|(*:3485)|/(?|edit(*:3502)|toggle\\-status(*:3525))|(*:3535)))|/storage/(.*)(*:3559))/?$}sDu',
+      0 => '{^(?|/p(?|a(?|ssword/reset/([^/]++)(*:37)|ge/([^/]++)(*:55))|roduct/([^/]++)(*:78))|/c(?|a(?|mpaign/manage/([^/]++)(*:117)|tegory/([^/]++)(?|(*:143)|/([^/]++)(?|(*:163)|/([^/]++)(*:180)))|rt/(?|add/([^/]++)(*:208)|remove/([^/]++)(*:231)|increase/([^/]++)(*:256)|decrease/([^/]++)(*:281)))|heckout/success/([^/]++)(*:315)|ustomer/([^/]++)(?|(*:342)|/(?|edit(*:358)|status(*:372)|make\\-vendor(*:392))|(*:401)))|/order/cancel/([^/]++)(*:433)|/wishlist/(?|add/([^/]++)(*:466)|remove/([^/]++)(*:489)|move\\-to\\-cart/([^/]++)(*:520))|/admin/(?|p(?|os/(?|cancel\\-order/([^/]++)(*:571)|invoice/([^/]++)(*:595))|ermissions/([^/]++)(?|(*:626)|/edit(*:639)|(*:647))|roduct(?|s/([^/]++)(?|/(?|toggle\\-(?|status(*:699)|flash\\-sale(*:718)|new\\-arrival(*:738)|bestseller(*:756))|catalog\\-(?|add(*:780)|remove(*:794)|highlight(*:811)|gallery(*:826))|update\\-flash\\-sale(*:854)|edit(*:866))|(*:875))|brands/([^/]++)(?|(*:902)|/(?|edit(*:918)|toggle(*:932))|(*:941)))|ixels/([^/]++)(?|(*:968)|/edit(*:981)|(*:989))|a(?|ymentgetewaymanage/([^/]++)(?|(*:1032)|/(?|edit(*:1049)|toggle\\-status(*:1072))|(*:1082))|thaocourier/([^/]++)(?|(*:1115)|/edit(*:1129)|(*:1138))|ges/([^/]++)(?|(*:1163)|/edit(*:1177)|(*:1186))))|s(?|eller\\-registrations/([^/]++)/(?|view(*:1239)|approve(*:1255)|re(?|ject(*:1273)|activate(*:1290))|suspend(*:1307))|ubcategory/([^/]++)(?|/(?|toggle\\-(?|featured(*:1362)|status(*:1377))|edit(*:1391))|(*:1401))|lider/([^/]++)(?|(*:1428)|/edit(*:1442)|(*:1451))|hipping/([^/]++)(?|/edit(*:1485)|(*:1494))|teadfastcourier/([^/]++)(?|(*:1531)|/edit(*:1545)|(*:1554))|ize/([^/]++)(?|(*:1579)|/(?|edit(*:1596)|toggle(*:1611))|(*:1621)))|c(?|o(?|upons/([^/]++)(?|(*:1657)|/(?|edit(*:1674)|status(*:1689))|(*:1699))|ntact(?|/([^/]++)(?|(*:1729)|/edit(*:1743)|(*:1752))|infomationadmins/([^/]++)(?|(*:1790)|/edit(*:1804)|(*:1813)))|lor/([^/]++)(?|(*:1839)|/(?|edit(*:1856)|toggle(*:1871))|(*:1881)))|a(?|tegory/([^/]++)(?|/(?|toggle\\-(?|featured(*:1937)|status(*:1952))|edit(*:1966))|(*:1976))|mpaigncreate/([^/]++)(?|(*:2010)|/edit(*:2024)|(*:2033)))|h(?|ildcategory/([^/]++)(?|/(?|toggle\\-(?|featured(*:2094)|status(*:2109))|edit(*:2123))|(*:2133))|at/([^/]++)(?|(*:2157)|/(?|reply(*:2175)|messages(*:2192)|close(*:2206)))))|r(?|oles/([^/]++)(?|(*:2239)|/(?|edit(*:2256)|assign\\-permission(*:2283)|save\\-assigned\\-permission(*:2318))|(*:2328))|eviews/(?|([^/]++)(?|/(?|approve(*:2370)|unapprove(*:2388))|(*:2398))|bulk(*:2412)))|u(?|sers/([^/]++)(?|(*:2443)|/(?|edit(*:2460)|toggle\\-status(*:2483))|(*:2493))|nit/([^/]++)(?|(*:2518)|/(?|edit(*:2535)|toggle(*:2550))|(*:2560)))|a(?|ffiliateproduct/([^/]++)(?|/(?|toggle\\-status(*:2620)|edit(*:2633))|(*:2643))|boutcompany/([^/]++)(?|(*:2676)|/edit(*:2690)|(*:2699))|lltaxes/([^/]++)(?|(*:2728)|/(?|edit(*:2745)|toggle(*:2760))|(*:2770)))|Generalsettings/([^/]++)(?|(*:2808)|/edit(*:2822)|(*:2831))|websitefavicon/([^/]++)(?|(*:2867)|/edit(*:2881)|(*:2890))|t(?|oggle/([^/]++)(*:2918)|remsandcondation/([^/]++)(?|(*:2955)|/edit(*:2969)|(*:2978)))|orders/([^/]++)(?|(*:3007)|/(?|edit(*:3024)|s(?|tatus(*:3042)|end\\-(?|steadfast(*:3068)|pathao(*:3083)))|payment\\-status(*:3109))|(*:3119))|incomplete\\-orders/([^/]++)(?|(*:3159)|/(?|st(?|atus(*:3181)|eadfast\\-send(*:3203))|contacted(*:3222)|recovered(*:3240)|pathao\\-send(*:3261)))|googletagmanager/([^/]++)(?|(*:3300)|/edit(*:3314)|(*:3323))|Smsgatewaysetup/([^/]++)(?|(*:3360)|/edit(*:3374)|(*:3383))|footercategory/([^/]++)(?|(*:3419)|/edit(*:3433)|(*:3442))|duplicateordersetting/([^/]++)(?|(*:3485)|/(?|edit(*:3502)|toggle\\-status(*:3525))|(*:3535))|Ipblockmanage/([^/]++)(?|(*:3570)|/(?|edit(*:3587)|toggle\\-status(*:3610))|(*:3620)))|/storage/(.*)(*:3644))/?$}sDu',
     ),
     3 => 
     array (
@@ -9134,7 +9190,117 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      3559 => 
+      3570 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.Ipblockmanage.show',
+          ),
+          1 => 
+          array (
+            0 => 'Ipblockmanage',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      3587 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.Ipblockmanage.edit',
+          ),
+          1 => 
+          array (
+            0 => 'Ipblockmanage',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      3610 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.Ipblockmanage.toggleStatus',
+          ),
+          1 => 
+          array (
+            0 => 'Ipblockmanage',
+          ),
+          2 => 
+          array (
+            'PATCH' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      3620 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.Ipblockmanage.update',
+          ),
+          1 => 
+          array (
+            0 => 'Ipblockmanage',
+          ),
+          2 => 
+          array (
+            'PUT' => 0,
+            'PATCH' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.Ipblockmanage.destroy',
+          ),
+          1 => 
+          array (
+            0 => 'Ipblockmanage',
+          ),
+          2 => 
+          array (
+            'DELETE' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      3644 => 
       array (
         0 => 
         array (
@@ -9172,7 +9338,7 @@ app('router')->setCompiledRoutes(
   ),
   'attributes' => 
   array (
-    'generated::ncYTd1Ggt4m0ayAk' => 
+    'generated::Y389hzvWNhzoItSX' => 
     array (
       'methods' => 
       array (
@@ -9200,8 +9366,8 @@ app('router')->setCompiledRoutes(
                     return response(\\Illuminate\\Support\\Facades\\View::file(\'E:\\\\shahzadi-mart\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Foundation\\\\Configuration\'.\'/../resources/health-up.blade.php\', [
                         \'exception\' => $exception,
                     ]), status: $exception ? 500 : 200);
-                }";s:5:"scope";s:54:"Illuminate\\Foundation\\Configuration\\ApplicationBuilder";s:4:"this";N;s:4:"self";s:32:"00000000000007940000000000000000";}}',
-        'as' => 'generated::ncYTd1Ggt4m0ayAk',
+                }";s:5:"scope";s:54:"Illuminate\\Foundation\\Configuration\\ApplicationBuilder";s:4:"this";N;s:4:"self";s:32:"000000000000079c0000000000000000";}}',
+        'as' => 'generated::Y389hzvWNhzoItSX',
       ),
       'fallback' => false,
       'defaults' => 
@@ -9582,7 +9748,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::518Wd8CAAQShoz2z' => 
+    'generated::z7PprKrTP2lI5K5K' => 
     array (
       'methods' => 
       array (
@@ -9602,7 +9768,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::518Wd8CAAQShoz2z',
+        'as' => 'generated::z7PprKrTP2lI5K5K',
       ),
       'fallback' => false,
       'defaults' => 
@@ -11246,7 +11412,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 'web',
         ),
-        'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:41:"fn() => \\view(\'frontend.bkash_pay\')      ";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000007b30000000000000000";}}',
+        'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:41:"fn() => \\view(\'frontend.bkash_pay\')      ";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000007bb0000000000000000";}}',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 
@@ -11415,7 +11581,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::E0tSZbAEquf17gy2' => 
+    'generated::RDhvrEmNMxDFqSVv' => 
     array (
       'methods' => 
       array (
@@ -11435,7 +11601,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::E0tSZbAEquf17gy2',
+        'as' => 'generated::RDhvrEmNMxDFqSVv',
       ),
       'fallback' => false,
       'defaults' => 
@@ -25206,6 +25372,307 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
+    'admin.Ipblockmanage.index' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/Ipblockmanage',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.Ipblockmanage.index',
+        'uses' => 'App\\Http\\Controllers\\Admin\\IpblockmanageController@index',
+        'controller' => 'App\\Http\\Controllers\\Admin\\IpblockmanageController@index',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.Ipblockmanage.create' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/Ipblockmanage/create',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.Ipblockmanage.create',
+        'uses' => 'App\\Http\\Controllers\\Admin\\IpblockmanageController@create',
+        'controller' => 'App\\Http\\Controllers\\Admin\\IpblockmanageController@create',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.Ipblockmanage.store' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'admin/Ipblockmanage',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.Ipblockmanage.store',
+        'uses' => 'App\\Http\\Controllers\\Admin\\IpblockmanageController@store',
+        'controller' => 'App\\Http\\Controllers\\Admin\\IpblockmanageController@store',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.Ipblockmanage.show' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/Ipblockmanage/{Ipblockmanage}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.Ipblockmanage.show',
+        'uses' => 'App\\Http\\Controllers\\Admin\\IpblockmanageController@show',
+        'controller' => 'App\\Http\\Controllers\\Admin\\IpblockmanageController@show',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.Ipblockmanage.edit' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/Ipblockmanage/{Ipblockmanage}/edit',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.Ipblockmanage.edit',
+        'uses' => 'App\\Http\\Controllers\\Admin\\IpblockmanageController@edit',
+        'controller' => 'App\\Http\\Controllers\\Admin\\IpblockmanageController@edit',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.Ipblockmanage.update' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'PUT',
+        1 => 'PATCH',
+      ),
+      'uri' => 'admin/Ipblockmanage/{Ipblockmanage}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.Ipblockmanage.update',
+        'uses' => 'App\\Http\\Controllers\\Admin\\IpblockmanageController@update',
+        'controller' => 'App\\Http\\Controllers\\Admin\\IpblockmanageController@update',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.Ipblockmanage.destroy' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'DELETE',
+      ),
+      'uri' => 'admin/Ipblockmanage/{Ipblockmanage}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'as' => 'admin.Ipblockmanage.destroy',
+        'uses' => 'App\\Http\\Controllers\\Admin\\IpblockmanageController@destroy',
+        'controller' => 'App\\Http\\Controllers\\Admin\\IpblockmanageController@destroy',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.Ipblockmanage.toggleStatus' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'PATCH',
+      ),
+      'uri' => 'admin/Ipblockmanage/{Ipblockmanage}/toggle-status',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Admin\\IpblockmanageController@toggleStatus',
+        'controller' => 'App\\Http\\Controllers\\Admin\\IpblockmanageController@toggleStatus',
+        'as' => 'admin.Ipblockmanage.toggleStatus',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
     'saller.login' => 
     array (
       'methods' => 
@@ -25886,7 +26353,7 @@ app('router')->setCompiledRoutes(
                         $config,
                         $isProduction
                     ))($request, $path);
-                }";s:5:"scope";s:47:"Illuminate\\Filesystem\\FilesystemServiceProvider";s:4:"this";N;s:4:"self";s:32:"00000000000009590000000000000000";}}',
+                }";s:5:"scope";s:47:"Illuminate\\Filesystem\\FilesystemServiceProvider";s:4:"this";N;s:4:"self";s:32:"00000000000009690000000000000000";}}',
         'as' => 'storage.local',
       ),
       'fallback' => false,

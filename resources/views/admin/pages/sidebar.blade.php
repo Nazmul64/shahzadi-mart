@@ -462,6 +462,10 @@ body.sb-collapsed .sidebar-submenu { display: none; }
                class="{{ request()->routeIs('admin.duplicateordersetting.index') ? 'active' : '' }}">
                 <i class="bi bi-display"></i> Duplicateorder Setting
             </a>
+             <a href="{{ route('admin.Ipblockmanage.index') }}"
+               class="{{ request()->routeIs('admin.Ipblockmanage.index') ? 'active' : '' }}">
+                <i class="bi bi-display"></i> Ipblockmanage Setting
+            </a>
 
         </div>
 
