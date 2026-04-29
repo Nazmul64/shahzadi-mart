@@ -64,7 +64,9 @@ use App\Http\Controllers\Admin\AlltaxesController;
 use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\PosController;
+use App\Http\Controllers\Admin\SizeController;
 use App\Http\Controllers\Admin\TremsandcondationsController;
+use App\Http\Controllers\Admin\UnitController;
 
 Auth::routes();
 
@@ -486,8 +488,13 @@ Route::middleware(['admin'])
     Route::resource('color', ColorController::class);
     Route::post('color/{color}/toggle', [ColorController::class, 'toggleStatus'])->name('color.toggle');
       // ── Sizes ─────────────────────────────────────────────────────────────────
-    Route::resource('size', SizeController::class)->names('admin.sizes')->except(['show', 'create']);
-    Route::post('size/{size}/toggle', [SizeController::class, 'toggleStatus'])->name('admin.sizes.toggle');
+
+// ── Sizes ────────────────────────────────────────────────
+    Route::resource('size', SizeController::class);
+    Route::post('size/{size}/toggle', [SizeController::class, 'toggleStatus'])->name('size.toggle');
+    // ── Units ────────────────────────────────────────────────
+    Route::resource('unit', UnitController::class);
+    Route::post('unit/{unit}/toggle', [UnitController::class, 'toggleStatus'])->name('unit.toggle');
 
 }); // end admin group
 

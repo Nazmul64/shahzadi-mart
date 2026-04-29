@@ -433,9 +433,13 @@ body.sb-collapsed .sidebar-submenu { display: none; }
                 <i class="bi bi-display"></i> Color Add
             </a>
             {{-- route: admin.pos.orders (POS Sales History) --}}
-            <a href="{{ route('admin.color.index') }}"
-               class="{{ request()->routeIs('admin.color.index') ? 'active' : '' }}">
+            <a href="{{ route('admin.size.index') }}"
+               class="{{ request()->routeIs('admin.size.index') ? 'active' : '' }}">
                 <i class="bi bi-clock-history"></i>Size Add
+            </a>
+               <a href="{{ route('admin.unit.index') }}"
+               class="{{ request()->routeIs('admin.unit.index') ? 'active' : '' }}">
+                <i class="bi bi-clock-history"></i>Unit Add
             </a>
 
         </div>
