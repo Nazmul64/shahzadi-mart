@@ -12,6 +12,8 @@
         ?? \App\Models\Contactinfomationadmin::latest()->first();
 @endphp
 
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -115,7 +117,7 @@
         <div class="top-bar__promo">
             <span class="top-bar__dot"></span>
             <i class="bi bi-lightning-charge-fill" style="color:var(--gold);font-size:11px"></i>
-            Free shipping on orders over ৳ 5,000 — Shop now!
+           {{$deliveryInformation->header_title ?? ''}}
         </div>
         <div class="top-bar__nav">
             <a href="{{ route('order.track') }}" class="top-bar__track"><i class="bi bi-truck"></i> অর্ডার ট্র্যাক</a>

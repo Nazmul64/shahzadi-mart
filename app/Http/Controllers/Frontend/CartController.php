@@ -1,4 +1,7 @@
 <?php
+// ══════════════════════════════════════════════════════════════════════════════
+// app/Http/Controllers/Frontend/CartController.php
+// ══════════════════════════════════════════════════════════════════════════════
 
 namespace App\Http\Controllers\Frontend;
 
@@ -28,8 +31,9 @@ class CartController extends Controller
     // ══════════════════════════════════════════════════════════════════════════
     //  ADD TO CART  ─ POST /cart/add/{id}
     //
-    //  JS থেকে FormData তে _token এবং X-CSRF-TOKEN header দুটোই পাঠানো হচ্ছে।
-    //  Laravel built-in VerifyCsrfToken middleware যেকোনো একটা পেলেই pass করে।
+    //  ✅ KEY LOGIC:
+    //     redirect_to_checkout = 1  →  cart add হবে তারপর সরাসরি /checkout
+    //     redirect_to_checkout নেই →  normal cart / AJAX response
     // ══════════════════════════════════════════════════════════════════════════
 
     public function add(Request $request, int $id): JsonResponse|RedirectResponse
@@ -87,7 +91,18 @@ class CartController extends Controller
 
         session()->put('cart', $cart);
 
-        /* ── Response ───────────────────────────────────────────────────── */
+        /* ══════════════════════════════════════════════════════════════════
+           ✅ CHECKOUT REDIRECT — মূল পরিবর্তন এখানে
+           index.blade.php / product page এর "অর্ডার করুন" form এ
+           <input type="hidden" name="redirect_to_checkout" value="1"> থাকে
+           → cart add হওয়ার পর সরাসরি checkout page এ যাবে
+        ══════════════════════════════════════════════════════════════════ */
+        if ($request->input('redirect_to_checkout') == '1') {
+            return redirect()->route('checkout')
+                ->with('success', '"' . $product->name . '" cart এ যোগ হয়েছে। এখন অর্ডার সম্পন্ন করুন।');
+        }
+
+        /* ── AJAX response ──────────────────────────────────────────────── */
         $successMsg = '"' . $product->name . '" কার্টে যোগ হয়েছে!';
 
         return $this->isAjax($request)
@@ -102,7 +117,6 @@ class CartController extends Controller
 
     // ══════════════════════════════════════════════════════════════════════════
     //  REMOVE FROM CART  ─ POST /cart/remove/{key}
-    //  (আগে GET ছিল, এখন POST — CSRF protection এর জন্য)
     // ══════════════════════════════════════════════════════════════════════════
 
     public function remove(Request $request, string $key): JsonResponse|RedirectResponse
@@ -280,11 +294,6 @@ class CartController extends Controller
         );
     }
 
-    /**
-     * AJAX request কিনা নির্ণয়।
-     * Laravel এর ajax() = X-Requested-With header চেক করে।
-     * wantsJson() / expectsJson() = Accept header চেক করে।
-     */
     private function isAjax(Request $request): bool
     {
         return $request->ajax()

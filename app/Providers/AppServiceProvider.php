@@ -2,23 +2,27 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\ServiceProvider;
+use App\Models\Contactinfomationadmin;
+use App\Models\Footercategory;
+use App\Models\Pixel;
+use App\Models\Tagmanager;
+use App\Models\Websitefavicon;
 use App\Models\Category;
 use App\Models\Generalsetting;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\ServiceProvider;
+
 class AppServiceProvider extends ServiceProvider
 {
     public function register(): void {}
 
     public function boot(): void
     {
+        // ─── Global View Composer — সব view-এ automatically share হবে ────────
+        View::composer('*', function ($view) {
 
-    // ─── Global View Composer ─────────────────────────────────────────────
-        // সব frontend view-এ $sidebarCategories ও $websetting automatically পাবে
-        // আর কোনো controller-এ manually pass করতে হবে না
-        View::composer('frontend.*', function ($view) {
-
+            // ── Sidebar Categories ────────────────────────────────────────────
             $sidebarCategories = Category::where('status', 'active')
                 ->with([
                     'subCategories' => function ($q) {
@@ -30,16 +34,34 @@ class AppServiceProvider extends ServiceProvider
                 ])
                 ->get();
 
+            // ── General Settings ──────────────────────────────────────────────
             $websetting = Generalsetting::first();
 
-            $view->with(compact('sidebarCategories', 'websetting'));
-        });
-        // ─── Blade Directives for Permission & Role ────────────────────────────
+            // ── Tracking ──────────────────────────────────────────────────────
+            $Pixelid         = Pixel::first();
+            $GoogleAnalytics = Tagmanager::first();
 
-        /**
-         * @permission
-         * Usage in blade: @permission('post-view') ... @endpermission
-         */
+            // ── Master Layout Data ────────────────────────────────────────────
+            $websitefavicon          = Websitefavicon::first();
+            $contactinformationadmin = Contactinfomationadmin::latest()->first();
+            $pagecrate               = Footercategory::with([
+                                           'pages' => fn($q) => $q->where('status', 1)
+                                       ])->get();
+
+            $view->with(compact(
+                'sidebarCategories',
+                'websetting',
+                'Pixelid',
+                'GoogleAnalytics',
+                'websitefavicon',
+                'contactinformationadmin',
+                'pagecrate'
+            ));
+        });
+
+        // ─── Blade Directives for Permission & Role ───────────────────────────
+
+        // @permission('post-view') ... @endpermission
         Blade::directive('permission', function ($expression) {
             return "<?php if(auth()->check() && auth()->user()->hasPermission($expression)): ?>";
         });
@@ -47,10 +69,7 @@ class AppServiceProvider extends ServiceProvider
             return "<?php endif; ?>";
         });
 
-        /**
-         * @role
-         * Usage in blade: @role('admin') ... @endrole
-         */
+        // @role('admin') ... @endrole
         Blade::directive('role', function ($expression) {
             return "<?php if(auth()->check() && auth()->user()->hasRole($expression)): ?>";
         });
@@ -58,10 +77,7 @@ class AppServiceProvider extends ServiceProvider
             return "<?php endif; ?>";
         });
 
-        /**
-         * @anyrole
-         * Usage: @anyrole(['admin', 'editor']) ... @endanyrole
-         */
+        // @anyrole(['admin', 'editor']) ... @endanyrole
         Blade::directive('anyrole', function ($expression) {
             return "<?php if(auth()->check() && auth()->user()->hasAnyRole($expression)): ?>";
         });
@@ -69,10 +85,7 @@ class AppServiceProvider extends ServiceProvider
             return "<?php endif; ?>";
         });
 
-        /**
-         * @superadmin
-         * Usage: @superadmin ... @endsuperadmin
-         */
+        // @superadmin ... @endsuperadmin
         Blade::directive('superadmin', function () {
             return "<?php if(auth()->check() && auth()->user()->isSuperAdmin()): ?>";
         });

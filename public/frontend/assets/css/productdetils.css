@@ -303,3 +303,66 @@
   .pdp-rev-summary{flex-direction:column;align-items:flex-start;}.pdp-rev-big-score{min-width:auto;}
 }
 
+.pdp__contact-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 14px;
+    margin-bottom: 14px;
+}
+.pdp__contact-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 13px 20px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff !important;
+    text-decoration: none !important;
+    border: none;
+    cursor: pointer;
+    transition: opacity .18s, transform .15s;
+    letter-spacing: .3px;
+    -webkit-text-fill-color: #fff;
+}
+.pdp__contact-btn:hover {
+    opacity: .88;
+    transform: translateY(-1px);
+    color: #fff !important;
+    text-decoration: none !important;
+    -webkit-text-fill-color: #fff;
+}
+.pdp__contact-btn:active {
+    transform: translateY(0);
+    opacity: 1;
+    color: #fff !important;
+    -webkit-text-fill-color: #fff;
+}
+.pdp__contact-btn:visited {
+    color: #fff !important;
+    -webkit-text-fill-color: #fff;
+}
+.pdp__contact-btn:focus {
+    color: #fff !important;
+    -webkit-text-fill-color: #fff;
+    outline: none;
+}
+.pdp__contact-btn i,
+.pdp__contact-btn span,
+.pdp__contact-btn * {
+    color: #fff !important;
+    -webkit-text-fill-color: #fff;
+}
+.pdp__contact-btn i {
+    font-size: 17px;
+}
+/* Black — Call */
+.pdp__contact-btn--call      { background: #111111; }
+/* Green — WhatsApp */
+.pdp__contact-btn--whatsapp  { background: #25D366; }
+/* Blue  — Messenger */
+.pdp__contact-btn--messenger { background: #0866FF; }
+

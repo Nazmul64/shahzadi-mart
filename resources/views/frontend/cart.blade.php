@@ -3,7 +3,6 @@
 
 @section('main-content')
 <style>
-/* ── RESET & VARS ── */
 .cart-page *, .cart-page *::before, .cart-page *::after { box-sizing: border-box; }
 .cart-page {
     --red:      #e8192c;
@@ -27,7 +26,6 @@
 }
 .cart-page a { text-decoration: none; color: inherit; }
 
-/* ── BREADCRUMB ── */
 .cp-bread {
     background: #fff;
     border-bottom: 1px solid var(--border);
@@ -41,7 +39,6 @@
 .cp-bread__sep { color: #d1d5db; }
 .cp-bread__cur { color: var(--text); font-weight: 600; }
 
-/* ── FLASH ALERTS ── */
 .cp-alert {
     border-radius: 10px; padding: 11px 16px;
     font-size: 13px; font-weight: 600;
@@ -52,7 +49,6 @@
 .cp-alert--error   { background: var(--red-bg); color: var(--red); border: 1px solid #fecdd3; }
 .cp-alert--info    { background: #eff6ff; color: var(--blue); border: 1px solid #bfdbfe; }
 
-/* ── TOAST ── */
 #cp-toasts {
     position: fixed; top: 20px; right: 20px; z-index: 999999;
     display: flex; flex-direction: column; gap: 10px; pointer-events: none;
@@ -72,7 +68,6 @@
 @keyframes cpToastIn  { from { opacity:0; transform:translateX(16px); } to { opacity:1; transform:none; } }
 @keyframes cpToastOut { to   { opacity:0; transform:translateX(16px); } }
 
-/* ── PAGE HEADER ── */
 .cp-header {
     display: flex; align-items: center; gap: 10px;
     margin-bottom: 22px;
@@ -84,7 +79,6 @@
     padding: 2px 9px; border-radius: 20px;
 }
 
-/* ── LAYOUT ── */
 .cp-layout {
     display: grid;
     grid-template-columns: 1fr 360px;
@@ -93,7 +87,6 @@
 }
 @media(max-width:992px) { .cp-layout { grid-template-columns: 1fr; } }
 
-/* ── CART CARD ── */
 .cp-card {
     background: var(--card);
     border-radius: var(--radius);
@@ -112,16 +105,22 @@
     display: flex; align-items: center; gap: 7px;
 }
 .cp-card__head-title i { color: var(--red); }
-.cp-clear {
+
+/* ── POST form buttons styled as links ── */
+.cp-form-btn {
+    background: none; border: none; padding: 0; margin: 0;
+    cursor: pointer; font-family: inherit; line-height: 1;
+    display: inline-flex; align-items: center;
+}
+.cp-clear-btn {
     font-size: 12px; color: var(--muted);
     background: none; border: 1.5px solid var(--border);
     padding: 5px 11px; border-radius: 6px; cursor: pointer;
     transition: all .2s; display: flex; align-items: center; gap: 5px;
-    text-decoration: none;
+    font-family: inherit;
 }
-.cp-clear:hover { border-color: var(--red); color: var(--red); }
+.cp-clear-btn:hover { border-color: var(--red); color: var(--red); }
 
-/* ── CART ITEM ── */
 .cp-item {
     display: grid;
     grid-template-columns: 88px 1fr auto auto auto auto;
@@ -156,7 +155,6 @@
 }
 .cp-item__meta span { display: inline-flex; align-items: center; gap: 3px; }
 
-/* variant chips */
 .cp-chips { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 5px; }
 .cp-chip {
     display: inline-flex; align-items: center; gap: 4px;
@@ -168,12 +166,11 @@
 .cp-chip--color { background: var(--red-bg); border-color: #fecdd3; color: var(--red); }
 .cp-chip--size  { background: #eff6ff; border-color: #bfdbfe; color: var(--blue); }
 
-/* price col */
 .cp-item__price { text-align: right; }
 .cp-item__price-cur { font-size: 15px; font-weight: 700; color: var(--red); white-space: nowrap; }
 .cp-item__price-old { font-size: 11px; color: var(--muted); text-decoration: line-through; }
 
-/* qty */
+/* qty — POST form buttons */
 .cp-qty {
     display: flex; align-items: center;
     border: 1.5px solid var(--border); border-radius: 8px; overflow: hidden;
@@ -183,7 +180,8 @@
     background: #f3f4f6; border: none; cursor: pointer;
     font-size: 15px; font-weight: 700; color: var(--text);
     display: flex; align-items: center; justify-content: center;
-    transition: background .15s, color .15s; text-decoration: none;
+    transition: background .15s, color .15s;
+    font-family: inherit;
 }
 .cp-qty__btn:hover { background: var(--red); color: #fff; }
 .cp-qty__val {
@@ -192,25 +190,24 @@
     border: none; outline: none; background: #fff;
     border-left: 1.5px solid var(--border);
     border-right: 1.5px solid var(--border);
-    padding: 0;
+    padding: 0; line-height: 34px;
 }
 
-/* line total */
 .cp-item__total {
     font-size: 15px; font-weight: 700; color: var(--dark);
     white-space: nowrap;
 }
 
-/* remove */
-.cp-item__remove {
+/* remove button */
+.cp-item__remove-btn {
     width: 34px; height: 34px; border-radius: 8px;
     background: #fff5f5; border: 1.5px solid #fecdd3;
     color: #f43f5e; display: flex; align-items: center; justify-content: center;
-    cursor: pointer; transition: all .2s; font-size: 13px; text-decoration: none;
+    cursor: pointer; transition: all .2s; font-size: 13px;
+    font-family: inherit;
 }
-.cp-item__remove:hover { background: var(--red); border-color: var(--red); color: #fff; }
+.cp-item__remove-btn:hover { background: var(--red); border-color: var(--red); color: #fff; }
 
-/* ── ORDER SUMMARY ── */
 .cp-summary {
     background: var(--card);
     border-radius: var(--radius);
@@ -229,16 +226,13 @@
     font-size: 14px; font-weight: 700;
 }
 .cp-summary__head i { color: #f87171; }
-
 .cp-summary__body { padding: 18px 20px; }
 
-/* coupon */
 .cp-coupon-row { display: flex; gap: 8px; margin-bottom: 8px; }
 .cp-coupon-input {
     flex: 1; border: 1.5px solid var(--border); border-radius: 8px;
     padding: 9px 13px; font-size: 13px; outline: none;
-    transition: border .2s; font-family: inherit;
-    color: var(--text);
+    transition: border .2s; font-family: inherit; color: var(--text);
 }
 .cp-coupon-input:focus { border-color: var(--red); }
 .cp-coupon-input::placeholder { color: var(--muted); }
@@ -258,7 +252,6 @@
 .cp-coupon-msg--error   { background: var(--red-bg); color: var(--red); }
 .cp-coupon-msg--success { background: #f0fdf4; color: var(--green); }
 
-/* price rows */
 .cp-price-row {
     display: flex; justify-content: space-between; align-items: center;
     padding: 9px 0; font-size: 13px; color: var(--text);
@@ -270,7 +263,6 @@
 .cp-price-row .val { font-weight: 600; color: var(--dark); }
 .cp-price-row--discount .val { color: var(--green); }
 
-/* shipping note */
 .cp-ship-note {
     display: flex; align-items: center; gap: 8px;
     padding: 9px 12px; background: #fffbeb;
@@ -279,7 +271,6 @@
 }
 .cp-ship-note i { color: var(--gold); flex-shrink: 0; }
 
-/* total */
 .cp-total-row {
     display: flex; justify-content: space-between; align-items: center;
     padding: 14px 0 4px; border-top: 2px solid var(--border); margin-top: 4px;
@@ -288,14 +279,20 @@
 .cp-total-row .val { font-size: 22px; font-weight: 800; color: var(--red); }
 
 .cp-checkout-btn {
-    display: flex; width: 100%; background: var(--red); color: #fff;
+    display: flex; width: 100%; background: var(--red);
+    color: #fff !important; -webkit-text-fill-color: #fff;
     border: none; padding: 14px; border-radius: 11px;
     font-size: 15px; font-weight: 700; cursor: pointer;
     transition: background .2s, transform .15s, box-shadow .2s;
-    text-align: center; text-decoration: none; margin-top: 16px;
+    text-align: center; text-decoration: none !important; margin-top: 16px;
     font-family: inherit; align-items: center; justify-content: center; gap: 8px;
 }
-.cp-checkout-btn:hover { background: var(--red-d); color: #fff; transform: scale(1.01); box-shadow: 0 4px 16px rgba(232,25,44,.3); }
+.cp-checkout-btn:hover {
+    background: var(--red-d);
+    color: #fff !important;
+    transform: scale(1.01);
+    box-shadow: 0 4px 16px rgba(232,25,44,.3);
+}
 
 .cp-secure {
     text-align: center; font-size: 12px; color: var(--muted);
@@ -308,15 +305,6 @@
 }
 .cp-continue:hover { color: var(--red); }
 
-/* ── SPINNER ── */
-.cp-spinner {
-    width: 15px; height: 15px;
-    border: 2px solid currentColor; border-top-color: transparent;
-    border-radius: 50%; animation: cpSpin .6s linear infinite; flex-shrink: 0;
-}
-@keyframes cpSpin { to { transform: rotate(360deg); } }
-
-/* ── EMPTY CART ── */
 .cp-empty {
     text-align: center; padding: 70px 20px;
     background: var(--card); border-radius: var(--radius);
@@ -332,14 +320,13 @@
 .cp-empty p  { color: var(--muted); font-size: 14px; margin-bottom: 22px; }
 .cp-shop-btn {
     display: inline-flex; align-items: center; gap: 8px;
-    background: var(--red); color: #fff;
+    background: var(--red); color: #fff !important;
     padding: 12px 28px; border-radius: 10px;
-    font-weight: 600; font-size: 14px; text-decoration: none;
+    font-weight: 600; font-size: 14px; text-decoration: none !important;
     transition: background .2s;
 }
-.cp-shop-btn:hover { background: var(--red-d); color: #fff; }
+.cp-shop-btn:hover { background: var(--red-d); color: #fff !important; }
 
-/* ── MOBILE ── */
 @media(max-width:576px) {
     .cp-item {
         grid-template-columns: 70px 1fr;
@@ -348,13 +335,12 @@
     }
     .cp-item__img { width: 70px; height: 70px; }
     .cp-item__price, .cp-item__total { grid-column: 2; }
-    .cp-qty, .cp-item__remove { grid-column: 2; }
+    .cp-qty, .cp-item__remove-btn { grid-column: 2; }
     #cp-toasts { top: auto; bottom: 20px; right: 10px; left: 10px; }
     .cp-toast { max-width: 100%; }
 }
 </style>
 
-{{-- Toast container --}}
 <div id="cp-toasts"></div>
 
 <div class="cart-page">
@@ -373,7 +359,6 @@
     <div style="padding: 36px 0 60px;">
         <div class="container">
 
-            {{-- FLASH ALERTS --}}
             @if(session('success'))
                 <div class="cp-alert cp-alert--success">
                     <i class="bi bi-check-circle-fill"></i> {{ session('success') }}
@@ -414,26 +399,28 @@
                                 <span class="cp-card__head-title">
                                     <i class="bi bi-bag-check"></i> কার্টে থাকা পণ্য
                                 </span>
-                                <a href="{{ route('cart.clear') }}"
-                                   class="cp-clear"
-                                   onclick="return confirm('সব পণ্য সরিয়ে দেবেন?')">
-                                    <i class="bi bi-trash3"></i> সব মুছুন
-                                </a>
+
+                                {{-- ✅ Clear cart — POST form --}}
+                                <form action="{{ route('cart.clear') }}" method="POST"
+                                      onsubmit="return confirm('সব পণ্য সরিয়ে দেবেন?')">
+                                    @csrf
+                                    <button type="submit" class="cp-clear-btn">
+                                        <i class="bi bi-trash3"></i> সব মুছুন
+                                    </button>
+                                </form>
                             </div>
 
-                            @foreach($cartItems as $id => $item)
+                            @foreach($cartItems as $cartKey => $item)
                             @php
                                 $hasDisc   = isset($item['discount_price']) && $item['discount_price'] > 0;
                                 $unitPrice = $hasDisc ? $item['discount_price'] : $item['price'];
                                 $lineTotal = $unitPrice * $item['quantity'];
                                 $subtotal += $lineTotal;
-
-                                $imgSrc = !empty($item['image'])
-                                    ? asset('uploads/products/' . $item['image'])
-                                    : asset('images/placeholder.png');
-
-                                $selColor = $item['selected_color'] ?? null;
-                                $selSize  = $item['selected_size']  ?? null;
+                                $imgSrc    = !empty($item['image'])
+                                                ? asset('uploads/products/' . $item['image'])
+                                                : asset('images/placeholder.png');
+                                $selColor  = $item['selected_color'] ?? null;
+                                $selSize   = $item['selected_size']  ?? null;
                             @endphp
 
                             <div class="cp-item">
@@ -446,7 +433,7 @@
 
                                 {{-- Info --}}
                                 <div class="cp-item__info">
-                                    <a href="{{ route('product.detail', $item['slug'] ?? $id) }}"
+                                    <a href="{{ route('product.detail', $item['slug'] ?? $cartKey) }}"
                                        class="cp-item__name">{{ $item['name'] }}</a>
 
                                     <div class="cp-item__meta">
@@ -487,28 +474,35 @@
                                     @endif
                                 </div>
 
-                                {{-- Qty --}}
+                                {{-- ✅ Qty — POST forms --}}
                                 <div class="cp-qty">
-                                    <a href="{{ route('cart.decrease', $id) }}" class="cp-qty__btn" title="কমান">−</a>
+                                    <form action="{{ route('cart.decrease', $cartKey) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="cp-qty__btn" title="কমান">−</button>
+                                    </form>
                                     <span class="cp-qty__val">{{ $item['quantity'] }}</span>
-                                    <a href="{{ route('cart.increase', $id) }}" class="cp-qty__btn" title="বাড়ান">+</a>
+                                    <form action="{{ route('cart.increase', $cartKey) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="cp-qty__btn" title="বাড়ান">+</button>
+                                    </form>
                                 </div>
 
                                 {{-- Line Total --}}
                                 <div class="cp-item__total">৳ {{ number_format($lineTotal, 0) }}</div>
 
-                                {{-- Remove --}}
-                                <a href="{{ route('cart.remove', $id) }}"
-                                   class="cp-item__remove"
-                                   title="সরান"
-                                   onclick="return confirm('এই পণ্যটি সরাবেন?')">
-                                    <i class="bi bi-trash3-fill"></i>
-                                </a>
+                                {{-- ✅ Remove — POST form --}}
+                                <form action="{{ route('cart.remove', $cartKey) }}" method="POST"
+                                      onsubmit="return confirm('এই পণ্যটি সরাবেন?')">
+                                    @csrf
+                                    <button type="submit" class="cp-item__remove-btn" title="সরান">
+                                        <i class="bi bi-trash3-fill"></i>
+                                    </button>
+                                </form>
 
                             </div>
                             @endforeach
 
-                        </div>{{-- /.cp-card --}}
+                        </div>
                     </div>
 
                     {{-- RIGHT: SUMMARY --}}
@@ -545,7 +539,6 @@
                                     </div>
                                 @endif
 
-                                {{-- Price Rows --}}
                                 <div class="cp-price-row">
                                     <span class="lbl"><i class="bi bi-receipt"></i> সাবটোটাল</span>
                                     <span class="val">৳ {{ number_format($subtotal, 2) }}</span>
@@ -586,11 +579,10 @@
                         </div>
                     </div>
 
-                </div>{{-- /.cp-layout --}}
+                </div>
 
             @else
 
-                {{-- EMPTY CART --}}
                 <div class="cp-empty">
                     <div class="cp-empty__icon">
                         <i class="bi bi-cart-x"></i>
@@ -607,13 +599,12 @@
         </div>
     </div>
 
-</div>{{-- /.cart-page --}}
+</div>
 
 <script>
 (function () {
     'use strict';
 
-    /* ── Toast helper ── */
     function toast(msg, type, ms) {
         type = type || 'success'; ms = ms || 3000;
         var icons = {
@@ -632,34 +623,15 @@
         }, ms);
     }
 
-    /* ── Session flash as toast (optional nice UX) ── */
     @if(session('success'))
         toast('{{ addslashes(session('success')) }}', 'success');
     @endif
     @if(session('error'))
         toast('{{ addslashes(session('error')) }}', 'error');
     @endif
-    @if(session('coupon_error'))
-        toast('{{ addslashes(session('coupon_error')) }}', 'error');
-    @endif
     @if(session('info'))
         toast('{{ addslashes(session('info')) }}', 'info');
     @endif
-
-    /* ── Update cart/wish badges in header ── */
-    function updateCartBadge(count) {
-        document.querySelectorAll('#cartBadge, #mobCartBadge, .cart-badge').forEach(function (el) {
-            el.textContent = count > 0 ? count : '';
-            if (el.classList) el.classList.toggle('zero', count === 0);
-        });
-    }
-
-    /* ── Confirm before remove (already in href onclick, this is extra safety) ── */
-    document.querySelectorAll('.cp-item__remove').forEach(function (btn) {
-        btn.addEventListener('click', function (e) {
-            if (!confirm('এই পণ্যটি সরাবেন?')) e.preventDefault();
-        });
-    });
 
 })();
 </script>

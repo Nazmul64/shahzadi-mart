@@ -11,40 +11,18 @@ use App\Models\Contact;
 use App\Models\Generalsetting;
 use App\Models\Product;
 use App\Models\Order;
-use App\Models\Pixel;
 use App\Models\Producreview;
 use App\Models\Wishlist;
 use App\Models\Slider;
-use App\Models\Tagmanager;
 use App\Models\Page;
-
-use App\Models\Contactinfomationadmin;
 use App\Models\AboutForCompany;
-use App\Models\Footercategory;
-use App\Models\Websitefavicon;
+use App\Models\DeliveryInformation;
 use App\Models\Tremsandcondation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\View;
 
 class FrontendController extends Controller
 {
-    // ─── Constructor — tracking vars সব view-এ share করা হচ্ছে ──────────────
-    public function __construct()
-    {
-        /*
-         * $Pixelid ও $GoogleAnalytics header/footer-এ দরকার।
-         * প্রতিটা method-এ আলাদা করে compact() এ দেওয়ার বদলে
-         * View::share() দিয়ে globally share করা হচ্ছে।
-         * এতে কোনো page থেকেই tracking miss হবে না।
-         */
-        $Pixelid         = Pixel::first();
-        $GoogleAnalytics = Tagmanager::first();
-
-        View::share('Pixelid',         $Pixelid);
-        View::share('GoogleAnalytics', $GoogleAnalytics);
-    }
-
     // ─── Reusable Sidebar Query ──────────────────────────────────────────────
     private function getSidebarCategories()
     {
@@ -66,7 +44,6 @@ class FrontendController extends Controller
     public function frontend()
     {
         $websetting        = Generalsetting::first();
-        $websitefavicon    = Websitefavicon::first();
         $slider            = Slider::all();
         $categories        = Category::where('status', 'active')->get();
         $sidebarCategories = $this->getSidebarCategories();
@@ -93,15 +70,12 @@ class FrontendController extends Controller
                             ->orderByRaw('(current_price - discount_price) DESC')
                             ->take(20)
                             ->get();
-        $contactinformationadmin=Contactinfomationadmin::latest()->first();
-        $pagecrate = Footercategory::with(['pages' => function($q) {$q->where('status', 1);}])->get();
+      $deliveryInformation = DeliveryInformation::first();
 
         return view('frontend.index', compact(
             'slider', 'categories', 'websetting',
             'flashProducts', 'hotCategories',
-            'newArrivals', 'bestSellers', 'sidebarCategories',
-            'websitefavicon','contactinformationadmin','pagecrate'
-            // $Pixelid ও $GoogleAnalytics constructor থেকে shared হচ্ছে
+            'newArrivals', 'bestSellers', 'sidebarCategories','deliveryInformation',
         ));
     }
 
@@ -233,9 +207,10 @@ class FrontendController extends Controller
 
         $sidebarCategories = $this->getSidebarCategories();
         $websetting        = Generalsetting::first();
+        $deliveryInformation = DeliveryInformation::first();
 
         return view('frontend.productdetails.productdetails', compact(
-            'product', 'relatedProducts', 'sidebarCategories', 'websetting'
+            'product', 'relatedProducts', 'sidebarCategories', 'websetting','deliveryInformation',
         ));
     }
 
@@ -505,6 +480,7 @@ class FrontendController extends Controller
     {
         $contact    = Contact::latest()->first();
         $websetting = Generalsetting::first();
+
         return view('frontend.contactdetails.index', compact('contact', 'websetting'));
     }
 
@@ -520,38 +496,30 @@ class FrontendController extends Controller
         ));
     }
 
-    // ─── About Company ───────────────────────────────────────────────────────
+    // ─── About Company ────────────────────────────────────────────────────────
     public function aboutcompany()
     {
-        $websetting = Generalsetting::first();
+        $websetting   = Generalsetting::first();
         $aboutcompany = AboutForCompany::latest()->first();
+
         return view('frontend.aboutcompany', compact('websetting', 'aboutcompany'));
-     }
-      public function termsAndConditions()
+    }
+
+    // ─── Terms & Conditions ───────────────────────────────────────────────────
+    public function termsAndConditions()
     {
-        $websetting = Generalsetting::first();
+        $websetting         = Generalsetting::first();
         $termsAndConditions = Tremsandcondation::latest()->first();
+
         return view('frontend.terms-and-conditions', compact('websetting', 'termsAndConditions'));
-     }
+    }
 
+    // ─── Multiple / Dynamic Page ──────────────────────────────────────────────
+    public function multiplepage($id)
+    {
+        $page       = Page::where('id', $id)->where('status', 1)->firstOrFail();
+        $websetting = Generalsetting::first();
 
-
-
-public function multiplepage($id)
-{
-    $page = Page::where('id', $id)->where('status', 1)->firstOrFail();
-
-    // frontend master layout এ যা যা লাগে
-    $websetting       = Generalsetting::first();
-    $websitefavicon   = Websitefavicon::first();
-    $contactinformationadmin = Contactinfomationadmin::latest()->first();
-    $pagecrate        = Footercategory::with(['pages' => function($q) {
-                            $q->where('status', 1);
-                        }])->get();
-
-    return view('frontend.multiplepage', compact(
-        'page', 'websetting', 'websitefavicon',
-        'contactinformationadmin', 'pagecrate'
-    ));
-}
+        return view('frontend.multiplepage', compact('page', 'websetting'));
+    }
 }

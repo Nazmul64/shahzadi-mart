@@ -3,7 +3,6 @@
 
 @section('main-content')
 
-{{-- ══ Flash messages ══ --}}
 @if(session('success'))
 <div class="alert alert-success d-flex align-items-center gap-2 mb-3" role="alert">
     <i class="bi bi-check-circle-fill"></i> {{ session('success') }}
@@ -123,7 +122,6 @@
                 $revCount = \App\Models\Producreview::where('product_id',$item->id)->where('is_approved',true)->count();
             @endphp
             <div style="position:relative">
-                {{-- Wishlist --}}
                 <a href="{{ route('wishlist.add', $item->id) }}"
                    class="smhome-p-wish" title="উইশলিস্টে যোগ করুন"
                    onclick="event.stopPropagation()">
@@ -160,20 +158,23 @@
                                 </div>
                             </div>
 
-                            {{-- ✅ POST form for Add to Cart --}}
+                            {{-- ✅ অর্ডার করুন → cart add → checkout redirect --}}
                             @if($inStock)
-                                <form action="{{ route('cart.add', $item->id) }}"
-                                      method="POST"
-                                      onclick="event.stopPropagation()">
+                                <form
+                                    action="{{ route('cart.add', $item->id) }}"
+                                    method="POST"
+                                    class="smhome-order-form"
+                                    onclick="event.stopPropagation()">
                                     @csrf
-                                    <button type="submit" class="smhome-p-atc">
-                                        <i class="bi bi-cart-plus"></i> কার্টে যোগ করুন
+                                    <input type="hidden" name="quantity" value="1">
+                                    <input type="hidden" name="redirect_to_checkout" value="1">
+                                    <button type="submit" class="smhome-p-order-btn">
+                                        অর্ডার করুন
                                     </button>
                                 </form>
                             @else
-                                <span class="smhome-p-atc"
-                                      style="background:#e5e7eb;color:#9ca3af;cursor:not-allowed;">
-                                    <i class="bi bi-x-circle"></i> স্টক নেই
+                                <span class="smhome-p-order-btn smhome-p-order-btn--out">
+                                    স্টক নেই
                                 </span>
                             @endif
 
@@ -203,7 +204,6 @@
                 $revCount = \App\Models\Producreview::where('product_id',$item->id)->where('is_approved',true)->count();
             @endphp
             <div style="position:relative">
-                {{-- Wishlist --}}
                 <a href="{{ route('wishlist.add', $item->id) }}"
                    class="smhome-p-wish" title="উইশলিস্টে যোগ করুন"
                    onclick="event.stopPropagation()">
@@ -240,20 +240,22 @@
                                 </div>
                             </div>
 
-                            {{-- ✅ POST form for Add to Cart --}}
                             @if($inStock)
-                                <form action="{{ route('cart.add', $item->id) }}"
-                                      method="POST"
-                                      onclick="event.stopPropagation()">
+                                <form
+                                    action="{{ route('cart.add', $item->id) }}"
+                                    method="POST"
+                                    class="smhome-order-form"
+                                    onclick="event.stopPropagation()">
                                     @csrf
-                                    <button type="submit" class="smhome-p-atc">
-                                        <i class="bi bi-cart-plus"></i> কার্টে যোগ করুন
+                                    <input type="hidden" name="quantity" value="1">
+                                    <input type="hidden" name="redirect_to_checkout" value="1">
+                                    <button type="submit" class="smhome-p-order-btn">
+                                        অর্ডার করুন
                                     </button>
                                 </form>
                             @else
-                                <span class="smhome-p-atc"
-                                      style="background:#e5e7eb;color:#9ca3af;cursor:not-allowed;">
-                                    <i class="bi bi-x-circle"></i> স্টক নেই
+                                <span class="smhome-p-order-btn smhome-p-order-btn--out">
+                                    স্টক নেই
                                 </span>
                             @endif
 
@@ -283,7 +285,6 @@
                 $revCount = \App\Models\Producreview::where('product_id',$item->id)->where('is_approved',true)->count();
             @endphp
             <div style="position:relative">
-                {{-- Wishlist --}}
                 <a href="{{ route('wishlist.add', $item->id) }}"
                    class="smhome-p-wish" title="উইশলিস্টে যোগ করুন"
                    onclick="event.stopPropagation()">
@@ -320,20 +321,22 @@
                                 </div>
                             </div>
 
-                            {{-- ✅ POST form for Add to Cart --}}
                             @if($inStock)
-                                <form action="{{ route('cart.add', $item->id) }}"
-                                      method="POST"
-                                      onclick="event.stopPropagation()">
+                                <form
+                                    action="{{ route('cart.add', $item->id) }}"
+                                    method="POST"
+                                    class="smhome-order-form"
+                                    onclick="event.stopPropagation()">
                                     @csrf
-                                    <button type="submit" class="smhome-p-atc">
-                                        <i class="bi bi-cart-plus"></i> কার্টে যোগ করুন
+                                    <input type="hidden" name="quantity" value="1">
+                                    <input type="hidden" name="redirect_to_checkout" value="1">
+                                    <button type="submit" class="smhome-p-order-btn">
+                                        অর্ডার করুন
                                     </button>
                                 </form>
                             @else
-                                <span class="smhome-p-atc"
-                                      style="background:#e5e7eb;color:#9ca3af;cursor:not-allowed;">
-                                    <i class="bi bi-x-circle"></i> স্টক নেই
+                                <span class="smhome-p-order-btn smhome-p-order-btn--out">
+                                    স্টক নেই
                                 </span>
                             @endif
 
@@ -347,15 +350,48 @@
 
 </div>{{-- /.smhome-ci --}}
 
-{{-- ✅ Fix: form inside anchor link এ click bubble হয় না --}}
 <style>
 .smhome-p-card-link { display: block; text-decoration: none; color: inherit; }
-.smhome-p-body form { margin: 0; }
-.smhome-p-body form button.smhome-p-atc {
+.smhome-order-form  { margin: 0; padding: 0; }
+
+.smhome-p-order-btn {
+    display: block;
     width: 100%;
-    border: none;
+    margin-top: 10px;
+    padding: 9px 0;
+    background: #be0318;
+    color: #fff !important;
+    -webkit-text-fill-color: #fff !important;
+    font-size: 13px;
+    font-weight: 700;
+    text-align: center;
+    border-radius: 6px;
+    letter-spacing: .3px;
+    transition: background .18s, transform .15s;
     cursor: pointer;
+    text-decoration: none !important;
+    border: none;
+    box-sizing: border-box;
     font-family: inherit;
+    line-height: 1.4;
+}
+.smhome-p-order-btn:hover {
+    background: #96010f;
+    color: #fff !important;
+    -webkit-text-fill-color: #fff !important;
+    transform: translateY(-1px);
+}
+.smhome-p-order-btn:active {
+    transform: translateY(0);
+    color: #fff !important;
+    -webkit-text-fill-color: #fff !important;
+}
+.smhome-p-order-btn--out {
+    background: #e5e7eb;
+    color: #9ca3af !important;
+    -webkit-text-fill-color: #9ca3af !important;
+    cursor: not-allowed;
+    pointer-events: none;
 }
 </style>
 

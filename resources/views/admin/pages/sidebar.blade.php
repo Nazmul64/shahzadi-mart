@@ -625,11 +625,11 @@ body.sb-collapsed .sidebar-submenu { display: none; }
             </a>
         </div>
 
-        {{-- Bulk Upload (placeholder) --}}
-        <a href="#" class="sidebar-item">
+        {{-- DeliveryInformation (DeliveryInformation) --}}
+        <a href="{{route('admin.DeliveryInformation.index')}}" class="sidebar-item">
             <span class="item-left">
                 <i class="bi bi-cloud-upload nav-icon"></i>
-                <span class="item-text">Bulk Upload</span>
+                <span class="item-text">Delivery Information</span>
             </span>
         </a>
 

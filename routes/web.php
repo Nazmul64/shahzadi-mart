@@ -62,6 +62,7 @@ use App\Http\Controllers\Admin\AboutForCompanyController;
 use App\Http\Controllers\Admin\AipromptController;
 use App\Http\Controllers\Admin\AlltaxesController;
 use App\Http\Controllers\Admin\ColorController;
+use App\Http\Controllers\Admin\DeliveryInformationController;
 use App\Http\Controllers\Admin\DuplicateordersettingController;
 use App\Http\Controllers\Admin\IpblockmanageController;
 use App\Http\Controllers\Admin\PageController;
@@ -508,6 +509,7 @@ Route::middleware(['admin'])
         // ── IP Block Manage ───────────────────────────────────────────────────────
     Route::resource('Ipblockmanage', IpblockmanageController::class);
     Route::patch('Ipblockmanage/{Ipblockmanage}/toggle-status', [IpblockmanageController::class, 'toggleStatus'])->name('Ipblockmanage.toggleStatus');
+    Route::resource('DeliveryInformation', DeliveryInformationController::class);
 }); // end admin group
 
 // ══════════════════════════════════════════════════════════════════════════════
