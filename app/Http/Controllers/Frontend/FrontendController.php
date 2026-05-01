@@ -186,33 +186,60 @@ class FrontendController extends Controller
     }
 
     // ─── Product Details ──────────────────────────────────────────────────────
-    public function productdetails($slug)
-    {
-        $product = Product::with(['category', 'subCategory'])
-            ->where('slug', $slug)
-            ->orWhere('id', is_numeric($slug) ? $slug : 0)
-            ->firstOrFail();
+public function productdetails($slug)
+{
+    $product = Product::with(['category', 'subCategory'])
+        ->where('slug', $slug)
+        ->orWhere('id', is_numeric($slug) ? $slug : 0)
+        ->firstOrFail();
 
-        $relatedProducts = Product::with(['category'])
-            ->where('id', '!=', $product->id)
-            ->where(function ($q) use ($product) {
-                if ($product->category_id) {
-                    $q->where('category_id', $product->category_id);
-                }
-            })
-            ->where('status', 'active')
-            ->latest()
-            ->take(8)
-            ->get();
+    // ── Multiple attributes থেকে collections বানাও ──
+    $productColors = collect();
+    $productSizes  = collect();
+    $productBrands = collect();
+    $productUnits  = collect();
 
-        $sidebarCategories = $this->getSidebarCategories();
-        $websetting        = Generalsetting::first();
-        $deliveryInformation = DeliveryInformation::first();
-
-        return view('frontend.productdetails.productdetails', compact(
-            'product', 'relatedProducts', 'sidebarCategories', 'websetting','deliveryInformation',
-        ));
+    if (!empty($product->color_ids)) {
+        $productColors = \App\Models\Color::whereIn('id', $product->color_ids)->orderBy('name')->get();
     }
+    if (!empty($product->size_ids)) {
+        $productSizes = \App\Models\Size::whereIn('id', $product->size_ids)->orderBy('name')->get();
+    }
+    if (!empty($product->brand_ids)) {
+        $productBrands = \App\Models\Brand::whereIn('id', $product->brand_ids)->orderBy('name')->get();
+    }
+    if (!empty($product->unit_ids)) {
+        $productUnits = \App\Models\Unit::whereIn('id', $product->unit_ids)->orderBy('name')->get();
+    }
+
+    $relatedProducts = Product::with(['category'])
+        ->where('id', '!=', $product->id)
+        ->where(function ($q) use ($product) {
+            if ($product->category_id) {
+                $q->where('category_id', $product->category_id);
+            }
+        })
+        ->where('status', 'active')
+        ->latest()
+        ->take(8)
+        ->get();
+
+    $sidebarCategories   = $this->getSidebarCategories();
+    $websetting          = \App\Models\Generalsetting::first();
+    $deliveryInformation = \App\Models\DeliveryInformation::first();
+
+    return view('frontend.productdetails.productdetails', compact(
+        'product',
+        'relatedProducts',
+        'sidebarCategories',
+        'websetting',
+        'deliveryInformation',
+        'productColors',
+        'productSizes',
+        'productBrands',
+        'productUnits',
+    ));
+}
 
     // ─── User Dashboard ───────────────────────────────────────────────────────
     public function user_dashboard()

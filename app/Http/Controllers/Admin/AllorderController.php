@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\User;
+use App\Models\OrderStatusHistory;
 use Illuminate\Http\Request;
 
 class AllorderController extends Controller
@@ -11,7 +13,7 @@ class AllorderController extends Controller
     // ── All Orders List ───────────────────────────────────────────
     public function allorder(Request $request)
     {
-        $query = Order::with(['items'])->latest();
+        $query = Order::with(['items', 'assignedStaff'])->latest();
 
         if ($request->filled('status')) {
             $query->where('order_status', $request->status);
@@ -46,7 +48,12 @@ class AllorderController extends Controller
             'cancelled'  => (int) ($counts->cancelled  ?? 0),
         ];
 
-        return view('admin.orders.index', compact('orders', 'statusCounts'));
+        // Fetch all staff members (Admins, Managers, Employees)
+        $staffMembers = User::whereHas('roles', function($q) {
+            $q->whereIn('slug', ['super-admin', 'admin', 'manager', 'employee']);
+        })->get(['id', 'name']);
+
+        return view('admin.orders.index', compact('orders', 'statusCounts', 'staffMembers'));
     }
 
     // ── Order Details ─────────────────────────────────────────────
@@ -63,8 +70,17 @@ class AllorderController extends Controller
             'order_status' => 'required|in:pending,processing,shipped,delivered,cancelled',
         ]);
 
-        Order::findOrFail($id)->update([
+        $order = Order::findOrFail($id);
+        $order->update([
             'order_status' => $request->order_status,
+        ]);
+
+        // Record History
+        OrderStatusHistory::create([
+            'order_id' => $order->id,
+            'user_id'  => auth()->id(),
+            'status'   => $request->order_status,
+            'comment'  => 'Status updated to ' . $request->order_status,
         ]);
 
         return back()->with('success', 'অর্ডার স্ট্যাটাস সফলভাবে আপডেট হয়েছে।');
@@ -82,6 +98,32 @@ class AllorderController extends Controller
         ]);
 
         return back()->with('success', 'পেমেন্ট স্ট্যাটাস সফলভাবে আপডেট হয়েছে।');
+    }
+
+    // ── Staff Assignment Page (GET) ───────────────────────────────
+    public function assignStaffPage($id)
+    {
+        $order = Order::findOrFail($id);
+        $staffMembers = User::whereHas('roles', function($q) {
+            $q->whereIn('slug', ['super-admin', 'admin', 'manager', 'employee']);
+        })->get(['id', 'name']);
+
+        return view('admin.orders.assign_staff', compact('order', 'staffMembers'));
+    }
+
+    // ── Assign Staff to Order (PATCH) ─────────────────────────────
+    public function assignStaff(Request $request, $id)
+    {
+        $request->validate([
+            'assigned_user_id' => 'nullable|exists:users,id',
+        ]);
+
+        $order = Order::findOrFail($id);
+        $order->update([
+            'assigned_user_id' => $request->assigned_user_id,
+        ]);
+
+        return back()->with('success', 'স্টাফ সফলভাবে এসাইন করা হয়েছে।');
     }
 
     // ── Delete Single Order ───────────────────────────────────────
@@ -125,8 +167,19 @@ class AllorderController extends Controller
             'order_status' => 'required|in:pending,processing,shipped,delivered,cancelled',
         ]);
 
-        Order::whereIn('id', $request->ids)
-             ->update(['order_status' => $request->order_status]);
+        $orders = Order::whereIn('id', $request->ids)->get();
+
+        foreach($orders as $order) {
+            $order->update(['order_status' => $request->order_status]);
+
+            // Record History
+            OrderStatusHistory::create([
+                'order_id' => $order->id,
+                'user_id'  => auth()->id(),
+                'status'   => $request->order_status,
+                'comment'  => 'Bulk status update to ' . $request->order_status,
+            ]);
+        }
 
         return redirect()
             ->route('admin.order.allorder')

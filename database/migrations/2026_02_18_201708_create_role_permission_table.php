@@ -8,11 +8,20 @@ return new class extends Migration
 {
     public function up(): void
     {
+        // id() + primary([...]) একসাথে দেওয়া যায় না — id() সরানো হয়েছে
         Schema::create('role_permission', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('role_id')->constrained()->onDelete('cascade');
-            $table->foreignId('permission_id')->constrained()->onDelete('cascade');
-            $table->timestamps();
+            $table->unsignedBigInteger('role_id');
+            $table->unsignedBigInteger('permission_id');
+
+            $table->foreign('role_id')
+                  ->references('id')->on('roles')
+                  ->cascadeOnDelete();
+
+            $table->foreign('permission_id')
+                  ->references('id')->on('permissions')
+                  ->cascadeOnDelete();
+
+            $table->primary(['role_id', 'permission_id']);
         });
     }
 

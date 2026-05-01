@@ -2,149 +2,171 @@
 
 @section('main-content')
 <style>
-    .pm-page{padding:28px 24px 60px;background:#f0f4f8;min-height:100vh;}
-    .pm-page-header{display:flex;align-items:center;gap:14px;margin-bottom:24px;}
-    .pm-back-btn{width:36px;height:36px;border:1.5px solid #e2e8f0;border-radius:9px;background:#fff;display:inline-flex;align-items:center;justify-content:center;color:#475569;text-decoration:none;flex-shrink:0;}
-    .pm-back-btn:hover{background:#f1f5f9;color:#1e293b;text-decoration:none;}
-    .pm-h2{margin:0;font-size:20px;font-weight:700;color:#1e293b;}
-    .pm-sub{margin:2px 0 0;font-size:13px;color:#64748b;}
-    .pm-layout{display:grid;grid-template-columns:1fr 280px;gap:22px;align-items:flex-start;}
-    @media(max-width:991px){.pm-layout{grid-template-columns:1fr;}}
-    .pm-card{background:#fff;border-radius:14px;box-shadow:0 2px 14px rgba(0,0,0,.07);overflow:hidden;}
-    .pm-card-head{padding:15px 20px 13px;border-bottom:1.5px solid #f1f5f9;display:flex;align-items:center;gap:10px;}
-    .pm-card-head-icon{width:30px;height:30px;background:#eff6ff;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;color:#2d6a9f;}
-    .pm-card-head h5{margin:0;font-size:14.5px;font-weight:700;color:#1e293b;}
-    .pm-card-body{padding:20px;}
-    .pm-field-group{margin-bottom:16px;}
-    .pm-field-group:last-child{margin-bottom:0;}
-    .pm-label{display:block;font-size:11.5px;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.6px;margin-bottom:7px;}
-    .pm-input,.pm-textarea{display:block;width:100%;padding:10px 13px;font-size:13.5px;line-height:1.5;color:#1e293b;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:9px;transition:border-color .18s,box-shadow .18s;appearance:none;-webkit-appearance:none;box-sizing:border-box;}
-    .pm-input:focus,.pm-textarea:focus{outline:none;border-color:#2d6a9f;box-shadow:0 0 0 3px rgba(45,106,159,.12);background:#fff;}
-    .pm-input.err{border-color:#ef4444;}
-    .pm-err-msg{color:#ef4444;font-size:12px;margin-top:4px;}
-    .pm-hint{font-size:12px;color:#94a3b8;margin-top:5px;}
-    .pm-side-card{background:#fff;border-radius:14px;box-shadow:0 2px 14px rgba(0,0,0,.07);overflow:hidden;margin-bottom:16px;}
-    .pm-side-card:last-child{margin-bottom:0;}
-    .pm-side-body{padding:15px 16px;}
-    .pm-btn-save{width:100%;background:linear-gradient(135deg,#1e3a5f,#2d6a9f);color:#fff;border:none;border-radius:9px;padding:11px 18px;font-size:13.5px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:9px;box-shadow:0 3px 12px rgba(45,106,159,.28);}
-    .pm-btn-back{width:100%;background:#f8fafc;color:#475569;border:1.5px solid #e2e8f0;border-radius:9px;padding:10px 18px;font-size:13.5px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;}
-    .pm-btn-back:hover{background:#f1f5f9;color:#1e293b;text-decoration:none;}
-    .slug-auto-note{display:inline-block;margin-left:8px;font-size:11px;color:#94a3b8;font-weight:400;}
+    .usr-page { padding: 30px 24px; background: #f4f7fb; min-height: 100vh; }
+    .usr-header { margin-bottom: 24px; }
+    .usr-back-link { display: inline-flex; align-items: center; gap: 6px; color: #64748b; font-size: 13px; font-weight: 600; text-decoration: none; margin-bottom: 8px; transition: color 0.2s; }
+    .usr-back-link:hover { color: #1e293b; }
+    .usr-header h2 { margin: 0; font-size: 24px; font-weight: 700; color: #1e293b; letter-spacing: -0.5px; }
+    .usr-header p { margin: 4px 0 0; font-size: 14px; color: #64748b; }
+    
+    .usr-card { background: #fff; border-radius: 16px; box-shadow: 0 2px 20px rgba(0,0,0,0.04); padding: 30px; }
+    .usr-form-group { margin-bottom: 24px; }
+    .usr-label { display: block; font-size: 14px; font-weight: 700; color: #1e293b; margin-bottom: 10px; }
+    .usr-select { width: 100%; max-width: 500px; padding: 14px 16px; font-size: 15px; color: #1e293b; background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 10px; transition: all 0.2s; outline: none; cursor: pointer; }
+    .usr-select:focus { border-color: #8b5cf6; background: #fff; box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1); }
+    
+    .perm-group-title { font-size: 15px; font-weight: 700; color: #475569; margin: 30px 0 15px 0; padding-bottom: 8px; border-bottom: 2px solid #f1f5f9; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .perm-group-left { display: flex; align-items: center; gap: 8px; }
+    .perm-select-all-btn { font-size: 12px; font-weight: 600; color: #8b5cf6; background: #f5f3ff; border: 1px solid #ddd6fe; padding: 4px 10px; border-radius: 6px; cursor: pointer; transition: all 0.2s; }
+    .perm-select-all-btn:hover { background: #8b5cf6; color: #fff; }
+    
+    .global-select-all { background: #fff; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 15px 20px; margin-bottom: 20px; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: all 0.2s; width: fit-content; }
+    .global-select-all:hover { border-color: #8b5cf6; background: #f5f3ff; }
+    .global-select-all input { width: 18px; height: 18px; cursor: pointer; accent-color: #8b5cf6; }
+    .global-select-all span { font-size: 14px; font-weight: 700; color: #1e293b; }
+    .perm-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+    
+    .perm-check-card { position: relative; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 14px 16px; cursor: pointer; transition: all 0.2s; background: #fff; display: flex; align-items: center; gap: 12px; }
+    .perm-check-card:hover { border-color: #c4b5fd; background: #f5f3ff; }
+    .perm-check-card.selected { border-color: #8b5cf6; background: #f5f3ff; }
+    .perm-check-card input[type="checkbox"] { display: none; }
+    .perm-check-card::before { content: '\F272'; font-family: 'bootstrap-icons'; font-size: 18px; color: #cbd5e1; transition: color 0.2s; }
+    .perm-check-card.selected::before { content: '\F26A'; color: #8b5cf6; }
+    
+    .perm-info h6 { margin: 0; font-size: 14px; font-weight: 600; color: #1e293b; }
+    
+    .usr-btn-submit { background: linear-gradient(135deg, #8b5cf6, #7c3aed); color: #fff; border: none; border-radius: 10px; padding: 14px 30px; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2); display: inline-flex; align-items: center; gap: 8px; margin-top: 30px; }
+    .usr-btn-submit:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(139, 92, 246, 0.3); }
 </style>
 
-<div class="pm-page">
-    <div class="pm-page-header">
-        <a href="{{ route('permissions.index') }}" class="pm-back-btn"><i class="bi bi-arrow-left"></i></a>
-        <div>
-            <h2 class="pm-h2">নতুন পারমিশন তৈরি</h2>
-            <p class="pm-sub">নতুন একটি পারমিশন তৈরি করুন</p>
-        </div>
+<div class="usr-page">
+    <div class="usr-header">
+        <a href="{{ route('admin.permissions.index') }}" class="usr-back-link"><i class="bi bi-arrow-left"></i> পারমিশন লিস্টে ফিরে যান</a>
+        <h2>ডিরেক্ট পারমিশন অ্যাসাইন করুন</h2>
+        <p>ইউজার সিলেক্ট করুন এবং তাকে স্পেশাল পারমিশন দিন</p>
     </div>
 
-    @if($errors->any())
-        <div class="alert alert-danger mb-3" style="border-radius:10px;font-size:13px;">
-            <i class="bi bi-exclamation-circle me-2"></i>{{ $errors->first() }}
-        </div>
-    @endif
+    @include('admin.partials.alerts')
 
-    <form action="{{ route('permissions.store') }}" method="POST">
-        @csrf
-        <div class="pm-layout">
-            <div class="pm-card">
-                <div class="pm-card-head">
-                    <div class="pm-card-head-icon"><i class="bi bi-key"></i></div>
-                    <h5>পারমিশনের তথ্য</h5>
-                </div>
-                <div class="pm-card-body">
+    <div class="usr-card">
+        <form action="{{ route('admin.permissions.store') }}" method="POST">
+            @csrf
+            
+            <div class="usr-form-group">
+                <label class="usr-label">ইউজার সিলেক্ট করুন <span class="text-danger">*</span></label>
+                <select name="user_id" class="usr-select" required>
+                    <option value="" disabled selected>-- ইউজার নির্বাচন করুন --</option>
+                    @foreach($users as $user)
+                        <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>
+                            {{ $user->name }} ({{ $user->email }})
+                        </option>
+                    @endforeach
+                </select>
+                @error('user_id') <span class="text-danger" style="font-size:12px; margin-top:5px; display:block;">{{ $message }}</span> @enderror
+            </div>
 
-                    <div class="pm-field-group">
-                        <label class="pm-label">নাম <span style="color:#ef4444;">*</span></label>
-                        <input type="text" name="name" id="permName"
-                               class="pm-input {{ $errors->has('name') ? 'err' : '' }}"
-                               value="{{ old('name') }}"
-                               placeholder="যেমন: View Products, Create Orders"
-                               autocomplete="off" required>
-                        @error('name')<div class="pm-err-msg">{{ $message }}</div>@enderror
+            <div style="margin-top: 30px;">
+                <label class="usr-label">পারমিশন সিলেক্ট করুন</label>
+                
+                <label class="global-select-all" id="globalSelectAllLabel">
+                    <input type="checkbox" id="globalSelectAll">
+                    <span>সবগুলো সিলেক্ট করুন (Select All)</span>
+                </label>
+
+                @foreach($permissions as $group => $perms)
+                    <div class="perm-group-title">
+                        <div class="perm-group-left">
+                            <i class="bi bi-folder2-open" style="color: #8b5cf6;"></i> {{ $group }}
+                        </div>
+                        <button type="button" class="perm-select-all-btn" onclick="toggleGroup('{{ Str::slug($group) }}', this)">Select Group</button>
                     </div>
-
-                    <div class="pm-field-group">
-                        <label class="pm-label">
-                            Slug <span style="color:#ef4444;">*</span>
-                            <span class="slug-auto-note">(নাম থেকে auto)</span>
+                    <div class="perm-grid" data-group="{{ Str::slug($group) }}">
+                        @foreach($perms as $perm)
+                        <label class="perm-check-card {{ in_array($perm->id, old('permissions', [])) ? 'selected' : '' }}">
+                            <input type="checkbox" name="permissions[]" value="{{ $perm->id }}" {{ in_array($perm->id, old('permissions', [])) ? 'checked' : '' }}>
+                            <div class="perm-info">
+                                <h6>{{ $perm->name }}</h6>
+                            </div>
                         </label>
-                        <input type="text" name="slug" id="permSlug"
-                               class="pm-input {{ $errors->has('slug') ? 'err' : '' }}"
-                               value="{{ old('slug') }}"
-                               placeholder="view-products"
-                               autocomplete="off" required>
-                        @error('slug')<div class="pm-err-msg">{{ $message }}</div>@enderror
-                        <p class="pm-hint"><i class="bi bi-info-circle me-1"></i>Slug unique হতে হবে। Slug দিয়ে code এ permission check করা হয়।</p>
+                        @endforeach
                     </div>
-
-                    <div class="pm-field-group">
-                        <label class="pm-label">Group / Module</label>
-                        <input type="text" name="group"
-                               class="pm-input"
-                               value="{{ old('group') }}"
-                               placeholder="যেমন: Products, Orders, Users"
-                               list="groupList"
-                               autocomplete="off">
-                        <datalist id="groupList">
-                            @foreach($groups as $g)
-                                <option value="{{ $g }}">
-                            @endforeach
-                        </datalist>
-                        <p class="pm-hint">Group দিলে permissions/index পাতায় সেকশন অনুযায়ী দেখাবে।</p>
-                    </div>
-
-                    <div class="pm-field-group">
-                        <label class="pm-label">বিবরণ <span style="color:#94a3b8;font-weight:400;">(ঐচ্ছিক)</span></label>
-                        <input type="text" name="description"
-                               class="pm-input"
-                               value="{{ old('description') }}"
-                               placeholder="এই পারমিশন কিসের জন্য">
-                    </div>
-
-                </div>
+                @endforeach
+                @error('permissions') <span class="text-danger" style="font-size:12px; margin-top:5px; display:block;">{{ $message }}</span> @enderror
             </div>
 
-            <div>
-                <div class="pm-side-card">
-                    <div class="pm-side-body">
-                        <button type="submit" class="pm-btn-save">
-                            <i class="bi bi-check-lg"></i> সেভ করুন
-                        </button>
-                        <a href="{{ route('permissions.index') }}" class="pm-btn-back">
-                            <i class="bi bi-arrow-left"></i> ফিরে যান
-                        </a>
-                    </div>
-                </div>
-                <div class="pm-side-card" style="padding:14px 16px;">
-                    <p style="font-size:12.5px;color:#64748b;margin:0;line-height:1.8;">
-                        <i class="bi bi-lightbulb text-warning me-1"></i>
-                        <strong>টিপস:</strong><br>
-                        Slug naming convention:<br>
-                        <code style="font-size:11px;color:#2d6a9f;">view-products</code><br>
-                        <code style="font-size:11px;color:#2d6a9f;">create-orders</code><br>
-                        <code style="font-size:11px;color:#2d6a9f;">delete-users</code>
-                    </p>
-                </div>
-            </div>
-        </div>
-    </form>
+            <button type="submit" class="usr-btn-submit">
+                <i class="bi bi-check2-all"></i> পারমিশন সেভ করুন
+            </button>
+        </form>
+    </div>
 </div>
 
 <script>
-const nameEl = document.getElementById('permName');
-const slugEl = document.getElementById('permSlug');
-let slugEdited = false;
+    // Handle individual checkbox clicks
+    document.querySelectorAll('.perm-check-card').forEach(card => {
+        const checkbox = card.querySelector('input[type="checkbox"]');
+        checkbox.addEventListener('change', () => {
+            if(checkbox.checked) {
+                card.classList.add('selected');
+            } else {
+                card.classList.remove('selected');
+            }
+            updateGlobalCheckbox();
+            updateGroupButtons();
+        });
+    });
 
-slugEl.addEventListener('input', () => { slugEdited = true; });
+    // Global Select All
+    const globalCheckbox = document.getElementById('globalSelectAll');
+    globalCheckbox.addEventListener('change', function() {
+        const isChecked = this.checked;
+        document.querySelectorAll('.perm-check-card input[type="checkbox"]').forEach(cb => {
+            cb.checked = isChecked;
+            const card = cb.closest('.perm-check-card');
+            if(isChecked) card.classList.add('selected');
+            else card.classList.remove('selected');
+        });
+        updateGroupButtons();
+    });
 
-nameEl.addEventListener('input', function () {
-    if (slugEdited) return;
-    slugEl.value = this.value.toLowerCase().trim()
-        .replace(/[^\w\s-]/g, '').replace(/[\s_]+/g, '-').replace(/-+/g, '-');
-});
+    // Toggle Group Function
+    function toggleGroup(groupSlug, btn) {
+        const grid = document.querySelector(`.perm-grid[data-group="${groupSlug}"]`);
+        const cbs = grid.querySelectorAll('input[type="checkbox"]');
+        const allChecked = Array.from(cbs).every(cb => cb.checked);
+        
+        cbs.forEach(cb => {
+            cb.checked = !allChecked;
+            const card = cb.closest('.perm-check-card');
+            if(!allChecked) card.classList.add('selected');
+            else card.classList.remove('selected');
+        });
+        
+        btn.textContent = !allChecked ? 'Deselect Group' : 'Select Group';
+        updateGlobalCheckbox();
+    }
+
+    function updateGlobalCheckbox() {
+        const allCbs = document.querySelectorAll('.perm-check-card input[type="checkbox"]');
+        const checkedCbs = document.querySelectorAll('.perm-check-card input[type="checkbox"]:checked');
+        globalCheckbox.checked = allCbs.length > 0 && allCbs.length === checkedCbs.length;
+        globalCheckbox.indeterminate = checkedCbs.length > 0 && checkedCbs.length < allCbs.length;
+    }
+
+    function updateGroupButtons() {
+        document.querySelectorAll('.perm-grid').forEach(grid => {
+            const groupSlug = grid.dataset.group;
+            const btn = document.querySelector(`button[onclick="toggleGroup('${groupSlug}', this)"]`);
+            if (btn) {
+                const cbs = grid.querySelectorAll('input[type="checkbox"]');
+                const allChecked = Array.from(cbs).every(cb => cb.checked);
+                btn.textContent = allChecked ? 'Deselect Group' : 'Select Group';
+            }
+        });
+    }
+
+    // Initial check
+    updateGlobalCheckbox();
+    updateGroupButtons();
 </script>
 @endsection

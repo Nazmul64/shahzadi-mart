@@ -11,7 +11,7 @@ class AdminSeeder extends Seeder
 {
     public function run(): void
     {
-        $admin = User::firstOrCreate(
+        $user = User::updateOrCreate(
             ['email' => 'admin@gmail.com'],
             [
                 'name'     => 'Super Admin',
@@ -20,9 +20,11 @@ class AdminSeeder extends Seeder
             ]
         );
 
-        $adminRole = Role::where('slug', 'admin')->first();
-        if ($adminRole) {
-            $admin->roles()->sync([$adminRole->id]);
+        $role = Role::where('slug', 'super-admin')->first();
+        if ($role) {
+            $user->roles()->sync([$role->id]);
         }
+
+        $this->command->info('✅ Super Admin তৈরি: superadmin@gmail.com');
     }
 }

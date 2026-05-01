@@ -398,16 +398,18 @@
     @media(max-width:1100px){:root{--sb:240px}.track-order-btn .track-lbl{display:none}.track-order-btn{padding:8px 12px;gap:0}.nav-item{padding:0 12px;font-size:12.5px}}
     @media(max-width:900px){
         .page-wrap{grid-template-columns:1fr;padding:12px 12px calc(var(--mob-nav) + 16px);gap:14px}
-        .sidebar{position:fixed;top:0;left:-290px;width:280px;height:100dvh;max-height:100dvh;z-index:870;border-radius:0;border:none;border-right:1px solid var(--border);transition:left .3s var(--ease);overflow-y:auto}
-        .sidebar.is-open{left:0;box-shadow:4px 0 30px rgba(0,0,0,.18)}
-        .hamb{display:flex}.mob-nav{display:block}.track-order-btn{display:none}.site-nav{display:none}
+        .sidebar{position:fixed;top:0;left:-300px;width:280px;height:100dvh;max-height:100dvh;z-index:2000;border-radius:0;border:none;border-right:1px solid var(--border);transition:left .35s var(--ease);overflow-y:auto;background:var(--white)}
+        .sidebar.is-open{left:0;box-shadow:10px 0 50px rgba(0,0,0,.25)}
+        .sidebar-overlay{z-index:1900}
+        .hamb{display:flex;z-index:910}.mob-nav{display:block}.track-order-btn{display:none}.site-nav{display:none}
         .wish-drop,.cart-drop{display:none!important}
     }
     @media(max-width:768px){
         .site-hdr__in{height:auto;flex-wrap:wrap;padding:8px 12px 10px;gap:0;row-gap:0}
-        .hamb{order:1;margin-right:8px}.logo{order:2;flex:1;font-size:19px;min-width:0}
-        .hdr-actions{order:3;flex-shrink:0;gap:0;margin-left:4px}
-        .hdr-search-wrap{order:4;flex:0 0 100%;margin-top:8px}
+        .hamb{order:1;margin-right:12px}.logo{order:2;flex:1;font-size:18px;min-width:0;display:flex;align-items:center}
+        .logo img{height:45px!important;width:auto!important}
+        .hdr-actions{order:3;flex-shrink:0;gap:0;margin-left:8px}
+        .hdr-search-wrap{order:4;flex:0 0 100%;margin-top:10px}
         .hdr-search{border-radius:var(--rm)}.hdr-search.has-results{border-radius:var(--rm) var(--rm) 0 0}
         .hdr-search__btn{padding:9px 15px;font-size:12.5px;border-radius:0 var(--rm) var(--rm) 0}
         .hdr-search.has-results .hdr-search__btn{border-radius:0 var(--rm) 0 0}

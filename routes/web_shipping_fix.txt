@@ -1,0 +1,7 @@
+    // ──────────────────────────────────────────────────────────────────────────
+    // SHIPPING CHARGES
+    // ──────────────────────────────────────────────────────────────────────────
+    Route::prefix('shipping')->name('shipping.')->group(function () {
+        Route::get('{shipping}/toggle-status', [ShippingChargeController::class, 'toggleStatus'])->name('toggle-status');
+    });
+    Route::resource('shipping', ShippingChargeController::class)->except(['show']);

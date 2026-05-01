@@ -29,29 +29,33 @@
      )">
 
     @if($discount)
-        <span class="flash-badge">{{ $discount }}% OFF</span>
+        <span class="flash-badge">-{{ round($discount) }}%</span>
     @endif
 
-    <img src="{{ $imgUrl }}"
-         alt="{{ $product->name }}"
-         loading="lazy"
-         onerror="this.src='{{ asset('images/no-image.png') }}'">
+    <div style="position:relative; overflow:hidden; border-radius:var(--radius);">
+        <img src="{{ $imgUrl }}"
+             alt="{{ $product->name }}"
+             loading="lazy"
+             onerror="this.src='{{ asset('images/no-image.png') }}'">
+    </div>
 
     <div class="p-name">{{ $product->name }}</div>
 
-    <div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap">
-        <span class="p-price">${{ number_format($price, 1) }}</span>
+    <div class="p-price-row">
+        <span class="p-price">${{ number_format($price, 2) }}</span>
         @if($oldPrice && $oldPrice > $price)
-            <span class="p-old-price">${{ number_format($oldPrice, 1) }}</span>
+            <span class="p-old-price">${{ number_format($oldPrice, 2) }}</span>
         @endif
     </div>
 
     <div class="p-stock">
-        {{ $soldCount }} Sold &nbsp;|&nbsp;
+        <i class="fas fa-shopping-cart" style="font-size:9px; margin-right:2px; opacity:0.7;"></i> {{ $soldCount }} Sold
+        &nbsp;·&nbsp;
+        <i class="fas fa-box" style="font-size:9px; margin-right:2px; opacity:0.7;"></i>
         @if($product->is_unlimited)
-            ∞ Left
+            ∞
         @else
-            {{ $product->stock ?? 0 }} Left
+            {{ $product->stock ?? 0 }}
         @endif
     </div>
 </div>

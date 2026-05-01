@@ -306,6 +306,8 @@
 .ck-place-btn.bkash-btn:hover  { background: #c0105a; box-shadow: 0 4px 16px rgba(226,19,110,.35); }
 .ck-place-btn.shurjo-btn { background: var(--shurjo); }
 .ck-place-btn.shurjo-btn:hover { background: #ea6a0a; box-shadow: 0 4px 16px rgba(249,115,22,.35); }
+.ck-place-btn.nagad-btn { background: #f12a24; }
+.ck-place-btn.nagad-btn:hover { background: #d31d18; box-shadow: 0 4px 16px rgba(241,42,36,.35); }
 
 /* ── Spinner ───────────────────────────────────────────────── */
 @keyframes ck-spin { to { transform: rotate(360deg); } }
@@ -529,6 +531,20 @@
                 </div>
               </label>
 
+              <label class="ck-pay-option pay-nagad">
+                <input type="radio" name="payment_method" value="nagad" id="payNagad"
+                       onchange="onPayMethod(this)">
+                <div class="ck-pay-label">
+                  <span class="ck-pay-icon" style="font-size:26px;line-height:1">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Nagad_Logo.svg/1200px-Nagad_Logo.svg.png"
+                         style="height:26px;object-fit:contain"
+                         onerror="this.outerHTML='💸'" alt="Nagad">
+                  </span>
+                  <span class="ck-pay-name" style="color:#f12a24">Nagad</span>
+                  <span class="ck-pay-sub online">API Setup</span>
+                </div>
+              </label>
+
               <label class="ck-pay-option pay-shurjo">
                 <input type="radio" name="payment_method" value="shurjopay" id="payShurjo"
                        onchange="onPayMethod(this)">
@@ -561,6 +577,10 @@
             <div class="ck-gw-bar bkash-bar" id="gwBkash">
               <span style="font-size:18px;flex-shrink:0">📱</span>
               <span>bKash payment page এ redirect হবেন। নম্বর ও PIN দিয়ে পেমেন্ট করুন। শেষে অটো ফিরে আসবেন।</span>
+            </div>
+            <div class="ck-gw-bar nagad-bar" id="gwNagad" style="display:none; background:#fff1f1; border:1px solid #fecaca; color:#991b1b; padding:10px 14px; border-radius:8px; font-size:12px; margin-top:14px; align-items:center; gap:10px;">
+              <span style="font-size:18px;flex-shrink:0">💸</span>
+              <span>Nagad পেমেন্ট গেটওয়েতে রিডাইরেক্ট করা হবে। আপনার নম্বর ও ওটিপি দিয়ে পেমেন্ট সম্পন্ন করুন।</span>
             </div>
             <div class="ck-gw-bar shurjo-bar" id="gwShurjo">
               <span style="font-size:18px;flex-shrink:0">☀️</span>
@@ -827,9 +847,14 @@
   ══════════════════════════════════════════════════════════════ */
   window.onPayMethod = function (radio) {
     var method = radio.value;
-    placeBtn.className = 'ck-place-btn';
+    var gwNagad = document.getElementById('gwNagad');
+    placeBtn.classList.remove('bkash-btn', 'shurjo-btn', 'nagad-btn');
     gwBkash.classList.remove('show');
     gwShurjo.classList.remove('show');
+    if (gwNagad) {
+      gwNagad.style.display = 'none';
+      gwNagad.classList.remove('show');
+    }
 
     switch (method) {
       case 'cod':
@@ -839,6 +864,15 @@
         placeBtn.classList.add('bkash-btn');
         placeBtnText.textContent = 'bKash দিয়ে অর্ডার করুন';
         gwBkash.classList.add('show');
+        break;
+      case 'nagad':
+        placeBtn.classList.add('nagad-btn');
+        placeBtnText.textContent = 'Nagad দিয়ে অর্ডার করুন';
+        var gwNagad = document.getElementById('gwNagad');
+        if (gwNagad) {
+          gwNagad.style.display = 'flex';
+          gwNagad.classList.add('show');
+        }
         break;
       case 'shurjopay':
         placeBtn.classList.add('shurjo-btn');
@@ -989,4 +1023,36 @@
 
 })();
 </script>
+@push('scripts')
+<script>
+    // ── Facebook Pixel: InitiateCheckout ──
+    if (typeof fbq !== 'undefined') {
+        fbq('track', 'InitiateCheckout', {
+            content_ids: [@foreach($cart as $item) '{{ $item['id'] ?? $loop->index }}', @endforeach],
+            content_type: 'product',
+            value: {{ $subtotal }},
+            currency: 'BDT'
+        });
+    }
+
+    // ── Google Tag Manager: BeginCheckout ──
+    if (typeof dataLayer !== 'undefined') {
+        dataLayer.push({
+            'event': 'begin_checkout',
+            'ecommerce': {
+                'items': [
+                    @foreach($cart as $item)
+                    {
+                        'item_name': '{{ addslashes($item['name']) }}',
+                        'item_id': '{{ $item['id'] ?? $loop->index }}',
+                        'price': '{{ $item['price'] }}',
+                        'quantity': {{ $item['quantity'] }}
+                    },
+                    @endforeach
+                ]
+            }
+        });
+    }
+</script>
+@endpush
 @endsection

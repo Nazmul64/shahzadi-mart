@@ -32,7 +32,7 @@ class ColorController extends Controller
             'is_active'  => true,
         ]);
 
-        return redirect()->route('admin.colors.index')
+        return redirect()->route('admin.color.index')
             ->with('success', 'Color created successfully.');
     }
 

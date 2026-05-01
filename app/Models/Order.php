@@ -23,6 +23,7 @@ class Order extends Model
         'delivery_fee',
         'total',
         'coupon_code',
+        'assigned_user_id',
     ];
 
     // ── Status Labels ──────────────────────────────────────────────
@@ -57,6 +58,16 @@ class Order extends Model
     public function user()
     {
         return $this->belongsTo(\App\Models\User::class, 'user_id');
+    }
+
+    public function assignedStaff()
+    {
+        return $this->belongsTo(\App\Models\User::class, 'assigned_user_id');
+    }
+
+    public function statusHistories()
+    {
+        return $this->hasMany(OrderStatusHistory::class)->latest();
     }
 
     // ── Accessors ──────────────────────────────────────────────────

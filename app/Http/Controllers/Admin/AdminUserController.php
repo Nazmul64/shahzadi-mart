@@ -1,0 +1,153 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Models\Role;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+
+class AdminUserController extends Controller
+{
+        // ── Index ──────────────────────────────────────────────────────────────────
+    public function index()
+    {
+        $users = User::with('roles')->latest()->paginate(20);
+
+        return view('admin.users.index', compact('users'));
+    }
+
+    // ── Create ─────────────────────────────────────────────────────────────────
+    public function create()
+    {
+        $roles = Role::where('is_active', true)->orderBy('name')->get();
+
+        return view('admin.users.create', compact('roles'));
+    }
+
+    // ── Store ──────────────────────────────────────────────────────────────────
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name'     => 'required|string|max:100',
+            'email'    => 'required|email|unique:users,email',
+            'password' => 'required|string|min:8|confirmed',
+            'roles'    => 'nullable|array',
+            'roles.*'  => 'exists:roles,id',
+            'status'   => 'nullable|in:active,inactive,pending,suspended',
+        ]);
+
+        $user = User::create([
+            'name'     => $request->name,
+            'email'    => $request->email,
+            'password' => Hash::make($request->password),
+            'status'   => $request->status ?? 'active',
+        ]);
+
+        if ($request->filled('roles')) {
+            $user->roles()->attach($request->roles);
+        } else {
+            $defaultRole = Role::where('is_default', true)
+                ->where('is_active', true)
+                ->first();
+
+            if ($defaultRole) {
+                $user->roles()->attach($defaultRole->id);
+            }
+        }
+
+        return redirect()->route('admin.users.index')
+            ->with('success', "'{$user->name}' ইউজার তৈরি হয়েছে।");
+    }
+
+    // ── Show ───────────────────────────────────────────────────────────────────
+    public function show(User $user)
+    {
+        return redirect()->route('admin.users.edit', $user);
+    }
+
+    // ── Edit ───────────────────────────────────────────────────────────────────
+    public function edit(User $user)
+    {
+        $roles     = Role::where('is_active', true)
+            ->withCount('permissions')
+            ->orderBy('name')
+            ->get();
+
+        $userRoles = $user->roles->pluck('id')->toArray();
+
+        return view('admin.users.edit', compact('user', 'roles', 'userRoles'));
+    }
+
+    // ── Update ─────────────────────────────────────────────────────────────────
+    public function update(Request $request, User $user)
+    {
+        $request->validate([
+            'name'     => 'sometimes|required|string|max:100',
+            'email'    => 'sometimes|required|email|unique:users,email,' . $user->id,
+            'password' => 'nullable|string|min:8|confirmed',
+            'roles'    => 'nullable|array',
+            'roles.*'  => 'exists:roles,id',
+            'status'   => 'nullable|in:active,inactive,pending,suspended',
+        ]);
+
+        // Basic info update (যদি form-এ থাকে)
+        $fillable = array_filter([
+            'name'   => $request->name,
+            'email'  => $request->email,
+            'status' => $request->status,
+        ]);
+
+        if ($request->filled('password')) {
+            $fillable['password'] = Hash::make($request->password);
+        }
+
+        if (!empty($fillable)) {
+            $user->update($fillable);
+        }
+
+        // Roles sync
+        $user->roles()->sync($request->roles ?? []);
+
+        return redirect()->route('admin.users.index')
+            ->with('success', "'{$user->name}' আপডেট হয়েছে।");
+    }
+
+    // ── Destroy ────────────────────────────────────────────────────────────────
+    public function destroy(User $user)
+    {
+        if ($user->id === auth()->id()) {
+            return back()->with('error', 'নিজেকে ডিলিট করা যাবে না।');
+        }
+
+        if ($user->isSuperAdmin()) {
+            return back()->with('error', 'Super Admin ডিলিট করা যাবে না।');
+        }
+
+        $name = $user->name;
+        $user->roles()->detach();
+        $user->delete();
+
+        return redirect()->route('admin.users.index')
+            ->with('success', "'{$name}' ইউজার ডিলিট হয়েছে।");
+    }
+
+    // ── Toggle Status ──────────────────────────────────────────────────────────
+    public function toggleStatus(User $user)
+    {
+        if ($user->id === auth()->id()) {
+            return back()->with('error', 'নিজের স্ট্যাটাস পরিবর্তন করা যাবে না।');
+        }
+
+        if ($user->isSuperAdmin()) {
+            return back()->with('error', 'Super Admin এর স্ট্যাটাস পরিবর্তন করা যাবে না।');
+        }
+
+        $user->update([
+            'status' => $user->status === 'active' ? 'inactive' : 'active',
+        ]);
+
+        return back()->with('success', "'{$user->name}' এর স্ট্যাটাস পরিবর্তন হয়েছে।");
+    }
+}

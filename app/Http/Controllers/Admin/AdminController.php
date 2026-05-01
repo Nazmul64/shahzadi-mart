@@ -35,9 +35,9 @@ class AdminController extends Controller
 
         $salesLast30 = Order::where('order_status', 'completed')
                             ->where('created_at', '>=', now()->subDays(30))
-                            ->count();
+                            ->sum('total');
 
-        $salesAllTime = Order::where('order_status', 'completed')->count();
+        $salesAllTime = Order::where('order_status', 'completed')->sum('total');
 
         $recentOrders = Order::with('items')->latest()->take(5)->get();
 
@@ -48,17 +48,17 @@ class AdminController extends Controller
 
         $salesChart = Order::where('order_status', 'completed')
                            ->where('created_at', '>=', now()->subDays(29)->startOfDay())
-                           ->selectRaw('DATE(created_at) as date, COUNT(*) as count')
+                           ->selectRaw('DATE(created_at) as date, SUM(total) as amount')
                            ->groupBy('date')
                            ->orderBy('date')
-                           ->pluck('count', 'date');
+                           ->pluck('amount', 'date');
 
         $chartLabels = [];
         $chartData   = [];
         for ($i = 29; $i >= 0; $i--) {
             $date          = now()->subDays($i)->format('Y-m-d');
             $chartLabels[] = now()->subDays($i)->format('d M');
-            $chartData[]   = $salesChart[$date] ?? 0;
+            $chartData[]   = (float) ($salesChart[$date] ?? 0);
         }
 
         // ✅ Fix: statusCounts এখন properly pass হচ্ছে

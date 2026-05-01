@@ -534,4 +534,40 @@
   });
 })();
 </script>
+@push('scripts')
+<script>
+    // ── Facebook Pixel: Purchase ──
+    if (typeof fbq !== 'undefined') {
+        fbq('track', 'Purchase', {
+            content_ids: [@foreach($orderItems as $item) '{{ $item->product_id ?? $loop->index }}', @endforeach],
+            content_type: 'product',
+            value: {{ $safeTotal }},
+            currency: 'BDT'
+        });
+    }
+
+    // ── Google Tag Manager: Purchase ──
+    if (typeof dataLayer !== 'undefined') {
+        dataLayer.push({
+            'event': 'purchase',
+            'ecommerce': {
+                'transaction_id': '{{ $order->order_number ?? $order->id }}',
+                'value': {{ $safeTotal }},
+                'currency': 'BDT',
+                'shipping': {{ $safeShipping }},
+                'items': [
+                    @foreach($orderItems as $item)
+                    {
+                        'item_name': '{{ addslashes($item->product_name ?? $item->name ?? "Product") }}',
+                        'item_id': '{{ $item->product_id ?? $loop->index }}',
+                        'price': '{{ $item->price ?? $item->unit_price }}',
+                        'quantity': {{ $item->quantity }}
+                    },
+                    @endforeach
+                ]
+            }
+        });
+    }
+</script>
+@endpush
 @endsection

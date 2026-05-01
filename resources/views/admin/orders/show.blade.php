@@ -157,7 +157,7 @@
             $pathaoOrd  = $order->pathaoOrder;
             $pathaoSent = $pathaoOrd && $pathaoOrd->is_sent;
 
-            {{-- ✅ Pathao single send route — Laravel এ generate করো যাতে prefix ঠিক থাকে --}}
+            // ✅ Pathao single send route — Laravel এ generate করো যাতে prefix ঠিক থাকে
             $pathaoSendUrl = route('admin.pathao.send', $order->id);
         @endphp
 

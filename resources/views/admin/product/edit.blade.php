@@ -2,104 +2,97 @@
 
 @section('main-content')
 
+{{-- ═══════════════════════════════════════════════════════════
+     ASSETS
+════════════════════════════════════════════════════════════ --}}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-bs5.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css">
 
 <style>
-    /* ── Typography ── */
-    .form-label-custom { font-size:.88rem; font-weight:600; color:#333; margin-bottom:5px; display:block; }
-    .form-label-sub    { font-size:.78rem; color:#6c757d; font-weight:400; }
-    .optional-badge    { font-size:.72rem; color:#fff; background:#6c757d; border-radius:10px; padding:2px 8px; margin-left:5px; font-weight:500; }
-    .select-hint       { font-size:.75rem; color:#6c757d; margin-top:3px; display:block; }
+:root { --brand:#1a2b6b; --brand-dark:#152259; --brand-green:#1e8449; --brand-red:#c0392b; }
 
-    /* ── Buttons ── */
-    .btn-back               { background:#1a2b6b; color:#fff; border:none; border-radius:20px; padding:6px 18px; font-size:.85rem; text-decoration:none; display:inline-flex; align-items:center; gap:5px; }
-    .btn-back:hover         { background:#152259; color:#fff; }
-    .btn-update-product     { background:#1a2b6b; color:#fff; border:none; border-radius:4px; padding:10px 32px; font-size:.95rem; font-weight:600; width:100%; margin-top:10px; }
-    .btn-update-product:hover { background:#152259; color:#fff; }
-    .btn-upload-img         { background:#1a2b6b; color:#fff; border:none; border-radius:4px; padding:10px 24px; font-size:.88rem; display:inline-flex; align-items:center; gap:6px; cursor:pointer; }
-    .btn-upload-img:hover   { background:#152259; }
-    .btn-set-gallery        { background:#1a2b6b; color:#fff; border:none; border-radius:4px; padding:8px 20px; font-size:.88rem; display:inline-flex; align-items:center; gap:5px; cursor:pointer; }
-    .btn-set-gallery:hover  { background:#152259; }
-    .btn-add-tag            { background:none; border:1px dashed #1a2b6b; color:#1a2b6b; border-radius:4px; padding:6px 16px; font-size:.85rem; cursor:pointer; width:100%; }
-    .btn-add-tag:hover      { background:#e8ecf8; }
+/* ══ Typography ══ */
+.form-label-custom        { font-size:.88rem; font-weight:600; color:#333; margin-bottom:5px; display:block; }
+.form-label-sub           { font-size:.78rem; color:#6c757d; font-weight:400; }
+.optional-badge           { font-size:.72rem; color:#fff; background:#6c757d; border-radius:10px; padding:2px 8px; margin-left:5px; font-weight:500; }
+.select-hint              { font-size:.75rem; color:#6c757d; margin-top:3px; display:block; }
+.section-title            { font-weight:700; color:var(--brand); font-size:.95rem; margin-bottom:16px; padding-bottom:10px; border-bottom:1px solid #e9ecef; }
 
-    /* ── Feature image box ── */
-    .feature-img-box        { border:2px dashed #ced4da; border-radius:8px; min-height:200px; display:flex; align-items:center; justify-content:center; background:#f8f9fa; overflow:hidden; cursor:pointer; }
-    .feature-img-box img    { width:100%; height:200px; object-fit:cover; }
+/* ══ Buttons ══ */
+.btn-back                 { background:var(--brand); color:#fff; border:none; border-radius:20px; padding:6px 18px; font-size:.85rem; text-decoration:none; display:inline-flex; align-items:center; gap:5px; }
+.btn-back:hover           { background:var(--brand-dark); color:#fff; }
+.btn-update-product       { background:var(--brand); color:#fff; border:none; border-radius:4px; padding:10px 32px; font-size:.95rem; font-weight:600; width:100%; margin-top:10px; }
+.btn-update-product:hover { background:var(--brand-dark); color:#fff; }
+.btn-upload-img           { background:var(--brand); color:#fff; border:none; border-radius:4px; padding:10px 24px; font-size:.88rem; display:inline-flex; align-items:center; gap:6px; cursor:pointer; }
+.btn-upload-img:hover     { background:var(--brand-dark); }
+.btn-set-gallery          { background:var(--brand); color:#fff; border:none; border-radius:4px; padding:8px 20px; font-size:.88rem; display:inline-flex; align-items:center; gap:5px; cursor:pointer; }
+.btn-set-gallery:hover    { background:var(--brand-dark); }
+.btn-add-tag              { background:none; border:1px dashed var(--brand); color:var(--brand); border-radius:4px; padding:6px 16px; font-size:.85rem; cursor:pointer; width:100%; }
+.btn-add-tag:hover        { background:#e8ecf8; }
+.btn-add-variant-main     { background:none; border:1px dashed var(--brand); color:var(--brand); border-radius:4px; padding:8px 16px; font-size:.85rem; cursor:pointer; width:100%; display:flex; align-items:center; justify-content:center; gap:6px; transition:background .2s; }
+.btn-add-variant-main:hover { background:#e8ecf8; }
+.btn-sku-gen              { font-size:.8rem; color:var(--brand); margin-left:8px; font-weight:600; cursor:pointer; text-decoration:none; }
 
-    /* ── Sidebar cards ── */
-    .sidebar-card           { background:#fff; border:1px solid #e9ecef; border-radius:8px; padding:18px; margin-bottom:18px; }
-    .sidebar-card-title     { font-size:.9rem; font-weight:700; color:#1a2b6b; margin-bottom:14px; }
+/* ══ Feature image ══ */
+.feature-img-box          { border:2px dashed #ced4da; border-radius:8px; min-height:200px; display:flex; align-items:center; justify-content:center; background:#f8f9fa; overflow:hidden; cursor:pointer; }
+.feature-img-box img      { width:100%; height:200px; object-fit:cover; }
 
-    /* ── Flash Sale card ── */
-    .flash-sale-card                      { border:1px solid #fcd34d; border-radius:8px; background:#fffbeb; padding:18px; margin-bottom:18px; }
-    .flash-sale-card .sidebar-card-title  { color:#b45309; }
-    .flash-sale-fields                    { margin-top:12px; }
+/* ══ Sidebar cards ══ */
+.sidebar-card             { background:#fff; border:1px solid #e9ecef; border-radius:8px; padding:18px; margin-bottom:18px; }
+.sidebar-card-title       { font-size:.9rem; font-weight:700; color:var(--brand); margin-bottom:14px; }
 
-    /* ── New Arrival card ── */
-    .new-arrival-card                      { border:1px solid #6ee7b7; border-radius:8px; background:#f0fdf4; padding:18px; margin-bottom:18px; }
-    .new-arrival-card .sidebar-card-title  { color:#065f46; }
+/* ══ Special cards ══ */
+.flash-sale-card                     { border:1px solid #fcd34d; border-radius:8px; background:#fffbeb; padding:18px; margin-bottom:18px; }
+.flash-sale-card .sidebar-card-title { color:#b45309; }
+.new-arrival-card                    { border:1px solid #6ee7b7; border-radius:8px; background:#f0fdf4; padding:18px; margin-bottom:18px; }
+.new-arrival-card .sidebar-card-title{ color:#065f46; }
+.bestseller-card                     { border:1px solid #c4b5fd; border-radius:8px; background:#f5f3ff; padding:18px; margin-bottom:18px; }
+.bestseller-card .sidebar-card-title { color:#5b21b6; }
 
-    /* ── Bestseller card ── */
-    .bestseller-card                      { border:1px solid #c4b5fd; border-radius:8px; background:#f5f3ff; padding:18px; margin-bottom:18px; }
-    .bestseller-card .sidebar-card-title  { color:#5b21b6; }
+/* ══ Toggles ══ */
+.toggle-switch-wrap                  { display:flex; align-items:center; gap:10px; }
+.toggle-switch-wrap .form-check-label{ font-size:.85rem; font-weight:600; cursor:pointer; }
 
-    /* ── Toggle switch ── */
-    .toggle-switch-wrap                   { display:flex; align-items:center; gap:10px; }
-    .toggle-switch-wrap .form-check-label { font-size:.85rem; font-weight:600; cursor:pointer; }
+/* ══ Feature tags ══ */
+.tag-row                      { display:flex; gap:8px; align-items:center; margin-bottom:8px; }
+.tag-row input[type="text"]   { flex:1; }
+.tag-row input[type="color"]  { width:40px; height:38px; border:1px solid #ced4da; border-radius:4px; padding:2px; cursor:pointer; }
+.btn-remove-tag               { background:#dc3545; color:#fff; border:none; border-radius:50%; width:28px; height:28px; font-size:.8rem; cursor:pointer; flex-shrink:0; }
 
-    /* ── Tag rows ── */
-    .tag-row                     { display:flex; gap:8px; align-items:center; margin-bottom:8px; }
-    .tag-row input[type="text"]  { flex:1; }
-    .tag-row input[type="color"] { width:40px; height:38px; border:1px solid #ced4da; border-radius:4px; padding:2px; cursor:pointer; }
-    .btn-remove-tag              { background:#dc3545; color:#fff; border:none; border-radius:50%; width:28px; height:28px; font-size:.8rem; cursor:pointer; flex-shrink:0; }
+/* ══ Variants ══ */
+.variant-table-wrap           { display:none; margin-top:10px; }
+.variant-table-wrap.has-rows  { display:block; }
+.variant-header               { display:grid; grid-template-columns:1fr 80px 80px 90px 32px; gap:6px; margin-bottom:4px; }
+.variant-header span          { font-size:.75rem; font-weight:600; color:#6c757d; }
+.variant-row                  { display:grid; grid-template-columns:1fr 80px 80px 90px 32px; gap:6px; align-items:center; margin-bottom:8px; }
+.variant-row input[type="color"] { width:100%; height:38px; border:1px solid #ced4da; border-radius:4px; padding:2px; cursor:pointer; }
+.btn-remove-variant           { background:#dc3545; color:#fff; border:none; border-radius:50%; width:28px; height:28px; font-size:.8rem; cursor:pointer; flex-shrink:0; display:flex; align-items:center; justify-content:center; }
 
-    /* ── Variant rows ── */
-    /* ✅ Default hidden — শুধু has-rows class থাকলে দেখাবে */
-    .variant-table-wrap          { display:none; margin-top:10px; }
-    .variant-table-wrap.has-rows { display:block; }
-    .variant-header              { display:grid; grid-template-columns:1fr 80px 80px 90px 32px; gap:6px; margin-bottom:4px; }
-    .variant-header span         { font-size:.75rem; font-weight:600; color:#6c757d; }
-    .variant-row                 { display:grid; grid-template-columns:1fr 80px 80px 90px 32px; gap:6px; align-items:center; margin-bottom:8px; }
-    .variant-row input[type="color"] { width:100%; height:38px; border:1px solid #ced4da; border-radius:4px; padding:2px; cursor:pointer; }
-    .btn-remove-variant          { background:#dc3545; color:#fff; border:none; border-radius:50%; width:28px; height:28px; font-size:.8rem; cursor:pointer; flex-shrink:0; display:flex; align-items:center; justify-content:center; }
+/* ══ Gallery ══ */
+.gallery-grid                 { display:flex; flex-wrap:wrap; gap:10px; margin-top:10px; }
+.gallery-card                 { background:#f8f9fa; border:1px solid #dee2e6; border-radius:8px; padding:6px; width:130px; }
+.gallery-card img             { width:100%; height:75px; object-fit:cover; border-radius:4px; }
+.gallery-card .meta           { font-size:.7rem; color:#555; margin-top:3px; }
+.gallery-card input           { font-size:.72rem; margin-top:4px; }
+.gallery-card .btn-rm         { background:#dc3545; color:#fff; border:none; border-radius:4px; width:100%; margin-top:4px; font-size:.72rem; padding:2px 0; cursor:pointer; }
+.gallery-card.new-img         { border-color:#ffc107; background:#fff3cd; }
 
-    /* ── Gallery ── */
-    .gallery-grid               { display:flex; flex-wrap:wrap; gap:10px; margin-top:10px; }
-    .gallery-card               { background:#f8f9fa; border:1px solid #dee2e6; border-radius:8px; padding:6px; width:130px; }
-    .gallery-card img           { width:100%; height:75px; object-fit:cover; border-radius:4px; }
-    .gallery-card .meta         { font-size:.7rem; color:#555; margin-top:3px; }
-    .gallery-card input         { font-size:.72rem; margin-top:4px; }
-    .gallery-card .btn-rm       { background:#dc3545; color:#fff; border:none; border-radius:4px; width:100%; margin-top:4px; font-size:.72rem; padding:2px 0; cursor:pointer; }
-    .gallery-card.new-img       { border-color:#ffc107; background:#fff3cd; }
+/* ══ SEO ══ */
+.seo-section                  { border:1px solid #e0e7ff; border-radius:8px; background:#f8f9ff; padding:16px; margin-top:6px; }
+.seo-toggle-label             { font-size:.9rem; font-weight:600; color:var(--brand); cursor:pointer; user-select:none; display:flex; align-items:center; gap:8px; }
+.seo-toggle-label input[type="checkbox"] { width:17px; height:17px; cursor:pointer; accent-color:var(--brand); }
 
-    /* ── SEO section ── */
-    .seo-section                 { border:1px solid #e0e7ff; border-radius:8px; background:#f8f9ff; padding:16px; margin-top:6px; }
-    .seo-toggle-label            { font-size:.9rem; font-weight:600; color:#1a2b6b; cursor:pointer; user-select:none; display:flex; align-items:center; gap:8px; }
-    .seo-toggle-label input[type="checkbox"] { width:17px; height:17px; cursor:pointer; accent-color:#1a2b6b; }
-
-    /* ── Variant add btn ── */
-    .btn-add-variant-main {
-        background: none;
-        border: 1px dashed #1a2b6b;
-        color: #1a2b6b;
-        border-radius: 4px;
-        padding: 8px 16px;
-        font-size: .85rem;
-        cursor: pointer;
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 6px;
-        transition: background .2s;
-    }
-    .btn-add-variant-main:hover { background: #e8ecf8; }
+/* ══ Select2 multi-select ══ */
+.select2-container--default .select2-selection--multiple { border-color:#ced4da; border-radius:4px; min-height:38px; }
+.select2-container--default .select2-selection--multiple .select2-selection__choice { background:var(--brand); color:#fff; border:none; border-radius:12px; padding:2px 10px; font-size:.78rem; }
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove { color:#fff; margin-right:4px; }
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover { color:#ffd; }
 </style>
 
-{{-- Page header --}}
+{{-- ═══════════════════════════════════════════════════════════
+     PAGE HEADER
+════════════════════════════════════════════════════════════ --}}
 <div class="d-flex align-items-center gap-3 mb-2">
     <h4 style="font-size:1.1rem;font-weight:600;margin:0;">Edit Product</h4>
     <a href="{{ route('admin.products.index') }}" class="btn-back">&#8592; Back</a>
@@ -108,56 +101,68 @@
     Dashboard &rsaquo; Products &rsaquo; All Products &rsaquo; Edit Product
 </small>
 
+{{-- Validation errors --}}
 @if($errors->any())
     <div class="alert alert-danger mt-2 py-2">
-        <ul class="mb-0">@foreach($errors->all() as $e)<li>{{ $e }}</li>@endforeach</ul>
+        <ul class="mb-0">
+            @foreach($errors->all() as $e)
+                <li>{{ $e }}</li>
+            @endforeach
+        </ul>
     </div>
 @endif
 
 @php
-    $existingVariants = collect($product->variants ?? [])->filter(fn($v) => !empty($v['size']) || !empty($v['price']))->values();
+    $existingVariants = collect($product->variants ?? [])
+        ->filter(fn($v) => !empty($v['size']) || !empty($v['price']))
+        ->values();
+    $hasSeo = !empty($product->meta_tags) || !empty($product->meta_description);
+    $featureTags = $product->feature_tags ?? [];
+
+    /* Pre-selected IDs (old() wins on validation fail, otherwise DB value) */
+    $selectedBrandIds = old('brand_ids', $product->brand_ids ?? []);
+    $selectedColorIds = old('color_ids', $product->color_ids ?? []);
+    $selectedUnitIds  = old('unit_ids',  $product->unit_ids  ?? []);
+    $selectedSizeIds  = old('size_ids',  $product->size_ids  ?? []);
+
+    /* Normalise – make sure they are plain arrays of ints */
+    $selectedBrandIds = array_map('intval', (array) $selectedBrandIds);
+    $selectedColorIds = array_map('intval', (array) $selectedColorIds);
+    $selectedUnitIds  = array_map('intval', (array) $selectedUnitIds);
+    $selectedSizeIds  = array_map('intval', (array) $selectedSizeIds);
 @endphp
 
-<form action="{{ route('admin.products.update', $product->id) }}" method="POST"
-      enctype="multipart/form-data" class="mt-3">
+{{-- ═══════════════════════════════════════════════════════════
+     FORM
+════════════════════════════════════════════════════════════ --}}
+<form action="{{ route('admin.products.update', $product->id) }}"
+      method="POST" enctype="multipart/form-data" class="mt-3">
     @csrf
     @method('PUT')
-    {{-- Hidden gallery file inputs (rebuilt by JS) --}}
+
+    {{-- Hidden gallery file inputs (rebuilt by JS on submit) --}}
     <div id="galleryFileInputs"></div>
 
     <div class="row g-3">
 
-        {{-- ═══════════ LEFT COLUMN ═══════════ --}}
+        {{-- ╔═════════════════════════════════════╗
+             ║          LEFT COLUMN                ║
+             ╚═════════════════════════════════════╝ --}}
         <div class="col-lg-8">
-            <div class="card border-0 shadow-sm p-4">
+            <div class="card border-0 shadow-sm p-4 mb-3">
 
-                {{-- Product Name --}}
+                {{-- ── Product Name ── --}}
                 <div class="mb-3">
-                    <label class="form-label-custom">Product Name*</label>
-                    <input type="text" name="name" class="form-control"
-                           value="{{ old('name', $product->name) }}">
+                    <label class="form-label-custom">Product Name <span class="text-danger">*</span></label>
+                    <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
+                           value="{{ old('name', $product->name) }}" placeholder="Enter product name">
+                    @error('name') <span class="invalid-feedback">{{ $message }}</span> @enderror
                 </div>
 
-                {{-- SKU / Vendor --}}
-                <div class="row g-2 mb-3">
-                    <div class="col-md-6">
-                        <label class="form-label-custom">SKU <span class="optional-badge">Optional</span></label>
-                        <input type="text" name="sku" class="form-control"
-                               value="{{ old('sku', $product->sku) }}"
-                               placeholder="Auto-generated if empty">
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label-custom">Vendor <span class="optional-badge">Optional</span></label>
-                        <input type="text" name="vendor" class="form-control"
-                               value="{{ old('vendor', $product->vendor) }}"
-                               placeholder="e.g. Test Stores">
-                    </div>
-                </div>
-
-                {{-- Product Type --}}
+                {{-- ── Product Type ── --}}
                 <div class="mb-3">
-                    <label class="form-label-custom">Product Type*</label>
-                    <select name="product_type" class="form-select">
+                    <label class="form-label-custom">Product Type <span class="text-danger">*</span></label>
+                    <select name="product_type" class="form-select @error('product_type') is-invalid @enderror">
                         @foreach(\App\Models\Product::$productTypes as $value => $label)
                             <option value="{{ $value }}"
                                 {{ old('product_type', $product->product_type) == $value ? 'selected' : '' }}>
@@ -165,58 +170,191 @@
                             </option>
                         @endforeach
                     </select>
+                    @error('product_type') <span class="invalid-feedback">{{ $message }}</span> @enderror
                 </div>
 
-                {{-- Category --}}
-                <div class="mb-3">
-                    <label class="form-label-custom">Category*</label>
-                    <select name="category_id" id="product_category" class="form-select">
-                        <option value="">-- Select Category --</option>
-                        @foreach($categories as $cat)
-                            <option value="{{ $cat->id }}"
-                                {{ old('category_id', $product->category_id) == $cat->id ? 'selected' : '' }}>
-                                {{ $cat->category_name }}
-                            </option>
-                        @endforeach
-                    </select>
+            </div>
+
+            {{-- ══ GENERAL INFORMATION ══ --}}
+            <div class="card border-0 shadow-sm p-4 mb-3">
+                <div class="section-title">General Information</div>
+
+                {{-- Row 1: Category | Sub Category | Child Category --}}
+                <div class="row g-3 mb-3">
+
+                    {{-- Category --}}
+                    <div class="col-md-4">
+                        <label class="form-label-custom">
+                            Category <span class="text-danger">*</span>
+                        </label>
+                        <select name="category_id" id="product_category"
+                                class="form-select @error('category_id') is-invalid @enderror">
+                            <option value="">-- Select Category --</option>
+                            @foreach($categories as $cat)
+                                <option value="{{ $cat->id }}"
+                                    {{ old('category_id', $product->category_id) == $cat->id ? 'selected' : '' }}>
+                                    {{ $cat->category_name }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('category_id') <span class="invalid-feedback">{{ $message }}</span> @enderror
+                    </div>
+
+                    {{-- Sub Category (AJAX dropdown) --}}
+                    <div class="col-md-4">
+                        <label class="form-label-custom">
+                            Sub Category <span class="optional-badge">Optional</span>
+                        </label>
+                        <select name="sub_category_id" id="product_subcategory" class="form-select">
+                            <option value="">-- Select Sub Category --</option>
+                            @foreach($subCategories as $sub)
+                                <option value="{{ $sub->id }}"
+                                    {{ old('sub_category_id', $product->sub_category_id) == $sub->id ? 'selected' : '' }}>
+                                    {{ $sub->sub_name }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <small class="select-hint" id="sub_hint">
+                            @if($subCategories->count())
+                                <span style="color:green;">&#10003; {{ $subCategories->count() }} sub category found</span>
+                            @else
+                                Select a category first
+                            @endif
+                        </small>
+                    </div>
+
+                    {{-- Child Category (AJAX dropdown) --}}
+                    <div class="col-md-4">
+                        <label class="form-label-custom">
+                            Child Category <span class="optional-badge">Optional</span>
+                        </label>
+                        <select name="child_sub_category_id" id="product_childcategory" class="form-select">
+                            <option value="">-- Select Child Category --</option>
+                            @foreach($childSubCategories as $child)
+                                <option value="{{ $child->id }}"
+                                    {{ old('child_sub_category_id', $product->child_sub_category_id) == $child->id ? 'selected' : '' }}>
+                                    {{ $child->child_sub_name }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <small class="select-hint" id="child_hint">
+                            @if($childSubCategories->count())
+                                <span style="color:green;">&#10003; {{ $childSubCategories->count() }} child found</span>
+                            @else
+                                Select a sub category first
+                            @endif
+                        </small>
+                    </div>
                 </div>
 
-                {{-- Sub Category --}}
-                <div class="mb-3">
-                    <label class="form-label-custom">Sub Category <span class="optional-badge">Optional</span></label>
-                    <select name="sub_category_id" id="product_subcategory" class="form-select">
-                        <option value="">-- Select Sub Category (Optional) --</option>
-                        @foreach($subCategories as $sub)
-                            <option value="{{ $sub->id }}"
-                                {{ old('sub_category_id', $product->sub_category_id) == $sub->id ? 'selected' : '' }}>
-                                {{ $sub->sub_name }}
-                            </option>
-                        @endforeach
-                    </select>
-                    <small class="select-hint" id="sub_hint">Not required</small>
+                {{-- Row 2: Brand (multiple) | Color (multiple) --}}
+                <div class="row g-3 mb-3">
+
+                    {{-- Brand – Select2 multiple --}}
+                    <div class="col-md-6">
+                        <label class="form-label-custom">
+                            Brand <span class="optional-badge">Optional</span>
+                            <span class="form-label-sub ms-1">(Multiple allowed)</span>
+                        </label>
+                        <select name="brand_ids[]" id="brand_ids" class="form-select select2-multi" multiple>
+                            @foreach($brands as $brand)
+                                <option value="{{ $brand->id }}"
+                                    {{ in_array($brand->id, $selectedBrandIds) ? 'selected' : '' }}>
+                                    {{ $brand->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    {{-- Color – Select2 multiple --}}
+                    <div class="col-md-6">
+                        <label class="form-label-custom">
+                            Color <span class="optional-badge">Optional</span>
+                            <span class="form-label-sub ms-1">(Multiple allowed)</span>
+                        </label>
+                        <select name="color_ids[]" id="color_ids" class="form-select select2-multi" multiple>
+                            @foreach($colors as $color)
+                                <option value="{{ $color->id }}"
+                                    {{ in_array($color->id, $selectedColorIds) ? 'selected' : '' }}>
+                                    {{ $color->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
 
-                {{-- Child Category --}}
-                <div class="mb-3">
-                    <label class="form-label-custom">Child Category <span class="optional-badge">Optional</span></label>
-                    <select name="child_sub_category_id" id="product_childcategory" class="form-select">
-                        <option value="">-- Select Child Category (Optional) --</option>
-                        @foreach($childSubCategories as $child)
-                            <option value="{{ $child->id }}"
-                                {{ old('child_sub_category_id', $product->child_sub_category_id) == $child->id ? 'selected' : '' }}>
-                                {{ $child->child_sub_name }}
-                            </option>
-                        @endforeach
-                    </select>
-                    <small class="select-hint" id="child_hint">Not required</small>
+                {{-- Row 3: Unit (multiple) | Size (multiple) --}}
+                <div class="row g-3 mb-3">
+
+                    {{-- Unit – Select2 multiple --}}
+                    <div class="col-md-6">
+                        <label class="form-label-custom">
+                            Unit <span class="optional-badge">Optional</span>
+                            <span class="form-label-sub ms-1">(Multiple allowed)</span>
+                        </label>
+                        <select name="unit_ids[]" id="unit_ids" class="form-select select2-multi" multiple>
+                            @foreach($units as $unit)
+                                <option value="{{ $unit->id }}"
+                                    {{ in_array($unit->id, $selectedUnitIds) ? 'selected' : '' }}>
+                                    {{ $unit->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    {{-- Size – Select2 multiple --}}
+                    <div class="col-md-6">
+                        <label class="form-label-custom">
+                            Size <span class="optional-badge">Optional</span>
+                            <span class="form-label-sub ms-1">(Multiple allowed)</span>
+                        </label>
+                        <select name="size_ids[]" id="size_ids" class="form-select select2-multi" multiple>
+                            @foreach($sizes as $size)
+                                <option value="{{ $size->id }}"
+                                    {{ in_array($size->id, $selectedSizeIds) ? 'selected' : '' }}>
+                                    {{ $size->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
+
+                {{-- Row 4: SKU | Vendor --}}
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label-custom">
+                            SKU <span class="optional-badge">Optional</span>
+                            <a href="#" class="btn-sku-gen" id="btnGenerateSku">Generate Code</a>
+                        </label>
+                        <input type="text" name="sku" id="sku_input" class="form-control"
+                               placeholder="Auto-generated if empty"
+                               value="{{ old('sku', $product->sku) }}">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label-custom">Vendor <span class="optional-badge">Optional</span></label>
+                        <input type="text" name="vendor" class="form-control"
+                               placeholder="e.g. Test Stores"
+                               value="{{ old('vendor', $product->vendor) }}">
+                    </div>
+                </div>
+
+            </div>
+
+            {{-- ══ UPLOAD & SEO ══ --}}
+            <div class="card border-0 shadow-sm p-4 mb-3">
 
                 {{-- Upload Type --}}
                 <div class="mb-3">
-                    <label class="form-label-custom">Select Upload Type*</label>
+                    <label class="form-label-custom">Select Upload Type <span class="text-danger">*</span></label>
                     <select name="upload_type" id="upload_type" class="form-select">
-                        <option value="file" {{ old('upload_type', $product->upload_type) === 'file' ? 'selected' : '' }}>Upload By File</option>
-                        <option value="url"  {{ old('upload_type', $product->upload_type) === 'url'  ? 'selected' : '' }}>Upload By URL</option>
+                        <option value="file"
+                            {{ old('upload_type', $product->upload_type) === 'file' ? 'selected' : '' }}>
+                            Upload By File
+                        </option>
+                        <option value="url"
+                            {{ old('upload_type', $product->upload_type) === 'url'  ? 'selected' : '' }}>
+                            Upload By URL
+                        </option>
                     </select>
                 </div>
 
@@ -224,7 +362,8 @@
                 <div class="mb-3" id="file_upload_section"
                      style="{{ old('upload_type', $product->upload_type) === 'url' ? 'display:none;' : '' }}">
                     <label class="form-label-custom">
-                        Select File <span class="optional-badge">Leave blank to keep current</span>
+                        Select File
+                        <span class="optional-badge">Leave blank to keep current</span>
                     </label>
                     @if($product->product_file)
                         <p class="text-muted mb-1" style="font-size:.82rem;">
@@ -237,15 +376,14 @@
                 {{-- URL upload --}}
                 <div class="mb-3" id="url_upload_section"
                      style="{{ old('upload_type', $product->upload_type) !== 'url' ? 'display:none;' : '' }}">
-                    <label class="form-label-custom">Product URL*</label>
+                    <label class="form-label-custom">Product URL <span class="text-danger">*</span></label>
                     <input type="text" name="product_url" class="form-control"
                            placeholder="Enter product download URL"
                            value="{{ old('product_url', $product->product_url) }}">
                 </div>
 
-                {{-- SEO --}}
-                @php $hasSeo = !empty($product->meta_tags) || !empty($product->meta_description); @endphp
-                <div class="mb-3">
+                {{-- SEO toggle --}}
+                <div class="mb-1">
                     <label class="seo-toggle-label">
                         <input type="checkbox" id="allow_seo_checkbox" {{ $hasSeo ? 'checked' : '' }}>
                         Allow Product SEO
@@ -262,97 +400,88 @@
                             <label class="form-label-custom">Meta Description</label>
                             <textarea name="meta_description" id="meta_description_input"
                                       class="form-control" rows="4"
-                                      placeholder="Meta Description">{{ old('meta_description', $product->meta_description) }}</textarea>
+                                      placeholder="Meta description…">{{ old('meta_description', $product->meta_description) }}</textarea>
                         </div>
                     </div>
                 </div>
 
-                {{--
-                    ══ Variants ══
-                    ✅ existing variants থাকলে → has-rows class দিয়ে table দেখাবে
-                    ✅ না থাকলে → শুধু "+ Add Variant" বাটন দেখাবে, table hidden থাকবে
-                    ✅ Color picker কোনো অবস্থায়ই auto-open হবে না
-                --}}
+            </div>
+
+            {{-- ══ VARIANTS ══ --}}
+            <div class="card border-0 shadow-sm p-4 mb-3">
+                <label class="form-label-custom">
+                    Product Variants <span class="optional-badge">Optional</span>
+                </label>
+                <small class="text-muted d-block mb-2" style="font-size:.75rem;">
+                    Add size/color/price variants. Leave empty if not needed.
+                </small>
+
+                <div class="variant-table-wrap {{ $existingVariants->count() > 0 ? 'has-rows' : '' }}"
+                     id="variantTableWrap">
+                    <div class="variant-header">
+                        <span>Size / Name</span>
+                        <span>Color</span>
+                        <span>Stock</span>
+                        <span>Price (BDT)</span>
+                        <span></span>
+                    </div>
+                    <div id="variantContainer">
+                        @foreach($existingVariants as $v)
+                            <div class="variant-row">
+                                <input type="text" name="variant_size[]"
+                                       class="form-control form-control-sm"
+                                       placeholder="e.g. M / XL / Red Shirt"
+                                       value="{{ $v['size'] ?? '' }}">
+                                <input type="color" name="variant_color[]"
+                                       value="{{ !empty($v['color']) ? $v['color'] : '#1a2b6b' }}">
+                                <input type="number" name="variant_stock[]"
+                                       class="form-control form-control-sm"
+                                       placeholder="0" min="0"
+                                       value="{{ $v['stock'] ?? 0 }}">
+                                <input type="number" name="variant_price[]"
+                                       class="form-control form-control-sm"
+                                       placeholder="0.00" step="0.01" min="0"
+                                       value="{{ $v['price'] ?? '' }}">
+                                <button type="button" class="btn-remove-variant"
+                                        onclick="removeVariantRow(this)" title="Remove">&#10005;</button>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+
+                <button type="button" class="btn-add-variant-main mt-2" onclick="addVariantRow()">
+                    <span style="font-size:1.1rem;line-height:1;">+</span> Add Variant
+                </button>
+            </div>
+
+            {{-- ══ DESCRIPTION & RETURN POLICY ══ --}}
+            <div class="card border-0 shadow-sm p-4 mb-3">
                 <div class="mb-3">
                     <label class="form-label-custom">
-                        Product Variants <span class="optional-badge">Optional</span>
+                        Product Description <span class="text-danger">*</span>
                     </label>
-                    <small class="text-muted d-block mb-2" style="font-size:.75rem;">
-                        কোনো variant না থাকলে "+ Add Variant" বাটনে ক্লিক করার দরকার নেই।
-                    </small>
-
-                    {{-- Header + Rows: existing variants থাকলে has-rows class যোগ হবে --}}
-                    <div class="variant-table-wrap {{ $existingVariants->count() > 0 ? 'has-rows' : '' }}"
-                         id="variantTableWrap">
-                        <div class="variant-header">
-                            <span>Size / Name</span>
-                            <span>Color</span>
-                            <span>Stock</span>
-                            <span>Price (BDT)</span>
-                            <span></span>
-                        </div>
-                        <div id="variantContainer">
-                            @foreach($existingVariants as $v)
-                                <div class="variant-row">
-                                    <input type="text"
-                                           name="variant_size[]"
-                                           class="form-control form-control-sm"
-                                           placeholder="e.g. M / XL / Red Shirt"
-                                           value="{{ $v['size'] ?? '' }}">
-                                    <input type="color"
-                                           name="variant_color[]"
-                                           value="{{ !empty($v['color']) ? $v['color'] : '#1a2b6b' }}">
-                                    <input type="number"
-                                           name="variant_stock[]"
-                                           class="form-control form-control-sm"
-                                           placeholder="0" min="0"
-                                           value="{{ $v['stock'] ?? 0 }}">
-                                    <input type="number"
-                                           name="variant_price[]"
-                                           class="form-control form-control-sm"
-                                           placeholder="0.00" step="0.01" min="0"
-                                           value="{{ $v['price'] ?? '' }}">
-                                    <button type="button"
-                                            class="btn-remove-variant"
-                                            onclick="removeVariantRow(this)"
-                                            title="Remove">&#10005;</button>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-
-                    {{-- Add Variant button --}}
-                    <button type="button" class="btn-add-variant-main" id="btnAddVariant"
-                            onclick="addVariantRow()">
-                        <span style="font-size:1.1rem;line-height:1;">+</span> Add Variant
-                    </button>
-                </div>
-
-                {{-- Description --}}
-                <div class="mb-3">
-                    <label class="form-label-custom">Product Description*</label>
                     <textarea name="description" id="product_description"
                               class="form-control" rows="6">{{ old('description', $product->description) }}</textarea>
                 </div>
-
-                {{-- Return Policy --}}
-                <div class="mb-3">
+                <div class="mb-0">
                     <label class="form-label-custom">
-                        Product Buy/Return Policy <span class="form-label-sub">(Optional)</span>
+                        Buy / Return Policy <span class="optional-badge">Optional</span>
                     </label>
                     <textarea name="return_policy" id="return_policy"
                               class="form-control" rows="6">{{ old('return_policy', $product->return_policy) }}</textarea>
                 </div>
-
             </div>
-        </div>
 
-        {{-- ═══════════ RIGHT COLUMN ═══════════ --}}
+        </div>{{-- /col-lg-8 --}}
+
+        {{-- ╔═════════════════════════════════════╗
+             ║          RIGHT COLUMN               ║
+             ╚═════════════════════════════════════╝ --}}
         <div class="col-lg-4">
 
-            {{-- Feature Image --}}
+            {{-- ── Feature Image ── --}}
             <div class="sidebar-card">
-                <div class="sidebar-card-title">Feature Image *</div>
+                <div class="sidebar-card-title">Feature Image <span class="text-danger">*</span></div>
                 <div class="feature-img-box"
                      onclick="document.getElementById('feature_image_input').click()">
                     @if($product->feature_image && file_exists(public_path('uploads/products/' . $product->feature_image)))
@@ -373,10 +502,10 @@
                 </small>
             </div>
 
-            {{-- Gallery --}}
+            {{-- ── Gallery ── --}}
             <div class="sidebar-card">
                 <div class="sidebar-card-title">
-                    Product Gallery Images <span class="optional-badge">Optional</span>
+                    Gallery Images <span class="optional-badge">Optional</span>
                 </div>
                 <input type="file" id="galleryPicker" accept="image/*" multiple class="d-none">
                 <button type="button" class="btn-set-gallery"
@@ -387,7 +516,7 @@
                     &#10005; = remove existing &nbsp;|&nbsp; Yellow border = new upload
                 </small>
 
-                {{-- Existing gallery images --}}
+                {{-- Existing gallery --}}
                 <div class="gallery-grid" id="existingGallery">
                     @if($product->gallery_images)
                         @foreach($product->gallery_images as $img)
@@ -414,29 +543,34 @@
                     @endif
                 </div>
 
-                {{-- New gallery uploads (preview only) --}}
+                {{-- New uploads preview --}}
                 <div class="gallery-grid" id="newGalleryPreview"></div>
             </div>
 
-            {{-- Pricing & Stock --}}
+            {{-- ── Pricing & Stock ── --}}
             <div class="sidebar-card">
                 <div class="mb-3">
                     <label class="form-label-custom">
-                        Product Current Price* <span class="form-label-sub">(In BDT)</span>
+                        Current Price <span class="text-danger">*</span>
+                        <span class="form-label-sub">(BDT)</span>
                     </label>
-                    <input type="number" step="0.01" name="current_price" class="form-control"
+                    <input type="number" step="0.01" name="current_price"
+                           class="form-control @error('current_price') is-invalid @enderror"
                            value="{{ old('current_price', $product->current_price) }}">
+                    @error('current_price') <span class="invalid-feedback">{{ $message }}</span> @enderror
                 </div>
                 <div class="mb-3">
                     <label class="form-label-custom">
-                        Product Discount Price <span class="form-label-sub">(Optional)</span>
+                        Discount Price <span class="optional-badge">Optional</span>
                     </label>
                     <input type="number" step="0.01" name="discount_price" class="form-control"
                            value="{{ old('discount_price', $product->discount_price) }}">
                 </div>
                 <div class="mb-3">
                     <div class="d-flex align-items-center justify-content-between mb-1">
-                        <label class="form-label-custom mb-0">Stock Quantity*</label>
+                        <label class="form-label-custom mb-0">
+                            Stock Quantity <span class="text-danger">*</span>
+                        </label>
                         <div class="form-check form-switch mb-0">
                             <input class="form-check-input" type="checkbox"
                                    name="is_unlimited" id="is_unlimited" value="1"
@@ -450,16 +584,17 @@
                            value="{{ old('stock', $product->stock) }}"
                            {{ old('is_unlimited', $product->is_unlimited) ? 'disabled' : '' }}>
                 </div>
-                <div class="mb-3">
+                <div class="mb-0">
                     <label class="form-label-custom">
-                        Youtube Video URL <span class="form-label-sub">(Optional)</span>
+                        YouTube Video URL <span class="optional-badge">Optional</span>
                     </label>
                     <input type="text" name="youtube_url" class="form-control"
-                           value="{{ old('youtube_url', $product->youtube_url) }}">
+                           value="{{ old('youtube_url', $product->youtube_url) }}"
+                           placeholder="https://youtube.com/watch?v=…">
                 </div>
             </div>
 
-            {{-- Flash Sale --}}
+            {{-- ── Flash Sale ── --}}
             <div class="flash-sale-card">
                 <div class="sidebar-card-title">&#9889; Flash Sale</div>
                 <div class="toggle-switch-wrap mb-3">
@@ -471,17 +606,18 @@
                         <label class="form-check-label" for="is_flash_sale">Enable Flash Sale</label>
                     </div>
                 </div>
-                <div class="flash-sale-fields" id="flashSaleFields"
+                <div id="flashSaleFields"
                      style="{{ old('is_flash_sale', $product->is_flash_sale) ? '' : 'display:none;' }}">
                     <div class="mb-3">
                         <label class="form-label-custom">
-                            Flash Sale Price* <span class="form-label-sub">(In BDT)</span>
+                            Flash Sale Price <span class="text-danger">*</span>
+                            <span class="form-label-sub">(BDT)</span>
                         </label>
                         <input type="number" step="0.01" name="flash_sale_price" class="form-control"
-                               placeholder="e.g 399"
+                               placeholder="e.g. 399"
                                value="{{ old('flash_sale_price', $product->flash_sale_price) }}">
                         <small class="text-muted" style="font-size:.75rem;">
-                            This price overrides discount price during the sale
+                            Overrides discount price during the sale
                         </small>
                     </div>
                     <div class="mb-3">
@@ -499,6 +635,7 @@
                         <input type="datetime-local" name="flash_sale_ends_at" class="form-control"
                                value="{{ old('flash_sale_ends_at', $product->flash_sale_ends_at
                                    ? $product->flash_sale_ends_at->format('Y-m-d\TH:i') : '') }}">
+
                         @if($product->is_flash_sale_active)
                             <small class="text-success d-block mt-1" style="font-size:.75rem;">
                                 &#9989; Flash sale is currently <strong>ACTIVE</strong>
@@ -513,7 +650,7 @@
                 </div>
             </div>
 
-            {{-- New Arrival --}}
+            {{-- ── New Arrival ── --}}
             <div class="new-arrival-card">
                 <div class="sidebar-card-title">&#10024; New Arrival</div>
                 <div class="toggle-switch-wrap">
@@ -526,8 +663,7 @@
                 </div>
                 @if($product->is_new_arrival && $product->arrived_at)
                     <small class="text-success d-block mt-2" style="font-size:.75rem;">
-                        &#10024; Marked as new arrival on
-                        <strong>{{ $product->arrived_at->format('d M Y, h:i A') }}</strong>
+                        &#10024; Marked on <strong>{{ $product->arrived_at->format('d M Y, h:i A') }}</strong>
                     </small>
                 @else
                     <small class="text-muted d-block mt-2" style="font-size:.75rem;">
@@ -536,7 +672,7 @@
                 @endif
             </div>
 
-            {{-- Bestseller --}}
+            {{-- ── Bestseller ── --}}
             <div class="bestseller-card">
                 <div class="sidebar-card-title">&#11088; Bestseller</div>
                 <div class="toggle-switch-wrap">
@@ -549,27 +685,25 @@
                 </div>
                 @if($product->is_bestseller && $product->bestseller_at)
                     <small class="text-success d-block mt-2" style="font-size:.75rem;">
-                        &#11088; Marked as bestseller on
-                        <strong>{{ $product->bestseller_at->format('d M Y, h:i A') }}</strong>
+                        &#11088; Marked on <strong>{{ $product->bestseller_at->format('d M Y, h:i A') }}</strong>
                     </small>
                 @else
                     <small class="text-muted d-block mt-2" style="font-size:.75rem;">
-                        Enable this toggle to publish product in the Bestsellers section.
+                        Enable to publish in the Bestsellers section.
                     </small>
                 @endif
             </div>
 
-            {{-- Feature Tags --}}
+            {{-- ── Feature Tags ── --}}
             <div class="sidebar-card">
                 <div class="sidebar-card-title">Feature Tags</div>
                 <div id="featureTagsContainer">
-                    @php $featureTags = $product->feature_tags ?? []; @endphp
                     @if(count($featureTags) > 0)
                         @foreach($featureTags as $tag)
                             <div class="tag-row">
                                 <input type="text"  name="tag_keyword[]" class="form-control"
                                        value="{{ $tag['keyword'] ?? '' }}"
-                                       placeholder="Enter Your Keyword">
+                                       placeholder="Enter Keyword">
                                 <input type="color" name="tag_color[]"
                                        value="{{ $tag['color'] ?? '#000000' }}">
                                 <button type="button" class="btn-remove-tag"
@@ -579,7 +713,7 @@
                     @else
                         <div class="tag-row">
                             <input type="text"  name="tag_keyword[]" class="form-control"
-                                   placeholder="Enter Your Keyword">
+                                   placeholder="Enter Keyword">
                             <input type="color" name="tag_color[]" value="#000000">
                             <button type="button" class="btn-remove-tag"
                                     onclick="removeTagRow(this)">&#10005;</button>
@@ -591,7 +725,7 @@
                 </button>
             </div>
 
-            {{-- Tags --}}
+            {{-- ── Tags (Select2) ── --}}
             <div class="sidebar-card">
                 <div class="sidebar-card-title">Tags</div>
                 <select name="tags[]" id="product_tags" class="form-select" multiple>
@@ -604,39 +738,56 @@
                 <small class="text-muted" style="font-size:.75rem;">Type and press Enter to add tags</small>
             </div>
 
+            {{-- ── Submit ── --}}
             <button type="submit" class="btn-update-product">Update Product</button>
-        </div>
 
-    </div>
+        </div>{{-- /col-lg-4 --}}
+    </div>{{-- /row --}}
 </form>
 
-{{-- Scripts --}}
+{{-- ═══════════════════════════════════════════════════════════
+     SCRIPTS
+════════════════════════════════════════════════════════════ --}}
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-bs5.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <script>
+/* ════════════════════════════════════════════════════════════
+   CONFIG  – rendered once from Blade
+════════════════════════════════════════════════════════════ */
 var URL_SUB        = "{{ route('admin.products.getSubCategories') }}";
 var URL_CHILD      = "{{ route('admin.products.getChildCategories') }}";
 var SAVED_SUB_ID   = {{ $product->sub_category_id       ? (int) $product->sub_category_id       : 'null' }};
 var SAVED_CHILD_ID = {{ $product->child_sub_category_id ? (int) $product->child_sub_category_id : 'null' }};
+
+/* Gallery state */
 var newGalleryItems = [];
 
+/* ════════════════════════════════════════════════════════════
+   DOM READY
+════════════════════════════════════════════════════════════ */
 $(document).ready(function () {
 
-    // Rich text editors
+    /* ── Summernote rich text ── */
     $('#product_description').summernote({ height: 200 });
     $('#return_policy').summernote({ height: 200 });
 
-    // Select2 tag input
+    /* ── Select2: free-tagging for product tags ── */
     $('#product_tags').select2({
         tags: true,
         tokenSeparators: [','],
         placeholder: 'Type and press Enter'
     });
 
-    // SEO toggle
+    /* ── Select2 multi-select for Brand / Color / Unit / Size ── */
+    $('.select2-multi').select2({
+        placeholder: 'Select…',
+        allowClear: true
+    });
+
+    /* ── SEO toggle ── */
     $('#allow_seo_checkbox').on('change', function () {
         if ($(this).is(':checked')) {
             $('#seo_fields').slideDown(250);
@@ -647,74 +798,7 @@ $(document).ready(function () {
         }
     });
 
-    // Category → Sub Category (AJAX) — also restores saved sub on page load
-    $('#product_category').on('change', function () {
-        var catId = $(this).val();
-        $('#product_subcategory').html('<option value="">-- Select Sub Category (Optional) --</option>');
-        $('#product_childcategory').html('<option value="">-- Select Sub Category First --</option>');
-
-        if (!catId) {
-            $('#sub_hint').text('Select a category above');
-            return;
-        }
-
-        $('#sub_hint').html('<span style="color:#e67e22;">Loading...</span>');
-        $.get(URL_SUB, { category_id: catId })
-            .done(function (data) {
-                var html = '<option value="">-- Select Sub Category (Optional) --</option>';
-                $.each(data, function (i, r) {
-                    html += '<option value="' + r.id + '">' + r.sub_name + '</option>';
-                });
-                $('#product_subcategory').html(html);
-                $('#sub_hint').html(data.length
-                    ? '<span style="color:green;">&#10003; ' + data.length + ' sub category found</span>'
-                    : '<span style="color:#e67e22;">No sub categories found</span>');
-
-                // Restore saved sub-category selection on page load
-                if (SAVED_SUB_ID) {
-                    $('#product_subcategory').val(SAVED_SUB_ID).trigger('change');
-                    SAVED_SUB_ID = null;
-                }
-            })
-            .fail(function (xhr) {
-                $('#sub_hint').html('<span style="color:red;">Error ' + xhr.status + '</span>');
-            });
-    });
-
-    // Sub Category → Child Category (AJAX) — also restores saved child on page load
-    $('#product_subcategory').on('change', function () {
-        var subId = $(this).val();
-        $('#product_childcategory').html('<option value="">-- Select Child Category (Optional) --</option>');
-
-        if (!subId) {
-            $('#child_hint').text('Select a sub category above');
-            return;
-        }
-
-        $('#child_hint').html('<span style="color:#e67e22;">Loading...</span>');
-        $.get(URL_CHILD, { sub_category_id: subId })
-            .done(function (data) {
-                var html = '<option value="">-- Select Child Category (Optional) --</option>';
-                $.each(data, function (i, r) {
-                    html += '<option value="' + r.id + '">' + r.child_sub_name + '</option>';
-                });
-                $('#product_childcategory').html(html);
-                $('#child_hint').html(data.length
-                    ? '<span style="color:green;">&#10003; ' + data.length + ' child category found</span>'
-                    : '<span style="color:#e67e22;">No child categories found</span>');
-
-                // Restore saved child-category selection on page load
-                if (SAVED_CHILD_ID) {
-                    $('#product_childcategory').val(SAVED_CHILD_ID);
-                    SAVED_CHILD_ID = null;
-                }
-            })
-            .fail(function (xhr) {
-                $('#child_hint').html('<span style="color:red;">Error ' + xhr.status + '</span>');
-            });
-    });
-
-    // Upload type toggle
+    /* ── Upload type toggle ── */
     $('#upload_type').on('change', function () {
         if ($(this).val() === 'url') {
             $('#file_upload_section').hide();
@@ -725,67 +809,184 @@ $(document).ready(function () {
         }
     });
 
-    // Feature image preview
+    /* ── Feature image preview ── */
     $('#feature_image_input').on('change', function () {
         var file = this.files[0];
-        if (file) {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                $('#featureImgPreview').attr('src', e.target.result).show();
-                $('#featureImgPlaceholder').hide();
-            };
-            reader.readAsDataURL(file);
-        }
+        if (!file) return;
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            $('#featureImgPreview').attr('src', e.target.result).show();
+            $('#featureImgPlaceholder').hide();
+        };
+        reader.readAsDataURL(file);
     });
 
-    // New gallery picker
+    /* ── New gallery picker ── */
     $('#galleryPicker').on('change', function () {
-        Array.from(this.files).forEach(function (f) {
+        Array.from(this.files).forEach(function(f) {
             newGalleryItems.push({ file: f, size: '', color: '' });
         });
         $(this).val('');
         renderNewGallery();
     });
 
-    // Trigger category AJAX on page load to restore sub/child selections
-    if ($('#product_category').val()) {
-        $('#product_category').trigger('change');
+    /* ── SKU generator ── */
+    $('#btnGenerateSku').on('click', function(e) {
+        e.preventDefault();
+        var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        var nums  = '0123456789';
+        var p = '', n = '', s = '';
+        for (var i = 0; i < 3; i++) p += chars[Math.floor(Math.random() * chars.length)];
+        for (var j = 0; j < 6; j++) n += nums[Math.floor(Math.random() * nums.length)];
+        for (var k = 0; k < 2; k++) s += chars[Math.floor(Math.random() * chars.length)].toLowerCase();
+        $('#sku_input').val(p + n + s);
+    });
+
+    /* ────────────────────────────────────────────────────────
+       CATEGORY → SUB CATEGORY (AJAX)
+    ──────────────────────────────────────────────────────── */
+    function loadSubCategories(catId, restoreSubId) {
+        if (!catId) return;
+        $('#sub_hint').html('<span style="color:#e67e22;">Loading…</span>');
+        $.get(URL_SUB, { category_id: catId })
+            .done(function(data) {
+                var html = '<option value="">-- Select Sub Category --</option>';
+                $.each(data, function(i, r) {
+                    var selected = (restoreSubId && r.id == restoreSubId) ? ' selected' : '';
+                    html += '<option value="' + r.id + '"' + selected + '>' + r.sub_name + '</option>';
+                });
+                $('#product_subcategory').html(html);
+
+                $('#sub_hint').html(data.length
+                    ? '<span style="color:green;">&#10003; ' + data.length + ' sub category found</span>'
+                    : '<span style="color:#e67e22;">No sub categories found</span>');
+
+                /* If a sub was restored, trigger child load too */
+                if (restoreSubId) {
+                    $('#product_subcategory').trigger('change.restoreChild');
+                }
+            })
+            .fail(function(xhr) {
+                $('#sub_hint').html('<span style="color:red;">Error ' + xhr.status + '</span>');
+            });
     }
+
+    $('#product_category').on('change', function() {
+        var catId = $(this).val();
+        $('#product_subcategory').html('<option value="">-- Select Sub Category --</option>');
+        $('#product_childcategory').html('<option value="">-- Select Child Category --</option>');
+        $('#child_hint').text('Select a sub category first');
+
+        if (catId) loadSubCategories(catId, null);
+        else       $('#sub_hint').text('Select a category first');
+    });
+
+    /* ────────────────────────────────────────────────────────
+       SUB CATEGORY → CHILD CATEGORY (AJAX)
+    ──────────────────────────────────────────────────────── */
+    function loadChildCategories(subId, restoreChildId) {
+        if (!subId) return;
+        $('#child_hint').html('<span style="color:#e67e22;">Loading…</span>');
+        $.get(URL_CHILD, { sub_category_id: subId })
+            .done(function(data) {
+                var html = '<option value="">-- Select Child Category --</option>';
+                $.each(data, function(i, r) {
+                    var selected = (restoreChildId && r.id == restoreChildId) ? ' selected' : '';
+                    html += '<option value="' + r.id + '"' + selected + '>' + r.child_sub_name + '</option>';
+                });
+                $('#product_childcategory').html(html);
+
+                $('#child_hint').html(data.length
+                    ? '<span style="color:green;">&#10003; ' + data.length + ' child found</span>'
+                    : '<span style="color:#e67e22;">No child categories found</span>');
+            })
+            .fail(function(xhr) {
+                $('#child_hint').html('<span style="color:red;">Error ' + xhr.status + '</span>');
+            });
+    }
+
+    /* Normal user interaction */
+    $('#product_subcategory').on('change', function() {
+        var subId = $(this).val();
+        $('#product_childcategory').html('<option value="">-- Select Child Category --</option>');
+        if (subId) loadChildCategories(subId, null);
+        else       $('#child_hint').text('Select a sub category above');
+    });
+
+    /* Restore child after AJAX sub-load */
+    $('#product_subcategory').on('change.restoreChild', function() {
+        var subId = $(this).val();
+        if (subId && SAVED_CHILD_ID) {
+            loadChildCategories(subId, SAVED_CHILD_ID);
+            SAVED_CHILD_ID = null;
+        }
+    });
+
+    /* ── On page load: restore sub + child from DB values ── */
+    var savedCatId = $('#product_category').val();
+    if (savedCatId && SAVED_SUB_ID) {
+        /* Sub-categories not yet in DOM (they ARE in DOM because edit() passes them),
+           so just trigger child load for the pre-selected sub */
+        var preSelectedSub = $('#product_subcategory').val();
+        if (preSelectedSub && SAVED_CHILD_ID) {
+            loadChildCategories(preSelectedSub, SAVED_CHILD_ID);
+        }
+    }
+
 });
 
-// ── Toggle helpers ──────────────────────────────────────────────────
+/* ════════════════════════════════════════════════════════════
+   TOGGLE HELPERS
+════════════════════════════════════════════════════════════ */
 function toggleUnlimited(cb) {
-    document.getElementById('stock_input').disabled = cb.checked;
-    if (cb.checked) document.getElementById('stock_input').value = '';
+    var stockInput = document.getElementById('stock_input');
+    stockInput.disabled = cb.checked;
+    if (cb.checked) stockInput.value = '';
 }
 
 function toggleFlashSale(cb) {
-    cb.checked ? $('#flashSaleFields').slideDown(250) : $('#flashSaleFields').slideUp(250);
+    cb.checked
+        ? $('#flashSaleFields').slideDown(250)
+        : $('#flashSaleFields').slideUp(250);
 }
 
-// ── New gallery helpers ─────────────────────────────────────────────
+/* ════════════════════════════════════════════════════════════
+   GALLERY HELPERS
+════════════════════════════════════════════════════════════ */
 function renderNewGallery() {
-    var container = $('#newGalleryPreview');
-    container.empty();
-    newGalleryItems.forEach(function (item, idx) {
+    var $container = $('#newGalleryPreview');
+    $container.empty();
+
+    newGalleryItems.forEach(function(item, idx) {
         var reader = new FileReader();
-        reader.onload = function (e) {
-            var card = $('<div class="gallery-card new-img" id="ngc_' + idx + '"></div>');
-            card.append('<img src="' + e.target.result + '">');
-            card.append('<input type="text" class="form-control form-control-sm" placeholder="Size (e.g. M)" value="' + item.size + '" onchange="newGalleryItems[' + idx + '].size=this.value; rebuildNewGalleryInputs();">');
-            card.append('<input type="text" class="form-control form-control-sm mt-1" placeholder="Color (e.g. Red)" value="' + item.color + '" onchange="newGalleryItems[' + idx + '].color=this.value; rebuildNewGalleryInputs();">');
-            card.append('<button type="button" class="btn-rm" onclick="removeNewGallery(' + idx + ')">&#10005; Remove</button>');
-            container.append(card);
+        reader.onload = function(e) {
+            var $card = $('<div class="gallery-card new-img" id="ngc_' + idx + '"></div>');
+            $card.append('<img src="' + e.target.result + '">');
+            $card.append(
+                '<input type="text" class="form-control form-control-sm mt-1" ' +
+                'placeholder="Size (e.g. M)" value="' + (item.size || '') + '" ' +
+                'onchange="newGalleryItems[' + idx + '].size=this.value; rebuildNewGalleryInputs();">'
+            );
+            $card.append(
+                '<input type="text" class="form-control form-control-sm mt-1" ' +
+                'placeholder="Color (e.g. Red)" value="' + (item.color || '') + '" ' +
+                'onchange="newGalleryItems[' + idx + '].color=this.value; rebuildNewGalleryInputs();">'
+            );
+            $card.append(
+                '<button type="button" class="btn-rm" onclick="removeNewGallery(' + idx + ')">&#10005; Remove</button>'
+            );
+            $container.append($card);
         };
         reader.readAsDataURL(item.file);
     });
+
     rebuildNewGalleryInputs();
 }
 
 function rebuildNewGalleryInputs() {
-    var container = $('#galleryFileInputs');
-    container.empty();
-    newGalleryItems.forEach(function (item) {
+    var $container = $('#galleryFileInputs');
+    $container.empty();
+    newGalleryItems.forEach(function(item) {
         var inputEl = document.createElement('input');
         inputEl.type  = 'file';
         inputEl.name  = 'gallery_images[]';
@@ -793,9 +994,9 @@ function rebuildNewGalleryInputs() {
         var dt = new DataTransfer();
         dt.items.add(item.file);
         inputEl.files = dt.files;
-        container.append(inputEl);
-        container.append('<input type="hidden" name="gallery_color[]" value="' + (item.color || '') + '">');
-        container.append('<input type="hidden" name="gallery_size[]"  value="' + (item.size  || '') + '">');
+        $container.append(inputEl);
+        $container.append('<input type="hidden" name="gallery_color[]" value="' + (item.color || '') + '">');
+        $container.append('<input type="hidden" name="gallery_size[]"  value="' + (item.size  || '') + '">');
     });
 }
 
@@ -809,18 +1010,19 @@ function removeExistingGallery(name) {
     if (el) el.remove();
 }
 
-// ── Variant helpers ─────────────────────────────────────────────────
-// ✅ "+ Add Variant" ক্লিকে row যোগ হয় এবং table দেখা যায়
+/* ════════════════════════════════════════════════════════════
+   VARIANT HELPERS
+════════════════════════════════════════════════════════════ */
 function addVariantRow() {
     var wrap = document.getElementById('variantTableWrap');
-    wrap.classList.add('has-rows'); // table দেখাও
+    wrap.classList.add('has-rows');
 
     var row = document.createElement('div');
     row.className = 'variant-row';
     row.innerHTML =
         '<input type="text"   name="variant_size[]"  class="form-control form-control-sm" placeholder="e.g. M / XL / Red Shirt">' +
         '<input type="color"  name="variant_color[]" value="#1a2b6b">' +
-        '<input type="number" name="variant_stock[]" class="form-control form-control-sm" placeholder="0" min="0" value="0">' +
+        '<input type="number" name="variant_stock[]" class="form-control form-control-sm" placeholder="0"    min="0" value="0">' +
         '<input type="number" name="variant_price[]" class="form-control form-control-sm" placeholder="0.00" step="0.01" min="0">' +
         '<button type="button" class="btn-remove-variant" onclick="removeVariantRow(this)" title="Remove">&#10005;</button>';
 
@@ -830,20 +1032,20 @@ function addVariantRow() {
 function removeVariantRow(btn) {
     var container = document.getElementById('variantContainer');
     btn.closest('.variant-row').remove();
-
-    // সব row চলে গেলে table আবার hide করো
     if (container.querySelectorAll('.variant-row').length === 0) {
         document.getElementById('variantTableWrap').classList.remove('has-rows');
     }
 }
 
-// ── Feature tag helpers ─────────────────────────────────────────────
+/* ════════════════════════════════════════════════════════════
+   FEATURE TAG HELPERS
+════════════════════════════════════════════════════════════ */
 function addTagRow() {
     $('#featureTagsContainer').append(
         '<div class="tag-row">' +
-        '<input type="text"  name="tag_keyword[]" class="form-control" placeholder="Enter Your Keyword">' +
-        '<input type="color" name="tag_color[]"   value="#000000">' +
-        '<button type="button" class="btn-remove-tag" onclick="removeTagRow(this)">&#10005;</button>' +
+            '<input type="text"  name="tag_keyword[]" class="form-control" placeholder="Enter Keyword">' +
+            '<input type="color" name="tag_color[]"   value="#000000">' +
+            '<button type="button" class="btn-remove-tag" onclick="removeTagRow(this)">&#10005;</button>' +
         '</div>'
     );
 }

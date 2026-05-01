@@ -8,6 +8,8 @@ return new class extends Migration
 {
     public function up(): void
     {
+        Schema::disableForeignKeyConstraints();
+
         Schema::create('products', function (Blueprint $table) {
             $table->id();
 
@@ -17,12 +19,29 @@ return new class extends Migration
             $table->string('sku')->unique()->nullable();
             $table->string('vendor')->nullable();
             $table->string('meta_tags')->nullable();
-            $table->string('meta_description')->nullable();
+            $table->text('meta_description')->nullable();
 
             // ── Category ─────────────────────────────────────
-            $table->foreignId('category_id')->constrained('categories')->cascadeOnDelete();
-            $table->foreignId('sub_category_id')->nullable()->constrained('sub_categories')->nullOnDelete();
-            $table->foreignId('child_sub_category_id')->nullable()->constrained('child_sub_categories')->nullOnDelete();
+            $table->foreignId('category_id')
+                  ->constrained('categories')
+                  ->cascadeOnDelete();
+
+            $table->foreignId('sub_category_id')
+                  ->nullable()
+                  ->constrained('sub_categories')
+                  ->nullOnDelete();
+
+            $table->foreignId('child_sub_category_id')
+                  ->nullable()
+                  ->constrained('child_sub_categories')
+                  ->nullOnDelete();
+
+            // ── Brand / Color / Unit / Size (Multiple - JSON) ─
+            // Stores array of IDs: [1, 2, 3] or single [1] or null
+            $table->json('brand_ids')->nullable();   // replaces brand_id
+            $table->json('color_ids')->nullable();   // replaces color_id
+            $table->json('unit_ids')->nullable();    // replaces unit_id
+            $table->json('size_ids')->nullable();    // replaces size_id
 
             // ── Type & File ───────────────────────────────────
             $table->enum('product_type', [
@@ -31,9 +50,9 @@ return new class extends Migration
                 'license',
                 'classified_listing',
                 'service',
-            ])->default('digital');
+            ])->default('physical');
 
-            $table->string('upload_type')->default('file'); // file | url
+            $table->string('upload_type')->default('file');
             $table->string('product_file')->nullable();
             $table->string('product_url')->nullable();
 
@@ -45,13 +64,10 @@ return new class extends Migration
             $table->string('feature_image')->nullable();
             $table->json('gallery_images')->nullable();
 
-            // ── Variants ──────────────────────────────────────
-            $table->json('variants')->nullable();
-
             // ── Pricing & Stock ───────────────────────────────
             $table->decimal('current_price', 12, 2)->default(0);
             $table->decimal('discount_price', 12, 2)->nullable();
-            $table->unsignedInteger('stock')->nullable(); // null = unlimited
+            $table->unsignedInteger('stock')->nullable();
             $table->boolean('is_unlimited')->default(false);
 
             // ── Media & Tags ──────────────────────────────────
@@ -80,10 +96,14 @@ return new class extends Migration
 
             $table->timestamps();
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 
     public function down(): void
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('products');
+        Schema::enableForeignKeyConstraints();
     }
 };

@@ -4,71 +4,89 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Permission;
+use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class PermissionController extends Controller
 {
+    // ── Index: List Users and their Direct Permissions ─────────────────────────
     public function index()
     {
-        $permissions = Permission::all()->groupBy('group');
-        return view('admin.permissions.index', compact('permissions'));
+        // Users who have direct permissions
+        $users = User::has('directPermissions')->with('directPermissions')->latest()->get();
+        return view('admin.permissions.index', compact('users'));
     }
 
+    // ── Create: Assign Permissions to User ─────────────────────────────────────
     public function create()
     {
-        $groups = Permission::getAllGroups();
-        return view('admin.permissions.create', compact('groups'));
+        $users = User::orderBy('name')->get();
+        $permissions = Permission::orderBy('group')->orderBy('name')
+            ->get()
+            ->groupBy(fn ($p) => $p->group ?? 'General');
+
+        return view('admin.permissions.create', compact('users', 'permissions'));
     }
 
+    // ── Store: Save Assigned Permissions ───────────────────────────────────────
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|unique:permissions,name',
-            'group' => 'required|string',
-            'description' => 'nullable|string'
+            'user_id'       => 'required|exists:users,id',
+            'permissions'   => 'nullable|array',
+            'permissions.*' => 'exists:permissions,id',
         ]);
 
-        Permission::create([
-            'name' => $request->name,
-            'slug' => Str::slug($request->name),
-            'group' => $request->group,
-            'description' => $request->description
-        ]);
+        $user = User::findOrFail($request->user_id);
 
-        return redirect()->route('permissions.index')
-            ->with('success', 'Permission তৈরি হয়েছে!');
+        if ($request->filled('permissions')) {
+            $user->directPermissions()->sync($request->permissions);
+        } else {
+            $user->directPermissions()->detach();
+        }
+
+        return redirect()->route('admin.permissions.index')
+            ->with('success', "'{$user->name}' কে সফলভাবে পারমিশন দেওয়া হয়েছে।");
     }
 
-    public function edit(Permission $permission)
+    // ── Edit: Edit User's Direct Permissions ───────────────────────────────────
+    public function edit($id)
     {
-        $groups = Permission::getAllGroups();
-        return view('admin.permissions.edit', compact('permission', 'groups'));
+        $user = User::findOrFail($id);
+        
+        $users = User::orderBy('name')->get();
+        $permissions = Permission::orderBy('group')->orderBy('name')
+            ->get()
+            ->groupBy(fn ($p) => $p->group ?? 'General');
+            
+        $userPermissions = $user->directPermissions->pluck('id')->toArray();
+
+        return view('admin.permissions.edit', compact('user', 'users', 'permissions', 'userPermissions'));
     }
 
-    public function update(Request $request, Permission $permission)
+    // ── Update: Update Assigned Permissions ────────────────────────────────────
+    public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required|unique:permissions,name,' . $permission->id,
-            'group' => 'required|string',
-            'description' => 'nullable|string'
+            'user_id'       => 'required|exists:users,id',
+            'permissions'   => 'nullable|array',
+            'permissions.*' => 'exists:permissions,id',
         ]);
 
-        $permission->update([
-            'name' => $request->name,
-            'slug' => Str::slug($request->name),
-            'group' => $request->group,
-            'description' => $request->description
-        ]);
+        $user = User::findOrFail($request->user_id);
+        $user->directPermissions()->sync($request->permissions ?? []);
 
         return redirect()->route('admin.permissions.index')
-            ->with('success', 'Permission আপডেট হয়েছে!');
+            ->with('success', "'{$user->name}' এর পারমিশন আপডেট হয়েছে।");
     }
 
-    public function destroy(Permission $permission)
+    // ── Destroy: Remove all direct permissions from user ───────────────────────
+    public function destroy($id)
     {
-        $permission->delete();
+        $user = User::findOrFail($id);
+        $user->directPermissions()->detach();
+
         return redirect()->route('admin.permissions.index')
-            ->with('success', 'Permission মুছে ফেলা হয়েছে!');
+            ->with('success', "'{$user->name}' এর সব পারমিশন রিমুভ করা হয়েছে।");
     }
 }

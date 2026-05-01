@@ -22,23 +22,6 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Shahzadimart Shop</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700;800;900&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/png" href="{{ asset($websitefavicon->favicon_logo ?? 'default/favicon.png') }}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="{{ asset('frontend') }}/assets/css/main.css">
-    <link rel="stylesheet" href="{{ asset('frontend') }}/assets/css/index.css">
-    <link rel="stylesheet" href="{{ asset('frontend') }}/assets/css/footer.css">
-    <link rel="stylesheet" href="{{ asset('frontend') }}/assets/css/newproduct.css">
-    <link rel="stylesheet" href="{{ asset('frontend') }}/assets/css/offer.css">
-    <link rel="stylesheet" href="{{ asset('frontend') }}/assets/css/shop.css">
-    <link rel="stylesheet" href="{{ asset('frontend') }}/assets/css/allproduct.css">
-    <link rel="stylesheet" href="{{ asset('frontend') }}/assets/css/productdetils.css">
     {{-- ══ GOOGLE TAG MANAGER — <head> ══ --}}
     @if($gtmId)
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -67,6 +50,24 @@
              src="https://www.facebook.com/tr?id={{ $fbPixelId }}&ev=PageView&noscript=1"/>
     </noscript>
     @endif
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700;800;900&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="{{ asset($websitefavicon->favicon_logo ?? 'default/favicon.png') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="{{ asset('frontend') }}/assets/css/main.css">
+    <link rel="stylesheet" href="{{ asset('frontend') }}/assets/css/index.css">
+    <link rel="stylesheet" href="{{ asset('frontend') }}/assets/css/footer.css">
+    <link rel="stylesheet" href="{{ asset('frontend') }}/assets/css/newproduct.css">
+    <link rel="stylesheet" href="{{ asset('frontend') }}/assets/css/offer.css">
+    <link rel="stylesheet" href="{{ asset('frontend') }}/assets/css/shop.css">
+    <link rel="stylesheet" href="{{ asset('frontend') }}/assets/css/allproduct.css">
+    <link rel="stylesheet" href="{{ asset('frontend') }}/assets/css/productdetils.css">
 
 
 
@@ -642,8 +643,21 @@ document.addEventListener('click', function(e) {
 })();
 
 function doSearch() {
-    var q = (document.getElementById('globalSearch') || {}).value;
-    if (q && q.trim()) window.location.href = '{{ route("search.results") }}?q=' + encodeURIComponent(q.trim());
+    var qInput = document.getElementById('globalSearch');
+    var q = qInput ? qInput.value.trim() : '';
+    if (q) {
+        // Tracking Search
+        if (typeof fbq !== 'undefined') {
+            fbq('track', 'Search', { search_string: q });
+        }
+        if (typeof dataLayer !== 'undefined') {
+            dataLayer.push({
+                'event': 'search',
+                'search_term': q
+            });
+        }
+        window.location.href = '{{ route("search.results") }}?q=' + encodeURIComponent(q);
+    }
 }
 document.getElementById('globalSearch') && document.getElementById('globalSearch').addEventListener('keypress', function (e) {
     if (e.key === 'Enter') doSearch();

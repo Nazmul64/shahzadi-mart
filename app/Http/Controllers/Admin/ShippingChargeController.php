@@ -112,11 +112,10 @@ class ShippingChargeController extends Controller
 
     public function toggleStatus(ShippingCharge $shipping)
     {
-        $shipping->update([
-            'status' => $shipping->status === 'active' ? 'inactive' : 'active',
-        ]);
+        $shipping->status = $shipping->status === 'active' ? 'inactive' : 'active';
+        $shipping->save();
 
-        return redirect()->back()->with('success', 'স্ট্যাটাস পরিবর্তন হয়েছে।');
+        return redirect()->back()->with('success', 'শিপিং স্ট্যাটাস সফলভাবে পরিবর্তন করা হয়েছে।');
     }
 
     // ══════════════════════════════════════════════════════════════

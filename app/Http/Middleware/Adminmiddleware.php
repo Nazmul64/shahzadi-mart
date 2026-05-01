@@ -33,9 +33,9 @@ class AdminMiddleware
                 ->with('error', 'Your account has been deactivated. Contact administrator.');
         }
 
-        // RBAC check — isAdmin() User Model এ defined
-        // super-admin, admin, manager, sub-admin যেকোনো একটি হলে pass
-        if (!$user->isAdmin()) {
+        // RBAC check — User Model এ defined
+        // super-admin, admin, manager, sub-admin, employee যেকোনো একটি হলে pass
+        if (!$user->canAccessAdmin()) {
             Auth::logout();
             return redirect()->route('admin.login')
                 ->with('error', 'You are not authorized to access admin panel.');

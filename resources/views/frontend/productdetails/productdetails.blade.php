@@ -3,56 +3,64 @@
 @section('main-content')
 
 @php
+  // ── Images ──────────────────────────────────────────────────────────
   $featureImg = $product->feature_image
                 ? asset('uploads/products/' . $product->feature_image)
                 : asset('images/placeholder.png');
+
   $gallery = collect($product->gallery_images ?? [])
                ->map(fn($g) => [
                    'url'   => asset('uploads/products/' . (is_array($g) ? $g['image'] : $g)),
                    'color' => is_array($g) ? ($g['color'] ?? null) : null,
                    'size'  => is_array($g) ? ($g['size'] ?? null) : null,
                ])->values();
-  $allImages   = collect([['url' => $featureImg]])->merge($gallery)->values();
+
+  $allImages   = collect([['url' => $featureImg, 'color' => null, 'size' => null]])->merge($gallery)->values();
   $totalImages = $allImages->count();
 
+  // ── Pricing ──────────────────────────────────────────────────────────
   $discountPct   = ($product->discount_price && $product->current_price > 0)
                     ? round((($product->current_price - $product->discount_price) / $product->current_price) * 100)
                     : null;
   $displayPrice  = $product->discount_price ?? $product->current_price;
   $originalPrice = $product->discount_price ? $product->current_price : null;
 
-  $variants = collect($product->variants ?? []);
-  $colors   = $variants->pluck('color')->filter()->unique()->values();
-  $sizes    = $variants->pluck('size')->filter()->unique()->values();
-
+  // ── Tags / Feature Tags ──────────────────────────────────────────────
   $tags        = $product->tags ?? [];
   $featureTags = $product->feature_tags ?? [];
 
+  // ── Stock ────────────────────────────────────────────────────────────
   $inStock    = $product->is_unlimited || ($product->stock ?? 0) > 0;
   $stockLabel = $product->is_unlimited
                   ? 'স্টকে আছে'
                   : ($product->stock > 0 ? $product->stock . ' টি বাকি আছে' : 'স্টক শেষ');
 
+  // ── Category names ───────────────────────────────────────────────────
   $categoryName = $product->category->category_name ?? '';
-  $subCatName   = $product->subCategory->sub_name ?? '';
-  $shareUrl     = url()->current();
-  $shareTitle   = urlencode($product->name);
+  $subCatName   = $product->subCategory->sub_name   ?? '';
 
+  // ── Social share ─────────────────────────────────────────────────────
+  $shareUrl   = url()->current();
+  $shareTitle = urlencode($product->name);
+
+  // ── YouTube ──────────────────────────────────────────────────────────
   preg_match('/(?:v=|youtu\.be\/|embed\/)([a-zA-Z0-9_-]{11})/', $product->youtube_url ?? '', $ytMatch);
   $ytId = $ytMatch[1] ?? null;
 
+  // ── URLs / CSRF ──────────────────────────────────────────────────────
   $cartAddUrl     = route('cart.add', $product->id);
   $wishlistAddUrl = route('wishlist.add', $product->id);
   $checkoutUrl    = route('checkout');
   $csrfToken      = csrf_token();
 
-  // ── Contact info from admin settings ──
+  // ── Contact info ─────────────────────────────────────────────────────
   $contactInfo    = \App\Models\Contactinfomationadmin::first();
   $phoneNumber    = $contactInfo->phone         ?? '';
   $whatsappNumber = $contactInfo->watsapp_url   ?? '';
   $messengerUrl   = $contactInfo->messanger_url ?? '';
   $whatsappText   = urlencode('আমি এই পণ্যটি সম্পর্কে জানতে চাই: ' . $product->name . ' — ' . url()->current());
 
+  // ── Reviews ──────────────────────────────────────────────────────────
   $productReviews = \App\Models\Producreview::where('product_id', $product->id)
                         ->where('is_approved', true)
                         ->with('user')
@@ -74,6 +82,13 @@
   }
 
   $reviewStoreUrl = route('review.store', $product->id);
+
+  // ── Multiple Attributes (from controller compact) ────────────────────
+  // $productColors  → Collection of Color models  (color_ids)
+  // $productSizes   → Collection of Size models   (size_ids)
+  // $productBrands  → Collection of Brand models  (brand_ids)
+  // $productUnits   → Collection of Unit models   (unit_ids)
+  // Make sure controller passes these four variables via compact()
 @endphp
 
 {{-- ════════ TOAST CONTAINER ════════ --}}
@@ -84,14 +99,19 @@
   <div class="pdp-rev-modal">
     <div class="pdp-rev-modal-head">
       <span class="pdp-rev-modal-title">রিভিউ লিখুন</span>
-      <button class="pdp-rev-modal-close" id="pdpRevModalClose" type="button"><i class="fas fa-times"></i></button>
+      <button class="pdp-rev-modal-close" id="pdpRevModalClose" type="button">
+        <i class="fas fa-times"></i>
+      </button>
     </div>
+
     @auth
       @if($alreadyReviewed)
         <div style="text-align:center;padding:20px 0">
           <i class="fas fa-check-circle" style="font-size:36px;color:#16a34a;display:block;margin-bottom:12px"></i>
           <p style="font-size:14px;color:#374151;font-weight:600">আপনি ইতোমধ্যে এই পণ্যটি রিভিউ করেছেন।</p>
-          <p style="font-size:12px;color:var(--muted);margin-top:6px">রেটিং: {{ $userReview->rating }}/5 — "{{ Str::limit($userReview->review, 60) }}"</p>
+          <p style="font-size:12px;color:var(--muted);margin-top:6px">
+            রেটিং: {{ $userReview->rating }}/5 — "{{ Str::limit($userReview->review, 60) }}"
+          </p>
         </div>
       @else
         <form id="pdpRevForm" action="{{ $reviewStoreUrl }}" method="POST">
@@ -128,18 +148,30 @@
 {{-- ════════ MAIN PDP ════════ --}}
 <div class="pdp">
   <div class="pdp__wrap">
-    @if(session('success'))<div class="pdp-alert pdp-alert--success"><i class="bi bi-check-circle-fill"></i> {{ session('success') }}</div>@endif
-    @if(session('info'))<div class="pdp-alert pdp-alert--info"><i class="bi bi-info-circle-fill"></i> {{ session('info') }}</div>@endif
-    @if(session('error'))<div class="pdp-alert pdp-alert--error"><i class="bi bi-exclamation-circle-fill"></i> {{ session('error') }}</div>@endif
+    @if(session('success'))
+      <div class="pdp-alert pdp-alert--success"><i class="bi bi-check-circle-fill"></i> {{ session('success') }}</div>
+    @endif
+    @if(session('info'))
+      <div class="pdp-alert pdp-alert--info"><i class="bi bi-info-circle-fill"></i> {{ session('info') }}</div>
+    @endif
+    @if(session('error'))
+      <div class="pdp-alert pdp-alert--error"><i class="bi bi-exclamation-circle-fill"></i> {{ session('error') }}</div>
+    @endif
   </div>
 
-  {{-- Breadcrumb --}}
+  {{-- ── Breadcrumb ── --}}
   <div class="pdp__breadbar">
     <div class="pdp__wrap">
       <nav class="pdp__bread">
         <a href="{{ url('/') }}">হোম</a>
-        @if($categoryName)<span class="pdp__bread-sep">›</span><a href="#">{{ $categoryName }}</a>@endif
-        @if($subCatName)<span class="pdp__bread-sep">›</span><a href="#">{{ $subCatName }}</a>@endif
+        @if($categoryName)
+          <span class="pdp__bread-sep">›</span>
+          <a href="#">{{ $categoryName }}</a>
+        @endif
+        @if($subCatName)
+          <span class="pdp__bread-sep">›</span>
+          <a href="#">{{ $subCatName }}</a>
+        @endif
         <span class="pdp__bread-sep">›</span>
         <span class="pdp__bread-cur">{{ Str::limit($product->name, 60) }}</span>
       </nav>
@@ -150,35 +182,55 @@
     <div class="pdp__card">
       <div class="pdp__grid">
 
-        {{-- ── Gallery Column ── --}}
+        {{-- ══════════════════════════════════════
+             GALLERY COLUMN
+        ══════════════════════════════════════ --}}
         <div class="pdp__gallery">
+
+          {{-- Main image wrapper --}}
           <div class="pdp__main-wrap" id="pdpMainWrap">
-            <button class="pdp__wish-btn" id="pdpWishBtn" data-url="{{ $wishlistAddUrl }}" title="উইশলিস্টে যোগ করুন">
+            <button class="pdp__wish-btn" id="pdpWishBtn"
+                    data-url="{{ $wishlistAddUrl }}"
+                    title="উইশলিস্টে যোগ করুন">
               <i class="bi bi-heart"></i>
             </button>
+
             @if($product->vendor)
               <div class="pdp__badge-row">
                 <span class="pdp__badge pdp__badge--vendor">{{ $product->vendor }}</span>
               </div>
             @endif
-            <img id="pdpMainImg" class="pdp__main-img" src="{{ $featureImg }}" alt="{{ $product->name }}"/>
-            <div class="pdp__zoom-hint"><i class="fas fa-search-plus" style="font-size:10px"></i> বড় করে দেখুন</div>
+
+            <img id="pdpMainImg" class="pdp__main-img"
+                 src="{{ $featureImg }}" alt="{{ $product->name }}"/>
+
+            <div class="pdp__zoom-hint">
+              <i class="fas fa-search-plus" style="font-size:10px"></i> বড় করে দেখুন
+            </div>
             <div class="pdp__img-counter">
               <i class="fas fa-camera"></i>
               <span id="pdpCounter">1 / {{ $totalImages }}</span>
             </div>
+
+            {{-- Hover popup --}}
             <div class="pdp__img-popup">
               <div class="pdp__popup-title">{{ $product->name }}</div>
               <div class="pdp__popup-meta">
                 <span class="pdp__popup-price">৳{{ number_format($displayPrice, 2) }}</span>
-                @if($originalPrice)<span class="pdp__popup-old">৳{{ number_format($originalPrice, 2) }}</span>@endif
-                @if($discountPct)<span class="pdp__popup-chip">−{{ $discountPct }}%</span>@endif
+                @if($originalPrice)
+                  <span class="pdp__popup-old">৳{{ number_format($originalPrice, 2) }}</span>
+                @endif
+                @if($discountPct)
+                  <span class="pdp__popup-chip">−{{ $discountPct }}%</span>
+                @endif
               </div>
               <div class="pdp__popup-stock"><i class="fas fa-fire"></i> {{ $stockLabel }}</div>
               <hr class="pdp__popup-hr"/>
               <div class="pdp__popup-meta2">
                 <span><i class="fas fa-tag"></i> SKU: {{ $product->sku ?? 'N/A' }}</span>
-                @if($product->return_policy)<span><i class="fas fa-undo"></i> রিটার্ন পলিসি</span>@endif
+                @if($product->return_policy)
+                  <span><i class="fas fa-undo"></i> রিটার্ন পলিসি</span>
+                @endif
               </div>
             </div>
           </div>
@@ -193,24 +245,40 @@
             @endforeach
           </div>
 
-          {{-- Share --}}
+          {{-- Social Share --}}
           <div class="pdp__share">
             <span class="pdp__share-label">শেয়ার করুন:</span>
-            <a href="https://www.facebook.com/sharer/sharer.php?u={{ $shareUrl }}" target="_blank" rel="noopener" class="pdp__soc-btn pdp__soc--fb"><i class="fab fa-facebook-f"></i></a>
-            <a href="https://www.linkedin.com/shareArticle?url={{ $shareUrl }}&title={{ $shareTitle }}" target="_blank" rel="noopener" class="pdp__soc-btn pdp__soc--li"><i class="fab fa-linkedin-in"></i></a>
-            <a href="https://twitter.com/intent/tweet?url={{ $shareUrl }}&text={{ $shareTitle }}" target="_blank" rel="noopener" class="pdp__soc-btn pdp__soc--tw"><i class="fab fa-twitter"></i></a>
-            <a href="https://wa.me/?text={{ $shareTitle }}%20{{ $shareUrl }}" target="_blank" rel="noopener" class="pdp__soc-btn pdp__soc--wa"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://www.facebook.com/sharer/sharer.php?u={{ $shareUrl }}"
+               target="_blank" rel="noopener" class="pdp__soc-btn pdp__soc--fb">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="https://www.linkedin.com/shareArticle?url={{ $shareUrl }}&title={{ $shareTitle }}"
+               target="_blank" rel="noopener" class="pdp__soc-btn pdp__soc--li">
+              <i class="fab fa-linkedin-in"></i>
+            </a>
+            <a href="https://twitter.com/intent/tweet?url={{ $shareUrl }}&text={{ $shareTitle }}"
+               target="_blank" rel="noopener" class="pdp__soc-btn pdp__soc--tw">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://wa.me/?text={{ $shareTitle }}%20{{ $shareUrl }}"
+               target="_blank" rel="noopener" class="pdp__soc-btn pdp__soc--wa">
+              <i class="fab fa-whatsapp"></i>
+            </a>
           </div>
-        </div>
 
-        {{-- ── Info Column ── --}}
+        </div>{{-- /.pdp__gallery --}}
+
+        {{-- ══════════════════════════════════════
+             INFO COLUMN
+        ══════════════════════════════════════ --}}
         <div class="pdp__info">
 
           {{-- Feature Tags --}}
           @if(!empty($featureTags))
             <div class="pdp__feature-tags">
               @foreach($featureTags as $ft)
-                <span class="pdp__feature-tag" style="background:{{ $ft['color'] ?? '#be0318' }};color:#fff">
+                <span class="pdp__feature-tag"
+                      style="background:{{ $ft['color'] ?? '#be0318' }};color:#fff">
                   {{ $ft['keyword'] }}
                 </span>
               @endforeach
@@ -219,6 +287,7 @@
 
           <h1 class="pdp__title">{{ $product->name }}</h1>
 
+          {{-- SKU / Vendor row --}}
           <div class="pdp__meta-row">
             <span class="pdp__meta-muted">SKU:</span>
             <strong>{{ $product->sku ?? 'N/A' }}</strong>
@@ -229,10 +298,10 @@
             @endif
           </div>
 
-          {{-- Ratings summary --}}
+          {{-- Rating summary --}}
           @if($totalRevCount > 0)
             <div class="pdp__meta-row" style="margin-bottom:14px">
-              @for($s=1; $s<=5; $s++)
+              @for($s = 1; $s <= 5; $s++)
                 <i class="bi bi-star{{ $s <= round($avgRating) ? '-fill' : '' }}"
                    style="font-size:13px;color:{{ $s <= round($avgRating) ? '#f59e0b' : '#d1d5db' }}"></i>
               @endfor
@@ -244,13 +313,13 @@
             </div>
           @endif
 
-          {{-- Viewers --}}
+          {{-- Live viewers --}}
           <div class="pdp__viewers">
             <i class="fas fa-eye"></i>
             <span><span class="pdp__viewers-n" id="pdpViewers">61</span> জন এখন দেখছেন</span>
           </div>
 
-          {{-- Price Block --}}
+          {{-- Price block --}}
           <div class="pdp__price-block">
             <div class="pdp__price-row">
               <span class="pdp__price-cur">৳{{ round($displayPrice, 2) }}</span>
@@ -263,50 +332,122 @@
             </div>
           </div>
 
-          {{-- Color Options --}}
-          @if($colors->count())
+          {{-- ══════════════════════════════════════
+               COLOR OPTIONS  (from color_ids)
+          ══════════════════════════════════════ --}}
+          @if(isset($productColors) && $productColors->count())
             <div class="pdp__opt-group">
               <label class="pdp__opt-label">
-                রঙ: <span class="pdp__opt-tag">ঐচ্ছিক</span>
+                রঙ:
+               >
                 <span class="pdp__opt-selected" id="pdpColorSel" style="display:none"></span>
               </label>
               <div class="pdp__opt-btns">
-                @foreach($colors as $color)
-                  <button class="pdp__opt-btn" data-group="color" data-value="{{ $color }}">{{ $color }}</button>
+                @foreach($productColors as $color)
+                  <button class="pdp__opt-btn"
+                          data-group="color"
+                          data-value="{{ $color->name }}">
+                    {{-- Color swatch — hide if no hex_code column --}}
+                    @if(!empty($color->hex_code))
+                      <span style="display:inline-block;width:12px;height:12px;border-radius:50%;
+                                   background:{{ $color->hex_code }};border:1px solid rgba(0,0,0,.15);
+                                   margin-right:5px;vertical-align:middle;flex-shrink:0;"></span>
+                    @endif
+                    {{ $color->name }}
+                  </button>
                 @endforeach
               </div>
             </div>
           @endif
 
-          {{-- Size Options --}}
-          @if($sizes->count())
+          {{-- ══════════════════════════════════════
+               SIZE OPTIONS  (from size_ids)
+          ══════════════════════════════════════ --}}
+          @if(isset($productSizes) && $productSizes->count())
             <div class="pdp__opt-group">
               <label class="pdp__opt-label">
-                সাইজ: <span class="pdp__opt-tag">ঐচ্ছিক</span>
+                সাইজ:
                 <span class="pdp__opt-selected" id="pdpSizeSel" style="display:none"></span>
               </label>
               <div class="pdp__opt-btns">
-                @foreach($sizes as $size)
-                  <button class="pdp__opt-btn" data-group="size" data-value="{{ $size }}">{{ $size }}</button>
+                @foreach($productSizes as $size)
+                  <button class="pdp__opt-btn"
+                          data-group="size"
+                          data-value="{{ $size->name }}">
+                    {{ $size->name }}
+                  </button>
                 @endforeach
               </div>
             </div>
           @endif
 
-          {{-- Quantity --}}
+          {{-- ══════════════════════════════════════
+               BRAND OPTIONS  (from brand_ids)
+          ══════════════════════════════════════ --}}
+          @if(isset($productBrands) && $productBrands->count())
+            <div class="pdp__opt-group">
+              <label class="pdp__opt-label">
+                ব্র্যান্ড:
+                <span class="pdp__opt-tag">ঐচ্ছিক</span>
+                <span class="pdp__opt-selected" id="pdpBrandSel" style="display:none"></span>
+              </label>
+              <div class="pdp__opt-btns">
+                @foreach($productBrands as $brand)
+                  <button class="pdp__opt-btn"
+                          data-group="brand"
+                          data-value="{{ $brand->name }}">
+                    @if(!empty($brand->logo))
+                      <img src="{{ asset('uploads/brands/' . $brand->logo) }}"
+                           alt="{{ $brand->name }}"
+                           style="height:16px;width:auto;margin-right:5px;vertical-align:middle;object-fit:contain;">
+                    @endif
+                    {{ $brand->name }}
+                  </button>
+                @endforeach
+              </div>
+            </div>
+          @endif
+
+          {{-- ══════════════════════════════════════
+               UNIT OPTIONS  (from unit_ids)
+          ══════════════════════════════════════ --}}
+          @if(isset($productUnits) && $productUnits->count())
+            <div class="pdp__opt-group">
+              <label class="pdp__opt-label">
+                ইউনিট:
+                <span class="pdp__opt-tag">ঐচ্ছিক</span>
+                <span class="pdp__opt-selected" id="pdpUnitSel" style="display:none"></span>
+              </label>
+              <div class="pdp__opt-btns">
+                @foreach($productUnits as $unit)
+                  <button class="pdp__opt-btn"
+                          data-group="unit"
+                          data-value="{{ $unit->name }}">
+                    {{ $unit->name }}
+                  </button>
+                @endforeach
+              </div>
+            </div>
+          @endif
+
+          {{-- ── Quantity ── --}}
           <div class="pdp__qty-group">
             <label class="pdp__opt-label">পরিমাণ:</label>
             <div class="pdp__qty-row">
               <div class="pdp__qty-sel">
-                <button class="pdp__qty-btn" id="pdpQtyDec" type="button"><i class="fas fa-minus"></i></button>
+                <button class="pdp__qty-btn" id="pdpQtyDec" type="button">
+                  <i class="fas fa-minus"></i>
+                </button>
                 <input type="text" class="pdp__qty-input" id="pdpQtyInput" value="1" readonly/>
-                <button class="pdp__qty-btn" id="pdpQtyInc" type="button"><i class="fas fa-plus"></i></button>
+                <button class="pdp__qty-btn" id="pdpQtyInc" type="button">
+                  <i class="fas fa-plus"></i>
+                </button>
               </div>
             </div>
           </div>
 
-          {{-- ════ Cart / Buy Buttons ════ --}}
-          <div class="pdp__actions" style="display:flex;gap:10px;flex-wrap:nowrap;">
+          {{-- ── Cart / Buy buttons ── --}}
+          <div class="pdp__actions">
             @if(!$inStock)
               <span class="pdp__btn pdp__btn--cart"
                     style="opacity:.5;cursor:not-allowed;white-space:nowrap;flex:1;justify-content:center;">
@@ -326,42 +467,43 @@
             @endif
           </div>
 
-          {{-- ════ Contact / Order Buttons ════ --}}
-          {{-- Data pulled from Contactinfomationadmin model --}}
-          <div class="pdp__contact-actions">
 
+          {{-- ── Contact / Order buttons ── --}}
+          <div class="pdp__contact-actions">
             @if($phoneNumber)
-              <a href="tel:{{ $phoneNumber }}"
-                 class="pdp__contact-btn pdp__contact-btn--call">
-                <i class="fas fa-phone-alt"></i>
-                অর্ডার করতে কল করুন
+              <a href="tel:{{ $phoneNumber }}" class="pdp__contact-btn pdp__contact-btn--call">
+                <i class="fas fa-phone-alt"></i> অর্ডার করতে কল করুন
               </a>
             @endif
-
             @if($whatsappNumber)
               <a href="https://wa.me/{{ $whatsappNumber }}?text={{ $whatsappText }}"
                  target="_blank" rel="noopener"
                  class="pdp__contact-btn pdp__contact-btn--whatsapp">
-                <i class="fab fa-whatsapp"></i>
-                Whats App
+                <i class="fab fa-whatsapp"></i> WhatsApp
               </a>
             @endif
-
             @if($messengerUrl)
-              <a href="{{ $messengerUrl }}"
-                 target="_blank" rel="noopener"
+              <a href="{{ $messengerUrl }}" target="_blank" rel="noopener"
                  class="pdp__contact-btn pdp__contact-btn--messenger">
-                <i class="fab fa-facebook-messenger"></i>
-                Message
+                <i class="fab fa-facebook-messenger"></i> Message
               </a>
             @endif
-
           </div>
 
-          {{-- Product Meta --}}
+          {{-- ── Product meta ── --}}
           <div class="pdp__product-meta">
-            @if($categoryName)<span><strong>ক্যাটাগরি:</strong> {{ $categoryName }}</span>@endif
-            @if($subCatName)<span><strong>সাব-ক্যাটাগরি:</strong> {{ $subCatName }}</span>@endif
+            @if($categoryName)
+              <span><strong>ক্যাটাগরি:</strong> {{ $categoryName }}</span>
+            @endif
+            @if($subCatName)
+              <span><strong>সাব-ক্যাটাগরি:</strong> {{ $subCatName }}</span>
+            @endif
+            @if(isset($productBrands) && $productBrands->count())
+              <span>
+                <strong>ব্র্যান্ড:</strong>
+                {{ $productBrands->pluck('name')->join(', ') }}
+              </span>
+            @endif
             @if(!empty($tags))
               <span>
                 <strong>ট্যাগ:</strong>
@@ -382,10 +524,12 @@
 
         </div>{{-- /.pdp__info --}}
 
-        {{-- ── Sidebar Column ── --}}
+        {{-- ══════════════════════════════════════
+             SIDEBAR COLUMN
+        ══════════════════════════════════════ --}}
         <div class="pdp__sidebar">
 
-          {{-- Delivery --}}
+          {{-- Delivery & Shipping --}}
           <div class="pdp__s-card">
             <div class="pdp__card-head">
               <i class="fas fa-truck" style="margin-right:6px;color:var(--red)"></i>ডেলিভারি ও শিপিং
@@ -394,15 +538,15 @@
               <div class="pdp__del-row">
                 <div class="pdp__del-icon"><i class="fas fa-truck"></i></div>
                 <div>
-                  <div class="pdp__del-title">{{$deliveryInformation->home_delivery_title ?? ''}}</div>
-                  <div class="pdp__del-date">{{$deliveryInformation->home_delivery_description ?? ''}}</div>
+                  <div class="pdp__del-title">{{ $deliveryInformation->home_delivery_title ?? '' }}</div>
+                  <div class="pdp__del-date">{{ $deliveryInformation->home_delivery_description ?? '' }}</div>
                 </div>
               </div>
               <div class="pdp__del-row">
                 <div class="pdp__del-icon"><i class="fas fa-store"></i></div>
                 <div>
-                  <div class="pdp__del-title">{{$deliveryInformation->pickup_title ?? ''}}</div>
-                  <div class="pdp__del-date">{{$deliveryInformation->pickup_description ?? ''}}</div>
+                  <div class="pdp__del-title">{{ $deliveryInformation->pickup_title ?? '' }}</div>
+                  <div class="pdp__del-date">{{ $deliveryInformation->pickup_description ?? '' }}</div>
                 </div>
               </div>
               @if($product->return_policy)
@@ -418,15 +562,15 @@
                 <div class="pdp__del-row">
                   <div class="pdp__del-icon"><i class="fas fa-download"></i></div>
                   <div>
-                    <div class="pdp__del-title">{{$deliveryInformation->instant_download_title ?? ''}}</div>
-                    <div class="pdp__del-date">{{$deliveryInformation->instant_download_description ?? ''}}</div>
+                    <div class="pdp__del-title">{{ $deliveryInformation->instant_download_title ?? '' }}</div>
+                    <div class="pdp__del-date">{{ $deliveryInformation->instant_download_description ?? '' }}</div>
                   </div>
                 </div>
               @endif
             </div>
           </div>
 
-          {{-- Seller --}}
+          {{-- Seller card --}}
           @if($product->vendor)
             <div class="pdp__s-card">
               <div class="pdp__card-head">
@@ -437,14 +581,16 @@
                   <div class="pdp__seller-ava">{{ strtoupper(substr($product->vendor, 0, 2)) }}</div>
                   <div>
                     <div class="pdp__seller-name">{{ $product->vendor }}</div>
-                    <div class="pdp__seller-ver"><i class="fas fa-check-circle"></i> যাচাইকৃত বিক্রেতা</div>
+                    <div class="pdp__seller-ver">
+                      <i class="fas fa-check-circle"></i> যাচাইকৃত বিক্রেতা
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           @endif
 
-          {{-- YouTube Video --}}
+          {{-- YouTube video --}}
           @if($ytId)
             <div class="pdp__s-card">
               <div class="pdp__card-head">
@@ -460,7 +606,7 @@
             </div>
           @endif
 
-          {{-- Secure Payment --}}
+          {{-- Secure payment --}}
           <div class="pdp__s-card">
             <div class="pdp__card-head">
               <i class="fas fa-shield-alt" style="margin-right:6px;color:var(--red)"></i>নিরাপদ পেমেন্ট
@@ -469,22 +615,22 @@
               <div class="pdp__del-row">
                 <div class="pdp__del-icon"><i class="fas fa-lock"></i></div>
                 <div>
-                  <div class="pdp__del-title">{{$deliveryInformation->secure_title ?? ''}}</div>
-                  <div class="pdp__del-date">{{$deliveryInformation->secure_description ?? ''}}</div>
+                  <div class="pdp__del-title">{{ $deliveryInformation->secure_title ?? '' }}</div>
+                  <div class="pdp__del-date">{{ $deliveryInformation->secure_description ?? '' }}</div>
                 </div>
               </div>
               <div class="pdp__del-row">
                 <div class="pdp__del-icon"><i class="fas fa-credit-card"></i></div>
                 <div>
-                  <div class="pdp__del-title">{{$deliveryInformation->cod_title ?? ''}}</div>
-                  <div class="pdp__del-date">{{$deliveryInformation->cod_description ?? ''}}</div>
+                  <div class="pdp__del-title">{{ $deliveryInformation->cod_title ?? '' }}</div>
+                  <div class="pdp__del-date">{{ $deliveryInformation->cod_description ?? '' }}</div>
                 </div>
               </div>
               <div class="pdp__del-row">
                 <div class="pdp__del-icon"><i class="fas fa-mobile-alt"></i></div>
                 <div>
-                  <div class="pdp__del-title">{{$deliveryInformation->mobile_banking_title ?? ''}}</div>
-                  <div class="pdp__del-date">{{$deliveryInformation->mobile_banking_description ?? ''}}</div>
+                  <div class="pdp__del-title">{{ $deliveryInformation->mobile_banking_title ?? '' }}</div>
+                  <div class="pdp__del-date">{{ $deliveryInformation->mobile_banking_description ?? '' }}</div>
                 </div>
               </div>
             </div>
@@ -495,7 +641,9 @@
       </div>{{-- /.pdp__grid --}}
     </div>{{-- /.pdp__card --}}
 
-    {{-- ════════ TABS ════════ --}}
+    {{-- ════════════════════════════════════════════════
+         TABS
+    ════════════════════════════════════════════════ --}}
     <div class="pdp__tabs" id="pdpTabsSection">
       <div class="pdp__tab-nav">
         <button class="pdp__tab-btn pdp__tab-btn--active" onclick="pdpTab('description')">
@@ -507,79 +655,128 @@
         <button class="pdp__tab-btn" onclick="pdpTab('reviews')">
           <i class="fas fa-star"></i> রিভিউ
           @if($totalRevCount > 0)
-            <span style="background:var(--red);color:#fff;font-size:10px;font-weight:800;padding:2px 7px;border-radius:10px;margin-left:2px">
+            <span style="background:var(--red);color:#fff;font-size:10px;font-weight:800;
+                         padding:2px 7px;border-radius:10px;margin-left:2px">
               {{ $totalRevCount }}
             </span>
           @endif
         </button>
       </div>
 
-      {{-- Description Tab --}}
+      {{-- ── Description Tab ── --}}
       <div id="pdpDescription" class="pdp__tab-pane pdp__tab-pane--active">
         <div class="pdp__desc">{!! $product->description !!}</div>
       </div>
 
-      {{-- Specifications Tab --}}
+      {{-- ── Specifications Tab ── --}}
       <div id="pdpSpecifications" class="pdp__tab-pane">
         <div class="pdp__spec-section">
           <div class="pdp__spec-head">পণ্যের বিবরণ</div>
+
+          {{-- SKU --}}
           <div class="pdp__spec-row">
             <span class="pdp__spec-k">SKU</span>
             <span class="pdp__spec-v">{{ $product->sku ?? 'N/A' }}</span>
           </div>
+
+          {{-- Product type --}}
           <div class="pdp__spec-row">
             <span class="pdp__spec-k">পণ্যের ধরন</span>
             <span class="pdp__spec-v">{{ ucfirst($product->product_type ?? 'N/A') }}</span>
           </div>
+
+          {{-- Category --}}
           @if($categoryName)
             <div class="pdp__spec-row">
               <span class="pdp__spec-k">ক্যাটাগরি</span>
               <span class="pdp__spec-v">{{ $categoryName }}</span>
             </div>
           @endif
+
+          {{-- Sub-category --}}
           @if($subCatName)
             <div class="pdp__spec-row">
               <span class="pdp__spec-k">সাব-ক্যাটাগরি</span>
               <span class="pdp__spec-v">{{ $subCatName }}</span>
             </div>
           @endif
+
+          {{-- Vendor --}}
           @if($product->vendor)
             <div class="pdp__spec-row">
-              <span class="pdp__spec-k">ব্র্যান্ড / বিক্রেতা</span>
+              <span class="pdp__spec-k">বিক্রেতা</span>
               <span class="pdp__spec-v">{{ $product->vendor }}</span>
             </div>
           @endif
+
+          {{-- Brands (multiple) --}}
+          @if(isset($productBrands) && $productBrands->count())
+            <div class="pdp__spec-row">
+              <span class="pdp__spec-k">ব্র্যান্ড</span>
+              <span class="pdp__spec-v">
+                {{ $productBrands->pluck('name')->join(', ') }}
+              </span>
+            </div>
+          @endif
+
+          {{-- Colors (multiple) --}}
+          @if(isset($productColors) && $productColors->count())
+            <div class="pdp__spec-row">
+              <span class="pdp__spec-k">রঙ</span>
+              <span class="pdp__spec-v" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+                @foreach($productColors as $color)
+                  <span style="display:inline-flex;align-items:center;gap:4px;">
+                    @if(!empty($color->hex_code))
+                      <span style="display:inline-block;width:13px;height:13px;border-radius:50%;
+                                   background:{{ $color->hex_code }};border:1px solid rgba(0,0,0,.15);
+                                   flex-shrink:0;"></span>
+                    @endif
+                    {{ $color->name }}
+                  </span>
+                @endforeach
+              </span>
+            </div>
+          @endif
+
+          {{-- Sizes (multiple) --}}
+          @if(isset($productSizes) && $productSizes->count())
+            <div class="pdp__spec-row">
+              <span class="pdp__spec-k">সাইজ</span>
+              <span class="pdp__spec-v">
+                {{ $productSizes->pluck('name')->join(', ') }}
+              </span>
+            </div>
+          @endif
+
+          {{-- Units (multiple) --}}
+          @if(isset($productUnits) && $productUnits->count())
+            <div class="pdp__spec-row">
+              <span class="pdp__spec-k">ইউনিট</span>
+              <span class="pdp__spec-v">
+                {{ $productUnits->pluck('name')->join(', ') }}
+              </span>
+            </div>
+          @endif
+
+          {{-- Stock --}}
           <div class="pdp__spec-row">
             <span class="pdp__spec-k">প্রাপ্যতা</span>
             <span class="pdp__spec-v">{{ $stockLabel }}</span>
           </div>
         </div>
-
-        @if($variants->count())
-          <div class="pdp__spec-section">
-            <div class="pdp__spec-head">ভ্যারিয়েন্ট সমূহ</div>
-            @foreach($variants as $v)
-              <div class="pdp__spec-row">
-                <span class="pdp__spec-k">
-                  {{ $v['size'] ?? '' }}{{ (!empty($v['size']) && !empty($v['color'])) ? ' / ' : '' }}{{ $v['color'] ?? '' }}
-                </span>
-                <span class="pdp__spec-v">
-                  স্টক: {{ $v['stock'] ?? 0 }}
-                  @if(!empty($v['price'])) — ৳{{ number_format($v['price'], 2) }}@endif
-                </span>
-              </div>
-            @endforeach
-          </div>
-        @endif
       </div>
 
-      {{-- Reviews Tab --}}
+      {{-- ── Reviews Tab ── --}}
       <div id="pdpReviews" class="pdp__tab-pane">
         <div class="pdp-rev-summary">
+
+          {{-- Average score --}}
           <div class="pdp-rev-big-score">
-            <div class="pdp-rev-big-num">{{ $totalRevCount > 0 ? number_format($avgRating, 1) : '—' }}</div>
+            <div class="pdp-rev-big-num">
+              {{ $totalRevCount > 0 ? number_format($avgRating, 1) : '—' }}
+            </div>
             <div class="pdp-rev-big-stars">
-              @for($s=1; $s<=5; $s++)
+              @for($s = 1; $s <= 5; $s++)
                 <i class="bi bi-star{{ $s <= round($avgRating) ? '-fill' : ($s - 0.5 <= $avgRating ? '-half' : '') }}"
                    style="color:{{ $totalRevCount > 0 ? '#f59e0b' : '#d1d5db' }}"></i>
               @endfor
@@ -587,6 +784,7 @@
             <div class="pdp-rev-big-count">{{ $totalRevCount }} টি রিভিউ</div>
           </div>
 
+          {{-- Star bar chart --}}
           <div class="pdp-rev-bars">
             @for($s = 5; $s >= 1; $s--)
               @php
@@ -605,11 +803,13 @@
             @endfor
           </div>
 
+          {{-- Write review CTA --}}
           <div class="pdp-rev-write-cta">
             @auth
               @if($alreadyReviewed)
                 <p>আপনি ইতোমধ্যে রিভিউ দিয়েছেন। ধন্যবাদ!</p>
-                <button class="pdp-rev-write-btn" type="button" id="pdpOpenRevModal" style="background:#6b7280">
+                <button class="pdp-rev-write-btn" type="button"
+                        id="pdpOpenRevModal" style="background:#6b7280">
                   <i class="fas fa-eye"></i> আপনার রিভিউ দেখুন
                 </button>
               @else
@@ -625,8 +825,10 @@
               </a>
             @endauth
           </div>
-        </div>
 
+        </div>{{-- /.pdp-rev-summary --}}
+
+        {{-- Review cards --}}
         @if($productReviews->isNotEmpty())
           <div class="pdp-rev-grid">
             @foreach($productReviews as $rev)
@@ -637,7 +839,7 @@
               @endphp
               <div class="pdp-rev-card">
                 <div class="pdp-rev-stars">
-                  @for($s=1; $s<=5; $s++)
+                  @for($s = 1; $s <= 5; $s++)
                     <i class="bi bi-star{{ $s <= $rev->rating ? '-fill rev-star-filled' : ' rev-star-empty' }}"></i>
                   @endfor
                   <span class="pdp-rev-score-label">{{ $rev->rating }}/5</span>
@@ -655,7 +857,9 @@
                     <div class="pdp-rev-name">{{ $reviewerName }}</div>
                     <div class="pdp-rev-date">{{ $rev->created_at->format('d M Y') }}</div>
                   </div>
-                  <div class="pdp-rev-verified"><i class="bi bi-patch-check-fill"></i> যাচাইকৃত</div>
+                  <div class="pdp-rev-verified">
+                    <i class="bi bi-patch-check-fill"></i> যাচাইকৃত
+                  </div>
                 </div>
               </div>
             @endforeach
@@ -677,21 +881,28 @@
             @endauth
           </div>
         @endif
-      </div>
+
+      </div>{{-- /#pdpReviews --}}
 
     </div>{{-- /.pdp__tabs --}}
 
-    {{-- ════════ RELATED PRODUCTS ════════ --}}
+    {{-- ════════════════════════════════════════════════
+         RELATED PRODUCTS
+    ════════════════════════════════════════════════ --}}
     @if(!empty($relatedProducts) && $relatedProducts->count())
       <div class="pdp__related">
         <div class="pdp__section-header">
           <h2 class="pdp__section-title">সম্পর্কিত পণ্য</h2>
-          @if($categoryName)<a href="#" class="pdp__see-all">সব দেখুন →</a>@endif
+          @if($categoryName)
+            <a href="#" class="pdp__see-all">সব দেখুন →</a>
+          @endif
         </div>
         <div class="pdp__prod-grid">
           @foreach($relatedProducts as $rp)
             @php
-              $rpImg  = $rp->feature_image ? asset('uploads/products/' . $rp->feature_image) : asset('images/placeholder.png');
+              $rpImg  = $rp->feature_image
+                          ? asset('uploads/products/' . $rp->feature_image)
+                          : asset('images/placeholder.png');
               $rpPx   = $rp->discount_price ?? $rp->current_price;
               $rpOld  = $rp->discount_price ? $rp->current_price : null;
               $rpDisc = ($rp->discount_price && $rp->current_price > 0)
@@ -711,7 +922,9 @@
               <div class="pdp__prod-body">
                 <div class="pdp__prod-name">{{ $rp->name }}</div>
                 <div class="pdp__prod-prices">
-                  @if($rpOld)<span class="pdp__prod-old">৳{{ number_format($rpOld, 2) }}</span>@endif
+                  @if($rpOld)
+                    <span class="pdp__prod-old">৳{{ number_format($rpOld, 2) }}</span>
+                  @endif
                   <span class="pdp__prod-price">৳{{ number_format($rpPx, 2) }}</span>
                 </div>
               </div>
@@ -730,17 +943,24 @@
 
   {{-- ════════ ZOOM OVERLAY ════════ --}}
   <div class="pdp__zoom" id="pdpZoom">
-    <button type="button" class="pdp__zoom-close" id="pdpZoomClose"><i class="fas fa-times"></i></button>
-    <button type="button" class="pdp__zoom-nav pdp__zoom-prev" id="pdpZoomPrev"><i class="fas fa-chevron-left"></i></button>
+    <button type="button" class="pdp__zoom-close" id="pdpZoomClose">
+      <i class="fas fa-times"></i>
+    </button>
+    <button type="button" class="pdp__zoom-nav pdp__zoom-prev" id="pdpZoomPrev">
+      <i class="fas fa-chevron-left"></i>
+    </button>
     <img id="pdpZoomImg" class="pdp__zoom-img" src="" alt="বড় ছবি"/>
-    <button type="button" class="pdp__zoom-nav pdp__zoom-next" id="pdpZoomNext"><i class="fas fa-chevron-right"></i></button>
+    <button type="button" class="pdp__zoom-nav pdp__zoom-next" id="pdpZoomNext">
+      <i class="fas fa-chevron-right"></i>
+    </button>
     <div class="pdp__zoom-count" id="pdpZoomCount">1 / {{ $totalImages }}</div>
   </div>
 
 </div>{{-- /.pdp --}}
 
-{{-- ════════ CONTACT BUTTON STYLES ════════ --}}
+{{-- ════════ STYLES ════════ --}}
 <style>
+/* ── Contact buttons ─────────────────────────────────────── */
 .pdp__contact-actions {
     display: flex;
     flex-direction: column;
@@ -765,25 +985,67 @@
     transition: opacity .18s, transform .15s;
     letter-spacing: .3px;
 }
-.pdp__contact-btn:hover {
-    opacity: .88;
-    transform: translateY(-1px);
-    color: #fff;
-    text-decoration: none;
-}
-.pdp__contact-btn:active {
-    transform: translateY(0);
-    opacity: 1;
-}
-.pdp__contact-btn i {
-    font-size: 17px;
-}
-/* Black — Call */
+.pdp__contact-btn:hover  { opacity: .88; transform: translateY(-1px); color: #fff; text-decoration: none; }
+.pdp__contact-btn:active { transform: translateY(0); opacity: 1; }
+.pdp__contact-btn i      { font-size: 17px; }
 .pdp__contact-btn--call      { background: #111111; }
-/* Green — WhatsApp */
 .pdp__contact-btn--whatsapp  { background: #25D366; }
-/* Blue  — Messenger */
 .pdp__contact-btn--messenger { background: #0866FF; }
+
+/* ── Option group (color/size/brand/unit) ────────────────── */
+.pdp__opt-group { margin-bottom: 16px; }
+.pdp__opt-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text, #111);
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+}
+.pdp__opt-tag {
+    font-size: 10px;
+    font-weight: 600;
+    color: #6b7280;
+    background: #f3f4f6;
+    border-radius: 4px;
+    padding: 1px 6px;
+}
+.pdp__opt-selected {
+    font-size: 12px;
+    color: var(--red, #be0318);
+    font-weight: 600;
+}
+.pdp__opt-btns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+.pdp__opt-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 14px;
+    border: 1.5px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text, #111);
+    background: #fff;
+    cursor: pointer;
+    transition: border-color .15s, background .15s, color .15s, transform .12s;
+    user-select: none;
+}
+.pdp__opt-btn:hover {
+    border-color: var(--red, #be0318);
+    color: var(--red, #be0318);
+    transform: translateY(-1px);
+}
+.pdp__opt-btn--active {
+    border-color: var(--red, #be0318) !important;
+    background: var(--red, #be0318) !important;
+    color: #fff !important;
+}
 </style>
 
 {{-- ════════ JAVASCRIPT ════════ --}}
@@ -791,6 +1053,7 @@
 (function () {
 'use strict';
 
+/* ── Constants ────────────────────────────────────────────── */
 var IMGS     = @json($allImages->pluck('url')->values());
 var MAX_QTY  = {{ $product->is_unlimited ? 9999 : max(1, $product->stock ?? 1) }};
 var CHECKOUT = '{{ $checkoutUrl }}';
@@ -798,12 +1061,23 @@ var CSRF     = (function () {
     var m = document.querySelector('meta[name="csrf-token"]');
     return m ? m.getAttribute('content') : '{{ $csrfToken }}';
 })();
-var curIdx = 0, selColor = null, selSize = null;
 
-/* ── Toast ── */
+/* ── State ────────────────────────────────────────────────── */
+var curIdx    = 0;
+var selColor  = null;
+var selSize   = null;
+var selBrand  = null;
+var selUnit   = null;
+
+/* ── Toast ───────────────────────────────────────────────── */
 function toast(msg, type, ms) {
-    type = type || 'success'; ms = ms || 3200;
-    var icons = { success: 'bi bi-check-circle-fill', error: 'bi bi-x-circle-fill', info: 'bi bi-info-circle-fill' };
+    type = type || 'success';
+    ms   = ms   || 3200;
+    var icons = {
+        success : 'bi bi-check-circle-fill',
+        error   : 'bi bi-x-circle-fill',
+        info    : 'bi bi-info-circle-fill'
+    };
     var el = document.createElement('div');
     el.className = 'pdp-toast pdp-toast--' + type;
     el.innerHTML = '<i class="' + (icons[type] || icons.info) + '"></i><span>' + msg + '</span>';
@@ -815,7 +1089,7 @@ function toast(msg, type, ms) {
     }, ms);
 }
 
-/* ── Badge update ── */
+/* ── Cart badge ───────────────────────────────────────────── */
 function updateBadge(n) {
     document.querySelectorAll('#cartBadge,#mobCartBadge,.cart-badge,#cart-count,.pdp-cart-count')
         .forEach(function (b) {
@@ -824,28 +1098,33 @@ function updateBadge(n) {
         });
 }
 
-/* ── Cart POST ── */
-function cartPost(url, qty, color, size, cb) {
+/* ── Cart POST ────────────────────────────────────────────── */
+function cartPost(url, qty, color, size, brand, unit, cb) {
     var fd = new FormData();
-    fd.append('_token', CSRF);
+    fd.append('_token',   CSRF);
     fd.append('quantity', qty);
     if (color) fd.append('selected_color', color);
-    if (size)  fd.append('selected_size', size);
+    if (size)  fd.append('selected_size',  size);
+    if (brand) fd.append('selected_brand', brand);
+    if (unit)  fd.append('selected_unit',  unit);
     fetch(url, {
-        method: 'POST',
-        headers: { 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json', 'X-CSRF-TOKEN': CSRF },
+        method  : 'POST',
+        headers : {
+            'X-Requested-With' : 'XMLHttpRequest',
+            'Accept'           : 'application/json',
+            'X-CSRF-TOKEN'     : CSRF
+        },
         body: fd
-    }).then(function (r) {
+    })
+    .then(function (r) {
         if (!r.ok && r.status !== 422 && r.status !== 419) throw new Error('HTTP ' + r.status);
         return r.json();
-    }).then(function (d) {
-        if (typeof cb === 'function') cb(null, d);
-    }).catch(function (e) {
-        if (typeof cb === 'function') cb(e, null);
-    });
+    })
+    .then(function (d)  { if (typeof cb === 'function') cb(null, d); })
+    .catch(function (e) { if (typeof cb === 'function') cb(e, null); });
 }
 
-/* ── Button loader ── */
+/* ── Button loader ────────────────────────────────────────── */
 function btnLoad(btn, on) {
     if (!btn) return;
     var icon = btn.querySelector('i:not(.pdp-spinner)');
@@ -865,16 +1144,40 @@ function btnLoad(btn, on) {
     }
 }
 
-/* ── Add to Cart ── */
+/* ── Add to Cart ──────────────────────────────────────────── */
 var acb = document.getElementById('pdpAddCart');
 if (acb) {
     acb.addEventListener('click', function () {
         var btn = this;
+        var qty = parseInt(document.getElementById('pdpQtyInput').value, 10) || 1;
         btnLoad(btn, true);
-        cartPost(btn.dataset.url, parseInt(document.getElementById('pdpQtyInput').value, 10) || 1, selColor, selSize, function (err, data) {
+        cartPost(btn.dataset.url, qty, selColor, selSize, selBrand, selUnit, function (err, data) {
             btnLoad(btn, false);
             if (err) { toast('নেটওয়ার্ক সমস্যা। আবার চেষ্টা করুন।', 'error'); return; }
             if (data && data.success) {
+                // Tracking AddToCart
+                if (typeof fbq !== 'undefined') {
+                    fbq('track', 'AddToCart', {
+                        content_ids: ['{{ $product->id }}'],
+                        content_type: 'product',
+                        value: {{ $displayPrice }} * qty,
+                        currency: 'BDT'
+                    });
+                }
+                if (typeof dataLayer !== 'undefined') {
+                    dataLayer.push({
+                        'event': 'add_to_cart',
+                        'ecommerce': {
+                            'items': [{
+                                'item_name': '{{ addslashes($product->name) }}',
+                                'item_id': '{{ $product->id }}',
+                                'price': '{{ $displayPrice }}',
+                                'quantity': qty
+                            }]
+                        }
+                    });
+                }
+
                 updateBadge(data.cart_count);
                 toast(data.message || 'কার্টে যোগ হয়েছে!', 'success');
             } else {
@@ -889,15 +1192,39 @@ if (acb) {
     });
 }
 
-/* ── Buy Now ── */
+/* ── Buy Now ──────────────────────────────────────────────── */
 var bnb = document.getElementById('pdpBuyNow');
 if (bnb) {
     bnb.addEventListener('click', function () {
         var btn = this;
+        var qty = parseInt(document.getElementById('pdpQtyInput').value, 10) || 1;
         btnLoad(btn, true);
-        cartPost(btn.dataset.url, parseInt(document.getElementById('pdpQtyInput').value, 10) || 1, selColor, selSize, function (err, data) {
+        cartPost(btn.dataset.url, qty, selColor, selSize, selBrand, selUnit, function (err, data) {
             if (err) { btnLoad(btn, false); toast('নেটওয়ার্ক সমস্যা। আবার চেষ্টা করুন।', 'error'); return; }
             if (data && data.success) {
+                // Tracking AddToCart (Buy Now is also an add to cart)
+                if (typeof fbq !== 'undefined') {
+                    fbq('track', 'AddToCart', {
+                        content_ids: ['{{ $product->id }}'],
+                        content_type: 'product',
+                        value: {{ $displayPrice }} * qty,
+                        currency: 'BDT'
+                    });
+                }
+                if (typeof dataLayer !== 'undefined') {
+                    dataLayer.push({
+                        'event': 'add_to_cart',
+                        'ecommerce': {
+                            'items': [{
+                                'item_name': '{{ addslashes($product->name) }}',
+                                'item_id': '{{ $product->id }}',
+                                'price': '{{ $displayPrice }}',
+                                'quantity': qty
+                            }]
+                        }
+                    });
+                }
+
                 updateBadge(data.cart_count);
                 window.location.href = CHECKOUT;
             } else {
@@ -908,37 +1235,52 @@ if (bnb) {
     });
 }
 
-/* ── Wishlist ── */
+/* ── Wishlist ─────────────────────────────────────────────── */
 var wb = document.getElementById('pdpWishBtn');
 if (wb) {
     wb.addEventListener('click', function (e) {
         e.stopPropagation();
         var btn = this;
         btn.disabled = true;
-        fetch(btn.dataset.url, { method: 'GET', headers: { 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json', 'X-CSRF-TOKEN': CSRF } })
-            .then(function (r) { return r.json(); })
-            .then(function (data) {
-                btn.disabled = false;
-                if (data.success || data.message) {
-                    btn.classList.toggle('pdp__wish-btn--active');
-                    var icon   = btn.querySelector('i');
-                    var active = btn.classList.contains('pdp__wish-btn--active');
-                    if (icon) { icon.className = active ? 'bi bi-heart-fill' : 'bi bi-heart'; icon.style.color = active ? '#ef4444' : ''; }
-                    toast(data.message || 'উইশলিস্টে যোগ হয়েছে!', 'success');
-                } else {
-                    toast(data.message || 'সমস্যা হয়েছে।', 'error');
+        fetch(btn.dataset.url, {
+            method  : 'GET',
+            headers : {
+                'X-Requested-With' : 'XMLHttpRequest',
+                'Accept'           : 'application/json',
+                'X-CSRF-TOKEN'     : CSRF
+            }
+        })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+            btn.disabled = false;
+            if (data.success || data.message) {
+                btn.classList.toggle('pdp__wish-btn--active');
+                var icon   = btn.querySelector('i');
+                var active = btn.classList.contains('pdp__wish-btn--active');
+                if (icon) {
+                    icon.className  = active ? 'bi bi-heart-fill' : 'bi bi-heart';
+                    icon.style.color = active ? '#ef4444' : '';
                 }
-            }).catch(function () { btn.disabled = false; window.location.href = btn.dataset.url; });
+                toast(data.message || 'উইশলিস্টে যোগ হয়েছে!', 'success');
+            } else {
+                toast(data.message || 'সমস্যা হয়েছে।', 'error');
+            }
+        })
+        .catch(function () { btn.disabled = false; window.location.href = btn.dataset.url; });
     });
 }
 
-/* ── Related product cart ── */
+/* ── Related product cart ─────────────────────────────────── */
 window.pdpRelatedCart = function (btn) {
-    var url = btn.dataset.url, orig = btn.innerHTML;
+    var url  = btn.dataset.url;
+    var orig = btn.innerHTML;
     btn.disabled = true;
     btn.innerHTML = '<span class="pdp-spinner" style="width:14px;height:14px;border-width:2px"></span> যোগ হচ্ছে...';
-    cartPost(url, 1, null, null, function (err, data) {
-        if (err) { btn.innerHTML = orig; btn.disabled = false; toast('নেটওয়ার্ক সমস্যা।', 'error'); return; }
+    cartPost(url, 1, null, null, null, null, function (err, data) {
+        if (err) {
+            btn.innerHTML = orig; btn.disabled = false;
+            toast('নেটওয়ার্ক সমস্যা।', 'error'); return;
+        }
         if (data && data.success) {
             updateBadge(data.cart_count);
             toast(data.message || 'কার্টে যোগ হয়েছে!', 'success');
@@ -951,34 +1293,55 @@ window.pdpRelatedCart = function (btn) {
     });
 };
 
-/* ── Option buttons (color / size) ── */
+/* ── Option buttons (color / size / brand / unit) ─────────── */
+function _showSel(id, val) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.textContent = val ? '— ' + val : '';
+    el.style.display = val ? 'inline' : 'none';
+}
+
 document.querySelectorAll('.pdp__opt-btn').forEach(function (btn) {
     btn.addEventListener('click', function () {
-        var g = this.dataset.group, v = this.dataset.value, wa = this.classList.contains('pdp__opt-btn--active');
-        document.querySelectorAll('.pdp__opt-btn[data-group="' + g + '"]').forEach(function (b) { b.classList.remove('pdp__opt-btn--active'); });
+        var g  = this.dataset.group;
+        var v  = this.dataset.value;
+        var wa = this.classList.contains('pdp__opt-btn--active');
+
+        // Deactivate all in same group
+        document.querySelectorAll('.pdp__opt-btn[data-group="' + g + '"]')
+            .forEach(function (b) { b.classList.remove('pdp__opt-btn--active'); });
+
         if (!wa) {
+            // Activate clicked
             this.classList.add('pdp__opt-btn--active');
-            if (g === 'color') { selColor = v; _l('pdpColorSel', v); }
-            else               { selSize  = v; _l('pdpSizeSel', v);  }
+            if      (g === 'color') { selColor = v; _showSel('pdpColorSel', v); }
+            else if (g === 'size')  { selSize  = v; _showSel('pdpSizeSel',  v); }
+            else if (g === 'brand') { selBrand = v; _showSel('pdpBrandSel', v); }
+            else if (g === 'unit')  { selUnit  = v; _showSel('pdpUnitSel',  v); }
         } else {
-            if (g === 'color') { selColor = null; _l('pdpColorSel', null); }
-            else               { selSize  = null; _l('pdpSizeSel', null);  }
+            // Toggle off
+            if      (g === 'color') { selColor = null; _showSel('pdpColorSel', null); }
+            else if (g === 'size')  { selSize  = null; _showSel('pdpSizeSel',  null); }
+            else if (g === 'brand') { selBrand = null; _showSel('pdpBrandSel', null); }
+            else if (g === 'unit')  { selUnit  = null; _showSel('pdpUnitSel',  null); }
         }
     });
 });
-function _l(id, val) {
-    var el = document.getElementById(id); if (!el) return;
-    el.textContent = val ? '— ' + val : ''; el.style.display = val ? 'inline' : 'none';
-}
 
-/* ── Quantity ── */
+/* ── Quantity ─────────────────────────────────────────────── */
 var qi  = document.getElementById('pdpQtyInput');
 var inc = document.getElementById('pdpQtyInc');
 var dec = document.getElementById('pdpQtyDec');
-if (inc) inc.addEventListener('click', function () { var v = parseInt(qi.value, 10); if (v < MAX_QTY) qi.value = v + 1; });
-if (dec) dec.addEventListener('click', function () { var v = parseInt(qi.value, 10); if (v > 1) qi.value = v - 1; });
+if (inc) inc.addEventListener('click', function () {
+    var v = parseInt(qi.value, 10);
+    if (v < MAX_QTY) qi.value = v + 1;
+});
+if (dec) dec.addEventListener('click', function () {
+    var v = parseInt(qi.value, 10);
+    if (v > 1) qi.value = v - 1;
+});
 
-/* ── Gallery / Thumbnails ── */
+/* ── Gallery / Thumbnails ─────────────────────────────────── */
 var mainImg = document.getElementById('pdpMainImg');
 var counter = document.getElementById('pdpCounter');
 var thumbs  = document.querySelectorAll('.pdp__thumb');
@@ -987,41 +1350,63 @@ thumbs.forEach(function (t) {
         e.stopPropagation();
         thumbs.forEach(function (x) { x.classList.remove('pdp__thumb--active'); });
         t.classList.add('pdp__thumb--active');
-        curIdx = parseInt(t.dataset.idx, 10);
+        curIdx     = parseInt(t.dataset.idx, 10);
         mainImg.src = t.dataset.src;
         counter.textContent = (curIdx + 1) + ' / ' + IMGS.length;
     });
 });
 
-/* ── Zoom ── */
+/* ── Zoom ─────────────────────────────────────────────────── */
 var zoomEl    = document.getElementById('pdpZoom');
 var zoomImg   = document.getElementById('pdpZoomImg');
 var zoomCount = document.getElementById('pdpZoomCount');
+
 function openZoom(idx) {
-    curIdx = idx; zoomImg.src = IMGS[curIdx]; zoomImg.style.opacity = '1'; zoomImg.style.transform = '';
-    zoomCount.textContent = (curIdx + 1) + ' / ' + IMGS.length;
-    zoomEl.classList.add('pdp__zoom--active'); document.body.style.overflow = 'hidden';
+    curIdx = idx;
+    zoomImg.src = IMGS[curIdx];
+    zoomImg.style.opacity   = '1';
+    zoomImg.style.transform = '';
+    zoomCount.textContent   = (curIdx + 1) + ' / ' + IMGS.length;
+    zoomEl.classList.add('pdp__zoom--active');
+    document.body.style.overflow = 'hidden';
 }
-function closeZoom() { zoomEl.classList.remove('pdp__zoom--active'); document.body.style.overflow = ''; }
+function closeZoom() {
+    zoomEl.classList.remove('pdp__zoom--active');
+    document.body.style.overflow = '';
+}
 function zoomNav(dir) {
     curIdx = (curIdx + dir + IMGS.length) % IMGS.length;
-    zoomImg.style.opacity = '0'; zoomImg.style.transform = 'scale(.88)';
+    zoomImg.style.opacity   = '0';
+    zoomImg.style.transform = 'scale(.88)';
     setTimeout(function () {
         zoomImg.src = IMGS[curIdx];
         zoomCount.textContent = (curIdx + 1) + ' / ' + IMGS.length;
         mainImg.src = IMGS[curIdx];
         counter.textContent = (curIdx + 1) + ' / ' + IMGS.length;
-        thumbs.forEach(function (t) { t.classList.toggle('pdp__thumb--active', parseInt(t.dataset.idx, 10) === curIdx); });
-        zoomImg.style.opacity = '1'; zoomImg.style.transform = 'scale(1)';
+        thumbs.forEach(function (t) {
+            t.classList.toggle('pdp__thumb--active', parseInt(t.dataset.idx, 10) === curIdx);
+        });
+        zoomImg.style.opacity   = '1';
+        zoomImg.style.transform = 'scale(1)';
     }, 160);
 }
+
 var mw = document.getElementById('pdpMainWrap');
-if (mw) mw.addEventListener('click', function (e) { if (e.target.closest('#pdpWishBtn')) return; openZoom(curIdx); });
-document.getElementById('pdpZoomClose').addEventListener('click', function (e) { e.stopPropagation(); closeZoom(); });
+if (mw) mw.addEventListener('click', function (e) {
+    if (e.target.closest('#pdpWishBtn')) return;
+    openZoom(curIdx);
+});
+document.getElementById('pdpZoomClose').addEventListener('click', function (e) {
+    e.stopPropagation(); closeZoom();
+});
 zoomEl.addEventListener('click', function (e) { if (e.target === zoomEl) closeZoom(); });
 zoomImg.addEventListener('click', closeZoom);
-document.getElementById('pdpZoomPrev').addEventListener('click', function (e) { e.stopPropagation(); zoomNav(-1); });
-document.getElementById('pdpZoomNext').addEventListener('click', function (e) { e.stopPropagation(); zoomNav(1); });
+document.getElementById('pdpZoomPrev').addEventListener('click', function (e) {
+    e.stopPropagation(); zoomNav(-1);
+});
+document.getElementById('pdpZoomNext').addEventListener('click', function (e) {
+    e.stopPropagation(); zoomNav(1);
+});
 document.addEventListener('keydown', function (e) {
     if (!zoomEl.classList.contains('pdp__zoom--active')) return;
     if (e.key === 'Escape')      closeZoom();
@@ -1029,39 +1414,46 @@ document.addEventListener('keydown', function (e) {
     if (e.key === 'ArrowRight')  zoomNav(1);
 });
 
-/* ── Viewers counter (live feel) ── */
+/* ── Live viewers ─────────────────────────────────────────── */
 var _vc = document.getElementById('pdpViewers');
 if (_vc) setInterval(function () {
     var c = parseInt(_vc.textContent, 10);
     _vc.textContent = Math.max(50, Math.min(80, c + (Math.random() < .5 ? 1 : -1)));
 }, 4000);
 
-/* ── Tabs ── */
-var _tm = { description: 0, specifications: 1, reviews: 2 };
+/* ── Tabs ─────────────────────────────────────────────────── */
+var _tabMap = { description: 0, specifications: 1, reviews: 2 };
 window.pdpTab = function (id) {
-    document.querySelectorAll('.pdp__tab-pane').forEach(function (c) { c.classList.remove('pdp__tab-pane--active'); });
-    document.querySelectorAll('.pdp__tab-btn').forEach(function (b) { b.classList.remove('pdp__tab-btn--active'); });
+    document.querySelectorAll('.pdp__tab-pane').forEach(function (c) {
+        c.classList.remove('pdp__tab-pane--active');
+    });
+    document.querySelectorAll('.pdp__tab-btn').forEach(function (b) {
+        b.classList.remove('pdp__tab-btn--active');
+    });
     var cap  = id.charAt(0).toUpperCase() + id.slice(1);
     var pane = document.getElementById('pdp' + cap);
     var btns = document.querySelectorAll('.pdp__tab-btn');
     if (pane) pane.classList.add('pdp__tab-pane--active');
-    if (btns[_tm[id]]) btns[_tm[id]].classList.add('pdp__tab-btn--active');
+    if (btns[_tabMap[id]]) btns[_tabMap[id]].classList.add('pdp__tab-btn--active');
     var sec = document.getElementById('pdpTabsSection');
     if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
 };
 
-/* ── Review modal ── */
+/* ── Review modal ─────────────────────────────────────────── */
 var revModal = document.getElementById('pdpRevModal');
 var rmc      = document.getElementById('pdpRevModalClose');
 function openRM()  { if (revModal) revModal.classList.add('active');    document.body.style.overflow = 'hidden'; }
 function closeRM() { if (revModal) revModal.classList.remove('active'); document.body.style.overflow = ''; }
+
 var ob  = document.getElementById('pdpOpenRevModal');      if (ob)  ob.addEventListener('click', openRM);
 var obe = document.getElementById('pdpOpenRevModalEmpty'); if (obe) obe.addEventListener('click', openRM);
 if (rmc) rmc.addEventListener('click', closeRM);
-if (revModal) revModal.addEventListener('click', function (e) { if (e.target === revModal) closeRM(); });
+if (revModal) revModal.addEventListener('click', function (e) {
+    if (e.target === revModal) closeRM();
+});
 document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeRM(); });
 
-/* ── Star picker ── */
+/* ── Star picker ──────────────────────────────────────────── */
 var sp = document.getElementById('pdpRevStarPicker');
 var ri = document.getElementById('pdpRevRatingInput');
 var sr = 0;
@@ -1070,45 +1462,103 @@ if (sp) {
     stars.forEach(function (star) {
         star.addEventListener('mouseenter', function () {
             var v = parseInt(this.dataset.val, 10);
-            stars.forEach(function (s, i) { s.className = i < v ? 'fas fa-star selected' : 'far fa-star'; });
+            stars.forEach(function (s, i) {
+                s.className = i < v ? 'fas fa-star selected' : 'far fa-star';
+            });
         });
         star.addEventListener('mouseleave', function () {
-            stars.forEach(function (s, i) { s.className = i < sr ? 'fas fa-star selected' : 'far fa-star'; });
+            stars.forEach(function (s, i) {
+                s.className = i < sr ? 'fas fa-star selected' : 'far fa-star';
+            });
         });
         star.addEventListener('click', function () {
             sr = parseInt(this.dataset.val, 10);
             if (ri) ri.value = sr;
             var er = document.getElementById('pdpRevRatingErr');
             if (er) er.style.display = 'none';
-            stars.forEach(function (s, i) { s.className = i < sr ? 'fas fa-star selected' : 'far fa-star'; });
+            stars.forEach(function (s, i) {
+                s.className = i < sr ? 'fas fa-star selected' : 'far fa-star';
+            });
         });
     });
 }
 
-/* ── Review form submit ── */
+/* ── Review form submit ───────────────────────────────────── */
 var rf = document.getElementById('pdpRevForm');
 if (rf) {
     rf.addEventListener('submit', function (e) {
         e.preventDefault();
-        if (sr === 0) { var er = document.getElementById('pdpRevRatingErr'); if (er) er.style.display = 'block'; return; }
+        if (sr === 0) {
+            var er = document.getElementById('pdpRevRatingErr');
+            if (er) er.style.display = 'block';
+            return;
+        }
         var sb = document.getElementById('pdpRevSubmit');
-        if (sb) { sb.disabled = true; sb.innerHTML = '<span class="pdp-spinner"></span> জমা হচ্ছে...'; }
-        var fd = new FormData(rf); fd.set('_token', CSRF);
-        fetch(rf.action, { method: 'POST', headers: { 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json', 'X-CSRF-TOKEN': CSRF }, body: fd })
-            .then(function (r) { return r.json(); })
-            .then(function (data) {
-                if (data.success) {
-                    closeRM();
-                    toast(data.message || 'রিভিউ সফলভাবে জমা হয়েছে।', 'success', 5000);
-                    setTimeout(function () { window.location.reload(); }, 2500);
-                } else {
-                    toast(data.message || 'রিভিউ জমা দিতে সমস্যা হয়েছে।', 'error');
-                    if (sb) { sb.disabled = false; sb.innerHTML = '<i class="fas fa-paper-plane"></i> রিভিউ জমা দিন'; }
+        if (sb) {
+            sb.disabled  = true;
+            sb.innerHTML = '<span class="pdp-spinner"></span> জমা হচ্ছে...';
+        }
+        var fd = new FormData(rf);
+        fd.set('_token', CSRF);
+        fetch(rf.action, {
+            method  : 'POST',
+            headers : {
+                'X-Requested-With' : 'XMLHttpRequest',
+                'Accept'           : 'application/json',
+                'X-CSRF-TOKEN'     : CSRF
+            },
+            body: fd
+        })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+            if (data.success) {
+                closeRM();
+                toast(data.message || 'রিভিউ সফলভাবে জমা হয়েছে।', 'success', 5000);
+                setTimeout(function () { window.location.reload(); }, 2500);
+            } else {
+                toast(data.message || 'রিভিউ জমা দিতে সমস্যা হয়েছে।', 'error');
+                if (sb) {
+                    sb.disabled  = false;
+                    sb.innerHTML = '<i class="fas fa-paper-plane"></i> রিভিউ জমা দিন';
                 }
-            }).catch(function () { rf.submit(); });
+            }
+        })
+        .catch(function () { rf.submit(); });
     });
 }
 
 })();
 </script>
+@push('scripts')
+<script>
+    // ── Facebook Pixel: ViewContent ──
+    if (typeof fbq !== 'undefined') {
+        fbq('track', 'ViewContent', {
+            content_name: '{{ addslashes($product->name) }}',
+            content_category: '{{ addslashes($categoryName) }}',
+            content_ids: ['{{ $product->id }}'],
+            content_type: 'product',
+            value: {{ $displayPrice }},
+            currency: 'BDT'
+        });
+    }
+
+    // ── Google Tag Manager: ViewItem ──
+    if (typeof dataLayer !== 'undefined') {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+            'event': 'view_item',
+            'ecommerce': {
+                'items': [{
+                    'item_name': '{{ addslashes($product->name) }}',
+                    'item_id': '{{ $product->id }}',
+                    'price': '{{ $displayPrice }}',
+                    'item_category': '{{ addslashes($categoryName) }}',
+                    'quantity': 1
+                }]
+            }
+        });
+    }
+</script>
+@endpush
 @endsection

@@ -22,6 +22,10 @@
     .ap-perm-count{background:#eff6ff;color:#2d6a9f;font-size:12px;font-weight:700;padding:4px 13px;border-radius:20px;display:inline-flex;align-items:center;gap:5px;margin-left:auto;}
     .ap-global-btn{font-size:12px;font-weight:600;padding:5px 13px;border-radius:7px;border:1.5px solid #e2e8f0;background:#fff;color:#475569;cursor:pointer;transition:all .15s;}
     .ap-global-btn:hover{background:#eff6ff;border-color:#93c5fd;color:#2d6a9f;}
+    .ap-global-check { display: flex; align-items: center; gap: 10px; background: #fff; border: 1.5px solid #e2e8f0; border-radius: 9px; padding: 10px 15px; cursor: pointer; transition: all 0.15s; margin-bottom: 15px; width: fit-content; }
+    .ap-global-check:hover { border-color: #2d6a9f; background: #f8fafc; }
+    .ap-global-check input { width: 17px; height: 17px; cursor: pointer; accent-color: #2d6a9f; }
+    .ap-global-check span { font-size: 13.5px; font-weight: 700; color: #1e3a5f; }
     .ap-perm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:12px;}
     .ap-perm-group-card{background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:11px;overflow:hidden;}
     .ap-perm-group-head{background:linear-gradient(90deg,#1e3a5f,#2d6a9f);padding:7px 12px;display:flex;align-items:center;justify-content:space-between;}
@@ -88,13 +92,19 @@
                         </div>
                     </div>
 
-                    <div style="display:flex;gap:8px;margin-bottom:18px;">
-                        <button type="button" class="ap-global-btn" onclick="selectAllPerms(true)">
-                            <i class="bi bi-check-all me-1"></i>সব নির্বাচন
-                        </button>
-                        <button type="button" class="ap-global-btn" onclick="selectAllPerms(false)">
-                            <i class="bi bi-x-lg me-1"></i>সব বাতিল
-                        </button>
+                    <div style="display:flex; align-items:center; gap:12px; margin-bottom:18px; flex-wrap: wrap;">
+                        <label class="ap-global-check">
+                            <input type="checkbox" id="globalSelectAll">
+                            <span>সবগুলো সিলেক্ট করুন (Select All)</span>
+                        </label>
+                        <div style="display:flex;gap:8px;">
+                            <button type="button" class="ap-global-btn" onclick="selectAllPerms(true)">
+                                <i class="bi bi-check-all me-1"></i>সব নির্বাচন
+                            </button>
+                            <button type="button" class="ap-global-btn" onclick="selectAllPerms(false)">
+                                <i class="bi bi-x-lg me-1"></i>সব বাতিল
+                            </button>
+                        </div>
                     </div>
 
                     @if($permissions->isEmpty())
@@ -167,9 +177,22 @@ function selectAllPerms(checked) {
     updateCount();
 }
 function updateCount() {
-    document.getElementById('permCount').textContent =
-        document.querySelectorAll('.ap-perm-cb:checked').length;
+    const allCbs = document.querySelectorAll('.ap-perm-cb');
+    const checkedCbs = document.querySelectorAll('.ap-perm-cb:checked');
+    document.getElementById('permCount').textContent = checkedCbs.length;
+    
+    // Update Global Checkbox
+    const globalCheck = document.getElementById('globalSelectAll');
+    if (globalCheck) {
+        globalCheck.checked = allCbs.length > 0 && allCbs.length === checkedCbs.length;
+        globalCheck.indeterminate = checkedCbs.length > 0 && checkedCbs.length < allCbs.length;
+    }
 }
+
+document.getElementById('globalSelectAll').addEventListener('change', function() {
+    selectAllPerms(this.checked);
+});
+
 document.querySelectorAll('.ap-perm-cb').forEach(c => c.addEventListener('change', updateCount));
 updateCount();
 </script>

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Manager;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -72,8 +74,60 @@ class ManagerController extends Controller
             ->with('success', 'You have been logged out successfully.');
     }
 
+    private function getStatusCounts(): array
+    {
+        return [
+            'all'        => Order::count(),
+            'pending'    => Order::where('order_status', 'pending')->count(),
+            'processing' => Order::where('order_status', 'processing')->count(),
+            'completed'  => Order::where('order_status', 'completed')->count(),
+            'cancelled'  => Order::where('order_status', 'cancelled')->count(),
+        ];
+    }
+
     public function manager_dashboard()
     {
-        return view('manager.index');
+        $ordersPending    = Order::where('order_status', 'pending')->count();
+        $ordersProcessing = Order::where('order_status', 'processing')->count();
+        $ordersCompleted  = Order::where('order_status', 'completed')->count();
+        $totalProducts    = Product::count();
+
+        $salesLast30 = Order::where('order_status', 'completed')
+                            ->where('created_at', '>=', now()->subDays(30))
+                            ->count();
+
+        $salesAllTime = Order::where('order_status', 'completed')->count();
+
+        $recentOrders = Order::with('items')->latest()->take(5)->get();
+
+        $popularProducts = Product::withCount('orderItems')
+                                  ->orderByDesc('order_items_count')
+                                  ->take(5)
+                                  ->get();
+
+        $salesChart = Order::where('order_status', 'completed')
+                           ->where('created_at', '>=', now()->subDays(29)->startOfDay())
+                           ->selectRaw('DATE(created_at) as date, COUNT(*) as count')
+                           ->groupBy('date')
+                           ->orderBy('date')
+                           ->pluck('count', 'date');
+
+        $chartLabels = [];
+        $chartData   = [];
+        for ($i = 29; $i >= 0; $i--) {
+            $date          = now()->subDays($i)->format('Y-m-d');
+            $chartLabels[] = now()->subDays($i)->format('d M');
+            $chartData[]   = $salesChart[$date] ?? 0;
+        }
+
+        $statusCounts = $this->getStatusCounts();
+
+        return view('manager.index', compact(
+            'ordersPending', 'ordersProcessing', 'ordersCompleted',
+            'totalProducts', 'salesLast30', 'salesAllTime',
+            'recentOrders', 'popularProducts',
+            'chartLabels', 'chartData',
+            'statusCounts'
+        ));
     }
 }

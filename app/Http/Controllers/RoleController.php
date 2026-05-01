@@ -3,142 +3,91 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Permission;
 use App\Models\Role;
+use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class RoleController extends Controller
 {
-    // ── Index ──────────────────────────────────────────────────────────────────
+    // ── Index: List Users and their Roles ──────────────────────────────────────
     public function index()
     {
-        $roles = Role::withCount(['permissions', 'users'])->latest()->get();
-        return view('admin.roles.index', compact('roles'));
+        // Fetch users who have roles, or all users. Let's fetch all users so he can see who has what.
+        $users = User::with('roles')->latest()->get();
+        return view('admin.roles.index', compact('users'));
     }
 
-    // ── Create ─────────────────────────────────────────────────────────────────
+    // ── Create: Assign Role to User ────────────────────────────────────────────
     public function create()
     {
-        // DB থেকে group করে আনা — hardcode নয়
-        $permissions = Permission::orderBy('group')->orderBy('name')
-            ->get()
-            ->groupBy(fn ($p) => $p->group ?? 'General');
+        $users = User::orderBy('name')->get();
+        $roles = Role::where('is_active', true)->orderBy('name')->get();
 
-        return view('admin.roles.create', compact('permissions'));
+        return view('admin.roles.create', compact('users', 'roles'));
     }
 
-    // ── Store ──────────────────────────────────────────────────────────────────
+    // ── Store: Save Assigned Role ──────────────────────────────────────────────
     public function store(Request $request)
     {
         $request->validate([
-            'name'          => 'required|string|max:100|unique:roles,name',
-            'description'   => 'nullable|string|max:255',
-            'permissions'   => 'nullable|array',
-            'permissions.*' => 'exists:permissions,id',
+            'user_id' => 'required|exists:users,id',
+            'roles'   => 'nullable|array',
+            'roles.*' => 'exists:roles,id',
         ]);
 
-        $role = Role::create([
-            'name'        => $request->name,
-            'slug'        => Str::slug($request->name),
-            'description' => $request->description,
-            'is_active'   => $request->boolean('is_active', true),
-            'is_default'  => $request->boolean('is_default', false),
-        ]);
-
-        if ($request->filled('permissions')) {
-            $role->permissions()->attach($request->permissions);
+        $user = User::findOrFail($request->user_id);
+        
+        if ($request->filled('roles')) {
+            $user->roles()->sync($request->roles);
+        } else {
+            $user->roles()->detach();
         }
 
-        return redirect()->route('roles.index')
-            ->with('success', "'{$role->name}' রোল সফলভাবে তৈরি হয়েছে।");
+        return redirect()->route('admin.roles.index')
+            ->with('success', "'{$user->name}' কে সফলভাবে রোল অ্যাসাইন করা হয়েছে।");
     }
 
-    // ── Show ───────────────────────────────────────────────────────────────────
-    public function show(Role $role)
+    // ── Edit: Edit User's Roles ────────────────────────────────────────────────
+    public function edit(User $role) // Here $role is actually a User because the route binds to 'role' param but we will pass user ID. Wait, Laravel implicit binding might try to find a Role.
     {
-        return redirect()->route('roles.edit', $role);
+        // To fix Route Model Binding mismatch (since route parameter is {role} but we want User):
+        $user = User::findOrFail($role->id ?? request()->route('role'));
+        
+        $users = User::orderBy('name')->get();
+        $roles = Role::where('is_active', true)->orderBy('name')->get();
+        $userRoles = $user->roles->pluck('id')->toArray();
+
+        return view('admin.roles.edit', compact('user', 'users', 'roles', 'userRoles'));
     }
 
-    // ── Edit ───────────────────────────────────────────────────────────────────
-    public function edit(Role $role)
-    {
-        $permissions = Permission::orderBy('group')->orderBy('name')
-            ->get()
-            ->groupBy(fn ($p) => $p->group ?? 'General');
-
-        $rolePermissions = $role->permissions->pluck('id')->toArray();
-
-        return view('admin.roles.edit', compact('role', 'permissions', 'rolePermissions'));
-    }
-
-    // ── Update ─────────────────────────────────────────────────────────────────
-    public function update(Request $request, Role $role)
+    // ── Update: Update Assigned Role ───────────────────────────────────────────
+    public function update(Request $request, $id)
     {
         $request->validate([
-            'name'          => "required|string|max:100|unique:roles,name,{$role->id}",
-            'description'   => 'nullable|string|max:255',
-            'permissions'   => 'nullable|array',
-            'permissions.*' => 'exists:permissions,id',
+            'user_id' => 'required|exists:users,id',
+            'roles'   => 'nullable|array',
+            'roles.*' => 'exists:roles,id',
         ]);
 
-        $role->update([
-            'name'        => $request->name,
-            'slug'        => Str::slug($request->name),
-            'description' => $request->description,
-            'is_active'   => $request->boolean('is_active', true),
-            'is_default'  => $request->boolean('is_default', false),
-        ]);
+        $user = User::findOrFail($request->user_id);
+        $user->roles()->sync($request->roles ?? []);
 
-        $role->permissions()->sync($request->permissions ?? []);
-
-        return redirect()->route('roles.index')
-            ->with('success', "'{$role->name}' রোল আপডেট হয়েছে।");
+        return redirect()->route('admin.roles.index')
+            ->with('success', "'{$user->name}' এর রোল আপডেট হয়েছে।");
     }
 
-    // ── Destroy ────────────────────────────────────────────────────────────────
-    public function destroy(Role $role)
+    // ── Destroy: Remove all roles from user ────────────────────────────────────
+    public function destroy($id)
     {
-        // Protected roles — slug DB থেকে আসে
-        if (in_array($role->slug, ['super-admin', 'admin'])) {
-            return back()->with('error', "'{$role->name}' রোল ডিলিট করা যাবে না।");
+        $user = User::findOrFail($id);
+        
+        if ($user->isSuperAdmin() && auth()->id() !== $user->id) {
+            return back()->with('error', 'Super Admin এর রোল ডিলিট করা যাবে না।');
         }
 
-        if ($role->users()->count() > 0) {
-            return back()->with('error', "এই রোলে {$role->users()->count()} জন ইউজার আছে, তাই ডিলিট করা যাবে না।");
-        }
+        $user->roles()->detach();
 
-        $roleName = $role->name;
-        $role->permissions()->detach();
-        $role->delete();
-
-        return redirect()->route('roles.index')
-            ->with('success', "'{$roleName}' রোল ডিলিট হয়েছে।");
-    }
-
-    // ── Assign Permission (Dedicated Page) ─────────────────────────────────────
-    public function assignPermission(Role $role)
-    {
-        $permissions = Permission::orderBy('group')->orderBy('name')
-            ->get()
-            ->groupBy(fn ($p) => $p->group ?? 'General');
-
-        $rolePermissions = $role->permissions->pluck('id')->toArray();
-
-        return view('admin.roles.assign_permission', compact('role', 'permissions', 'rolePermissions'));
-    }
-
-    // ── Save Assigned Permission ───────────────────────────────────────────────
-    public function saveAssignedPermission(Request $request, Role $role)
-    {
-        $request->validate([
-            'permissions'   => 'nullable|array',
-            'permissions.*' => 'exists:permissions,id',
-        ]);
-
-        $role->permissions()->sync($request->permissions ?? []);
-
-        return redirect()->route('roles.index')
-            ->with('success', "'{$role->name}' রোলের পারমিশন সেভ হয়েছে।");
+        return redirect()->route('admin.roles.index')
+            ->with('success', "'{$user->name}' এর সব রোল রিমুভ করা হয়েছে।");
     }
 }

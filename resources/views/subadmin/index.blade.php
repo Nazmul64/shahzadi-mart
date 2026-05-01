@@ -1,5 +1,6 @@
 @extends('subadmin.master')
 @section('content')
+
 <!-- TOPBAR -->
   <div id="topbar">
     <div class="srch">
@@ -11,9 +12,9 @@
       <button class="tb-btn"><i class="fas fa-envelope"></i><span class="tb-dot">9</span></button>
       <button class="tb-btn"><i class="fas fa-cog"></i></button>
       <div class="user-chip ms-2">
-        <img src="https://ui-avatars.com/api/?name=Sub+Admin&background=e63946&color=fff" alt="Sub Admin"/>
+        <img src="https://ui-avatars.com/api/?name={{ auth()->user()->name }}&background=e63946&color=fff" alt="Sub Admin"/>
         <div>
-          <div class="uc-name">Sub Admin</div>
+          <div class="uc-name">{{ auth()->user()->name }}</div>
           <div class="uc-role">Sub Administrator</div>
         </div>
         <i class="fas fa-chevron-down ms-2" style="font-size:10px;color:#94a3b8;"></i>
@@ -33,8 +34,16 @@
       </ol></nav>
     </div>
 
+    @if(!auth()->user()->isSuperAdmin() && !auth()->user()->hasPermission('view-dashboard'))
+      <div class="alert alert-danger" style="border-radius:12px;">
+        <i class="fas fa-lock me-2"></i> আপনার Dashboard দেখার অনুমতি নেই।
+      </div>
+    @else
+
     <!-- Stat Cards -->
     <div class="row g-3 mb-3">
+
+      @if(auth()->user()->isSuperAdmin() || auth()->user()->hasPermission('view-orders'))
       <div class="col-6 col-md-4 col-lg-2">
         <div class="scard sc-red">
           <div class="sc-lbl">Total Orders</div>
@@ -59,6 +68,9 @@
           <i class="fas fa-check-double sc-ico"></i>
         </div>
       </div>
+      @endif
+
+      @if(auth()->user()->isSuperAdmin() || auth()->user()->hasPermission('view-reports'))
       <div class="col-6 col-md-4 col-lg-2">
         <div class="scard sc-navy">
           <div class="sc-lbl">Revenue</div>
@@ -67,6 +79,9 @@
           <i class="fas fa-dollar-sign sc-ico"></i>
         </div>
       </div>
+      @endif
+
+      @if(auth()->user()->isSuperAdmin() || auth()->user()->hasPermission('view-products'))
       <div class="col-6 col-md-4 col-lg-2">
         <div class="scard sc-purple">
           <div class="sc-lbl">Products</div>
@@ -75,6 +90,9 @@
           <i class="fas fa-box sc-ico"></i>
         </div>
       </div>
+      @endif
+
+      @if(auth()->user()->isSuperAdmin() || auth()->user()->hasPermission('view-users'))
       <div class="col-6 col-md-4 col-lg-2">
         <div class="scard sc-green">
           <div class="sc-lbl">Customers</div>
@@ -83,25 +101,25 @@
           <i class="fas fa-users sc-ico"></i>
         </div>
       </div>
+      @endif
+
     </div>
 
     <!-- Row 2: Donut + Progress + Quick Actions -->
     <div class="row g-3 mb-3">
 
       <!-- Order Status Donut -->
+      @if(auth()->user()->isSuperAdmin() || auth()->user()->hasPermission('view-orders'))
       <div class="col-12 col-md-4">
         <div class="wcard h-100">
           <h6><i class="fas fa-chart-pie"></i> Order Status</h6>
           <div class="donut-wrap">
             <svg viewBox="0 0 100 100">
               <circle class="donut-bg" cx="50" cy="50" r="40"/>
-              <!-- Completed -->
               <circle class="donut-fg" cx="50" cy="50" r="40"
                 stroke="#14a085" stroke-dasharray="0 251" data-val="152" data-max="251"/>
-              <!-- Pending — offset -->
               <circle class="donut-fg" cx="50" cy="50" r="40"
                 stroke="#f4a261" stroke-dasharray="0 251" data-val="45" data-max="251" data-offset="152"/>
-              <!-- Cancelled -->
               <circle class="donut-fg" cx="50" cy="50" r="40"
                 stroke="#e63946" stroke-dasharray="0 251" data-val="20" data-max="251" data-offset="197"/>
             </svg>
@@ -114,8 +132,10 @@
           <div class="legend-item"><span class="legend-dot" style="background:#e63946"></span> Cancelled <span class="legend-val">20</span></div>
         </div>
       </div>
+      @endif
 
       <!-- Category Performance -->
+      @if(auth()->user()->isSuperAdmin() || auth()->user()->hasPermission('view-reports'))
       <div class="col-12 col-md-4">
         <div class="wcard h-100">
           <h6><i class="fas fa-tasks"></i> Category Sales</h6>
@@ -145,17 +165,26 @@
           </div>
         </div>
       </div>
+      @endif
 
       <!-- Quick Actions -->
       <div class="col-12 col-md-4">
         <div class="wcard h-100">
-          <h6><i class="fa-solid fa-bol"></i> Quick Actions</h6>
+          <h6><i class="fas fa-bolt"></i> Quick Actions</h6>
           <div class="row g-2">
+            @if(auth()->user()->isSuperAdmin() || auth()->user()->hasPermission('create-products'))
             <div class="col-6"><a href="#" class="qa-btn"><i class="fas fa-plus-circle"></i><span>Add Product</span></a></div>
+            @endif
+            @if(auth()->user()->isSuperAdmin() || auth()->user()->hasPermission('view-orders'))
             <div class="col-6"><a href="#" class="qa-btn"><i class="fas fa-shopping-bag"></i><span>View Orders</span></a></div>
+            @endif
+            @if(auth()->user()->isSuperAdmin() || auth()->user()->hasPermission('view-users'))
             <div class="col-6"><a href="#" class="qa-btn"><i class="fas fa-user-plus"></i><span>Add Customer</span></a></div>
+            @endif
             <div class="col-6"><a href="#" class="qa-btn"><i class="fas fa-tag"></i><span>New Coupon</span></a></div>
+            @if(auth()->user()->isSuperAdmin() || auth()->user()->hasPermission('view-reports'))
             <div class="col-6"><a href="#" class="qa-btn"><i class="fas fa-chart-bar"></i><span>Reports</span></a></div>
+            @endif
             <div class="col-6"><a href="#" class="qa-btn"><i class="fas fa-store"></i><span>Vendors</span></a></div>
           </div>
         </div>
@@ -166,6 +195,7 @@
     <div class="row g-3">
 
       <!-- Recent Orders -->
+      @if(auth()->user()->isSuperAdmin() || auth()->user()->hasPermission('view-orders'))
       <div class="col-12 col-lg-7">
         <div class="wcard">
           <h6><i class="fas fa-list-alt"></i> Recent Orders</h6>
@@ -183,53 +213,39 @@
               </thead>
               <tbody>
                 <tr>
-                  <td><strong>#SA-3041</strong></td>
-                  <td>Arif Hossain</td>
-                  <td>$249</td>
-                  <td>Mar 10, 2026</td>
+                  <td><strong>#SA-3041</strong></td><td>Arif Hossain</td><td>$249</td><td>Mar 10, 2026</td>
                   <td><span class="pill pill-warn">Pending</span></td>
-                  <td><a href="#" class="act-btn"><i class="fas fa-eye"></i> View</a></td>
+                  <td>@if(auth()->user()->isSuperAdmin() || auth()->user()->hasPermission('edit-orders'))<a href="#" class="act-btn"><i class="fas fa-eye"></i> View</a>@endif</td>
                 </tr>
                 <tr>
-                  <td><strong>#SA-3040</strong></td>
-                  <td>Nadia Islam</td>
-                  <td>$89</td>
-                  <td>Mar 09, 2026</td>
+                  <td><strong>#SA-3040</strong></td><td>Nadia Islam</td><td>$89</td><td>Mar 09, 2026</td>
                   <td><span class="pill pill-info">Processing</span></td>
-                  <td><a href="#" class="act-btn"><i class="fas fa-eye"></i> View</a></td>
+                  <td>@if(auth()->user()->isSuperAdmin() || auth()->user()->hasPermission('edit-orders'))<a href="#" class="act-btn"><i class="fas fa-eye"></i> View</a>@endif</td>
                 </tr>
                 <tr>
-                  <td><strong>#SA-3038</strong></td>
-                  <td>Rahim Uddin</td>
-                  <td>$560</td>
-                  <td>Mar 08, 2026</td>
+                  <td><strong>#SA-3038</strong></td><td>Rahim Uddin</td><td>$560</td><td>Mar 08, 2026</td>
                   <td><span class="pill pill-success">Completed</span></td>
-                  <td><a href="#" class="act-btn"><i class="fas fa-eye"></i> View</a></td>
+                  <td>@if(auth()->user()->isSuperAdmin() || auth()->user()->hasPermission('edit-orders'))<a href="#" class="act-btn"><i class="fas fa-eye"></i> View</a>@endif</td>
                 </tr>
                 <tr>
-                  <td><strong>#SA-3035</strong></td>
-                  <td>Tasnim Khan</td>
-                  <td>$134</td>
-                  <td>Mar 07, 2026</td>
+                  <td><strong>#SA-3035</strong></td><td>Tasnim Khan</td><td>$134</td><td>Mar 07, 2026</td>
                   <td><span class="pill pill-success">Completed</span></td>
-                  <td><a href="#" class="act-btn"><i class="fas fa-eye"></i> View</a></td>
+                  <td>@if(auth()->user()->isSuperAdmin() || auth()->user()->hasPermission('edit-orders'))<a href="#" class="act-btn"><i class="fas fa-eye"></i> View</a>@endif</td>
                 </tr>
                 <tr>
-                  <td><strong>#SA-3031</strong></td>
-                  <td>Sabbir Ahmed</td>
-                  <td>$78</td>
-                  <td>Mar 06, 2026</td>
+                  <td><strong>#SA-3031</strong></td><td>Sabbir Ahmed</td><td>$78</td><td>Mar 06, 2026</td>
                   <td><span class="pill pill-danger">Cancelled</span></td>
-                  <td><a href="#" class="act-btn"><i class="fas fa-eye"></i> View</a></td>
+                  <td>@if(auth()->user()->isSuperAdmin() || auth()->user()->hasPermission('edit-orders'))<a href="#" class="act-btn"><i class="fas fa-eye"></i> View</a>@endif</td>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
       </div>
+      @endif
 
       <!-- Right Column -->
-      <div class="col-12 col-lg-5">
+      <div class="{{ (auth()->user()->isSuperAdmin() || auth()->user()->hasPermission('view-orders')) ? 'col-12 col-lg-5' : 'col-12' }}">
 
         <!-- Activity Feed -->
         <div class="wcard mb-3">
@@ -253,6 +269,7 @@
         </div>
 
         <!-- Top Products -->
+        @if(auth()->user()->isSuperAdmin() || auth()->user()->hasPermission('view-products'))
         <div class="wcard">
           <h6><i class="fas fa-trophy"></i> Top Products</h6>
           <div class="prod-item">
@@ -281,9 +298,12 @@
             <div class="prod-rev">$4,100</div>
           </div>
         </div>
+        @endif
 
       </div>
     </div>
+
+    @endif {{-- end view-dashboard check --}}
 
   </div><!-- /content -->
 @endsection

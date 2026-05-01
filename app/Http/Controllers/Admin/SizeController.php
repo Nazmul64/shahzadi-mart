@@ -30,7 +30,7 @@ class SizeController extends Controller
             'is_active' => false,
         ]);
 
-        return redirect()->route('admin.sizes.index')
+        return redirect()->route('admin.size.index')
             ->with('success', 'Size created successfully.');
     }
 

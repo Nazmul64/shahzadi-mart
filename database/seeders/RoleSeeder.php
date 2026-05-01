@@ -8,99 +8,111 @@ use Illuminate\Database\Seeder;
 
 class RoleSeeder extends Seeder
 {
+    /**
+     * প্রতিটি role-এর জন্য কোন group-এর permission দেওয়া হবে সেটা এখানে define।
+     * Super Admin ও Admin — সব পায়, তাই আলাদা handle।
+     */
+    private array $roleConfig = [
+        [
+            'slug'        => 'super-admin',
+            'name'        => 'Super Admin',
+            'description' => 'সর্বোচ্চ ক্ষমতা — সব পারমিশন আছে',
+            'is_default'  => false,
+            'all'         => true, // সব permission
+        ],
+        [
+            'slug'        => 'admin',
+            'name'        => 'Admin',
+            'description' => 'প্রশাসক — প্রায় সব পারমিশন আছে',
+            'is_default'  => false,
+            'all'         => true,
+        ],
+        [
+            'slug'        => 'sub-admin',
+            'name'        => 'Sub Admin',
+            'description' => 'সীমিত অ্যাডমিন অ্যাক্সেস',
+            'is_default'  => false,
+            'slugs'       => [
+                'view-dashboard',
+                'view-products', 'create-products', 'edit-products',
+                'view-orders', 'edit-orders',
+                'view-categories', 'create-categories', 'edit-categories',
+                'view-users',
+                'view-reports', 'export-reports',
+            ],
+        ],
+        [
+            'slug'        => 'manager',
+            'name'        => 'Manager',
+            'description' => 'পণ্য, অর্ডার, ক্যাটাগরি ম্যানেজ করতে পারে',
+            'is_default'  => false,
+            'slugs'       => [
+                'view-dashboard',
+                // Removed default permissions so that the admin can set granular direct permissions per user.
+            ],
+        ],
+        [
+            'slug'        => 'seller',
+            'name'        => 'Seller',
+            'description' => 'নিজের পণ্য ও অর্ডার ম্যানেজ করতে পারে',
+            'is_default'  => false,
+            'slugs'       => [
+                'view-dashboard',
+                'view-products', 'create-products', 'edit-products',
+                'view-orders', 'process-orders',
+                'view-categories',
+                'view-reports',
+            ],
+        ],
+        [
+            'slug'        => 'employee',
+            'name'        => 'Employee',
+            'description' => 'কর্মচারী — সীমিত ড্যাশবোর্ড অ্যাক্সেস',
+            'is_default'  => false,
+            'slugs'       => [
+                'view-dashboard',
+                'view-products',
+                'view-orders', 'edit-orders',
+                'view-categories',
+                'view-reports',
+            ],
+        ],
+        [
+            'slug'        => 'customer',
+            'name'        => 'Customer',
+            'description' => 'সাধারণ গ্রাহক — পণ্য দেখা ও অর্ডার করা',
+            'is_default'  => true, // নতুন user পেলে এই role পাবে
+            'slugs'       => [
+                'view-products',
+                'view-categories',
+                'create-orders', 'view-orders',
+            ],
+        ],
+    ];
+
     public function run(): void
     {
-        // ── Super Admin ───────────────────────────────────────────────────────
-        $superAdmin = Role::firstOrCreate(
-            ['slug' => 'super-admin'],
-            ['name' => 'Super Admin', 'description' => 'সর্বোচ্চ ক্ষমতাসম্পন্ন, সব পারমিশন আছে', 'is_active' => true]
-        );
-        $superAdmin->permissions()->sync(Permission::pluck('id'));
+        $allPermissionIds = Permission::pluck('id');
 
-        // ── Admin ─────────────────────────────────────────────────────────────
-        $admin = Role::firstOrCreate(
-            ['slug' => 'admin'],
-            ['name' => 'Admin', 'description' => 'প্রশাসক, প্রায় সব পারমিশন আছে', 'is_active' => true]
-        );
-        $admin->permissions()->sync(Permission::pluck('id'));
+        foreach ($this->roleConfig as $config) {
+            $role = Role::updateOrCreate(
+                ['slug' => $config['slug']],
+                [
+                    'name'        => $config['name'],
+                    'description' => $config['description'],
+                    'is_active'   => true,
+                    'is_default'  => $config['is_default'],
+                ]
+            );
 
-        // ── Sub Admin ─────────────────────────────────────────────────────────
-        $subAdmin = Role::firstOrCreate(
-            ['slug' => 'sub-admin'],
-            ['name' => 'Sub Admin', 'description' => 'সীমিত অ্যাডমিন অ্যাক্সেস', 'is_active' => true]
-        );
-        $subAdminSlugs = [
-            'view-dashboard',
-            'view-products', 'create-products', 'edit-products',
-            'view-orders', 'edit-orders',
-            'view-categories', 'create-categories', 'edit-categories',
-            'view-users',
-            'view-reports', 'export-reports',
-        ];
-        $subAdmin->permissions()->sync(
-            Permission::whereIn('slug', $subAdminSlugs)->pluck('id')
-        );
+            if ($config['all'] ?? false) {
+                $role->permissions()->sync($allPermissionIds);
+            } else {
+                $ids = Permission::whereIn('slug', $config['slugs'])->pluck('id');
+                $role->permissions()->sync($ids);
+            }
+        }
 
-        // ── Manager ───────────────────────────────────────────────────────────
-        $manager = Role::firstOrCreate(
-            ['slug' => 'manager'],
-            ['name' => 'Manager', 'description' => 'পণ্য, অর্ডার ও রিপোর্ট ম্যানেজ করতে পারে', 'is_active' => true]
-        );
-        $managerSlugs = [
-            'view-dashboard',
-            'view-products', 'create-products', 'edit-products', 'delete-products',
-            'view-orders', 'edit-orders',
-            'view-categories', 'create-categories', 'edit-categories',
-            'view-reports', 'export-reports',
-            'view-users',
-        ];
-        $manager->permissions()->sync(
-            Permission::whereIn('slug', $managerSlugs)->pluck('id')
-        );
-
-        // ── Seller ────────────────────────────────────────────────────────────
-        $seller = Role::firstOrCreate(
-            ['slug' => 'seller'],
-            ['name' => 'Seller', 'description' => 'নিজের পণ্য ও অর্ডার দেখতে পারে', 'is_active' => true]
-        );
-        $sellerSlugs = [
-            'view-dashboard',
-            'view-products', 'create-products', 'edit-products',
-            'view-orders',
-            'view-categories',
-        ];
-        $seller->permissions()->sync(
-            Permission::whereIn('slug', $sellerSlugs)->pluck('id')
-        );
-
-        // ── Customer ──────────────────────────────────────────────────────────
-        $customer = Role::firstOrCreate(
-            ['slug' => 'customer'],
-            ['name' => 'Customer', 'description' => 'পণ্য দেখা ও অর্ডার করতে পারে', 'is_active' => true, 'is_default' => true]
-        );
-        $customerSlugs = [
-            'view-products',
-            'view-categories',
-            'create-orders', 'view-orders',
-        ];
-        $customer->permissions()->sync(
-            Permission::whereIn('slug', $customerSlugs)->pluck('id')
-        );
-
-        // ── Employee ──────────────────────────────────────────────────────────
-        $employee = Role::firstOrCreate(
-            ['slug' => 'employee'],
-            ['name' => 'Employee', 'description' => 'কর্মচারী, সীমিত ড্যাশবোর্ড অ্যাক্সেস', 'is_active' => true]
-        );
-        $employeeSlugs = [
-            'view-dashboard',
-            'view-products',
-            'view-orders', 'edit-orders',
-            'view-categories',
-            'view-reports',
-        ];
-        $employee->permissions()->sync(
-            Permission::whereIn('slug', $employeeSlugs)->pluck('id')
-        );
+        $this->command->info('✅ Roles: ' . Role::count() . ' টি তৈরি হয়েছে।');
     }
 }

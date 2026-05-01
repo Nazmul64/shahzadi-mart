@@ -4,31 +4,16 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class ManagerMiddleware
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Auth::check()) {
-            return redirect()->route('manager.login')
-                ->with('error', 'Please login to access the manager panel.');
-        }
+        $user = auth()->user();
 
-        // roles সহ fresh load করো
-        $user = Auth::user()->load('roles');
-
-        if (in_array($user->status, ['inactive', 'suspended'])) {
-            Auth::logout();
-            return redirect()->route('manager.login')
-                ->with('error', 'Your account has been deactivated. Contact administrator.');
-        }
-
-        if (!$user->isManager()) {
-            Auth::logout();
-            return redirect()->route('manager.login')
-                ->with('error', 'You are not authorized to access the manager panel.');
+        if (!$user || !$user->hasRole(['manager', 'admin', 'super-admin'])) {
+            abort(403, 'Manager অ্যাক্সেস প্রয়োজন।');
         }
 
         return $next($request);

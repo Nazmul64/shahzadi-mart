@@ -335,6 +335,7 @@
                                 <th>Phone</th>
                                 <th>Amount</th>
                                 <th>Payment</th>
+                                <th>Staff</th>
                                 <th>Order Status</th>
                                 <th>Courier</th>
                             </tr>
@@ -461,6 +462,28 @@
                                             <option value="paid"     {{ $order->payment_status === 'paid'     ? 'selected' : '' }}>Paid</option>
                                             <option value="failed"   {{ $order->payment_status === 'failed'   ? 'selected' : '' }}>Failed</option>
                                             <option value="refunded" {{ $order->payment_status === 'refunded' ? 'selected' : '' }}>Refunded</option>
+                                        </select>
+                                    </form>
+                                </td>
+
+                                {{-- Assign Staff --}}
+                                <td>
+                                    <form method="POST"
+                                          action="{{ route('admin.order.assign-staff.update', $order->id) }}"
+                                          style="margin:0;">
+                                        @csrf
+                                        @method('PATCH')
+                                        <select name="assigned_user_id"
+                                                class="ao-status-select"
+                                                style="background:#f4f6fb; border-color:#dde2ec; min-width:140px;"
+                                                onchange="this.form.submit()">
+                                            <option value="">-- Assign Staff --</option>
+                                            @foreach($staffMembers as $staff)
+                                                <option value="{{ $staff->id }}"
+                                                    {{ $order->assigned_user_id == $staff->id ? 'selected' : '' }}>
+                                                    {{ $staff->name }}
+                                                </option>
+                                            @endforeach
                                         </select>
                                     </form>
                                 </td>

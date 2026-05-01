@@ -3,28 +3,23 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Permission extends Model
 {
     protected $fillable = ['name', 'slug', 'group', 'description'];
 
-    // ── Relationships ──────────────────────────────────────────────────────────
-
-    public function roles()
+    public function roles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class, 'role_permission');
     }
 
-    // ── Static Helpers ─────────────────────────────────────────────────────────
-
-    /**
-     * Database থেকে সব distinct group নাম আনে — hardcode নয়
-     */
-    public static function getAllGroups()
+    public static function getAllGroups(): array
     {
         return self::whereNotNull('group')
             ->distinct()
             ->orderBy('group')
-            ->pluck('group');
+            ->pluck('group')
+            ->toArray();
     }
 }
