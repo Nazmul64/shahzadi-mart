@@ -12,7 +12,7 @@ class Empleemiddleware
     {
         $user = auth()->user();
 
-        if (!$user || !$user->hasRole(['employee', 'super-admin'])) {
+        if (!$user || !$user->hasRole(['employee'])) {
             abort(403, 'আপনার Employee ড্যাশবোর্ডে ঢোকার অনুমতি নেই।');
         }
 

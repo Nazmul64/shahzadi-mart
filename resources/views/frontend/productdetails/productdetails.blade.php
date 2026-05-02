@@ -134,11 +134,14 @@
     <div class="pdp__card">
       <div class="pdp__grid">
         <div class="pdp__gallery">
-          <div class="pdp__main-wrap" id="pdpMainWrap">
+          <div class="pdp__main-wrap" id="pdpMainWrap" style="position: relative;">
             <button class="pdp__wish-btn" id="pdpWishBtn" data-url="{{ $wishlistAddUrl }}"><i class="bi bi-heart"></i></button>
             <img id="pdpMainImg" class="pdp__main-img" src="{{ $featureImg }}" alt="{{ $product->name }}"/>
             <div class="pdp__img-counter"><i class="fas fa-camera"></i> <span id="pdpCounter">1 / {{ $totalImages }}</span></div>
+            <div id="pdpZoomLens" class="pdp__zoom-lens"></div>
           </div>
+          
+          <div id="pdpZoomResult" class="pdp__zoom-result"></div>
           <div class="pdp__thumbs">
             @foreach($allImages as $idx => $img)
               <div class="pdp__thumb {{ $idx === 0 ? 'pdp__thumb--active' : '' }}" data-idx="{{ $idx }}" data-src="{{ $img['url'] }}">
@@ -224,6 +227,21 @@
 
 <style>
 /* ... (existing styles) ... */
+.pdp__grid { position: relative; }
+.pdp__zoom-lens {
+    position: absolute; border: 1px solid #d4d4d4; width: 120px; height: 120px; background: rgba(255, 255, 255, 0.4);
+    cursor: crosshair; opacity: 0; border-radius: 5px; box-shadow: 0 0 5px rgba(0,0,0,0.2); pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+.pdp__zoom-result {
+    position: absolute; top: 0; left: calc(100% + 30px); width: 500px; height: 500px; border: 1px solid #e5e7eb;
+    background-color: #fff; background-repeat: no-repeat; opacity: 0; visibility: hidden; z-index: 9999; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+@media (max-width: 991px) {
+    .pdp__zoom-result { display: none !important; }
+    .pdp__zoom-lens { display: none !important; }
+}
 .pdp-toast {
     position: fixed; top: 20px; right: 20px; background: #333; color: #fff; padding: 12px 20px;
     border-radius: 8px; z-index: 9999; animation: slideIn .3s ease; display: flex; align-items: center; gap: 10px;
@@ -304,8 +322,120 @@
             document.getElementById('pdpMainImg').src = this.dataset.src;
             document.querySelectorAll('.pdp__thumb').forEach(x => x.classList.remove('pdp__thumb--active'));
             this.classList.add('pdp__thumb--active');
+            initZoom(); // re-init zoom with new image
         });
     });
+
+    /* Zoom logic */
+    function initZoom() {
+        var img = document.getElementById('pdpMainImg');
+        var lens = document.getElementById('pdpZoomLens');
+        var result = document.getElementById('pdpZoomResult');
+        var container = document.getElementById('pdpMainWrap');
+        var infoPanel = document.querySelector('.pdp__info'); // The right side text area
+        
+        // Remove previous listeners if any
+        container.onmousemove = null;
+        container.onmouseleave = null;
+        lens.onmousemove = null;
+
+        var cx, cy;
+
+        // Set background image
+        result.style.backgroundImage = "url('" + img.src + "')";
+
+        // We need to wait for image to load to get dimensions
+        img.onload = function() {
+            setupZoom();
+        };
+        // If already loaded
+        if (img.complete) {
+            setupZoom();
+        }
+
+        function setupZoom() {
+            if (infoPanel && window.innerWidth > 991) {
+                var infoRect = infoPanel.getBoundingClientRect();
+                var gridRect = document.querySelector('.pdp__grid').getBoundingClientRect();
+                
+                result.style.width = infoPanel.offsetWidth + "px";
+                result.style.height = infoPanel.offsetHeight + "px";
+                result.style.left = (infoRect.left - gridRect.left) + "px";
+                result.style.top = "0px";
+            }
+
+            // Calculate ratio based on NATURAL image dimensions for maximum clarity
+            // This ensures 1:1 pixel mapping for crisp zoomed details
+            var ratioX = result.offsetWidth / lens.offsetWidth;
+            var ratioY = result.offsetHeight / lens.offsetHeight;
+            
+            // To make it super clear, use natural width if available
+            var natW = img.naturalWidth || img.width * 2;
+            var natH = img.naturalHeight || img.height * 2;
+            
+            cx = result.offsetWidth / lens.offsetWidth;
+            cy = result.offsetHeight / lens.offsetHeight;
+
+            // Set background size to scale up the image relative to the lens ratio
+            result.style.backgroundSize = (img.width * cx) + "px " + (img.height * cy) + "px";
+
+            lens.onmousemove = moveLens;
+            container.onmousemove = moveLens;
+            container.onmouseleave = hideZoom;
+            container.onmouseenter = showZoom;
+        }
+
+        function showZoom() {
+            if(window.innerWidth > 991) {
+                setupZoom(); 
+                lens.style.opacity = "1";
+                result.style.opacity = "1";
+                result.style.visibility = "visible";
+                infoPanel.style.opacity = "0"; 
+            }
+        }
+        function hideZoom() {
+            lens.style.opacity = "0";
+            result.style.opacity = "0";
+            setTimeout(() => { if (result.style.opacity === "0") result.style.visibility = "hidden"; }, 300);
+            infoPanel.style.opacity = "1"; 
+        }
+
+        function moveLens(e) {
+            var pos, x, y;
+            e.preventDefault();
+            pos = getCursorPos(e);
+            
+            x = pos.x - (lens.offsetWidth / 2);
+            y = pos.y - (lens.offsetHeight / 2);
+
+            // Prevent lens from being positioned outside the image
+            if (x > img.width - lens.offsetWidth) { x = img.width - lens.offsetWidth; }
+            if (x < 0) { x = 0; }
+            if (y > img.height - lens.offsetHeight) { y = img.height - lens.offsetHeight; }
+            if (y < 0) { y = 0; }
+
+            lens.style.left = x + "px";
+            lens.style.top = y + "px";
+            
+            // Move the background image correctly mapped to the cursor
+            result.style.backgroundPosition = "-" + (x * cx) + "px -" + (y * cy) + "px";
+        }
+
+        function getCursorPos(e) {
+            var a, x = 0, y = 0;
+            e = e || window.event;
+            a = img.getBoundingClientRect();
+            x = e.pageX - a.left;
+            y = e.pageY - a.top;
+            x = x - window.pageXOffset;
+            y = y - window.pageYOffset;
+            return {x : x, y : y};
+        }
+    }
+    
+    // Initialize zoom on load
+    initZoom();
 })();
 </script>
 

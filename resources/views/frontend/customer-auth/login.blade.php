@@ -132,7 +132,7 @@
                     <span>Facebook</span>
                 </a>
             </div>
-            <p class="terms-text">By joining, you agree to our <a href="#">Terms</a> & <a href="#">Privacy Policy</a></p>
+            <p class="terms-text">By joining, you agree to our <a href="{{ route('terms.conditions') }}">Terms</a> & <a href="{{ route('privacy.policy') }}">Privacy Policy</a></p>
         </div>
     </div>
 </div>

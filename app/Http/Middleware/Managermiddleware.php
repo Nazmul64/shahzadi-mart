@@ -12,7 +12,7 @@ class ManagerMiddleware
     {
         $user = auth()->user();
 
-        if (!$user || !$user->hasRole(['manager', 'super-admin'])) {
+        if (!$user || !$user->hasRole(['manager'])) {
             abort(403, 'আপনার Manager ড্যাশবোর্ডে ঢোকার অনুমতি নেই।');
         }
 

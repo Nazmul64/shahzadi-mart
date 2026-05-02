@@ -88,6 +88,7 @@ Route::get('/',                             [FrontendController::class, 'fronten
 Route::get('/product/{slug}',               [FrontendController::class, 'productdetails']   )->name('product.detail');
 Route::get('/about-company',                [FrontendController::class, 'aboutcompany']     )->name('about.company');
 Route::get('/terms-and-conditions',         [FrontendController::class, 'termsAndConditions'])->name('terms.conditions');
+Route::get('/privacy-policy',               [FrontendController::class, 'privacyPolicy']    )->name('privacy.policy');
 Route::get('/contactdetails',               [FrontendController::class, 'contactDetails']   )->name('contact.details');
 Route::get('/campaign/manage/{id}',         [FrontendController::class, 'campaignManage']   )->name('campaign.manage');
 Route::get('/orderhistory',                 [FrontendController::class, 'orderHistory']     )->name('order.history');
@@ -387,6 +388,11 @@ Route::middleware(['admin'])
         Route::get('{shipping}/toggle-status', [ShippingChargeController::class, 'toggleStatus'])->name('toggle-status');
     });
     Route::resource('shipping', ShippingChargeController::class)->except(['show']);
+
+    // ──────────────────────────────────────────────────────────────────────────
+    // PRIVACY POLICY
+    // ──────────────────────────────────────────────────────────────────────────
+    Route::resource('privacy-policy', \App\Http\Controllers\Admin\PrivacyPolicyController::class);
 
     // ──────────────────────────────────────────────────────────────────────────
     // ORDERS

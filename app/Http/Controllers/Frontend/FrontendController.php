@@ -541,6 +541,15 @@ public function productdetails($slug)
         return view('frontend.terms-and-conditions', compact('websetting', 'termsAndConditions'));
     }
 
+    // ─── Privacy Policy ───────────────────────────────────────────────────────
+    public function privacyPolicy()
+    {
+        $websetting    = Generalsetting::first();
+        $privacyPolicy = \App\Models\PrivacyPolicy::where('status', 'active')->latest()->first();
+
+        return view('frontend.privacy-policy', compact('websetting', 'privacyPolicy'));
+    }
+
     // ─── Multiple / Dynamic Page ──────────────────────────────────────────────
     public function multiplepage($id)
     {

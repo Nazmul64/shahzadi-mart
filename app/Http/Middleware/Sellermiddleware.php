@@ -12,8 +12,8 @@ class SellerMiddleware
     {
         $user = auth()->user();
 
-        if (!$user || !$user->hasRole(['seller', 'admin', 'super-admin'])) {
-            abort(403, 'Seller অ্যাক্সেস প্রয়োজন।');
+        if (!$user || !$user->hasRole(['seller'])) {
+            abort(403, 'আপনার Seller ড্যাশবোর্ডে ঢোকার অনুমতি নেই।');
         }
 
         return $next($request);

@@ -843,6 +843,9 @@ body.sb-collapsed .sb-user-info, body.sb-collapsed .sb-logout-btn { display: non
         <a href="{{ route('admin.pages.index') }}" class="{{ request()->routeIs('admin.pages.*') || request()->routeIs('admin.footercategory.*') || request()->routeIs('admin.aboutcompany.*') || request()->routeIs('admin.tremsandcondation.*') || request()->routeIs('admin.contactinfomationadmins.*') ? 'active' : '' }}">
             <i class="bi bi-file-earmark-text-fill"></i> Pages
         </a>
+        <a href="{{ route('admin.privacy-policy.index') }}" class="{{ request()->routeIs('admin.privacy-policy.*') ? 'active' : '' }}">
+            <i class="bi bi-shield-lock-fill"></i> Privacy Policy
+        </a>
     </div>
 </div>
 @endif

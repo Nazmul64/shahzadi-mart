@@ -174,6 +174,14 @@ class PermissionSeeder extends Seeder
             ['name' => 'View Order Assignments',   'slug' => 'view-assignments'],
             ['name' => 'Manage Order Assignments',  'slug' => 'manage-assignments'],
         ],
+
+        // ── Purchase Management ───────────────────────────────────────────
+        'purchases' => [
+            ['name' => 'View Purchases',   'slug' => 'view-purchases'],
+            ['name' => 'Create Purchases', 'slug' => 'create-purchases'],
+            ['name' => 'Edit Purchases',   'slug' => 'edit-purchases'],
+            ['name' => 'Delete Purchases', 'slug' => 'delete-purchases'],
+        ],
     ];
 
     public function run(): void
