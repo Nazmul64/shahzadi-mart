@@ -83,8 +83,10 @@
                         <i class="bi bi-heart"></i>
                     </a>
 
-                    {{-- Product detail link --}}
-                    <a href="{{ route('product.detail', $item->slug) }}" class="na-card">
+                    {{-- Product detail link wrapper (div instead of <a> to avoid nested form/anchor) --}}
+                    <div class="na-card"
+                         onclick="window.location='{{ route('product.detail', $item->slug) }}'"
+                         style="cursor: pointer;">
 
                         <span class="na-badge-new">NEW</span>
 
@@ -108,7 +110,12 @@
                                 </p>
                             @endif
 
-                            <p class="na-name">{{ $item->name }}</p>
+                            <a href="{{ route('product.detail', $item->slug) }}" 
+                               class="na-name" 
+                               onclick="event.stopPropagation()" 
+                               style="text-decoration: none; color: inherit;">
+                               {{ $item->name }}
+                            </a>
 
                             <div class="na-price-row">
                                 <span class="na-price">৳ {{ number_format($displayPrice, 0) }}</span>
@@ -121,14 +128,14 @@
 
                             <div class="na-spacer"></div>
 
-                            {{-- ✅ KEY FIX: POST form — GET method supported নেই --}}
+                            {{-- ✅ FIX: POST form — GET method supported নেই --}}
                             @if($inStock)
                                 <form class="na-atc-form"
                                       action="{{ route('cart.add', $item->id) }}"
                                       method="POST"
                                       onclick="event.stopPropagation()">
                                     @csrf
-                                    <button type="submit" class="na-atc">
+                                    <button type="submit" class="na-atc" style="border: none; width: 100%;">
                                         <i class="bi bi-cart-plus-fill"></i> কার্টে যোগ করুন
                                     </button>
                                 </form>
@@ -140,7 +147,7 @@
 
                         </div>
 
-                    </a>
+                    </div>
                 </div>
 
             @endforeach

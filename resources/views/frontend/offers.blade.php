@@ -70,8 +70,10 @@
                         <i class="bi bi-heart"></i>
                     </a>
 
-                    {{-- Product card link --}}
-                    <a href="{{ route('product.detail', $item->slug) }}" class="ofp-card">
+                    {{-- Card (div — avoids nested <a> bug) --}}
+                    <div class="ofp-card" 
+                         onclick="window.location='{{ route('product.detail', $item->slug) }}'"
+                         style="cursor: pointer;">
                         @if($disc)
                             <span class="ofp-disc{{ $disc >= 50 ? ' ofp-disc--gold' : '' }}">-{{ $disc }}%</span>
                         @endif
@@ -83,7 +85,9 @@
                                  onerror="this.src='{{ asset('default/no-image.png') }}'">
                         </div>
                         <div class="ofp-body">
-                            <p class="ofp-name">{{ $item->name }}</p>
+                            <a href="{{ route('product.detail', $item->slug) }}" 
+                               class="ofp-name" 
+                               onclick="event.stopPropagation()">{{ $item->name }}</a>
                             <p class="ofp-price">৳&nbsp;{{ number_format($dPrice, 0) }}</p>
                             @if($dPrice < $oPrice)
                                 <p class="ofp-old">৳&nbsp;{{ number_format($oPrice, 0) }}</p>
@@ -99,7 +103,7 @@
                                     class="ofp-atc-form"
                                     onclick="event.stopPropagation()">
                                     @csrf
-                                    <button type="submit" class="ofp-atc">
+                                    <button type="submit" class="ofp-atc" style="border:none; width:100%;">
                                         <i class="bi bi-cart-plus-fill"></i> কার্টে যোগ করুন
                                     </button>
                                 </form>
@@ -110,7 +114,7 @@
                             @endif
 
                         </div>
-                    </a>
+                    </div>
                 </div>
             @endforeach
         </div>
@@ -144,8 +148,10 @@
                         <i class="bi bi-heart"></i>
                     </a>
 
-                    {{-- Product card link --}}
-                    <a href="{{ route('product.detail', $item->slug) }}" class="ofp-card">
+                    {{-- Card (div — avoids nested <a> bug) --}}
+                    <div class="ofp-card" 
+                         onclick="window.location='{{ route('product.detail', $item->slug) }}'"
+                         style="cursor: pointer;">
                         @if($disc)
                             <span class="ofp-disc{{ $disc >= 50 ? ' ofp-disc--gold' : '' }}">-{{ $disc }}%</span>
                         @endif
@@ -157,7 +163,9 @@
                                  onerror="this.src='{{ asset('default/no-image.png') }}'">
                         </div>
                         <div class="ofp-body">
-                            <p class="ofp-name">{{ $item->name }}</p>
+                            <a href="{{ route('product.detail', $item->slug) }}" 
+                               class="ofp-name" 
+                               onclick="event.stopPropagation()">{{ $item->name }}</a>
                             <p class="ofp-price">৳&nbsp;{{ number_format($dPrice, 0) }}</p>
                             @if($item->discount_price && $item->discount_price < $oPrice)
                                 <p class="ofp-old">৳&nbsp;{{ number_format($oPrice, 0) }}</p>
@@ -173,7 +181,7 @@
                                     class="ofp-atc-form"
                                     onclick="event.stopPropagation()">
                                     @csrf
-                                    <button type="submit" class="ofp-atc">
+                                    <button type="submit" class="ofp-atc" style="border:none; width:100%;">
                                         <i class="bi bi-cart-plus-fill"></i> কার্টে যোগ করুন
                                     </button>
                                 </form>
@@ -184,7 +192,7 @@
                             @endif
 
                         </div>
-                    </a>
+                    </div>
                 </div>
             @endforeach
         </div>

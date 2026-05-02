@@ -1,7 +1,13 @@
 {{-- resources/views/admin/orders/create_edit.blade.php --}}
-@extends('admin.master')
+@if(request()->routeIs('manager.*'))
+    @extends('manager.master')
+@elseif(request()->routeIs('emplee.*'))
+    @extends('emplee.master')
+@else
+    @extends('admin.master')
+@endif
 
-@section('main-content')
+@section(request()->routeIs('admin.*') ? 'main-content' : 'content')
 
 <style>
 * { box-sizing: border-box; }
@@ -95,8 +101,16 @@
             <button class="btn-cart-clear" onclick="clearCart()">
                 <i class="bi bi-cart-x"></i> Cart Clear
             </button>
-            {{-- route('admin.order.allorder') → GET /admin/orders --}}
-            <a href="{{ route('admin.order.allorder') }}" class="btn-back">
+            @php
+                if (request()->routeIs('manager.*')) {
+                    $backRoute = route('manager.orders.index');
+                } elseif (request()->routeIs('emplee.*')) {
+                    $backRoute = route('emplee.orders.index');
+                } else {
+                    $backRoute = route('admin.order.allorder');
+                }
+            @endphp
+            <a href="{{ $backRoute }}" class="btn-back">
                 <i class="bi bi-arrow-left"></i> Back
             </a>
         </div>
@@ -124,13 +138,17 @@
             </div>
         @endif
 
-        {{--
-            isset($order) → Edit: PUT /admin/orders/{id}   → route('admin.order.update', $order->id)
-            new order    → Store: POST /admin/orders        → route('admin.order.store')
-        --}}
-        <form method="POST"
-              action="{{ isset($order) ? route('admin.order.update', $order->id) : route('admin.order.store') }}"
-              id="order-form">
+        {{-- Dynamic Form Action --}}
+        @php
+            if (request()->routeIs('manager.*')) {
+                $formAction = isset($order) ? route('manager.orders.update', $order->id) : route('manager.orders.store');
+            } elseif (request()->routeIs('emplee.*')) {
+                $formAction = isset($order) ? route('emplee.orders.update', $order->id) : route('emplee.orders.store');
+            } else {
+                $formAction = isset($order) ? route('admin.order.update', $order->id) : route('admin.order.store');
+            }
+        @endphp
+        <form method="POST" action="{{ $formAction }}" id="order-form">
             @csrf
             @if(isset($order)) @method('PUT') @endif
 

@@ -20,7 +20,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Shahzadimart Shop</title>
+    <meta name="robots" content="index, follow">
+    @php
+        $siteName = $websetting->site_name ?? 'Shahzadi-mart';
+        
+        $seoTitle = $siteName;
+        $seoDesc  = '';
+        $seoKeys  = 'online shop, ecommerce, bangladesh, premium products';
+        $ogImg    = !empty($websetting?->header_logo) ? asset($websetting->header_logo) : asset('default/logo.png');
+        $ogType   = 'website';
+        $canonicalUrl = url()->current();
+
+        if (isset($product)) {
+            $seoTitle = $product->name . ' - ' . $siteName;
+            $seoDesc  = $product->meta_description ?: ($aiPrompt->product_description ?? substr(strip_tags($product->description), 0, 160));
+            $seoKeys  = $product->meta_tags ?: (is_array($product->tags) ? implode(', ', $product->tags) : $product->tags);
+            $ogImg    = $product->feature_image ? asset('uploads/products/'.$product->feature_image) : $ogImg;
+            $ogType   = 'product';
+        } elseif (isset($category)) {
+            $seoTitle = ($category->name ?? 'Category') . ' - ' . $siteName;
+            $seoDesc  = $aiPrompt->page_description ?? 'Browse our range of ' . ($category->name ?? 'products') . '.';
+        } elseif (isset($post)) {
+            $seoTitle = ($post->title) . ' - ' . $siteName;
+            $seoDesc  = substr(strip_tags($post->description), 0, 160);
+            $ogImg    = $post->image ? asset($post->image) : $ogImg;
+        } elseif (isset($page)) {
+            $seoTitle = ($page->title ?: $page->name) . ' - ' . $siteName;
+            $seoDesc  = $aiPrompt->page_description ?? substr(strip_tags($page->description), 0, 160);
+        } else {
+            $seoTitle = $siteName . ' - Your Trusted Marketplace';
+            $seoDesc  = $aiPrompt->page_description ?? 'Best online shop for premium products. Quality guaranteed, delivered to your door.';
+        }
+    @endphp
+
+    <title>{{ $seoTitle }}</title>
+    <meta name="description" content="{{ $seoDesc }}">
+    @if($seoKeys) <meta name="keywords" content="{{ $seoKeys }}"> @endif
+    <meta name="author" content="{{ $siteName }}">
+    <link rel="canonical" href="{{ $canonicalUrl }}">
+
+    {{-- ── Open Graph / Facebook ── --}}
+    <meta property="og:type" content="{{ $ogType }}">
+    <meta property="og:url" content="{{ $canonicalUrl }}">
+    <meta property="og:title" content="{{ $seoTitle }}">
+    <meta property="og:description" content="{{ $seoDesc }}">
+    <meta property="og:image" content="{{ $ogImg }}">
+    <meta property="og:site_name" content="{{ $siteName }}">
+
+    {{-- ── Twitter ── --}}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="{{ $canonicalUrl }}">
+    <meta name="twitter:title" content="{{ $seoTitle }}">
+    <meta name="twitter:description" content="{{ $seoDesc }}">
+    <meta name="twitter:image" content="{{ $ogImg }}">
 
     {{-- ══ GOOGLE TAG MANAGER — <head> ══ --}}
     @if($gtmId)
@@ -397,8 +449,12 @@
             <i class="bi bi-info-circle"></i> আমাদের সম্পর্কে
         </a>
 
-         <a href="{{ route('terms.conditions') }}" class="nav-item {{ request()->is('about*') ? 'active' : '' }}">
+         <a href="{{ route('terms.conditions') }}" class="nav-item {{ request()->is('terms*') ? 'active' : '' }}">
             <i class="bi bi-info-circle"></i> শর্তাবলী
+        </a>
+        <span class="nav-divider"></span>
+        <a href="{{ route('blog.index') }}" class="nav-item {{ request()->routeIs('blog.*') ? 'active' : '' }}">
+            <i class="bi bi-journal-text"></i> ব্লগ
         </a>
         <a href="{{ route('order.track') }}" class="nav-item nav-item--track {{ request()->routeIs('order.track*') ? 'active' : '' }}">
             <i class="bi bi-truck"></i> অর্ডার ট্র্যাক করুন

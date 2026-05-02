@@ -38,6 +38,10 @@ class AdminproductReviewController extends Controller
 
         $reviews = $query->paginate(15)->withQueryString();
 
+        if (request()->routeIs('manager.*')) {
+            return view('manager.reviews.index', compact('reviews'));
+        }
+
         return view('admin.reviews.index', compact('reviews'));
     }
 

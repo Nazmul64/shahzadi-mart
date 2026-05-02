@@ -22,8 +22,17 @@ class ResetPasswordController extends Controller
 
     /**
      * Where to redirect users after resetting their password.
-     *
-     * @var string
      */
-    protected $redirectTo = '/home';
+    protected function redirectTo()
+    {
+        $user = auth()->user();
+        if ($user) {
+            if ($user->isAdmin()) return route('admin.dashboard');
+            if ($user->isManager()) return route('manager.dashboard');
+            if ($user->isEmployee()) return route('emplee.dashboard');
+            if ($user->isSeller()) return route('saller.dashboard');
+            if ($user->isCustomer()) return route('user.dashboard');
+        }
+        return '/login';
+    }
 }

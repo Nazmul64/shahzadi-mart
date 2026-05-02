@@ -195,6 +195,10 @@
             </div>
         </div>
 
+        <div class="d-flex justify-content-end mb-4">
+            <a href="{{ route('password.request') }}" class="text-decoration-none small fw-bold" style="color:#4e9ef5;">Forgot Password?</a>
+        </div>
+
         <button type="submit" class="btn-login">
             <i class="fas fa-sign-in-alt me-2"></i> Login
         </button>

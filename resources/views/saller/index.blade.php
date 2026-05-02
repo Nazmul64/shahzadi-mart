@@ -2699,16 +2699,126 @@
                 </div>
             </div>
 
+            <!-- Profile Settings Section -->
             <div class="page-section" id="profile">
                 <div class="page-header">
-                    <h2 class="page-title">Profile Settings</h2>
+                    <h2 class="page-title">Account Settings</h2>
+                    <p class="page-subtitle">Manage your personal info, store details and security</p>
                 </div>
-                <div class="data-card text-center py-5">
-                    <i class="bi bi-person-circle" style="font-size: 48px; color: var(--text-secondary);"></i>
-                    <h4 class="mt-3">Account Profile</h4>
-                    <p class="text-secondary">Update your personal information</p>
+
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="data-card text-center p-4 mb-3">
+                            <div class="position-relative d-inline-block">
+                                <div id="sellerAvatarPreview" style="width: 120px; height: 120px; border-radius: 50%; overflow: hidden; border: 4px solid var(--primary-color); margin: 0 auto;">
+                                    @if(Auth::user()->photo)
+                                        <img src="{{ asset('uploads/avator/'.Auth::user()->photo) }}" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover;">
+                                    @else
+                                        <div class="d-flex align-items-center justify-content-center h-100 bg-light text-secondary" style="font-size: 40px; font-weight: 700;">
+                                            {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                                        </div>
+                                    @endif
+                                </div>
+                                <label for="sellerAvatarInput" class="btn btn-primary btn-sm position-absolute bottom-0 end-0 rounded-circle" style="width: 32px; height: 32px; padding: 0; display: flex; align-items: center; justify-content: center; border: 2px solid #fff;">
+                                    <i class="bi bi-camera"></i>
+                                </label>
+                            </div>
+                            <h4 class="mt-3 mb-1">{{ Auth::user()->name }}</h4>
+                            <p class="text-secondary mb-0">{{ Auth::user()->email }}</p>
+                            <span class="badge badge-success mt-2">Verified Seller</span>
+                        </div>
+
+                        <div class="data-card p-0 mb-3 overflow-hidden">
+                            <div class="list-group list-group-flush border-0">
+                                <button class="list-group-item list-group-item-action border-0 py-3 active" onclick="switchSettingsTab('personal-info', this)">
+                                    <i class="bi bi-person me-2"></i> Personal Info
+                                </button>
+                                <button class="list-group-item list-group-item-action border-0 py-3" onclick="switchSettingsTab('security-info', this)">
+                                    <i class="bi bi-shield-lock me-2"></i> Security
+                                </button>
+                                <button class="list-group-item list-group-item-action border-0 py-3 text-danger" onclick="document.getElementById('logout-form').submit()">
+                                    <i class="bi bi-box-arrow-right me-2"></i> Logout
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-8">
+                        <!-- Personal Info Tab -->
+                        <div id="settings-personal-info" class="settings-pane active">
+                            <form action="{{ route('saller.profile.update') }}" method="POST" enctype="multipart/form-data">
+                                @csrf
+                                <input type="file" id="sellerAvatarInput" name="photo" style="display: none;" onchange="previewSellerAvatar(this)">
+                                <div class="data-card">
+                                    <div class="data-card-header">
+                                        <h5 class="data-card-title">Personal Information</h5>
+                                    </div>
+                                    <div class="p-3">
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <label class="form-label">Full Name</label>
+                                                <input type="text" name="name" class="form-control" value="{{ Auth::user()->name }}" required>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label">Email Address</label>
+                                                <input type="email" name="email" class="form-control" value="{{ Auth::user()->email }}" required>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label">Phone Number</label>
+                                                <input type="text" name="phone" class="form-control" value="{{ Auth::user()->phone }}">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label">Store Name</label>
+                                                <input type="text" name="store_name" class="form-control" value="{{ Auth::user()->store_name }}" readonly>
+                                                <small class="text-secondary">Contact admin to change store name</small>
+                                            </div>
+                                            <div class="col-12">
+                                                <label class="form-label">Business Address</label>
+                                                <textarea name="address" class="form-control" rows="3">{{ Auth::user()->address }}</textarea>
+                                            </div>
+                                        </div>
+                                        <div class="mt-4 text-end">
+                                            <button type="submit" class="btn btn-primary px-4">Save Changes</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Security Tab -->
+                        <div id="settings-security-info" class="settings-pane d-none">
+                            <form action="{{ route('saller.profile.password') }}" method="POST">
+                                @csrf
+                                <div class="data-card">
+                                    <div class="data-card-header">
+                                        <h5 class="data-card-title">Change Password</h5>
+                                    </div>
+                                    <div class="p-3">
+                                        <div class="row g-3">
+                                            <div class="col-12">
+                                                <label class="form-label">Current Password</label>
+                                                <input type="password" name="current_password" class="form-control" required>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label">New Password</label>
+                                                <input type="password" name="password" class="form-control" required>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label">Confirm New Password</label>
+                                                <input type="password" name="password_confirmation" class="form-control" required>
+                                            </div>
+                                        </div>
+                                        <div class="mt-4 text-end">
+                                            <button type="submit" class="btn btn-primary px-4">Update Password</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
+
 
         </div>
     </div>

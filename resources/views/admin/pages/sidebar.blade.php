@@ -29,8 +29,9 @@
     $dupActive        = request()->routeIs('admin.duplicateordersetting.*') || request()->routeIs('admin.Ipblockmanage.*');
     $deliveryActive   = request()->routeIs('admin.DeliveryInformation.*');
     $taxActive        = request()->routeIs('admin.alltaxes.*');
+    $blogActive       = request()->routeIs('admin.blog-categories.*') || request()->routeIs('admin.blog-posts.*');
     $chatActive       = request()->routeIs('admin.chat.*');
-    $settingsActive   = request()->routeIs('admin.Generalsettings.*') || request()->routeIs('admin.websitefavicon.*') || request()->routeIs('admin.contact.*') || request()->routeIs('admin.pixels.*') || request()->routeIs('admin.googletagmanager.*') || $campaignActive || $shippingActive || $reviewsActive || $taxActive || request()->routeIs('admin.nagad.*');
+    $settingsActive   = request()->routeIs('admin.Generalsettings.*') || request()->routeIs('admin.websitefavicon.*') || request()->routeIs('admin.footer-settings.*') || request()->routeIs('admin.contact.*') || request()->routeIs('admin.pixels.*') || request()->routeIs('admin.googletagmanager.*') || $campaignActive || $shippingActive || $reviewsActive || $taxActive || request()->routeIs('admin.nagad.*') || request()->routeIs('admin.mail.*');
     $apiActive        = request()->routeIs('admin.paymentgetewaymanage.*') || request()->routeIs('admin.steadfastcourier.*') || request()->routeIs('admin.pathaocourier.*') || request()->routeIs('admin.Smsgatewaysetup.*') || request()->routeIs('admin.payment.*') || request()->routeIs('admin.payment.history');
     $pagesActive      = request()->routeIs('admin.pages.*') || request()->routeIs('admin.footercategory.*') || request()->routeIs('admin.aboutcompany.*') || request()->routeIs('admin.tremsandcondation.*') || request()->routeIs('admin.contactinfomationadmins.*');
     $aiActive         = request()->routeIs('admin.aiprompt.*');
@@ -393,6 +394,9 @@ body.sb-collapsed .sb-user-info, body.sb-collapsed .sb-logout-btn { display: non
 <a href="{{ route('admin.dashboard') }}" class="sb-item {{ $dashActive ? 'active' : '' }}">
     <span class="sb-left"><i class="bi bi-grid-1x2-fill sb-ico"></i><span class="sb-text">Dashboard</span></span>
 </a>
+<a href="{{ route('admin.profile.index') }}" class="sb-item {{ request()->routeIs('admin.profile.*') ? 'active' : '' }}">
+    <span class="sb-left"><i class="bi bi-person-circle sb-ico"></i><span class="sb-text">My Profile</span></span>
+</a>
 @endif
 
 {{-- POS --}}
@@ -664,6 +668,24 @@ body.sb-collapsed .sb-user-info, body.sb-collapsed .sb-logout-btn { display: non
 </a>
 @endif
 
+{{-- Blog Management --}}
+@if($u->isSuperAdmin() || $u->hasPermission('view-pages'))
+<div class="sb-item {{ $blogActive ? 'active open' : '' }}" onclick="sbToggle(this)">
+    <span class="sb-left"><i class="bi bi-file-earmark-richtext-fill sb-ico"></i><span class="sb-text">Blog Management</span></span>
+    <i class="bi bi-chevron-right sb-arr"></i>
+</div>
+<div class="sb-sub {{ $blogActive ? 'open' : '' }}">
+    <div class="sb-sub-inner">
+        <a href="{{ route('admin.blog-posts.index') }}" class="{{ request()->routeIs('admin.blog-posts.*') ? 'active' : '' }}">
+            <i class="bi bi-card-text"></i> All Posts
+        </a>
+        <a href="{{ route('admin.blog-categories.index') }}" class="{{ request()->routeIs('admin.blog-categories.*') ? 'active' : '' }}">
+            <i class="bi bi-bookmark-fill"></i> Blog Categories
+        </a>
+    </div>
+</div>
+@endif
+
 {{-- ════ SYSTEM & SECURITY ════ --}}
 @if($u->isSuperAdmin() || $u->hasAnyPermission(['view-roles','view-users','view-settings']))
 <div class="sb-sep"></div>
@@ -722,8 +744,14 @@ body.sb-collapsed .sb-user-info, body.sb-collapsed .sb-logout-btn { display: non
         <a href="{{ route('admin.websitefavicon.index') }}" class="{{ request()->routeIs('admin.websitefavicon.*') ? 'active' : '' }}">
             <i class="bi bi-globe2"></i> Favicon
         </a>
+        <a href="{{ route('admin.footer-settings.index') }}" class="{{ request()->routeIs('admin.footer-settings.*') ? 'active' : '' }}">
+            <i class="bi bi-layout-text-window-reverse"></i> Footer Settings
+        </a>
         <a href="{{ route('admin.contact.index') }}" class="{{ request()->routeIs('admin.contact.*') ? 'active' : '' }}">
-            <i class="bi bi-telephone-fill"></i> Contact Details
+            <i class="bi bi-person-lines-fill"></i> Contact Info
+        </a>
+        <a href="{{ route('admin.mail.index') }}" class="{{ request()->routeIs('admin.mail.*') ? 'active' : '' }}">
+            <i class="bi bi-envelope-at-fill"></i> Mail Configuration
         </a>
         <a href="{{ route('admin.pixels.index') }}" class="{{ request()->routeIs('admin.pixels.*') ? 'active' : '' }}">
             <i class="bi bi-code-slash"></i> Pixel Scripts
@@ -782,6 +810,15 @@ body.sb-collapsed .sb-user-info, body.sb-collapsed .sb-logout-btn { display: non
     </div>
 </div>
 @endif
+
+{{-- ══ ACCOUNT SETTINGS ══ --}}
+<div class="sb-section">Account</div>
+<a href="{{ route('admin.profile.index') }}" class="sb-item {{ request()->routeIs('admin.profile.*') ? 'active' : '' }}">
+    <div class="sb-left">
+        <i class="bi bi-person-gear sb-ico"></i>
+        <span class="sb-text">Profile & Password</span>
+    </div>
+</a>
 
 </nav>
 

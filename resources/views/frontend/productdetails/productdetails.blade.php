@@ -527,7 +527,7 @@
         {{-- ══════════════════════════════════════
              SIDEBAR COLUMN
         ══════════════════════════════════════ --}}
-        <div class="pdp__sidebar">
+        <div class="pdp__sidebar d-none d-lg-block">
 
           {{-- Delivery & Shipping --}}
           <div class="pdp__s-card">
@@ -909,7 +909,9 @@
                           ? round((($rp->current_price - $rp->discount_price) / $rp->current_price) * 100)
                           : null;
             @endphp
-            <a href="{{ route('product.detail', $rp->slug) }}" class="pdp__prod-card">
+            <div class="pdp__prod-card"
+                 onclick="window.location='{{ route('product.detail', $rp->slug) }}'"
+                 style="cursor: pointer;">
               <div class="pdp__prod-img">
                 @if($rpDisc)
                   <div class="pdp__prod-disc">
@@ -920,7 +922,12 @@
                 <img src="{{ $rpImg }}" alt="{{ $rp->name }}" loading="lazy"/>
               </div>
               <div class="pdp__prod-body">
-                <div class="pdp__prod-name">{{ $rp->name }}</div>
+                <a href="{{ route('product.detail', $rp->slug) }}" 
+                   class="pdp__prod-name" 
+                   onclick="event.stopPropagation()"
+                   style="text-decoration: none; color: inherit;">
+                   {{ $rp->name }}
+                </a>
                 <div class="pdp__prod-prices">
                   @if($rpOld)
                     <span class="pdp__prod-old">৳{{ number_format($rpOld, 2) }}</span>
@@ -933,7 +940,7 @@
                       onclick="event.preventDefault();event.stopPropagation();pdpRelatedCart(this)">
                 <i class="fa-solid fa-cart-plus"></i> কার্টে যোগ করুন
               </button>
-            </a>
+            </div>
           @endforeach
         </div>
       </div>

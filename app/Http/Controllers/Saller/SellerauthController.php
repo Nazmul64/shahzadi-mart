@@ -260,7 +260,7 @@ class SellerauthController extends Controller
             'pending_orders' => 0, // Implement when orders table is ready
         ];
 
-        return view('saller.dashboard', compact('seller', 'stats'));
+        return view('saller.index', compact('seller', 'stats'));
     }
 
     // Helper function to upload files

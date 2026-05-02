@@ -55,7 +55,16 @@ class OrderController extends Controller
     // ── Edit Form ─────────────────────────────────────────────────
     public function edit($id)
     {
-        $order    = Order::with('items.product')->findOrFail($id);
+        $order    = Order::with(['items.product', 'steadfastOrder', 'pathaoOrder'])->findOrFail($id);
+        
+        $user = auth()->user();
+        if (!$user->isAdmin() && !$user->isSuperAdmin()) {
+            $isSentToCourier = ($order->steadfastOrder && $order->steadfastOrder->is_sent) || $order->pathaoOrder;
+            if ($order->order_status !== 'pending' || $isSentToCourier) {
+                return redirect()->back()->with('error', 'এই অর্ডারটি কনফার্ম বা কুরিয়ারে পাঠানো হয়েছে, তাই আপনি এটি এডিট করতে পারবেন না।');
+            }
+        }
+
         $products = Product::where('status', 1)->latest()->get();
         return view('admin.orders.create_edit', compact('order', 'products'));
     }
@@ -72,7 +81,15 @@ class OrderController extends Controller
             'items.*.quantity'   => 'required|integer|min:1',
         ]);
 
-        $order = Order::findOrFail($id);
+        $order = Order::with(['steadfastOrder', 'pathaoOrder'])->findOrFail($id);
+
+        $user = auth()->user();
+        if (!$user->isAdmin() && !$user->isSuperAdmin()) {
+            $isSentToCourier = ($order->steadfastOrder && $order->steadfastOrder->is_sent) || $order->pathaoOrder;
+            if ($order->order_status !== 'pending' || $isSentToCourier) {
+                return redirect()->back()->with('error', 'এই অর্ডারটি কনফার্ম বা কুরিয়ারে পাঠানো হয়েছে, তাই আপনি এটি আপডেট করতে পারবেন না।');
+            }
+        }
 
         $order->update([
             'customer_name' => $request->customer_name,

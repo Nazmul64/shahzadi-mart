@@ -12,11 +12,21 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::latest()->get();
+        if (request()->routeIs('manager.*')) {
+            return view('manager.category.index', compact('categories'));
+        } elseif (request()->routeIs('emplee.*')) {
+            return view('emplee.category.index', compact('categories'));
+        }
         return view('admin.category.index', compact('categories'));
     }
 
     public function create()
     {
+        if (request()->routeIs('manager.*')) {
+            return view('manager.category.create');
+        } elseif (request()->routeIs('emplee.*')) {
+            return view('emplee.category.create');
+        }
         return view('admin.category.create');
     }
 
@@ -47,13 +57,22 @@ class CategoryController extends Controller
             'featured'       => $request->featured  ?? 'inactive',
         ]);
 
-        return redirect()->route('admin.category.index')
+        $route = 'admin.category.index';
+        if (request()->routeIs('manager.*')) $route = 'manager.category.index';
+        if (request()->routeIs('emplee.*')) $route = 'emplee.category.index';
+
+        return redirect()->route($route)
             ->with('success', 'Category Added Successfully');
     }
 
     public function edit(string $id)
     {
         $category = Category::findOrFail($id);
+        if (request()->routeIs('manager.*')) {
+            return view('manager.category.edit', compact('category'));
+        } elseif (request()->routeIs('emplee.*')) {
+            return view('emplee.category.edit', compact('category'));
+        }
         return view('admin.category.edit', compact('category'));
     }
 
@@ -92,7 +111,11 @@ class CategoryController extends Controller
             'featured'       => $request->featured  ?? $category->featured,
         ]);
 
-        return redirect()->route('admin.category.index')
+        $route = 'admin.category.index';
+        if (request()->routeIs('manager.*')) $route = 'manager.category.index';
+        if (request()->routeIs('emplee.*')) $route = 'emplee.category.index';
+
+        return redirect()->route($route)
             ->with('success', 'Category Updated Successfully');
     }
 
@@ -127,7 +150,11 @@ class CategoryController extends Controller
 
         $category->delete();
 
-        return redirect()->route('admin.category.index')
+        $route = 'admin.category.index';
+        if (request()->routeIs('manager.*')) $route = 'manager.category.index';
+        if (request()->routeIs('emplee.*')) $route = 'emplee.category.index';
+
+        return redirect()->route($route)
             ->with('success', 'Category Deleted Successfully');
     }
 }

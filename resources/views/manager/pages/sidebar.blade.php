@@ -9,14 +9,15 @@
     
     // ── Active state helpers ───────────────────────────────────────────────
     $dashActive     = request()->routeIs('manager.dashboard');
-    $ordersActive   = request()->routeIs('admin.order.*');
+    $ordersActive   = request()->routeIs('manager.orders.*');
     $prodsActive    = request()->routeIs('admin.products.*');
-    $catsActive     = request()->routeIs('admin.category.*') || request()->routeIs('admin.subcategory.*') || request()->routeIs('admin.childcategory.*');
+    $catsActive     = request()->routeIs('manager.category.*') || request()->routeIs('admin.subcategory.*') || request()->routeIs('admin.childcategory.*');
     $usersActive    = request()->routeIs('customer.*'); // Customers only in manager
     $vendorsActive  = request()->routeIs('admin.seller.*');
     $reportsActive  = request()->routeIs('admin.reports.*');
-    $reviewsActive  = request()->routeIs('admin.reviews.*');
-    $couponsActive  = request()->routeIs('admin.coupons.*');
+    $reviewsActive  = request()->routeIs('manager.reviews.*');
+    $couponsActive  = request()->routeIs('manager.coupon.*');
+    $blogActive     = request()->routeIs('manager.blog-categories.*') || request()->routeIs('manager.blog-posts.*');
 @endphp
 
 <style>
@@ -372,6 +373,22 @@ body.sb-collapsed .sb-user-info, body.sb-collapsed .sb-logout-btn { display: non
 <a href="{{ route('manager.dashboard') }}" class="sb-item {{ $dashActive ? 'active' : '' }}">
     <span class="sb-left"><i class="bi bi-grid-1x2-fill sb-ico"></i><span class="sb-text">Dashboard</span></span>
 </a>
+<a href="{{ route('manager.profile.index') }}" class="sb-item {{ request()->routeIs('manager.profile.*') ? 'active' : '' }}">
+    <span class="sb-left"><i class="bi bi-person-circle sb-ico"></i><span class="sb-text">My Profile</span></span>
+</a>
+@endif
+
+{{-- ════ COMMUNICATION ════ --}}
+@if($u->isSuperAdmin() || $u->hasAnyPermission(['view-chat', 'manage-chat']))
+<div class="sb-sep"></div>
+<div class="sb-section">Communication</div>
+<a href="{{ route('manager.chat.index') }}" class="sb-item {{ request()->routeIs('manager.chat.*') ? 'active' : '' }}">
+    <span class="sb-left">
+        <i class="bi bi-chat-dots-fill sb-ico"></i>
+        <span class="sb-text">Live Chat</span>
+        <span class="badge bg-danger ms-auto" id="sbManagerUnreadBadge" style="display:none; font-size:10px;">0</span>
+    </span>
+</a>
 @endif
 
 {{-- ════ E-COMMERCE ════ --}}
@@ -388,20 +405,14 @@ body.sb-collapsed .sb-user-info, body.sb-collapsed .sb-logout-btn { display: non
 </div>
 <div class="sb-sub {{ $ordersActive ? 'open' : '' }}">
     <div class="sb-sub-inner">
-        <a href="{{ route('admin.order.allorder') }}" class="{{ request()->routeIs('admin.order.allorder') && !request()->filled('status') ? 'active' : '' }}">
+        <a href="{{ route('manager.orders.index') }}" class="{{ request()->routeIs('manager.orders.index') && !request()->filled('status') ? 'active' : '' }}">
             <i class="bi bi-basket3"></i> All Orders
         </a>
-        <a href="{{ route('admin.order.allorder', ['status' => 'pending']) }}" class="{{ request('status') === 'pending' ? 'active' : '' }}">
+        <a href="{{ route('manager.orders.index', ['status' => 'pending']) }}" class="{{ request('status') === 'pending' ? 'active' : '' }}">
             <i class="bi bi-hourglass-split"></i> Pending
         </a>
-        <a href="{{ route('admin.order.allorder', ['status' => 'processing']) }}" class="{{ request('status') === 'processing' ? 'active' : '' }}">
+        <a href="{{ route('manager.orders.index', ['status' => 'processing']) }}" class="{{ request('status') === 'processing' ? 'active' : '' }}">
             <i class="bi bi-arrow-repeat"></i> Processing
-        </a>
-        <a href="{{ route('admin.order.allorder', ['status' => 'shipped']) }}" class="{{ request('status') === 'shipped' ? 'active' : '' }}">
-            <i class="bi bi-truck"></i> Shipped
-        </a>
-        <a href="{{ route('admin.order.allorder', ['status' => 'delivered']) }}" class="{{ request('status') === 'delivered' ? 'active' : '' }}">
-            <i class="bi bi-check2-circle"></i> Delivered
         </a>
     </div>
 </div>
@@ -435,14 +446,12 @@ body.sb-collapsed .sb-user-info, body.sb-collapsed .sb-logout-btn { display: non
 </div>
 <div class="sb-sub {{ $catsActive ? 'open' : '' }}">
     <div class="sb-sub-inner">
-        <a href="{{ route('admin.category.index') }}" class="{{ request()->routeIs('admin.category.index') ? 'active' : '' }}">
+        <a href="{{ route('manager.category.index') }}" class="{{ request()->routeIs('manager.category.index') ? 'active' : '' }}">
             <i class="bi bi-bookmark-fill"></i> All Categories
         </a>
-        @if($u->isSuperAdmin() || $u->hasPermission('create-categories'))
-        <a href="{{ route('admin.category.create') }}" class="{{ request()->routeIs('admin.category.create') ? 'active' : '' }}">
-            <i class="bi bi-plus-lg"></i> Add Category
+        <a href="{{ route('manager.subcategory.index') }}" class="{{ request()->routeIs('manager.subcategory.index') ? 'active' : '' }}">
+            <i class="bi bi-layers"></i> Sub Categories
         </a>
-        @endif
         <a href="{{ route('admin.subcategory.index') }}" class="{{ request()->routeIs('admin.subcategory.index') ? 'active' : '' }}">
             <i class="bi bi-bookmarks-fill"></i> Sub-Categories
         </a>
@@ -461,10 +470,10 @@ body.sb-collapsed .sb-user-info, body.sb-collapsed .sb-logout-btn { display: non
 </div>
 <div class="sb-sub {{ $couponsActive ? 'open' : '' }}">
     <div class="sb-sub-inner">
-        <a href="{{ route('admin.coupons.index') }}" class="{{ request()->routeIs('admin.coupons.index') ? 'active' : '' }}">
+        <a href="{{ route('manager.coupon.index') }}" class="{{ request()->routeIs('manager.coupon.index') ? 'active' : '' }}">
             <i class="bi bi-ticket-fill"></i> All Coupons
         </a>
-        <a href="{{ route('admin.coupons.create') }}" class="{{ request()->routeIs('admin.coupons.create') ? 'active' : '' }}">
+        <a href="{{ route('manager.coupon.create') }}" class="{{ request()->routeIs('manager.coupon.create') ? 'active' : '' }}">
             <i class="bi bi-plus-lg"></i> Add Coupon
         </a>
     </div>
@@ -473,9 +482,27 @@ body.sb-collapsed .sb-user-info, body.sb-collapsed .sb-logout-btn { display: non
 
 {{-- Reviews --}}
 @if($u->isSuperAdmin() || $u->hasPermission('view-reports'))
-<a href="{{ route('admin.reviews.index') }}" class="sb-item {{ $reviewsActive ? 'active' : '' }}">
+<a href="{{ route('manager.reviews.index') }}" class="sb-item {{ $reviewsActive ? 'active' : '' }}">
     <span class="sb-left"><i class="bi bi-star-fill sb-ico"></i><span class="sb-text">Product Reviews</span></span>
 </a>
+@endif
+
+{{-- Blog Management --}}
+@if($u->isSuperAdmin() || $u->hasPermission('view-pages'))
+<div class="sb-item {{ $blogActive ? 'active open' : '' }}" onclick="sbToggle(this)">
+    <span class="sb-left"><i class="bi bi-file-earmark-richtext-fill sb-ico"></i><span class="sb-text">Blog Management</span></span>
+    <i class="bi bi-chevron-right sb-arr"></i>
+</div>
+<div class="sb-sub {{ $blogActive ? 'open' : '' }}">
+    <div class="sb-sub-inner">
+        <a href="{{ route('manager.blog-posts.index') }}" class="{{ request()->routeIs('manager.blog-posts.*') ? 'active' : '' }}">
+            <i class="bi bi-card-text"></i> All Posts
+        </a>
+        <a href="{{ route('manager.blog-categories.index') }}" class="{{ request()->routeIs('manager.blog-categories.*') ? 'active' : '' }}">
+            <i class="bi bi-bookmark-fill"></i> Blog Categories
+        </a>
+    </div>
+</div>
 @endif
 
 {{-- ════ USER MANAGEMENT ════ --}}
@@ -534,6 +561,16 @@ body.sb-collapsed .sb-user-info, body.sb-collapsed .sb-logout-btn { display: non
 </a>
 @endif
 @endif
+
+
+{{-- ══ ACCOUNT SETTINGS ══ --}}
+<div class="sb-section">Account</div>
+<a href="{{ route('manager.profile.index') }}" class="sb-item {{ request()->routeIs('manager.profile.*') ? 'active' : '' }}">
+    <div class="sb-left">
+        <i class="bi bi-person-gear sb-ico"></i>
+        <span class="sb-text">Profile & Password</span>
+    </div>
+</a>
 
 </nav>
 
@@ -626,4 +663,25 @@ body.sb-collapsed .sb-user-info, body.sb-collapsed .sb-logout-btn { display: non
         });
     });
 })();
+
+// Sidebar Unread Badge Polling
+@if($u->isSuperAdmin() || $u->hasAnyPermission(['view-chat', 'manage-chat']))
+function sbRefreshManagerUnread() {
+    fetch('{{ route("manager.chat.unread") }}')
+        .then(r => r.json())
+        .then(d => {
+            const badge = document.getElementById('sbManagerUnreadBadge');
+            if (badge) {
+                if (d.count > 0) {
+                    badge.textContent = d.count > 99 ? '99+' : d.count;
+                    badge.style.display = 'inline-block';
+                } else {
+                    badge.style.display = 'none';
+                }
+            }
+        }).catch(() => {});
+}
+sbRefreshManagerUnread();
+setInterval(sbRefreshManagerUnread, 15000);
+@endif
 </script>

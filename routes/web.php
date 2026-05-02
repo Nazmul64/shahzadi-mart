@@ -98,6 +98,11 @@ Route::get('/all-products',                 [FrontendController::class, 'allProd
 Route::get('/shop',                         [FrontendController::class, 'shop']             )->name('shop');
 Route::get('/offers',                       [FrontendController::class, 'offers']           )->name('offers');
 Route::get('/new-arrivals',                 [FrontendController::class, 'newArrivals']      )->name('new-arrivals');
+
+// ── Blog ──────────────────────────────────────────────────────────────────
+Route::get('/blog',                [App\Http\Controllers\Frontend\BlogController::class, 'index'])->name('blog.index');
+Route::get('/blog/{slug}',         [App\Http\Controllers\Frontend\BlogController::class, 'show'] )->name('blog.show');
+
 Route::get('/page/{id}',                    [FrontendController::class, 'multiplepage']     )->name('multi.plepage');
 Route::post('/review/store',                [ProductReviewController::class, 'store']       )->name('review.store');
 
@@ -195,6 +200,8 @@ Route::post('customer/logout',       [FrontendauthContorller::class, 'customer_l
 
 Route::middleware(['customer'])->group(function () {
     Route::get('customer/dashboard', [FrontendController::class, 'user_dashboard'])->name('customer.dashboard');
+    Route::post('customer/profile/update', [App\Http\Controllers\ProfileController::class, 'updateProfile'])->name('customer.profile.update');
+    Route::post('customer/profile/password', [App\Http\Controllers\ProfileController::class, 'updatePassword'])->name('customer.profile.password');
 });
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -231,6 +238,11 @@ Route::middleware(['admin'])
 
     // ── Dashboard ─────────────────────────────────────────────────────────────
     Route::get('dashboard', [AdminController::class, 'admin_dashboard'])->name('dashboard');
+
+    // Profile Routes — inside admin. name group, so just 'profile.*' needed
+    Route::get ('profile',          [App\Http\Controllers\ProfileController::class, 'index']         )->name('profile.index');
+    Route::post('profile/update',   [App\Http\Controllers\ProfileController::class, 'updateProfile'] )->name('profile.update');
+    Route::post('profile/password', [App\Http\Controllers\ProfileController::class, 'updatePassword'])->name('profile.password');
 
     // ──────────────────────────────────────────────────────────────────────────
     // POS
@@ -355,6 +367,11 @@ Route::middleware(['admin'])
     Route::post('websitefavicon/upload-logo', [WebsitefaviconController::class, 'uploadLogo'])->name('websitefavicon.upload-logo');
     Route::post('websitefavicon/delete-logo', [WebsitefaviconController::class, 'deleteLogo'])->name('websitefavicon.delete-logo');
     Route::resource('websitefavicon', WebsitefaviconController::class);
+
+    // ── Footer Settings ──────────────────────────────────────────────────────
+    Route::get ('footer-settings',        [App\Http\Controllers\Admin\FooterSettingController::class, 'index'] )->name('footer-settings.index');
+    Route::put ('footer-settings/update', [App\Http\Controllers\Admin\FooterSettingController::class, 'update'])->name('footer-settings.update');
+
 
     // ──────────────────────────────────────────────────────────────────────────
     // SLIDER
@@ -549,6 +566,15 @@ Route::middleware(['admin'])
     // Payment History
     Route::get('payment-history', [PaymentHistoryController::class, 'index'])->name('payment.history');
 
+    // ── Blog ──────────────────────────────────────────────────────────────────
+    Route::resource('blog-categories', App\Http\Controllers\Admin\BlogCategoryController::class);
+    Route::resource('blog-posts', App\Http\Controllers\Admin\BlogPostController::class);
+
+    // ── Mail Setting ──────────────────────────────────────────────────────────
+    Route::get ('mail-setting',        [App\Http\Controllers\Admin\MailsettingController::class, 'index'] )->name('mail.index');
+    Route::post('mail-setting/update', [App\Http\Controllers\Admin\MailsettingController::class, 'update'])->name('mail.update');
+    Route::post('mail-setting/test',   [App\Http\Controllers\Admin\MailsettingController::class, 'sendTestMail'])->name('mail.test');
+
 }); // end admin group
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -562,6 +588,8 @@ Route::post('seller',          [SellerauthController::class, 'saller_register_su
 Route::middleware(['saller'])->group(function () {
     Route::get ('saller/dashboard', [SellerauthController::class, 'saller_dashboard'])->name('saller.dashboard');
     Route::post('saller/logout',    [SellerauthController::class, 'saller_logout']   )->name('saller.logout');
+    Route::post('saller/profile/update', [App\Http\Controllers\ProfileController::class, 'updateProfile'])->name('saller.profile.update');
+    Route::post('saller/profile/password', [App\Http\Controllers\ProfileController::class, 'updatePassword'])->name('saller.profile.password');
 });
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -573,6 +601,55 @@ Route::post('emplee/logout',       [EmpleeController::class, 'emplee_logout'])->
 
 Route::middleware(['emplee'])->group(function () {
     Route::get('emplee/dashboard', [EmpleeController::class, 'emplee_dashboard'])->name('emplee.dashboard');
+
+    // Profile Routes
+    Route::get('emplee/profile', [App\Http\Controllers\ProfileController::class, 'index'])->name('emplee.profile.index');
+    Route::post('emplee/profile/update', [App\Http\Controllers\ProfileController::class, 'updateProfile'])->name('emplee.profile.update');
+    Route::post('emplee/profile/password', [App\Http\Controllers\ProfileController::class, 'updatePassword'])->name('emplee.profile.password');
+
+    // ── Orders ────────────────────────────────────────────────────────────────
+    Route::delete('emplee/orders/bulk-delete',         [App\Http\Controllers\Admin\AllorderController::class, 'bulkDelete'])->name('emplee.orders.bulk-delete');
+    Route::patch ('emplee/orders/bulk-status',         [App\Http\Controllers\Admin\AllorderController::class, 'bulkStatus'])->name('emplee.orders.bulk-status');
+    Route::post  ('emplee/orders/bulk-send-steadfast', [App\Http\Controllers\Admin\SteadfastOrderController::class, 'bulkSend'])->name('emplee.orders.steadfast.bulk-send');
+    Route::post  ('emplee/orders/bulk-send-pathao',    [App\Http\Controllers\Admin\PathaoOrderController::class, 'bulkSend'])->name('emplee.orders.pathao.bulk-send');
+    Route::get   ('emplee/orders/create',              [App\Http\Controllers\Admin\OrderController::class, 'create'])->name('emplee.orders.create');
+    Route::post  ('emplee/orders',                     [App\Http\Controllers\Admin\OrderController::class, 'store'])->name('emplee.orders.store');
+    Route::get   ('emplee/orders',                     [App\Http\Controllers\Admin\AdminController::class, 'all_order'])->name('emplee.orders.index');
+    Route::get   ('emplee/orders/{id}',                [App\Http\Controllers\Admin\AllorderController::class, 'show'])->name('emplee.orders.show');
+    Route::get   ('emplee/orders/{id}/edit',           [App\Http\Controllers\Admin\OrderController::class, 'edit'])->name('emplee.orders.edit');
+    Route::put   ('emplee/orders/{id}',                [App\Http\Controllers\Admin\OrderController::class, 'update'])->name('emplee.orders.update');
+    Route::patch ('emplee/orders/{id}/status',         [App\Http\Controllers\Admin\AllorderController::class, 'updateStatus'])->name('emplee.orders.status');
+    Route::patch ('emplee/orders/{id}/assign-staff',   [App\Http\Controllers\Admin\AdminController::class, 'assignStaff'])->name('emplee.orders.assign-staff');
+    Route::delete('emplee/orders/{id}',                [App\Http\Controllers\Admin\AllorderController::class, 'destroy'])->name('emplee.orders.destroy');
+    Route::post  ('emplee/orders/{order}/send-steadfast', [App\Http\Controllers\Admin\SteadfastOrderController::class, 'send'])->name('emplee.orders.steadfast.send');
+    Route::post  ('emplee/orders/{order}/send-pathao',    [App\Http\Controllers\Admin\PathaoOrderController::class, 'send'])->name('emplee.orders.pathao.send');
+
+    // ── Categories ────────────────────────────────────────────────────────────
+    Route::resource('emplee/category',    App\Http\Controllers\Admin\CategoryController::class,    ['as' => 'emplee']);
+    Route::resource('emplee/subcategory', App\Http\Controllers\Admin\SubCategoryController::class, ['as' => 'emplee']);
+    Route::resource('emplee/products',    App\Http\Controllers\Admin\ProductController::class,     ['as' => 'emplee']);
+
+    // ── Coupons ───────────────────────────────────────────────────────────────
+    Route::get   ('emplee/coupons',          [App\Http\Controllers\Admin\CouponController::class, 'index']  )->name('emplee.coupon.index');
+    Route::get   ('emplee/coupons/create',   [App\Http\Controllers\Admin\CouponController::class, 'create'] )->name('emplee.coupon.create');
+    Route::post  ('emplee/coupons',          [App\Http\Controllers\Admin\CouponController::class, 'store']  )->name('emplee.coupon.store');
+    Route::get   ('emplee/coupons/{id}/edit',[App\Http\Controllers\Admin\CouponController::class, 'edit']   )->name('emplee.coupon.edit');
+    Route::put   ('emplee/coupons/{id}',     [App\Http\Controllers\Admin\CouponController::class, 'update'] )->name('emplee.coupon.update');
+    Route::delete('emplee/coupons/{id}',     [App\Http\Controllers\Admin\CouponController::class, 'destroy'])->name('emplee.coupon.destroy');
+
+    // ── Chat ──────────────────────────────────────────────────────────────────
+    Route::prefix('emplee/chat')->name('emplee.chat.')->group(function () {
+        Route::get ('/',                       [App\Http\Controllers\Admin\AdminChatController::class, 'index']      )->name('index');
+        Route::get ('/unread-count',           [App\Http\Controllers\Admin\AdminChatController::class, 'unreadCount'])->name('unread');
+        Route::get ('/{chatSession}',          [App\Http\Controllers\Admin\AdminChatController::class, 'show']       )->name('show');
+        Route::post('/{chatSession}/reply',    [App\Http\Controllers\Admin\AdminChatController::class, 'reply']      )->name('reply');
+        Route::get ('/{chatSession}/messages', [App\Http\Controllers\Admin\AdminChatController::class, 'getMessages'])->name('messages');
+        Route::post('/{chatSession}/close',    [App\Http\Controllers\Admin\AdminChatController::class, 'close']      )->name('close');
+    });
+
+    // ── Blog ──────────────────────────────────────────────────────────────────
+    Route::resource('emplee/blog-categories', App\Http\Controllers\Admin\BlogCategoryController::class, ['as' => 'emplee']);
+    Route::resource('emplee/blog-posts', App\Http\Controllers\Admin\BlogPostController::class, ['as' => 'emplee']);
 });
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -584,6 +661,62 @@ Route::post('manager/logout',       [ManagerController::class, 'manager_logout']
 
 Route::middleware(['manager'])->group(function () {
     Route::get('manager/dashboard', [ManagerController::class, 'manager_dashboard'])->name('manager.dashboard');
+
+    // Profile Routes
+    Route::get('manager/profile', [App\Http\Controllers\ProfileController::class, 'index'])->name('manager.profile.index');
+    Route::post('manager/profile/update', [App\Http\Controllers\ProfileController::class, 'updateProfile'])->name('manager.profile.update');
+    Route::post('manager/profile/password', [App\Http\Controllers\ProfileController::class, 'updatePassword'])->name('manager.profile.password');
+
+    // ── Orders ────────────────────────────────────────────────────────────────
+    Route::delete('manager/orders/bulk-delete',         [App\Http\Controllers\Admin\AllorderController::class, 'bulkDelete'])->name('manager.orders.bulk-delete');
+    Route::patch ('manager/orders/bulk-status',         [App\Http\Controllers\Admin\AllorderController::class, 'bulkStatus'])->name('manager.orders.bulk-status');
+    Route::post  ('manager/orders/bulk-send-steadfast', [App\Http\Controllers\Admin\SteadfastOrderController::class, 'bulkSend'])->name('manager.orders.steadfast.bulk-send');
+    Route::post  ('manager/orders/bulk-send-pathao',    [App\Http\Controllers\Admin\PathaoOrderController::class, 'bulkSend'])->name('manager.orders.pathao.bulk-send');
+    Route::get   ('manager/orders/create',              [App\Http\Controllers\Admin\OrderController::class, 'create'])->name('manager.orders.create');
+    Route::post  ('manager/orders',                     [App\Http\Controllers\Admin\OrderController::class, 'store'])->name('manager.orders.store');
+    Route::get   ('manager/orders',                     [App\Http\Controllers\Admin\AdminController::class, 'all_order'])->name('manager.orders.index');
+    Route::get   ('manager/orders/{id}',                [App\Http\Controllers\Admin\AllorderController::class, 'show'])->name('manager.orders.show');
+    Route::get   ('manager/orders/{id}/edit',           [App\Http\Controllers\Admin\OrderController::class, 'edit'])->name('manager.orders.edit');
+    Route::put   ('manager/orders/{id}',                [App\Http\Controllers\Admin\OrderController::class, 'update'])->name('manager.orders.update');
+    Route::patch ('manager/orders/{id}/status',         [App\Http\Controllers\Admin\AllorderController::class, 'updateStatus'])->name('manager.orders.status');
+    Route::patch ('manager/orders/{id}/assign-staff',   [App\Http\Controllers\Admin\AdminController::class, 'assignStaff'])->name('manager.orders.assign-staff');
+    Route::delete('manager/orders/{id}',                [App\Http\Controllers\Admin\AllorderController::class, 'destroy'])->name('manager.orders.destroy');
+    Route::post  ('manager/orders/{order}/send-steadfast', [App\Http\Controllers\Admin\SteadfastOrderController::class, 'send'])->name('manager.orders.steadfast.send');
+    Route::post  ('manager/orders/{order}/send-pathao',    [App\Http\Controllers\Admin\PathaoOrderController::class, 'send'])->name('manager.orders.pathao.send');
+
+    // ── Categories ────────────────────────────────────────────────────────────
+    Route::resource('manager/category',    App\Http\Controllers\Admin\CategoryController::class,    ['as' => 'manager']);
+    Route::resource('manager/subcategory', App\Http\Controllers\Admin\SubCategoryController::class, ['as' => 'manager']);
+    Route::resource('manager/products',    App\Http\Controllers\Admin\ProductController::class,     ['as' => 'manager']);
+
+    // ── Coupons ───────────────────────────────────────────────────────────────
+    Route::get   ('manager/coupons',          [App\Http\Controllers\Admin\CouponController::class, 'index']  )->name('manager.coupon.index');
+    Route::get   ('manager/coupons/create',   [App\Http\Controllers\Admin\CouponController::class, 'create'] )->name('manager.coupon.create');
+    Route::post  ('manager/coupons',          [App\Http\Controllers\Admin\CouponController::class, 'store']  )->name('manager.coupon.store');
+    Route::get   ('manager/coupons/{id}/edit',[App\Http\Controllers\Admin\CouponController::class, 'edit']   )->name('manager.coupon.edit');
+    Route::put   ('manager/coupons/{id}',     [App\Http\Controllers\Admin\CouponController::class, 'update'] )->name('manager.coupon.update');
+    Route::delete('manager/coupons/{id}',     [App\Http\Controllers\Admin\CouponController::class, 'destroy'])->name('manager.coupon.destroy');
+
+    // ── Reviews ───────────────────────────────────────────────────────────────
+    Route::post  ('manager/reviews/bulk',           [App\Http\Controllers\Admin\AdminproductReviewController::class, 'bulk']     )->name('manager.reviews.bulk');
+    Route::get   ('manager/reviews',                [App\Http\Controllers\Admin\AdminproductReviewController::class, 'index']    )->name('manager.reviews.index');
+    Route::post  ('manager/reviews/{id}/approve',   [App\Http\Controllers\Admin\AdminproductReviewController::class, 'approve']  )->name('manager.reviews.approve');
+    Route::post  ('manager/reviews/{id}/unapprove', [App\Http\Controllers\Admin\AdminproductReviewController::class, 'unapprove'])->name('manager.reviews.unapprove');
+    Route::delete('manager/reviews/{id}',           [App\Http\Controllers\Admin\AdminproductReviewController::class, 'destroy']  )->name('manager.reviews.destroy');
+
+    // ── Chat ──────────────────────────────────────────────────────────────────
+    Route::prefix('manager/chat')->name('manager.chat.')->group(function () {
+        Route::get ('/',                       [App\Http\Controllers\Admin\AdminChatController::class, 'index']      )->name('index');
+        Route::get ('/unread-count',           [App\Http\Controllers\Admin\AdminChatController::class, 'unreadCount'])->name('unread');
+        Route::get ('/{chatSession}',          [App\Http\Controllers\Admin\AdminChatController::class, 'show']       )->name('show');
+        Route::post('/{chatSession}/reply',    [App\Http\Controllers\Admin\AdminChatController::class, 'reply']      )->name('reply');
+        Route::get ('/{chatSession}/messages', [App\Http\Controllers\Admin\AdminChatController::class, 'getMessages'])->name('messages');
+        Route::post('/{chatSession}/close',    [App\Http\Controllers\Admin\AdminChatController::class, 'close']      )->name('close');
+    });
+
+    // ── Blog ──────────────────────────────────────────────────────────────────
+    Route::resource('manager/blog-categories', App\Http\Controllers\Admin\BlogCategoryController::class, ['as' => 'manager']);
+    Route::resource('manager/blog-posts', App\Http\Controllers\Admin\BlogPostController::class, ['as' => 'manager']);
 });
 
 // ══════════════════════════════════════════════════════════════════════════════

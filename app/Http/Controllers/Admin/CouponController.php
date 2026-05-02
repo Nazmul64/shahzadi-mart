@@ -14,6 +14,11 @@ class CouponController extends Controller
     public function index()
     {
         $coupons = Coupon::latest()->get();
+        if (request()->routeIs('manager.*')) {
+            return view('manager.coupon.index', compact('coupons'));
+        } elseif (request()->routeIs('emplee.*')) {
+            return view('emplee.coupon.index', compact('coupons'));
+        }
         return view('admin.coupon.index', compact('coupons'));
     }
 
@@ -22,6 +27,12 @@ class CouponController extends Controller
         $categories    = Category::where('status', 1)->get();
         $subCategories = SubCategory::where('status', 1)->get();
         $childSubs     = ChildSubCategory::where('status', 1)->get();
+        
+        if (request()->routeIs('manager.*')) {
+            return view('manager.coupon.create', compact('categories', 'subCategories', 'childSubs'));
+        } elseif (request()->routeIs('emplee.*')) {
+            return view('emplee.coupon.create', compact('categories', 'subCategories', 'childSubs'));
+        }
         return view('admin.coupon.create', compact('categories', 'subCategories', 'childSubs'));
     }
 
@@ -58,8 +69,11 @@ class CouponController extends Controller
             'status'                => 'activated',
         ]);
 
-        // ✅ FIX: admin.coupons.index
-        return redirect()->route('admin.coupons.index')
+        $route = 'admin.coupons.index';
+        if (request()->routeIs('manager.*')) $route = 'manager.coupon.index';
+        if (request()->routeIs('emplee.*')) $route = 'emplee.coupon.index';
+
+        return redirect()->route($route)
                          ->with('success', 'Coupon created successfully.');
     }
 
@@ -111,8 +125,11 @@ class CouponController extends Controller
             'end_date'              => $request->end_date,
         ]);
 
-        // ✅ FIX: admin.coupons.index
-        return redirect()->route('admin.coupons.index')
+        $route = 'admin.coupons.index';
+        if (request()->routeIs('manager.*')) $route = 'manager.coupon.index';
+        if (request()->routeIs('emplee.*')) $route = 'emplee.coupon.index';
+
+        return redirect()->route($route)
                          ->with('success', 'Coupon updated successfully.');
     }
 
@@ -132,8 +149,11 @@ class CouponController extends Controller
     {
         Coupon::findOrFail($id)->delete();
 
-        // ✅ FIX: admin.coupons.index
-        return redirect()->route('admin.coupons.index')
+        $route = 'admin.coupons.index';
+        if (request()->routeIs('manager.*')) $route = 'manager.coupon.index';
+        if (request()->routeIs('emplee.*')) $route = 'emplee.coupon.index';
+
+        return redirect()->route($route)
                          ->with('success', 'Coupon deleted successfully.');
     }
 }

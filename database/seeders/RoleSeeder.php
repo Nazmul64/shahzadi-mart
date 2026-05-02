@@ -46,10 +46,7 @@ class RoleSeeder extends Seeder
             'name'        => 'Manager',
             'description' => 'পণ্য, অর্ডার, ক্যাটাগরি ম্যানেজ করতে পারে',
             'is_default'  => false,
-            'slugs'       => [
-                'view-dashboard',
-                // Removed default permissions so that the admin can set granular direct permissions per user.
-            ],
+            'slugs'       => [],
         ],
         [
             'slug'        => 'seller',
@@ -69,13 +66,7 @@ class RoleSeeder extends Seeder
             'name'        => 'Employee',
             'description' => 'কর্মচারী — সীমিত ড্যাশবোর্ড অ্যাক্সেস',
             'is_default'  => false,
-            'slugs'       => [
-                'view-dashboard',
-                'view-products',
-                'view-orders', 'edit-orders',
-                'view-categories',
-                'view-reports',
-            ],
+            'slugs'       => [],
         ],
         [
             'slug'        => 'customer',

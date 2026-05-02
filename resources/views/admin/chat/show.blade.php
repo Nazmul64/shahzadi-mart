@@ -1,5 +1,16 @@
-{{-- resources/views/admin/chat/show.blade.php --}}
-@extends('admin.master')
+@php
+    $layout = request()->routeIs('manager.*') ? 'manager.master' : (request()->routeIs('emplee.*') ? 'emplee.master' : 'admin.master');
+    $contentSection = request()->routeIs('admin.*') ? 'main-content' : 'content';
+    
+    $indexRoute   = request()->routeIs('manager.*') ? 'manager.chat.index' : (request()->routeIs('emplee.*') ? 'emplee.chat.index' : 'admin.chat.index');
+    $showRoute    = request()->routeIs('manager.*') ? 'manager.chat.show' : (request()->routeIs('emplee.*') ? 'emplee.chat.show' : 'admin.chat.show');
+    $replyRoute   = request()->routeIs('manager.*') ? 'manager.chat.reply' : (request()->routeIs('emplee.*') ? 'emplee.chat.reply' : 'admin.chat.reply');
+    $pollRoute    = request()->routeIs('manager.*') ? 'manager.chat.messages' : (request()->routeIs('emplee.*') ? 'emplee.chat.messages' : 'admin.chat.messages');
+    $closeRoute   = request()->routeIs('manager.*') ? 'manager.chat.close' : (request()->routeIs('emplee.*') ? 'emplee.chat.close' : 'admin.chat.close');
+    $unreadRoute  = request()->routeIs('manager.*') ? 'manager.chat.unread' : (request()->routeIs('emplee.*') ? 'emplee.chat.unread' : 'admin.chat.unread');
+@endphp
+
+@extends($layout)
 <style>
 /* ═══════════════════════════════════════════════════════════════
    CHAT PANEL — Two-column layout
@@ -305,12 +316,12 @@
 </style>
 
 
-@section('main-content')
+@section($contentSection)
 <div class="page-wrapper" style="padding:16px 20px">
 
     {{-- ══ Page title ══ --}}
     <div class="d-flex align-items-center gap-3 mb-3">
-        <a href="{{ route('admin.chat.index') }}" class="btn btn-sm btn-outline-secondary">
+        <a href="{{ route($indexRoute) }}" class="btn btn-sm btn-outline-secondary">
             <i class="bi bi-arrow-left me-1"></i>Back
         </a>
         <div>
@@ -356,7 +367,7 @@
                     $name      = $s->display_name ?? $s->guest_name ?? 'Guest';
                     $preview   = $lastMsg ? Str::limit($lastMsg->message, 35) : 'No messages yet';
                 @endphp
-                <a href="{{ route('admin.chat.show', $s->id) }}"
+                <a href="{{ route($showRoute, $s->id) }}"
                    class="session-item {{ $isActive ? 'active' : '' }} {{ $unread > 0 && !$isActive ? 'has-unread' : '' }}"
                    data-name="{{ strtolower($name) }}">
 
@@ -516,11 +527,11 @@
 var LAST_ID      = {{ $messages->last()?->id ?? 0 }};
 var IS_CLOSED    = {{ $chatSession->status === 'closed' ? 'true' : 'false' }};
 var CSRF         = '{{ csrf_token() }}';
-var REPLY_URL    = '{{ route("admin.chat.reply",    $chatSession->id) }}';
-var POLL_URL     = '{{ route("admin.chat.messages", $chatSession->id) }}';
-var CLOSE_URL    = '{{ route("admin.chat.close",    $chatSession->id) }}';
-var UNREAD_URL   = '{{ route("admin.chat.unread") }}';
-var INDEX_URL    = '{{ route("admin.chat.index") }}';
+var REPLY_URL    = '{{ route($replyRoute,    $chatSession->id) }}';
+var POLL_URL     = '{{ route($pollRoute, $chatSession->id) }}';
+var CLOSE_URL    = '{{ route($closeRoute,    $chatSession->id) }}';
+var UNREAD_URL   = '{{ route($unreadRoute) }}';
+var INDEX_URL    = '{{ route($indexRoute) }}';
 var pollTimer;
 
 /* ── Scroll to bottom ──────────────────────────────────── */

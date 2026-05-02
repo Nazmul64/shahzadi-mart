@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -76,7 +77,7 @@ class AdminController extends Controller
     // ─────────────────────────────────────────────
     //  All Orders
     // ─────────────────────────────────────────────
-    public function allorder(Request $request)
+    public function all_order(Request $request)
     {
         $query = Order::with('items')->latest();
 
@@ -97,8 +98,17 @@ class AdminController extends Controller
 
         $orders       = $query->paginate(15);
         $statusCounts = $this->getStatusCounts();
+        // Staff = users who have manager or employee role (can handle orders)
+        $staffUsers   = User::whereHas('roles', fn($q) => $q->whereIn('slug', ['manager','employee','admin','super-admin']))
+                            ->where('status', 'active')->get(['id','name']);
 
-        return view('admin.orders.allorder', compact('orders', 'statusCounts'));
+        if (request()->routeIs('manager.*')) {
+            return view('manager.orders.allorder', compact('orders', 'statusCounts', 'staffUsers'));
+        } elseif (request()->routeIs('emplee.*')) {
+            return view('emplee.orders.allorder', compact('orders', 'statusCounts', 'staffUsers'));
+        }
+
+        return view('admin.orders.allorder', compact('orders', 'statusCounts', 'staffUsers'));
     }
 
     // ─────────────────────────────────────────────
@@ -150,5 +160,35 @@ class AdminController extends Controller
         $order->delete();
 
         return back()->with('success', 'অর্ডারটি মুছে ফেলা হয়েছে।');
+    }
+
+    // ─────────────────────────────────────────────
+    //  Assign Staff to Order
+    // ─────────────────────────────────────────────
+    public function assignStaff(Request $request, $id)
+    {
+        $request->validate([
+            'assigned_user_id' => 'nullable|exists:users,id',
+        ]);
+
+        $order = Order::findOrFail($id);
+        $order->update(['assigned_user_id' => $request->assigned_user_id ?: null]);
+
+        return back()->with('success', 'স্টাফ অ্যাসাইন আপডেট হয়েছে।');
+    }
+
+    // ─────────────────────────────────────────────
+    //  Bulk Delete Orders
+    // ─────────────────────────────────────────────
+    public function bulkDelete(Request $request)
+    {
+        $request->validate([
+            'order_ids'   => 'required|array',
+            'order_ids.*' => 'exists:orders,id',
+        ]);
+
+        Order::whereIn('id', $request->order_ids)->delete();
+
+        return back()->with('success', count($request->order_ids) . 'টি অর্ডার মুছে ফেলা হয়েছে।');
     }
 }

@@ -68,7 +68,7 @@
 
                 <!-- Forgot Password -->
                 <div class="forgot-password">
-                    <a href="#" class="forgot-link">Forgot Password?</a>
+                    <a href="{{ route('password.request') }}" class="forgot-link">Forgot Password?</a>
                 </div>
 
                 <!-- Sign In Button -->

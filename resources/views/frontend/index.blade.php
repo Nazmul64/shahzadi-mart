@@ -25,9 +25,9 @@
     <div class="smhome-hero">
         <div class="smhome-hero-slider">
             <div class="smhome-slides-wrap">
-                @forelse ($slider as $item)
+                @forelse ($slider as $index => $item)
                     <div class="smhome-slide">
-                        <img src="{{ $item->photo ?? '' }}" alt="Slide">
+                        <img src="{{ $item->photo ?? '' }}" alt="Slide" {{ $index === 0 ? 'loading="eager"' : 'loading="lazy"' }}>
                     </div>
                 @empty
                     <div class="smhome-slide"
@@ -128,59 +128,61 @@
                     <i class="bi bi-heart"></i>
                 </a>
 
-                <a href="{{ route('product.detail', $item->slug) }}" class="smhome-p-card-link">
-                    <div class="smhome-p-card">
-                        @if($discount)
-                            <span class="smhome-p-badge">-{{ $discount }}%</span>
-                        @endif
-                        <div class="smhome-p-img-wrap">
-                            <img class="smhome-p-img"
-                                 src="{{ asset('uploads/products/'.$item->feature_image) }}"
-                                 alt="{{ $item->name }}" loading="lazy">
-                        </div>
-                        <div class="smhome-p-body">
-                            <p class="smhome-p-name">{{ $item->name }}</p>
-                            <p class="smhome-p-price">৳ {{ number_format($displayPrice, 0) }}</p>
-                            @if($displayPrice < $originalPrice)
-                                <p class="smhome-p-old">৳ {{ number_format($originalPrice, 0) }}</p>
-                            @endif
-                            <div class="smhome-p-meta">
-                                @if(!$item->is_unlimited && $item->stock !== null && $item->stock <= 10)
-                                    <p class="smhome-p-stock">
-                                        <i class="bi bi-fire" style="font-size:10px"></i> {{ $item->stock }} left
-                                    </p>
-                                @endif
-                                <div class="smhome-p-stars-row">
-                                    @for($s=1;$s<=5;$s++)
-                                        <i class="bi bi-star{{ $s <= round($revAvg) ? '-fill' : '' }} sm-star {{ $s <= round($revAvg) ? 'filled' : 'empty' }}"></i>
-                                    @endfor
-                                    <span class="smhome-p-rc">({{ $revCount }})</span>
-                                </div>
-                            </div>
-
-                            {{-- ✅ অর্ডার করুন → cart add → checkout redirect --}}
-                            @if($inStock)
-                                <form
-                                    action="{{ route('cart.add', $item->id) }}"
-                                    method="POST"
-                                    class="smhome-order-form"
-                                    onclick="event.stopPropagation()">
-                                    @csrf
-                                    <input type="hidden" name="quantity" value="1">
-                                    <input type="hidden" name="redirect_to_checkout" value="1">
-                                    <button type="submit" class="smhome-p-order-btn">
-                                        অর্ডার করুন
-                                    </button>
-                                </form>
-                            @else
-                                <span class="smhome-p-order-btn smhome-p-order-btn--out">
-                                    স্টক নেই
-                                </span>
-                            @endif
-
-                        </div>
+                <div class="smhome-p-card" 
+                     onclick="window.location='{{ route('product.detail', $item->slug) }}'"
+                     style="cursor: pointer;">
+                    @if($discount)
+                        <span class="smhome-p-badge">-{{ $discount }}%</span>
+                    @endif
+                    <div class="smhome-p-img-wrap">
+                        <img class="smhome-p-img"
+                             src="{{ asset('uploads/products/'.$item->feature_image) }}"
+                             alt="{{ $item->name }}" loading="lazy">
                     </div>
-                </a>
+                    <div class="smhome-p-body">
+                        <a href="{{ route('product.detail', $item->slug) }}" 
+                           class="smhome-p-name" 
+                           onclick="event.stopPropagation()">{{ $item->name }}</a>
+                        <p class="smhome-p-price">৳ {{ number_format($displayPrice, 0) }}</p>
+                        @if($displayPrice < $originalPrice)
+                            <p class="smhome-p-old">৳ {{ number_format($originalPrice, 0) }}</p>
+                        @endif
+                        <div class="smhome-p-meta">
+                            @if(!$item->is_unlimited && $item->stock !== null && $item->stock <= 10)
+                                <p class="smhome-p-stock">
+                                    <i class="bi bi-fire" style="font-size:10px"></i> {{ $item->stock }} left
+                                </p>
+                            @endif
+                            <div class="smhome-p-stars-row">
+                                @for($s=1;$s<=5;$s++)
+                                    <i class="bi bi-star{{ $s <= round($revAvg) ? '-fill' : '' }} sm-star {{ $s <= round($revAvg) ? 'filled' : 'empty' }}"></i>
+                                @endfor
+                                <span class="smhome-p-rc">({{ $revCount }})</span>
+                            </div>
+                        </div>
+
+                        {{-- ✅ অর্ডার করুন → cart add → checkout redirect --}}
+                        @if($inStock)
+                            <form
+                                action="{{ route('cart.add', $item->id) }}"
+                                method="POST"
+                                class="smhome-order-form"
+                                onclick="event.stopPropagation()">
+                                @csrf
+                                <input type="hidden" name="quantity" value="1">
+                                <input type="hidden" name="redirect_to_checkout" value="1">
+                                <button type="submit" class="smhome-p-order-btn" style="border:none; width:100%;">
+                                    অর্ডার করুন
+                                </button>
+                            </form>
+                        @else
+                            <span class="smhome-p-order-btn smhome-p-order-btn--out">
+                                স্টক নেই
+                            </span>
+                        @endif
+
+                    </div>
+                </div>
             </div>
         @endforeach
     </div>

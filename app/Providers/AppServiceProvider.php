@@ -9,6 +9,8 @@ use App\Models\Tagmanager;
 use App\Models\Websitefavicon;
 use App\Models\Category;
 use App\Models\Generalsetting;
+use App\Models\FooterSetting;
+use App\Models\Aiprompt;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -36,6 +38,8 @@ class AppServiceProvider extends ServiceProvider
 
             // ── General Settings ──────────────────────────────────────────────
             $websetting = Generalsetting::first();
+            $footerSetting = FooterSetting::getSettings();
+            $aiPrompt = Aiprompt::first();
 
             // ── Tracking ──────────────────────────────────────────────────────
             $Pixelid         = Pixel::first();
@@ -55,7 +59,9 @@ class AppServiceProvider extends ServiceProvider
                 'GoogleAnalytics',
                 'websitefavicon',
                 'contactinformationadmin',
-                'pagecrate'
+                'pagecrate',
+                'footerSetting',
+                'aiPrompt'
             ));
         });
 

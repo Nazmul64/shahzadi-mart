@@ -14,6 +14,13 @@ class SubCategoryController extends Controller
     {
         $subCategories = SubCategory::with('category')->latest()->get();
         $categories    = Category::where('status', 'active')->get();
+        
+        if (request()->routeIs('manager.*')) {
+            return view('manager.subcategory.index', compact('subCategories', 'categories'));
+        } elseif (request()->routeIs('emplee.*')) {
+            return view('emplee.subcategory.index', compact('subCategories', 'categories'));
+        }
+        
         return view('admin.subcategory.index', compact('subCategories', 'categories'));
     }
 
@@ -38,7 +45,11 @@ class SubCategoryController extends Controller
             'status'      => $request->status    ?? 'active',
         ]);
 
-        return redirect()->route('admin.subcategory.index')
+        $route = 'admin.subcategory.index';
+        if (request()->routeIs('manager.*')) $route = 'manager.subcategory.index';
+        if (request()->routeIs('emplee.*')) $route = 'emplee.subcategory.index';
+
+        return redirect()->route($route)
             ->with('success', 'Sub Category Added Successfully');
     }
 
@@ -94,7 +105,11 @@ class SubCategoryController extends Controller
     {
         SubCategory::findOrFail($id)->delete();
 
-        return redirect()->route('admin.subcategory.index')
+        $route = 'admin.subcategory.index';
+        if (request()->routeIs('manager.*')) $route = 'manager.subcategory.index';
+        if (request()->routeIs('emplee.*')) $route = 'emplee.subcategory.index';
+
+        return redirect()->route($route)
             ->with('success', 'Sub Category Deleted Successfully');
     }
 }

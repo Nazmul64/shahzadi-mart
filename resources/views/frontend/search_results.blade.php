@@ -137,36 +137,44 @@
                 @endphp
 
                 <div style="position:relative">
-                    <a href="{{ route('product.detail', $item->slug) }}" class="sr-card-link">
-                        <div class="sr-card">
-                            @if($discount)
-                                <span class="sr-badge">-{{ $discount }}%</span>
-                            @endif
-                            <div class="sr-p-img-wrap">
-                                <img class="sr-p-img"
-                                     src="{{ asset('uploads/products/' . $item->feature_image) }}"
-                                     alt="{{ $item->name }}" loading="lazy">
-                            </div>
-                            <div class="sr-p-body">
-                                <p class="sr-p-name">{{ $item->name }}</p>
-                                <p class="sr-p-price">৳ {{ number_format($displayPrice, 0) }}</p>
-                                @if($item->discount_price)
-                                    <p class="sr-p-old">৳ {{ number_format($item->current_price, 0) }}</p>
-                                @endif
-                                @if($inStock)
-                                    <a href="{{ route('cart.add', $item->id) }}"
-                                       class="sr-p-atc"
-                                       onclick="event.stopPropagation()">
-                                      <i class="fa-solid fa-cart-plus"></i> কার্টে যোগ করুন
-                                    </a>
-                                @else
-                                    <span class="sr-p-atc" style="background:#e5e7eb;color:#9ca3af;cursor:not-allowed;">
-                                        <i class="fas fa-times-circle"></i> স্টক নেই
-                                    </span>
-                                @endif
-                            </div>
+                    <div class="sr-card"
+                         onclick="window.location='{{ route('product.detail', $item->slug) }}'"
+                         style="cursor: pointer;">
+                        @if($discount)
+                            <span class="sr-badge">-{{ $discount }}%</span>
+                        @endif
+                        <div class="sr-p-img-wrap">
+                            <img class="sr-p-img"
+                                 src="{{ asset('uploads/products/' . $item->feature_image) }}"
+                                 alt="{{ $item->name }}" loading="lazy">
                         </div>
-                    </a>
+                        <div class="sr-p-body">
+                            <a href="{{ route('product.detail', $item->slug) }}" 
+                               class="sr-p-name" 
+                               onclick="event.stopPropagation()"
+                               style="text-decoration: none; color: inherit;">
+                               {{ $item->name }}
+                            </a>
+                            <p class="sr-p-price">৳ {{ number_format($displayPrice, 0) }}</p>
+                            @if($item->discount_price)
+                                <p class="sr-p-old">৳ {{ number_format($item->current_price, 0) }}</p>
+                            @endif
+                            @if($inStock)
+                                <form action="{{ route('cart.add', $item->id) }}" 
+                                      method="POST" 
+                                      onclick="event.stopPropagation()">
+                                    @csrf
+                                    <button type="submit" class="sr-p-atc" style="border: none; width: 100%;">
+                                        <i class="fa-solid fa-cart-plus"></i> কার্টে যোগ করুন
+                                    </button>
+                                </form>
+                            @else
+                                <span class="sr-p-atc" style="background:#e5e7eb;color:#9ca3af;cursor:not-allowed;">
+                                    <i class="fas fa-times-circle"></i> স্টক নেই
+                                </span>
+                            @endif
+                        </div>
+                    </div>
                 </div>
             @endforeach
         </div>

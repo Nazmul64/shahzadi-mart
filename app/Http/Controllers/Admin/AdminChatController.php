@@ -27,7 +27,8 @@ class AdminChatController extends Controller
             ->whereIn('sender_type', ['user', 'guest'])
             ->where('is_read', false)->count());
 
-        return view('admin.chat.index', compact('sessions'));
+        $viewPrefix = request()->routeIs('manager.*') ? 'manager.chat' : (request()->routeIs('emplee.*') ? 'emplee.chat' : 'admin.chat');
+        return view("{$viewPrefix}.index", compact('sessions'));
     }
 
     // ══════════════════════════════════════════════════════════════
@@ -61,7 +62,8 @@ class AdminChatController extends Controller
             ->where('is_read', false)
             ->update(['is_read' => true]);
 
-        return view('admin.chat.show', compact('chatSession', 'messages', 'allSessions'));
+        $viewPrefix = request()->routeIs('manager.*') ? 'manager.chat' : (request()->routeIs('emplee.*') ? 'emplee.chat' : 'admin.chat');
+        return view("{$viewPrefix}.show", compact('chatSession', 'messages', 'allSessions'));
     }
 
     // ══════════════════════════════════════════════════════════════

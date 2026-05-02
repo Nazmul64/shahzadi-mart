@@ -240,6 +240,10 @@
           </div>
         </div>
 
+        <div class="text-end mb-4">
+          <a href="{{ route('password.request') }}" class="text-decoration-none small fw-bold" style="color: #6366f1;">Forgot Password?</a>
+        </div>
+
         <button type="submit" class="btn-submit">
           <i class="fas fa-sign-in-alt"></i> Sign In
         </button>

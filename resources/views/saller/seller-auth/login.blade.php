@@ -806,7 +806,7 @@
                             Remember me
                         </label>
                     </div>
-                    <a href="#" class="forgot-password" onclick="showForgotPassword(event)">Forgot Password?</a>
+                    <a href="{{ route('password.request') }}" class="forgot-password">Forgot Password?</a>
                 </div>
 
                 <button type="submit" class="btn-login" id="loginBtn">

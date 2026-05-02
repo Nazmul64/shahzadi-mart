@@ -35,10 +35,10 @@ class AdminMiddleware
 
         // RBAC check — User Model এ defined
         // super-admin, admin, manager, sub-admin, employee যেকোনো একটি হলে pass
-        if (!$user->canAccessAdmin()) {
+        if (!$user->hasRole(['super-admin', 'admin'])) {
             Auth::logout();
             return redirect()->route('admin.login')
-                ->with('error', 'You are not authorized to access admin panel.');
+                ->with('error', 'আপনার অ্যাডমিন প্যানেলে ঢোকার অনুমতি নেই।');
         }
 
         return $next($request);

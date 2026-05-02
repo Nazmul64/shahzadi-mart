@@ -9,9 +9,13 @@
             {{-- Brand Column --}}
             <div class="footer-col footer-col--brand">
                 <a href="{{ url('/') }}" class="foot-logo">
-                    Shahzadi<em>-mart</em><span class="foot-logo__dot"></span>
+                    @if($footerSetting->footer_logo)
+                        <img src="{{ asset('uploads/avator/' . $footerSetting->footer_logo) }}" alt="Logo" style="max-height: 50px;">
+                    @else
+                        Shahzadi<em>-mart</em><span class="foot-logo__dot"></span>
+                    @endif
                 </a>
-                <p class="foot-desc">Your trusted marketplace for premium products. Quality guaranteed, delivered to your door.</p>
+                <p class="foot-desc">{{ $footerSetting->footer_description }}</p>
                 <div class="newsletter">
                     <div class="newsletter__label"><i class="bi bi-envelope-fill"></i> Subscribe for exclusive deals</div>
                     <div class="newsletter__row">
@@ -20,11 +24,11 @@
                     </div>
                 </div>
                 <div class="socials">
-                    <a href="#" class="soc-btn" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
-                    <a href="#" class="soc-btn" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
-                    <a href="#" class="soc-btn" aria-label="Twitter/X"><i class="bi bi-twitter-x"></i></a>
-                    <a href="#" class="soc-btn" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
-                    <a href="#" class="soc-btn" aria-label="TikTok"><i class="bi bi-tiktok"></i></a>
+                    @if($footerSetting->facebook_url) <a href="{{ $footerSetting->facebook_url }}" class="soc-btn" target="_blank" aria-label="Facebook"><i class="bi bi-facebook"></i></a> @endif
+                    @if($footerSetting->instagram_url) <a href="{{ $footerSetting->instagram_url }}" class="soc-btn" target="_blank" aria-label="Instagram"><i class="bi bi-instagram"></i></a> @endif
+                    @if($footerSetting->twitter_url) <a href="{{ $footerSetting->twitter_url }}" class="soc-btn" target="_blank" aria-label="Twitter/X"><i class="bi bi-twitter-x"></i></a> @endif
+                    @if($footerSetting->youtube_url) <a href="{{ $footerSetting->youtube_url }}" class="soc-btn" target="_blank" aria-label="YouTube"><i class="bi bi-youtube"></i></a> @endif
+                    @if($footerSetting->tiktok_url) <a href="{{ $footerSetting->tiktok_url }}" class="soc-btn" target="_blank" aria-label="TikTok"><i class="bi bi-tiktok"></i></a> @endif
                 </div>
             </div>
            @foreach($pagecrate as $footercat)
@@ -52,16 +56,16 @@
 
         <div class="footer-btm">
             <p class="footer-btm__copy">
-                &copy; {{ date('Y') }} Shahzadi-mart. All rights reserved. Made with
+                &copy; {{ date('Y') }} {{ $footerSetting->copyright_text }}. Made with
                 <i class="bi bi-heart-fill" style="color:var(--red);font-size:10px;margin:0 3px"></i>
-                by <strong style="color:#555">Freaku Technologies</strong>
+                by <a href="{{ $footerSetting->powered_by_link }}" target="_blank" style="color:inherit; text-decoration:none;"><strong style="color:#555">{{ $footerSetting->powered_by_text }}</strong></a>
             </p>
             <div class="pay-badges">
-                <span class="pay-b">VISA</span>
-                <span class="pay-b">M-PESA</span>
-                <span class="pay-b">PAYPAL</span>
-                <span class="pay-b">MASTERCARD</span>
-                <span class="pay-b">AIRTEL</span>
+                @if($footerSetting->payment_methods)
+                    @foreach($footerSetting->payment_methods as $method)
+                        <span class="pay-b">{{ $method }}</span>
+                    @endforeach
+                @endif
             </div>
         </div>
     </div>

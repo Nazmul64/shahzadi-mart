@@ -60,8 +60,12 @@ class ProductController extends Controller
         $products = Product::with('category', 'subCategory', 'childSubCategory')
             ->latest()->get();
 
-        // Eager-load multiple brands/colors/units/sizes for display
-        // (done via accessor methods, no eager load needed for JSON IDs)
+        if (request()->routeIs('manager.*')) {
+            return view('manager.product.index', compact('products'));
+        } elseif (request()->routeIs('emplee.*')) {
+            return view('emplee.product.index', compact('products'));
+        }
+        
         return view('admin.product.index', compact('products'));
     }
 
@@ -157,7 +161,11 @@ class ProductController extends Controller
             'bestseller_at'         => $isBestseller ? Carbon::now() : null,
         ]);
 
-        return redirect()->route('admin.products.index')->with('success', 'Product Created Successfully');
+        $route = 'admin.products.index';
+        if (request()->routeIs('manager.*')) $route = 'manager.products.index';
+        if (request()->routeIs('emplee.*')) $route = 'emplee.products.index';
+
+        return redirect()->route($route)->with('success', 'Product Created Successfully');
     }
 
     // ══════════════════════════════════════════════════════════════
@@ -301,7 +309,11 @@ class ProductController extends Controller
             'bestseller_at'         => $bestsellerAt,
         ]);
 
-        return redirect()->route('admin.products.index')->with('success', 'Product Updated Successfully');
+        $route = 'admin.products.index';
+        if (request()->routeIs('manager.*')) $route = 'manager.products.index';
+        if (request()->routeIs('emplee.*')) $route = 'emplee.products.index';
+
+        return redirect()->route($route)->with('success', 'Product Updated Successfully');
     }
 
     // ══════════════════════════════════════════════════════════════
@@ -317,7 +329,12 @@ class ProductController extends Controller
         }
         $this->deleteFile($product->product_file);
         $product->delete();
-        return redirect()->route('admin.products.index')->with('success', 'Product Deleted Successfully');
+        
+        $route = 'admin.products.index';
+        if (request()->routeIs('manager.*')) $route = 'manager.products.index';
+        if (request()->routeIs('emplee.*')) $route = 'emplee.products.index';
+
+        return redirect()->route($route)->with('success', 'Product Deleted Successfully');
     }
 
     // ══════════════════════════════════════════════════════════════

@@ -7,12 +7,13 @@
 @php
     $u = auth()->user();
     $dashActive   = request()->routeIs('emplee.dashboard');
-    $ordersActive = request()->routeIs('admin.order.*');
+    $ordersActive = request()->routeIs('emplee.orders.*');
     $prodsActive  = request()->routeIs('admin.products.*');
-    $catsActive   = request()->routeIs('admin.category.*') || request()->routeIs('admin.subcategory.*') || request()->routeIs('admin.childcategory.*');
-    $reviewsActive= request()->routeIs('admin.reviews.*');
+    $catsActive   = request()->routeIs('emplee.category.*') || request()->routeIs('admin.subcategory.*') || request()->routeIs('admin.childcategory.*');
+    $reviewsActive= request()->routeIs('emplee.reviews.*');
     $usersActive  = request()->routeIs('customer.*');
     $vendorsActive= request()->routeIs('admin.seller.*');
+    $blogActive   = request()->routeIs('emplee.blog-categories.*') || request()->routeIs('emplee.blog-posts.*');
 @endphp
 
 <aside id="sidebar">
@@ -33,9 +34,25 @@
 <a href="{{ route('emplee.dashboard') }}" class="sb-item {{ $dashActive ? 'active' : '' }}">
     <span class="sb-left"><i class="fas fa-chart-line sb-ico"></i> Dashboard</span>
 </a>
+<a href="{{ route('emplee.profile.index') }}" class="sb-item {{ request()->routeIs('emplee.profile.*') ? 'active' : '' }}">
+    <span class="sb-left"><i class="fas fa-user-circle sb-ico"></i> My Profile</span>
+</a>
 @endif
 
 <div class="sb-sep"></div>
+
+{{-- Communication Section --}}
+@if($u->isSuperAdmin() || $u->hasAnyPermission(['view-chat', 'manage-chat']))
+<div class="sb-section">Communication</div>
+<a href="{{ route('emplee.chat.index') }}" class="sb-item {{ request()->routeIs('emplee.chat.*') ? 'active' : '' }}">
+    <span class="sb-left">
+        <i class="fas fa-comments sb-ico"></i> Live Chat
+        <span class="badge bg-danger ms-2" id="sbUnreadBadge" style="display:none; font-size:10px;">0</span>
+    </span>
+</a>
+<div class="sb-sep"></div>
+@endif
+
 <div class="sb-section">Inventory & Sales</div>
 
 {{-- Orders Section --}}
@@ -45,20 +62,14 @@
     <i class="fas fa-chevron-right sb-arr"></i>
 </div>
 <div class="sb-sub {{ $ordersActive ? 'open' : '' }}">
-    <a href="{{ route('admin.order.allorder') }}" class="{{ request()->routeIs('admin.order.allorder') && !request()->filled('status') ? 'active' : '' }}">
+    <a href="{{ route('emplee.orders.index') }}" class="{{ request()->routeIs('emplee.orders.index') && !request()->filled('status') ? 'active' : '' }}">
         All Orders
     </a>
-    <a href="{{ route('admin.order.allorder', ['status' => 'pending']) }}" class="{{ request('status') === 'pending' ? 'active' : '' }}">
+    <a href="{{ route('emplee.orders.index', ['status' => 'pending']) }}" class="{{ request('status') === 'pending' ? 'active' : '' }}">
         Pending
     </a>
-    <a href="{{ route('admin.order.allorder', ['status' => 'processing']) }}" class="{{ request('status') === 'processing' ? 'active' : '' }}">
+    <a href="{{ route('emplee.orders.index', ['status' => 'processing']) }}" class="{{ request('status') === 'processing' ? 'active' : '' }}">
         Processing
-    </a>
-    <a href="{{ route('admin.order.allorder', ['status' => 'completed']) }}" class="{{ request('status') === 'completed' ? 'active' : '' }}">
-        Completed
-    </a>
-    <a href="{{ route('admin.order.allorder', ['status' => 'cancelled']) }}" class="{{ request('status') === 'cancelled' ? 'active' : '' }}">
-        Cancelled
     </a>
 </div>
 @endif
@@ -91,7 +102,7 @@
     <i class="fas fa-chevron-right sb-arr"></i>
 </div>
 <div class="sb-sub {{ $catsActive ? 'open' : '' }}">
-    <a href="{{ route('admin.category.index') }}" class="{{ request()->routeIs('admin.category.index') ? 'active' : '' }}">
+    <a href="{{ route('emplee.category.index') }}" class="{{ request()->routeIs('emplee.category.index') ? 'active' : '' }}">
         Categories
     </a>
     <a href="{{ route('admin.subcategory.index') }}" class="{{ request()->routeIs('admin.subcategory.index') ? 'active' : '' }}">
@@ -105,6 +116,22 @@
 
 <div class="sb-sep"></div>
 <div class="sb-section">People</div>
+
+{{-- Blog Management --}}
+@if($u->isSuperAdmin() || $u->hasPermission('view-pages'))
+<div class="sb-item {{ $blogActive ? 'active open' : '' }}" onclick="sbToggle(this)">
+    <span class="sb-left"><i class="fas fa-file-alt sb-ico"></i> Blog Management</span>
+    <i class="fas fa-chevron-right sb-arr"></i>
+</div>
+<div class="sb-sub {{ $blogActive ? 'open' : '' }}">
+    <a href="{{ route('emplee.blog-posts.index') }}" class="{{ request()->routeIs('emplee.blog-posts.*') ? 'active' : '' }}">
+        All Posts
+    </a>
+    <a href="{{ route('emplee.blog-categories.index') }}" class="{{ request()->routeIs('emplee.blog-categories.*') ? 'active' : '' }}">
+        Blog Categories
+    </a>
+</div>
+@endif
 
 {{-- Customer Management --}}
 @if($u->isSuperAdmin() || $u->hasPermission('view-users'))
@@ -134,6 +161,14 @@
     </a>
 </div>
 @endif
+
+
+{{-- Account Settings --}}
+<div class="sb-item {{ request()->routeIs('emplee.profile.*') ? 'active' : '' }}">
+    <a href="{{ route('emplee.profile.index') }}" style="text-decoration: none; color: inherit; display: flex; align-items: center; width: 100%;">
+        <span class="sb-left"><i class="fas fa-user-gear sb-ico"></i> Profile & Password</span>
+    </a>
+</div>
 
 </nav>
 
@@ -178,4 +213,25 @@ document.querySelectorAll('.sb-sub').forEach(function(s) {
         if (s.previousElementSibling) s.previousElementSibling.classList.add('open');
     }
 });
+
+// Sidebar Unread Badge Polling
+@if($u->isSuperAdmin() || $u->hasAnyPermission(['view-chat', 'manage-chat']))
+function sbRefreshUnread() {
+    fetch('{{ route("emplee.chat.unread") }}')
+        .then(r => r.json())
+        .then(d => {
+            const badge = document.getElementById('sbUnreadBadge');
+            if (badge) {
+                if (d.count > 0) {
+                    badge.textContent = d.count > 99 ? '99+' : d.count;
+                    badge.style.display = 'inline-block';
+                } else {
+                    badge.style.display = 'none';
+                }
+            }
+        }).catch(() => {});
+}
+sbRefreshUnread();
+setInterval(sbRefreshUnread, 15000);
+@endif
 </script>

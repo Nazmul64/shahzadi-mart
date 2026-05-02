@@ -181,51 +181,57 @@
                             <i class="bi bi-heart"></i>
                         </a>
 
-                        <a href="{{ route('product.detail', $item->slug) }}"
-                           class="smp-ap-card-link">
-                            <div class="smp-ap-card">
-                                @if($discount)
-                                    <span class="smp-ap-badge">-{{ $discount }}%</span>
-                                @elseif($item->is_new_arrival)
-                                    <span class="smp-ap-new-badge">NEW</span>
-                                @endif
+                        {{-- Card (div — avoids nested <a> bug) --}}
+                        <div class="smp-ap-card" 
+                             onclick="window.location='{{ route('product.detail', $item->slug) }}'"
+                             style="cursor: pointer;">
+                            
+                            @if($discount)
+                                <span class="smp-ap-badge">-{{ $discount }}%</span>
+                            @elseif($item->is_new_arrival)
+                                <span class="smp-ap-new-badge">NEW</span>
+                            @endif
 
-                                <div class="smp-ap-img-wrap">
-                                    <img class="smp-ap-img"
-                                         src="{{ asset('uploads/products/' . $item->feature_image) }}"
-                                         alt="{{ $item->name }}" loading="lazy">
-                                </div>
-                                <div class="smp-ap-body">
-                                    <p class="smp-ap-name">{{ $item->name }}</p>
-                                    <p class="smp-ap-price">৳ {{ number_format($displayPrice, 0) }}</p>
-                                    @if($displayPrice < $originalPrice)
-                                        <p class="smp-ap-old">৳ {{ number_format($originalPrice, 0) }}</p>
-                                    @endif
-                                    <div class="smp-ap-meta">
-                                        @if(!$item->is_unlimited && $item->stock !== null && $item->stock <= 10 && $item->stock > 0)
-                                            <p class="smp-ap-stock">
-                                                <i class="fas fa-fire-flame-curved" style="font-size:10px"></i>
-                                                {{ $item->stock }} টি বাকি
-                                            </p>
-                                        @endif
-                                        <span class="smp-ap-stars">★★★★☆</span>
-                                    </div>
-
-                                    @if($inStock)
-                                        <a href="{{ route('cart.add', $item->id) }}"
-                                           class="smp-ap-atc"
-                                           onclick="event.stopPropagation()">
-                                            <i class="fa-solid fa-cart-plus"></i> কার্টে যোগ করুন
-                                        </a>
-                                    @else
-                                        <span class="smp-ap-atc"
-                                              style="background:#e5e7eb;color:#9ca3af;cursor:not-allowed;">
-                                            <i class="fas fa-times-circle"></i> স্টক নেই
-                                        </span>
-                                    @endif
-                                </div>
+                            <div class="smp-ap-img-wrap">
+                                <img class="smp-ap-img"
+                                     src="{{ asset('uploads/products/' . $item->feature_image) }}"
+                                     alt="{{ $item->name }}" loading="lazy">
                             </div>
-                        </a>
+                            <div class="smp-ap-body">
+                                <a href="{{ route('product.detail', $item->slug) }}" 
+                                   class="smp-ap-name" 
+                                   onclick="event.stopPropagation()">{{ $item->name }}</a>
+                                <p class="smp-ap-price">৳ {{ number_format($displayPrice, 0) }}</p>
+                                @if($displayPrice < $originalPrice)
+                                    <p class="smp-ap-old">৳ {{ number_format($originalPrice, 0) }}</p>
+                                @endif
+                                <div class="smp-ap-meta">
+                                    @if(!$item->is_unlimited && $item->stock !== null && $item->stock <= 10 && $item->stock > 0)
+                                        <p class="smp-ap-stock">
+                                            <i class="fas fa-fire-flame-curved" style="font-size:10px"></i>
+                                            {{ $item->stock }} টি বাকি
+                                        </p>
+                                    @endif
+                                    <span class="smp-ap-stars">★★★★☆</span>
+                                </div>
+
+                                @if($inStock)
+                                    <form action="{{ route('cart.add', $item->id) }}" 
+                                          method="POST" 
+                                          onclick="event.stopPropagation()">
+                                        @csrf
+                                        <button type="submit" class="smp-ap-atc" style="border:none; width:100%;">
+                                            <i class="fa-solid fa-cart-plus"></i> কার্টে যোগ করুন
+                                        </button>
+                                    </form>
+                                @else
+                                    <span class="smp-ap-atc"
+                                          style="background:#e5e7eb;color:#9ca3af;cursor:not-allowed;">
+                                        <i class="fas fa-times-circle"></i> স্টক নেই
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
                     </div>
 
                 @empty

@@ -129,7 +129,16 @@ class AllorderController extends Controller
     // ── Delete Single Order ───────────────────────────────────────
     public function destroy($id)
     {
-        $order = Order::with('items')->findOrFail($id);
+        $order = Order::with(['items', 'steadfastOrder', 'pathaoOrder'])->findOrFail($id);
+        
+        $user = auth()->user();
+        if (!$user->isAdmin() && !$user->isSuperAdmin()) {
+            $isSentToCourier = ($order->steadfastOrder && $order->steadfastOrder->is_sent) || $order->pathaoOrder;
+            if ($order->order_status !== 'pending' || $isSentToCourier) {
+                return redirect()->back()->with('error', 'এই অর্ডারটি কনফার্ম বা কুরিয়ারে পাঠানো হয়েছে, তাই আপনি এটি ডিলিট করতে পারবেন না।');
+            }
+        }
+
         $order->items()->delete();
         $order->delete();
 
@@ -146,7 +155,17 @@ class AllorderController extends Controller
             'ids.*' => 'integer|exists:orders,id',
         ]);
 
-        $orders = Order::whereIn('id', $request->ids)->with('items')->get();
+        $orders = Order::whereIn('id', $request->ids)->with(['items', 'steadfastOrder', 'pathaoOrder'])->get();
+        $user = auth()->user();
+
+        if (!$user->isAdmin() && !$user->isSuperAdmin()) {
+            foreach ($orders as $order) {
+                $isSentToCourier = ($order->steadfastOrder && $order->steadfastOrder->is_sent) || $order->pathaoOrder;
+                if ($order->order_status !== 'pending' || $isSentToCourier) {
+                    return redirect()->back()->with('error', 'সিলেক্ট করা অর্ডারগুলোর মধ্যে কনফার্ম হওয়া অর্ডার রয়েছে, যা আপনি ডিলিট করতে পারবেন না।');
+                }
+            }
+        }
 
         foreach ($orders as $order) {
             $order->items()->delete();

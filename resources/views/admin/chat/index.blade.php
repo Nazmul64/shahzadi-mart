@@ -1,7 +1,13 @@
-{{-- resources/views/admin/chat/index.blade.php --}}
-@extends('admin.master')
+@php
+    $layout = request()->routeIs('manager.*') ? 'manager.master' : (request()->routeIs('emplee.*') ? 'emplee.master' : 'admin.master');
+    $contentSection = request()->routeIs('admin.*') ? 'main-content' : 'content';
+    $showRoute = request()->routeIs('manager.*') ? 'manager.chat.show' : (request()->routeIs('emplee.*') ? 'emplee.chat.show' : 'admin.chat.show');
+    $unreadRoute = request()->routeIs('manager.*') ? 'manager.chat.unread' : (request()->routeIs('emplee.*') ? 'emplee.chat.unread' : 'admin.chat.unread');
+@endphp
 
-@section('main-content')
+@extends($layout)
+
+@section($contentSection)
 <div class="page-wrapper">
 
     {{-- ══ Header ══ --}}
@@ -100,7 +106,7 @@
 
                             {{-- Open button --}}
                             <td class="text-center">
-                                <a href="{{ route('admin.chat.show', $session->id) }}"
+                                <a href="{{ route($showRoute, $session->id) }}"
                                    class="btn btn-sm {{ $session->unread_count > 0 ? 'btn-danger' : 'btn-success' }}">
                                     <i class="bi bi-chat-fill me-1"></i>Open
                                 </a>
@@ -131,7 +137,7 @@
 <script>
 // ── Poll global unread count every 8 seconds ──
 function refreshUnreadBadge() {
-    fetch('{{ route("admin.chat.unread") }}')
+    fetch('{{ route($unreadRoute) }}')
         .then(r => r.json())
         .then(d => {
             const badge  = document.getElementById('globalUnreadBadge');
