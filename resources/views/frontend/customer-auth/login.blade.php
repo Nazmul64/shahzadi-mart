@@ -3,1187 +3,536 @@
 <!-- Sidebar Overlay -->
 <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
 
-<!-- Authentication Container -->
-<div class="auth-wrapper">
-    <div class="auth-container">
+<div class="auth-page-wrapper">
+    <div class="auth-box">
+        <!-- Brand/Welcome Section (Optional, can be logo) -->
+        <div class="auth-header">
+            <h2>Welcome to Shahzadi Mart</h2>
+            <p>Join our community of shoppers today</p>
+        </div>
 
-        <!-- Tab Navigation -->
-        <div class="auth-tabs">
-            <button class="tab-btn active" id="signin-tab" onclick="switchTab('signin')">
-                Sign In
-            </button>
-            <button class="tab-btn" id="signup-tab" onclick="switchTab('signup')">
-                Sign Up
-            </button>
+        <!-- Tab Toggle -->
+        <div class="tab-switcher">
+            <button class="tab-trigger active" data-tab="signin" onclick="toggleAuthTab('signin')">Sign In</button>
+            <button class="tab-trigger" data-tab="signup" onclick="toggleAuthTab('signup')">Sign Up</button>
+            <div class="tab-indicator"></div>
         </div>
 
         <!-- Sign In Form -->
-        <div class="form-container active" id="signin-form">
-            <form id="signin-form-element" method="POST" action="{{ route('customer.login.submit') }}">
+        <div class="auth-form-content active" id="signin-content">
+            <form action="{{ route('customer.login.submit') }}" method="POST">
                 @csrf
-
-                <!-- Email Input -->
-                <div class="input-group">
-                    <div class="input-container">
-                        <i class="far fa-envelope input-icon"></i>
-                        <input type="email"
-                               class="text-input"
-                               name="email"
-                               id="signin-email"
-                               placeholder="agentone@gmail.com"
-                               value="{{ old('email') }}"
-                               required>
+                <div class="form-control">
+                    <label>Email Address</label>
+                    <div class="input-wrapper">
+                        <i class="far fa-envelope"></i>
+                        <input type="email" name="email" placeholder="example@mail.com" value="{{ old('email') }}" required>
                     </div>
-                    @error('email')
-                        <span class="error-message">{{ $message }}</span>
-                    @enderror
+                    @error('email') <span class="error-msg">{{ $message }}</span> @enderror
                 </div>
 
-                <!-- Password Input -->
-                <div class="input-group">
-                    <div class="input-container">
-                        <i class="fas fa-lock input-icon"></i>
-                        <input type="password"
-                               class="text-input"
-                               name="password"
-                               id="signin-password"
-                               placeholder="Password"
-                               required>
-                        <button class="toggle-password-btn" onclick="togglePassword('signin-password')" type="button">
+                <div class="form-control">
+                    <label>Password</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" name="password" id="pass-in" placeholder="••••••••" required>
+                        <button type="button" class="visibility-toggle" onclick="togglePassVisibility('pass-in')">
                             <i class="far fa-eye-slash"></i>
                         </button>
                     </div>
-                    @error('password')
-                        <span class="error-message">{{ $message }}</span>
-                    @enderror
+                    @error('password') <span class="error-msg">{{ $message }}</span> @enderror
                 </div>
 
-                <!-- Remember Me -->
-                <div class="remember-me-container">
-                    <label class="remember-checkbox">
+                <div class="form-actions">
+                    <label class="remember-me">
                         <input type="checkbox" name="remember">
-                        <span>Remember me</span>
+                        <span class="custom-check"></span>
+                        Remember me
                     </label>
+                    <a href="{{ route('password.request') }}" class="forgot-pwd">Forgot Password?</a>
                 </div>
 
-                <!-- Forgot Password -->
-                <div class="forgot-password">
-                    <a href="{{ route('password.request') }}" class="forgot-link">Forgot Password?</a>
-                </div>
-
-                <!-- Sign In Button -->
-                <button class="submit-btn" type="submit">
-                    Sign In
-                </button>
-
-                <!-- Divider -->
-                <div class="divider">
-                    <span>Or continue with</span>
-                </div>
-
-                <!-- Social Login Buttons -->
-                <div class="social-buttons">
-                    <button class="social-btn google-btn" onclick="continueWithGoogle()" type="button">
-                        <i class="fab fa-google"></i>
-                        <span>Google</span>
-                    </button>
-                    <button class="social-btn facebook-btn" onclick="continueWithFacebook()" type="button">
-                        <i class="fab fa-facebook"></i>
-                        <span>Facebook</span>
-                    </button>
-                </div>
+                <button type="submit" class="auth-submit-btn">Sign In</button>
             </form>
         </div>
 
         <!-- Sign Up Form -->
-        <div class="form-container" id="signup-form">
-            <form id="signup-form-element" method="POST" action="{{ route('customer.register.submit') }}">
+        <div class="auth-form-content" id="signup-content">
+            <form action="{{ route('customer.register.submit') }}" method="POST">
                 @csrf
-
-                <!-- Full Name Input -->
-                <div class="input-group">
-                    <div class="input-container">
-                        <i class="far fa-user input-icon"></i>
-                        <input type="text"
-                               class="text-input"
-                               name="name"
-                               id="signup-name"
-                               placeholder="Full Name"
-                               value="{{ old('name') }}"
-                               required>
+                <div class="form-control">
+                    <label>Full Name</label>
+                    <div class="input-wrapper">
+                        <i class="far fa-user"></i>
+                        <input type="text" name="name" placeholder="John Doe" value="{{ old('name') }}" required>
                     </div>
-                    @error('name')
-                        <span class="error-message">{{ $message }}</span>
-                    @enderror
+                    @error('name') <span class="error-msg">{{ $message }}</span> @enderror
                 </div>
 
-                <!-- Email Input -->
-                <div class="input-group">
-                    <div class="input-container">
-                        <i class="far fa-envelope input-icon"></i>
-                        <input type="email"
-                               class="text-input"
-                               name="email"
-                               id="signup-email"
-                               placeholder="Email Address"
-                               value="{{ old('email') }}"
-                               required>
+                <div class="form-control">
+                    <label>Email Address</label>
+                    <div class="input-wrapper">
+                        <i class="far fa-envelope"></i>
+                        <input type="email" name="email" placeholder="example@mail.com" value="{{ old('email') }}" required>
                     </div>
-                    @error('email')
-                        <span class="error-message">{{ $message }}</span>
-                    @enderror
+                    @error('email') <span class="error-msg">{{ $message }}</span> @enderror
                 </div>
 
-                <!-- Phone Number Input with Dropdown -->
-                <div class="input-group">
-                    <div class="phone-input-container">
-                        <div class="country-selector" onclick="toggleCountryDropdown('signup')">
-                            <span style="font-size: 20px;" id="signup-flag">🇧🇩</span>
-                            <span class="country-text" id="signup-country">Bangladesh +880</span>
-                            <i class="fas fa-chevron-down dropdown-arrow"></i>
+                <div class="form-control">
+                    <label>Phone Number</label>
+                    <div class="phone-container">
+                        <div class="country-box">
+                            <img src="https://flagcdn.com/w40/bd.png" alt="BD">
+                            <span>+880</span>
                         </div>
-
-                        <!-- Country Dropdown -->
-                        <div class="country-dropdown" id="signup-dropdown">
-                            <div class="dropdown-search">
-                                <i class="fas fa-search"></i>
-                                <input type="text" placeholder="Search country..." onkeyup="filterCountries('signup', this.value)">
-                            </div>
-                            <div class="country-list" id="signup-country-list">
-                                <!-- Populated by JS -->
-                            </div>
-                        </div>
-
-                        <input type="tel"
-                               class="phone-input"
-                               name="phone"
-                               id="signup-phone"
-                               placeholder="1700000002"
-                               maxlength="15"
-                               value="{{ old('phone') }}"
-                               required>
-                        <button class="copy-btn" onclick="copyPhoneNumber('signup-phone')" type="button">
-                            <i class="far fa-copy"></i>
-                        </button>
+                        <input type="tel" name="phone" placeholder="1XXX XXXXXX" value="{{ old('phone') }}" required>
                     </div>
-                    @error('phone')
-                        <span class="error-message">{{ $message }}</span>
-                    @enderror
+                    @error('phone') <span class="error-msg">{{ $message }}</span> @enderror
                 </div>
 
-                <!-- Password Input -->
-                <div class="input-group">
-                    <div class="input-container">
-                        <i class="fas fa-lock input-icon"></i>
-                        <input type="password"
-                               class="text-input"
-                               name="password"
-                               id="signup-password"
-                               placeholder="Password"
-                               required>
-                        <button class="toggle-password-btn" onclick="togglePassword('signup-password')" type="button">
+                <div class="form-control">
+                    <label>Password</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" name="password" id="pass-up" placeholder="••••••••" required>
+                        <button type="button" class="visibility-toggle" onclick="togglePassVisibility('pass-up')">
                             <i class="far fa-eye-slash"></i>
                         </button>
                     </div>
-                    @error('password')
-                        <span class="error-message">{{ $message }}</span>
-                    @enderror
+                    @error('password') <span class="error-msg">{{ $message }}</span> @enderror
                 </div>
 
-                <!-- Confirm Password Input -->
-                <div class="input-group">
-                    <div class="input-container">
-                        <i class="fas fa-lock input-icon"></i>
-                        <input type="password"
-                               class="text-input"
-                               name="password_confirmation"
-                               id="confirm-password"
-                               placeholder="Confirm Password"
-                               required>
-                        <button class="toggle-password-btn" onclick="togglePassword('confirm-password')" type="button">
+                <div class="form-control">
+                    <label>Confirm Password</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" name="password_confirmation" id="pass-conf" placeholder="••••••••" required>
+                        <button type="button" class="visibility-toggle" onclick="togglePassVisibility('pass-conf')">
                             <i class="far fa-eye-slash"></i>
                         </button>
                     </div>
                 </div>
 
-                <!-- Sign Up Button -->
-                <button class="submit-btn" type="submit">
-                    Create Account
-                </button>
-
-                <!-- Divider -->
-                <div class="divider">
-                    <span>Or continue with</span>
-                </div>
-
-                <!-- Social Login Buttons -->
-                <div class="social-buttons">
-                    <button class="social-btn google-btn" onclick="continueWithGoogle()" type="button">
-                        <i class="fab fa-google"></i>
-                        <span>Google</span>
-                    </button>
-                    <button class="social-btn facebook-btn" onclick="continueWithFacebook()" type="button">
-                        <i class="fab fa-facebook"></i>
-                        <span>Facebook</span>
-                    </button>
-                </div>
-
-                <!-- Terms and Conditions -->
-                <div class="terms-notice">
-                    By creating an account, you agree to our
-                    <a href="#" class="terms-link">Terms &amp; Conditions</a>
-                    and
-                    <a href="#" class="terms-link">Privacy Policy</a>
-                </div>
+                <button type="submit" class="auth-submit-btn">Create Account</button>
             </form>
         </div>
 
+        <!-- Social & Footer -->
+        <div class="social-auth-section">
+            <div class="separator">
+                <span>Or continue with</span>
+            </div>
+            <div class="social-btns">
+                <a href="#" class="social-link google">
+                    <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google">
+                    <span>Google</span>
+                </a>
+                <a href="#" class="social-link facebook">
+                    <img src="https://www.svgrepo.com/show/475647/facebook-color.svg" alt="Facebook">
+                    <span>Facebook</span>
+                </a>
+            </div>
+            <p class="terms-text">By joining, you agree to our <a href="#">Terms</a> & <a href="#">Privacy Policy</a></p>
+        </div>
     </div>
 </div>
 
 <style>
-    /* ===== RESET ===== */
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
+    :root {
+        --primary: #C8102E;
+        --primary-light: #FFF5F6;
+        --border: #E9ECEF;
+        --bg-gray: #F8F9FA;
+        --text-main: #2D3436;
+        --text-muted: #636E72;
     }
 
-    body {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    }
-
-    /* ===== AUTH WRAPPER ===== */
-    .auth-wrapper {
+    .auth-page-wrapper {
         min-height: 100vh;
+        background: var(--bg-gray);
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 20px;
-        background: #f5f5f5;
+        padding: 40px 20px;
+        font-family: 'Inter', sans-serif;
     }
 
-    /* ===== AUTH CONTAINER ===== */
-    .auth-container {
+    .auth-box {
+        background: #FFFFFF;
         width: 100%;
         max-width: 500px;
-        background: #ffffff;
-        border-radius: 18px;
-        padding: 40px;
-        box-shadow: 0 8px 32px rgba(200, 16, 46, 0.08);
-        border: 1px solid #f0e0e3;
+        border-radius: 28px;
+        padding: 50px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.05);
     }
 
-    /* ===== TAB NAVIGATION ===== */
-    .auth-tabs {
-        display: flex;
-        gap: 10px;
-        margin-bottom: 32px;
-        background: #fdf0f2;
-        padding: 6px;
-        border-radius: 50px;
-    }
-
-    .tab-btn {
-        flex: 1;
-        padding: 12px 24px;
-        background: transparent;
-        border: 2px solid transparent;
-        border-radius: 50px;
-        color: #999;
-        font-size: 15px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        font-family: inherit;
-    }
-
-    .tab-btn.active {
-        background: #ffffff;
-        color: #c8102e;
-        border-color: #c8102e;
-        box-shadow: 0 2px 10px rgba(200, 16, 46, 0.18);
-    }
-
-    .tab-btn:hover:not(.active) {
-        color: #c8102e;
-        background: rgba(200, 16, 46, 0.04);
-    }
-
-    /* ===== FORM CONTAINER ===== */
-    .form-container {
-        display: none;
-    }
-
-    .form-container.active {
-        display: block;
-        animation: fadeIn 0.35s ease;
-    }
-
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(-8px); }
-        to   { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ===== INPUT GROUP ===== */
-    .input-group {
-        margin-bottom: 18px;
-        position: relative;
-    }
-
-    /* ===== ERROR MESSAGE ===== */
-    .error-message {
-        display: block;
-        color: #c8102e;
-        font-size: 12px;
-        margin-top: 5px;
-        margin-left: 4px;
-        font-weight: 500;
-    }
-
-    /* ===== INPUT CONTAINER ===== */
-    .input-container {
-        display: flex;
-        align-items: center;
-        background: #fdf7f8;
-        border: 1.5px solid #f0d8db;
-        border-radius: 10px;
-        padding: 13px 15px;
-        transition: all 0.3s ease;
-        gap: 10px;
-    }
-
-    .input-container:focus-within {
-        background: #ffffff;
-        border-color: #c8102e;
-        box-shadow: 0 0 0 4px rgba(200, 16, 46, 0.10);
-    }
-
-    /* Error state for input */
-    .input-group:has(.error-message) .input-container {
-        border-color: #c8102e;
-    }
-
-    .input-group:has(.error-message) .input-container:focus-within {
-        box-shadow: 0 0 0 4px rgba(200, 16, 46, 0.12);
-    }
-
-    .input-icon {
-        color: #c8102e;
-        font-size: 16px;
-        min-width: 18px;
-        opacity: 0.7;
-    }
-
-    .text-input {
-        flex: 1;
-        border: none;
-        background: transparent;
-        outline: none;
-        font-size: 14px;
-        color: #333;
-        font-family: inherit;
-    }
-
-    .text-input::placeholder {
-        color: #bbb;
-    }
-
-    /* ===== TOGGLE PASSWORD BUTTON ===== */
-    .toggle-password-btn {
-        background: transparent;
-        border: none;
-        color: #bbb;
-        font-size: 16px;
-        cursor: pointer;
-        padding: 2px 6px;
-        transition: color 0.2s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .toggle-password-btn:hover {
-        color: #c8102e;
-    }
-
-    /* ===== REMEMBER ME ===== */
-    .remember-me-container {
-        margin-bottom: 10px;
-        margin-top: -6px;
-    }
-
-    .remember-checkbox {
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-        user-select: none;
-        gap: 8px;
-    }
-
-    .remember-checkbox input[type="checkbox"] {
-        width: 16px;
-        height: 16px;
-        accent-color: #c8102e;
-        cursor: pointer;
-    }
-
-    .remember-checkbox span {
-        font-size: 13px;
-        color: #666;
-        font-weight: 500;
-    }
-
-    /* ===== FORGOT PASSWORD ===== */
-    .forgot-password {
-        text-align: right;
-        margin-bottom: 22px;
-        margin-top: -4px;
-    }
-
-    .forgot-link {
-        color: #c8102e;
-        font-size: 13px;
-        font-weight: 600;
-        text-decoration: none;
-        transition: all 0.2s ease;
-    }
-
-    .forgot-link:hover {
-        color: #a00d25;
-        text-decoration: underline;
-    }
-
-    /* ===== PHONE INPUT CONTAINER ===== */
-    .phone-input-container {
-        position: relative;
-        display: flex;
-        align-items: center;
-        background: #fdf7f8;
-        border: 1.5px solid #f0d8db;
-        border-radius: 10px;
-        padding: 10px 14px;
-        transition: all 0.3s ease;
-        gap: 10px;
-    }
-
-    .phone-input-container:focus-within {
-        background: #ffffff;
-        border-color: #c8102e;
-        box-shadow: 0 0 0 4px rgba(200, 16, 46, 0.10);
-    }
-
-    .country-selector {
-        display: flex;
-        align-items: center;
-        gap: 7px;
-        padding: 7px 10px;
-        background: #ffffff;
-        border: 1px solid #f0d8db;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        white-space: nowrap;
-        user-select: none;
-    }
-
-    .country-selector:hover {
-        border-color: #c8102e;
-        background: #fff8f9;
-    }
-
-    .country-selector.active {
-        border-color: #c8102e;
-    }
-
-    .country-text {
-        font-size: 13px;
-        color: #333;
-        font-weight: 500;
-    }
-
-    .dropdown-arrow {
-        font-size: 11px;
-        color: #c8102e;
-        transition: transform 0.3s ease;
-    }
-
-    .country-selector.active .dropdown-arrow {
-        transform: rotate(180deg);
-    }
-
-    /* ===== COUNTRY DROPDOWN ===== */
-    .country-dropdown {
-        position: absolute;
-        top: calc(100% + 8px);
-        left: 0;
-        right: 0;
-        background: #ffffff;
-        border: 1.5px solid #f0d8db;
-        border-radius: 12px;
-        box-shadow: 0 8px 28px rgba(200, 16, 46, 0.12);
-        max-height: 0;
-        overflow: hidden;
-        opacity: 0;
-        visibility: hidden;
-        transition: all 0.3s ease;
-        z-index: 1000;
-    }
-
-    .country-dropdown.active {
-        max-height: 350px;
-        opacity: 1;
-        visibility: visible;
-    }
-
-    .dropdown-search {
-        display: flex;
-        align-items: center;
-        padding: 11px 15px;
-        border-bottom: 1px solid #f0e0e3;
-        gap: 10px;
-    }
-
-    .dropdown-search i {
-        color: #c8102e;
-        font-size: 14px;
-        opacity: 0.7;
-    }
-
-    .dropdown-search input {
-        flex: 1;
-        border: none;
-        outline: none;
-        font-size: 13px;
-        color: #333;
-        background: transparent;
-        font-family: inherit;
-    }
-
-    .dropdown-search input::placeholder {
-        color: #bbb;
-    }
-
-    .country-list {
-        max-height: 278px;
-        overflow-y: auto;
-    }
-
-    .country-item {
-        display: flex;
-        align-items: center;
-        padding: 10px 15px;
-        cursor: pointer;
-        transition: background 0.15s ease;
-        gap: 10px;
-    }
-
-    .country-item:hover {
-        background: #fff8f9;
-    }
-
-    .country-item-name {
-        flex: 1;
-        font-size: 13px;
-        color: #333;
-        font-weight: 500;
-    }
-
-    .country-item-code {
-        font-size: 13px;
-        color: #c8102e;
-        font-weight: 500;
-    }
-
-    .phone-input {
-        flex: 1;
-        border: none;
-        background: transparent;
-        outline: none;
-        font-size: 14px;
-        color: #333;
-        font-family: inherit;
-        min-width: 0;
-    }
-
-    .phone-input::placeholder {
-        color: #bbb;
-    }
-
-    .copy-btn {
-        background: transparent;
-        border: none;
-        color: #bbb;
-        font-size: 15px;
-        cursor: pointer;
-        padding: 2px 6px;
-        transition: color 0.2s ease;
-        display: flex;
-        align-items: center;
-    }
-
-    .copy-btn:hover {
-        color: #c8102e;
-    }
-
-    /* ===== SUBMIT BUTTON ===== */
-    .submit-btn {
-        width: 100%;
-        padding: 15px 24px;
-        background: #c8102e;
-        color: #ffffff;
-        border: none;
-        border-radius: 10px;
-        font-size: 15px;
-        font-weight: 700;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        font-family: inherit;
-        letter-spacing: 0.3px;
-    }
-
-    .submit-btn:hover {
-        background: #a00d25;
-        transform: translateY(-2px);
-        box-shadow: 0 6px 18px rgba(200, 16, 46, 0.35);
-    }
-
-    .submit-btn:active {
-        transform: translateY(0);
-        box-shadow: none;
-    }
-
-    /* ===== DIVIDER ===== */
-    .divider {
-        position: relative;
+    .auth-header {
         text-align: center;
-        margin: 26px 0;
+        margin-bottom: 40px;
     }
 
-    .divider::before {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 0;
-        right: 0;
-        height: 1px;
-        background: #f0e0e3;
+    .auth-header h2 {
+        font-size: 28px;
+        font-weight: 800;
+        color: var(--text-main);
+        margin-bottom: 8px;
     }
 
-    .divider span {
-        position: relative;
-        background: #ffffff;
-        padding: 0 18px;
-        color: #bbb;
-        font-size: 13px;
-        font-weight: 500;
+    .auth-header p {
+        color: var(--text-muted);
+        font-size: 15px;
     }
 
-    /* ===== SOCIAL BUTTONS ===== */
-    .social-buttons {
+    /* Tab Switcher */
+    .tab-switcher {
         display: flex;
-        gap: 12px;
-        margin-bottom: 16px;
+        background: var(--bg-gray);
+        padding: 6px;
+        border-radius: 100px;
+        position: relative;
+        margin-bottom: 40px;
     }
 
-    .social-btn {
+    .tab-trigger {
         flex: 1;
+        border: none;
+        background: none;
+        padding: 14px;
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--text-muted);
+        cursor: pointer;
+        z-index: 2;
+        transition: color 0.3s;
+    }
+
+    .tab-trigger.active {
+        color: var(--primary);
+    }
+
+    .tab-indicator {
+        position: absolute;
+        width: calc(50% - 6px);
+        height: calc(100% - 12px);
+        background: #FFFFFF;
+        border: 2px solid var(--primary);
+        border-radius: 100px;
+        top: 6px;
+        left: 6px;
+        transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        z-index: 1;
+        box-shadow: 0 4px 12px rgba(200, 16, 46, 0.1);
+    }
+
+    /* Form Controls */
+    .form-control {
+        margin-bottom: 24px;
+    }
+
+    .form-control label {
+        display: block;
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--text-main);
+        margin-bottom: 10px;
+    }
+
+    .input-wrapper, .phone-container {
         display: flex;
         align-items: center;
-        justify-content: center;
-        gap: 9px;
-        padding: 13px 18px;
-        background: #ffffff;
-        border: 1.5px solid #f0d8db;
-        border-radius: 10px;
-        color: #333;
-        font-size: 14px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.25s ease;
-        font-family: inherit;
+        background: #FFFFFF;
+        border: 2px solid var(--border);
+        border-radius: 14px;
+        padding: 0 18px;
+        transition: all 0.3s;
+        height: 56px;
+        width: 100%;
     }
 
-    .social-btn i {
+    .input-wrapper:focus-within, .phone-container:focus-within {
+        border-color: var(--primary);
+        background: var(--primary-light);
+        box-shadow: 0 0 0 4px rgba(200, 16, 46, 0.05);
+    }
+
+    .input-wrapper i {
+        color: var(--primary);
+        font-size: 18px;
+        margin-right: 14px;
+        opacity: 0.6;
+    }
+
+    .input-wrapper input, .phone-container input {
+        flex: 1;
+        border: none;
+        background: none;
+        outline: none;
+        font-size: 16px;
+        font-weight: 500;
+        color: var(--text-main);
+        height: 100%;
+        width: 100%;
+    }
+
+    .phone-container {
+        padding-left: 10px;
+    }
+
+    .country-box {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--bg-gray);
+        padding: 8px 12px;
+        border-radius: 10px;
+        margin-right: 12px;
+        border: 1px solid var(--border);
+    }
+
+    .country-box img {
+        width: 20px;
+        border-radius: 2px;
+    }
+
+    .country-box span {
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--text-main);
+    }
+
+    .visibility-toggle {
+        background: none;
+        border: none;
+        color: #ADB5BD;
+        cursor: pointer;
+        padding: 10px;
         font-size: 18px;
     }
 
-    .social-btn:hover {
-        transform: translateY(-2px);
-        border-color: #c8102e;
-        box-shadow: 0 4px 12px rgba(200, 16, 46, 0.12);
+    /* Actions */
+    .form-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
     }
 
-    .google-btn i {
-        color: #4285f4;
-    }
-
-    .facebook-btn i {
-        color: #1877f2;
-    }
-
-    /* ===== TERMS NOTICE ===== */
-    .terms-notice {
-        text-align: center;
-        font-size: 12px;
-        color: #999;
-        line-height: 1.7;
-        margin-top: 16px;
-    }
-
-    .terms-link {
-        color: #c8102e;
-        font-weight: 600;
-        text-decoration: none;
-        transition: all 0.2s ease;
-    }
-
-    .terms-link:hover {
-        color: #a00d25;
-        text-decoration: underline;
-    }
-
-    /* ===== TOAST NOTIFICATION ===== */
-    .toast-notification {
-        position: fixed;
-        top: 24px;
-        right: 24px;
-        color: #ffffff;
-        padding: 14px 22px;
-        border-radius: 10px;
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-        z-index: 10000;
+    .remember-me {
+        display: flex;
+        align-items: center;
+        gap: 10px;
         font-size: 14px;
         font-weight: 600;
-        animation: slideIn 0.35s ease;
-        max-width: 300px;
-        font-family: inherit;
+        color: var(--text-muted);
+        cursor: pointer;
     }
 
-    @keyframes slideIn {
-        from { transform: translateX(110%); opacity: 0; }
-        to   { transform: translateX(0);   opacity: 1; }
+    .remember-me input {
+        display: none;
     }
 
-    @keyframes slideOut {
-        from { transform: translateX(0);   opacity: 1; }
-        to   { transform: translateX(110%); opacity: 0; }
+    .custom-check {
+        width: 20px;
+        height: 20px;
+        border: 2px solid var(--border);
+        border-radius: 6px;
+        position: relative;
+        transition: all 0.2s;
     }
 
-    /* ===== SCROLLBAR ===== */
-    .country-list::-webkit-scrollbar {
-        width: 5px;
+    .remember-me input:checked + .custom-check {
+        background: var(--primary);
+        border-color: var(--primary);
     }
 
-    .country-list::-webkit-scrollbar-track {
-        background: #fdf0f2;
-        border-radius: 10px;
+    .custom-check:after {
+        content: "\f00c";
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        color: #FFF;
+        font-size: 12px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0);
+        transition: transform 0.2s;
     }
 
-    .country-list::-webkit-scrollbar-thumb {
-        background: #c8102e;
-        border-radius: 10px;
+    .remember-me input:checked + .custom-check:after {
+        transform: translate(-50%, -50%) scale(1);
     }
 
-    .country-list::-webkit-scrollbar-thumb:hover {
-        background: #a00d25;
+    .forgot-pwd {
+        color: var(--primary);
+        font-size: 14px;
+        font-weight: 700;
+        text-decoration: none;
     }
 
-    /* ===== RESPONSIVE ===== */
+    .auth-submit-btn {
+        width: 100%;
+        height: 60px;
+        background: var(--primary);
+        color: #FFFFFF;
+        border: none;
+        border-radius: 16px;
+        font-size: 17px;
+        font-weight: 800;
+        cursor: pointer;
+        transition: all 0.3s;
+        box-shadow: 0 10px 20px rgba(200, 16, 46, 0.15);
+    }
+
+    .auth-submit-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 15px 30px rgba(200, 16, 46, 0.25);
+        background: #A00D25;
+    }
+
+    /* Social Section */
+    .separator {
+        text-align: center;
+        position: relative;
+        margin: 35px 0;
+    }
+
+    .separator:after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 1px;
+        background: var(--border);
+        top: 50%;
+        left: 0;
+        z-index: 1;
+    }
+
+    .separator span {
+        background: #FFFFFF;
+        padding: 0 20px;
+        font-size: 14px;
+        color: #ADB5BD;
+        position: relative;
+        z-index: 2;
+        font-weight: 600;
+    }
+
+    .social-btns {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin-bottom: 30px;
+    }
+
+    .social-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        height: 56px;
+        border: 2px solid var(--border);
+        border-radius: 14px;
+        text-decoration: none;
+        transition: all 0.3s;
+    }
+
+    .social-link:hover {
+        border-color: var(--primary);
+        background: var(--primary-light);
+    }
+
+    .social-link img {
+        width: 24px;
+    }
+
+    .social-link span {
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--text-main);
+    }
+
+    .terms-text {
+        text-align: center;
+        font-size: 13px;
+        color: var(--text-muted);
+        line-height: 1.6;
+    }
+
+    .terms-text a {
+        color: var(--primary);
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+    .error-msg {
+        display: block;
+        color: var(--primary);
+        font-size: 12px;
+        font-weight: 600;
+        margin-top: 6px;
+    }
+
+    /* Animation & Switching */
+    .auth-form-content {
+        display: none;
+    }
+
+    .auth-form-content.active {
+        display: block;
+        animation: fadeIn 0.4s ease-out;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
     @media (max-width: 576px) {
-        .auth-container {
-            padding: 24px 20px;
+        .auth-box {
+            padding: 30px 20px;
         }
-
-        .tab-btn {
-            font-size: 14px;
-            padding: 10px 16px;
-        }
-
-        .country-text {
-            font-size: 12px;
-        }
-
-        .social-buttons {
-            flex-direction: column;
-        }
-
-        .social-btn {
-            width: 100%;
+        .social-btns {
+            grid-template-columns: 1fr;
         }
     }
 </style>
 
 <script>
-    {{-- Laravel session messages --}}
-    @if(session('success'))
-        showNotification("{{ session('success') }}", 'success');
-    @endif
+    function toggleAuthTab(tab) {
+        const triggers = document.querySelectorAll('.tab-trigger');
+        const contents = document.querySelectorAll('.auth-form-content');
+        const indicator = document.querySelector('.tab-indicator');
 
-    @if(session('error'))
-        showNotification("{{ session('error') }}", 'error');
-    @endif
+        triggers.forEach(t => t.classList.remove('active'));
+        contents.forEach(c => c.classList.remove('active'));
 
-    @if($errors->any())
-        @if($errors->has('email') || $errors->has('password'))
-            switchTab('signin');
-        @else
-            switchTab('signup');
-        @endif
-    @endif
+        document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
+        document.getElementById(`${tab}-content`).classList.add('active');
 
-    // ===== COUNTRY DATA =====
-    const countries = [
-        { name: 'Afghanistan',            code: '+93',    flag: '🇦🇫' },
-        { name: 'Albania',                code: '+355',   flag: '🇦🇱' },
-        { name: 'Algeria',                code: '+213',   flag: '🇩🇿' },
-        { name: 'Andorra',                code: '+376',   flag: '🇦🇩' },
-        { name: 'Angola',                 code: '+244',   flag: '🇦🇴' },
-        { name: 'Argentina',              code: '+54',    flag: '🇦🇷' },
-        { name: 'Armenia',                code: '+374',   flag: '🇦🇲' },
-        { name: 'Australia',              code: '+61',    flag: '🇦🇺' },
-        { name: 'Austria',                code: '+43',    flag: '🇦🇹' },
-        { name: 'Azerbaijan',             code: '+994',   flag: '🇦🇿' },
-        { name: 'Bahamas',                code: '+1-242', flag: '🇧🇸' },
-        { name: 'Bahrain',                code: '+973',   flag: '🇧🇭' },
-        { name: 'Bangladesh',             code: '+880',   flag: '🇧🇩' },
-        { name: 'Barbados',               code: '+1-246', flag: '🇧🇧' },
-        { name: 'Belarus',                code: '+375',   flag: '🇧🇾' },
-        { name: 'Belgium',                code: '+32',    flag: '🇧🇪' },
-        { name: 'Belize',                 code: '+501',   flag: '🇧🇿' },
-        { name: 'Benin',                  code: '+229',   flag: '🇧🇯' },
-        { name: 'Bhutan',                 code: '+975',   flag: '🇧🇹' },
-        { name: 'Bolivia',                code: '+591',   flag: '🇧🇴' },
-        { name: 'Bosnia',                 code: '+387',   flag: '🇧🇦' },
-        { name: 'Botswana',               code: '+267',   flag: '🇧🇼' },
-        { name: 'Brazil',                 code: '+55',    flag: '🇧🇷' },
-        { name: 'Brunei',                 code: '+673',   flag: '🇧🇳' },
-        { name: 'Bulgaria',               code: '+359',   flag: '🇧🇬' },
-        { name: 'Burkina Faso',           code: '+226',   flag: '🇧🇫' },
-        { name: 'Burundi',                code: '+257',   flag: '🇧🇮' },
-        { name: 'Cambodia',               code: '+855',   flag: '🇰🇭' },
-        { name: 'Cameroon',               code: '+237',   flag: '🇨🇲' },
-        { name: 'Canada',                 code: '+1',     flag: '🇨🇦' },
-        { name: 'Cape Verde',             code: '+238',   flag: '🇨🇻' },
-        { name: 'Chad',                   code: '+235',   flag: '🇹🇩' },
-        { name: 'Chile',                  code: '+56',    flag: '🇨🇱' },
-        { name: 'China',                  code: '+86',    flag: '🇨🇳' },
-        { name: 'Colombia',               code: '+57',    flag: '🇨🇴' },
-        { name: 'Comoros',                code: '+269',   flag: '🇰🇲' },
-        { name: 'Congo',                  code: '+242',   flag: '🇨🇬' },
-        { name: 'Costa Rica',             code: '+506',   flag: '🇨🇷' },
-        { name: 'Croatia',                code: '+385',   flag: '🇭🇷' },
-        { name: 'Cuba',                   code: '+53',    flag: '🇨🇺' },
-        { name: 'Cyprus',                 code: '+357',   flag: '🇨🇾' },
-        { name: 'Czech Republic',         code: '+420',   flag: '🇨🇿' },
-        { name: 'Denmark',                code: '+45',    flag: '🇩🇰' },
-        { name: 'Djibouti',               code: '+253',   flag: '🇩🇯' },
-        { name: 'Dominica',               code: '+1-767', flag: '🇩🇲' },
-        { name: 'Dominican Republic',     code: '+1-809', flag: '🇩🇴' },
-        { name: 'Ecuador',                code: '+593',   flag: '🇪🇨' },
-        { name: 'Egypt',                  code: '+20',    flag: '🇪🇬' },
-        { name: 'El Salvador',            code: '+503',   flag: '🇸🇻' },
-        { name: 'England',                code: '+44',    flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿' },
-        { name: 'Eritrea',                code: '+291',   flag: '🇪🇷' },
-        { name: 'Estonia',                code: '+372',   flag: '🇪🇪' },
-        { name: 'Ethiopia',               code: '+251',   flag: '🇪🇹' },
-        { name: 'Fiji',                   code: '+679',   flag: '🇫🇯' },
-        { name: 'Finland',                code: '+358',   flag: '🇫🇮' },
-        { name: 'France',                 code: '+33',    flag: '🇫🇷' },
-        { name: 'Gabon',                  code: '+241',   flag: '🇬🇦' },
-        { name: 'Gambia',                 code: '+220',   flag: '🇬🇲' },
-        { name: 'Georgia',                code: '+995',   flag: '🇬🇪' },
-        { name: 'Germany',                code: '+49',    flag: '🇩🇪' },
-        { name: 'Ghana',                  code: '+233',   flag: '🇬🇭' },
-        { name: 'Greece',                 code: '+30',    flag: '🇬🇷' },
-        { name: 'Grenada',                code: '+1-473', flag: '🇬🇩' },
-        { name: 'Guatemala',              code: '+502',   flag: '🇬🇹' },
-        { name: 'Guinea',                 code: '+224',   flag: '🇬🇳' },
-        { name: 'Guinea-Bissau',          code: '+245',   flag: '🇬🇼' },
-        { name: 'Guyana',                 code: '+592',   flag: '🇬🇾' },
-        { name: 'Haiti',                  code: '+509',   flag: '🇭🇹' },
-        { name: 'Honduras',               code: '+504',   flag: '🇭🇳' },
-        { name: 'Hong Kong',              code: '+852',   flag: '🇭🇰' },
-        { name: 'Hungary',                code: '+36',    flag: '🇭🇺' },
-        { name: 'Iceland',                code: '+354',   flag: '🇮🇸' },
-        { name: 'India',                  code: '+91',    flag: '🇮🇳' },
-        { name: 'Indonesia',              code: '+62',    flag: '🇮🇩' },
-        { name: 'Iran',                   code: '+98',    flag: '🇮🇷' },
-        { name: 'Iraq',                   code: '+964',   flag: '🇮🇶' },
-        { name: 'Ireland',                code: '+353',   flag: '🇮🇪' },
-        { name: 'Israel',                 code: '+972',   flag: '🇮🇱' },
-        { name: 'Italy',                  code: '+39',    flag: '🇮🇹' },
-        { name: 'Jamaica',                code: '+1-876', flag: '🇯🇲' },
-        { name: 'Japan',                  code: '+81',    flag: '🇯🇵' },
-        { name: 'Jordan',                 code: '+962',   flag: '🇯🇴' },
-        { name: 'Kazakhstan',             code: '+7',     flag: '🇰🇿' },
-        { name: 'Kenya',                  code: '+254',   flag: '🇰🇪' },
-        { name: 'Kuwait',                 code: '+965',   flag: '🇰🇼' },
-        { name: 'Kyrgyzstan',             code: '+996',   flag: '🇰🇬' },
-        { name: 'Laos',                   code: '+856',   flag: '🇱🇦' },
-        { name: 'Latvia',                 code: '+371',   flag: '🇱🇻' },
-        { name: 'Lebanon',                code: '+961',   flag: '🇱🇧' },
-        { name: 'Lesotho',                code: '+266',   flag: '🇱🇸' },
-        { name: 'Liberia',                code: '+231',   flag: '🇱🇷' },
-        { name: 'Libya',                  code: '+218',   flag: '🇱🇾' },
-        { name: 'Lithuania',              code: '+370',   flag: '🇱🇹' },
-        { name: 'Luxembourg',             code: '+352',   flag: '🇱🇺' },
-        { name: 'Madagascar',             code: '+261',   flag: '🇲🇬' },
-        { name: 'Malawi',                 code: '+265',   flag: '🇲🇼' },
-        { name: 'Malaysia',               code: '+60',    flag: '🇲🇾' },
-        { name: 'Maldives',               code: '+960',   flag: '🇲🇻' },
-        { name: 'Mali',                   code: '+223',   flag: '🇲🇱' },
-        { name: 'Malta',                  code: '+356',   flag: '🇲🇹' },
-        { name: 'Mauritania',             code: '+222',   flag: '🇲🇷' },
-        { name: 'Mauritius',              code: '+230',   flag: '🇲🇺' },
-        { name: 'Mexico',                 code: '+52',    flag: '🇲🇽' },
-        { name: 'Moldova',                code: '+373',   flag: '🇲🇩' },
-        { name: 'Monaco',                 code: '+377',   flag: '🇲🇨' },
-        { name: 'Mongolia',               code: '+976',   flag: '🇲🇳' },
-        { name: 'Montenegro',             code: '+382',   flag: '🇲🇪' },
-        { name: 'Morocco',                code: '+212',   flag: '🇲🇦' },
-        { name: 'Mozambique',             code: '+258',   flag: '🇲🇿' },
-        { name: 'Myanmar',                code: '+95',    flag: '🇲🇲' },
-        { name: 'Namibia',                code: '+264',   flag: '🇳🇦' },
-        { name: 'Nepal',                  code: '+977',   flag: '🇳🇵' },
-        { name: 'Netherlands',            code: '+31',    flag: '🇳🇱' },
-        { name: 'New Zealand',            code: '+64',    flag: '🇳🇿' },
-        { name: 'Nicaragua',              code: '+505',   flag: '🇳🇮' },
-        { name: 'Niger',                  code: '+227',   flag: '🇳🇪' },
-        { name: 'Nigeria',                code: '+234',   flag: '🇳🇬' },
-        { name: 'North Korea',            code: '+850',   flag: '🇰🇵' },
-        { name: 'Norway',                 code: '+47',    flag: '🇳🇴' },
-        { name: 'Oman',                   code: '+968',   flag: '🇴🇲' },
-        { name: 'Pakistan',               code: '+92',    flag: '🇵🇰' },
-        { name: 'Palestine',              code: '+970',   flag: '🇵🇸' },
-        { name: 'Panama',                 code: '+507',   flag: '🇵🇦' },
-        { name: 'Papua New Guinea',       code: '+675',   flag: '🇵🇬' },
-        { name: 'Paraguay',               code: '+595',   flag: '🇵🇾' },
-        { name: 'Peru',                   code: '+51',    flag: '🇵🇪' },
-        { name: 'Philippines',            code: '+63',    flag: '🇵🇭' },
-        { name: 'Poland',                 code: '+48',    flag: '🇵🇱' },
-        { name: 'Portugal',               code: '+351',   flag: '🇵🇹' },
-        { name: 'Qatar',                  code: '+974',   flag: '🇶🇦' },
-        { name: 'Romania',                code: '+40',    flag: '🇷🇴' },
-        { name: 'Russia',                 code: '+7',     flag: '🇷🇺' },
-        { name: 'Rwanda',                 code: '+250',   flag: '🇷🇼' },
-        { name: 'Saudi Arabia',           code: '+966',   flag: '🇸🇦' },
-        { name: 'Senegal',                code: '+221',   flag: '🇸🇳' },
-        { name: 'Serbia',                 code: '+381',   flag: '🇷🇸' },
-        { name: 'Singapore',              code: '+65',    flag: '🇸🇬' },
-        { name: 'Slovakia',               code: '+421',   flag: '🇸🇰' },
-        { name: 'Slovenia',               code: '+386',   flag: '🇸🇮' },
-        { name: 'Somalia',                code: '+252',   flag: '🇸🇴' },
-        { name: 'South Africa',           code: '+27',    flag: '🇿🇦' },
-        { name: 'South Korea',            code: '+82',    flag: '🇰🇷' },
-        { name: 'Spain',                  code: '+34',    flag: '🇪🇸' },
-        { name: 'Sri Lanka',              code: '+94',    flag: '🇱🇰' },
-        { name: 'Sudan',                  code: '+249',   flag: '🇸🇩' },
-        { name: 'Sweden',                 code: '+46',    flag: '🇸🇪' },
-        { name: 'Switzerland',            code: '+41',    flag: '🇨🇭' },
-        { name: 'Syria',                  code: '+963',   flag: '🇸🇾' },
-        { name: 'Taiwan',                 code: '+886',   flag: '🇹🇼' },
-        { name: 'Tajikistan',             code: '+992',   flag: '🇹🇯' },
-        { name: 'Tanzania',               code: '+255',   flag: '🇹🇿' },
-        { name: 'Thailand',               code: '+66',    flag: '🇹🇭' },
-        { name: 'Togo',                   code: '+228',   flag: '🇹🇬' },
-        { name: 'Trinidad and Tobago',    code: '+1-868', flag: '🇹🇹' },
-        { name: 'Tunisia',                code: '+216',   flag: '🇹🇳' },
-        { name: 'Turkey',                 code: '+90',    flag: '🇹🇷' },
-        { name: 'Turkmenistan',           code: '+993',   flag: '🇹🇲' },
-        { name: 'Uganda',                 code: '+256',   flag: '🇺🇬' },
-        { name: 'Ukraine',                code: '+380',   flag: '🇺🇦' },
-        { name: 'United Arab Emirates',   code: '+971',   flag: '🇦🇪' },
-        { name: 'United Kingdom',         code: '+44',    flag: '🇬🇧' },
-        { name: 'United States',          code: '+1',     flag: '🇺🇸' },
-        { name: 'Uruguay',                code: '+598',   flag: '🇺🇾' },
-        { name: 'Uzbekistan',             code: '+998',   flag: '🇺🇿' },
-        { name: 'Venezuela',              code: '+58',    flag: '🇻🇪' },
-        { name: 'Vietnam',                code: '+84',    flag: '🇻🇳' },
-        { name: 'Yemen',                  code: '+967',   flag: '🇾🇪' },
-        { name: 'Zambia',                 code: '+260',   flag: '🇿🇲' },
-        { name: 'Zimbabwe',               code: '+263',   flag: '🇿🇼' },
-    ].sort((a, b) => a.name.localeCompare(b.name));
-
-    let selectedCountry = {
-        signin: { name: 'Bangladesh', code: '+880', flag: '🇧🇩' },
-        signup: { name: 'Bangladesh', code: '+880', flag: '🇧🇩' }
-    };
-
-    // ===== INITIALIZE COUNTRY LISTS =====
-    function initializeCountryLists() {
-        populateCountryList('signup');
-    }
-
-    function populateCountryList(formType) {
-        const listElement = document.getElementById(`${formType}-country-list`);
-        listElement.innerHTML = '';
-
-        countries.forEach(country => {
-            const item = document.createElement('div');
-            item.className = 'country-item';
-            item.innerHTML = `
-                <span style="font-size: 18px;">${country.flag}</span>
-                <span class="country-item-name">${country.name}</span>
-                <span class="country-item-code">${country.code}</span>
-            `;
-            item.onclick = () => selectCountry(formType, country);
-            listElement.appendChild(item);
-        });
-    }
-
-    // ===== TOGGLE COUNTRY DROPDOWN =====
-    function toggleCountryDropdown(formType) {
-        const dropdown = document.getElementById(`${formType}-dropdown`);
-        const selector = dropdown.previousElementSibling;
-
-        document.querySelectorAll('.country-dropdown').forEach(dd => {
-            if (dd.id !== `${formType}-dropdown`) dd.classList.remove('active');
-        });
-        document.querySelectorAll('.country-selector').forEach(sel => {
-            if (!sel.nextElementSibling || sel.nextElementSibling.id !== `${formType}-dropdown`) {
-                sel.classList.remove('active');
-            }
-        });
-
-        dropdown.classList.toggle('active');
-        selector.classList.toggle('active');
-    }
-
-    // ===== SELECT COUNTRY =====
-    function selectCountry(formType, country) {
-        selectedCountry[formType] = country;
-
-        document.getElementById(`${formType}-flag`).textContent    = country.flag;
-        document.getElementById(`${formType}-country`).textContent = `${country.name} ${country.code}`;
-
-        const dropdown = document.getElementById(`${formType}-dropdown`);
-        const selector = dropdown.previousElementSibling;
-        dropdown.classList.remove('active');
-        selector.classList.remove('active');
-
-        showNotification(`Selected: ${country.name} ${country.code}`, 'success');
-    }
-
-    // ===== FILTER COUNTRIES =====
-    function filterCountries(formType, searchValue) {
-        const q = searchValue.toLowerCase();
-        const listElement = document.getElementById(`${formType}-country-list`);
-        listElement.innerHTML = '';
-
-        const filtered = countries.filter(c =>
-            c.name.toLowerCase().includes(q) || c.code.includes(q)
-        );
-
-        if (filtered.length === 0) {
-            listElement.innerHTML = '<div style="padding:20px;text-align:center;color:#bbb;font-size:13px;">No countries found</div>';
-            return;
-        }
-
-        filtered.forEach(country => {
-            const item = document.createElement('div');
-            item.className = 'country-item';
-            item.innerHTML = `
-                <span style="font-size: 18px;">${country.flag}</span>
-                <span class="country-item-name">${country.name}</span>
-                <span class="country-item-code">${country.code}</span>
-            `;
-            item.onclick = () => selectCountry(formType, country);
-            listElement.appendChild(item);
-        });
-    }
-
-    // ===== CLOSE DROPDOWN ON OUTSIDE CLICK =====
-    document.addEventListener('click', function(e) {
-        if (!e.target.closest('.phone-input-container')) {
-            document.querySelectorAll('.country-dropdown').forEach(dd => dd.classList.remove('active'));
-            document.querySelectorAll('.country-selector').forEach(sel => sel.classList.remove('active'));
-        }
-    });
-
-    // ===== SWITCH TABS =====
-    function switchTab(tab) {
-        const signinTab  = document.getElementById('signin-tab');
-        const signupTab  = document.getElementById('signup-tab');
-        const signinForm = document.getElementById('signin-form');
-        const signupForm = document.getElementById('signup-form');
-
-        if (tab === 'signin') {
-            signinTab.classList.add('active');    signupTab.classList.remove('active');
-            signinForm.classList.add('active');   signupForm.classList.remove('active');
+        if (tab === 'signup') {
+            indicator.style.transform = 'translateX(100%)';
         } else {
-            signupTab.classList.add('active');    signinTab.classList.remove('active');
-            signupForm.classList.add('active');   signinForm.classList.remove('active');
+            indicator.style.transform = 'translateX(0)';
         }
     }
 
-    // ===== TOGGLE PASSWORD =====
-    function togglePassword(inputId) {
-        const input  = document.getElementById(inputId);
-        const icon   = input.parentElement.querySelector('.toggle-password-btn i');
-
+    function togglePassVisibility(id) {
+        const input = document.getElementById(id);
+        const icon = event.currentTarget.querySelector('i');
         if (input.type === 'password') {
             input.type = 'text';
-            icon.classList.remove('fa-eye-slash');
-            icon.classList.add('fa-eye');
+            icon.className = 'far fa-eye';
         } else {
             input.type = 'password';
-            icon.classList.remove('fa-eye');
-            icon.classList.add('fa-eye-slash');
+            icon.className = 'far fa-eye-slash';
         }
     }
 
-    // ===== COPY PHONE NUMBER =====
-    function copyPhoneNumber(inputId) {
-        const val = document.getElementById(inputId).value;
-        if (val) {
-            navigator.clipboard.writeText(val)
-                .then(()  => showNotification('Phone number copied!', 'success'))
-                .catch(()  => showNotification('Failed to copy', 'error'));
-        } else {
-            showNotification('No phone number to copy', 'error');
+    window.addEventListener('load', () => {
+        if (window.location.pathname.includes('register')) {
+            toggleAuthTab('signup');
         }
-    }
-
-    // ===== SOCIAL LOGIN =====
-    function continueWithGoogle() {
-        showNotification('Google login coming soon...', 'info');
-    }
-
-    function continueWithFacebook() {
-        showNotification('Facebook login coming soon...', 'info');
-    }
-
-    // ===== SHOW NOTIFICATION =====
-    function showNotification(message, type = 'success') {
-        const existing = document.querySelector('.toast-notification');
-        if (existing) existing.remove();
-
-        const toast = document.createElement('div');
-        toast.className = 'toast-notification';
-
-        const colors = {
-            success: '#c8102e',
-            error:   '#333333',
-            info:    '#2196f3'
-        };
-
-        toast.style.background = colors[type] || '#c8102e';
-        toast.textContent = message;
-        document.body.appendChild(toast);
-
-        setTimeout(() => {
-            toast.style.animation = 'slideOut 0.35s ease';
-            setTimeout(() => toast.remove(), 350);
-        }, 3000);
-    }
-
-    // ===== INIT =====
-    document.addEventListener('DOMContentLoaded', function () {
-        switchTab('signin');
-        initializeCountryLists();
     });
 </script>
 
-</body>
-</html>
+@include('frontend.pages.footer')

@@ -198,7 +198,19 @@
                                                     <i class="bi bi-image" style="color:#ccc;font-size:20px;"></i>
                                                 </div>
                                             @endif
-                                            <div style="font-weight:600;font-size:13px;">{{ $item->product_name }}</div>
+                                            <div>
+                                                <div style="font-weight:600;font-size:13px;">{{ $item->product_name }}</div>
+                                                @if($item->selected_color)
+                                                    <div style="font-size:11px;color:#718096;margin-top:2px;">
+                                                        <i class="bi bi-palette me-1"></i>রঙ: {{ $item->selected_color }}
+                                                    </div>
+                                                @endif
+                                                @if($item->selected_size)
+                                                    <div style="font-size:11px;color:#718096;margin-top:1px;">
+                                                        <i class="bi bi-rulers me-1"></i>সাইজ: {{ $item->selected_size }}
+                                                    </div>
+                                                @endif
+                                            </div>
                                         </div>
                                     </td>
                                     <td>৳{{ number_format($item->price, 2) }}</td>

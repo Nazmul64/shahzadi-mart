@@ -38,6 +38,11 @@
     $posOrdersActive  = request()->routeIs('admin.pos.orders');
     $staffHistoryActive = request()->routeIs('admin.order-history.*');
     $assignActive       = request()->routeIs('admin.order.assignments.*');
+    $purchaseActive = request()->routeIs('admin.suppliers.*')
+                   || request()->routeIs('admin.purchases.*')
+                   || request()->routeIs('admin.purchases.report')
+                   || request()->routeIs('admin.purchases.summary')
+                   || request()->routeIs('admin.purchase-returns.*');
 @endphp
 
 <style>
@@ -516,6 +521,37 @@ body.sb-collapsed .sb-user-info, body.sb-collapsed .sb-logout-btn { display: non
             <i class="bi bi-sliders"></i> Settings
         </a>
         @endif
+    </div>
+</div>
+@endif
+
+{{-- ════ PURCHASE MANAGEMENT ════ --}}
+@if($u->isSuperAdmin() || $u->hasAnyPermission(['view-purchases','create-purchases']))
+<div class="sb-sep"></div>
+<div class="sb-item {{ $purchaseActive ? 'active open' : '' }}" onclick="sbToggle(this)">
+    <span class="sb-left"><i class="bi bi-cart-fill sb-ico"></i><span class="sb-text">Purchase</span></span>
+    <i class="bi bi-chevron-right sb-arr"></i>
+</div>
+<div class="sb-sub {{ $purchaseActive ? 'open' : '' }}">
+    <div class="sb-sub-inner">
+        <a href="{{ route('admin.purchases.report') }}" class="{{ request()->routeIs('admin.purchases.report') ? 'active' : '' }}">
+            <i class="bi bi-bar-chart-fill"></i> Stock Report
+        </a>
+        <a href="{{ route('admin.purchases.create') }}" class="{{ request()->routeIs('admin.purchases.create') ? 'active' : '' }}">
+            <i class="bi bi-plus-circle"></i> Add New Purchase
+        </a>
+        <a href="{{ route('admin.purchases.index') }}" class="{{ request()->routeIs('admin.purchases.index') ? 'active' : '' }}">
+            <i class="bi bi-receipt"></i> Purchase Invoices
+        </a>
+        <a href="{{ route('admin.purchases.summary') }}" class="{{ request()->routeIs('admin.purchases.summary') ? 'active' : '' }}">
+            <i class="bi bi-clipboard-data"></i> Purchase Summary
+        </a>
+        <a href="{{ route('admin.purchase-returns.index') }}" class="{{ request()->routeIs('admin.purchase-returns.index') ? 'active' : '' }}">
+            <i class="bi bi-arrow-return-left"></i> Purchase Returns
+        </a>
+        <a href="{{ route('admin.purchase-returns.create') }}" class="{{ request()->routeIs('admin.purchase-returns.create') ? 'active' : '' }}">
+            <i class="bi bi-plus-square"></i> Add Purchase Return
+        </a>
     </div>
 </div>
 @endif

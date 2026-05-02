@@ -16,6 +16,8 @@ use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\Shurjopay;
 use App\Models\ShippingCharge;
+use App\Models\Ipblockmanage;
+use App\Models\Duplicateordersetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -54,6 +56,36 @@ class CheckoutController extends Controller
 
     public function place(Request $request)
     {
+        // ── 1. IP Block Check ─────────────────────────────────────
+        $clientIp = $request->ip();
+        $isBlocked = Ipblockmanage::where('ip_address', $clientIp)
+            ->where('is_active', true)
+            ->exists();
+
+        if ($isBlocked) {
+            return redirect()->back()->with('error', 'আপনার IP ব্লক করা হয়েছে। অনুগ্রহ করে কর্তৃপক্ষের সাথে যোগাযোগ করুন।');
+        }
+
+        // ── 2. Duplicate Order Check ──────────────────────────────
+        $dupSettings = Duplicateordersetting::instance();
+        if (!$dupSettings->allow_duplicate_orders) {
+            $timeLimit = $dupSettings->duplicate_time_limit ?: 1; // in minutes
+            
+            // Check for recent orders with same phone or IP
+            $recentOrder = Order::where(function($q) use ($request, $clientIp) {
+                    $q->where('phone', $request->phone)
+                      ->orWhere('ip_address', $clientIp);
+                })
+                ->where('created_at', '>=', now()->subMinutes($timeLimit))
+                ->latest()
+                ->first();
+
+            if ($recentOrder) {
+                $msg = $dupSettings->duplicate_check_message ?: 'অল্প সময়ের মধ্যে একাধিক অর্ডার করা সম্ভব নয়। অনুগ্রহ করে কিছুক্ষণ পর আবার চেষ্টা করুন।';
+                return redirect()->back()->with('error', $msg);
+            }
+        }
+
         $request->validate([
             'customer_name'      => 'required|string|max:120',
             'phone'              => 'required|string|max:20',
@@ -208,6 +240,7 @@ class CheckoutController extends Controller
                 'delivery_fee'   => $pending['delivery_fee'],
                 'total'          => $pending['total'],
                 'coupon_code'    => $pending['coupon_code']    ?? null,
+                'ip_address'     => request()->ip(),
             ]);
 
             // ── Order Items + Stock Decrement ──────────────────────

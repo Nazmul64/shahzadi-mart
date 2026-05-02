@@ -211,6 +211,11 @@
 .ao-pagination { padding: 16px 20px; border-top: 1px solid #f0f2f8; }
 .ao-empty { text-align: center; padding: 60px 20px; color: #aaa; }
 .ao-empty i { font-size: 48px; display: block; margin-bottom: 12px; }
+
+/* ── Attribute Tags ── */
+.attr-tag { font-size: 10px; padding: 1px 6px; border-radius: 4px; font-weight: 600; margin-right: 3px; display: inline-block; }
+.attr-color { background: #FFF5F6; color: #C8102E; border: 1px solid #FFEBEB; }
+.attr-size  { background: #F0F7FF; color: #007BFF; border: 1px solid #E1EFFF; }
 </style>
 
 <div class="ao-wrapper">
@@ -331,6 +336,8 @@
                                 <th>Action</th>
                                 <th>Invoice</th>
                                 <th>Date</th>
+                                <th>Color</th>
+                                <th>Size</th>
                                 <th>Customer</th>
                                 <th>Phone</th>
                                 <th>Amount</th>
@@ -426,6 +433,24 @@
                                 <td>
                                     <div class="ao-date">{{ $order->created_at->format('d-m-Y') }}</div>
                                     <div class="ao-time">{{ $order->created_at->format('h:i A') }}</div>
+                                </td>
+
+                                {{-- Color --}}
+                                <td>
+                                    @foreach($order->items as $item)
+                                        @if($item->selected_color)
+                                            <span class="attr-tag attr-color">{{ $item->selected_color }}</span>
+                                        @endif
+                                    @endforeach
+                                </td>
+
+                                {{-- Size --}}
+                                <td>
+                                    @foreach($order->items as $item)
+                                        @if($item->selected_size)
+                                            <span class="attr-tag attr-size">{{ $item->selected_size }}</span>
+                                        @endif
+                                    @endforeach
                                 </td>
 
                                 {{-- Customer --}}

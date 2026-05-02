@@ -24,6 +24,7 @@ class Order extends Model
         'total',
         'coupon_code',
         'assigned_user_id',
+        'ip_address',
     ];
 
     // ── Status Labels ──────────────────────────────────────────────
@@ -99,5 +100,10 @@ class Order extends Model
 public function steadfastOrder()
 {
     return $this->hasOne(SteadfastOrder::class);
+}
+
+public function pathaoOrder()
+{
+    return $this->hasOne(PathaoOrder::class);
 }
 }

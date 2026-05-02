@@ -15,10 +15,6 @@ use Illuminate\View\View;
 
 class CartController extends Controller
 {
-    // ══════════════════════════════════════════════════════════════════════════
-    //  CART INDEX  ─ GET /cart
-    // ══════════════════════════════════════════════════════════════════════════
-
     public function index(): View
     {
         $cartItems      = session()->get('cart', []);
@@ -28,47 +24,39 @@ class CartController extends Controller
         return view('frontend.cart', compact('cartItems', 'couponCode', 'couponDiscount'));
     }
 
-    // ══════════════════════════════════════════════════════════════════════════
-    //  ADD TO CART  ─ POST /cart/add/{id}
-    //
-    //  ✅ KEY LOGIC:
-    //     redirect_to_checkout = 1  →  cart add হবে তারপর সরাসরি /checkout
-    //     redirect_to_checkout নেই →  normal cart / AJAX response
-    // ══════════════════════════════════════════════════════════════════════════
-
+    /**
+     * ADD TO CART - Handles single or multiple colors/sizes
+     */
     public function add(Request $request, int $id): JsonResponse|RedirectResponse
     {
-        /* ── Product খোঁজো ─────────────────────────────────────────────── */
         $product = Product::where('id', $id)
                           ->where('status', 'active')
                           ->firstOrFail();
 
-        /* ── স্টক চেক ──────────────────────────────────────────────────── */
         if (! $product->is_unlimited && ($product->stock ?? 0) < 1) {
             $msg = '"' . $product->name . '" স্টকে নেই।';
-
             return $this->isAjax($request)
-                ? response()->json([
-                    'success'    => false,
-                    'message'    => $msg,
-                    'cart_count' => $this->cartCount(),
-                ], 422)
+                ? response()->json(['success' => false, 'message' => $msg, 'cart_count' => $this->cartCount()], 422)
                 : redirect()->back()->with('error', $msg);
         }
 
-        /* ── Input sanitize ─────────────────────────────────────────────── */
-        $selectedColor = trim((string) $request->input('selected_color', '')) ?: null;
-        $selectedSize  = trim((string) $request->input('selected_size',  '')) ?: null;
-        $qty           = max(1, (int) $request->input('quantity', 1));
+        /* ── Multiple selections ────────────────────────────────────────── */
+        $colors = $request->input('selected_color');
+        $sizes  = $request->input('selected_size');
 
-        /* ── Cart key: product + variant combo ──────────────────────────── */
+        // Normalize to strings for display and key generation
+        $selectedColor = is_array($colors) ? implode(', ', array_filter($colors)) : trim((string)$colors);
+        $selectedSize  = is_array($sizes)  ? implode(', ', array_filter($sizes))  : trim((string)$sizes);
+
+        if (empty($selectedColor)) $selectedColor = null;
+        if (empty($selectedSize))  $selectedSize  = null;
+
+        $qty = max(1, (int) $request->input('quantity', 1));
+
+        /* ── Cart key ────────────────────────────────────────────────── */
         $cartKey = $this->buildCartKey($product->id, $selectedColor, $selectedSize);
-
-        /* ── সর্বোচ্চ qty ───────────────────────────────────────────────── */
-        $maxQty = $product->is_unlimited ? 9999 : (int) ($product->stock ?? 9999);
-
-        /* ── Session আপডেট ──────────────────────────────────────────────── */
-        $cart = session()->get('cart', []);
+        $maxQty  = $product->is_unlimited ? 9999 : (int) ($product->stock ?? 9999);
+        $cart    = session()->get('cart', []);
 
         if (isset($cart[$cartKey])) {
             $cart[$cartKey]['quantity'] = min($cart[$cartKey]['quantity'] + $qty, $maxQty);
@@ -91,20 +79,12 @@ class CartController extends Controller
 
         session()->put('cart', $cart);
 
-        /* ══════════════════════════════════════════════════════════════════
-           ✅ CHECKOUT REDIRECT — মূল পরিবর্তন এখানে
-           index.blade.php / product page এর "অর্ডার করুন" form এ
-           <input type="hidden" name="redirect_to_checkout" value="1"> থাকে
-           → cart add হওয়ার পর সরাসরি checkout page এ যাবে
-        ══════════════════════════════════════════════════════════════════ */
         if ($request->input('redirect_to_checkout') == '1') {
             return redirect()->route('checkout')
-                ->with('success', '"' . $product->name . '" cart এ যোগ হয়েছে। এখন অর্ডার সম্পন্ন করুন।');
+                ->with('success', '"' . $product->name . '" যোগ হয়েছে। এখন অর্ডার সম্পন্ন করুন।');
         }
 
-        /* ── AJAX response ──────────────────────────────────────────────── */
         $successMsg = '"' . $product->name . '" কার্টে যোগ হয়েছে!';
-
         return $this->isAjax($request)
             ? response()->json([
                 'success'    => true,
@@ -115,10 +95,6 @@ class CartController extends Controller
             : redirect()->back()->with('success', $successMsg);
     }
 
-    // ══════════════════════════════════════════════════════════════════════════
-    //  REMOVE FROM CART  ─ POST /cart/remove/{key}
-    // ══════════════════════════════════════════════════════════════════════════
-
     public function remove(Request $request, string $key): JsonResponse|RedirectResponse
     {
         $cart = session()->get('cart', []);
@@ -127,33 +103,20 @@ class CartController extends Controller
         session()->put('cart', $cart);
 
         $msg = '"' . $name . '" কার্ট থেকে সরানো হয়েছে।';
-
         return $this->isAjax($request)
-            ? response()->json([
-                'success'    => true,
-                'message'    => $msg,
-                'cart_count' => $this->cartCount(),
-            ])
+            ? response()->json(['success' => true, 'message' => $msg, 'cart_count' => $this->cartCount()])
             : redirect()->back()->with('success', $msg);
     }
-
-    // ══════════════════════════════════════════════════════════════════════════
-    //  INCREASE QTY  ─ POST /cart/increase/{key}
-    // ══════════════════════════════════════════════════════════════════════════
 
     public function increase(Request $request, string $key): JsonResponse|RedirectResponse
     {
         $cart = session()->get('cart', []);
-
         if (isset($cart[$key])) {
             $product = Product::find($cart[$key]['product_id']);
-            $maxQty  = ($product && ! $product->is_unlimited)
-                       ? (int) ($product->stock ?? 9999)
-                       : 9999;
+            $maxQty  = ($product && ! $product->is_unlimited) ? (int) ($product->stock ?? 9999) : 9999;
             $cart[$key]['quantity'] = min($cart[$key]['quantity'] + 1, $maxQty);
             session()->put('cart', $cart);
         }
-
         return $this->isAjax($request)
             ? response()->json([
                 'success'    => true,
@@ -165,23 +128,14 @@ class CartController extends Controller
             : redirect()->back();
     }
 
-    // ══════════════════════════════════════════════════════════════════════════
-    //  DECREASE QTY  ─ POST /cart/decrease/{key}
-    // ══════════════════════════════════════════════════════════════════════════
-
     public function decrease(Request $request, string $key): JsonResponse|RedirectResponse
     {
         $cart = session()->get('cart', []);
-
         if (isset($cart[$key])) {
-            if ($cart[$key]['quantity'] <= 1) {
-                unset($cart[$key]);
-            } else {
-                $cart[$key]['quantity']--;
-            }
+            if ($cart[$key]['quantity'] <= 1) unset($cart[$key]);
+            else $cart[$key]['quantity']--;
             session()->put('cart', $cart);
         }
-
         return $this->isAjax($request)
             ? response()->json([
                 'success'    => true,
@@ -194,31 +148,17 @@ class CartController extends Controller
             : redirect()->back();
     }
 
-    // ══════════════════════════════════════════════════════════════════════════
-    //  CLEAR CART  ─ POST /cart/clear
-    // ══════════════════════════════════════════════════════════════════════════
-
     public function clear(Request $request): JsonResponse|RedirectResponse
     {
         session()->forget(['cart', 'coupon_code', 'coupon_discount', 'coupon_id']);
-
         return $this->isAjax($request)
-            ? response()->json([
-                'success'    => true,
-                'message'    => 'কার্ট পরিষ্কার হয়েছে।',
-                'cart_count' => 0,
-            ])
+            ? response()->json(['success' => true, 'message' => 'কার্ট পরিষ্কার হয়েছে।', 'cart_count' => 0])
             : redirect()->route('cart.index')->with('success', 'কার্ট পরিষ্কার হয়েছে।');
     }
-
-    // ══════════════════════════════════════════════════════════════════════════
-    //  APPLY COUPON  ─ POST /cart/coupon
-    // ══════════════════════════════════════════════════════════════════════════
 
     public function coupon(Request $request): RedirectResponse
     {
         $request->validate(['coupon_code' => 'required|string|max:50']);
-
         $coupon = Coupon::where('code', strtoupper($request->coupon_code))
                         ->where('status', 'active')
                         ->where(function ($q) {
@@ -226,45 +166,25 @@ class CartController extends Controller
                         })
                         ->first();
 
-        if (! $coupon) {
-            return redirect()->back()->with('error', 'কুপন কোডটি সঠিক নয় বা মেয়াদ শেষ।');
-        }
-
-        if ($coupon->max_uses && $coupon->used >= $coupon->max_uses) {
-            return redirect()->back()->with('error', 'কুপনটির ব্যবহার সীমা শেষ।');
-        }
+        if (! $coupon) return redirect()->back()->with('error', 'কুপন কোডটি সঠিক নয়।');
+        if ($coupon->max_uses && $coupon->used >= $coupon->max_uses) return redirect()->back()->with('error', 'কুপনটির ব্যবহার সীমা শেষ।');
 
         $cartItems = session()->get('cart', []);
-        $subtotal  = collect($cartItems)->sum(
-            fn ($i) => (($i['discount_price'] ?? null) ?: $i['price']) * $i['quantity']
-        );
+        $subtotal  = collect($cartItems)->sum(fn ($i) => (($i['discount_price'] ?? null) ?: $i['price']) * $i['quantity']);
 
-        $discount = $coupon->type === 'percent'
-            ? round($subtotal * $coupon->value / 100, 2)
-            : min((float) $coupon->value, $subtotal);
+        $discount = $coupon->type === 'percent' ? round($subtotal * $coupon->value / 100, 2) : min((float) $coupon->value, $subtotal);
 
         session()->put('coupon_code',     $coupon->code);
         session()->put('coupon_discount', $discount);
         session()->put('coupon_id',       $coupon->id);
 
-        return redirect()->back()->with(
-            'success',
-            'কুপন প্রয়োগ হয়েছে! ৳' . number_format($discount, 2) . ' ছাড় পেয়েছেন।'
-        );
+        return redirect()->back()->with('success', 'কুপন প্রয়োগ হয়েছে!');
     }
-
-    // ══════════════════════════════════════════════════════════════════════════
-    //  CART COUNT (AJAX badge refresh)  ─ GET /cart/count
-    // ══════════════════════════════════════════════════════════════════════════
 
     public function count(): JsonResponse
     {
         return response()->json(['cart_count' => $this->cartCount()]);
     }
-
-    // ══════════════════════════════════════════════════════════════════════════
-    //  PRIVATE HELPERS
-    // ══════════════════════════════════════════════════════════════════════════
 
     private function buildCartKey(int $productId, ?string $color, ?string $size): string
     {
@@ -282,22 +202,16 @@ class CartController extends Controller
     {
         if (empty($item)) return 0.0;
         $price = ($item['discount_price'] ?? null) ?: $item['price'];
-
         return round((float) $price * (int) ($item['quantity'] ?? 1), 2);
     }
 
     private function cartTotal(array $cart): float
     {
-        return round(
-            collect($cart)->sum(fn ($i) => $this->lineSubtotal($i)),
-            2
-        );
+        return round(collect($cart)->sum(fn ($i) => $this->lineSubtotal($i)), 2);
     }
 
     private function isAjax(Request $request): bool
     {
-        return $request->ajax()
-            || $request->wantsJson()
-            || $request->expectsJson();
+        return $request->ajax() || $request->wantsJson() || $request->expectsJson();
     }
 }

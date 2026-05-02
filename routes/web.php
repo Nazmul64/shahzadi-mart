@@ -55,6 +55,10 @@ use App\Http\Controllers\Admin\TremsandcondationsController;
 use App\Http\Controllers\Admin\UnitController;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\WebsitefaviconController;
+use App\Http\Controllers\Admin\SupplierController;
+use App\Http\Controllers\Admin\PurchaseController;
+use App\Http\Controllers\Admin\PurchaseReportController;
+use App\Http\Controllers\Admin\PurchaseReturnController;
 use App\Http\Controllers\Frontend\AuthController;
 use App\Http\Controllers\Frontend\BkashController;
 use App\Http\Controllers\Frontend\CartController;
@@ -439,6 +443,7 @@ Route::middleware(['admin'])
     // ──────────────────────────────────────────────────────────────────────────
     Route::prefix('incomplete-orders')->name('incomplete-orders.')->group(function () {
         Route::get('/', [AdminIncompleteOrderController::class, 'index'])->name('index');
+        Route::get('/', [AdminIncompleteOrderController::class, 'index'])->name('index');
 
         // Bulk (static — BEFORE parameterised)
         Route::delete('bulk-delete',           [AdminIncompleteOrderController::class, 'bulkDelete']      )->name('bulk-delete');
@@ -570,10 +575,32 @@ Route::middleware(['admin'])
     Route::resource('blog-categories', App\Http\Controllers\Admin\BlogCategoryController::class);
     Route::resource('blog-posts', App\Http\Controllers\Admin\BlogPostController::class);
 
-    // ── Mail Setting ──────────────────────────────────────────────────────────
     Route::get ('mail-setting',        [App\Http\Controllers\Admin\MailsettingController::class, 'index'] )->name('mail.index');
     Route::post('mail-setting/update', [App\Http\Controllers\Admin\MailsettingController::class, 'update'])->name('mail.update');
     Route::post('mail-setting/test',   [App\Http\Controllers\Admin\MailsettingController::class, 'sendTestMail'])->name('mail.test');
+
+    // ── Purchase Management ────────────────────────────────────
+    // ── Suppliers ──────────────────────────────────────────────────
+    Route::resource('suppliers', SupplierController::class);
+    Route::post('suppliers/{id}/toggle-status', [SupplierController::class, 'toggleStatus'])->name('suppliers.toggle');
+
+    // ── Purchases ──────────────────────────────────────────────────
+    Route::get ('purchases/export',              [PurchaseController::class, 'exportExcel']     )->name('purchases.export');
+    Route::get ('purchases/summary',             [PurchaseController::class, 'summary']          )->name('purchases.summary');
+    Route::get ('purchases/{purchase}/pdf',       [PurchaseController::class, 'downloadPdf']     )->name('purchases.pdf');
+    Route::resource('purchases', PurchaseController::class);
+    Route::post  ('purchases/{purchase}/attach-items',   [PurchaseController::class, 'attachItems']  )->name('purchases.attach');
+    Route::delete('purchases/items/{item}',              [PurchaseController::class, 'removeItem']   )->name('purchases.remove-item');
+    Route::patch ('purchases/{purchase}/mark-received',  [PurchaseController::class, 'markAsReceived'])->name('purchases.mark-received');
+
+    // ── Purchase Reports ───────────────────────────────────────────
+    Route::get('purchase-report',        [PurchaseReportController::class, 'stockReport']      )->name('purchases.report');
+    Route::get('purchase-stock-export',  [PurchaseReportController::class, 'exportStockExcel'] )->name('purchases.stock-export');
+
+    // ── Purchase Returns ───────────────────────────────────────────
+    Route::resource('purchase-returns', PurchaseReturnController::class);
+    Route::patch('purchase-returns/{purchaseReturn}/approve', [PurchaseReturnController::class, 'approve'])->name('purchase-returns.approve');
+    Route::patch('purchase-returns/{purchaseReturn}/reject',  [PurchaseReturnController::class, 'reject'] )->name('purchase-returns.reject');
 
 }); // end admin group
 
@@ -650,6 +677,11 @@ Route::middleware(['emplee'])->group(function () {
     // ── Blog ──────────────────────────────────────────────────────────────────
     Route::resource('emplee/blog-categories', App\Http\Controllers\Admin\BlogCategoryController::class, ['as' => 'emplee']);
     Route::resource('emplee/blog-posts', App\Http\Controllers\Admin\BlogPostController::class, ['as' => 'emplee']);
+
+    // ── Purchase Management ────────────────────────────────────
+    Route::resource('emplee/suppliers', SupplierController::class, ['as' => 'emplee']);
+    Route::resource('emplee/purchases', PurchaseController::class, ['as' => 'emplee']);
+    Route::get('emplee/purchase-report', [PurchaseReportController::class, 'stockReport'])->name('emplee.purchases.report');
 });
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -717,6 +749,11 @@ Route::middleware(['manager'])->group(function () {
     // ── Blog ──────────────────────────────────────────────────────────────────
     Route::resource('manager/blog-categories', App\Http\Controllers\Admin\BlogCategoryController::class, ['as' => 'manager']);
     Route::resource('manager/blog-posts', App\Http\Controllers\Admin\BlogPostController::class, ['as' => 'manager']);
+
+    // ── Purchase Management ────────────────────────────────────
+    Route::resource('manager/suppliers', SupplierController::class, ['as' => 'manager']);
+    Route::resource('manager/purchases', PurchaseController::class, ['as' => 'manager']);
+    Route::get('manager/purchase-report', [PurchaseReportController::class, 'stockReport'])->name('manager.purchases.report');
 });
 
 // ══════════════════════════════════════════════════════════════════════════════

@@ -32,6 +32,11 @@
 .sf-no { background:#f3f4f6; color:#9ca3af; }
 .inv-num { font-weight:700; color:#6366f1; }
 .inv-date { font-size:11px; color:#94a3b8; }
+
+/* Attribute Tags */
+.attr-tag { font-size:10px; padding:1px 5px; border-radius:4px; font-weight:700; margin-right:3px; display:inline-block; margin-top:2px; }
+.attr-color { background:#fee2e2; color:#b91c1c; border:1px solid #fecaca; }
+.attr-size  { background:#e0f2fe; color:#0369a1; border:1px solid #bae6fd; }
 </style>
 
 <div class="ao-wrapper">
@@ -71,114 +76,136 @@
             </button>
             @endif
             <span id="selCount" style="font-size:12px;color:#64748b;margin-left:4px;">0 selected</span>
-            <form method="GET" action="{{ route('emplee.orders.index') }}" class="ms-auto d-flex gap-2">
+            <div class="ms-auto d-flex gap-2">
                 <input type="text" name="search" value="{{ request('search') }}" class="form-control form-control-sm"
                        placeholder="Search…" style="width:190px;border-radius:8px;">
-                <button type="submit" class="ao-btn" style="background:#6366f1;color:#fff;"><i class="bi bi-search"></i></button>
-            </form>
-        </div>
-
-        <div class="ao-card">
-            <div class="table-responsive">
-                <table class="ao-table">
-                    <thead>
-                        <tr>
-                            <th style="width:36px;" class="cb-wrap"><input type="checkbox" id="checkAll"></th>
-                            <th>Invoice</th>
-                            <th>Actions</th>
-                            <th>Customer</th>
-                            <th>Amount</th>
-                            <th>Status</th>
-                            <th>Courier</th>
-                            <th>Handled By</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($orders as $order)
-                        @php $sf = $order->steadfastOrder; @endphp
-                        <tr>
-                            <td class="cb-wrap"><input type="checkbox" name="order_ids[]" value="{{ $order->id }}" class="row-check"></td>
-                            <td>
-                                <div class="inv-num">{{ $order->order_number }}</div>
-                                <div class="inv-date">{{ $order->created_at->format('d M, h:i A') }}</div>
-                            </td>
-                            <td>
-                                <div class="d-flex gap-1">
-                                    <a href="{{ route('emplee.orders.show', $order->id) }}" class="ic-btn" title="View"><i class="bi bi-eye"></i></a>
-                                    @php
-                                        $isConfirmed = $order->order_status !== 'pending' || ($sf && $sf->is_sent) || $order->pathaoOrder;
-                                        $canEditDelete = $u->isAdmin() || $u->isSuperAdmin() || !$isConfirmed;
-                                    @endphp
-                                    @if($canEditDelete)
-                                    <a href="{{ route('emplee.orders.edit', $order->id) }}" class="ic-btn" title="Edit"><i class="bi bi-pencil"></i></a>
-                                    @endif
-                                    <form method="POST" action="{{ route('emplee.orders.steadfast.send', $order->id) }}" style="margin:0">
-                                        @csrf
-                                        <button class="ic-btn" title="Steadfast"><i class="bi bi-truck"></i></button>
-                                    </form>
-                                    <form method="POST" action="{{ route('emplee.orders.pathao.send', $order->id) }}" style="margin:0">
-                                        @csrf
-                                        <button class="ic-btn" title="Pathao"><i class="bi bi-send"></i></button>
-                                    </form>
-                                    @if($canEditDelete && ($u->isSuperAdmin() || $u->hasPermission('delete-orders')))
-                                    <form method="POST" action="{{ route('emplee.orders.destroy', $order->id) }}" style="margin:0"
-                                          onsubmit="return confirm('Delete this order?')">
-                                        @csrf @method('DELETE')
-                                        <button class="ic-btn red"><i class="bi bi-trash"></i></button>
-                                    </form>
-                                    @endif
-                                </div>
-                            </td>
-                            <td>
-                                <div style="font-weight:600;">{{ $order->customer_name }}</div>
-                                <small style="color:#94a3b8;">{{ $order->phone }}</small>
-                            </td>
-                            <td style="font-weight:700;color:#6366f1;">৳{{ number_format($order->total, 0) }}</td>
-                            <td>
-                                <form method="POST" action="{{ route('emplee.orders.status', $order->id) }}">
-                                    @csrf @method('PATCH')
-                                    <select name="order_status" class="stat-sel" onchange="this.form.submit()">
-                                        @foreach(\App\Models\Order::$orderStatuses as $val => $label)
-                                            <option value="{{ $val }}" {{ $order->order_status === $val ? 'selected' : '' }}>{{ $label }}</option>
-                                        @endforeach
-                                    </select>
-                                </form>
-                            </td>
-                            <td>
-                                @if($sf && $sf->is_sent)
-                                    <span class="sf-badge sf-sent"><i class="bi bi-truck"></i> Sent</span>
-                                @else
-                                    <span class="sf-badge sf-no">Not Sent</span>
-                                @endif
-                            </td>
-                            <td>
-                                <form method="POST" action="{{ route('emplee.orders.assign-staff', $order->id) }}">
-                                    @csrf @method('PATCH')
-                                    <select name="assigned_user_id" class="staff-sel" onchange="this.form.submit()">
-                                        <option value="">— Unassigned —</option>
-                                        @foreach($staffUsers as $staff)
-                                            <option value="{{ $staff->id }}" {{ $order->assigned_user_id == $staff->id ? 'selected' : '' }}>
-                                                {{ $staff->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </form>
-                            </td>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td colspan="8" class="text-center py-5 text-muted">
-                                <i class="bi bi-inbox" style="font-size:2rem;"></i>
-                                <div class="mt-2">No orders found</div>
-                            </td>
-                        </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+                <button type="submit" form="searchForm" class="ao-btn" style="background:#6366f1;color:#fff;"><i class="bi bi-search"></i></button>
             </div>
-            <div class="p-3">{{ $orders->appends(request()->query())->links() }}</div>
         </div>
     </form>
+    
+    <form method="GET" action="{{ route('emplee.orders.index') }}" id="searchForm" style="display:none"></form>
+
+    <div class="ao-card">
+        <div class="table-responsive">
+            <table class="ao-table">
+                <thead>
+                    <tr>
+                        <th style="width:36px;" class="cb-wrap"><input type="checkbox" id="checkAll"></th>
+                        <th>Invoice</th>
+                        <th>Actions</th>
+                        <th>Color</th>
+                        <th>Size</th>
+                        <th>Customer</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Courier</th>
+                        <th>Handled By</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($orders as $order)
+                    @php $sf = $order->steadfastOrder; @endphp
+                    <tr>
+                        <td class="cb-wrap"><input type="checkbox" name="order_ids[]" value="{{ $order->id }}" class="row-check" form="bulkForm"></td>
+                        <td>
+                            <div class="inv-num">{{ $order->order_number }}</div>
+                            <div class="inv-date">{{ $order->created_at->format('d M, h:i A') }}</div>
+                        </td>
+                        <td>
+                            <div class="d-flex gap-1">
+                                <a href="{{ route('emplee.orders.show', $order->id) }}" class="ic-btn" title="View"><i class="bi bi-eye"></i></a>
+                                @php
+                                    $isConfirmed = $order->order_status !== 'pending' || ($sf && $sf->is_sent) || $order->pathaoOrder;
+                                    $canEditDelete = $u->isAdmin() || $u->isSuperAdmin() || !$isConfirmed;
+                                @endphp
+                                @if($canEditDelete)
+                                <a href="{{ route('emplee.orders.edit', $order->id) }}" class="ic-btn" title="Edit"><i class="bi bi-pencil"></i></a>
+                                @endif
+                                <form method="POST" action="{{ route('emplee.orders.steadfast.send', $order->id) }}" style="margin:0">
+                                    @csrf
+                                    <button class="ic-btn" title="Steadfast"><i class="bi bi-truck"></i></button>
+                                </form>
+                                <form method="POST" action="{{ route('emplee.orders.pathao.send', $order->id) }}" style="margin:0">
+                                    @csrf
+                                    <button class="ic-btn" title="Pathao"><i class="bi bi-send"></i></button>
+                                </form>
+                                @if($canEditDelete && ($u->isSuperAdmin() || $u->hasPermission('delete-orders')))
+                                <form method="POST" action="{{ route('emplee.orders.destroy', $order->id) }}" style="margin:0"
+                                      onsubmit="return confirm('Delete this order?')">
+                                    @csrf @method('DELETE')
+                                    <button class="ic-btn red"><i class="bi bi-trash"></i></button>
+                                </form>
+                                @endif
+                            </div>
+                        </td>
+
+                        {{-- Color --}}
+                        <td>
+                            @foreach($order->items as $item)
+                                @if($item->selected_color)
+                                    <span class="attr-tag attr-color">{{ $item->selected_color }}</span>
+                                @endif
+                            @endforeach
+                        </td>
+
+                        {{-- Size --}}
+                        <td>
+                            @foreach($order->items as $item)
+                                @if($item->selected_size)
+                                    <span class="attr-tag attr-size">{{ $item->selected_size }}</span>
+                                @endif
+                            @endforeach
+                        </td>
+                        <td>
+                            <div style="font-weight:600;">{{ $order->customer_name }}</div>
+                            <small style="color:#94a3b8;">{{ $order->phone }}</small>
+                        </td>
+                        <td style="font-weight:700;color:#6366f1;">৳{{ number_format($order->total, 0) }}</td>
+                        <td>
+                            <form method="POST" action="{{ route('emplee.orders.status', $order->id) }}">
+                                @csrf @method('PATCH')
+                                <select name="order_status" class="stat-sel" onchange="this.form.submit()">
+                                    @foreach(\App\Models\Order::$orderStatuses as $val => $label)
+                                        <option value="{{ $val }}" {{ $order->order_status === $val ? 'selected' : '' }}>{{ $label }}</option>
+                                    @endforeach
+                                </select>
+                            </form>
+                        </td>
+                        <td>
+                            @if($sf && $sf->is_sent)
+                                <span class="sf-badge sf-sent"><i class="bi bi-truck"></i> Sent</span>
+                            @else
+                                <span class="sf-badge sf-no">Not Sent</span>
+                            @endif
+                        </td>
+                        <td>
+                            <form method="POST" action="{{ route('emplee.orders.assign-staff', $order->id) }}">
+                                @csrf @method('PATCH')
+                                <select name="assigned_user_id" class="staff-sel" onchange="this.form.submit()">
+                                    <option value="">— Unassigned —</option>
+                                    @foreach($staffUsers as $staff)
+                                        <option value="{{ $staff->id }}" {{ $order->assigned_user_id == $staff->id ? 'selected' : '' }}>
+                                            {{ $staff->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </form>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="8" class="text-center py-5 text-muted">
+                            <i class="bi bi-inbox" style="font-size:2rem;"></i>
+                            <div class="mt-2">No orders found</div>
+                        </td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+        <div class="p-3">{{ $orders->appends(request()->query())->links() }}</div>
+    </div>
 
     <form id="sfBulkForm" method="POST" action="{{ route('emplee.orders.steadfast.bulk-send') }}" style="display:none">@csrf<div id="sfBulkIds"></div></form>
     <form id="ptBulkForm" method="POST" action="{{ route('emplee.orders.pathao.bulk-send') }}" style="display:none">@csrf<div id="ptBulkIds"></div></form>

@@ -59,6 +59,11 @@
 /* Invoice */
 .inv-num { font-weight:700; color:#1a2b6b; font-size:13px; }
 .inv-date { font-size:11px; color:#94a3b8; margin-top:2px; }
+
+/* Attribute Tags */
+.attr-tag { font-size:10px; padding:1px 5px; border-radius:4px; font-weight:700; margin-right:3px; display:inline-block; margin-top:2px; }
+.attr-color { background:#fff5f5; color:#c53030; border:1px solid #feb2b2; }
+.attr-size  { background:#ebf8ff; color:#2b6cb0; border:1px solid #90cdf4; }
 </style>
 
 <div class="ao-wrapper">
@@ -115,14 +120,17 @@
             <span class="bulk-count" id="selCount">0 selected</span>
 
             {{-- Search --}}
-            <form method="GET" action="{{ route('manager.orders.index') }}" class="ms-auto d-flex gap-2">
+            <div class="ms-auto d-flex gap-2">
                 <input type="text" name="search" value="{{ request('search') }}"
                        class="form-control form-control-sm" placeholder="Search order / customer…" style="width:200px;border-radius:8px;">
-                <button type="submit" class="ao-btn" style="background:#1a2b6b;color:#fff;">
+                <button type="submit" form="searchForm" class="ao-btn" style="background:#1a2b6b;color:#fff;">
                     <i class="bi bi-search"></i>
                 </button>
-            </form>
+            </div>
         </div>
+    </form>
+
+    <form method="GET" action="{{ route('manager.orders.index') }}" id="searchForm" style="display:none"></form>
 
     {{-- Table --}}
     <div class="ao-card">
@@ -130,12 +138,13 @@
             <table class="ao-table">
                 <thead>
                     <tr>
-                        {{-- Select All --}}
                         <th class="cb-wrap" style="width:40px;">
                             <input type="checkbox" id="checkAll" title="Select All">
                         </th>
                         <th>INVOICE</th>
                         <th>ACTIONS</th>
+                        <th>COLOR</th>
+                        <th>SIZE</th>
                         <th>CUSTOMER</th>
                         <th>AMOUNT</th>
                         <th>ORDER STATUS</th>
@@ -147,9 +156,8 @@
                     @forelse($orders as $order)
                     @php $sf = $order->steadfastOrder; @endphp
                     <tr id="row-{{ $order->id }}">
-                        {{-- Checkbox --}}
                         <td class="cb-wrap">
-                            <input type="checkbox" name="order_ids[]" value="{{ $order->id }}" class="row-check">
+                            <input type="checkbox" name="order_ids[]" value="{{ $order->id }}" class="row-check" form="bulkForm">
                         </td>
 
                         {{-- Invoice --}}
@@ -161,7 +169,6 @@
                         {{-- Actions --}}
                         <td>
                             <div class="d-flex gap-1 flex-wrap">
-                                {{-- View --}}
                                 <a href="{{ route('manager.orders.show', $order->id) }}" class="ic-btn" title="View">
                                     <i class="bi bi-eye"></i>
                                 </a>
@@ -170,12 +177,10 @@
                                     $canEditDelete = $u->isAdmin() || $u->isSuperAdmin() || !$isConfirmed;
                                 @endphp
                                 @if($canEditDelete)
-                                {{-- Edit --}}
                                 <a href="{{ route('manager.orders.edit', $order->id) }}" class="ic-btn" title="Edit">
                                     <i class="bi bi-pencil"></i>
                                 </a>
                                 @endif
-                                {{-- Steadfast --}}
                                 <form method="POST" action="{{ route('manager.orders.steadfast.send', $order->id) }}" style="margin:0">
                                     @csrf
                                     <button type="submit" class="ic-btn" title="Send Steadfast"
@@ -183,14 +188,12 @@
                                         <i class="bi bi-truck"></i>
                                     </button>
                                 </form>
-                                {{-- Pathao --}}
                                 <form method="POST" action="{{ route('manager.orders.pathao.send', $order->id) }}" style="margin:0">
                                     @csrf
                                     <button type="submit" class="ic-btn" title="Send Pathao">
                                         <i class="bi bi-send"></i>
                                     </button>
                                 </form>
-                                {{-- Delete --}}
                                 @if($canEditDelete && ($u->isSuperAdmin() || $u->hasPermission('delete-orders')))
                                 <form method="POST" action="{{ route('manager.orders.destroy', $order->id) }}" style="margin:0"
                                       onsubmit="return confirm('Delete order #{{ $order->order_number }}?')">
@@ -203,16 +206,31 @@
                             </div>
                         </td>
 
-                        {{-- Customer --}}
+                        {{-- Color --}}
+                        <td>
+                            @foreach($order->items as $item)
+                                @if($item->selected_color)
+                                    <span class="attr-tag attr-color">{{ $item->selected_color }}</span>
+                                @endif
+                            @endforeach
+                        </td>
+
+                        {{-- Size --}}
+                        <td>
+                            @foreach($order->items as $item)
+                                @if($item->selected_size)
+                                    <span class="attr-tag attr-size">{{ $item->selected_size }}</span>
+                                @endif
+                            @endforeach
+                        </td>
+
                         <td>
                             <div style="font-weight:600;">{{ $order->customer_name }}</div>
                             <div style="font-size:11px;color:#94a3b8;">{{ $order->phone }}</div>
                         </td>
 
-                        {{-- Amount --}}
                         <td style="font-weight:700;color:#1a2b6b;">৳{{ number_format($order->total, 0) }}</td>
 
-                        {{-- Order Status Dropdown --}}
                         <td>
                             <form method="POST" action="{{ route('manager.orders.status', $order->id) }}" style="margin:0">
                                 @csrf @method('PATCH')
@@ -226,7 +244,6 @@
                             </form>
                         </td>
 
-                        {{-- Courier Badge --}}
                         <td>
                             @if($sf && $sf->is_sent)
                                 <span class="sf-badge sf-sent"><i class="bi bi-truck"></i> Steadfast</span>
@@ -235,7 +252,6 @@
                             @endif
                         </td>
 
-                        {{-- Handled By — Staff Dropdown --}}
                         <td>
                             <form method="POST" action="{{ route('manager.orders.assign-staff', $order->id) }}" style="margin:0">
                                 @csrf @method('PATCH')
@@ -263,7 +279,6 @@
             </table>
         </div>
 
-        {{-- Pagination --}}
         <div class="p-3 d-flex justify-content-between align-items-center flex-wrap gap-2">
             <span style="font-size:12px;color:#94a3b8;">
                 Showing {{ $orders->firstItem() }}–{{ $orders->lastItem() }} of {{ $orders->total() }} orders
@@ -272,24 +287,19 @@
         </div>
     </div>
 
-    </form>{{-- end bulkForm --}}
-
-    {{-- Hidden Steadfast Bulk Form --}}
+    {{-- Hidden Bulk Forms --}}
     <form id="sfBulkForm" method="POST" action="{{ route('manager.orders.steadfast.bulk-send') }}" style="display:none">
         @csrf
         <div id="sfBulkIds"></div>
     </form>
-
-    {{-- Hidden Pathao Bulk Form --}}
     <form id="ptBulkForm" method="POST" action="{{ route('manager.orders.pathao.bulk-send') }}" style="display:none">
         @csrf
         <div id="ptBulkIds"></div>
     </form>
 
-</div>{{-- /ao-wrapper --}}
+</div>
 
 <script>
-// ── Checkbox logic ─────────────────────────────────────────────────
 const checkAll  = document.getElementById('checkAll');
 const rowChecks = () => document.querySelectorAll('.row-check');
 const selCount  = document.getElementById('selCount');
@@ -312,29 +322,22 @@ document.addEventListener('change', function (e) {
     }
 });
 
-// ── Bulk Delete ────────────────────────────────────────────────────
 function confirmBulkDelete() {
     const ids = [...rowChecks()].filter(c => c.checked).map(c => c.value);
     if (!ids.length) { alert('Please select at least one order.'); return; }
-    if (!confirm('Delete ' + ids.length + ' selected order(s)? This cannot be undone.')) return;
+    if (!confirm('Delete ' + ids.length + ' selected order(s)?')) return;
     document.getElementById('bulkForm').submit();
 }
 
-// ── Bulk Courier Send ──────────────────────────────────────────────
 function bulkSend(courier) {
     const ids = [...rowChecks()].filter(c => c.checked).map(c => c.value);
     if (!ids.length) { alert('Please select at least one order.'); return; }
-
     const formId  = courier === 'steadfast' ? 'sfBulkForm' : 'ptBulkForm';
     const divId   = courier === 'steadfast' ? 'sfBulkIds'  : 'ptBulkIds';
     const form    = document.getElementById(formId);
     const div     = document.getElementById(divId);
-
     div.innerHTML = ids.map(id => `<input type="hidden" name="order_ids[]" value="${id}">`).join('');
-
-    if (confirm('Send ' + ids.length + ' order(s) to ' + (courier === 'steadfast' ? 'Steadfast' : 'Pathao') + '?')) {
-        form.submit();
-    }
+    if (confirm('Send ' + ids.length + ' order(s) to ' + courier + '?')) form.submit();
 }
 </script>
 

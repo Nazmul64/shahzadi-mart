@@ -18,6 +18,7 @@
     $reviewsActive  = request()->routeIs('manager.reviews.*');
     $couponsActive  = request()->routeIs('manager.coupon.*');
     $blogActive     = request()->routeIs('manager.blog-categories.*') || request()->routeIs('manager.blog-posts.*');
+    $purchaseActive = request()->routeIs('manager.suppliers.*') || request()->routeIs('manager.purchases.*') || request()->routeIs('manager.purchases.report');
 @endphp
 
 <style>
@@ -434,6 +435,27 @@ body.sb-collapsed .sb-user-info, body.sb-collapsed .sb-logout-btn { display: non
             <i class="bi bi-plus-lg"></i> Add Product
         </a>
         @endif
+    </div>
+</div>
+@endif
+
+{{-- Purchase Management --}}
+@if($u->isSuperAdmin() || $u->hasAnyPermission(['view-purchases','create-purchases']))
+<div class="sb-item {{ $purchaseActive ? 'active open' : '' }}" onclick="sbToggle(this)">
+    <span class="sb-left"><i class="bi bi-cart-check-fill sb-ico"></i><span class="sb-text">Purchase Mgmt</span></span>
+    <i class="bi bi-chevron-right sb-arr"></i>
+</div>
+<div class="sb-sub {{ $purchaseActive ? 'open' : '' }}">
+    <div class="sb-sub-inner">
+        <a href="{{ route('manager.suppliers.index') }}" class="{{ request()->routeIs('manager.suppliers.*') ? 'active' : '' }}">
+            <i class="bi bi-person-badge"></i> Suppliers
+        </a>
+        <a href="{{ route('manager.purchases.index') }}" class="{{ request()->routeIs('manager.purchases.*') ? 'active' : '' }}">
+            <i class="bi bi-cart-plus"></i> Purchases
+        </a>
+        <a href="{{ route('manager.purchases.report') }}" class="{{ request()->routeIs('manager.purchases.report') ? 'active' : '' }}">
+            <i class="bi bi-graph-up-arrow"></i> Stock Report
+        </a>
     </div>
 </div>
 @endif

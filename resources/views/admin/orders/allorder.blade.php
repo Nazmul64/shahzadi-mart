@@ -151,6 +151,18 @@
 .ao-cust-name { font-weight: 600; font-size: 13px; color: #2d3748; }
 .ao-cust-addr { font-size: 11px; color: #888; margin-top: 2px; }
 
+/* ── Attribute Tags ── */
+.attr-tag {
+    font-size: 10px;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-weight: 600;
+    margin-right: 3px;
+    display: inline-block;
+}
+.attr-color { background: #FFF5F6; color: #C8102E; border: 1px solid #FFEBEB; }
+.attr-size  { background: #F0F7FF; color: #007BFF; border: 1px solid #E1EFFF; }
+
 /* ── Bulk Status Modal ── */
 .bulk-modal-overlay {
     display: none;
@@ -349,6 +361,8 @@
                                 <th>Action</th>
                                 <th>Invoice</th>
                                 <th>Date</th>
+                                <th>Color</th>
+                                <th>Size</th>
                                 <th>Customer</th>
                                 <th>Phone</th>
                                 <th>Amount</th>
@@ -427,7 +441,7 @@
                                        class="ao-invoice-link">
                                         {{ $order->order_number }}
                                     </a>
-                                    <div style="font-size:11px;color:#aaa;">
+                                    <div style="font-size:11px;color:#888;margin-top:2px;">
                                         {{ $order->items->count() }} items
                                     </div>
                                 </td>
@@ -436,6 +450,24 @@
                                 <td>
                                     <div class="ao-date">{{ $order->created_at->format('d-m-Y') }}</div>
                                     <div class="ao-time">{{ $order->created_at->format('h:i A') }}</div>
+                                </td>
+
+                                {{-- Color --}}
+                                <td>
+                                    @foreach($order->items as $item)
+                                        @if($item->selected_color)
+                                            <span class="attr-tag attr-color">{{ $item->selected_color }}</span>
+                                        @endif
+                                    @endforeach
+                                </td>
+
+                                {{-- Size --}}
+                                <td>
+                                    @foreach($order->items as $item)
+                                        @if($item->selected_size)
+                                            <span class="attr-tag attr-size">{{ $item->selected_size }}</span>
+                                        @endif
+                                    @endforeach
                                 </td>
 
                                 {{-- Customer --}}
@@ -797,10 +829,12 @@ function loadZones(cityId) {
                 res.data.forEach(function(z) {
                     sel.innerHTML += '<option value="' + z.zone_id + '">' + z.zone_name + '</option>';
                 });
+            } else {
+                sel.innerHTML += '<option value="" disabled>No zones found</option>';
             }
         })
         .catch(function() {
-            sel.innerHTML = '<option value="">Zone load failed</option>';
+            sel.innerHTML = '<option value="">Load failed</option>';
         });
 }
 
@@ -817,140 +851,104 @@ function loadAreas(zoneId) {
                 res.data.forEach(function(a) {
                     sel.innerHTML += '<option value="' + a.area_id + '">' + a.area_name + '</option>';
                 });
+            } else {
+                sel.innerHTML += '<option value="" disabled>No areas found</option>';
             }
         })
         .catch(function() {
-            sel.innerHTML = '<option value="">Select Area (Optional)...</option>';
+            sel.innerHTML = '<option value="">Load failed</option>';
         });
 }
 
 /* ═══════════════════════════════════════════════════
-   PATHAO SUBMIT
+   SUBMIT PATHAO ORDER
 ═══════════════════════════════════════════════════ */
 function submitPathaoOrder() {
-    var store_id = document.getElementById('pathao-store').value;
-    var city_id  = document.getElementById('pathao-city').value;
-    var zone_id  = document.getElementById('pathao-zone').value;
-    var area_id  = document.getElementById('pathao-area').value;
+    var storeId = document.getElementById('pathao-store').value;
+    var cityId  = document.getElementById('pathao-city').value;
+    var zoneId  = document.getElementById('pathao-zone').value;
+    var areaId  = document.getElementById('pathao-area').value;
 
-    if (!store_id) { showPathaoError('Store নির্বাচন করুন।'); return; }
-    if (!city_id)  { showPathaoError('City নির্বাচন করুন।');  return; }
-    if (!zone_id)  { showPathaoError('Zone নির্বাচন করুন।');  return; }
+    if (!storeId || !cityId || !zoneId) {
+        alert('অনুগ্রহ করে Store, City এবং Zone সিলেক্ট করুন।');
+        return;
+    }
 
     var btn = document.getElementById('pathao-submit-btn');
     btn.disabled  = true;
-    btn.innerHTML = '<i class="bi bi-arrow-repeat"></i> Sending...';
+    btn.innerHTML = '<i class="bi bi-hourglass-split"></i> Submitting...';
     hidePathaoMessages();
 
-    var csrfMeta = document.querySelector('meta[name="csrf-token"]');
-    if (!csrfMeta) {
-        showPathaoError('CSRF token পাওয়া যাচ্ছে না।');
-        btn.disabled  = false;
-        btn.innerHTML = '<i class="bi bi-send"></i> Submit';
-        return;
-    }
-    var csrfToken = csrfMeta.getAttribute('content');
+    // Data preparation
+    var data = {
+        _token:   '{{ csrf_token() }}',
+        store_id: storeId,
+        city_id:  cityId,
+        zone_id:  zoneId,
+        area_id:  areaId
+    };
 
-    var formData = new FormData();
-    formData.append('_token',   csrfToken);
-    formData.append('store_id', store_id);
-    formData.append('city_id',  city_id);
-    formData.append('zone_id',  zone_id);
-    if (area_id) formData.append('area_id', area_id);
-
-    // URL নির্ধারণ
-    var url;
+    var url = '';
     if (pathaoMode === 'single') {
-        url = '/admin/orders/' + pathaoOrderId + '/send-pathao';
+        url = '{{ url("admin/pathao/send") }}/' + pathaoOrderId;
     } else {
         url = pathaoBulkUrl;
-        document.querySelectorAll('.row-check:checked').forEach(function(cb) {
-            formData.append('ids[]', cb.value);
-        });
+        var checkedBoxes = document.querySelectorAll('.row-check:checked');
+        data.order_ids = Array.from(checkedBoxes).map(cb => cb.value);
     }
 
-    fetch(url, { method: 'POST', body: formData })
-        .then(function(r) {
-            if (!r.ok) {
-                return r.json().then(function(err) {
-                    throw new Error(err.message || 'Server error: ' + r.status);
-                });
-            }
-            return r.json();
-        })
-        .then(function(res) {
-            if (res.success) {
-                showPathaoSuccess(res.message || 'সফলভাবে Pathao-তে পাঠানো হয়েছে!');
-                setTimeout(function() {
-                    closePathaoModal();
-                    location.reload();
-                }, 1800);
-            } else {
-                showPathaoError(res.message || 'Something went wrong. আবার চেষ্টা করুন।');
-            }
-        })
-        .catch(function(e) {
-            showPathaoError('Error: ' + e.message);
-        })
-        .finally(function() {
+    fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(data)
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(res) {
+        if (res.success) {
+            showPathaoSuccess(res.message || 'অর্ডার সফলভাবে Pathao-তে পাঠানো হয়েছে।');
+            setTimeout(function() { window.location.reload(); }, 1500);
+        } else {
             btn.disabled  = false;
             btn.innerHTML = '<i class="bi bi-send"></i> Submit';
-        });
+            showPathaoError(res.message || 'Error: Pathao API response failure.');
+            if (res.errors) {
+                console.log('Pathao Errors:', res.errors);
+            }
+        }
+    })
+    .catch(function(err) {
+        btn.disabled  = false;
+        btn.innerHTML = '<i class="bi bi-send"></i> Submit';
+        showPathaoError('সার্ভার এর সাথে যোগাযোগ করতে সমস্যা হচ্ছে।');
+    });
 }
 
 /* ═══════════════════════════════════════════════════
-   BULK CHECKBOX
+   BULK HELPERS
 ═══════════════════════════════════════════════════ */
-function toggleAll(master) {
-    document.querySelectorAll('.row-check').forEach(function(cb) {
-        cb.checked = master.checked;
-    });
+function toggleAll(el) {
+    document.querySelectorAll('.row-check').forEach(cb => cb.checked = el.checked);
     updateBulkIds();
 }
 
 function updateBulkIds() {
-    var container = document.getElementById('bulk-ids');
-    container.innerHTML = '';
-    document.querySelectorAll('.row-check:checked').forEach(function(cb) {
-        var inp   = document.createElement('input');
-        inp.type  = 'hidden';
-        inp.name  = 'ids[]';
-        inp.value = cb.value;
-        container.appendChild(inp);
-    });
-
-    var all     = document.querySelectorAll('.row-check');
-    var checked = document.querySelectorAll('.row-check:checked');
-    var master  = document.getElementById('check-all');
-    master.indeterminate = checked.length > 0 && checked.length < all.length;
-    master.checked       = all.length > 0 && checked.length === all.length;
+    var ids = Array.from(document.querySelectorAll('.row-check:checked')).map(cb => cb.value);
+    // Sync for delete form
+    document.getElementById('bulk-ids').innerHTML = ids.map(id => '<input type="hidden" name="ids[]" value="' + id + '">').join('');
+    // Sync for steadfast form
+    document.getElementById('bulk-steadfast-ids').innerHTML = ids.map(id => '<input type="hidden" name="ids[]" value="' + id + '">').join('');
 }
 
 function confirmBulkDelete() {
     var ids = document.querySelectorAll('.row-check:checked');
-    if (!ids.length) {
-        alert('কোনো অর্ডার নির্বাচন করুন।');
-        return false;
-    }
-    return confirm(ids.length + ' টি অর্ডার মুছে ফেলতে চান?');
+    if (!ids.length) { alert('প্রথমে অর্ডার সিলেক্ট করুন।'); return false; }
+    return confirm('আপনি কি নিশ্চিত যে সিলেক্ট করা ' + ids.length + ' টি অর্ডার মুছে ফেলতে চান?');
 }
 
 function confirmSteadfastSend() {
     var ids = document.querySelectorAll('.row-check:checked');
-    if (!ids.length) {
-        alert('কোনো অর্ডার নির্বাচন করুন।');
-        return false;
-    }
-    var container = document.getElementById('bulk-steadfast-ids');
-    container.innerHTML = '';
-    ids.forEach(function(cb) {
-        var inp   = document.createElement('input');
-        inp.type  = 'hidden';
-        inp.name  = 'ids[]';
-        inp.value = cb.value;
-        container.appendChild(inp);
-    });
-    return confirm(ids.length + ' টি অর্ডার Steadfast-এ পাঠাতে চান?');
+    if (!ids.length) { alert('প্রথমে অর্ডার সিলেক্ট করুন।'); return false; }
+    return confirm('সিলেক্ট করা ' + ids.length + ' টি অর্ডার কি Steadfast-এ পাঠাতে চান?');
 }
 
 /* ═══════════════════════════════════════════════════
@@ -958,44 +956,23 @@ function confirmSteadfastSend() {
 ═══════════════════════════════════════════════════ */
 function openBulkStatusModal() {
     var ids = document.querySelectorAll('.row-check:checked');
-    if (!ids.length) {
-        alert('কোনো অর্ডার নির্বাচন করুন।');
-        return;
-    }
+    if (!ids.length) { alert('প্রথমে অর্ডার সিলেক্ট করুন।'); return; }
     document.getElementById('bulk-status-overlay').classList.add('show');
 }
 
 function closeBulkStatusModal() {
     document.getElementById('bulk-status-overlay').classList.remove('show');
-    document.getElementById('bulk-status-select').value = '';
 }
 
 function applyBulkStatus() {
     var status = document.getElementById('bulk-status-select').value;
-    if (!status) {
-        alert('একটি স্ট্যাটাস বেছে নিন।');
-        return;
-    }
+    if (!status) { alert('স্ট্যাটাস সিলেক্ট করুন।'); return; }
 
-    var ids       = document.querySelectorAll('.row-check:checked');
-    var container = document.getElementById('bulk-status-ids');
-    container.innerHTML = '';
-    ids.forEach(function(cb) {
-        var inp   = document.createElement('input');
-        inp.type  = 'hidden';
-        inp.name  = 'ids[]';
-        inp.value = cb.value;
-        container.appendChild(inp);
-    });
-
-    document.getElementById('bulk-status-value').value = status;
+    var ids = Array.from(document.querySelectorAll('.row-check:checked')).map(cb => cb.value);
+    document.getElementById('bulk-status-ids').innerHTML = ids.map(id => '<input type="hidden" name="ids[]" value="' + id + '">').join('');
+    document.getElementById('bulk-status-value').value   = status;
     document.getElementById('bulk-status-form').submit();
 }
-
-// Bulk status backdrop click
-document.getElementById('bulk-status-overlay').addEventListener('click', function(e) {
-    if (e.target === this) closeBulkStatusModal();
-});
 </script>
 
 @endsection

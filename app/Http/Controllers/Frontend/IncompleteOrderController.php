@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\IncompleteOrder;
 use App\Models\ShippingCharge;
+use App\Models\Ipblockmanage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,6 +20,15 @@ class IncompleteOrderController extends Controller
 
     public function save(Request $request)
     {
+        // ── IP Block Check ────────────────────────────────────────
+        $isBlocked = Ipblockmanage::where('ip_address', $request->ip())
+            ->where('is_active', true)
+            ->exists();
+
+        if ($isBlocked) {
+            return response()->json(['success' => false, 'message' => 'Your IP is blocked.'], 403);
+        }
+
         // ── Basic validation ──────────────────────────────────────
         $request->validate([
             'phone' => 'required|string|min:10|max:20',
