@@ -31,7 +31,7 @@ class FooterSetting extends Model
     {
         return self::first() ?: self::create([
             'footer_description' => 'Your trusted marketplace for premium products. Quality guaranteed, delivered to your door.',
-            'copyright_text'     => 'Shahzadi-mart. All rights reserved.',
+            'copyright_text'     => 'All rights reserved.',
             'powered_by_text'    => 'Freaku Technologies',
             'powered_by_link'    => '#',
             'payment_methods'    => ['VISA', 'M-PESA', 'PAYPAL', 'MASTERCARD', 'AIRTEL'],

@@ -110,13 +110,20 @@
             </div>
 
             <div class="form-card mb-4">
-                <h5 class="mb-4 border-bottom pb-2">Choose Template <span class="text-danger">*</span></h5>
+                <h5 class="mb-4 border-bottom pb-2">Choose Visual Style (Blade Template) <span class="text-danger">*</span></h5>
                 <input type="hidden" name="template_name" id="template_name" value="{{ $landing->template_name }}">
                 
                 <div class="template-selector">
-                    @foreach($templates as $t)
+                    @php
+                        $built_in = [
+                            ['id' => 'landing-1', 'name' => 'Template 1 (Modern Dark)', 'image' => 'https://via.placeholder.com/300x150?text=Template+1'],
+                            ['id' => 'landing-2', 'name' => 'Template 2 (Clean Light)', 'image' => 'https://via.placeholder.com/300x150?text=Template+2'],
+                            ['id' => 'landing-3', 'name' => 'Template 3 (Dynamic Builder)', 'image' => 'https://via.placeholder.com/300x150?text=Template+3'],
+                        ];
+                    @endphp
+                    @foreach($built_in as $t)
                     <div class="template-item {{ $landing->template_name == $t['id'] ? 'selected' : '' }}" onclick="selectTemplate('{{ $t['id'] }}', this)">
-                        <img src="https://preview.funnelliner.xyz/landing-38" alt="{{ $t['name'] }}">
+                        <img src="{{ $t['image'] }}" alt="{{ $t['name'] }}">
                         <div class="template-name">{{ $t['name'] }}</div>
                         <div class="template-check"><i class="bi bi-check"></i></div>
                     </div>
@@ -190,6 +197,24 @@
                 </div>
             </div>
 
+            <div class="form-card mb-4 border-primary border-2">
+                <h5 class="mb-3 text-primary"><i class="bi bi-star-fill me-1"></i> Theme Library</h5>
+                <div class="form-check form-switch mb-3">
+                    <input class="form-check-input" type="checkbox" name="is_template" id="is_template" {{ $landing->is_template ? 'checked' : '' }}>
+                    <label class="form-check-label fw-bold" for="is_template">Mark as a Template</label>
+                </div>
+                <div id="template_preview_section" style="{{ $landing->is_template ? 'display: block;' : 'display: none;' }}">
+                    <label class="form-label">Template Preview Image</label>
+                    <input type="file" name="preview_image" class="form-control" onchange="previewImg(this, 'preview_template')">
+                    @if($landing->preview_image)
+                        <img id="preview_template" src="{{ asset('uploads/landing/'.$landing->preview_image) }}" class="img-preview" style="display:block;">
+                    @else
+                        <img id="preview_template" class="img-preview">
+                    @endif
+                    <small class="text-muted d-block mt-1">This image will show up in the "Ready-made Themes" gallery.</small>
+                </div>
+            </div>
+
             <button type="submit" class="btn btn-primary w-100 py-2 fw-bold" style="background: #1a2b6b; border: none;">
                 <i class="bi bi-check-circle me-2"></i> Update Landing Page
             </button>
@@ -215,6 +240,10 @@
             reader.readAsDataURL(input.files[0]);
         }
     }
+
+    document.getElementById('is_template').addEventListener('change', function() {
+        document.getElementById('template_preview_section').style.display = this.checked ? 'block' : 'none';
+    });
 </script>
 
 @endsection

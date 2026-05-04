@@ -1,16 +1,24 @@
-{{-- resources/views/frontend/master.blade.php --}}
+@php
+    $gs = \App\Models\Generalsetting::getSettings();
+@endphp
 
 @include('frontend.pages.header')
-    <div class="page-wrap">
 
-        {{-- Left: category sidebar --}}
-        @include('frontend.pages.category')
+    <div class="main-site-content {{ $gs->site_layout_width == 'boxed' ? 'container' : 'container-fluid' }}">
+        
+        <div class="page-wrap {{ $gs->category_menu_type == 'hover' ? 'no-sidebar' : '' }}">
 
-        {{-- Right: page content --}}
-        <main class="content-area">
-            @yield('main-content')
-        </main>
+            {{-- Left: category sidebar (only if fixed) --}}
+            @if($gs->category_menu_type == 'fixed')
+                @include('frontend.pages.category')
+            @endif
 
+            {{-- Right: page content --}}
+            <main class="content-area">
+                @yield('main-content')
+            </main>
+
+        </div>
     </div>
 
 @include('frontend.pages.footer')

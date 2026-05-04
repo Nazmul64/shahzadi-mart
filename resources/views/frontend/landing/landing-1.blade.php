@@ -6,6 +6,10 @@
 <title>{{ $landing->title }} | {{ $websetting?->site_name ?? 'Landing Page' }}</title>
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
+@if(isset($favicon) && $favicon->favicon_logo)
+    <link rel="icon" type="image/png" href="{{ asset($favicon->favicon_logo) }}">
+@endif
+
 {{-- Dynamic Fonts & Icons --}}
 <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">

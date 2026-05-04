@@ -17,27 +17,44 @@ class LandingPageController extends Controller
     public function index()
     {
         $landings = LandingPage::with('product')
+            ->where('is_template', false)
             ->orderByDesc('order')
             ->paginate(20);
-        return view('admin.landing.index', compact('landings'));
+        
+        $templates_count = LandingPage::where('is_template', true)->count();
+        
+        return view('admin.landing.index', compact('landings', 'templates_count'));
+    }
+
+    /**
+     * Display the template library.
+     */
+    public function templates()
+    {
+        $templates = LandingPage::where('is_template', true)
+            ->orderByDesc('created_at')
+            ->get();
+        return view('admin.landing.templates', compact('templates'));
     }
 
     /**
      * Show the form for creating a new landing page.
      */
-    public function create()
+    public function create(Request $request)
     {
         $products = Product::where('status', 'active')
             ->select('id', 'name')
             ->get();
-        $templates = [
-            ['id' => 'landing-1', 'name' => 'Template 1 (Modern Dark)', 'image' => 'https://preview.funnelliner.xyz/landing-38'],
-            ['id' => 'landing-2', 'name' => 'Template 2 (Clean Light)', 'image' => 'https://preview.funnelliner.xyz/landing-37'],
-            ['id' => 'landing-3', 'name' => 'Template 3 (Bold Red)',    'image' => 'https://preview.funnelliner.xyz/landing-36'],
-            ['id' => 'landing-4', 'name' => 'Template 4 (Video Focused)', 'image' => 'https://preview.funnelliner.xyz/landing-35'],
-            ['id' => 'landing-5', 'name' => 'Template 5 (Minimal)',       'image' => 'https://preview.funnelliner.xyz/landing-34'],
-        ];
-        return view('admin.landing.create', compact('products', 'templates'));
+            
+        $from_template_id = $request->input('template_id');
+        $source_template = null;
+        if ($from_template_id) {
+            $source_template = LandingPage::where('is_template', true)->find($from_template_id);
+        }
+
+        $templates = LandingPage::where('is_template', true)->get();
+        
+        return view('admin.landing.create', compact('products', 'templates', 'source_template'));
     }
 
     /**
@@ -65,9 +82,12 @@ class LandingPageController extends Controller
             'btn_color'     => 'nullable|string',
             'feature_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'review_image'  => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'preview_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'is_template'   => 'nullable',
         ]);
 
-        $data = $request->except(['feature_image', 'review_image']);
+        $data = $request->except(['feature_image', 'review_image', 'preview_image', 'is_template']);
+        $data['is_template'] = $request->has('is_template');
         $data['slug'] = Str::slug($request->slug);
 
         if ($request->hasFile('feature_image')) {
@@ -82,12 +102,31 @@ class LandingPageController extends Controller
             $data['review_image'] = $name;
         }
 
+        if ($request->hasFile('preview_image')) {
+            $name = time() . '_preview_' . $request->file('preview_image')->getClientOriginalName();
+            $request->file('preview_image')->move(public_path('uploads/landing'), $name);
+            $data['preview_image'] = $name;
+        }
+
         // Determine order
         $maxOrder = LandingPage::max('order') ?? 0;
         $data['order'] = $maxOrder + 1;
 
-        LandingPage::create($data);
-        return redirect()->route('admin.landing.index')->with('success', 'Landing Page Created Successfully!');
+        $landing = LandingPage::create($data);
+
+        // If created from a template, copy blocks
+        if ($request->input('source_template_id')) {
+            $source = LandingPage::with('blocks')->find($request->input('source_template_id'));
+            if ($source) {
+                foreach ($source->blocks as $block) {
+                    $newBlock = $block->replicate();
+                    $newBlock->landing_page_id = $landing->id;
+                    $newBlock->save();
+                }
+            }
+        }
+
+        return redirect()->route('admin.landing-pages.index')->with('success', 'Landing Page Created Successfully!');
     }
 
     /**
@@ -99,14 +138,7 @@ class LandingPageController extends Controller
         $products = Product::where('status', 'active')
             ->select('id', 'name')
             ->get();
-        $templates = [
-            ['id' => 'landing-1', 'name' => 'Template 1 (Modern Dark)'],
-            ['id' => 'landing-2', 'name' => 'Template 2 (Clean Light)'],
-            ['id' => 'landing-3', 'name' => 'Template 3 (Bold Red)'],
-            ['id' => 'landing-4', 'name' => 'Template 4 (Video Focused)'],
-            ['id' => 'landing-5', 'name' => 'Template 5 (Minimal)'],
-        ];
-        return view('admin.landing.edit', compact('landing', 'products', 'templates'));
+        return view('admin.landing.edit', compact('landing', 'products'));
     }
 
     /**
@@ -131,9 +163,12 @@ class LandingPageController extends Controller
             'btn_color'     => 'nullable|string',
             'feature_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'review_image'  => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'preview_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'is_template'   => 'nullable',
         ]);
 
-        $data = $request->except(['feature_image', 'review_image']);
+        $data = $request->except(['feature_image', 'review_image', 'preview_image', 'is_template']);
+        $data['is_template'] = $request->has('is_template');
         $data['slug'] = Str::slug($request->slug);
 
         if ($request->hasFile('feature_image')) {
@@ -152,6 +187,15 @@ class LandingPageController extends Controller
             $name = time() . '_review_' . $request->file('review_image')->getClientOriginalName();
             $request->file('review_image')->move(public_path('uploads/landing'), $name);
             $data['review_image'] = $name;
+        }
+
+        if ($request->hasFile('preview_image')) {
+            if ($landing->preview_image && File::exists(public_path('uploads/landing/' . $landing->preview_image))) {
+                File::delete(public_path('uploads/landing/' . $landing->preview_image));
+            }
+            $name = time() . '_preview_' . $request->file('preview_image')->getClientOriginalName();
+            $request->file('preview_image')->move(public_path('uploads/landing'), $name);
+            $data['preview_image'] = $name;
         }
 
         $landing->update($data);

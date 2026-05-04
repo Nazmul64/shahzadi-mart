@@ -6,6 +6,7 @@
 
 @php
     $u = auth()->user();
+    $gs = \App\Models\Generalsetting::getSettings();
 
     // ── Active state helpers ───────────────────────────────────────────────
     $dashActive       = request()->routeIs('admin.dashboard');
@@ -383,9 +384,15 @@ body.sb-collapsed .sb-user-info, body.sb-collapsed .sb-logout-btn { display: non
 
 {{-- ══ BRAND ══ --}}
 <a href="{{ route('admin.dashboard') }}" class="sb-brand">
-    <div class="sb-icon"><i class="bi bi-shop"></i></div>
+    <div class="sb-icon">
+        @if($gs->header_logo)
+            <img src="{{ asset($gs->header_logo) }}" alt="Logo" style="width: 100%; height: 100%; object-fit: contain;">
+        @else
+            <i class="bi bi-shop"></i>
+        @endif
+    </div>
     <div class="sb-brand-text">
-        <span class="sb-brand-name">Shahzadimart</span>
+        <span class="sb-brand-name">{{ $gs->site_name }}</span>
         <span class="sb-brand-tag">Admin Portal</span>
     </div>
 </a>
@@ -475,6 +482,9 @@ body.sb-collapsed .sb-user-info, body.sb-collapsed .sb-logout-btn { display: non
 </div>
 <div class="sb-sub {{ (request()->routeIs('admin.payment.history') || request()->routeIs('admin.nagad.*') || request()->routeIs('admin.paymentgetewaymanage.*')) ? 'show' : '' }}">
     <div class="sb-sub-wrap">
+        <a href="{{ route('admin.payment.index') }}" class="{{ request()->routeIs('admin.payment.index') ? 'active' : '' }}">
+            <i class="bi bi-wallet-fill"></i> Payment Setup
+        </a>
         <a href="{{ route('admin.payment.history') }}" class="{{ request()->routeIs('admin.payment.history') ? 'active' : '' }}">
             <i class="bi bi-receipt-cutoff"></i> Payment History
         </a>
@@ -535,6 +545,9 @@ body.sb-collapsed .sb-user-info, body.sb-collapsed .sb-logout-btn { display: non
 </div>
 <div class="sb-sub {{ $purchaseActive ? 'open' : '' }}">
     <div class="sb-sub-inner">
+        <a href="{{ route('admin.suppliers.index') }}" class="{{ request()->routeIs('admin.suppliers.*') ? 'active' : '' }}">
+            <i class="bi bi-truck"></i> Suppliers
+        </a>
         <a href="{{ route('admin.purchases.report') }}" class="{{ request()->routeIs('admin.purchases.report') ? 'active' : '' }}">
             <i class="bi bi-bar-chart-fill"></i> Stock Report
         </a>
@@ -783,10 +796,13 @@ body.sb-collapsed .sb-user-info, body.sb-collapsed .sb-logout-btn { display: non
 <div class="sb-sub {{ $settingsActive ? 'open' : '' }}">
     <div class="sb-sub-inner">
         <a href="{{ route('admin.Generalsettings.index') }}" class="{{ request()->routeIs('admin.Generalsettings.*') ? 'active' : '' }}">
-            <i class="bi bi-card-image"></i> Logo Settings
+            <i class="bi bi-card-image"></i> General Settings
         </a>
         <a href="{{ route('admin.websitefavicon.index') }}" class="{{ request()->routeIs('admin.websitefavicon.*') ? 'active' : '' }}">
             <i class="bi bi-globe2"></i> Favicon
+        </a>
+        <a href="{{ route('admin.Generalsettings.index') }}" class="{{ request()->routeIs('admin.Generalsettings.*') ? 'active' : '' }}">
+            <i class="bi bi-aspect-ratio"></i> Layout Settings
         </a>
         <a href="{{ route('admin.footer-settings.index') }}" class="{{ request()->routeIs('admin.footer-settings.*') ? 'active' : '' }}">
             <i class="bi bi-layout-text-window-reverse"></i> Footer Settings
@@ -848,8 +864,23 @@ body.sb-collapsed .sb-user-info, body.sb-collapsed .sb-logout-btn { display: non
         <a href="{{ route('admin.Ipblockmanage.index') }}" class="{{ request()->routeIs('admin.Ipblockmanage.*') ? 'active' : '' }}">
             <i class="bi bi-shield-fill-x"></i> IP Blocking
         </a>
-        <a href="{{ route('admin.pages.index') }}" class="{{ request()->routeIs('admin.pages.*') || request()->routeIs('admin.footercategory.*') || request()->routeIs('admin.aboutcompany.*') || request()->routeIs('admin.tremsandcondation.*') || request()->routeIs('admin.contactinfomationadmins.*') ? 'active' : '' }}">
-            <i class="bi bi-file-earmark-text-fill"></i> Pages
+        <a href="{{ route('admin.pages.index') }}" class="{{ request()->routeIs('admin.pages.*') ? 'active' : '' }}">
+            <i class="bi bi-file-earmark-text-fill"></i> Custom Pages
+        </a>
+        <a href="{{ route('admin.footercategory.index') }}" class="{{ request()->routeIs('admin.footercategory.*') ? 'active' : '' }}">
+            <i class="bi bi-folder-fill"></i> Footer Categories
+        </a>
+        <a href="{{ route('admin.DeliveryInformation.index') }}" class="{{ request()->routeIs('admin.DeliveryInformation.*') ? 'active' : '' }}">
+            <i class="bi bi-truck-flatbed"></i> Delivery Info
+        </a>
+        <a href="{{ route('admin.aboutcompany.index') }}" class="{{ request()->routeIs('admin.aboutcompany.*') ? 'active' : '' }}">
+            <i class="bi bi-building"></i> About Company
+        </a>
+        <a href="{{ route('admin.contactinfomationadmins.index') }}" class="{{ request()->routeIs('admin.contactinfomationadmins.*') ? 'active' : '' }}">
+            <i class="bi bi-telephone-fill"></i> Admin Contact Info
+        </a>
+        <a href="{{ route('admin.tremsandcondation.index') }}" class="{{ request()->routeIs('admin.tremsandcondation.*') ? 'active' : '' }}">
+            <i class="bi bi-file-earmark-lock-fill"></i> Terms & Conditions
         </a>
         <a href="{{ route('admin.privacy-policy.index') }}" class="{{ request()->routeIs('admin.privacy-policy.*') ? 'active' : '' }}">
             <i class="bi bi-shield-lock-fill"></i> Privacy Policy

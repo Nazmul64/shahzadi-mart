@@ -247,26 +247,25 @@
 .smhome-p-wish:hover { transform: scale(1.15); color: var(--red); background: #fff0f0; }
 
 /* ══════════════════════════════════════════════════════
-   ✅ IMAGE WRAPPER — left/right কোনো ফাঁকা থাকবে না
+   ✅ IMAGE WRAPPER
 ══════════════════════════════════════════════════════ */
 .smhome-p-img-wrap {
     position: relative;
     width: 100%;
-    height: 260px;
+    height: auto;
     overflow: hidden;
     border-bottom: 1px solid var(--border);
-    background: #f5f5f5;
+    background: #ffffff;
 }
 
 /* ✅ FINAL FIX:
-   object-fit: cover      → পুরো width ও height fill, কোনো ফাঁকা নেই
-   object-position: top   → উপর থেকে শুরু, মাথা/মুখ দেখা যাবে, নিচে crop হবে
+   width 100% এবং height auto → ডানে বামে কোনো ফাঁকা থাকবে না, এবং ছবি কাটবেও না
 */
 .smhome-p-img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center top;
+    height: auto;
+    object-fit: contain;
+    object-position: center;
     display: block;
     transition: transform .35s cubic-bezier(.4,0,.2,1);
 }

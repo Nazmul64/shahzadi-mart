@@ -45,7 +45,7 @@
     display: inline-block;
 }
 .foot-desc {
-    color: #555;
+    color: #e0e0e0;
     font-size: 13px;
     line-height: 1.75;
     margin-bottom: 20px;
@@ -55,7 +55,7 @@
 /* Newsletter */
 .newsletter { margin-bottom: 20px; }
 .newsletter__label {
-    color: #555;
+    color: #e0e0e0;
     font-size: 11px;
     font-weight: 700;
     letter-spacing: .07em;
@@ -106,12 +106,12 @@
 .soc-btn {
     width: 34px; height: 34px;
     background: #141414;
-    border: 1px solid #222;
+    border: 1px solid #444;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #555;
+    color: #e0e0e0;
     font-size: 14px;
     transition: var(--t);
     text-decoration: none;
@@ -151,7 +151,7 @@
     padding: 0; margin: 0;
 }
 .footer-col__list li a {
-    color: #555;
+    color: #e0e0e0;
     font-size: 13px;
     font-weight: 500;
     transition: var(--t);
@@ -160,7 +160,7 @@
     gap: 6px;
     text-decoration: none;
 }
-.footer-col__list li a .bi { font-size: 11px; color: #2a2a2a; transition: color .2s; }
+.footer-col__list li a .bi { font-size: 11px; color: #e0e0e0; transition: color .2s; }
 .footer-col__list li a:hover { color: var(--gold-lt); padding-left: 4px; }
 .footer-col__list li a:hover .bi { color: var(--gold); }
 
@@ -176,20 +176,20 @@
     gap: 14px;
     flex-wrap: wrap;
 }
-.footer-btm__copy { color: #3a3a3a; font-size: 12px; margin: 0; }
+.footer-btm__copy { color: #e0e0e0; font-size: 12px; margin: 0; }
 .pay-badges { display: flex; gap: 7px; flex-wrap: wrap; }
 .pay-b {
     background: #141414;
-    border: 1px solid #222;
+    border: 1px solid #444;
     border-radius: 3px;
     padding: 3px 9px;
-    color: #444;
+    color: #e0e0e0;
     font-size: 9px;
     font-weight: 800;
     letter-spacing: .08em;
     transition: border-color .2s, color .2s;
 }
-.pay-b:hover { border-color: #3a3a3a; color: #666; }
+.pay-b:hover { border-color: #888; color: #fff; }
 
 /* Responsive footer */
 @media(max-width:1000px) {

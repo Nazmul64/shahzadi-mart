@@ -19,7 +19,8 @@ class LandingPageBuilderController extends Controller
             $q->orderBy('order', 'asc');
         }])->findOrFail($landingId);
         $products = \App\Models\Product::where('status', 'active')->get();
-        return view('admin.landing.builder', compact('landing', 'products'));
+        $templates = LandingPage::where('is_template', true)->get();
+        return view('admin.landing.builder', compact('landing', 'products', 'templates'));
     }
 
     /**
@@ -440,12 +441,51 @@ class LandingPageBuilderController extends Controller
     {
         $landing = LandingPage::findOrFail($id);
         $landing->update([
+            'title'         => $request->input('title', $landing->title),
+            'slug'          => $request->input('slug', $landing->slug),
+            'gtm_id'        => $request->input('gtm_id', $landing->gtm_id),
+            'fb_pixel_id'   => $request->input('fb_pixel_id', $landing->fb_pixel_id),
             'is_full_width' => $request->input('is_full_width') == '1',
-            'bg_color' => $request->input('bg_color'),
-            'text_color' => $request->input('text_color'),
-            'btn_color' => $request->input('btn_color'),
+            'bg_color'      => $request->input('bg_color'),
+            'text_color'    => $request->input('text_color'),
+            'btn_color'     => $request->input('btn_color'),
         ]);
 
         return redirect()->back()->with('success', 'Page settings updated successfully!');
+    }
+
+    /**
+     * Switch theme/template for an existing landing page.
+     * Replaces all current blocks with blocks from the source template.
+     */
+    public function switchTheme(Request $request, $landingId)
+    {
+        $landing = LandingPage::findOrFail($landingId);
+        $sourceTemplateId = $request->input('template_id');
+        
+        $source = LandingPage::with('blocks')->where('is_template', true)->findOrFail($sourceTemplateId);
+
+        // Delete all current blocks
+        foreach ($landing->blocks as $block) {
+            $this->destroyBlock($block->id);
+        }
+
+        // Copy blocks from source
+        foreach ($source->blocks as $block) {
+            $newBlock = $block->replicate();
+            $newBlock->landing_page_id = $landing->id;
+            $newBlock->save();
+        }
+
+        // Update landing page settings if needed (bg_color, etc.)
+        $landing->update([
+            'template_name' => $source->template_name,
+            'bg_color'      => $source->bg_color,
+            'text_color'    => $source->text_color,
+            'btn_color'     => $source->btn_color,
+            'is_full_width' => $source->is_full_width,
+        ]);
+
+        return redirect()->back()->with('success', 'Theme applied successfully! Your blocks have been updated.');
     }
 }

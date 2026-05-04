@@ -88,6 +88,9 @@
             <button type="button" class="btn btn-dark shadow" data-bs-toggle="modal" data-bs-target="#settingsModal" style="border-radius: 8px; padding: 10px 25px;">
                 <i class="bi bi-gear"></i> Page Settings
             </button>
+            <button type="button" class="btn btn-warning shadow fw-bold" data-bs-toggle="modal" data-bs-target="#switchThemeModal" style="border-radius: 8px; padding: 10px 25px;">
+                <i class="bi bi-magic"></i> Switch Theme
+            </button>
             <button type="button" class="btn btn-primary shadow" data-bs-toggle="modal" data-bs-target="#addBlockModal" style="background:#1a2b6b; border:none; border-radius: 8px; padding: 10px 25px;">
                 <i class="bi bi-plus-lg"></i> Add New Section
             </button>
@@ -740,7 +743,28 @@
             <form action="{{ route('admin.landing-pages.builder.update_settings', $landing->id) }}" method="POST">
                 @csrf
                 <div class="modal-body">
-                    <div class="mb-4">
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <label class="form-label">Page Title</label>
+                            <input type="text" name="title" class="form-control" value="{{ $landing->title }}" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Page URL Slug</label>
+                            <input type="text" name="slug" class="form-control" value="{{ $landing->slug }}" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">GTM ID (Google Tag Manager)</label>
+                            <input type="text" name="gtm_id" class="form-control" value="{{ $landing->gtm_id }}" placeholder="GTM-XXXXXXX">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Facebook Pixel ID</label>
+                            <input type="text" name="fb_pixel_id" class="form-control" value="{{ $landing->fb_pixel_id }}" placeholder="123456789012345">
+                        </div>
+                    </div>
+                    
+                    <hr>
+
+                    <div class="mb-4 mt-3">
                         <label class="form-label fw-bold">Page Layout (ফুল কন্টেইনার এবং উইডথ ম্যানেজ)</label>
                         <select name="is_full_width" class="form-select">
                             <option value="1" {{ $landing->is_full_width ? 'selected' : '' }}>Full Width Layout (সম্পূর্ণ বড় হবে)</option>
@@ -995,5 +1019,56 @@
         document.getElementById('pfl-list').appendChild(div);
     }
 </script>
+
+<!-- Switch Theme Modal -->
+<div class="modal fade" id="switchThemeModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <h5 class="modal-title text-dark"><i class="bi bi-magic"></i> Switch Theme / Template</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="alert alert-danger mb-4">
+                    <i class="bi bi-exclamation-triangle-fill"></i> <strong>Warning!</strong> Switching themes will **delete all current blocks** on this page and replace them with the selected template's blocks. This cannot be undone.
+                </div>
+                
+                <div class="row g-3">
+                    @forelse($templates as $t)
+                    <div class="col-md-6">
+                        <div class="card h-100 border-0 shadow-sm overflow-hidden theme-switch-card" style="border-radius: 12px; cursor: pointer;">
+                            <div style="height: 150px; background: #f8f9fa;">
+                                @if($t->preview_image)
+                                    <img src="{{ asset('uploads/landing/'.$t->preview_image) }}" class="w-100 h-100 object-fit-cover">
+                                @else
+                                    <div class="h-100 d-flex align-items-center justify-content-center text-muted">
+                                        <i class="bi bi-image" style="font-size: 2rem;"></i>
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="card-body p-3 d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="mb-0 fw-bold">{{ $t->title }}</h6>
+                                    <small class="text-muted">{{ $t->blocks->count() }} blocks</small>
+                                </div>
+                                <form action="{{ route('admin.landing-pages.builder.switch_theme', $landing->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to switch to this theme? This will delete current blocks.')">
+                                    @csrf
+                                    <input type="hidden" name="template_id" value="{{ $t->id }}">
+                                    <button type="submit" class="btn btn-sm btn-warning fw-bold px-3 rounded-pill">Apply</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    @empty
+                    <div class="col-12 text-center py-4">
+                        <p class="text-muted">No templates found in Theme Library. Create a page and mark it as a template first!</p>
+                        <a href="{{ route('admin.landing-pages.templates') }}" class="btn btn-outline-primary btn-sm">Manage Theme Library</a>
+                    </div>
+                    @endforelse
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 @endsection

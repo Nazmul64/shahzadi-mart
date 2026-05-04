@@ -23,6 +23,8 @@ class LandingPage extends Model
         'text_color',
         'btn_color',
         'is_full_width',
+        'is_template',
+        'preview_image',
         'order',
         'status',
     ];

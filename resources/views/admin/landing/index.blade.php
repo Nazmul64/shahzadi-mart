@@ -85,7 +85,12 @@
         <h4>Landing Pages</h4>
         <small>Dashboard &rsaquo; Marketing &rsaquo; Landing Pages</small>
     </div>
-    <a href="{{ route('admin.landing-pages.create') }}" class="btn-add-new">+ Create New Page</a>
+    <div class="d-flex gap-2">
+        <a href="{{ route('admin.landing-pages.templates') }}" class="btn btn-outline-primary rounded-pill d-flex align-items-center gap-2">
+            <i class="bi bi-grid-3x3-gap-fill"></i> Theme Library ({{ $templates_count }})
+        </a>
+        <a href="{{ route('admin.landing-pages.create') }}" class="btn-add-new">+ Create New Page</a>
+    </div>
 </div>
 
 @if(session('success'))

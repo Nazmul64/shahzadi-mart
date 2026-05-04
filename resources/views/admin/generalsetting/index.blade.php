@@ -47,6 +47,154 @@
     </div>
 @endif
 
+{{-- ── Site Configuration ───────────────────────────────────────────── --}}
+<div class="row">
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-body">
+                <h6 class="fw-bold mb-3"><i class="fas fa-edit me-2"></i>Site Name</h6>
+                <form action="{{ route('admin.Generalsettings.update', $setting->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="form-group mb-3">
+                        <label class="form-label fw-600">Website Name</label>
+                        <input type="text" name="site_name" class="form-control" value="{{ old('site_name', $setting->site_name) }}" placeholder="Enter website name..." required>
+                    </div>
+                    <button type="submit" class="btn btn-primary px-4">
+                        <i class="fas fa-save me-1"></i> Save Name
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-body">
+                <h6 class="fw-bold mb-3"><i class="fas fa-th-large me-2"></i>Layout & Menu Settings</h6>
+                <form action="{{ route('admin.Generalsettings.update', $setting->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    {{-- Hidden input to keep site_name unchanged --}}
+                    <input type="hidden" name="site_name" value="{{ $setting->site_name }}">
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label class="form-label fw-600">Category Menu Display</label>
+                                <select name="category_menu_type" class="form-select">
+                                    <option value="fixed" {{ $setting->category_menu_type == 'fixed' ? 'selected' : '' }}>Fixed (Always Visible)</option>
+                                    <option value="hover" {{ $setting->category_menu_type == 'hover' ? 'selected' : '' }}>Hover (Animated Header Button)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label class="form-label fw-600">Site Layout Width</label>
+                                <select name="site_layout_width" class="form-select">
+                                    <option value="boxed" {{ $setting->site_layout_width == 'boxed' ? 'selected' : '' }}>Boxed (With Side Gaps)</option>
+                                    <option value="full-width" {{ $setting->site_layout_width == 'full-width' ? 'selected' : '' }}>Full Width (Edge to Edge)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label class="form-label fw-600">Products Per Row (Desktop)</label>
+                                <select name="products_per_row" class="form-select">
+                                    @foreach([2, 3, 4, 5, 6] as $num)
+                                        <option value="{{ $num }}" {{ $setting->products_per_row == $num ? 'selected' : '' }}>{{ $num }} Products</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-dark px-4">
+                        <i class="fas fa-sync-alt me-1"></i> Update Layout
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- ── Theme & Typography ───────────────────────────────────────────── --}}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card mb-4">
+            <div class="card-body">
+                <h6 class="fw-bold mb-3"><i class="fas fa-palette me-2"></i> Theme & Typography Settings</h6>
+                <form action="{{ route('admin.Generalsettings.update', $setting->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group mb-3">
+                                <label class="form-label fw-600">Primary Color (Buttons, Accents)</label>
+                                <input type="color" name="primary_color" class="form-control form-control-color w-100" value="{{ $setting->primary_color }}">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group mb-3">
+                                <label class="form-label fw-600">Header Background Color</label>
+                                <input type="color" name="header_color" class="form-control form-control-color w-100" value="{{ $setting->header_color }}">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group mb-3">
+                                <label class="form-label fw-600">Header Text Color</label>
+                                <input type="color" name="header_text_color" class="form-control form-control-color w-100" value="{{ $setting->header_text_color }}">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group mb-3">
+                                <label class="form-label fw-600">Footer Background Color</label>
+                                <input type="color" name="footer_color" class="form-control form-control-color w-100" value="{{ $setting->footer_color }}">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group mb-3">
+                                <label class="form-label fw-600">Footer Text Color</label>
+                                <input type="color" name="footer_text_color" class="form-control form-control-color w-100" value="{{ $setting->footer_text_color }}">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group mb-3">
+                                <label class="form-label fw-600">Base Font Size (px)</label>
+                                <input type="number" name="font_size" class="form-control" value="{{ $setting->font_size }}" min="10" max="24">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group mb-3">
+                                <label class="form-label fw-600">Font Family</label>
+                                <select name="font_family" class="form-select">
+                                    <option value="Plus Jakarta Sans" {{ $setting->font_family == 'Plus Jakarta Sans' ? 'selected' : '' }}>Plus Jakarta Sans (Modern)</option>
+                                    <option value="'Inter', sans-serif" {{ $setting->font_family == "'Inter', sans-serif" ? 'selected' : '' }}>Inter (Clean)</option>
+                                    <option value="'Roboto', sans-serif" {{ $setting->font_family == "'Roboto', sans-serif" ? 'selected' : '' }}>Roboto (Classic)</option>
+                                    <option value="'Outfit', sans-serif" {{ $setting->font_family == "'Outfit', sans-serif" ? 'selected' : '' }}>Outfit (Premium)</option>
+                                    <option value="'Poppins', sans-serif" {{ $setting->font_family == "'Poppins', sans-serif" ? 'selected' : '' }}>Poppins (Trendy)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-dark px-4">
+                        <i class="fas fa-save me-1"></i> Save Theme Settings
+                    </button>
+                </form>
+                <form action="{{ route('admin.Generalsettings.reset') }}" method="POST" onsubmit="return confirm('Reset all theme settings to default?')" class="mt-2">
+                    @csrf
+                    <button type="submit" class="btn btn-outline-danger px-4">
+                        <i class="fas fa-undo me-1"></i> Reset to Default
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+            </div>
+        </div>
+    </div>
+</div>
+
 {{-- ── Logo Cards ───────────────────────────────────────────────── --}}
 <div class="card logo-wrapper">
     <div class="card-body p-4">

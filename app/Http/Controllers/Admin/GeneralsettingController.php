@@ -108,7 +108,58 @@ class GeneralsettingController extends Controller
 
     public function update(Request $request, $id)
     {
-        return redirect()->route('admin.Generalsettings.index');
+        $request->validate([
+            'site_name'          => 'nullable|string|max:255',
+            'category_menu_type' => 'nullable|string|in:fixed,hover',
+            'site_layout_width'  => 'nullable|string|in:boxed,full-width',
+            'products_per_row'   => 'nullable|integer|between:2,6',
+            'primary_color'      => 'nullable|string|max:20',
+            'header_color'       => 'nullable|string|max:20',
+            'footer_color'       => 'nullable|string|max:20',
+            'header_text_color'  => 'nullable|string|max:20',
+            'footer_text_color'  => 'nullable|string|max:20',
+            'font_family'        => 'nullable|string|max:100',
+            'font_size'          => 'nullable|integer|between:10,24',
+        ]);
+
+        $setting = Generalsetting::getSettings();
+        $setting->update([
+            'site_name'          => $request->site_name          ?? $setting->site_name,
+            'category_menu_type' => $request->category_menu_type ?? $setting->category_menu_type,
+            'site_layout_width'  => $request->site_layout_width  ?? $setting->site_layout_width,
+            'products_per_row'   => $request->products_per_row   ?? $setting->products_per_row,
+            'primary_color'      => $request->primary_color      ?? $setting->primary_color,
+            'header_color'       => $request->header_color       ?? $setting->header_color,
+            'footer_color'       => $request->footer_color       ?? $setting->footer_color,
+            'header_text_color'  => $request->header_text_color  ?? $setting->header_text_color,
+            'footer_text_color'  => $request->footer_text_color  ?? $setting->footer_text_color,
+            'font_family'        => $request->font_family        ?? $setting->font_family,
+            'font_size'          => $request->font_size          ?? $setting->font_size,
+        ]);
+
+        \Illuminate\Support\Facades\Cache::forget('web_setting');
+        \Illuminate\Support\Facades\Cache::forget('sidebar_categories');
+
+        return back()->with('success', 'General settings updated successfully!');
+    }
+
+    public function resetTheme()
+    {
+        $setting = Generalsetting::getSettings();
+        $setting->update([
+            'primary_color'     => '#be0318',
+            'header_color'      => '#ffffff',
+            'footer_color'      => '#ffffff',
+            'header_text_color' => '#333333',
+            'footer_text_color' => '#333333',
+            'font_family'       => 'Plus Jakarta Sans',
+            'font_size'         => 14,
+        ]);
+
+        \Illuminate\Support\Facades\Cache::forget('web_setting');
+        \Illuminate\Support\Facades\Cache::forget('sidebar_categories');
+
+        return back()->with('success', 'Theme settings reset to default successfully!');
     }
 
     public function destroy($id)

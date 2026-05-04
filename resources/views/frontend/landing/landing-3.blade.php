@@ -6,6 +6,10 @@
 <title>{{ $landing->title }}</title>
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
+@if(isset($favicon) && $favicon->favicon_logo)
+    <link rel="icon" type="image/png" href="{{ asset($favicon->favicon_logo) }}">
+@endif
+
 <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 <!-- AOS Animation CSS -->

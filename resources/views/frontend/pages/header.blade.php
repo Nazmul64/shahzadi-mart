@@ -22,7 +22,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="robots" content="index, follow">
     @php
-        $siteName = $websetting?->site_name ?? 'Shahzadi-mart';
+        $gs = \App\Models\Generalsetting::getSettings();
+        $siteName = $gs->site_name;
+        $websitefavicon = \App\Models\Websitefavicon::getSettings();
         
         $seoTitle = $siteName;
         $seoDesc  = '';
@@ -121,6 +123,87 @@
     <link rel="stylesheet" href="{{ asset('frontend') }}/assets/css/allproduct.css">
     <link rel="stylesheet" href="{{ asset('frontend') }}/assets/css/productdetils.css">
     <link rel="stylesheet" href="{{ asset('frontend') }}/assets/css/custom-loader.css">
+    <style>
+        :root {
+            --red: {{ $gs->primary_color ?? '#be0318' }};
+            --red-d: {{ ($gs->primary_color ? $gs->primary_color . 'cc' : '#96010f') }};
+            --header-bg: {{ $gs->header_color ?? '#ffffff' }};
+            --header-text: {{ $gs->header_text_color ?? '#333333' }};
+            --font-main: {{ $gs->font_family ?? 'Plus Jakarta Sans' }}, sans-serif;
+        }
+        body { font-family: var(--font-main); overflow-x: hidden !important; }
+        
+        /* ── Design Restoration ── */
+        .site-hdr { background-color: var(--header-bg) !important; color: var(--header-text) !important; position: sticky !important; top: 0 !important; z-index: 2000000 !important; overflow: visible !important; }
+        .site-nav { position: relative !important; z-index: 1000000 !important; overflow: visible !important; background: var(--red) !important; height: 55px !important; display: flex !important; align-items: center; }
+        .site-nav > div { overflow: visible !important; height: 100% !important; }
+        .site-nav__in { display: flex !important; align-items: center !important; height: 100% !important; width: 100% !important; overflow: visible !important; }
+        
+        /* ── LAYOUT FIX: Lower Stacking for Page content ── */
+        .main-site-content { position: relative !important; z-index: 1 !important; }
+        .page-wrap.no-sidebar { grid-template-columns: 1fr !important; gap: 0 !important; position: relative !important; z-index: 1 !important; }
+        
+        /* ── FULL WIDTH CONTAINER FIX (Prevents sidebar overlap) ── */
+        .container-fluid .page-wrap { max-width: 100% !important; padding-left: 20px !important; padding-right: 20px !important; }
+
+        /* ── Dynamic Layout Settings from Admin Panel ── */
+        @media (min-width: 1201px) {
+            .smhome-prod-grid, .smp-grid, .cp-prod-grid, .ofp-grid {
+                grid-template-columns: repeat({{ $gs->products_per_row ?? 5 }}, 1fr) !important;
+            }
+        }
+        @media (min-width: 992px) and (max-width: 1200px) {
+            .smhome-prod-grid, .smp-grid, .cp-prod-grid, .ofp-grid {
+                grid-template-columns: repeat({{ min(($gs->products_per_row ?? 4), 4) }}, 1fr) !important;
+            }
+        }
+        
+        /* ── Category Dropdown Overhaul ── */
+        .nav-cat-dropdown { position: relative !important; display: flex !important; align-items: center !important; overflow: visible !important; z-index: 10000 !important; height: 100% !important; }
+        .nav-cat-btn { 
+            background: rgba(0,0,0,0.2) !important; color: #fff !important; border: 1px solid rgba(255,255,255,0.2) !important; padding: 0 25px !important; 
+            border-radius: 6px !important; font-size: 15px !important; font-weight: 800 !important; cursor: pointer !important;
+            display: flex !important; align-items: center !important; gap: 10px !important; position: relative !important; z-index: 11 !important;
+            height: 42px !important; white-space: nowrap !important; min-width: 210px !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+        .nav-cat-btn:hover { background: rgba(0,0,0,0.3) !important; box-shadow: 0 0 15px rgba(0,0,0,0.2) !important; }
+        
+        .nav-cat-menu {
+            position: absolute !important; top: 100% !important; left: 0 !important; width: 280px !important; background: #fff !important;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.5) !important; border-radius: 0 0 12px 12px !important;
+            opacity: 0 !important; visibility: hidden !important; transform: translateY(15px) !important;
+            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s !important; 
+            z-index: 999999999 !important; padding: 12px 0 !important; 
+            border: 1px solid rgba(0,0,0,0.1) !important; border-top: 4px solid var(--red) !important;
+            margin-top: 0px !important; pointer-events: none;
+        }
+        
+        /* Show states with Animation */
+        .nav-cat-dropdown:hover .nav-cat-menu,
+        .nav-cat-dropdown.is-active .nav-cat-menu { 
+            opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; pointer-events: all !important;
+        }
+        
+        /* ── Nav Items ── */
+        .nav-item { color: #fff !important; font-weight: 700 !important; font-size: 14px !important; display: flex !important; align-items: center !important; gap: 6px !important; padding: 0 15px !important; height: 100% !important; text-decoration: none !important; transition: all 0.2s; opacity: 0.95; }
+        .nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.12) !important; opacity: 1; transform: translateY(-1px); }
+        .nav-item i { font-size: 16px !important; color: #fff !important; }
+        .nav-divider { width: 1px !important; height: 20px !important; background: rgba(255,255,255,0.2) !important; margin: 0 !important; }
+        
+        .nav-cat-menu .sidebar { display: block !important; width: 100% !important; border: none !important; margin: 0 !important; box-shadow: none !important; position: static !important; max-height: 80vh !important; overflow-y: auto !important; }
+        .nav-cat-menu .sb-head { display: none !important; }
+        .nav-cat-menu a { color: #333 !important; text-decoration: none !important; font-weight: 600 !important; display: block !important; padding: 8px 20px !important; transition: all 0.2s; }
+        .nav-cat-menu a:hover { background: #f8f9fa !important; color: var(--red) !important; padding-left: 25px !important; }
+
+        /* ── SEARCH BAR CLEANUP ── */
+        .hdr-search { box-shadow: none !important; border-color: var(--border) !important; }
+        .hdr-search.focused, .hdr-search:focus-within { box-shadow: none !important; border-color: var(--red) !important; background: var(--white) !important; }
+
+        @media (max-width: 991px) {
+            .site-nav { display: none !important; }
+        }
+    </style>
 
 
 
@@ -190,61 +273,64 @@
 
 {{-- ── TOP BAR ── --}}
 <div class="top-bar">
-    <div class="top-bar__in">
-        <div class="top-bar__promo">
-            <span class="top-bar__dot"></span>
-            <i class="bi bi-lightning-charge-fill" style="color:var(--gold);font-size:11px"></i>
-           {{$deliveryInformation->header_title ?? ''}}
-        </div>
-        <div class="top-bar__nav">
-            <a href="{{ route('order.track') }}" class="top-bar__track"><i class="bi bi-truck"></i> অর্ডার ট্র্যাক</a>
-            <a href="{{ route('products.all') }}"><i class="bi bi-grid-3x3-gap"></i> সব পণ্য</a>
-            <a href="#"><i class="bi bi-shop"></i> Sell on Shahzadi</a>
-            <a href="#"><i class="bi bi-geo-alt"></i> Our Stores</a>
+    <div class="{{ $gs->site_layout_width == 'boxed' ? 'container' : 'container-fluid' }}">
+        <div class="top-bar__in">
+            <div class="top-bar__promo">
+                <span class="top-bar__dot"></span>
+                <i class="bi bi-lightning-charge-fill" style="color:var(--gold);font-size:11px"></i>
+               {{$deliveryInformation->header_title ?? ''}}
+            </div>
+            <div class="top-bar__nav">
+                <a href="{{ route('order.track') }}" class="top-bar__track"><i class="bi bi-truck"></i> অর্ডার ট্র্যাক</a>
+                <a href="{{ route('products.all') }}"><i class="bi bi-grid-3x3-gap"></i> সব পণ্য</a>
+                <a href="#"><i class="bi bi-shop"></i> Sell on Shahzadi</a>
+                <a href="#"><i class="bi bi-geo-alt"></i> Our Stores</a>
+            </div>
         </div>
     </div>
 </div>
 
 {{-- ── MAIN HEADER ── --}}
 <header class="site-hdr">
-    <div class="site-hdr__in">
+    <div class="{{ $gs->site_layout_width == 'boxed' ? 'container' : 'container-fluid' }}">
+        <div class="site-hdr__in">
 
-        <button class="hamb" onclick="toggleSidebar()" aria-label="Toggle menu">
-            <i class="bi bi-list"></i>
-        </button>
+            <button class="hamb" onclick="toggleSidebar()" aria-label="Toggle menu">
+                <i class="bi bi-list"></i>
+            </button>
 
-        <a href="{{ url('/') }}" class="logo">
-            <img src="{{ !empty($websetting?->header_logo) ? asset($websetting->header_logo) : asset('default/logo.png') }}"
-                 alt="Shahzadimart Logo" style="height:70px;width:auto;">
-            <div class="logo__dot"></div>
-        </a>
+            <a href="{{ url('/') }}" class="logo">
+                <img src="{{ !empty($gs->header_logo) ? asset($gs->header_logo) : asset('default/logo.png') }}"
+                     alt="{{ $siteName }} Logo" style="height:70px;width:auto;">
+                <div class="logo__dot"></div>
+            </a>
 
-        <div class="hdr-search-wrap" id="searchWrap">
-            <div class="hdr-search" id="hdrSearch">
-                <input type="search" id="globalSearch"
-                       placeholder="পণ্য, ব্র্যান্ড, ক্যাটাগরি খুঁজুন…"
-                       autocomplete="off" aria-label="Search products">
-                <button class="search-clear" id="searchClear" type="button" title="Clear">
-                    <i class="bi bi-x-lg"></i>
-                </button>
-                <button class="hdr-search__btn" type="button" onclick="doSearch()">
-                    <i class="bi bi-search"></i> Search
-                </button>
-            </div>
-            <div class="search-dropdown" id="searchDropdown">
-                <div class="search-loading" id="searchLoading">
-                    <div class="search-spinner"></div> খুঁজছি…
+            <div class="hdr-search-wrap" id="searchWrap">
+                <div class="hdr-search" id="hdrSearch">
+                    <input type="search" id="globalSearch"
+                           placeholder="পণ্য, ব্র্যান্ড, ক্যাটাগরি খুঁজুন…"
+                           autocomplete="off" aria-label="Search products">
+                    <button class="search-clear" id="searchClear" type="button" title="Clear">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+                    <button class="hdr-search__btn" type="button" onclick="doSearch()">
+                        <i class="bi bi-search"></i> Search
+                    </button>
                 </div>
-                <div id="searchResults"></div>
+                <div class="search-dropdown" id="searchDropdown">
+                    <div class="search-loading" id="searchLoading">
+                        <div class="search-spinner"></div> খুঁজছি…
+                    </div>
+                    <div id="searchResults"></div>
+                </div>
             </div>
-        </div>
 
-        <a href="{{ route('order.track') }}" class="track-order-btn" aria-label="Track Order">
-            <i class="bi bi-truck"></i>
-            <span class="track-lbl">অর্ডার ট্র্যাক</span>
-        </a>
+            <a href="{{ route('order.track') }}" class="track-order-btn" aria-label="Track Order">
+                <i class="bi bi-truck"></i>
+                <span class="track-lbl">অর্ডার ট্র্যাক</span>
+            </a>
 
-        <div class="hdr-actions">
+            <div class="hdr-actions">
 
             {{-- Account --}}
             <div class="hdr-drop-wrap">
@@ -440,54 +526,158 @@
             </div>
 
         </div>{{-- /.hdr-actions --}}
-    </div>
+    </div>{{-- /.site-hdr__in --}}
+    </div>{{-- /.container --}}
 </header>
 
 {{-- ── SECONDARY NAV ── --}}
 <nav class="site-nav" aria-label="Main navigation">
-    <div class="site-nav__in">
-        <a href="{{ url('/') }}" class="nav-item {{ request()->is('/') ? 'active' : '' }}">
-            <i class="bi bi-house"></i> হোম
-        </a>
-        <span class="nav-divider"></span>
-        <a href="{{ route('products.all') }}" class="nav-item {{ request()->routeIs('products.all') ? 'active' : '' }}">
-            <i class="bi bi-grid-3x3-gap"></i> সব পণ্য
-        </a>
-        <span class="nav-divider"></span>
-        <a href="{{ url('shop') }}" class="nav-item {{ request()->is('shop*') ? 'active' : '' }}">
-            <i class="bi bi-bag"></i> শপ
-        </a>
-        <span class="nav-divider"></span>
-        <a href="{{ url('offers') }}" class="nav-item {{ request()->is('offers*') ? 'active' : '' }}">
-            <i class="bi bi-tag"></i> অফার
-        </a>
-        <span class="nav-divider"></span>
-        <a href="{{ url('new-arrivals') }}" class="nav-item {{ request()->is('new-arrivals*') ? 'active' : '' }}">
-            <i class="bi bi-stars"></i> নতুন পণ্য
-        </a>
-        <span class="nav-divider"></span>
-        <a href="{{ route('contact.details') }}" class="nav-item {{ request()->is('contact*') ? 'active' : '' }}">
-            <i class="bi bi-telephone"></i> যোগাযোগ
-        </a>
-        <a href="{{ route('about.company') }}" class="nav-item {{ request()->is('about*') ? 'active' : '' }}">
-            <i class="bi bi-info-circle"></i> আমাদের সম্পর্কে
-        </a>
+    <div class="{{ $gs->site_layout_width == 'boxed' ? 'container' : 'container-fluid' }}">
+        <div class="site-nav__in">
+            @if($gs->category_menu_type == 'hover')
+                <div class="nav-cat-dropdown" id="navCatDropdown">
+                    <button type="button" class="nav-cat-btn" id="catBtnToggle" onclick="event.stopPropagation(); document.getElementById('navCatDropdown').classList.toggle('is-active');">
+                        <i class="bi bi-grid-fill"></i> সব ক্যাটাগরি <i class="bi bi-chevron-down ms-1"></i>
+                    </button>
+                    <div class="nav-cat-menu">
+                        @include('frontend.pages.category')
+                    </div>
+                </div>
+                <span class="nav-divider"></span>
+                
+                <script>
+                    document.addEventListener('mouseover', function(e) {
+                        if (e.target.closest('#catBtnToggle') || e.target.closest('#navCatMenu')) {
+                            document.getElementById('navCatDropdown').classList.add('is-active');
+                        }
+                    });
 
-         <a href="{{ route('terms.conditions') }}" class="nav-item {{ request()->is('terms*') ? 'active' : '' }}">
-            <i class="bi bi-info-circle"></i> শর্তাবলী
-        </a>
-        <span class="nav-divider"></span>
-        <a href="{{ route('blog.index') }}" class="nav-item {{ request()->routeIs('blog.*') ? 'active' : '' }}">
-            <i class="bi bi-journal-text"></i> ব্লগ
-        </a>
-        <a href="{{ route('order.track') }}" class="nav-item nav-item--track {{ request()->routeIs('order.track*') ? 'active' : '' }}">
-            <i class="bi bi-truck"></i> অর্ডার ট্র্যাক করুন
-        </a>
+                    document.addEventListener('mouseout', function(e) {
+                        if (!e.relatedTarget || (!e.relatedTarget.closest('#catBtnToggle') && !e.relatedTarget.closest('#navCatMenu'))) {
+                            document.getElementById('navCatDropdown').classList.remove('is-active');
+                        }
+                    });
+
+                    // Search Bar Typing Effect
+                    const searchInput = document.getElementById('globalSearch');
+                    if (searchInput) {
+                        const typingWords = [
+                            "আপনার প্রয়োজনীয় যেকোনো পণ্য খুঁজুন...", 
+                            "স্মার্টফোন, গ্যাজেট এবং ইলেকট্রনিক্স খুঁজুন...", 
+                            "ছেলে ও মেয়েদের লেটেস্ট ফ্যাশন কালেকশন খুঁজুন...", 
+                            "অরিজিনাল কসমেটিকস ও বিউটি প্রোডাক্ট খুঁজুন..."
+                        ];
+                        let wordIndex = 0;
+                        let charIndex = 0;
+                        let isDeleting = false;
+
+                        // Use Intl.Segmenter for proper Bengali conjuncts (যুক্তবর্ণ) handling
+                        const segmenter = new Intl.Segmenter("bn", { granularity: "grapheme" });
+
+                        function typeEffect() {
+                            const currentWord = typingWords[wordIndex];
+                            const segments = Array.from(segmenter.segment(currentWord)).map(s => s.segment);
+                            
+                            if (isDeleting) {
+                                searchInput.placeholder = segments.slice(0, charIndex - 1).join('');
+                                charIndex--;
+                            } else {
+                                searchInput.placeholder = segments.slice(0, charIndex + 1).join('');
+                                charIndex++;
+                            }
+                            
+                            let typeSpeed = 80;
+                            if (isDeleting) typeSpeed /= 2;
+                            
+                            if (!isDeleting && charIndex === segments.length) {
+                                typeSpeed = 2000; // Pause at end of word
+                                isDeleting = true;
+                            } else if (isDeleting && charIndex === 0) {
+                                isDeleting = false;
+                                wordIndex = (wordIndex + 1) % typingWords.length;
+                                typeSpeed = 500; // Pause before new word
+                            }
+                            setTimeout(typeEffect, typeSpeed);
+                        }
+                        
+                        // Start typing effect
+                        setTimeout(typeEffect, 1000);
+                    }
+                </script>
+            @endif
+
+            <a href="{{ url('/') }}" class="nav-item {{ request()->is('/') ? 'active' : '' }}">
+                <i class="bi bi-house"></i> হোম
+            </a>
+            <span class="nav-divider"></span>
+            <a href="{{ route('products.all') }}" class="nav-item {{ request()->routeIs('products.all') ? 'active' : '' }}">
+                <i class="bi bi-grid-3x3-gap"></i> সব পণ্য
+            </a>
+            <span class="nav-divider"></span>
+            <a href="{{ url('shop') }}" class="nav-item {{ request()->is('shop*') ? 'active' : '' }}">
+                <i class="bi bi-bag"></i> শপ
+            </a>
+            <span class="nav-divider"></span>
+            <a href="{{ url('offers') }}" class="nav-item {{ request()->is('offers*') ? 'active' : '' }}">
+                <i class="bi bi-tag"></i> অফার
+            </a>
+            <span class="nav-divider"></span>
+            <a href="{{ url('new-arrivals') }}" class="nav-item {{ request()->is('new-arrivals*') ? 'active' : '' }}">
+                <i class="bi bi-stars"></i> নতুন পণ্য
+            </a>
+            <span class="nav-divider"></span>
+            <a href="{{ route('contact.details') }}" class="nav-item {{ request()->is('contact*') ? 'active' : '' }}">
+                <i class="bi bi-telephone"></i> যোগাযোগ
+            </a>
+            <a href="{{ route('about.company') }}" class="nav-item {{ request()->is('about*') ? 'active' : '' }}">
+                <i class="bi bi-info-circle"></i> আমাদের সম্পর্কে
+            </a>
+
+             <a href="{{ route('terms.conditions') }}" class="nav-item {{ request()->is('terms*') ? 'active' : '' }}">
+                <i class="bi bi-info-circle"></i> শর্তাবলী
+            </a>
+            <span class="nav-divider"></span>
+            <a href="{{ route('blog.index') }}" class="nav-item {{ request()->routeIs('blog.*') ? 'active' : '' }}">
+                <i class="bi bi-journal-text"></i> ব্লগ
+            </a>
+            <a href="{{ route('order.track') }}" class="nav-item nav-item--track {{ request()->routeIs('order.track*') ? 'active' : '' }}">
+                <i class="bi bi-truck"></i> অর্ডার ট্র্যাক করুন
+            </a>
+        </div>
     </div>
 </nav>
 
 {{-- Sidebar overlay --}}
 <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+{{-- Mobile Sidebar Drawer --}}
+<div id="sidebar-drawer">
+    @include('frontend.pages.category')
+</div>
+
+<style>
+    #sidebar-drawer {
+        position: fixed; top: 0; left: -300px; width: 300px; height: 100vh;
+        background: #fff; z-index: 99999999; transition: all 0.3s ease;
+        overflow-y: auto; box-shadow: 10px 0 30px rgba(0,0,0,0.1);
+    }
+    #sidebar-drawer.is-open { left: 0; }
+    
+    /* Ensure the sidebar inside drawer is visible and styled correctly */
+    #sidebar-drawer .sidebar { width: 100% !important; display: block !important; border: none !important; box-shadow: none !important; margin: 0 !important; height: auto !important; position: static !important; }
+</style>
+
+<script>
+    function toggleSidebar() {
+        var drawer = document.getElementById('sidebar-drawer');
+        var overlay = document.getElementById('sidebarOverlay');
+        if (!drawer || !overlay) return;
+        
+        var isOpen = drawer.classList.toggle('is-open');
+        overlay.classList.toggle('active', isOpen);
+        document.body.style.overflow = isOpen ? 'hidden' : '';
+    }
+</script>
 
 {{-- ── MOBILE BOTTOM NAV ── --}}
 <nav class="mob-nav" id="mobNav" aria-label="Mobile navigation">
@@ -741,22 +931,6 @@ function doSearch() {
 }
 document.getElementById('globalSearch') && document.getElementById('globalSearch').addEventListener('keypress', function (e) {
     if (e.key === 'Enter') doSearch();
-});
-
-/* ── Mobile sidebar toggle ── */
-function toggleSidebar() {
-    var sb  = document.getElementById('sidebar');
-    var ovl = document.getElementById('sidebarOverlay');
-    if (!sb || !ovl) return;
-    var open = sb.classList.toggle('is-open');
-    ovl.classList.toggle('active', open);
-    document.body.style.overflow = open ? 'hidden' : '';
-}
-document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') {
-        var sb = document.getElementById('sidebar');
-        if (sb && sb.classList.contains('is-open')) toggleSidebar();
-    }
 });
 
 /* ── Badge updater ── */

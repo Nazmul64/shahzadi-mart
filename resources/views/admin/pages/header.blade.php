@@ -4,7 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Admin Panel — MultiVendor</title>
+    @php
+        $gs = \App\Models\Generalsetting::getSettings();
+        $favicon = \App\Models\Websitefavicon::getSettings();
+    @endphp
+    <title>{{ $gs->site_name }} — Admin Panel</title>
+    @if($favicon->favicon_logo)
+        <link rel="icon" type="image/png" href="{{ asset($favicon->favicon_logo) }}">
+    @endif
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Latest CDN Links -->

@@ -123,19 +123,63 @@
             </div>
 
             <div class="form-card mb-4">
-                <h5 class="mb-4 border-bottom pb-2">Choose Template <span class="text-danger">*</span></h5>
-                <input type="hidden" name="template_name" id="template_name" value="landing-1">
+                <h5 class="mb-4 border-bottom pb-2">Choose Visual Style (Blade Template) <span class="text-danger">*</span></h5>
+                <input type="hidden" name="template_name" id="template_name" value="{{ $source_template ? $source_template->template_name : 'landing-3' }}">
+                <input type="hidden" name="source_template_id" value="{{ $source_template ? $source_template->id : '' }}">
                 
                 <div class="template-selector">
-                    @foreach($templates as $t)
-                    <div class="template-item {{ $t['id'] == 'landing-1' ? 'selected' : '' }}" onclick="selectTemplate('{{ $t['id'] }}', this)">
+                    @php
+                        $built_in = [
+                            ['id' => 'landing-1', 'name' => 'Template 1 (Modern Dark)', 'image' => 'https://via.placeholder.com/300x150?text=Template+1'],
+                            ['id' => 'landing-2', 'name' => 'Template 2 (Clean Light)', 'image' => 'https://via.placeholder.com/300x150?text=Template+2'],
+                            ['id' => 'landing-3', 'name' => 'Template 3 (Dynamic Builder)', 'image' => 'https://via.placeholder.com/300x150?text=Template+3'],
+                        ];
+                        $selected_template = $source_template ? $source_template->template_name : 'landing-3';
+                    @endphp
+                    @foreach($built_in as $t)
+                    <div class="template-item {{ $selected_template == $t['id'] ? 'selected' : '' }}" onclick="selectTemplate('{{ $t['id'] }}', this)">
                         <img src="{{ $t['image'] }}" alt="{{ $t['name'] }}">
                         <div class="template-name">{{ $t['name'] }}</div>
                         <div class="template-check"><i class="bi bi-check"></i></div>
                     </div>
                     @endforeach
                 </div>
+                <div class="mt-3 text-muted" style="font-size: 0.85rem;">
+                    <i class="bi bi-info-circle"></i> This controls the base layout. You will add content blocks in the next step.
+                </div>
             </div>
+
+            @if($source_template)
+            <div class="alert alert-success d-flex align-items-center mb-4">
+                <i class="bi bi-magic me-2 fs-4"></i>
+                <div>
+                    <strong>Selected Theme: {{ $source_template->title }}</strong><br>
+                    All blocks and styles from this theme will be copied to your new page automatically!
+                </div>
+            </div>
+            @elseif($templates->count() > 0)
+            <div class="form-card mb-4">
+                <h5 class="mb-4 border-bottom pb-2">Or Start from a Ready-made Theme</h5>
+                <div class="row g-3">
+                    @foreach($templates as $t)
+                    <div class="col-md-6">
+                        <a href="{{ route('admin.landing-pages.create', ['template_id' => $t->id]) }}" class="text-decoration-none">
+                            <div class="template-item border {{ request('template_id') == $t->id ? 'border-primary shadow' : '' }}">
+                                @if($t->preview_image)
+                                    <img src="{{ asset('uploads/landing/'.$t->preview_image) }}" alt="{{ $t->title }}">
+                                @else
+                                    <div class="bg-light d-flex align-items-center justify-content-center" style="height: 120px;">
+                                        <i class="bi bi-columns-gap fs-1 text-muted"></i>
+                                    </div>
+                                @endif
+                                <div class="template-name text-dark">{{ $t->title }}</div>
+                            </div>
+                        </a>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+            @endif
 
             <div class="form-card">
                 <h5 class="mb-4 border-bottom pb-2">Tracking & Analytics</h5>
@@ -200,6 +244,20 @@
                 </div>
             </div>
 
+            <div class="form-card mb-4 border-primary border-2">
+                <h5 class="mb-3 text-primary"><i class="bi bi-star-fill me-1"></i> Theme Library</h5>
+                <div class="form-check form-switch mb-3">
+                    <input class="form-check-input" type="checkbox" name="is_template" id="is_template">
+                    <label class="form-check-label fw-bold" for="is_template">Mark as a Template</label>
+                </div>
+                <div id="template_preview_section" style="display: none;">
+                    <label class="form-label">Template Preview Image</label>
+                    <input type="file" name="preview_image" class="form-control" onchange="previewImg(this, 'preview_template')">
+                    <img id="preview_template" class="img-preview">
+                    <small class="text-muted d-block mt-1">This image will show up in the "Ready-made Themes" gallery.</small>
+                </div>
+            </div>
+
             <button type="submit" class="btn btn-primary w-100 py-3 fw-bold shadow" style="background: #1a2b6b; border: none; font-size: 1.1rem;">
                 <i class="bi bi-arrow-right-circle me-2"></i> Save & Go to Builder
             </button>
@@ -233,6 +291,9 @@
             .replace(/[\s_-]+/g, '-')
             .replace(/^-+|-+$/g, '');
         document.getElementById('slug').value = slug;
+    });
+    document.getElementById('is_template').addEventListener('change', function() {
+        document.getElementById('template_preview_section').style.display = this.checked ? 'block' : 'none';
     });
 </script>
 

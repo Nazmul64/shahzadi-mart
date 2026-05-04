@@ -369,6 +369,7 @@ Route::middleware(['admin'])
     // ──────────────────────────────────────────────────────────────────────────
     // GENERAL SETTINGS
     // ──────────────────────────────────────────────────────────────────────────
+    Route::post('Generalsettings/reset',       [GeneralsettingController::class, 'resetTheme'])->name('Generalsettings.reset');
     Route::post('Generalsettings/upload-logo', [GeneralsettingController::class, 'uploadLogo'])->name('Generalsettings.upload-logo');
     Route::post('Generalsettings/delete-logo', [GeneralsettingController::class, 'deleteLogo'])->name('Generalsettings.delete-logo');
     Route::resource('Generalsettings', GeneralsettingController::class);
@@ -572,6 +573,7 @@ Route::middleware(['admin'])
     Route::resource('pages',                  PageController::class);
     Route::resource('footercategory',         FootercategoryController::class);
     Route::resource('DeliveryInformation',    DeliveryInformationController::class);
+    Route::get('landing-templates',           [LandingPageController::class, 'templates'])->name('landing-pages.templates');
     Route::resource('landing-pages',          LandingPageController::class);
     Route::get('landing-pages/{id}/duplicate', [LandingPageController::class, 'duplicate'])->name('landing-pages.duplicate');
 
@@ -584,7 +586,8 @@ Route::middleware(['admin'])
     Route::delete('landing-pages/builder/block/{block_id}', [LandingPageBuilderController::class, 'destroyBlock'])->name('landing-pages.builder.destroy');
     Route::post('landing-pages/builder/reorder', [LandingPageBuilderController::class, 'reorderBlocks'])->name('landing-pages.builder.reorder');
     Route::post('landing-pages/builder/bulk-delete', [LandingPageBuilderController::class, 'bulkDelete'])->name('landing-pages.builder.bulk-delete');
-    Route::post('landing-pages/builder/{id}/settings', [LandingPageBuilderController::class, 'updateSettings'])->name('landing-pages.builder.update_settings');
+    Route::post('landing-pages/{id}/builder/update-settings', [LandingPageBuilderController::class, 'updateSettings'])->name('landing-pages.builder.update_settings');
+    Route::post('landing-pages/{id}/builder/switch-theme',    [LandingPageBuilderController::class, 'switchTheme'])->name('landing-pages.builder.switch_theme');
 
 // Added explicit route for admin landing index
 Route::get('landing', [LandingPageController::class, 'index'])->name('landing.index');

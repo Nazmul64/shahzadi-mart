@@ -10,7 +10,7 @@
     </div>
 
     <div class="topbar-right">
-        <a href="#" class="topbar-icon-btn">
+        <a href="{{ route('frontend') }}" target="_blank" class="topbar-icon-btn" title="View Site">
             <i class="bi bi-globe"></i>
         </a>
         <a href="#" class="topbar-icon-btn">
@@ -38,10 +38,14 @@
             <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="userDrop"
                 style="font-size:13px; min-width:160px; border-color:var(--border);">
                 <li>
-                    <a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Profile</a>
+                    <a class="dropdown-item" href="{{ route('admin.profile.index') }}">
+                        <i class="bi bi-person me-2"></i>Profile
+                    </a>
                 </li>
                 <li>
-                    <a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Settings</a>
+                    <a class="dropdown-item" href="{{ route('admin.Generalsettings.index') }}">
+                        <i class="bi bi-gear me-2"></i>Settings
+                    </a>
                 </li>
                 <li><hr class="dropdown-divider"></li>
                 <li>

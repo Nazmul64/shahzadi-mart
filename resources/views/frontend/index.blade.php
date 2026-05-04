@@ -22,6 +22,40 @@
 <div class="smhome-ci content-area-inner">
 
     {{-- ══ HERO ══ --}}
+    @php
+        $slideCount = $slider->count();
+        $slideDuration = 4; // seconds per slide
+        $totalDuration = $slideCount > 0 ? $slideCount * $slideDuration : 16;
+    @endphp
+
+    @if($slideCount > 0)
+    <style>
+        .smhome-slides-wrap {
+            animation: smhome-dyn-slide {{ $totalDuration }}s infinite !important;
+        }
+        @keyframes smhome-dyn-slide {
+            @for($i = 0; $i < $slideCount; $i++)
+                @php
+                    $startPct = ($i / $slideCount) * 100;
+                    $pausePct = $startPct + ((80 / $slideCount) * ($slideCount == 1 ? 0 : 1)); // wait before sliding
+                @endphp
+                {{ $startPct }}%, {{ $pausePct }}% { transform: translateX(-{{ $i * 100 }}%); }
+            @endfor
+            100% { transform: translateX(0%); }
+        }
+
+        @for($i = 0; $i < $slideCount; $i++)
+            .smhome-sl-dot:nth-child({{ $i + 1 }}) {
+                animation: smhome-dyn-dot {{ $totalDuration }}s infinite {{ -($slideCount - $i) * $slideDuration }}s !important;
+            }
+        @endfor
+        @keyframes smhome-dyn-dot {
+            0%, {{ 80 / $slideCount }}% { background: #fff; width: 24px; }
+            {{ 100 / $slideCount }}%, 100% { background: rgba(255,255,255,.4); width: 8px; }
+        }
+    </style>
+    @endif
+
     <div class="smhome-hero">
         <div class="smhome-hero-slider">
             <div class="smhome-slides-wrap">
@@ -37,10 +71,9 @@
                 @endforelse
             </div>
             <div class="smhome-sl-dots">
-                <div class="smhome-sl-dot"></div>
-                <div class="smhome-sl-dot"></div>
-                <div class="smhome-sl-dot"></div>
-                <div class="smhome-sl-dot"></div>
+                @foreach ($slider as $index => $item)
+                    <div class="smhome-sl-dot {{ $index === 0 ? 'active' : '' }}"></div>
+                @endforeach
             </div>
         </div>
 
