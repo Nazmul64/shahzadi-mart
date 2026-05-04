@@ -78,7 +78,7 @@
                                      class="logo-img">
                             @else
                                 <span class="logo-placeholder">
-                                    {{ $setting->site_name ?? 'Your Logo' }}
+                                    {{ $setting?->site_name ?? 'Your Logo' }}
                                 </span>
                             @endif
                         </div>

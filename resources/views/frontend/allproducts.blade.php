@@ -3,258 +3,177 @@
 
 @section('main-content')
 
+<style>
+.smp-allprod { margin-top: 15px; }
+
+/* ══ HERO ══ */
+.smp-hero {
+    background: linear-gradient(135deg, #0e0e0f 0%, #2c2c30 100%);
+    border-radius: 20px; padding: 40px; margin-bottom: 25px; color: #fff;
+    display: flex; justify-content: space-between; align-items: center; overflow: hidden; position: relative;
+}
+.smp-hero::after {
+    content: ''; position: absolute; right: -20px; top: -20px; width: 150px; height: 150px;
+    border-radius: 50%; border: 30px solid rgba(255,255,255,.03);
+}
+.smp-hero-text h1 { font-size: 32px; font-weight: 900; margin-bottom: 8px; }
+.smp-hero-text p { color: rgba(255,255,255,.6); font-size: 14px; }
+.smp-hero-count { text-align: right; }
+.smp-hero-count-num { display: block; font-size: 36px; font-weight: 900; color: #d0152b; }
+.smp-hero-count-label { font-size: 12px; color: rgba(255,255,255,.5); text-transform: uppercase; letter-spacing: 1px; }
+
+/* ══ LAYOUT ══ */
+.smp-layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 24px;
+    align-items: start;
+}
+
+/* ══ SIDEBAR ══ */
+.smp-sidebar { background: #fff; border: 1.5px solid #e8e8ef; border-radius: 14px; padding: 20px; position: sticky; top: 20px; }
+.smp-sidebar-title { font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+.smp-sidebar-bar { width: 4px; height: 18px; background: #d0152b; border-radius: 2px; }
+
+.smp-filter-sec { margin-bottom: 24px; }
+.smp-filter-sec-title { font-size: 12px; font-weight: 700; color: #9a9aaa; text-transform: uppercase; margin-bottom: 12px; }
+.smp-cat-list { list-style: none; padding: 0; margin: 0; }
+.smp-cat-list li { margin-bottom: 5px; }
+.smp-cat-list a { display: flex; justify-content: space-between; padding: 8px 12px; border-radius: 8px; text-decoration: none; color: #2c2c30; font-size: 13.5px; font-weight: 600; transition: all .2s; }
+.smp-cat-list a:hover, .smp-cat-list a.active { background: #fff0f2; color: #d0152b; }
+
+.smp-price-row { display: flex; gap: 8px; align-items: center; margin-bottom: 12px; }
+.smp-price-input { flex: 1; padding: 9px; border: 1.5px solid #e8e8ef; border-radius: 8px; font-size: 13px; text-align: center; }
+.smp-apply-btn { width: 100%; padding: 10px; background: #d0152b; color: #fff; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; }
+
+/* ══ TOOLBAR ══ */
+.smp-toolbar {
+    display: flex; justify-content: space-between; align-items: center;
+    background: #fff; border: 1.5px solid #e8e8ef; border-radius: 14px; padding: 12px 20px; margin-bottom: 20px;
+}
+.smp-sort-select { padding: 8px 12px; border: 1.5px solid #e8e8ef; border-radius: 8px; font-size: 13px; outline: none; }
+
+/* ══ GRID (5 Columns) ══ */
+.smp-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 15px;
+}
+
+/* ══ CARD ══ */
+.smp-card-wrap { position: relative; }
+.smp-card {
+    background: #fff; border: 1.5px solid #e8e8ef; border-radius: 16px; overflow: hidden;
+    transition: all .3s; display: flex; flex-direction: column; height: 100%;
+}
+.smp-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0,0,0,.08); border-color: #d0152b44; }
+
+.smp-badge { position: absolute; top: 12px; left: 12px; z-index: 2; padding: 4px 10px; border-radius: 6px; font-size: 10px; font-weight: 800; color: #fff; }
+.smp-badge--discount { background: #d0152b; }
+.smp-badge--new { background: #d0152b; }
+
+.smp-img { width: 100%; height: 280px; object-fit: cover; border-bottom: 1.5px solid #e8e8ef; transition: transform .5s; }
+.smp-card:hover .smp-img { transform: scale(1.06); }
+
+.smp-card-body { padding: 14px; display: flex; flex-direction: column; flex: 1; }
+.smp-card-name { font-size: 18px; font-weight: 800; color: #2c2c30; text-decoration: none; margin-bottom: 10px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 48px; line-height: 1.35; }
+.smp-card-price { font-size: 22px; font-weight: 900; color: #d0152b; margin-bottom: 4px; }
+.smp-card-old { font-size: 13.5px; color: #9a9aaa; text-decoration: line-through; margin-bottom: 12px; }
+.smp-atc-btn { width: 100%; padding: 11px; border: none; border-radius: 10px; font-weight: 700; font-size: 12.5px; cursor: pointer; transition: all .2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.smp-atc-btn--active { background: #d0152b; color: #fff; }
+
+/* ══ RESPONSIVE ══ */
+@media (max-width: 1700px) { .smp-grid { grid-template-columns: repeat(4, 1fr); } }
+@media (max-width: 1400px) { .smp-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 1100px) {
+    .smp-layout { grid-template-columns: 240px 1fr; gap: 15px; }
+    .smp-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 900px) {
+    .smp-layout { grid-template-columns: 1fr; }
+    .smp-sidebar { display: none; }
+    .smp-hero { padding: 25px; }
+    .smp-hero-text h1 { font-size: 24px; }
+    .smp-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .smp-img { height: 220px; }
+}
+@media (max-width: 500px) {
+    .smp-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .smp-img { height: 180px; }
+}
+</style>
+
 <div class="smp-allprod content-area-inner">
-
-    {{-- Flash Messages --}}
-    @if(session('success'))
-        <div style="background:#f0fdf4;color:#16a34a;border:1px solid #bbf7d0;padding:10px 18px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px;margin-bottom:12px;border-radius:8px;">
-            <i class="bi bi-check-circle-fill"></i> {{ session('success') }}
-        </div>
-    @endif
-    @if(session('error'))
-        <div style="background:#fff0f1;color:#e8192c;border:1px solid #fecdd3;padding:10px 18px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px;margin-bottom:12px;border-radius:8px;">
-            <i class="bi bi-exclamation-circle-fill"></i> {{ session('error') }}
-        </div>
-    @endif
-
-    {{-- Breadcrumb --}}
-    <div class="smp-allprod-bc">
-        <a href="{{ url('/') }}"><i class="bi bi-house-fill"></i> হোম</a>
-        <span>/</span>
-        <span class="current">সব পণ্য</span>
-    </div>
-
-    {{-- Hero Header --}}
-    <div class="smp-allprod-hero">
-        <div class="smp-allprod-hero-text">
+    <div class="smp-hero">
+        <div class="smp-hero-text">
             <h1>সব পণ্য</h1>
             <p>আমাদের সম্পূর্ণ পণ্য সংগ্রহ দেখুন</p>
         </div>
-        <div class="smp-allprod-hero-count">
-            {{ $products->total() }}
-            <span>টি পণ্য পাওয়া গেছে</span>
+        <div class="smp-hero-count">
+            <span class="smp-hero-count-num">{{ $products->total() }}</span>
+            <span class="smp-hero-count-label">টি পণ্য</span>
         </div>
     </div>
 
-    {{-- Toolbar --}}
-    <div class="smp-allprod-toolbar">
-        <div class="smp-allprod-toolbar-left">
-            <span class="smp-allprod-sort-label">সাজান:</span>
-            <form method="GET" action="{{ url('all-products') }}" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
-                @if(request('category'))
-                    <input type="hidden" name="category" value="{{ request('category') }}">
-                @endif
-                @if(request('min_price'))
-                    <input type="hidden" name="min_price" value="{{ request('min_price') }}">
-                @endif
-                @if(request('max_price'))
-                    <input type="hidden" name="max_price" value="{{ request('max_price') }}">
-                @endif
-                @if(request('in_stock'))
-                    <input type="hidden" name="in_stock" value="{{ request('in_stock') }}">
-                @endif
-                @if(request('search'))
-                    <input type="hidden" name="search" value="{{ request('search') }}">
-                @endif
-                <select name="sort" class="smp-allprod-select" onchange="this.form.submit()">
-                    <option value="latest"     {{ request('sort','latest') == 'latest'     ? 'selected' : '' }}>সর্বশেষ</option>
-                    <option value="price_low"  {{ request('sort') == 'price_low'  ? 'selected' : '' }}>দাম: কম → বেশি</option>
-                    <option value="price_high" {{ request('sort') == 'price_high' ? 'selected' : '' }}>দাম: বেশি → কম</option>
-                    <option value="name_asc"   {{ request('sort') == 'name_asc'   ? 'selected' : '' }}>নাম: A → Z</option>
-                    <option value="discount"   {{ request('sort') == 'discount'   ? 'selected' : '' }}>সর্বোচ্চ ছাড়</option>
-                </select>
-            </form>
-        </div>
-
-        <div class="smp-allprod-view-btns">
-            <span class="smp-allprod-view-btn active" title="Grid view">
-                <i class="bi bi-grid-3x3-gap-fill"></i>
-            </span>
-        </div>
-    </div>
-
-    {{-- Main Layout --}}
-    <div class="smp-allprod-layout">
-
-        {{-- Sidebar Filters --}}
-        <aside class="smp-allprod-sidebar">
-            <div class="smp-allprod-sidebar-title">ফিল্টার করুন</div>
-
-            <form method="GET" action="{{ url('all-products') }}" id="filterForm">
-                <input type="hidden" name="sort" value="{{ request('sort','latest') }}">
-
-                {{-- Categories --}}
-                @if($categories->isNotEmpty())
-                <div class="smp-allprod-filter-sec">
-                    <h4>ক্যাটাগরি</h4>
-                    <ul class="smp-allprod-cat-list">
-                        <li>
-                            <a href="{{ url('all-products') }}?sort={{ request('sort','latest') }}"
-                               class="{{ !request('category') ? 'active' : '' }}">
-                                সব ক্যাটাগরি
-                                <span class="smp-allprod-cat-count">{{ $products->total() }}</span>
-                            </a>
-                        </li>
-                        @foreach($categories as $cat)
-                            <li>
-                                <a href="{{ url('all-products') }}?category={{ $cat->slug }}&sort={{ request('sort','latest') }}"
-                                   class="{{ request('category') == $cat->slug ? 'active' : '' }}">
-                                    {{ $cat->category_name }}
-                                </a>
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
-                @endif
-
-                {{-- Price Range --}}
-                <div class="smp-allprod-filter-sec">
-                    <h4>দামের সীমা</h4>
-                    <div class="smp-allprod-price-inputs">
-                        <input type="number" name="min_price" placeholder="সর্বনিম্ন"
-                               class="smp-allprod-price-input"
-                               value="{{ request('min_price') }}">
-                        <span class="smp-allprod-price-sep">—</span>
-                        <input type="number" name="max_price" placeholder="সর্বোচ্চ"
-                               class="smp-allprod-price-input"
-                               value="{{ request('max_price') }}">
+    <div class="smp-layout">
+        <aside class="smp-sidebar">
+            <div class="smp-sidebar-title"><div class="smp-sidebar-bar"></div> ফিল্টার</div>
+            <div class="smp-filter-sec">
+                <div class="smp-filter-sec-title">ক্যাটাগরি</div>
+                <ul class="smp-cat-list">
+                    <li><a href="{{ url('all-products') }}" class="{{ !request('category') ? 'active' : '' }}">সব ক্যাটাগরি</a></li>
+                    @foreach($categories as $cat)
+                        <li><a href="{{ url('all-products') }}?category={{ $cat->slug }}" class="{{ request('category') === $cat->slug ? 'active' : '' }}">{{ $cat->category_name }}</a></li>
+                    @endforeach
+                </ul>
+            </div>
+            <div class="smp-filter-sec">
+                <div class="smp-filter-sec-title">দামের সীমা</div>
+                <form method="GET" action="{{ url('all-products') }}">
+                    <div class="smp-price-row">
+                        <input type="number" name="min_price" class="smp-price-input" placeholder="Min" value="{{ request('min_price') }}">
+                        <input type="number" name="max_price" class="smp-price-input" placeholder="Max" value="{{ request('max_price') }}">
                     </div>
-                    <button type="submit" class="smp-allprod-apply-btn">
-                        <i class="bi bi-funnel-fill"></i> ফিল্টার প্রয়োগ করুন
-                    </button>
-                </div>
-
-                {{-- Stock --}}
-                <div class="smp-allprod-filter-sec">
-                    <h4>স্টক</h4>
-                    <div class="smp-allprod-check-list">
-                        <label>
-                            <input type="checkbox" name="in_stock" value="1"
-                                   {{ request('in_stock') ? 'checked' : '' }}
-                                   onchange="document.getElementById('filterForm').submit()">
-                            শুধু স্টকে আছে এমন পণ্য
-                        </label>
-                    </div>
-                </div>
-
-                {{-- Search --}}
-                <div class="smp-allprod-filter-sec">
-                    <h4>পণ্য খুঁজুন</h4>
-                    <div style="display:flex;gap:6px;">
-                        <input type="text" name="search" placeholder="পণ্যের নাম..."
-                               class="smp-allprod-price-input"
-                               value="{{ request('search') }}"
-                               style="flex:1">
-                        <button type="submit" style="padding:7px 12px;background:var(--red);color:#fff;border:none;border-radius:7px;cursor:pointer;font-size:14px;">
-                            <i class="bi bi-search"></i>
-                        </button>
-                    </div>
-                </div>
-
-                {{-- Reset --}}
-                <a href="{{ url('all-products') }}"
-                   style="display:flex;align-items:center;justify-content:center;gap:6px;font-size:12.5px;font-weight:700;color:var(--muted);text-decoration:none;margin-top:4px;transition:color .2s;"
-                   onmouseover="this.style.color='var(--red)'" onmouseout="this.style.color='var(--muted)'">
-                    <i class="bi bi-arrow-counterclockwise"></i> ফিল্টার রিসেট করুন
-                </a>
-            </form>
+                    <button type="submit" class="smp-apply-btn">প্রয়োগ করুন</button>
+                </form>
+            </div>
         </aside>
 
-        {{-- Products --}}
-        <div>
-            <div class="smp-allprod-grid">
-                @forelse($products as $item)
-                    @php
-                        $displayPrice  = $item->discount_price ?? $item->current_price;
-                        $originalPrice = $item->current_price;
-                        $discount = ($displayPrice < $originalPrice && $originalPrice > 0)
-                            ? round((($originalPrice - $displayPrice) / $originalPrice) * 100)
-                            : null;
-                        $inStock = $item->is_unlimited || ($item->stock ?? 0) > 0;
-                    @endphp
-
-                    <div style="position:relative">
-                        <a href="{{ route('wishlist.add', $item->id) }}"
-                           class="smp-ap-wish"
-                           title="উইশলিস্টে যোগ করুন"
-                           onclick="event.stopPropagation()">
-                            <i class="bi bi-heart"></i>
-                        </a>
-
-                        {{-- Card (div — avoids nested <a> bug) --}}
-                        <div class="smp-ap-card" 
-                             onclick="window.location='{{ route('product.detail', $item->slug) }}'"
-                             style="cursor: pointer;">
-                            
-                            @if($discount)
-                                <span class="smp-ap-badge">-{{ $discount }}%</span>
-                            @elseif($item->is_new_arrival)
-                                <span class="smp-ap-new-badge">NEW</span>
-                            @endif
-
-                            <div class="smp-ap-img-wrap">
-                                <img class="smp-ap-img"
-                                     src="{{ asset('uploads/products/' . $item->feature_image) }}"
-                                     alt="{{ $item->name }}" loading="lazy">
-                            </div>
-                            <div class="smp-ap-body">
-                                <a href="{{ route('product.detail', $item->slug) }}" 
-                                   class="smp-ap-name" 
-                                   onclick="event.stopPropagation()">{{ $item->name }}</a>
-                                <p class="smp-ap-price">৳ {{ number_format($displayPrice, 0) }}</p>
-                                @if($displayPrice < $originalPrice)
-                                    <p class="smp-ap-old">৳ {{ number_format($originalPrice, 0) }}</p>
-                                @endif
-                                <div class="smp-ap-meta">
-                                    @if(!$item->is_unlimited && $item->stock !== null && $item->stock <= 10 && $item->stock > 0)
-                                        <p class="smp-ap-stock">
-                                            <i class="fas fa-fire-flame-curved" style="font-size:10px"></i>
-                                            {{ $item->stock }} টি বাকি
-                                        </p>
-                                    @endif
-                                    <span class="smp-ap-stars">★★★★☆</span>
-                                </div>
-
-                                @if($inStock)
-                                    <form action="{{ route('cart.add', $item->id) }}" 
-                                          method="POST" 
-                                          onclick="event.stopPropagation()">
-                                        @csrf
-                                        <button type="submit" class="smp-ap-atc" style="border:none; width:100%;">
-                                            <i class="fa-solid fa-cart-plus"></i> কার্টে যোগ করুন
-                                        </button>
-                                    </form>
-                                @else
-                                    <span class="smp-ap-atc"
-                                          style="background:#e5e7eb;color:#9ca3af;cursor:not-allowed;">
-                                        <i class="fas fa-times-circle"></i> স্টক নেই
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-
-                @empty
-                    <div class="smp-allprod-empty">
-                        <div class="smp-allprod-empty-icon">
-                            <i class="bi bi-box-seam"></i>
-                        </div>
-                        <h3>কোনো পণ্য পাওয়া যায়নি</h3>
-                        <p>আপনার ফিল্টার পরিবর্তন করে আবার চেষ্টা করুন</p>
-                    </div>
-                @endforelse
+        <main>
+            <div class="smp-toolbar">
+                <div class="smp-toolbar-info">Showing {{ $products->firstItem() ?? 0 }}–{{ $products->lastItem() ?? 0 }} of {{ $products->total() }}</div>
+                <select class="smp-sort-select" onchange="window.location.href='?sort='+this.value">
+                    <option value="latest">Newest First</option>
+                    <option value="price_low">Price: Low to High</option>
+                </select>
             </div>
 
-            {{-- Pagination --}}
-            @if($products->hasPages())
-                <div class="smp-allprod-pagination">
-                    {{ $products->appends(request()->query())->links('pagination::bootstrap-5') }}
+            <div class="smp-grid">
+                @foreach($products as $item)
+                <div class="smp-card-wrap">
+                    <div class="smp-card">
+                        @if($item->discount_price) <span class="smp-badge smp-badge--discount">-{{ round((($item->current_price - $item->discount_price)/$item->current_price)*100) }}% OFF</span> @endif
+                        <div class="smp-img-wrap">
+                            <img class="smp-img" src="{{ asset('uploads/products/' . $item->feature_image) }}" alt="{{ $item->name }}" loading="lazy">
+                        </div>
+                        <div class="smp-card-body">
+                            <a href="{{ route('product.detail', $item->slug) }}" class="smp-card-name">{{ $item->name }}</a>
+                            <p class="smp-card-price">৳ {{ number_format($item->discount_price ?? $item->current_price, 0) }}</p>
+                            @if($item->discount_price)
+                                <p class="smp-card-old">৳ {{ number_format($item->current_price, 0) }}</p>
+                            @endif
+                            <form action="{{ route('cart.add', $item->id) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="smp-atc-btn smp-atc-btn--active">কার্টে যোগ করুন</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-            @endif
-        </div>
-
-    </div>{{-- /.smp-allprod-layout --}}
-
-</div>{{-- /.smp-allprod --}}
+                @endforeach
+            </div>
+            <div class="smp-pagination">{{ $products->links() }}</div>
+        </main>
+    </div>
+</div>
 
 @endsection

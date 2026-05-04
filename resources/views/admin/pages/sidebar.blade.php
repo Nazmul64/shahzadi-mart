@@ -38,6 +38,7 @@
     $posOrdersActive  = request()->routeIs('admin.pos.orders');
     $staffHistoryActive = request()->routeIs('admin.order-history.*');
     $assignActive       = request()->routeIs('admin.order.assignments.*');
+    $landingActive      = request()->routeIs('admin.landing-pages.*');
     $purchaseActive = request()->routeIs('admin.suppliers.*')
                    || request()->routeIs('admin.purchases.*')
                    || request()->routeIs('admin.purchases.report')
@@ -694,6 +695,13 @@ body.sb-collapsed .sb-user-info, body.sb-collapsed .sb-logout-btn { display: non
 @if($u->isSuperAdmin() || $u->hasPermission('view-users'))
 <a href="{{ route('admin.chat.index') }}" class="sb-item {{ $chatActive ? 'active' : '' }}">
     <span class="sb-left"><i class="bi bi-chat-right-dots-fill sb-ico"></i><span class="sb-text">Live Chat</span></span>
+</a>
+@endif
+
+{{-- Landing Pages --}}
+@if($u->isSuperAdmin() || $u->hasPermission('view-pages'))
+<a href="{{ route('admin.landing-pages.index') }}" class="sb-item {{ $landingActive ? 'active' : '' }}">
+    <span class="sb-left"><i class="bi bi-window-stack sb-ico"></i><span class="sb-text">Landing Pages</span></span>
 </a>
 @endif
 

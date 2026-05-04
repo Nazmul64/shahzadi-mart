@@ -7,18 +7,13 @@
     <title>Admin Panel — MultiVendor</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <!-- CSS Libraries -->
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-
-<!-- JS Libraries -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <!-- Latest CDN Links -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/toastr@2.1.4/build/toastr.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastr@2.1.4/build/toastr.min.css">
 
 @if (Session::has('success') || Session::has('error'))
 <script>
@@ -50,19 +45,17 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-        --sidebar-w   : 220px;
-        --top-h       : 56px;
-        --bg          : #f0f2f5;
+        --sb-w        : 280px;
+        --top-h       : 64px;
+        --bg          : #f4f7fb;
         --white       : #ffffff;
-        --sidebar-bg  : #1a233a;
-        --sidebar-text: #a8b5cc;
-        --sidebar-active: #ffffff;
-        --accent      : #3d5a99;
-        --border      : #e2e8f0;
-        --text        : #2d3748;
-        --text-muted  : #718096;
-        --radius      : 6px;
-        --shadow      : 0 1px 4px rgba(0,0,0,0.1);
+        --sidebar-bg  : #0B1121;
+        --accent      : #3b82f6;
+        --border      : rgba(0,0,0,0.05);
+        --text        : #1e293b;
+        --text-muted  : #64748b;
+        --radius      : 12px;
+        --shadow      : 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     }
 
     body {
@@ -199,7 +192,7 @@
     #topbar {
         position     : fixed;
         top          : 0;
-        left         : var(--sidebar-w);
+        left         : var(--sb-w);
         right        : 0;
         height       : var(--top-h);
         background   : var(--white);
@@ -207,10 +200,10 @@
         display      : flex;
         align-items  : center;
         justify-content: space-between;
-        padding      : 0 20px;
-        z-index      : 900;
+        padding      : 0 24px;
+        z-index      : 1030;
         box-shadow   : var(--shadow);
-        transition   : left 0.3s;
+        transition   : all 0.3s ease;
     }
 
     .topbar-left { display: flex; align-items: center; gap: 12px; }
@@ -320,10 +313,11 @@
 
     /* ─── Main Content ──────────────────────────────────────── */
     #main-content {
-        margin-left  : var(--sidebar-w);
+        margin-left  : var(--sb-w);
         margin-top   : var(--top-h);
         min-height   : calc(100vh - var(--top-h));
-        transition   : margin-left 0.3s;
+        transition   : all 0.3s ease;
+        background   : var(--bg);
     }
 
     .page-wrapper { padding: 24px 22px; }

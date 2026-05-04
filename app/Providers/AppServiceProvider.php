@@ -23,34 +23,55 @@ class AppServiceProvider extends ServiceProvider
     {
         // ─── Global View Composer — সব view-এ automatically share হবে ────────
         View::composer('*', function ($view) {
-
+            
             // ── Sidebar Categories ────────────────────────────────────────────
-            $sidebarCategories = Category::where('status', 'active')
-                ->with([
-                    'subCategories' => function ($q) {
-                        $q->where('status', 'active')
-                          ->with([
-                              'childCategories' => fn($q2) => $q2->where('status', 'active')
-                          ]);
-                    }
-                ])
-                ->get();
+            $sidebarCategories = \Illuminate\Support\Facades\Cache::remember('sidebar_categories', 86400, function () {
+                return Category::where('status', 'active')
+                    ->with([
+                        'subCategories' => function ($q) {
+                            $q->where('status', 'active')
+                              ->with([
+                                  'childCategories' => fn($q2) => $q2->where('status', 'active')
+                              ]);
+                        }
+                    ])
+                    ->get();
+            });
 
-            // ── General Settings ──────────────────────────────────────────────
-            $websetting = Generalsetting::first();
-            $footerSetting = FooterSetting::getSettings();
-            $aiPrompt = Aiprompt::first();
+            // ── Settings & Data ───────────────────────────────────────────────
+            $websetting = \Illuminate\Support\Facades\Cache::remember('web_setting', 86400, function () {
+                return Generalsetting::first();
+            });
 
-            // ── Tracking ──────────────────────────────────────────────────────
-            $Pixelid         = Pixel::first();
-            $GoogleAnalytics = Tagmanager::first();
+            $footerSetting = \Illuminate\Support\Facades\Cache::remember('footer_setting', 86400, function () {
+                return FooterSetting::getSettings();
+            });
 
-            // ── Master Layout Data ────────────────────────────────────────────
-            $websitefavicon          = Websitefavicon::first();
-            $contactinformationadmin = Contactinfomationadmin::latest()->first();
-            $pagecrate               = Footercategory::with([
-                                           'pages' => fn($q) => $q->where('status', 1)
-                                       ])->get();
+            $aiPrompt = \Illuminate\Support\Facades\Cache::remember('ai_prompt', 86400, function () {
+                return Aiprompt::first();
+            });
+
+            $Pixelid = \Illuminate\Support\Facades\Cache::remember('pixel_id', 86400, function () {
+                return Pixel::first();
+            });
+
+            $GoogleAnalytics = \Illuminate\Support\Facades\Cache::remember('google_analytics', 86400, function () {
+                return Tagmanager::first();
+            });
+
+            $websitefavicon = \Illuminate\Support\Facades\Cache::remember('website_favicon', 86400, function () {
+                return Websitefavicon::first();
+            });
+
+            $contactinformationadmin = \Illuminate\Support\Facades\Cache::remember('contact_info_admin', 86400, function () {
+                return Contactinfomationadmin::latest()->first();
+            });
+
+            $pagecrate = \Illuminate\Support\Facades\Cache::remember('footer_pages', 86400, function () {
+                return Footercategory::with([
+                    'pages' => fn($q) => $q->where('status', 1)
+                ])->get();
+            });
 
             $view->with(compact(
                 'sidebarCategories',

@@ -22,7 +22,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="robots" content="index, follow">
     @php
-        $siteName = $websetting->site_name ?? 'Shahzadi-mart';
+        $siteName = $websetting?->site_name ?? 'Shahzadi-mart';
         
         $seoTitle = $siteName;
         $seoDesc  = '';
@@ -105,7 +105,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700;800;900&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="{{ asset($websitefavicon->favicon_logo ?? 'default/favicon.png') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -120,6 +120,7 @@
     <link rel="stylesheet" href="{{ asset('frontend') }}/assets/css/shop.css">
     <link rel="stylesheet" href="{{ asset('frontend') }}/assets/css/allproduct.css">
     <link rel="stylesheet" href="{{ asset('frontend') }}/assets/css/productdetils.css">
+    <link rel="stylesheet" href="{{ asset('frontend') }}/assets/css/custom-loader.css">
 
 
 
@@ -155,6 +156,29 @@
     @endphp
 </head>
 <body>
+
+{{-- 
+<div id="global-loader">
+    <div class="loader-content">
+        <div class="loader-circle"></div>
+        <div class="loader-brand">
+            Shahzadi<span>-mart</span>
+        </div>
+    </div>
+</div>
+
+<div id="top-progress-bar"></div>
+--}}
+
+{{-- ── OFFLINE INDICATOR ── --}}
+<div id="offline-indicator">
+    <div class="offline-icon">
+        <i class="bi bi-wifi-off" id="offline-icon-bi"></i>
+    </div>
+    <div class="offline-text" id="offline-text">
+        আপনি অফলাইনে আছেন! সংযোগ পরীক্ষা করুন।
+    </div>
+</div>
 
 {{-- GTM noscript --}}
 @if($gtmId)

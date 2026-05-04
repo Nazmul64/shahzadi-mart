@@ -20,24 +20,27 @@ use App\Models\DeliveryInformation;
 use App\Models\Tremsandcondation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class FrontendController extends Controller
 {
     // ─── Reusable Sidebar Query ──────────────────────────────────────────────
     private function getSidebarCategories()
     {
-        return Category::where('status', 'active')
-            ->with([
-                'subCategories' => function ($q) {
-                    $q->where('status', 'active')
-                      ->with([
-                          'childCategories' => function ($q2) {
-                              $q2->where('status', 'active');
-                          }
-                      ]);
-                }
-            ])
-            ->get();
+        return Cache::remember('sidebar_categories', 86400, function () {
+            return Category::where('status', 'active')
+                ->with([
+                    'subCategories' => function ($q) {
+                        $q->where('status', 'active')
+                          ->with([
+                              'childCategories' => function ($q2) {
+                                  $q2->where('status', 'active');
+                              }
+                          ]);
+                    }
+                ])
+                ->get();
+        });
     }
 
     // ─── Homepage ─────────────────────────────────────────────────────────────
@@ -48,7 +51,11 @@ class FrontendController extends Controller
         $categories        = Category::where('status', 'active')->get();
         $sidebarCategories = $this->getSidebarCategories();
 
-        $flashProducts = Product::where('status', 'active')
+        $baseProductQuery = Product::where('status', 'active')
+            ->withCount(['reviews' => fn($q) => $q->where('is_approved', true)])
+            ->withAvg(['reviews' => fn($q) => $q->where('is_approved', true)], 'rating');
+
+        $flashProducts = (clone $baseProductQuery)
                             ->where('is_flash_sale', true)
                             ->latest()
                             ->take(20)
@@ -58,24 +65,25 @@ class FrontendController extends Controller
                             ->where('featured', 'active')
                             ->get();
 
-        $newArrivals = Product::where('status', 'active')
+        $newArrivals = (clone $baseProductQuery)
                             ->where('is_new_arrival', true)
                             ->latest('arrived_at')
                             ->take(20)
                             ->get();
 
-        $bestSellers = Product::where('status', 'active')
+        $bestSellers = (clone $baseProductQuery)
                             ->whereNotNull('discount_price')
                             ->where('discount_price', '>', 0)
                             ->orderByRaw('(current_price - discount_price) DESC')
                             ->take(20)
                             ->get();
-      $deliveryInformation = DeliveryInformation::first();
+
+        $deliveryInformation = DeliveryInformation::first();
 
         return view('frontend.index', compact(
             'slider', 'categories', 'websetting',
             'flashProducts', 'hotCategories',
-            'newArrivals', 'bestSellers', 'sidebarCategories','deliveryInformation',
+            'newArrivals', 'bestSellers', 'sidebarCategories', 'deliveryInformation',
         ));
     }
 
@@ -487,7 +495,10 @@ public function productdetails($slug)
         $websetting        = Generalsetting::first();
         $sidebarCategories = $this->getSidebarCategories();
 
-        $query = Product::where('status', 'active')->where('is_new_arrival', true);
+        $query = Product::where('status', 'active')
+            ->where('is_new_arrival', true)
+            ->withCount(['reviews' => fn($q) => $q->where('is_approved', true)])
+            ->withAvg(['reviews' => fn($q) => $q->where('is_approved', true)], 'rating');
 
         if ($request->get('when') === 'week') {
             $query->where('arrived_at', '>=', now()->subWeek());
@@ -499,6 +510,58 @@ public function productdetails($slug)
 
         return view('frontend.new-arrivals', compact(
             'newArrivals', 'websetting', 'sidebarCategories'
+        ));
+    }
+
+    public function flashSales(Request $request)
+    {
+        $websetting        = Generalsetting::first();
+        $sidebarCategories = $this->getSidebarCategories();
+
+        $flashProducts = Product::where('status', 'active')
+            ->where('is_flash_sale', true)
+            ->withCount(['reviews' => fn($q) => $q->where('is_approved', true)])
+            ->withAvg(['reviews' => fn($q) => $q->where('is_approved', true)], 'rating')
+            ->latest()
+            ->paginate(20);
+
+        return view('frontend.flash-sales', compact(
+            'flashProducts', 'websetting', 'sidebarCategories'
+        ));
+    }
+
+    public function bestSellers(Request $request)
+    {
+        $websetting        = Generalsetting::first();
+        $sidebarCategories = $this->getSidebarCategories();
+
+        $products = Product::where('status', 'active')
+            ->where('is_bestseller', true)
+            ->withCount(['reviews' => fn($q) => $q->where('is_approved', true)])
+            ->withAvg(['reviews' => fn($q) => $q->where('is_approved', true)], 'rating')
+            ->latest('bestseller_at')
+            ->paginate(20);
+
+        return view('frontend.best-sellers', compact(
+            'products', 'websetting', 'sidebarCategories'
+        ));
+    }
+
+    public function clearance(Request $request)
+    {
+        $websetting        = Generalsetting::first();
+        $sidebarCategories = $this->getSidebarCategories();
+
+        $products = Product::where('status', 'active')
+            ->whereNotNull('discount_price')
+            ->where('discount_price', '>', 0)
+            ->withCount(['reviews' => fn($q) => $q->where('is_approved', true)])
+            ->withAvg(['reviews' => fn($q) => $q->where('is_approved', true)], 'rating')
+            ->orderByRaw('(current_price - discount_price) DESC')
+            ->paginate(20);
+
+        return view('frontend.clearance', compact(
+            'products', 'websetting', 'sidebarCategories'
         ));
     }
 

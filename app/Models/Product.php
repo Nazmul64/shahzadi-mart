@@ -125,6 +125,11 @@ class Product extends Model
 
     public function orderItems() { return $this->hasMany(OrderItem::class, 'product_id'); }
 
+    public function reviews()
+    {
+        return $this->hasMany(Producreview::class, 'product_id');
+    }
+
     // ── Scopes ────────────────────────────────────────────────────────
     public function scopeFlashSales($query)
     {

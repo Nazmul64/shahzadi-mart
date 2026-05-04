@@ -151,6 +151,107 @@
 
 
 <script>
+/* ── Global Loader & Network Status ── */
+(function() {
+    const loader = document.getElementById('global-loader');
+    const progressBar = document.getElementById('top-progress-bar');
+    const offlineIndicator = document.getElementById('offline-indicator');
+    const offlineIcon = document.getElementById('offline-icon-bi');
+    const offlineText = document.getElementById('offline-text');
+
+    // 1. Hide Loader
+    function hideLoader() {
+        if (loader) {
+            loader.classList.add('fade-out');
+            setTimeout(() => {
+                loader.style.display = 'none';
+            }, 600);
+        }
+    }
+
+    window.addEventListener('load', hideLoader);
+    // Fallback: hide loader after 8 seconds anyway
+    setTimeout(hideLoader, 8000);
+
+    // 2. Top Progress Bar
+    function startProgressBar() {
+        if (!progressBar) return;
+        progressBar.style.width = '0%';
+        progressBar.style.display = 'block';
+        let width = 0;
+        const interval = setInterval(() => {
+            if (width >= 90) {
+                clearInterval(interval);
+            } else {
+                width += Math.random() * 5;
+                progressBar.style.width = width + '%';
+            }
+        }, 200);
+        
+        window.progressBarInterval = interval;
+    }
+
+    function completeProgressBar() {
+        if (!progressBar) return;
+        if (window.progressBarInterval) clearInterval(window.progressBarInterval);
+        progressBar.style.width = '100%';
+        setTimeout(() => {
+            progressBar.style.opacity = '0';
+            setTimeout(() => {
+                progressBar.style.display = 'none';
+                progressBar.style.width = '0%';
+                progressBar.style.opacity = '1';
+            }, 300);
+        }, 500);
+    }
+
+    // Intercept link clicks for progress bar
+    document.addEventListener('click', function(e) {
+        const link = e.target.closest('a');
+        if (link && 
+            link.href && 
+            !link.href.includes('#') && 
+            !link.href.includes('javascript:') && 
+            link.target !== '_blank' &&
+            link.host === window.location.host) {
+            startProgressBar();
+        }
+    });
+
+    // 3. Network Status
+    function updateNetworkStatus() {
+        if (!offlineIndicator) return;
+
+        if (navigator.onLine) {
+            if (offlineIndicator.classList.contains('offline')) {
+                offlineIndicator.classList.remove('offline');
+                offlineIndicator.classList.add('online');
+                offlineIcon.className = 'bi bi-wifi';
+                offlineText.textContent = 'আপনি এখন অনলাইনে আছেন।';
+                
+                // Hide after 3 seconds of being online
+                setTimeout(() => {
+                    offlineIndicator.classList.remove('show');
+                }, 3000);
+            }
+        } else {
+            offlineIndicator.classList.add('show');
+            offlineIndicator.classList.add('offline');
+            offlineIndicator.classList.remove('online');
+            offlineIcon.className = 'bi bi-wifi-off';
+            offlineText.textContent = 'আপনি অফলাইনে আছেন! সংযোগ পরীক্ষা করুন।';
+        }
+    }
+
+    window.addEventListener('online', updateNetworkStatus);
+    window.addEventListener('offline', updateNetworkStatus);
+    
+    // Initial check
+    if (!navigator.onLine) {
+        updateNetworkStatus();
+    }
+})();
+
 /* ══════════════════════════════════════════════════════════════
    CHAT API URLS
 ══════════════════════════════════════════════════════════════ */

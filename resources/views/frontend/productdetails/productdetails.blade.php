@@ -213,13 +213,81 @@
       </div>
     </div>
 
-    {{-- Tabs / Desc --}}
+    {{-- Tabs / Desc / Reviews --}}
     <div class="pdp__tabs">
         <div class="pdp__tab-nav">
-            <button class="pdp__tab-btn pdp__tab-btn--active">বিবরণ</button>
+            <button class="pdp__tab-btn pdp__tab-btn--active" data-tab="desc">বিবরণ</button>
+            <button class="pdp__tab-btn" data-tab="rev">রিভিউ ({{ $totalRevCount }})</button>
         </div>
-        <div class="pdp__tab-pane pdp__tab-pane--active">
+
+        {{-- Description Pane --}}
+        <div class="pdp__tab-pane pdp__tab-pane--active" id="pane-desc">
             {!! $product->description !!}
+        </div>
+
+        {{-- Reviews Pane --}}
+        <div class="pdp__tab-pane" id="pane-rev">
+            <div class="pdp-rev-sec">
+                {{-- Summary --}}
+                <div class="pdp-rev-summary">
+                    <div class="pdp-rev-avg">
+                        <div class="pdp-rev-avg-num">{{ $avgRating }}</div>
+                        <div class="pdp-rev-avg-stars">
+                            @for($i=1;$i<=5;$i++)
+                                <i class="bi bi-star{{ $i <= round($avgRating) ? '-fill' : '' }}"></i>
+                            @endfor
+                        </div>
+                        <div class="pdp-rev-avg-count">{{ $totalRevCount }} টি রিভিউ</div>
+                    </div>
+                    
+                    <div class="pdp-rev-bars">
+                        @foreach($starCounts as $stars => $count)
+                            @php $pct = $totalRevCount > 0 ? ($count / $totalRevCount) * 100 : 0; @endphp
+                            <div class="pdp-rev-bar-row">
+                                <span class="pdp-rev-bar-label">{{ $stars }} স্টার</span>
+                                <div class="pdp-rev-bar-bg"><div class="pdp-rev-bar-fill" style="width: {{ $pct }}%"></div></div>
+                                <span class="pdp-rev-bar-count">{{ $count }}</span>
+                            </div>
+                        @endforeach
+                    </div>
+
+                    <div class="pdp-rev-action">
+                        <button class="pdp-rev-btn" id="pdpWriteRevBtn">
+                            <i class="fas fa-edit"></i> রিভিউ লিখুন
+                        </button>
+                    </div>
+                </div>
+
+                {{-- List --}}
+                <div class="pdp-rev-list">
+                    @forelse($productReviews as $rev)
+                        <div class="pdp-rev-item">
+                            <div class="pdp-rev-item-head">
+                                <div class="pdp-rev-item-user">
+                                    <div class="pdp-rev-item-avatar">{{ strtoupper(substr($rev->user->name ?? 'C', 0, 1)) }}</div>
+                                    <div>
+                                        <div class="pdp-rev-item-name">{{ $rev->user->name ?? 'সম্মানিত ক্রেতা' }}</div>
+                                        <div class="pdp-rev-item-date">{{ $rev->created_at->format('d M, Y') }}</div>
+                                    </div>
+                                </div>
+                                <div class="pdp-rev-item-stars">
+                                    @for($i=1;$i<=5;$i++)
+                                        <i class="bi bi-star{{ $i <= $rev->rating ? '-fill' : '' }}"></i>
+                                    @endfor
+                                </div>
+                            </div>
+                            <div class="pdp-rev-item-body">
+                                {{ $rev->review }}
+                            </div>
+                        </div>
+                    @empty
+                        <div class="pdp-rev-empty">
+                            <i class="bi bi-chat-left-dots" style="font-size:40px;opacity:.2"></i>
+                            <p>এখনো কোনো রিভিউ দেওয়া হয়নি। প্রথম রিভিউটি আপনি দিন!</p>
+                        </div>
+                    @endforelse
+                </div>
+            </div>
         </div>
     </div>
   </div>
@@ -249,6 +317,52 @@
 @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
 .pdp-toast.out { opacity: 0; transform: translateY(-20px); transition: all .3s; }
 .pdp__opt-btn--active { background: #be0318 !important; color: #fff !important; border-color: #be0318 !important; }
+
+/* ── Reviews UI ── */
+.pdp-rev-sec { padding: 10px 0; }
+.pdp-rev-summary { display: grid; grid-template-columns: 200px 1fr 200px; gap: 30px; align-items: center; background: #f9fafb; padding: 30px; border-radius: 12px; margin-bottom: 30px; border: 1px solid #f1f5f9; }
+@media (max-width: 768px) { .pdp-rev-summary { grid-template-columns: 1fr; gap: 20px; text-align: center; } }
+.pdp-rev-avg { text-align: center; border-right: 1px solid #e2e8f0; }
+@media (max-width: 768px) { .pdp-rev-avg { border-right: none; border-bottom: 1px solid #e2e8f0; padding-bottom: 20px; } }
+.pdp-rev-avg-num { font-size: 48px; font-weight: 800; color: #1e293b; line-height: 1; }
+.pdp-rev-avg-stars { color: #f59e0b; margin: 10px 0; font-size: 18px; }
+.pdp-rev-avg-count { font-size: 13px; color: #64748b; font-weight: 500; }
+.pdp-rev-bar-row { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
+.pdp-rev-bar-label { font-size: 13px; font-weight: 600; color: #475569; width: 55px; }
+.pdp-rev-bar-bg { flex: 1; height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden; }
+.pdp-rev-bar-fill { height: 100%; background: #f59e0b; border-radius: 4px; }
+.pdp-rev-bar-count { font-size: 13px; color: #64748b; width: 25px; text-align: right; }
+.pdp-rev-action { display: flex; justify-content: center; }
+.pdp-rev-btn { padding: 12px 24px; background: #1e293b; color: #fff; border: none; border-radius: 10px; font-weight: 700; font-size: 14px; cursor: pointer; transition: all .2s; }
+.pdp-rev-btn:hover { background: #0f172a; transform: translateY(-2px); }
+
+.pdp-rev-item { padding: 24px 0; border-bottom: 1px solid #f1f5f9; }
+.pdp-rev-item-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+.pdp-rev-item-user { display: flex; align-items: center; gap: 12px; }
+.pdp-rev-item-avatar { width: 44px; height: 44px; background: #e2e8f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; color: #64748b; font-size: 18px; }
+.pdp-rev-item-name { font-weight: 700; color: #1e293b; font-size: 15px; }
+.pdp-rev-item-date { font-size: 12px; color: #94a3b8; margin-top: 2px; }
+.pdp-rev-item-stars { color: #f59e0b; font-size: 13px; }
+.pdp-rev-item-body { font-size: 14.5px; color: #475569; line-height: 1.6; white-space: pre-line; }
+.pdp-rev-empty { text-align: center; padding: 60px 0; color: #94a3b8; }
+
+/* ── Modal ── */
+.pdp-rev-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 1000000; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: all .3s ease; padding: 20px; }
+.pdp-rev-modal-overlay.active { opacity: 1; visibility: visible; }
+.pdp-rev-modal { background: #fff; width: 100%; max-width: 500px; border-radius: 20px; overflow: hidden; transform: translateY(20px); transition: all .3s ease; }
+.pdp-rev-modal-overlay.active .pdp-rev-modal { transform: translateY(0); }
+.pdp-rev-modal-head { padding: 20px 24px; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center; }
+.pdp-rev-modal-title { font-size: 18px; font-weight: 800; color: #1e293b; }
+.pdp-rev-modal-close { border: none; background: none; font-size: 20px; color: #94a3b8; cursor: pointer; }
+.pdp-rev-modal form { padding: 24px; }
+.pdp-rev-modal-label { display: block; font-size: 14px; font-weight: 700; color: #475569; margin-bottom: 10px; }
+.pdp-rev-star-picker { display: flex; gap: 8px; font-size: 32px; color: #cbd5e1; margin-bottom: 24px; }
+.pdp-rev-star-picker i { cursor: pointer; transition: color .2s; }
+.pdp-rev-star-picker i.active { color: #f59e0b; }
+.pdp-rev-modal textarea { width: 100%; height: 120px; padding: 12px; border: 1.5px solid #e2e8f0; border-radius: 12px; font-size: 14px; resize: none; margin-bottom: 20px; }
+.pdp-rev-modal-submit { width: 100%; padding: 14px; background: #be0318; color: #fff; border: none; border-radius: 12px; font-weight: 700; font-size: 15px; cursor: pointer; }
+.pdp-rev-login-note { padding: 40px 24px; text-align: center; }
+.pdp-rev-login-note a { color: #be0318; font-weight: 700; text-decoration: none; }
 </style>
 
 <script>
@@ -434,6 +548,63 @@
         }
     }
     
+    /* Tabs logic */
+    document.querySelectorAll('.pdp__tab-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            var tab = this.dataset.tab;
+            document.querySelectorAll('.pdp__tab-btn').forEach(x => x.classList.remove('pdp__tab-btn--active'));
+            this.classList.add('pdp__tab-btn--active');
+            
+            document.querySelectorAll('.pdp__tab-pane').forEach(x => x.classList.remove('pdp__tab-pane--active'));
+            document.getElementById('pane-' + tab).classList.add('pdp__tab-pane--active');
+        });
+    });
+
+    /* Review Modal logic */
+    var revModal = document.getElementById('pdpRevModal');
+    var revRatingInput = document.getElementById('pdpRevRatingInput');
+    var stars = document.querySelectorAll('#pdpRevStarPicker i');
+
+    document.getElementById('pdpWriteRevBtn')?.addEventListener('click', () => {
+        revModal.classList.add('active');
+    });
+    document.getElementById('pdpRevModalClose')?.addEventListener('click', () => {
+        revModal.classList.remove('active');
+    });
+    revModal?.addEventListener('click', (e) => {
+        if(e.target === revModal) revModal.classList.remove('active');
+    });
+
+    stars.forEach(s => {
+        s.addEventListener('mouseover', function() {
+            var val = parseInt(this.dataset.val);
+            stars.forEach(st => {
+                if(parseInt(st.dataset.val) <= val) st.classList.replace('far','fas'), st.classList.add('active');
+                else st.classList.replace('fas','far'), st.classList.remove('active');
+            });
+        });
+        s.addEventListener('click', function() {
+            var val = parseInt(this.dataset.val);
+            revRatingInput.value = val;
+            document.getElementById('pdpRevRatingErr').style.display = 'none';
+        });
+    });
+
+    document.getElementById('pdpRevStarPicker')?.addEventListener('mouseleave', () => {
+        var current = parseInt(revRatingInput.value);
+        stars.forEach(st => {
+            if(parseInt(st.dataset.val) <= current) st.classList.replace('far','fas'), st.classList.add('active');
+            else st.classList.replace('fas','far'), st.classList.remove('active');
+        });
+    });
+
+    document.getElementById('pdpRevForm')?.addEventListener('submit', function(e) {
+        if(parseInt(revRatingInput.value) === 0) {
+            e.preventDefault();
+            document.getElementById('pdpRevRatingErr').style.display = 'block';
+        }
+    });
+
     // Initialize zoom on load
     initZoom();
 })();

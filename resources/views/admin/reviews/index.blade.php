@@ -366,7 +366,7 @@
     </div>
 
     {{-- ══ FILTER BAR ══ --}}
-    <form method="GET" action="{{ route('admin.admin.reviews.index') }}" id="rv-filter-form">
+    <form method="GET" action="{{ route('admin.reviews.index') }}" id="rv-filter-form">
         <div class="rv-filter-bar">
             <div class="rv-search-wrap">
                 <i class="fas fa-search"></i>
@@ -391,7 +391,7 @@
                 <i class="fas fa-filter"></i> ফিল্টার
             </button>
             @if(request()->hasAny(['search','status','rating']))
-                <a href="{{ route('admin.admin.reviews.index') }}" class="rv-bulk-btn outline">
+                <a href="{{ route('admin.reviews.index') }}" class="rv-bulk-btn outline">
                     <i class="fas fa-times"></i> রিসেট
                 </a>
             @endif
@@ -399,7 +399,7 @@
     </form>
 
     {{-- ══ BULK ACTIONS ══ --}}
-    <form method="POST" action="{{ route('admin.admin.reviews.bulk') }}" id="rv-bulk-form">
+    <form method="POST" action="{{ route('admin.reviews.bulk') }}" id="rv-bulk-form">
         @csrf
         <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center;">
             <span style="font-size:13px;color:#888;font-weight:500;">Bulk Action:</span>
@@ -517,14 +517,14 @@
                             <td>
                                 <div class="rv-actions">
                                     @if(!$review->is_approved)
-                                        <form action="{{ route('admin.admin.reviews.approve', $review->id) }}" method="POST" style="display:inline;">
+                                        <form action="{{ route('admin.reviews.approve', $review->id) }}" method="POST" style="display:inline;">
                                             @csrf
                                             <button type="submit" class="rv-btn approve" title="Approve">
                                                 <i class="fas fa-check"></i> Approve
                                             </button>
                                         </form>
                                     @else
-                                        <form action="{{ route('admin.admin.reviews.unapprove', $review->id) }}" method="POST" style="display:inline;">
+                                        <form action="{{ route('admin.reviews.unapprove', $review->id) }}" method="POST" style="display:inline;">
                                             @csrf
                                             <button type="submit" class="rv-btn unapprove" title="Unapprove">
                                                 <i class="fas fa-ban"></i> Unpublish

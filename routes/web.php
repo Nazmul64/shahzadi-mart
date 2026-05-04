@@ -7,7 +7,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminIncompleteOrderController;
 use App\Http\Controllers\Admin\AdminproductReviewController;
 use App\Http\Controllers\Admin\AdminsellerregisterapprovedController;
-use App\Http\Controllers\Admin\AdminUserController as AdminAdminUserController;
+use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\AffiliateproductController;
 use App\Http\Controllers\Admin\AipromptController;
 use App\Http\Controllers\Admin\AllorderController;
@@ -53,7 +53,8 @@ use App\Http\Controllers\Admin\SteadfastOrderController;
 use App\Http\Controllers\Admin\SubCategoryController;
 use App\Http\Controllers\Admin\TremsandcondationsController;
 use App\Http\Controllers\Admin\UnitController;
-use App\Http\Controllers\Admin\AdminUserController;
+use App\Http\Controllers\Admin\LandingPageController;
+use App\Http\Controllers\Admin\LandingPageBuilderController;
 use App\Http\Controllers\Admin\WebsitefaviconController;
 use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\PurchaseController;
@@ -103,6 +104,12 @@ Route::get('/all-products',                 [FrontendController::class, 'allProd
 Route::get('/shop',                         [FrontendController::class, 'shop']             )->name('shop');
 Route::get('/offers',                       [FrontendController::class, 'offers']           )->name('offers');
 Route::get('/new-arrivals',                 [FrontendController::class, 'newArrivals']      )->name('new-arrivals');
+Route::get('/flash-sales',                  [FrontendController::class, 'flashSales']       )->name('flash-sales');
+Route::get('/best-sellers',                 [FrontendController::class, 'bestSellers']      )->name('best-sellers');
+Route::get('/clearance',                    [FrontendController::class, 'clearance']        )->name('clearance');
+
+// ── Landing Pages (Frontend) ──────────────────────────────────────────────
+Route::get('/l/{slug}', [App\Http\Controllers\Frontend\LandingPageController::class, 'show'])->name('landing.show');
 
 // ── Blog ──────────────────────────────────────────────────────────────────
 Route::get('/blog',                [App\Http\Controllers\Frontend\BlogController::class, 'index'])->name('blog.index');
@@ -565,6 +572,22 @@ Route::middleware(['admin'])
     Route::resource('pages',                  PageController::class);
     Route::resource('footercategory',         FootercategoryController::class);
     Route::resource('DeliveryInformation',    DeliveryInformationController::class);
+    Route::resource('landing-pages',          LandingPageController::class);
+    Route::get('landing-pages/{id}/duplicate', [LandingPageController::class, 'duplicate'])->name('landing-pages.duplicate');
+
+
+    // Landing Page Builder
+    Route::get('landing-pages/{id}/builder', [LandingPageBuilderController::class, 'index'])->name('landing-pages.builder');
+    Route::get('landing-pages/builder/block/{id}', [LandingPageBuilderController::class, 'showBlock'])->name('landing-pages.builder.show_block');
+    Route::post('landing-pages/{id}/builder/block', [LandingPageBuilderController::class, 'storeBlock'])->name('landing-pages.builder.store');
+    Route::post('landing-pages/builder/block/{id}/update', [LandingPageBuilderController::class, 'updateBlock'])->name('landing-pages.builder.update');
+    Route::delete('landing-pages/builder/block/{block_id}', [LandingPageBuilderController::class, 'destroyBlock'])->name('landing-pages.builder.destroy');
+    Route::post('landing-pages/builder/reorder', [LandingPageBuilderController::class, 'reorderBlocks'])->name('landing-pages.builder.reorder');
+    Route::post('landing-pages/builder/bulk-delete', [LandingPageBuilderController::class, 'bulkDelete'])->name('landing-pages.builder.bulk-delete');
+    Route::post('landing-pages/builder/{id}/settings', [LandingPageBuilderController::class, 'updateSettings'])->name('landing-pages.builder.update_settings');
+
+// Added explicit route for admin landing index
+Route::get('landing', [LandingPageController::class, 'index'])->name('landing.index');
 
     // ── Payment Gateway Manage ────────────────────────────────────────────────
     Route::patch('paymentgetewaymanage/{id}/toggle-status', [PaymentgetewaymanageController::class, 'toggleStatus'])->name('paymentgetewaymanage.toggle-status');

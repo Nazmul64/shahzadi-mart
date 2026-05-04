@@ -87,15 +87,6 @@
                     <p>{{ $cat->category_name }}</p>
                 </a>
             @endforeach
-            @foreach ($categories as $cat)
-                <a href="{{ url('category/'.$cat->slug) }}" class="smhome-circle-item">
-                    <div class="smhome-circle-img">
-                        <img src="{{ asset('uploads/category/'.$cat->category_photo) }}"
-                             alt="{{ $cat->category_name }}" loading="lazy">
-                    </div>
-                    <p>{{ $cat->category_name }}</p>
-                </a>
-            @endforeach
         </div>
     </div>
     @endif
@@ -118,8 +109,8 @@
                 $discount      = ($displayPrice < $originalPrice && $originalPrice > 0)
                     ? round((($originalPrice - $displayPrice) / $originalPrice) * 100) : null;
                 $inStock = $item->is_unlimited || ($item->stock ?? 0) > 0;
-                $revAvg   = \App\Models\Producreview::where('product_id',$item->id)->where('is_approved',true)->avg('rating') ?? 0;
-                $revCount = \App\Models\Producreview::where('product_id',$item->id)->where('is_approved',true)->count();
+                $revAvg   = $item->reviews_avg_rating ?? 0;
+                $revCount = $item->reviews_count ?? 0;
             @endphp
             <div style="position:relative">
                 <a href="{{ route('wishlist.add', $item->id) }}"
@@ -202,8 +193,8 @@
                 $discount = ($item->discount_price && $item->current_price > 0)
                     ? round((($item->current_price - $item->discount_price) / $item->current_price) * 100) : null;
                 $inStock  = $item->is_unlimited || ($item->stock ?? 0) > 0;
-                $revAvg   = \App\Models\Producreview::where('product_id',$item->id)->where('is_approved',true)->avg('rating') ?? 0;
-                $revCount = \App\Models\Producreview::where('product_id',$item->id)->where('is_approved',true)->count();
+                $revAvg   = $item->reviews_avg_rating ?? 0;
+                $revCount = $item->reviews_count ?? 0;
             @endphp
             <div style="position:relative">
                 <a href="{{ route('wishlist.add', $item->id) }}"
@@ -283,8 +274,8 @@
                 $discount = ($item->discount_price && $item->current_price > 0)
                     ? round((($item->current_price - $item->discount_price) / $item->current_price) * 100) : null;
                 $inStock  = $item->is_unlimited || ($item->stock ?? 0) > 0;
-                $revAvg   = \App\Models\Producreview::where('product_id',$item->id)->where('is_approved',true)->avg('rating') ?? 0;
-                $revCount = \App\Models\Producreview::where('product_id',$item->id)->where('is_approved',true)->count();
+                $revAvg   = $item->reviews_avg_rating ?? 0;
+                $revCount = $item->reviews_count ?? 0;
             @endphp
             <div style="position:relative">
                 <a href="{{ route('wishlist.add', $item->id) }}"
