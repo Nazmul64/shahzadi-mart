@@ -29,15 +29,27 @@ class IncompleteOrderController extends Controller
             return response()->json(['success' => false, 'message' => 'Your IP is blocked.'], 403);
         }
 
-        // ── Basic validation ──────────────────────────────────────
         $request->validate([
             'phone' => 'required|string|min:10|max:20',
         ]);
 
         $phone = trim($request->phone);
-
-        // ── Phone হালকা sanitize (শুধু digits + leading +) ────────
         $phone = preg_replace('/[^\d+]/', '', $phone);
+        $clientIp = $request->ip();
+
+        // ── Fraud Profile Block Check ──────────────────────────────
+        $fraudProfile = \App\Models\FraudProfile::where(function($q) use ($phone, $clientIp) {
+            $q->where('phone', $phone)
+              ->orWhere('ip_address', $clientIp);
+        })->where('is_blocked', true)->first();
+
+        if ($fraudProfile) {
+            return response()->json(['success' => false, 'message' => 'Your account or IP is blocked.'], 403);
+        }
+
+
+
+
         if (strlen($phone) < 10) {
             return response()->json(['success' => false, 'message' => 'Invalid phone number'], 422);
         }

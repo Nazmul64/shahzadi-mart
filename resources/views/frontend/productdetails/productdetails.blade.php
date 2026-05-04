@@ -296,6 +296,17 @@
 <style>
 /* ... (existing styles) ... */
 .pdp__grid { position: relative; }
+.pdp__main-img {
+    width: 100%;
+    height: 500px; /* Fixed height for all main images */
+    object-fit: cover; /* Fill the area to remove gaps */
+    background-color: #f9fafb; /* Fallback background */
+}
+.pdp__thumb img {
+    width: auto;
+    height: 80px; /* Fixed thumbnail height */
+    object-fit: cover;
+}
 .pdp__zoom-lens {
     position: absolute; border: 1px solid #d4d4d4; width: 120px; height: 120px; background: rgba(255, 255, 255, 0.4);
     cursor: crosshair; opacity: 0; border-radius: 5px; box-shadow: 0 0 5px rgba(0,0,0,0.2); pointer-events: none;

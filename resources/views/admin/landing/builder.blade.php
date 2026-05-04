@@ -321,6 +321,12 @@
                             <strong>Custom Page</strong>
                         </div>
                     </div>
+                    <div class="col-md-4">
+                        <div class="block-option" onclick="openForm('rihanu_checkout')">
+                            <i class="bi bi-cart-check-fill" style="color: #5a9e04;"></i>
+                            <strong>Rihanu Premium Checkout</strong>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -730,6 +736,20 @@
         </div>
         <button type="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="addPflRow()">+ Add Feature</button>
     </div>
+
+    <!-- Rihanu Checkout -->
+    <div id="tpl-rihanu_checkout">
+        <div class="mb-3"><label class="form-label">Section Title</label><input type="text" name="rc_title" class="form-control" value="অর্ডার করতে নিচের ফর্মে আপনার তথ্য দিন"></div>
+        <div class="mb-3">
+            <label class="form-label">Select Products/Packages to show</label>
+            <select name="rc_product_ids[]" class="form-select" multiple style="height: 150px;">
+                @foreach($products as $product)
+                    <option value="{{ $product->id }}">{{ $product->name }} - {{ $product->current_price }}৳</option>
+                @endforeach
+            </select>
+            <small class="text-muted">You can select multiple packages. The first one will be selected by default.</small>
+        </div>
+    </div>
 </div>
 
 <!-- Settings Modal -->
@@ -993,7 +1013,8 @@
             product_grid: { title: 'title', product_ids: 'pg_product_ids[]' },
             custom_page: { title: 'cp_title', content: 'cp_content' },
             product_hero: { title: 'ph_title', show_video: 'ph_show_video', show_image: 'ph_show_image' },
-            product_price: { title: 'pp_title' }
+            product_price: { title: 'pp_title' },
+            rihanu_checkout: { title: 'rc_title', product_ids: 'rc_product_ids[]' }
         };
         return maps[type] ? maps[type][key] : key;
     }

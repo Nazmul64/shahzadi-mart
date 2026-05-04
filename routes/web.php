@@ -352,6 +352,10 @@ Route::middleware(['admin'])
     Route::post('products/{id}/toggle-bestseller',  [ProductController::class, 'toggleBestseller']  )->name('products.toggle-bestseller');
     Route::resource('products', ProductController::class);
 
+    // ── Product Serial ────────────────────────────────────────────────────────
+    Route::get ('product-serial',        [\App\Http\Controllers\Admin\ProductSerialController::class, 'index'])->name('product-serial.index');
+    Route::post('product-serial/update', [\App\Http\Controllers\Admin\ProductSerialController::class, 'update'])->name('product-serial.update');
+
     // ──────────────────────────────────────────────────────────────────────────
     // PRODUCT SETTINGS
     // ──────────────────────────────────────────────────────────────────────────
@@ -450,6 +454,14 @@ Route::middleware(['admin'])
     Route::get('pathao/debug/token',   [PathaoOrderController::class, 'debugToken']  )->name('pathao.debug.token');
     Route::get('pathaocourier/generate-token', [PathaocourierController::class, 'generateToken'])->name('pathaocourier.generate-token');
     Route::resource('pathaocourier', PathaocourierController::class);
+
+    // ──────────────────────────────────────────────────────────────────────────
+    // FRAUD CHECKER
+    // ──────────────────────────────────────────────────────────────────────────
+    Route::get('fraud-checker/blocked-list',   [\App\Http\Controllers\Admin\FraudCheckerController::class, 'blockedList'])->name('fraud-checker.blocked-list');
+    Route::get('fraud-checker/check',          [\App\Http\Controllers\Admin\FraudCheckerController::class, 'check'])->name('fraud-checker.check');
+    Route::post('fraud-checker/toggle-block',  [\App\Http\Controllers\Admin\FraudCheckerController::class, 'toggleBlock'])->name('fraud-checker.toggle-block');
+    Route::post('fraud-checker/update-status', [\App\Http\Controllers\Admin\FraudCheckerController::class, 'updateManualStatus'])->name('fraud-checker.update-status');
 
     // ──────────────────────────────────────────────────────────────────────────
     // INCOMPLETE ORDERS — ADMIN PANEL

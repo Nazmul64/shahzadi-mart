@@ -14,7 +14,7 @@
     $ordersActive     = request()->routeIs('admin.order.*') || request()->routeIs('admin.orders.*');
     $incompleteActive = request()->routeIs('admin.incomplete-orders.*');
     $catsActive       = request()->routeIs('admin.category.*') || request()->routeIs('admin.subcategory.*') || request()->routeIs('admin.childcategory.*');
-    $prodsActive      = request()->routeIs('admin.products.*') || request()->routeIs('admin.product.settings.*');
+    $prodsActive      = request()->routeIs('admin.products.*') || request()->routeIs('admin.product.settings.*') || request()->routeIs('admin.product-serial.*');
     $affActive        = request()->routeIs('admin.affiliateproduct.*');
     $couponsActive    = request()->routeIs('admin.coupons.*');
     $custsActive      = request()->routeIs('customer.*');
@@ -498,11 +498,22 @@ body.sb-collapsed .sb-user-info, body.sb-collapsed .sb-logout-btn { display: non
 </div>
 @endif
 
-{{-- Incomplete Orders --}}
 @if($u->isSuperAdmin() || $u->hasPermission('view-orders'))
 <a href="{{ route('admin.incomplete-orders.index') }}" class="sb-item {{ $incompleteActive ? 'active' : '' }}">
     <span class="sb-left"><i class="bi bi-cart-x-fill sb-ico"></i><span class="sb-text">Incomplete Orders</span></span>
 </a>
+
+<div class="sb-item {{ request()->routeIs('admin.fraud-checker.*') ? 'active open' : '' }}" onclick="sbToggle(this)">
+    <span class="sb-left"><i class="bi bi-shield-shaded sb-ico"></i><span class="sb-text">Fraud Checker</span></span>
+    <i class="bi bi-chevron-right sb-arr"></i>
+</div>
+<div class="sb-sub {{ request()->routeIs('admin.fraud-checker.*') ? 'open' : '' }}">
+    <div class="sb-sub-inner">
+        <a href="{{ route('admin.fraud-checker.blocked-list') }}" class="{{ request()->routeIs('admin.fraud-checker.blocked-list') ? 'active' : '' }}">
+            <i class="bi bi-person-x-fill"></i> Blocked & Fake
+        </a>
+    </div>
+</div>
 @endif
 
 {{-- Products --}}
@@ -528,6 +539,9 @@ body.sb-collapsed .sb-user-info, body.sb-collapsed .sb-logout-btn { display: non
             <i class="bi bi-journal-bookmark"></i> Catalog
         </a>
         @if($u->isSuperAdmin() || $u->hasPermission('edit-products'))
+        <a href="{{ route('admin.product-serial.index') }}" class="{{ request()->routeIs('admin.product-serial.*') ? 'active' : '' }}">
+            <i class="bi bi-sort-numeric-down"></i> Product Serial
+        </a>
         <a href="{{ route('admin.product.settings.index') }}" class="{{ request()->routeIs('admin.product.settings.*') ? 'active' : '' }}">
             <i class="bi bi-sliders"></i> Settings
         </a>

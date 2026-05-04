@@ -256,7 +256,7 @@ input[type="range"].cp-slider::-webkit-slider-thumb {
 .cp-img-wrap { position: relative; overflow: hidden; background: var(--light); }
 .cp-img {
     width: 100%; height: 280px; object-fit: cover; display: block;
-    border-bottom: 1.5px solid var(--border); transition: transform .4s;
+    border-bottom: 1.5px solid var(--border); transition: transform .4s; background: #f9fafb;
 }
 .cp-card:hover .cp-img { transform: scale(1.06); }
 

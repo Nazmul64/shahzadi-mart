@@ -203,6 +203,10 @@
         @media (max-width: 991px) {
             .site-nav { display: none !important; }
         }
+
+        /* ── Toastr Visibility Fix ── */
+        #toast-container { z-index: 999999999 !important; top: 12px !important; }
+        .toast { opacity: 1 !important; box-shadow: 0 10px 30px rgba(0,0,0,0.2) !important; }
     </style>
 
 
@@ -211,7 +215,7 @@
     @if(Session::has('success') || Session::has('error') || Session::has('info') || Session::has('coupon_error'))
     <script>
         $(document).ready(function(){
-            toastr.options = { closeButton:true, progressBar:true, positionClass:"toast-top-right", timeOut:4500 };
+            toastr.options = { closeButton:true, progressBar:true, positionClass:"toast-top-center", timeOut:4500 };
             @if(Session::has('error'))        toastr.error("{{ Session::get('error') }}"); @endif
             @if(Session::has('success'))      toastr.success("{{ Session::get('success') }}"); @endif
             @if(Session::has('info'))         toastr.info("{{ Session::get('info') }}"); @endif

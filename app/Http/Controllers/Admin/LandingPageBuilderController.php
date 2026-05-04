@@ -372,6 +372,11 @@ class LandingPageBuilderController extends Controller
                     }
                 }
                 break;
+
+            case 'rihanu_checkout':
+                $content['title'] = $request->input('rc_title', 'অর্ডার করতে নিচের ফর্মে আপনার তথ্য দিন');
+                $content['product_ids'] = $request->input('rc_product_ids', []);
+                break;
         }
 
         return $content;

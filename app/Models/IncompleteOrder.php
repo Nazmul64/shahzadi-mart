@@ -52,4 +52,9 @@ class IncompleteOrder extends Model
     {
         return $this->hasOne(PathaoOrder::class, 'incomplete_order_id');
     }
+
+    public function fraudProfile()
+    {
+        return $this->belongsTo(FraudProfile::class, 'phone', 'phone');
+    }
 }

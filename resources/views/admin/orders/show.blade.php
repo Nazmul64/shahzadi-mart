@@ -291,6 +291,20 @@
 
             {{-- ══ RIGHT COLUMN ══ --}}
             <div>
+                {{-- Fraud Assessment Card --}}
+                <div class="os-card" id="fraud-assessment-card" style="border: 1px solid #fee2e2; overflow: hidden; margin-bottom: 16px;">
+                    <div class="os-card-header" style="background: #fff5f5; border-bottom: 1px solid #fee2e2;">
+                        <h5 class="os-card-title" style="color: #c53030;">
+                            <i class="bi bi-shield-shaded me-1"></i> Fraud Checker
+                        </h5>
+                    </div>
+                    <div class="os-card-body" id="fraud-checker-content">
+                        <div class="text-center py-3">
+                            <div class="spinner-border spinner-border-sm text-danger" role="status"></div>
+                            <p class="mt-2 mb-0" style="font-size: 12px; color: #666;">রিস্ক এনালাইসিস করা হচ্ছে...</p>
+                        </div>
+                    </div>
+                </div>
 
                 {{-- Order Summary --}}
                 <div class="os-card">
@@ -791,6 +805,91 @@ function submitPathaoOrder() {
             btn.disabled  = false;
             btn.innerHTML = '<i class="bi bi-send"></i> Submit';
         });
+}
+</script>
+
+<script>
+$(document).ready(function() {
+    loadFraudData('{{ $order->phone }}');
+});
+
+function loadFraudData(phone) {
+    $.get('{{ route("admin.fraud-checker.check") }}?phone=' + phone, function(res) {
+        let riskColor = '#10b981'; // green
+        if(res.risk_level === 'High Risk') riskColor = '#ef4444'; // red
+        else if(res.risk_level === 'Suspicious') riskColor = '#f59e0b'; // orange
+
+        let riskBadge = `<span style="background:${riskColor}20; color:${riskColor}; border:1px solid ${riskColor}50; padding:2px 10px; border-radius:20px; font-size:11px; font-weight:700;">${res.risk_level}</span>`;
+
+        let manualBadge = '';
+        if(res.manual_status === 'fake') manualBadge = '<span style="background:#1f2937; color:#fff; padding:2px 10px; border-radius:20px; font-size:11px; font-weight:700; margin-left:5px;">Marked Fake</span>';
+        else if(res.manual_status === 'real') manualBadge = '<span style="background:#0ea5e9; color:#fff; padding:2px 10px; border-radius:20px; font-size:11px; font-weight:700; margin-left:5px;">Marked Real</span>';
+
+        let blockBadge = res.is_blocked ? '<span style="background:#dc2626; color:#fff; padding:2px 10px; border-radius:20px; font-size:11px; font-weight:700; margin-left:5px;">Blocked</span>' : '';
+
+        let html = `
+            <div style="margin-bottom:15px;">
+                <div style="font-size:11px; color:#aaa; text-transform:uppercase; margin-bottom:4px;">Authenticity Score</div>
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <h3 style="margin:0; font-weight:800; color:#2d3748; font-size:24px;">${res.risk_score}%</h3>
+                    ${riskBadge}
+                </div>
+            </div>
+            
+            <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:10px; margin-bottom:15px;">
+                <div style="display:flex; justify-content:space-between; font-size:12px; color:#555; padding:2px 0;">
+                    <span>Total Orders:</span> <span style="font-weight:600;">${res.orders_count}</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; font-size:12px; color:#555; padding:2px 0;">
+                    <span>Successful:</span> <span style="font-weight:600;">${res.success_orders}</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; font-size:12px; color:#555; padding:2px 0;">
+                    <span>Success Rate:</span> <span style="font-weight:600;">${res.success_rate}%</span>
+                </div>
+            </div>
+
+            <div style="margin-bottom:15px; display:flex; flex-wrap:wrap; gap:5px;">
+                ${manualBadge} ${blockBadge}
+            </div>
+
+            <div style="display:flex; flex-direction:column; gap:8px;">
+                <div style="display:flex; gap:8px;">
+                    <button type="button" class="btn-update-status" style="background:#f0fdf4; color:#166534; border:1px solid #bbf7d0; flex:1; padding:8px;" onclick="updateFraudStatus('${phone}', 'real')">
+                        <i class="bi bi-check-circle"></i> Real
+                    </button>
+                    <button type="button" class="btn-update-status" style="background:#fef2f2; color:#991b1b; border:1px solid #fecaca; flex:1; padding:8px;" onclick="updateFraudStatus('${phone}', 'fake')">
+                        <i class="bi bi-x-circle"></i> Fake
+                    </button>
+                </div>
+                <button type="button" class="btn-update-status" style="background:${res.is_blocked ? '#f0fdf4' : '#1f2937'}; color:${res.is_blocked ? '#166534' : '#fff'}; border:${res.is_blocked ? '1px solid #bbf7d0' : 'none'}; padding:8px;" onclick="toggleFraudBlock('${phone}')">
+                    <i class="bi bi-shield-${res.is_blocked ? 'check' : 'x'}"></i> ${res.is_blocked ? 'Unblock' : 'Block User / IP'}
+                </button>
+            </div>
+        `;
+        $('#fraud-checker-content').html(html);
+    });
+}
+
+function updateFraudStatus(phone, status) {
+    if(!confirm('Mark this customer as ' + status + '?')) return;
+    $.post('{{ route("admin.fraud-checker.update-status") }}', {
+        _token: '{{ csrf_token() }}',
+        phone: phone,
+        status: status
+    }, function(res) {
+        if(res.success) loadFraudData(phone);
+    });
+}
+
+function toggleFraudBlock(phone) {
+    if(!confirm('Are you sure you want to change block status for this customer?')) return;
+    $.post('{{ route("admin.fraud-checker.toggle-block") }}', {
+        _token: '{{ csrf_token() }}',
+        phone: phone,
+        ip_address: '{{ $order->ip_address }}'
+    }, function(res) {
+        if(res.success) loadFraudData(phone);
+    });
 }
 </script>
 

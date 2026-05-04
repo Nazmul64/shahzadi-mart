@@ -57,6 +57,7 @@ class FrontendController extends Controller
 
         $flashProducts = (clone $baseProductQuery)
                             ->where('is_flash_sale', true)
+                            ->orderByDesc('is_pinned')
                             ->latest()
                             ->take(20)
                             ->get();
@@ -67,6 +68,7 @@ class FrontendController extends Controller
 
         $newArrivals = (clone $baseProductQuery)
                             ->where('is_new_arrival', true)
+                            ->orderByDesc('is_pinned')
                             ->latest('arrived_at')
                             ->take(20)
                             ->get();
@@ -74,6 +76,7 @@ class FrontendController extends Controller
         $bestSellers = (clone $baseProductQuery)
                             ->whereNotNull('discount_price')
                             ->where('discount_price', '>', 0)
+                            ->orderByDesc('is_pinned')
                             ->orderByRaw('(current_price - discount_price) DESC')
                             ->take(20)
                             ->get();
@@ -114,6 +117,7 @@ class FrontendController extends Controller
                               ->orWhereIn('sub_category_id', $subIds)
                               ->orWhereIn('child_sub_category_id', $childIds);
                         })
+                        ->orderByDesc('is_pinned')
                         ->latest()
                         ->paginate(20);
 
@@ -147,6 +151,7 @@ class FrontendController extends Controller
                             $q->where('sub_category_id', $subCategory->id)
                               ->orWhereIn('child_sub_category_id', $childIds);
                         })
+                        ->orderByDesc('is_pinned')
                         ->latest()
                         ->paginate(20);
 
@@ -177,6 +182,7 @@ class FrontendController extends Controller
 
         $products = Product::where('status', 'active')
                         ->where('child_sub_category_id', $childCategory->id)
+                        ->orderByDesc('is_pinned')
                         ->latest()
                         ->paginate(20);
 
@@ -415,7 +421,7 @@ public function productdetails($slug)
                 $query->whereNotNull('discount_price')->where('discount_price', '>', 0)
                       ->orderByRaw('(current_price - discount_price) DESC');
                 break;
-            default: $query->latest(); break;
+            default: $query->orderByDesc('is_pinned')->latest(); break;
         }
 
         $products = $query->paginate(20)->withQueryString();
@@ -455,7 +461,7 @@ public function productdetails($slug)
                 $query->whereNotNull('discount_price')->where('discount_price', '>', 0)
                       ->orderByRaw('(current_price - discount_price) DESC');
                 break;
-            default: $query->latest(); break;
+            default: $query->orderByDesc('is_pinned')->latest(); break;
         }
 
         $products = $query->paginate(20)->withQueryString();

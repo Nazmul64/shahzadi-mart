@@ -66,6 +66,16 @@ class CheckoutController extends Controller
             return redirect()->back()->with('error', 'আপনার IP ব্লক করা হয়েছে। অনুগ্রহ করে কর্তৃপক্ষের সাথে যোগাযোগ করুন।');
         }
 
+        // ── Fraud Profile Block Check ──────────────────────────────
+        $fraudProfile = \App\Models\FraudProfile::where(function($q) use ($request, $clientIp) {
+            $q->where('phone', $request->phone)
+              ->orWhere('ip_address', $clientIp);
+        })->where('is_blocked', true)->first();
+
+        if ($fraudProfile) {
+            return redirect()->back()->with('error', 'দুঃখিত, আপনার ফোন নম্বর বা IP আমাদের সিস্টেমে ব্লক করা হয়েছে।');
+        }
+
         // ── 2. Duplicate Order Check ──────────────────────────────
         $dupSettings = Duplicateordersetting::instance();
         if (!$dupSettings->allow_duplicate_orders) {

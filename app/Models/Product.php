@@ -21,7 +21,7 @@ class Product extends Model
         'meta_tags', 'meta_description',
         'is_bestseller', 'bestseller_at',
         'is_flash_sale', 'flash_sale_price', 'flash_sale_starts_at', 'flash_sale_ends_at',
-        'is_new_arrival', 'arrived_at',
+        'is_new_arrival', 'arrived_at', 'is_pinned',
     ];
 
     protected $casts = [
@@ -43,6 +43,7 @@ class Product extends Model
         'arrived_at'           => 'datetime',
         'is_bestseller'        => 'boolean',
         'bestseller_at'        => 'datetime',
+        'is_pinned'            => 'boolean',
     ];
 
     public static array $productTypes = [

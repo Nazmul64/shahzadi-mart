@@ -378,6 +378,10 @@
 
 <style>
 .smhome-p-card-link { display: block; text-decoration: none; color: inherit; }
+.smhome-p-img {
+    width: 100%; height: 280px; object-fit: cover; display: block;
+    border-bottom: 1.5px solid var(--border); transition: transform .4s; background: #f9fafb;
+}
 .smhome-order-form  { margin: 0; padding: 0; }
 
 .smhome-p-order-btn {

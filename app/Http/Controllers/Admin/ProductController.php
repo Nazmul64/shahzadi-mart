@@ -65,7 +65,7 @@ class ProductController extends Controller
         } elseif (request()->routeIs('emplee.*')) {
             return view('emplee.product.index', compact('products'));
         }
-        
+
         return view('admin.product.index', compact('products'));
     }
 
@@ -329,7 +329,7 @@ class ProductController extends Controller
         }
         $this->deleteFile($product->product_file);
         $product->delete();
-        
+
         $route = 'admin.products.index';
         if (request()->routeIs('manager.*')) $route = 'manager.products.index';
         if (request()->routeIs('emplee.*')) $route = 'emplee.products.index';

@@ -119,6 +119,7 @@
                             ['id' => 'landing-1', 'name' => 'Template 1 (Modern Dark)', 'image' => 'https://via.placeholder.com/300x150?text=Template+1'],
                             ['id' => 'landing-2', 'name' => 'Template 2 (Clean Light)', 'image' => 'https://via.placeholder.com/300x150?text=Template+2'],
                             ['id' => 'landing-3', 'name' => 'Template 3 (Dynamic Builder)', 'image' => 'https://via.placeholder.com/300x150?text=Template+3'],
+                            ['id' => 'rihanu', 'name' => 'Rihanu (Premium Landing)', 'image' => 'https://rihanu.com/wp-content/uploads/2024/09/oil-bg.jpg'],
                         ];
                     @endphp
                     @foreach($built_in as $t)

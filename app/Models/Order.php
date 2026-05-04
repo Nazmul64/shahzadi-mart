@@ -106,4 +106,9 @@ public function pathaoOrder()
 {
     return $this->hasOne(PathaoOrder::class);
 }
+
+public function fraudProfile()
+{
+    return $this->belongsTo(FraudProfile::class, 'phone', 'phone');
+}
 }

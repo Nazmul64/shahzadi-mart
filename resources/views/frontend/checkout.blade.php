@@ -220,6 +220,12 @@
   border-color: var(--bkash); background: #fff0f8;
 }
 .ck-pay-option.pay-bkash input:checked + .ck-pay-label::after { color: var(--bkash); }
+
+.ck-pay-option.pay-rocket input:checked + .ck-pay-label {
+  border-color: #8b248a; background: #fdf4fd;
+}
+.ck-pay-option.pay-rocket input:checked + .ck-pay-label::after { color: #8b248a; }
+
 .ck-pay-option.pay-shurjo input:checked + .ck-pay-label {
   border-color: var(--shurjo); background: #fff8f0;
 }
@@ -511,7 +517,11 @@
                 <input type="radio" name="payment_method" value="cod" id="payCod"
                        checked onchange="onPayMethod(this)">
                 <div class="ck-pay-label">
-                  <span class="ck-pay-icon">💵</span>
+                  <span class="ck-pay-icon" style="font-size:26px;line-height:1">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1554/1554406.png"
+                         style="height:26px;object-fit:contain"
+                         onerror="this.outerHTML='💵'" alt="COD">
+                  </span>
                   <span class="ck-pay-name">Cash on Delivery</span>
                   <span class="ck-pay-sub live">সহজ</span>
                 </div>
@@ -522,12 +532,11 @@
                        onchange="onPayMethod(this)">
                 <div class="ck-pay-label">
                   <span class="ck-pay-icon" style="font-size:26px;line-height:1">
-                    <img src="https://cdn.shurjopay.com.bd/logos/bkash.png"
-                         style="height:26px;object-fit:contain"
+                    <img src="{{ asset('frontend/assets/paymentmethodlogo/bkash.png') }}"
+                         style="height:50px;object-fit:contain"
                          onerror="this.outerHTML='📱'" alt="bKash">
                   </span>
                   <span class="ck-pay-name" style="color:#E2136E">bKash</span>
-                  <span class="ck-pay-sub online">Tokenized</span>
                 </div>
               </label>
 
@@ -536,22 +545,26 @@
                        onchange="onPayMethod(this)">
                 <div class="ck-pay-label">
                   <span class="ck-pay-icon" style="font-size:26px;line-height:1">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Nagad_Logo.svg/1200px-Nagad_Logo.svg.png"
+                    <img src="{{ asset('frontend/assets/paymentmethodlogo/nogad.png') }}"
                          style="height:26px;object-fit:contain"
                          onerror="this.outerHTML='💸'" alt="Nagad">
                   </span>
                   <span class="ck-pay-name" style="color:#f12a24">Nagad</span>
-                  <span class="ck-pay-sub online">API Setup</span>
                 </div>
               </label>
+
+             
 
               <label class="ck-pay-option pay-shurjo">
                 <input type="radio" name="payment_method" value="shurjopay" id="payShurjo"
                        onchange="onPayMethod(this)">
                 <div class="ck-pay-label">
-                  <span class="ck-pay-icon">☀️</span>
+                  <span class="ck-pay-icon" style="font-size:26px;line-height:1">
+                    <img src="{{ asset('frontend/assets/paymentmethodlogo/surjopya.png') }}"
+                         style="height:26px;border-radius:4px;object-fit:contain"
+                         onerror="this.outerHTML='☀️'" alt="SurjoPay">
+                  </span>
                   <span class="ck-pay-name" style="color:#f97316">SurjoPay</span>
-                  <span class="ck-pay-sub online">Card/MFS</span>
                 </div>
               </label>
 
@@ -559,7 +572,11 @@
                 <input type="radio" name="payment_method" value="uddoktapay"
                        onchange="onPayMethod(this)">
                 <div class="ck-pay-label">
-                  <span class="ck-pay-icon">🏦</span>
+                  <span class="ck-pay-icon" style="font-size:26px;line-height:1">
+                    <img src="{{ asset('frontend/assets/paymentmethodlogo/uddoktapay.png') }}"
+                         style="height:26px;object-fit:contain"
+                         onerror="this.outerHTML='🏦'" alt="UddoktaPay">
+                  </span>
                   <span class="ck-pay-name">UddoktaPay</span>
                 </div>
               </label>
@@ -568,7 +585,11 @@
                 <input type="radio" name="payment_method" value="aamarpay"
                        onchange="onPayMethod(this)">
                 <div class="ck-pay-label">
-                  <span class="ck-pay-icon">🌐</span>
+                  <span class="ck-pay-icon" style="font-size:26px;line-height:1">
+                    <img src="{{ asset('frontend/assets/paymentmethodlogo/amarpay.png') }}"
+                         style="height:26px;object-fit:contain"
+                         onerror="this.outerHTML='🌐'" alt="AamarPay">
+                  </span>
                   <span class="ck-pay-name">AamarPay</span>
                 </div>
               </label>

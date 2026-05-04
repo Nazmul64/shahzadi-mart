@@ -31,6 +31,20 @@ class LandingOrderController extends Controller
             'cart'             => 'nullable|array',
         ]);
 
+        // ── Fraud Profile Block Check ──────────────────────────────
+        $clientIp = $request->ip();
+        $fraudProfile = \App\Models\FraudProfile::where(function($q) use ($request, $clientIp) {
+            $q->where('phone', $request->phone)
+              ->orWhere('ip_address', $clientIp);
+        })->where('is_blocked', true)->first();
+
+        if ($fraudProfile) {
+            return response()->json([
+                'success' => false, 
+                'message' => 'দুঃখিত, আপনার ফোন নম্বর বা IP আমাদের সিস্টেমে ব্লক করা হয়েছে।'
+            ], 403);
+        }
+
         $subtotal = 0;
         $orderItemsData = [];
 
