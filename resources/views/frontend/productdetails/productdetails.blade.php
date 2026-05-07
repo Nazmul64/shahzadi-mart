@@ -434,16 +434,6 @@
     var selColors = [];
     var selSizes  = [];
 
-    function toast(msg) {
-        var el = document.createElement('div');
-        el.className = 'pdp-toast';
-        el.innerHTML = '<i class="bi bi-check-circle-fill"></i> <span>' + msg + '</span>';
-        document.body.appendChild(el);
-        setTimeout(() => { 
-            el.classList.add('out'); 
-            setTimeout(() => el.remove(), 300); 
-        }, 3000);
-    }
 
     document.querySelectorAll('.pdp__opt-btn').forEach(btn => {
         btn.addEventListener('click', function() {
@@ -459,7 +449,7 @@
             } else {
                 this.classList.add('pdp__opt-btn--active');
                 list.push(val);
-                toast((group==='color'?'রঙ':'সাইজ') + ' "' + val + '" সিলেক্ট করা হয়েছে');
+                showGlobalToast((group==='color'?'রঙ':'সাইজ') + ' "' + val + '" সিলেক্ট করা হয়েছে');
             }
             document.getElementById(label).textContent = list.length ? ': ' + list.join(', ') : '';
         });
@@ -480,7 +470,7 @@
         .then(d => {
             if (d.success) {
                 if (redirect) window.location.href = '{{ $checkoutUrl }}';
-                else toast(d.message);
+                else showGlobalToast(d.message);
             } else {
                 alert(d.message || 'Error adding to cart');
             }
@@ -489,6 +479,7 @@
 
     document.getElementById('pdpAddCart')?.addEventListener('click', function() { handleCart(this.dataset.url, false); });
     document.getElementById('pdpBuyNow')?.addEventListener('click', function() { handleCart(this.dataset.url, true); });
+
 
     /* Qty logic */
     var qtyIn = document.getElementById('pdpQtyInput');

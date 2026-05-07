@@ -195,6 +195,7 @@
             </div>
 
             <div class="ck-payment-grid">
+              {{-- Cash on Delivery — Always visible as requested --}}
               <label class="ck-pay-option">
                 <input type="radio" name="payment_method" value="cod" id="payCod"
                        checked onchange="onPayMethod(this)">
@@ -209,6 +210,8 @@
                 </div>
               </label>
 
+              {{-- bKash --}}
+              @if($bkashStatus)
               <label class="ck-pay-option pay-bkash">
                 <input type="radio" name="payment_method" value="bkash" id="payBkash"
                        onchange="onPayMethod(this)">
@@ -221,7 +224,10 @@
                   <span class="ck-pay-name" style="color:#E2136E">bKash</span>
                 </div>
               </label>
+              @endif
 
+              {{-- Nagad --}}
+              @if($nagadStatus)
               <label class="ck-pay-option pay-nagad">
                 <input type="radio" name="payment_method" value="nagad" id="payNagad"
                        onchange="onPayMethod(this)">
@@ -234,9 +240,10 @@
                   <span class="ck-pay-name" style="color:#f12a24">Nagad</span>
                 </div>
               </label>
+              @endif
 
-             
-
+              {{-- ShurjoPay --}}
+              @if($shurjopayStatus)
               <label class="ck-pay-option pay-shurjo">
                 <input type="radio" name="payment_method" value="shurjopay" id="payShurjo"
                        onchange="onPayMethod(this)">
@@ -249,7 +256,10 @@
                   <span class="ck-pay-name" style="color:#f97316">SurjoPay</span>
                 </div>
               </label>
+              @endif
 
+              {{-- UddoktaPay --}}
+              @if($uddoktapayStatus)
               <label class="ck-pay-option">
                 <input type="radio" name="payment_method" value="uddoktapay"
                        onchange="onPayMethod(this)">
@@ -262,7 +272,10 @@
                   <span class="ck-pay-name">UddoktaPay</span>
                 </div>
               </label>
+              @endif
 
+              {{-- AamarPay --}}
+              @if($aamarpayStatus)
               <label class="ck-pay-option">
                 <input type="radio" name="payment_method" value="aamarpay"
                        onchange="onPayMethod(this)">
@@ -275,20 +288,29 @@
                   <span class="ck-pay-name">AamarPay</span>
                 </div>
               </label>
+              @endif
             </div>
 
+            @if($bkashStatus)
             <div class="ck-gw-bar bkash-bar" id="gwBkash">
               <span style="font-size:18px;flex-shrink:0">📱</span>
               <span>bKash payment page এ redirect হবেন। নম্বর ও PIN দিয়ে পেমেন্ট করুন। শেষে অটো ফিরে আসবেন।</span>
             </div>
+            @endif
+
+            @if($nagadStatus)
             <div class="ck-gw-bar nagad-bar" id="gwNagad" style="display:none; background:#fff1f1; border:1px solid #fecaca; color:#991b1b; padding:10px 14px; border-radius:8px; font-size:12px; margin-top:14px; align-items:center; gap:10px;">
               <span style="font-size:18px;flex-shrink:0">💸</span>
               <span>Nagad পেমেন্ট গেটওয়েতে রিডাইরেক্ট করা হবে। আপনার নম্বর ও ওটিপি দিয়ে পেমেন্ট সম্পন্ন করুন।</span>
             </div>
+            @endif
+
+            @if($shurjopayStatus)
             <div class="ck-gw-bar shurjo-bar" id="gwShurjo">
               <span style="font-size:18px;flex-shrink:0">☀️</span>
               <span>ShurjoPay gateway এ redirect হবেন। Card, bKash, Nagad সহ সব MFS সাপোর্ট করে।</span>
             </div>
+            @endif
           </div>
 
           {{-- ── Place Order Button ── --}}
@@ -550,13 +572,16 @@
   ══════════════════════════════════════════════════════════════ */
   window.onPayMethod = function (radio) {
     var method = radio.value;
-    var gwNagad = document.getElementById('gwNagad');
+    
+    // Clear all classes and hidden bars
     placeBtn.classList.remove('bkash-btn', 'shurjo-btn', 'nagad-btn');
-    gwBkash.classList.remove('show');
-    gwShurjo.classList.remove('show');
-    if (gwNagad) {
-      gwNagad.style.display = 'none';
-      gwNagad.classList.remove('show');
+    if (gwBkash)  gwBkash.classList.remove('show');
+    if (gwShurjo) gwShurjo.classList.remove('show');
+    
+    var nagadBar = document.getElementById('gwNagad');
+    if (nagadBar) {
+      nagadBar.style.display = 'none';
+      nagadBar.classList.remove('show');
     }
 
     switch (method) {
@@ -566,24 +591,23 @@
       case 'bkash':
         placeBtn.classList.add('bkash-btn');
         placeBtnText.textContent = 'bKash দিয়ে অর্ডার করুন';
-        gwBkash.classList.add('show');
+        if (gwBkash) gwBkash.classList.add('show');
         break;
       case 'nagad':
         placeBtn.classList.add('nagad-btn');
         placeBtnText.textContent = 'Nagad দিয়ে অর্ডার করুন';
-        var gwNagad = document.getElementById('gwNagad');
-        if (gwNagad) {
-          gwNagad.style.display = 'flex';
-          gwNagad.classList.add('show');
+        if (nagadBar) {
+          nagadBar.style.display = 'flex';
+          nagadBar.classList.add('show');
         }
         break;
       case 'shurjopay':
         placeBtn.classList.add('shurjo-btn');
         placeBtnText.textContent = 'ShurjoPay দিয়ে অর্ডার করুন';
-        gwShurjo.classList.add('show');
+        if (gwShurjo) gwShurjo.classList.add('show');
         break;
       default:
-        placeBtnText.textContent = method + ' দিয়ে অর্ডার করুন';
+        placeBtnText.textContent = 'অর্ডার করুন';
     }
 
     scheduleUpdate();

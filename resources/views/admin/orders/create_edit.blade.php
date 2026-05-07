@@ -73,7 +73,7 @@
 .btn-remove-item { width: 30px; height: 30px; background: #e74c3c; color: #fff; border: none; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; }
 
 /* ─── Bottom Grid ─────────────────────────────────────────────────── */
-.oe-bottom-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.oe-bottom-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
 
 /* ─── Summary Table ───────────────────────────────────────────────── */
 .oe-summary-table { width: 100%; border-collapse: collapse; }
@@ -89,7 +89,7 @@
 }
 .btn-update:hover { opacity: .9; }
 
-@media (max-width: 768px) { .oe-bottom-grid { grid-template-columns: 1fr; } }
+@media (max-width: 900px) { .oe-bottom-grid { grid-template-columns: 1fr; } }
 </style>
 
 <div class="oe-wrapper">
@@ -269,6 +269,54 @@
                     </div>
                 </div>
 
+                {{-- Payment Info --}}
+                <div class="oe-card" style="padding:20px;">
+                    <h6 style="font-size:14px;font-weight:700;color:#2d3748;margin:0 0 16px;">
+                        <i class="bi bi-credit-card me-2" style="color:#19cac4;"></i>পেমেন্ট তথ্য
+                    </h6>
+                    <div style="display:flex;flex-direction:column;gap:12px;">
+
+                        {{-- Payment Method --}}
+                        <div>
+                            <label style="font-size:12px;font-weight:600;color:#7a849e;display:block;margin-bottom:5px;">পেমেন্ট মেথড</label>
+                            <select class="oe-input" name="payment_method" style="appearance:auto;">
+                                <option value="cod"  {{ old('payment_method', isset($order) ? $order->payment_method : 'cod') == 'cod'  ? 'selected' : '' }}>Cash on Delivery (COD)</option>
+                                <option value="bkash" {{ old('payment_method', isset($order) ? $order->payment_method : '') == 'bkash' ? 'selected' : '' }}>bKash</option>
+                                <option value="nagad" {{ old('payment_method', isset($order) ? $order->payment_method : '') == 'nagad' ? 'selected' : '' }}>Nagad</option>
+                                <option value="rocket" {{ old('payment_method', isset($order) ? $order->payment_method : '') == 'rocket' ? 'selected' : '' }}>Rocket</option>
+                                <option value="bank"  {{ old('payment_method', isset($order) ? $order->payment_method : '') == 'bank'  ? 'selected' : '' }}>Bank Transfer</option>
+                                <option value="other" {{ old('payment_method', isset($order) ? $order->payment_method : '') == 'other' ? 'selected' : '' }}>Other</option>
+                            </select>
+                        </div>
+
+                        {{-- Transaction ID --}}
+                        <div>
+                            <label style="font-size:12px;font-weight:600;color:#7a849e;display:block;margin-bottom:5px;">Transaction ID (TrxID)</label>
+                            <input type="text" class="oe-input" name="transaction_id"
+                                   placeholder="যেমন: 8N3A2B1C4D5E (ঐচ্ছিক)"
+                                   value="{{ old('transaction_id', isset($order) ? $order->transaction_id : '') }}">
+                        </div>
+
+                        {{-- Payment Status --}}
+                        <div>
+                            <label style="font-size:12px;font-weight:600;color:#7a849e;display:block;margin-bottom:5px;">পেমেন্ট স্ট্যাটাস</label>
+                            <select class="oe-input" name="payment_status" style="appearance:auto;">
+                                <option value="pending" {{ old('payment_status', isset($order) ? $order->payment_status : 'pending') == 'pending' ? 'selected' : '' }}>Pending</option>
+                                <option value="paid"    {{ old('payment_status', isset($order) ? $order->payment_status : '') == 'paid'    ? 'selected' : '' }}>Paid</option>
+                                <option value="failed"  {{ old('payment_status', isset($order) ? $order->payment_status : '') == 'failed'  ? 'selected' : '' }}>Failed</option>
+                            </select>
+                        </div>
+
+                        {{-- Order Date (optional override) --}}
+                        <div>
+                            <label style="font-size:12px;font-weight:600;color:#7a849e;display:block;margin-bottom:5px;">অর্ডারের তারিখ <span style="color:#aaa;font-weight:400;">(খালি রাখলে আজকের তারিখ)</span></label>
+                            <input type="datetime-local" class="oe-input" name="order_date"
+                                   value="{{ old('order_date', isset($order) ? $order->created_at->format('Y-m-d\TH:i') : now()->format('Y-m-d\TH:i')) }}">
+                        </div>
+
+                    </div>
+                </div>
+
                 {{-- Price Summary --}}
                 <div class="oe-card">
                     <table class="oe-summary-table">
@@ -277,14 +325,29 @@
                             <td id="summary-subtotal">{{ isset($order) ? $order->subtotal : '0' }}</td>
                         </tr>
                         <tr>
-                            <td>Shipping Fee</td>
+                            <td style="vertical-align:top;padding-top:16px;">Shipping Zone</td>
                             <td>
+                                @if(isset($shippingZones) && $shippingZones->count() > 0)
+                                <select class="oe-input" id="delivery-fee-select" onchange="applyShippingZone(this)"
+                                        style="font-size:12px;padding:8px 10px;margin-bottom:4px;">
+                                    <option value="0" data-amount="0">— শিপিং জোন নির্বাচন করুন —</option>
+                                    @foreach($shippingZones as $zone)
+                                        <option value="{{ $zone->amount }}"
+                                                data-amount="{{ $zone->amount }}"
+                                                {{ (isset($order) && $order->delivery_fee == $zone->amount) ? 'selected' : '' }}>
+                                            {{ $zone->area_name }} — ৳{{ number_format($zone->amount, 0) }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <div style="font-size:11px;color:#aaa;margin-bottom:4px;">অথবা ম্যানুয়ালি লিখুন:</div>
+                                @endif
                                 <input type="number" class="oe-input" style="width:110px;text-align:right;"
                                        name="delivery_fee" id="delivery-fee" min="0"
-                                       value="{{ old('delivery_fee', isset($order) ? $order->delivery_fee : 70) }}"
+                                       value="{{ old('delivery_fee', isset($order) ? $order->delivery_fee : (isset($shippingZones) && $shippingZones->count() > 0 ? $shippingZones->first()->amount : 0)) }}"
                                        onchange="recalcTotal()">
                             </td>
                         </tr>
+
                         <tr>
                             <td>Item Discount</td>
                             <td id="summary-discount">{{ isset($order) ? $order->discount : '0' }}</td>
@@ -442,6 +505,12 @@ function clearCart() {
     if (!confirm('কার্ট খালি করতে চান?')) return;
     document.getElementById('items-tbody').innerHTML =
         '<tr id="empty-row"><td colspan="7" style="text-align:center;padding:30px;color:#aaa;font-size:13px;">উপরে থেকে পণ্য নির্বাচন করুন</td></tr>';
+    recalcTotal();
+}
+
+function applyShippingZone(sel) {
+    const amount = parseFloat(sel.value) || 0;
+    document.getElementById('delivery-fee').value = amount;
     recalcTotal();
 }
 

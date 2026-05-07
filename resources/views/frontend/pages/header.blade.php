@@ -306,8 +306,10 @@
         .nav-cat-menu a:hover { background: #f8f9fa !important; color: var(--red) !important; padding-left: 25px !important; }
 
         /* ── SEARCH BAR CLEANUP ── */
+        .hdr-search-wrap { position: relative !important; z-index: 1000000000 !important; }
         .hdr-search { box-shadow: none !important; border-color: var(--border) !important; }
         .hdr-search.focused, .hdr-search:focus-within { box-shadow: none !important; border-color: var(--red) !important; background: var(--white) !important; }
+        .search-dropdown { z-index: 1000000001 !important; }
 
         /* ══════════════════════════════════════════
            MOBILE HEADER FIX — ICONS FULLY VISIBLE
@@ -402,7 +404,7 @@
             border: 1px solid #e5e7eb !important;
             border-radius: 12px !important;
             box-shadow: 0 20px 60px rgba(0,0,0,0.15) !important;
-            z-index: 999999 !important;
+            z-index: 2000000000 !important;
             opacity: 0 !important;
             visibility: hidden !important;
             transform: translateY(10px) !important;
@@ -603,7 +605,7 @@
         .top-bar a { color: var(--top-text) !important; }
 
         /* ── Toastr Visibility Fix ── */
-        #toast-container { z-index: 999999999 !important; top: 12px !important; }
+        #toast-container { z-index: 2147483647 !important; top: 12px !important; }
         .toast { opacity: 1 !important; box-shadow: 0 10px 30px rgba(0,0,0,0.2) !important; }
 
         /* ══════════════════════════════════════════
@@ -797,7 +799,7 @@
     @if(Session::has('success') || Session::has('error') || Session::has('info') || Session::has('coupon_error'))
     <script>
         $(document).ready(function(){
-            toastr.options = { closeButton:true, progressBar:true, positionClass:"toast-top-center", timeOut:4500 };
+            toastr.options = { closeButton:true, progressBar:true, positionClass:"toast-top-right", timeOut:4500 };
             @if(Session::has('error'))        toastr.error("{{ Session::get('error') }}"); @endif
             @if(Session::has('success'))      toastr.success("{{ Session::get('success') }}"); @endif
             @if(Session::has('info'))         toastr.info("{{ Session::get('info') }}"); @endif
@@ -856,7 +858,7 @@
             <div class="top-bar__nav">
                 <a href="{{ route('order.track') }}" class="top-bar__track"><i class="bi bi-truck"></i> অর্ডার ট্র্যাক</a>
                 <a href="{{ route('products.all') }}"><i class="bi bi-grid-3x3-gap"></i> সব পণ্য</a>
-                <a href="#"><i class="bi bi-shop"></i>Aienterpriseshop</a>
+                <a href="#"><i class="bi bi-shop"></i>{{ $gs->site_name }}</a>
                 <a href="#"><i class="bi bi-geo-alt"></i> Our Stores</a>
             </div>
         </div>
@@ -930,7 +932,7 @@
                                     <i class="bi bi-speedometer2"></i> Dashboard
                                 </a>
                             @else
-                                <p>Welcome to Aienterpriseshop</p>
+                                <p>Welcome to {{ $gs->site_name }}</p>
                                 <button class="acct-signin" onclick="window.location.href='{{ url('customer/login') }}'">Sign In</button>
                             @endauth
                         </div>

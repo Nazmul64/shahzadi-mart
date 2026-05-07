@@ -19,10 +19,13 @@
                 <div class="col-md-2">
                     <select name="payment_method" class="form-select form-select-sm">
                         <option value="">All Methods</option>
-                        <option value="cod" {{ request('payment_method') == 'cod' ? 'selected' : '' }}>COD</option>
-                        <option value="bkash" {{ request('payment_method') == 'bkash' ? 'selected' : '' }}>bKash</option>
-                        <option value="nagad" {{ request('payment_method') == 'nagad' ? 'selected' : '' }}>Nagad</option>
+                        <option value="cod"       {{ request('payment_method') == 'cod'       ? 'selected' : '' }}>COD</option>
+                        <option value="bkash"     {{ request('payment_method') == 'bkash'     ? 'selected' : '' }}>bKash</option>
+                        <option value="nagad"     {{ request('payment_method') == 'nagad'     ? 'selected' : '' }}>Nagad</option>
+                        <option value="rocket"    {{ request('payment_method') == 'rocket'    ? 'selected' : '' }}>Rocket</option>
+                        <option value="bank"      {{ request('payment_method') == 'bank'      ? 'selected' : '' }}>Bank Transfer</option>
                         <option value="shurjopay" {{ request('payment_method') == 'shurjopay' ? 'selected' : '' }}>ShurjoPay</option>
+                        <option value="other"     {{ request('payment_method') == 'other'     ? 'selected' : '' }}>Other</option>
                     </select>
                 </div>
                 <div class="col-md-2">
@@ -74,12 +77,18 @@
                                 @php
                                     $method = strtolower($order->payment_method);
                                 @endphp
-                                @if($method == 'bkash')
+                                                            @if($method == 'bkash')
                                     <span class="badge bg-soft-pink text-pink border">bKash</span>
                                 @elseif($method == 'nagad')
                                     <span class="badge bg-soft-red text-red border">Nagad</span>
+                                @elseif($method == 'rocket')
+                                    <span class="badge" style="background:#f0f0ff;color:#6c3483;border:1px solid #c9b2e0;">Rocket</span>
+                                @elseif($method == 'bank')
+                                    <span class="badge bg-light text-secondary border">Bank</span>
                                 @elseif($method == 'shurjopay')
                                     <span class="badge bg-soft-orange text-orange border">ShurjoPay</span>
+                                @elseif($method == 'cod')
+                                    <span class="badge bg-light text-dark border">COD</span>
                                 @else
                                     <span class="badge bg-light text-dark border">{{ strtoupper($method) }}</span>
                                 @endif

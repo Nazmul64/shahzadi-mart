@@ -524,6 +524,71 @@ function trackPixelEvent(event, params) {
 @else
 function trackPixelEvent() {}
 @endif
+
+/* ── Global Toast System ── */
+function showGlobalToast(msg, type = 'success') {
+    var toast = document.createElement('div');
+    toast.style.cssText = 'position:fixed;top:20px;right:20px;background:#1a1a2e;color:#fff;padding:14px 24px;border-radius:12px;z-index:2147483647;display:flex;align-items:center;gap:12px;box-shadow:0 10px 30px rgba(0,0,0,0.2);border-left:4px solid ' + (type === 'error' ? '#ef4444' : '#be0318') + ';animation:toastIn .4s cubic-bezier(0.175, 0.885, 0.32, 1.275);';
+    toast.innerHTML = '<i class="bi bi-' + (type === 'error' ? 'exclamation-circle' : 'check-circle') + '-fill" style="color:' + (type === 'error' ? '#ef4444' : '#be0318') + ';font-size:18px;"></i> <span>' + msg + '</span>';
+    document.body.appendChild(toast);
+    
+    setTimeout(function() {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(20px)';
+        toast.style.transition = 'all .3s';
+        setTimeout(function() { toast.remove(); }, 300);
+    }, 3000);
+}
+
+// Inline animation for toast
+var style = document.createElement('style');
+style.innerHTML = '@keyframes toastIn { from { opacity:0; transform:translateX(50px); } to { opacity:1; transform:translateX(0); } }';
+document.head.appendChild(style);
+
+/* ── Global Wishlist Listener ── */
+document.addEventListener('click', function(e) {
+    var btn = e.target.closest('.smhome-p-wish, .pdp__wish-btn');
+    if (btn) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        var url = btn.getAttribute('href') || btn.dataset.url;
+        if (!url) return;
+        
+        // Visual feedback immediately
+        var icon = btn.querySelector('i');
+        if (icon) {
+            icon.classList.remove('bi-heart');
+            icon.classList.add('bi-heart-fill');
+        }
+        
+        fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+        .then(function(r) { return r.json(); })
+        .then(function(d) {
+            showGlobalToast(d.message, d.success ? 'success' : 'error');
+            if (d.success) {
+                btn.style.color = 'var(--red)';
+                
+                // Update badges
+                var badge = document.getElementById('wishBadge');
+                if (badge && d.count !== undefined) {
+                    badge.textContent = d.count;
+                    badge.classList.remove('zero');
+                }
+                var pill = document.querySelector('.wish-count-pill');
+                if (pill && d.count !== undefined) {
+                    pill.textContent = d.count;
+                }
+            } else {
+                // If not successful (e.g. already in wishlist), keep the filled icon but maybe it was already filled
+            }
+        })
+        .catch(function(err) {
+            console.error('Wishlist error:', err);
+            showGlobalToast('কিছু ভুল হয়েছে, আবার চেষ্টা করুন।', 'error');
+        });
+    }
+});
 </script>
 
 </body>

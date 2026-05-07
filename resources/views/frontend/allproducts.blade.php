@@ -72,8 +72,12 @@
 .smp-badge--discount { background: #d0152b; }
 .smp-badge--new { background: #d0152b; }
 
-.smp-img { width: 100%; height: 280px; object-fit: cover; border-bottom: 1.5px solid #e8e8ef; transition: transform .5s; }
-.smp-card:hover .smp-img { transform: scale(1.06); }
+.smp-wish-btn { 
+    position: absolute; top: 12px; right: 12px; z-index: 10; width: 36px; height: 36px; 
+    background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+    box-shadow: 0 4px 12px rgba(0,0,0,.15); color: #be0318; text-decoration: none; transition: all .2s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+}
+.smp-wish-btn:hover { transform: scale(1.15); background: #be0318; color: #fff; }
 
 .smp-card-body { padding: 14px; display: flex; flex-direction: column; flex: 1; }
 .smp-card-name { font-size: 18px; font-weight: 800; color: #2c2c30; text-decoration: none; margin-bottom: 10px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 48px; line-height: 1.35; }
@@ -152,6 +156,9 @@
                 @foreach($products as $item)
                 <div class="smp-card-wrap">
                     <div class="smp-card">
+                        <a href="{{ route('wishlist.add', $item->id) }}" class="smp-wish-btn" title="উইশলিস্টে যোগ করুন">
+                            <i class="bi bi-heart"></i>
+                        </a>
                         @if($item->discount_price) <span class="smp-badge smp-badge--discount">-{{ round((($item->current_price - $item->discount_price)/$item->current_price)*100) }}% OFF</span> @endif
                         <div class="smp-img-wrap">
                             <img class="smp-img" src="{{ asset('uploads/products/' . $item->feature_image) }}" alt="{{ $item->name }}" loading="lazy">

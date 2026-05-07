@@ -6,15 +6,18 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
+use App\Models\ShippingCharge;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
     // ── Create Form ───────────────────────────────────────────────
     public function create()
     {
-        $products = Product::where('status', 1)->latest()->get();
-        return view('admin.orders.create_edit', compact('products'));
+        $products       = Product::where('status', 1)->latest()->get();
+        $shippingZones  = ShippingCharge::active()->orderBy('amount')->get();
+        return view('admin.orders.create_edit', compact('products', 'shippingZones'));
     }
 
     // ── Store New Order ───────────────────────────────────────────
@@ -41,9 +44,19 @@ class OrderController extends Controller
             'delivery_fee'   => $request->delivery_fee    ?? 0,
             'total'          => $request->total           ?? 0,
             'order_status'   => 'pending',
-            'payment_status' => 'pending',
+            'payment_status' => $request->payment_status  ?? 'pending',
             'payment_method' => $request->payment_method  ?? 'cod',
+            'transaction_id' => $request->transaction_id  ?? null,
         ]);
+
+        // যদি নির্দিষ্ট তারিখ দেওয়া হয়, created_at আপডেট করুন
+        if ($request->filled('order_date')) {
+            $orderDate = \Carbon\Carbon::parse($request->order_date);
+            DB::table('orders')->where('id', $order->id)->update([
+                'created_at' => $orderDate,
+                'updated_at' => $orderDate,
+            ]);
+        }
 
         $this->syncItems($order, $request->items);
 
@@ -61,12 +74,13 @@ class OrderController extends Controller
         if (!$user->isAdmin() && !$user->isSuperAdmin()) {
             $isSentToCourier = ($order->steadfastOrder && $order->steadfastOrder->is_sent) || $order->pathaoOrder;
             if ($order->order_status !== 'pending' || $isSentToCourier) {
-                return redirect()->back()->with('error', 'এই অর্ডারটি কনফার্ম বা কুরিয়ারে পাঠানো হয়েছে, তাই আপনি এটি এডিট করতে পারবেন না।');
+                return redirect()->back()->with('error', 'এই অর্ডারটি কনফার্ম বা কুরিয়ারে পাঠানো হয়েছে, তাই আপনি এটি এডিট করতে পারবেন না।');
             }
         }
 
-        $products = Product::where('status', 1)->latest()->get();
-        return view('admin.orders.create_edit', compact('order', 'products'));
+        $products      = Product::where('status', 1)->latest()->get();
+        $shippingZones = ShippingCharge::active()->orderBy('amount')->get();
+        return view('admin.orders.create_edit', compact('order', 'products', 'shippingZones'));
     }
 
     // ── Update Order ──────────────────────────────────────────────
@@ -92,16 +106,27 @@ class OrderController extends Controller
         }
 
         $order->update([
-            'customer_name' => $request->customer_name,
-            'phone'         => $request->phone,
-            'address'       => $request->address,
-            'delivery_area' => $request->delivery_area ?? null,
-            'note'          => $request->note           ?? null,
-            'subtotal'      => $request->subtotal       ?? 0,
-            'discount'      => $request->discount       ?? 0,
-            'delivery_fee'  => $request->delivery_fee   ?? 0,
-            'total'         => $request->total          ?? 0,
+            'customer_name'  => $request->customer_name,
+            'phone'          => $request->phone,
+            'address'        => $request->address,
+            'delivery_area'  => $request->delivery_area  ?? null,
+            'note'           => $request->note            ?? null,
+            'subtotal'       => $request->subtotal        ?? 0,
+            'discount'       => $request->discount        ?? 0,
+            'delivery_fee'   => $request->delivery_fee    ?? 0,
+            'total'          => $request->total           ?? 0,
+            'payment_method' => $request->payment_method  ?? $order->payment_method,
+            'payment_status' => $request->payment_status  ?? $order->payment_status,
+            'transaction_id' => $request->transaction_id  ?? $order->transaction_id,
         ]);
+
+        // যদি নির্দিষ্ট তারিখ দেওয়া হয়, created_at আপডেট করুন
+        if ($request->filled('order_date')) {
+            $orderDate = \Carbon\Carbon::parse($request->order_date);
+            DB::table('orders')->where('id', $order->id)->update([
+                'created_at' => $orderDate,
+            ]);
+        }
 
         $order->items()->delete();
         $this->syncItems($order, $request->items);

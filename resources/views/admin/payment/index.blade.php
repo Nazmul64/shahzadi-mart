@@ -255,7 +255,7 @@
                             <span class="toggle-label-text">Status</span>
                             <label class="toggle-switch">
                                 <input type="checkbox" name="status" value="1"
-                                       {{ (old('status', $bkash->status ?? 0)) ? 'checked' : '' }}>
+                                       {{ (old('status', $bkash?->status ?? 0)) ? 'checked' : '' }}>
                                 <span class="toggle-slider"></span>
                             </label>
                         </div>
@@ -296,19 +296,19 @@
                         <div class="pay-group">
                             <label class="pay-label">User Name <span>*</span></label>
                             <input type="text" name="username" class="pay-input"
-                                   value="{{ old('username', $shurjopay->username ?? '') }}"
+                                   value="{{ old('username', $shurjopay?->username ?? '') }}"
                                    placeholder="sp_sandbox">
                         </div>
                         <div class="pay-group">
                             <label class="pay-label">Prefix <span>*</span></label>
                             <input type="text" name="prefix" class="pay-input"
-                                   value="{{ old('prefix', $shurjopay->prefix ?? '') }}"
+                                   value="{{ old('prefix', $shurjopay?->prefix ?? '') }}"
                                    placeholder="NOK">
                         </div>
                         <div class="pay-group">
                             <label class="pay-label">Success Url <span>*</span></label>
                             <input type="text" name="success_url" class="pay-input"
-                                   value="{{ old('success_url', $shurjopay->success_url ?? '') }}"
+                                   value="{{ old('success_url', $shurjopay?->success_url ?? '') }}"
                                    placeholder="https://yoursite.com/payment-success">
                         </div>
                     </div>
@@ -318,19 +318,19 @@
                         <div class="pay-group">
                             <label class="pay-label">Return Url <span>*</span></label>
                             <input type="text" name="return_url" class="pay-input"
-                                   value="{{ old('return_url', $shurjopay->return_url ?? '') }}"
+                                   value="{{ old('return_url', $shurjopay?->return_url ?? '') }}"
                                    placeholder="https://yoursite.com/payment-cancel">
                         </div>
                         <div class="pay-group">
                             <label class="pay-label">Base Url <span>*</span></label>
                             <input type="text" name="base_url" class="pay-input"
-                                   value="{{ old('base_url', $shurjopay->base_url ?? '') }}"
+                                   value="{{ old('base_url', $shurjopay?->base_url ?? '') }}"
                                    placeholder="https://sandbox.shurjopayment.com">
                         </div>
                         <div class="pay-group">
                             <label class="pay-label">Password <span>*</span></label>
                             <input type="text" name="password" class="pay-input"
-                                   value="{{ old('password', $shurjopay->password ?? '') }}"
+                                   value="{{ old('password', $shurjopay?->password ?? '') }}"
                                    placeholder="Password">
                         </div>
                     </div>
@@ -341,7 +341,7 @@
                             <span class="toggle-label-text">Status</span>
                             <label class="toggle-switch">
                                 <input type="checkbox" name="status" value="1"
-                                       {{ (old('status', $shurjopay->status ?? 0)) ? 'checked' : '' }}>
+                                       {{ (old('status', $shurjopay?->status ?? 0)) ? 'checked' : '' }}>
                                 <span class="toggle-slider"></span>
                             </label>
                         </div>

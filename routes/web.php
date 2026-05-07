@@ -134,7 +134,7 @@ Route::get('/search',      [SearchController::class, 'results'])->name('search.r
 Route::prefix('cart')->name('cart.')->group(function () {
     Route::get ('/',               [CartController::class, 'index']   )->name('index');
     Route::post('/add/{id}',       [CartController::class, 'add']     )->name('add');
-    Route::post('/remove/{key}',   [CartController::class, 'remove']  )->name('remove');
+    Route::match(['get', 'post'], '/remove/{key}', [CartController::class, 'remove'])->name('remove');
     Route::post('/increase/{key}', [CartController::class, 'increase'])->name('increase');
     Route::post('/decrease/{key}', [CartController::class, 'decrease'])->name('decrease');
     Route::post('/clear',          [CartController::class, 'clear']   )->name('clear');

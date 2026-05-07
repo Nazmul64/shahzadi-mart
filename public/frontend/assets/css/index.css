@@ -493,21 +493,20 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 14px;
-    color: #bbb;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, .13);
+    font-size: 15px;
+    color: var(--red);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, .15);
     z-index: 10;
     border: none;
     cursor: pointer;
-    transition: color .2s, background .2s, transform .2s;
-    opacity: 0;
-    pointer-events: none;
+    transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     text-decoration: none;
 }
 
-.smhome-p-card:hover .smhome-p-wish {
-    opacity: 1;
-    pointer-events: auto;
+.smhome-p-wish:hover {
+    transform: scale(1.15);
+    background: var(--red);
+    color: #fff;
 }
 
 .smhome-p-wish:hover {

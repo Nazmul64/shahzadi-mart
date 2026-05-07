@@ -49,7 +49,7 @@
                             <label class="form-label fw-semibold d-block">Status</label>
                             <div class="form-check form-switch mt-1">
                                 <input class="form-check-input" type="checkbox" role="switch"
-                                       name="status" value="1" checked
+                                       name="status" value="1"
                                        style="width:3rem; height:1.5rem; cursor:pointer;">
                             </div>
                         </div>
@@ -114,7 +114,7 @@
                             <label class="form-label fw-semibold d-block">Status</label>
                             <div class="form-check form-switch mt-1">
                                 <input class="form-check-input" type="checkbox" role="switch"
-                                       name="status" value="1" checked
+                                       name="status" value="1"
                                        style="width:3rem; height:1.5rem; cursor:pointer;">
                             </div>
                         </div>

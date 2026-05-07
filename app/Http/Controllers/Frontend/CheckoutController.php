@@ -41,7 +41,22 @@ class CheckoutController extends Controller
                 ->with('error', 'কার্ট খালি আছে। আগে পণ্য যোগ করুন।');
         }
 
-        return view('frontend.checkout');
+        // Fetch gateway statuses
+        $bkashStatus     = \App\Models\Bkash::value('status') ?? 0;
+        $nagadStatus     = \App\Models\NagadSetting::value('status') ?? 0;
+        $shurjopayStatus = \App\Models\Shurjopay::value('status') ?? 0;
+        
+        // Uddoktapay and Aamarpay placeholders from Paymentgetewaymanage if exists
+        $uddoktapayStatus = \App\Models\Paymentgetewaymanage::where('gateway_name', 'uddoktapay')->value('status') ?? 0;
+        $aamarpayStatus   = \App\Models\Paymentgetewaymanage::where('gateway_name', 'aamarpay')->value('status') ?? 0;
+
+        return view('frontend.checkout', compact(
+            'bkashStatus', 
+            'nagadStatus', 
+            'shurjopayStatus',
+            'uddoktapayStatus',
+            'aamarpayStatus'
+        ));
     }
 
     // ══════════════════════════════════════════════════════════════════

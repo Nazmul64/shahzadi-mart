@@ -71,12 +71,11 @@ body {
 .ofp-chip.is-active,
 .na-filter-chip.is-active,
 .cp-sub-item.active {
-    background-color: #be0318 !important;
-    background-color: var(--red, #be0318) !important;
-    color: #ffffff !important;
+    background-color: var(--btn-bg, #be0318) !important;
+    color: var(--btn-text, #ffffff) !important;
     border: none !important;
     outline: none !important;
-    box-shadow: 0 4px 10px rgba(190, 3, 24, 0.15) !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12) !important;
 }
 
 .pdp__btn--cart {
@@ -108,7 +107,7 @@ body {
 .ofp-badge {
     position: absolute !important;
     top: 10px !important;
-    left: 10px !important;
+    /* Removed global left: 10px to prevent stretching with right: 10px */
     background: #be0318 !important;
     background: var(--red, #be0318) !important;
     color: #fff !important;
@@ -124,10 +123,24 @@ body {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
 }
 
+.smhome-p-badge,
+.na-badge-new,
+.smp-badge,
+.ofp-badge {
+    left: 10px !important;
+}
+
 .na-badge-disc,
 .smp-badge-disc {
+    left: auto !important;
+    right: 10px !important;
+    align-self: flex-start !important;
+}
+
+/* If both NEW and DISC exist and DISC should be next to NEW */
+.na-badge-new + .na-badge-disc {
     left: 65px !important;
-    /* Offset if both exist */
+    right: auto !important;
 }
 
 

@@ -66,11 +66,22 @@ class WishlistController extends Controller
                           })->exists();
 
         if ($exists) {
+            if (request()->ajax()) {
+                return response()->json(['success' => false, 'message' => 'পণ্যটি ইতিমধ্যে উইশলিস্টে আছে।']);
+            }
             return redirect()->back()->with('info', 'পণ্যটি ইতিমধ্যে উইশলিস্টে আছে।');
         }
 
         Wishlist::create(array_merge($owner, ['product_id' => $id]));
 
+        if (request()->ajax()) {
+            $newCount = $this->wishlistQuery()->count();
+            return response()->json([
+                'success' => true,
+                'message' => '"' . $product->name . '" উইশলিস্টে যোগ হয়েছে!',
+                'count'   => $newCount
+            ]);
+        }
         return redirect()->back()->with('success', '"' . $product->name . '" উইশলিস্টে যোগ হয়েছে!');
     }
 
@@ -142,14 +153,15 @@ class WishlistController extends Controller
         return redirect()->route('wishlist')->with('success', 'উইশলিস্ট সম্পূর্ণ পরিষ্কার হয়েছে।');
     }
     public function remove($id)
-{
-    $wishlist = session()->get('wishlist', []);
+    {
+        // Find by ID and ensure ownership
+        $item = $this->wishlistQuery()->where('id', $id)->first();
 
-    if (isset($wishlist[$id])) {
-        unset($wishlist[$id]);
-        session()->put('wishlist', $wishlist);
+        if ($item) {
+            $item->delete();
+            return redirect()->back()->with('success', 'উইশলিস্ট থেকে সরানো হয়েছে।');
+        }
+
+        return redirect()->back()->with('error', 'আইটেমটি পাওয়া যায়নি বা আপনি এটির মালিক নন।');
     }
-
-    return redirect()->back()->with('success', 'উইশলিস্ট থেকে সরানো হয়েছে।');
-}
 }
