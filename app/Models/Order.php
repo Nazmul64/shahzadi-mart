@@ -25,6 +25,7 @@ class Order extends Model
         'coupon_code',
         'assigned_user_id',
         'ip_address',
+        'landing_page_id',
     ];
 
     // ── Status Labels ──────────────────────────────────────────────

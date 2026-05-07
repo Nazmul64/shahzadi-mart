@@ -153,12 +153,12 @@ class BkashController extends Controller
         $paymentID = $request->get('paymentID');
 
         if ($status === 'cancel') {
-            return redirect()->route('checkout.index')
+            return redirect()->route('checkout')
                 ->with('error', 'আপনি bKash পেমেন্ট বাতিল করেছেন।');
         }
 
         if ($status === 'failure' || !$paymentID) {
-            return redirect()->route('checkout.index')
+            return redirect()->route('checkout')
                 ->with('error', 'bKash পেমেন্ট ব্যর্থ হয়েছে। আবার চেষ্টা করুন।');
         }
 
@@ -167,7 +167,7 @@ class BkashController extends Controller
         $token = session('bkash_token');
 
         if (!$cfg || !$token) {
-            return redirect()->route('checkout.index')
+            return redirect()->route('checkout')
                 ->with('error', 'Session expired. আবার চেষ্টা করুন।');
         }
 
@@ -194,12 +194,12 @@ class BkashController extends Controller
             }
 
             Log::error('bKash execute failed', $data);
-            return redirect()->route('checkout.index')
+            return redirect()->route('checkout')
                 ->with('error', 'bKash পেমেন্ট verify করা যায়নি: ' . ($data['statusMessage'] ?? 'Unknown error'));
 
         } catch (\Throwable $e) {
             Log::error('bKash execute exception: ' . $e->getMessage());
-            return redirect()->route('checkout.index')
+            return redirect()->route('checkout')
                 ->with('error', 'Payment verify করতে সমস্যা হয়েছে।');
         }
     }
@@ -273,7 +273,7 @@ class BkashController extends Controller
         } catch (\Throwable $e) {
             DB::rollBack();
             Log::error('Order create after payment failed: ' . $e->getMessage());
-            return redirect()->route('checkout.index')
+            return redirect()->route('checkout')
                 ->with('error', 'Payment সফল কিন্তু অর্ডার save করতে সমস্যা হয়েছে। TrxID: ' . $trxID . ' — আমাদের সাথে যোগাযোগ করুন।');
         }
 

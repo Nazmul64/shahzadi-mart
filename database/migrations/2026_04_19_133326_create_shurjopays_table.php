@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('return_url');
             $table->string('base_url');
             $table->string('password');
-            $table->tinyInteger('status')->default(1);
+            $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });
     }

@@ -31,7 +31,7 @@ class WebsitefaviconController extends Controller
                     $allowed = ['jpg', 'jpeg', 'png', 'gif', 'svg', 'webp', 'ico'];
                     $ext     = strtolower($value->getClientOriginalExtension());
                     if (! in_array($ext, $allowed)) {
-                        $fail('Only jpg, jpeg, png, gif, svg, webp, ico files are allowed.');
+                        $fail('Only jpg, jpeg, png, gif, svg, webp, ico files are allowed (Max 5MB).');
                     }
                 },
             ],

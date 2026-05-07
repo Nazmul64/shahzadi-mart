@@ -23,7 +23,7 @@ class SliderController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'photo'       => 'required|image|mimes:jpg,jpeg,png,webp,gif|max:2048',
+            'photo'       => 'required|mimes:jpg,jpeg,png,webp,gif,svg|max:5120',
         ]);
 
         $uploadPath = public_path('uploads/slider');
@@ -55,7 +55,7 @@ class SliderController extends Controller
         $slider = Slider::findOrFail($id);
 
         $request->validate([
-            'photo'       => 'nullable|image|mimes:jpg,jpeg,png,webp,gif|max:2048',
+            'photo'       => 'nullable|mimes:jpg,jpeg,png,webp,gif,svg|max:5120',
         ]);
 
         $photoPath = $slider->photo;

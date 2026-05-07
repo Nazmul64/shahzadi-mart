@@ -160,15 +160,16 @@
 
 .smhome-btn-reg {
     flex: 1;
-    background: var(--red);
-    color: #fff;
+    background: #be0318 !important;
+    background: var(--red, #be0318) !important;
+    color: #fff !important;
     border: none;
     padding: 10px 4px;
     border-radius: 26px;
     font-family: 'DM Sans', sans-serif;
     font-size: 13px;
     font-weight: 700;
-    transition: var(--t);
+    transition: all 0.3s ease;
     text-decoration: none;
     display: flex;
     align-items: center;
@@ -182,15 +183,16 @@
 
 .smhome-btn-sign {
     flex: 1;
-    background: var(--red);
-    color: #fff;
+    background: #be0318 !important;
+    background: var(--red, #be0318) !important;
+    color: #fff !important;
     border: none;
     padding: 10px 4px;
     border-radius: 26px;
     font-family: 'DM Sans', sans-serif;
     font-size: 13px;
     font-weight: 700;
-    transition: var(--t);
+    transition: all 0.3s ease;
     text-decoration: none;
     display: flex;
     align-items: center;
@@ -289,6 +291,7 @@
     display: none;
 }
 
+
 @keyframes smhome-marquee {
     to {
         transform: translateX(-100%);
@@ -350,7 +353,7 @@
 
 .smhome-sec-head h2 {
     font-family: 'Playfair Display', serif;
-    font-size: 24px;
+    font-size: 18px !important;
     font-weight: 800;
     color: var(--dark);
     display: flex;
@@ -371,7 +374,8 @@
 .smhome-see-all {
     font-size: 12.5px;
     font-weight: 700;
-    color: var(--red);
+    color: #be0318 !important;
+    color: var(--red, #be0318) !important;
     letter-spacing: .07em;
     text-transform: uppercase;
     display: flex;
@@ -402,7 +406,7 @@
 
 .smhome-flash-title {
     font-family: 'Playfair Display', serif;
-    font-size: 22px;
+    font-size: 18px !important;
     font-weight: 800;
     color: var(--dark);
     display: flex;
@@ -467,7 +471,8 @@
     position: absolute;
     top: 10px;
     left: 10px;
-    background: var(--red);
+    background: #be0318 !important;
+    background: var(--red, #be0318) !important;
     color: #fff;
     font-size: 10px;
     font-weight: 800;
@@ -547,11 +552,11 @@
 }
 
 .smhome-p-name {
-    font-size: 18px;
+    font-size: 1.15rem;
     font-weight: 800;
     color: var(--text);
-    line-height: 1.35;
-    margin-bottom: 10px;
+    line-height: 1.3;
+    margin-bottom: 6px;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -560,17 +565,20 @@
 }
 
 .smhome-p-price {
-    font-size: 20px;
+    font-size: 1.25rem;
     font-weight: 900;
     color: var(--red);
-    margin-bottom: 2px;
+    margin: 0 !important;
+    display: inline-block;
 }
 
 .smhome-p-old {
-    font-size: 13.5px;
+    font-size: 0.9rem;
     color: var(--muted);
     text-decoration: line-through;
-    margin-bottom: 5px;
+    margin: 0 !important;
+    display: inline-block;
+    opacity: 0.7;
 }
 
 .smhome-p-stock {

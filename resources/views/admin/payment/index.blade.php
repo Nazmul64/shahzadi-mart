@@ -255,7 +255,7 @@
                             <span class="toggle-label-text">Status</span>
                             <label class="toggle-switch">
                                 <input type="checkbox" name="status" value="1"
-                                       {{ (old('status', $bkash->status ?? 1)) ? 'checked' : '' }}>
+                                       {{ (old('status', $bkash->status ?? 0)) ? 'checked' : '' }}>
                                 <span class="toggle-slider"></span>
                             </label>
                         </div>
@@ -341,7 +341,7 @@
                             <span class="toggle-label-text">Status</span>
                             <label class="toggle-switch">
                                 <input type="checkbox" name="status" value="1"
-                                       {{ (old('status', $shurjopay->status ?? 1)) ? 'checked' : '' }}>
+                                       {{ (old('status', $shurjopay->status ?? 0)) ? 'checked' : '' }}>
                                 <span class="toggle-slider"></span>
                             </label>
                         </div>

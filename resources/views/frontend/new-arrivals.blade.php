@@ -39,8 +39,8 @@
 }
 .na-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,.08); border-color: #d0152b44; }
 
-.na-badge-new { position: absolute; top: 11px; left: 11px; background: #d0152b; color: #fff; font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 6px; z-index: 2; }
-.na-badge-disc { position: absolute; top: 11px; left: 11px; margin-left: 50px; background: #d0152b; color: #fff; font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 6px; z-index: 2; }
+.na-badge-new { position: absolute; top: 10px; left: 10px; background: #d0152b; color: #fff; font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 4px; z-index: 2; display: inline-block !important; width: auto !important; }
+.na-badge-disc { position: absolute; top: 10px; left: 60px; background: #d0152b; color: #fff; font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 4px; z-index: 2; display: inline-block !important; width: auto !important; }
 
 .na-img { width: 100%; height: 280px; object-fit: cover; border-bottom: 1.5px solid #e8e8ef; transition: transform .5s; display: block; }
 .na-card:hover .na-img { transform: scale(1.06); }
@@ -93,7 +93,7 @@
             @foreach($newArrivals as $item)
                 @php
                     $displayPrice = $item->discount_price ?? $item->current_price;
-                    $discount = ($item->discount_price && $item->current_price > 0) ? round((($item->current_price - $item->discount_price)/$item->current_price)*100) : null;
+                    $discount = ($item->discount_price && $item->current_price > 0 && $item->discount_price < $item->current_price) ? round((($item->current_price - $item->discount_price)/$item->current_price)*100) : null;
                 @endphp
                 <div class="na-card" onclick="window.location='{{ route('product.detail', $item->slug) }}'" style="cursor:pointer;">
                     <span class="na-badge-new">NEW</span>

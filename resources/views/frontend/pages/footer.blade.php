@@ -194,7 +194,7 @@
                 progressBar.style.width = width + '%';
             }
         }, 200);
-        
+
         window.progressBarInterval = interval;
     }
 
@@ -215,10 +215,10 @@
     // Intercept link clicks for progress bar
     document.addEventListener('click', function(e) {
         const link = e.target.closest('a');
-        if (link && 
-            link.href && 
-            !link.href.includes('#') && 
-            !link.href.includes('javascript:') && 
+        if (link &&
+            link.href &&
+            !link.href.includes('#') &&
+            !link.href.includes('javascript:') &&
             link.target !== '_blank' &&
             link.host === window.location.host) {
             startProgressBar();
@@ -235,7 +235,7 @@
                 offlineIndicator.classList.add('online');
                 offlineIcon.className = 'bi bi-wifi';
                 offlineText.textContent = 'আপনি এখন অনলাইনে আছেন।';
-                
+
                 // Hide after 3 seconds of being online
                 setTimeout(() => {
                     offlineIndicator.classList.remove('show');
@@ -252,7 +252,7 @@
 
     window.addEventListener('online', updateNetworkStatus);
     window.addEventListener('offline', updateNetworkStatus);
-    
+
     // Initial check
     if (!navigator.onLine) {
         updateNetworkStatus();

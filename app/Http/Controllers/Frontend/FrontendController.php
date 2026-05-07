@@ -18,6 +18,7 @@ use App\Models\Page;
 use App\Models\AboutForCompany;
 use App\Models\DeliveryInformation;
 use App\Models\Tremsandcondation;
+use App\Models\DigitalProduct;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -74,10 +75,15 @@ class FrontendController extends Controller
                             ->get();
 
         $bestSellers = (clone $baseProductQuery)
-                            ->whereNotNull('discount_price')
-                            ->where('discount_price', '>', 0)
+                            ->where('is_bestseller', true)
                             ->orderByDesc('is_pinned')
-                            ->orderByRaw('(current_price - discount_price) DESC')
+                            ->latest('bestseller_at')
+                            ->take(20)
+                            ->get();
+
+        $digitalProducts = DigitalProduct::where('status', 'active')
+                            ->orderByDesc('is_pinned')
+                            ->latest()
                             ->take(20)
                             ->get();
 
@@ -86,7 +92,7 @@ class FrontendController extends Controller
         return view('frontend.index', compact(
             'slider', 'categories', 'websetting',
             'flashProducts', 'hotCategories',
-            'newArrivals', 'bestSellers', 'sidebarCategories', 'deliveryInformation',
+            'newArrivals', 'bestSellers', 'digitalProducts', 'sidebarCategories', 'deliveryInformation',
         ));
     }
 
@@ -199,61 +205,102 @@ class FrontendController extends Controller
         ));
     }
 
-    // ─── Product Details ──────────────────────────────────────────────────────
-public function productdetails($slug)
-{
-    $product = Product::with(['category', 'subCategory'])
-        ->where('slug', $slug)
-        ->orWhere('id', is_numeric($slug) ? $slug : 0)
-        ->firstOrFail();
+    public function productdetails($slug)
+    {
+        $product = Product::with(['category', 'subCategory'])
+            ->where('slug', $slug)
+            ->orWhere('id', is_numeric($slug) ? $slug : 0)
+            ->firstOrFail();
 
-    // ── Multiple attributes থেকে collections বানাও ──
-    $productColors = collect();
-    $productSizes  = collect();
-    $productBrands = collect();
-    $productUnits  = collect();
+        // ── Multiple attributes থেকে collections বানাও ──
+        $productColors = collect();
+        $productSizes  = collect();
+        $productBrands = collect();
+        $productUnits  = collect();
 
-    if (!empty($product->color_ids)) {
-        $productColors = \App\Models\Color::whereIn('id', $product->color_ids)->orderBy('name')->get();
+        if (!empty($product->color_ids)) {
+            $productColors = \App\Models\Color::whereIn('id', $product->color_ids)->orderBy('name')->get();
+        }
+        if (!empty($product->size_ids)) {
+            $productSizes = \App\Models\Size::whereIn('id', $product->size_ids)->orderBy('name')->get();
+        }
+        if (!empty($product->brand_ids)) {
+            $productBrands = \App\Models\Brand::whereIn('id', $product->brand_ids)->orderBy('name')->get();
+        }
+        if (!empty($product->unit_ids)) {
+            $productUnits = \App\Models\Unit::whereIn('id', $product->unit_ids)->orderBy('name')->get();
+        }
+
+        $relatedProducts = Product::with(['category'])
+            ->where('id', '!=', $product->id)
+            ->where(function ($q) use ($product) {
+                if ($product->category_id) {
+                    $q->where('category_id', $product->category_id);
+                }
+            })
+            ->where('status', 'active')
+            ->latest()
+            ->take(8)
+            ->get();
+
+        $sidebarCategories   = $this->getSidebarCategories();
+        $websetting          = \App\Models\Generalsetting::first();
+        $deliveryInformation = \App\Models\DeliveryInformation::first();
+
+        return view('frontend.productdetails.productdetails', compact(
+            'product',
+            'relatedProducts',
+            'sidebarCategories',
+            'websetting',
+            'deliveryInformation',
+            'productColors',
+            'productSizes',
+            'productBrands',
+            'productUnits',
+        ));
     }
-    if (!empty($product->size_ids)) {
-        $productSizes = \App\Models\Size::whereIn('id', $product->size_ids)->orderBy('name')->get();
-    }
-    if (!empty($product->brand_ids)) {
-        $productBrands = \App\Models\Brand::whereIn('id', $product->brand_ids)->orderBy('name')->get();
-    }
-    if (!empty($product->unit_ids)) {
-        $productUnits = \App\Models\Unit::whereIn('id', $product->unit_ids)->orderBy('name')->get();
-    }
 
-    $relatedProducts = Product::with(['category'])
-        ->where('id', '!=', $product->id)
-        ->where(function ($q) use ($product) {
-            if ($product->category_id) {
-                $q->where('category_id', $product->category_id);
-            }
-        })
-        ->where('status', 'active')
-        ->latest()
-        ->take(8)
-        ->get();
+    public function digitalProductDetails($slug)
+    {
+        $product = DigitalProduct::with(['category', 'subCategory'])
+            ->where('slug', $slug)
+            ->orWhere('id', is_numeric($slug) ? $slug : 0)
+            ->firstOrFail();
 
-    $sidebarCategories   = $this->getSidebarCategories();
-    $websetting          = \App\Models\Generalsetting::first();
-    $deliveryInformation = \App\Models\DeliveryInformation::first();
+        $relatedProducts = DigitalProduct::with(['category'])
+            ->where('id', '!=', $product->id)
+            ->where('category_id', $product->category_id)
+            ->where('status', 'active')
+            ->latest()
+            ->take(8)
+            ->get();
 
-    return view('frontend.productdetails.productdetails', compact(
-        'product',
-        'relatedProducts',
-        'sidebarCategories',
-        'websetting',
-        'deliveryInformation',
-        'productColors',
-        'productSizes',
-        'productBrands',
-        'productUnits',
-    ));
-}
+        $sidebarCategories   = $this->getSidebarCategories();
+        $websetting          = \App\Models\Generalsetting::first();
+        $deliveryInformation = \App\Models\DeliveryInformation::first();
+
+        // Digital products attributes
+        $productColors = collect();
+        $productSizes  = collect();
+        $productBrands = collect();
+        $productUnits  = collect();
+
+        if (!empty($product->brand_id)) {
+            $productBrands = \App\Models\Brand::where('id', $product->brand_id)->get();
+        }
+
+        return view('frontend.productdetails.productdetails', compact(
+            'product',
+            'relatedProducts',
+            'sidebarCategories',
+            'websetting',
+            'deliveryInformation',
+            'productColors',
+            'productSizes',
+            'productBrands',
+            'productUnits',
+        ));
+    }
 
     // ─── User Dashboard ───────────────────────────────────────────────────────
     public function user_dashboard()
@@ -451,6 +498,10 @@ public function productdetails($slug)
                       ->orWhereIn('child_sub_category_id', $childIds);
                 });
             }
+        }
+
+        if ($request->filled('type')) {
+            $query->where('product_type', $request->type);
         }
 
         switch ($request->get('sort', 'latest')) {

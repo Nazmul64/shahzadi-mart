@@ -42,7 +42,7 @@ class CustomerController extends Controller
             'fax'         => 'nullable|string|max:50',
             'postal_code' => 'nullable|string|max:20',
             'password'    => 'required|string|min:6',
-            'image'       => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'image'       => 'nullable|mimes:jpg,jpeg,png,webp,svg,gif|max:5120',
         ]);
 
         $imagePath = null;
@@ -111,7 +111,7 @@ class CustomerController extends Controller
             'fax'         => 'nullable|string|max:50',
             'postal_code' => 'nullable|string|max:20',
             'password'    => 'nullable|string|min:6',
-            'image'       => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'image'       => 'nullable|mimes:jpg,jpeg,png,webp,svg,gif|max:5120',
         ]);
 
         $data = $request->only(['name', 'email', 'phone', 'address', 'city', 'state', 'country', 'fax', 'postal_code']);

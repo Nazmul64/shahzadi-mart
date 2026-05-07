@@ -55,10 +55,19 @@ class ProductController extends Controller
     //  INDEX
     // ══════════════════════════════════════════════════════════════
 
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::with('category', 'subCategory', 'childSubCategory')
-            ->latest()->get();
+        $query = Product::with('category', 'subCategory', 'childSubCategory')->latest();
+
+        if ($request->filled('type')) {
+            $query->where('product_type', $request->type);
+        } else {
+            // Default to non-digital products if no type is specified, 
+            // since digital products are now handled in their own module.
+            $query->where('product_type', '!=', 'digital');
+        }
+
+        $products = $query->get();
 
         if (request()->routeIs('manager.*')) {
             return view('manager.product.index', compact('products'));
@@ -87,7 +96,7 @@ class ProductController extends Controller
         $mimes = implode(',', $this->allowedImageMimes);
 
         $request->validate([
-            'name'                 => 'required|string|max:255',
+            'name'                 => 'required|string|max:255|unique:products,name',
             'category_id'          => 'required|exists:categories,id',
             'current_price'        => 'required|numeric|min:0',
             'description'          => 'required',
@@ -104,6 +113,8 @@ class ProductController extends Controller
             'unit_ids.*'           => 'exists:units,id',
             'size_ids'             => 'nullable|array',
             'size_ids.*'           => 'exists:sizes,id',
+        ], [
+            'name.unique' => 'এই প্রোডাক্টটি অলরেডি অ্যাড করা আছে, দয়া করে ইউনিক প্রোডাক্ট খুঁজুন এবং অ্যাড করুন।',
         ]);
 
         $featureImageName = $this->uploadImage($request->file('feature_image'));
@@ -199,7 +210,7 @@ class ProductController extends Controller
         $mimes   = implode(',', $this->allowedImageMimes);
 
         $request->validate([
-            'name'                 => 'required|string|max:255',
+            'name'                 => 'required|string|max:255|unique:products,name,' . $id,
             'category_id'          => 'required|exists:categories,id',
             'current_price'        => 'required|numeric|min:0',
             'description'          => 'required',
@@ -216,6 +227,8 @@ class ProductController extends Controller
             'unit_ids.*'           => 'exists:units,id',
             'size_ids'             => 'nullable|array',
             'size_ids.*'           => 'exists:sizes,id',
+        ], [
+            'name.unique' => 'এই প্রোডাক্টটি অলরেডি অ্যাড করা আছে, দয়া করে ইউনিক প্রোডাক্ট খুঁজুন এবং অ্যাড করুন।',
         ]);
 
         // Feature Image

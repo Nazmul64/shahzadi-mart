@@ -69,7 +69,7 @@
                 <label class="form-label">Category Photo <span style="color:red;">*</span></label>
                 <input type="file" name="category_photo" id="category_photo"
                        class="form-control @error('category_photo') is-invalid @enderror"
-                       accept="image/jpg,image/jpeg,image/png"
+                       accept="image/*"
                        onchange="previewImage(event)">
                 @error('category_photo')
                     <div class="invalid-feedback">{{ $message }}</div>

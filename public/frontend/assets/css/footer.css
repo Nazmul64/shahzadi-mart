@@ -3,9 +3,12 @@
    FOOTER
 ══════════════════════════════════════════ */
 .site-footer {
-    background: var(--dark);
+    background: var(--dark, #0B1121);
     margin-top: 60px;
     position: relative;
+    overflow: hidden !important;
+    width: 100% !important;
+    max-width: 100% !important;
 }
 .footer-accent {
     height: 3px;
@@ -18,12 +21,19 @@
     50%      { background-position: 100% 50%; }
 }
 .footer-grid {
-    max-width: var(--wrap);
+    max-width: 100% !important;
     margin: 0 auto;
-    padding: 48px 12px 32px;
+    padding: 40px 15px;
     display: grid;
     grid-template-columns: 1.6fr 1fr 1fr 1fr;
-    gap: 44px;
+    gap: 30px;
+    overflow: hidden !important;
+}
+@media(max-width:991px) {
+    .footer-grid { grid-template-columns: 1fr 1fr !important; gap: 20px !important; }
+}
+@media(max-width:480px) {
+    .footer-grid { grid-template-columns: 1fr !important; }
 }
 .foot-logo {
     font-family: 'Fraunces', serif;
@@ -46,7 +56,7 @@
 }
 .foot-desc {
     color: #e0e0e0;
-    font-size: 13px;
+    font-size: 15px;
     line-height: 1.75;
     margin-bottom: 20px;
     max-width: 300px;
@@ -56,7 +66,7 @@
 .newsletter { margin-bottom: 20px; }
 .newsletter__label {
     color: #e0e0e0;
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 700;
     letter-spacing: .07em;
     text-transform: uppercase;
@@ -79,7 +89,7 @@
     padding: 10px 13px;
     color: var(--white);
     font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 13px;
+    font-size: 15px;
     outline: none;
     min-width: 0;
 }
@@ -127,7 +137,7 @@
 /* Footer columns */
 .footer-col__title {
     color: var(--white);
-    font-size: 9.5px;
+    font-size: 12px;
     font-weight: 800;
     letter-spacing: .17em;
     text-transform: uppercase;
@@ -152,7 +162,7 @@
 }
 .footer-col__list li a {
     color: #e0e0e0;
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 500;
     transition: var(--t);
     display: flex;
@@ -166,17 +176,18 @@
 
 /* Footer bottom */
 .footer-btm {
-    max-width: var(--wrap);
+    max-width: 100% !important;
     margin: 0 auto;
-    padding: 16px 12px;
+    padding: 20px 15px;
     border-top: 1px solid #171717;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 14px;
     flex-wrap: wrap;
+    overflow: hidden !important;
 }
-.footer-btm__copy { color: #e0e0e0; font-size: 12px; margin: 0; }
+.footer-btm__copy { color: #e0e0e0; font-size: 14px; margin: 0; }
 .pay-badges { display: flex; gap: 7px; flex-wrap: wrap; }
 .pay-b {
     background: #141414;

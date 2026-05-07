@@ -1,0 +1,626 @@
+/* ══════════════════════════════════════════════════════════════════════════════
+   CUSTOM FRONTEND STYLES (Extracted from Blade files)
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+/* ── Reset & Base ── */
+*,
+*:before,
+*:after {
+    box-sizing: border-box !important;
+}
+
+html,
+body {
+    width: 100%;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow-x: hidden !important;
+    position: relative;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-main) !important;
+    font-size: 1rem !important;
+    line-height: 1.4;
+    color: #1e293b;
+    background: #f8fafc;
+}
+
+/* Reset all P tags in product cards */
+.smhome-p-body p {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.smhome-p-body p:empty {
+    display: none !important;
+}
+
+.smhome-p-short:empty {
+    display: none !important;
+}
+
+.smhome-p-short {
+    margin-top: -2px !important;
+}
+
+.smhome-p-price {
+    margin-top: 0 !important;
+}
+
+/* Apply Button Colors Globally */
+.smhome-p-order-btn,
+.btn-primary,
+.acct-signin,
+.wish-item__add,
+.cart-mini-qty,
+.pdp__btn--buy,
+.pdp__btn--cart,
+.smp-atc-btn--active,
+.smp-apply-btn,
+.ofp-atc,
+.cp-atc,
+.cp-price-btn,
+.newsletter__btn,
+.acct-signup,
+.na-atc,
+.smhome-btn-reg,
+.smhome-btn-sign,
+.smp-cat-list a.active,
+.ofp-chip.is-active,
+.na-filter-chip.is-active,
+.cp-sub-item.active {
+    background-color: #be0318 !important;
+    background-color: var(--red, #be0318) !important;
+    color: #ffffff !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: 0 4px 10px rgba(190, 3, 24, 0.15) !important;
+}
+
+.pdp__btn--cart {
+    background-color: transparent !important;
+    color: var(--btn-bg) !important;
+    border: 2px solid var(--btn-bg) !important;
+}
+
+.smhome-p-order-btn:hover,
+.pdp__btn--buy:hover,
+.smp-atc-btn--active:hover,
+.ofp-atc:hover,
+.cp-atc:hover,
+.newsletter__btn:hover,
+.na-atc:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+.smhome-ci {
+    width: 100% !important;
+}
+
+/* Global Product Badges */
+.smhome-p-badge,
+.na-badge-new,
+.na-badge-disc,
+.smp-badge,
+.ofp-badge {
+    position: absolute !important;
+    top: 10px !important;
+    left: 10px !important;
+    background: #be0318 !important;
+    background: var(--red, #be0318) !important;
+    color: #fff !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    padding: 3px 10px !important;
+    border-radius: 6px !important;
+    z-index: 10 !important;
+    width: auto !important;
+    height: auto !important;
+    display: inline-block !important;
+    white-space: nowrap !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+}
+
+.na-badge-disc,
+.smp-badge-disc {
+    left: 65px !important;
+    /* Offset if both exist */
+}
+
+
+
+.site-footer {
+    background: var(--dark);
+    margin-top: 60px;
+    position: relative;
+    overflow-x: hidden !important;
+    max-width: 100% !important;
+}
+
+/* Section Headings */
+.smhome-sec-head {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    margin: 12px 0 6px 0 !important;
+    padding: 0 10px !important;
+    flex-wrap: nowrap !important;
+}
+
+.smhome-sec-head h2 {
+    font-size: 18px !important;
+    font-weight: 800 !important;
+    color: #111827 !important;
+    margin: 0 !important;
+    line-height: 1.2 !important;
+    text-transform: uppercase;
+    letter-spacing: 0.2px;
+    padding-left: 0 !important;
+    white-space: nowrap !important;
+    border-left: none !important;
+}
+
+.smhome-see-all {
+    font-size: 0.75rem !important;
+    font-weight: 800 !important;
+    color: var(--red) !important;
+    text-decoration: none !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 2px !important;
+    white-space: nowrap !important;
+}
+
+/* 1. Global Product Grid */
+.smhome-prod-grid,
+.smp-grid,
+.ofp-grid,
+.cp-prod-grid,
+.na-grid {
+    display: grid !important;
+    gap: 12px !important;
+    width: 100% !important;
+    margin: 8px 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+}
+
+@media (max-width: 640px) {
+
+    .smhome-prod-grid,
+    .smp-grid,
+    .ofp-grid,
+    .cp-prod-grid,
+    .na-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 8px !important;
+    }
+}
+
+/* 2. Product Card (Tight & Robust) */
+.smhome-p-card,
+.smp-card,
+.ofp-card,
+.cp-card,
+.na-card {
+    width: 100% !important;
+    min-width: 0 !important;
+    background: #fff !important;
+    border: 1px solid #f1f3f7 !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+    height: auto !important;
+    transition: transform 0.2s ease !important;
+    box-sizing: border-box !important;
+}
+
+/* 3. Image Container */
+.smhome-p-img-wrap,
+.smp-img-wrap,
+.ofp-img-wrap,
+.cp-img-wrap,
+.na-img-wrap {
+    width: 100% !important;
+    background: #f8f9fb !important;
+    overflow: hidden !important;
+    position: relative !important;
+}
+
+@media (max-width: 640px) {
+
+    .smhome-p-img-wrap,
+    .smp-img-wrap,
+    .ofp-img-wrap,
+    .cp-img-wrap,
+    .na-img-wrap {
+        height: var(--p-img-h-mob) !important;
+    }
+}
+
+.smhome-p-img,
+.smp-img,
+.ofp-img,
+.cp-img,
+.na-img {
+    width: 100% !important;
+    height: 100% !important;
+    display: block !important;
+}
+
+/* 4. Body Content */
+.smhome-p-body,
+.smp-card-body,
+.ofp-body,
+.cp-card-body,
+.na-body {
+    padding: 8px !important;
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 2px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+.smhome-p-name {
+    font-size: 0.9rem !important;
+    font-weight: 700 !important;
+    color: #111827 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 1.2 !important;
+    text-decoration: none !important;
+    min-height: auto !important;
+    /* Remove fixed height */
+    max-height: 40px !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    white-space: normal !important;
+}
+
+.smhome-p-short {
+    font-size: 0.85rem !important;
+    color: #6b7280 !important;
+    margin: 2px 0 6px 0 !important;
+    padding: 0 !important;
+    line-height: 1.3 !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+}
+
+.smhome-p-price {
+    font-size: 1.15rem !important;
+    font-weight: 900 !important;
+    color: var(--red) !important;
+    display: inline-block !important;
+    margin: 0 !important;
+    line-height: 1 !important;
+}
+
+.smhome-p-old {
+    font-size: 0.75rem !important;
+    color: #9ca3af !important;
+    text-decoration: line-through !important;
+    margin-left: 5px !important;
+    display: inline-block !important;
+}
+
+/* 5. Meta & Button */
+.smhome-p-meta {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    margin-top: 4px !important;
+    width: 100% !important;
+}
+
+.smhome-p-order-btn {
+    width: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 12px 0 !important;
+    margin-top: 8px !important;
+    border-radius: 12px !important;
+    font-weight: 800 !important;
+    font-size: 15px !important;
+    text-transform: uppercase !important;
+    cursor: pointer !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.3) !important;
+    box-shadow: 0 4px 15px rgba(190, 3, 24, 0.25) !important;
+    transition: all 0.3s ease !important;
+    text-align: center !important;
+}
+
+.smhome-p-order-btn:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: 0 8px 20px rgba(190, 3, 24, 0.35) !important;
+    background-color: var(--red-d, #a00d25) !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+
+
+/* 6. Dynamic Category Circles */
+.smhome-circle-item {
+    display: inline-block;
+    text-align: center;
+}
+
+.smhome-circle-img {
+    overflow: hidden !important;
+    margin: 0 auto !important;
+}
+
+.smhome-circle-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* 7. Tablet Optimizations (3 Columns) */
+@media (max-width: 991px) {
+    .smhome-prod-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 12px !important;
+    }
+}
+
+/* 8. Mobile Optimizations (2 Columns - ZERO OVERFLOW) */
+@media (max-width: 575px) {
+    .smhome-ci {
+        padding: 0 8px !important;
+        width: 100% !important;
+        overflow: hidden !important;
+    }
+
+    .smhome-prod-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 8px !important;
+        width: 100% !important;
+        padding: 0 !important;
+        overflow: visible !important;
+        margin: 10px 0 !important;
+    }
+
+    .smhome-p-card {
+        width: 100% !important;
+        min-width: 0 !important;
+        border-radius: 8px !important;
+        overflow: hidden !important;
+    }
+
+    .smhome-p-img-wrap {
+        height: 160px !important;
+    }
+
+    .smhome-p-body {
+        padding: 8px !important;
+    }
+
+    .smhome-p-name {
+        font-size: 12px !important;
+        margin-bottom: 2px !important;
+    }
+
+    .smhome-p-price {
+        font-size: 14px !important;
+    }
+
+    .smhome-p-old {
+        font-size: 10px !important;
+        margin-left: 2px !important;
+    }
+
+    .smhome-p-order-btn {
+        font-size: 10px !important;
+        padding: 6px 0 !important;
+        margin-top: 6px !important;
+    }
+
+    .smhome-circle-item {
+        /* Mobile limits removed to respect admin settings */
+    }
+
+    .smhome-circle-img {
+        /* Mobile limits removed to respect admin settings */
+    }
+}
+
+/* 8.5 Extra Small Mobile (iPhone SE/S8+ 360px-375px) */
+@media (max-width: 380px) {
+    .smhome-ci {
+        padding: 0 4px !important;
+    }
+
+    .smhome-prod-grid {
+        gap: 5px !important;
+        margin: 5px 0 !important;
+    }
+
+    .smhome-p-body {
+        padding: 6px !important;
+    }
+
+    .smhome-p-name {
+        font-size: 11px !important;
+    }
+
+    .smhome-p-price {
+        font-size: 13px !important;
+    }
+
+    .smhome-p-order-btn {
+        font-size: 9px !important;
+        padding: 5px 0 !important;
+    }
+}
+
+/* ── Design Restoration & Sticky ── */
+.top-bar {
+    background-color: var(--top-bg) !important;
+    color: var(--top-text) !important;
+    position: relative;
+    z-index: 2000002;
+}
+
+.top-bar a {
+    color: var(--top-text) !important;
+}
+
+.sticky-wrapper {
+    width: 100% !important;
+    z-index: 10000 !important;
+    background: #fff !important;
+    transition: all 0.3s ease !important;
+}
+
+.sticky-wrapper.is-sticky {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15) !important;
+    animation: slideDown 0.3s ease-out !important;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+.site-hdr {
+    position: static !important;
+    background-color: var(--main-bg, #fff) !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-bottom: 1px solid #f1f3f7 !important;
+}
+
+.site-nav {
+    position: static !important;
+    background: var(--red) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 55px !important;
+    display: flex !important;
+    align-items: center;
+}
+
+.site-nav>div {
+    overflow: visible !important;
+    height: 100% !important;
+}
+
+.site-nav__in {
+    display: flex !important;
+    align-items: center !important;
+    height: 100% !important;
+    width: 100% !important;
+    overflow: visible !important;
+}
+
+/* ── LAYOUT FIX: Lower Stacking for Page content ── */
+.main-site-content {
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+.page-wrap.no-sidebar {
+    grid-template-columns: 1fr !important;
+    gap: 0 !important;
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+/* ── FULL WIDTH CONTAINER FIX ── */
+.container-fluid .page-wrap {
+    max-width: 100% !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+}
+
+/* ── From Index Blade ── */
+.smhome-p-card-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+.smhome-p-img {
+    width: 100%;
+    object-fit: cover;
+    display: block;
+    border-bottom: 1.5px solid var(--border);
+    transition: transform .4s;
+    background: #f9fafb;
+}
+
+.smhome-order-form {
+    margin: 0;
+    padding: 0;
+}
+
+.smhome-p-order-btn--out {
+    background: #e5e7eb;
+    color: #9ca3af !important;
+    -webkit-text-fill-color: #9ca3af !important;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.grid-mode {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 15px !important;
+    overflow-x: visible !important;
+}
+
+.grid-mode .smhome-circle-item {
+    flex: 0 0 auto !important;
+}
+
+.smhome-circle-item {
+    margin: 0 8px !important;
+    vertical-align: top !important;
+}
+
+.smhome-circle-item p {
+    margin-top: 8px !important;
+    font-size: 0.85em !important;
+    font-weight: 600 !important;
+    line-height: 1.2 !important;
+    color: #333 !important;
+    white-space: normal !important;
+    word-break: break-word !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+}
+
+.smhome-circle-img {
+    transition: transform 0.3s ease, border-color 0.3s ease !important;
+    border: 2px solid transparent !important;
+}
+
+.smhome-circle-item:hover .smhome-circle-img {
+    transform: translateY(-3px) !important;
+    border-color: var(--red) !important;
+}

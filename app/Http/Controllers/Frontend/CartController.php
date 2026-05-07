@@ -8,6 +8,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Coupon;
 use App\Models\Product;
+use App\Models\DigitalProduct;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -29,11 +30,19 @@ class CartController extends Controller
      */
     public function add(Request $request, int $id): JsonResponse|RedirectResponse
     {
-        $product = Product::where('id', $id)
-                          ->where('status', 'active')
-                          ->firstOrFail();
+        $type = $request->input('type', 'physical');
+        
+        if ($type === 'digital') {
+            $product = DigitalProduct::where('id', $id)->where('status', 'active')->firstOrFail();
+            $isUnlimited = true;
+            $stock = 9999;
+        } else {
+            $product = Product::where('id', $id)->where('status', 'active')->firstOrFail();
+            $isUnlimited = $product->is_unlimited;
+            $stock = $product->stock ?? 0;
+        }
 
-        if (! $product->is_unlimited && ($product->stock ?? 0) < 1) {
+        if (! $isUnlimited && $stock < 1) {
             $msg = '"' . $product->name . '" স্টকে নেই।';
             return $this->isAjax($request)
                 ? response()->json(['success' => false, 'message' => $msg, 'cart_count' => $this->cartCount()], 422)
@@ -54,8 +63,8 @@ class CartController extends Controller
         $qty = max(1, (int) $request->input('quantity', 1));
 
         /* ── Cart key ────────────────────────────────────────────────── */
-        $cartKey = $this->buildCartKey($product->id, $selectedColor, $selectedSize);
-        $maxQty  = $product->is_unlimited ? 9999 : (int) ($product->stock ?? 9999);
+        $cartKey = $this->buildCartKey($product->id, $selectedColor, $selectedSize, $type);
+        $maxQty  = $isUnlimited ? 9999 : (int) $stock;
         $cart    = session()->get('cart', []);
 
         if (isset($cart[$cartKey])) {
@@ -65,13 +74,14 @@ class CartController extends Controller
                 'product_id'     => $product->id,
                 'name'           => $product->name,
                 'slug'           => $product->slug,
-                'price'          => (float) $product->current_price,
-                'discount_price' => $product->discount_price ? (float) $product->discount_price : null,
+                'price'          => round((float) $product->current_price, 0),
+                'discount_price' => $product->discount_price ? round((float) $product->discount_price, 0) : null,
                 'quantity'       => min($qty, $maxQty),
                 'image'          => $product->feature_image,
                 'category'       => $product->category->category_name ?? '',
                 'category_id'    => $product->category_id,
-                'product_type'   => $product->product_type ?? 'physical',
+                'product_type'   => $type === 'digital' ? 'digital' : ($product->product_type ?? 'physical'),
+                'is_separate'    => $type === 'digital',
                 'selected_color' => $selectedColor,
                 'selected_size'  => $selectedSize,
             ];
@@ -112,8 +122,14 @@ class CartController extends Controller
     {
         $cart = session()->get('cart', []);
         if (isset($cart[$key])) {
-            $product = Product::find($cart[$key]['product_id']);
-            $maxQty  = ($product && ! $product->is_unlimited) ? (int) ($product->stock ?? 9999) : 9999;
+            $type = $cart[$key]['is_separate'] ?? false ? 'digital' : 'physical';
+            if ($type === 'digital') {
+                $product = DigitalProduct::find($cart[$key]['product_id']);
+                $maxQty  = 9999;
+            } else {
+                $product = Product::find($cart[$key]['product_id']);
+                $maxQty  = ($product && ! $product->is_unlimited) ? (int) ($product->stock ?? 9999) : 9999;
+            }
             $cart[$key]['quantity'] = min($cart[$key]['quantity'] + 1, $maxQty);
             session()->put('cart', $cart);
         }
@@ -172,7 +188,7 @@ class CartController extends Controller
         $cartItems = session()->get('cart', []);
         $subtotal  = collect($cartItems)->sum(fn ($i) => (($i['discount_price'] ?? null) ?: $i['price']) * $i['quantity']);
 
-        $discount = $coupon->type === 'percent' ? round($subtotal * $coupon->value / 100, 2) : min((float) $coupon->value, $subtotal);
+        $discount = $coupon->type === 'percent' ? round($subtotal * $coupon->value / 100, 0) : min((float) $coupon->value, $subtotal);
 
         session()->put('coupon_code',     $coupon->code);
         session()->put('coupon_discount', $discount);
@@ -186,9 +202,10 @@ class CartController extends Controller
         return response()->json(['cart_count' => $this->cartCount()]);
     }
 
-    private function buildCartKey(int $productId, ?string $color, ?string $size): string
+    private function buildCartKey(int $productId, ?string $color, ?string $size, string $type = 'physical'): string
     {
-        return $productId
+        return ($type === 'digital' ? 'digi_' : '')
+             . $productId
              . ($color ? '_c' . substr(md5($color), 0, 8) : '')
              . ($size  ? '_s' . substr(md5($size),  0, 8) : '');
     }
@@ -202,12 +219,12 @@ class CartController extends Controller
     {
         if (empty($item)) return 0.0;
         $price = ($item['discount_price'] ?? null) ?: $item['price'];
-        return round((float) $price * (int) ($item['quantity'] ?? 1), 2);
+        return round((float) $price * (int) ($item['quantity'] ?? 1), 0);
     }
 
     private function cartTotal(array $cart): float
     {
-        return round(collect($cart)->sum(fn ($i) => $this->lineSubtotal($i)), 2);
+        return round(collect($cart)->sum(fn ($i) => $this->lineSubtotal($i)), 0);
     }
 
     private function isAjax(Request $request): bool

@@ -548,7 +548,7 @@
                         </div>
                         <div>
                             <div class="card-header-title">Profile Photo</div>
-                            <div class="card-header-sub">Optional — JPG, PNG, WEBP</div>
+                            <div class="card-header-sub">Optional — JPG, PNG, WEBP, SVG, GIF (Max 5MB)</div>
                         </div>
                     </div>
                     <div class="form-card-body" style="padding:20px;">
@@ -561,7 +561,7 @@
                                     </svg>
                                 </div>
                                 <div class="photo-upload-title">Click to upload</div>
-                                <div class="photo-upload-sub">JPG, PNG or WEBP<br>Max 2 MB · 600×600 recommended</div>
+                                <div class="photo-upload-sub">JPG, PNG, WEBP, SVG or GIF<br>Max 5 MB · 600×600 recommended</div>
                             </div>
                             <div class="photo-upload-badge" id="photoBadge" style="display:none;">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width:11px;height:11px;">
@@ -569,7 +569,7 @@
                                 </svg>
                                 Photo selected
                             </div>
-                            <input type="file" name="image" accept="image/jpeg,image/png,image/webp" onchange="previewPhoto(this)">
+                            <input type="file" name="image" accept="image/*" onchange="previewPhoto(this)">
                         </label>
                     </div>
                 </div>

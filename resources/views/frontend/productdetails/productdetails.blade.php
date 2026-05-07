@@ -67,6 +67,9 @@
   }
 
   $reviewStoreUrl = route('review.store', $product->id);
+
+  // ── Delivery Information ──
+  $deliveryInfo = \App\Models\DeliveryInformation::first();
 @endphp
 
 {{-- ════════ TOAST CONTAINER ════════ --}}
@@ -132,7 +135,7 @@
 
   <div class="pdp__wrap">
     <div class="pdp__card">
-      <div class="pdp__grid">
+      <div class="pdp__grid {{ !$deliveryInfo ? 'pdp__grid--full' : '' }}">
         <div class="pdp__gallery">
           <div class="pdp__main-wrap" id="pdpMainWrap" style="position: relative;">
             <button class="pdp__wish-btn" id="pdpWishBtn" data-url="{{ $wishlistAddUrl }}"><i class="bi bi-heart"></i></button>
@@ -210,6 +213,47 @@
             <a href="https://wa.me/{{ $whatsappNumber }}?text={{ $whatsappText }}" class="pdp__contact-btn pdp__contact-btn--whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp অর্ডার</a>
           </div>
         </div>
+
+        {{-- ── DELIVERY SIDEBAR ── --}}
+        @if($deliveryInfo)
+        <div class="pdp__sidebar">
+            <div class="pdp__s-card">
+                <div class="pdp__card-head">
+                    <i class="fas fa-truck-moving me-2" style="color:var(--red)"></i> {{ $deliveryInfo->header_title ?? 'Delivery Information' }}
+                </div>
+                <div class="pdp__card-body">
+                    <div class="pdp__del-row">
+                        <div class="pdp__del-icon"><i class="fas fa-home"></i></div>
+                        <div>
+                            <div class="pdp__del-title">{{ $deliveryInfo->home_delivery_title }}</div>
+                            <div class="pdp__del-date">{{ $deliveryInfo->home_delivery_description }}</div>
+                        </div>
+                    </div>
+                    <div class="pdp__del-row">
+                        <div class="pdp__del-icon"><i class="fas fa-store"></i></div>
+                        <div>
+                            <div class="pdp__del-title">{{ $deliveryInfo->pickup_title }}</div>
+                            <div class="pdp__del-date">{{ $deliveryInfo->pickup_description }}</div>
+                        </div>
+                    </div>
+                    <div class="pdp__del-row">
+                        <div class="pdp__del-icon"><i class="fas fa-shield-alt"></i></div>
+                        <div>
+                            <div class="pdp__del-title">{{ $deliveryInfo->secure_title }}</div>
+                            <div class="pdp__del-date">{{ $deliveryInfo->secure_description }}</div>
+                        </div>
+                    </div>
+                    <div class="pdp__del-row">
+                        <div class="pdp__del-icon"><i class="fas fa-money-bill-wave"></i></div>
+                        <div>
+                            <div class="pdp__del-title">{{ $deliveryInfo->cod_title }}</div>
+                            <div class="pdp__del-date">{{ $deliveryInfo->cod_description }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endif
       </div>
     </div>
 
@@ -295,6 +339,10 @@
 
 <style>
 /* ... (existing styles) ... */
+.pdp__grid--full { grid-template-columns: 420px 1fr !important; }
+.pdp__grid--full .pdp__info { border-right: none !important; }
+@media (max-width: 1100px) { .pdp__grid--full { grid-template-columns: 1fr 1fr !important; } }
+@media (max-width: 680px) { .pdp__grid--full { grid-template-columns: 1fr !important; } }
 .pdp__grid { position: relative; }
 .pdp__main-img {
     width: 100%;
@@ -322,11 +370,14 @@
     .pdp__zoom-lens { display: none !important; }
 }
 .pdp-toast {
-    position: fixed; top: 20px; right: 20px; background: #333; color: #fff; padding: 12px 20px;
-    border-radius: 8px; z-index: 9999; animation: slideIn .3s ease; display: flex; align-items: center; gap: 10px;
+    position: fixed; top: 80px; right: 20px; background: #1a1a2e; color: #fff; padding: 14px 24px;
+    border-radius: 12px; z-index: 1000000; animation: slideIn .4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+    display: flex; align-items: center; gap: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    border-left: 4px solid #be0318;
 }
-@keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
-.pdp-toast.out { opacity: 0; transform: translateY(-20px); transition: all .3s; }
+@keyframes slideIn { from { opacity: 0; transform: translateX(50px); } to { opacity: 1; transform: translateX(0); } }
+.pdp-toast.out { opacity: 0; transform: scale(0.9); transition: all .3s; }
+.pdp-toast i { font-size: 18px; color: #be0318; }
 .pdp__opt-btn--active { background: #be0318 !important; color: #fff !important; border-color: #be0318 !important; }
 
 /* ── Reviews UI ── */
@@ -386,9 +437,12 @@
     function toast(msg) {
         var el = document.createElement('div');
         el.className = 'pdp-toast';
-        el.innerHTML = '<i class="bi bi-check-circle"></i> ' + msg;
+        el.innerHTML = '<i class="bi bi-check-circle-fill"></i> <span>' + msg + '</span>';
         document.body.appendChild(el);
-        setTimeout(() => { el.classList.add('out'); setTimeout(() => el.remove(), 400); }, 3000);
+        setTimeout(() => { 
+            el.classList.add('out'); 
+            setTimeout(() => el.remove(), 300); 
+        }, 3000);
     }
 
     document.querySelectorAll('.pdp__opt-btn').forEach(btn => {

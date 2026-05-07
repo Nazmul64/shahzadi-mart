@@ -18,7 +18,8 @@ class FrontendauthContorller extends Controller
         if (Auth::check()) {
             return redirect()->route('user.dashboard');
         }
-        return view('frontend.customer-auth.login');
+        $gs = \App\Models\Generalsetting::first();
+        return view('frontend.customer-auth.login', compact('gs'));
     }
 
     // ─── customer_register (GET) — same login view, signup tab active ─────────
@@ -27,7 +28,8 @@ class FrontendauthContorller extends Controller
         if (Auth::check()) {
             return redirect()->route('user.dashboard');
         }
-        return view('frontend.customer-auth.login');
+        $gs = \App\Models\Generalsetting::first();
+        return view('frontend.customer-auth.login', compact('gs'));
     }
 
     // ─── Register Submit ──────────────────────────────────────────────────────

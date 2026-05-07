@@ -129,22 +129,52 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group mb-3">
-                                <label class="form-label fw-600">Primary Color (Buttons, Accents)</label>
+                                <label class="form-label fw-600">Primary Color (General Accents)</label>
                                 <input type="color" name="primary_color" class="form-control form-control-color w-100" value="{{ $setting->primary_color }}">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group mb-3">
-                                <label class="form-label fw-600">Header Background Color</label>
-                                <input type="color" name="header_color" class="form-control form-control-color w-100" value="{{ $setting->header_color }}">
+                                <label class="form-label fw-600">Button Background Color</label>
+                                <input type="color" name="button_bg_color" class="form-control form-control-color w-100" value="{{ $setting->button_bg_color }}">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group mb-3">
-                                <label class="form-label fw-600">Header Text Color</label>
-                                <input type="color" name="header_text_color" class="form-control form-control-color w-100" value="{{ $setting->header_text_color }}">
+                                <label class="form-label fw-600">Button Text Color</label>
+                                <input type="color" name="button_text_color" class="form-control form-control-color w-100" value="{{ $setting->button_text_color }}">
                             </div>
                         </div>
+                        
+                        <div class="col-md-12"><hr></div>
+
+                        <div class="col-md-3">
+                            <div class="form-group mb-3">
+                                <label class="form-label fw-600">Top Header Background</label>
+                                <input type="color" name="top_header_bg_color" class="form-control form-control-color w-100" value="{{ $setting->top_header_bg_color }}">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group mb-3">
+                                <label class="form-label fw-600">Top Header Text Color</label>
+                                <input type="color" name="top_header_text_color" class="form-control form-control-color w-100" value="{{ $setting->top_header_text_color }}">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group mb-3">
+                                <label class="form-label fw-600">Main Header Background</label>
+                                <input type="color" name="main_header_bg_color" class="form-control form-control-color w-100" value="{{ $setting->main_header_bg_color }}">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group mb-3">
+                                <label class="form-label fw-600">Main Header Text Color</label>
+                                <input type="color" name="main_header_text_color" class="form-control form-control-color w-100" value="{{ $setting->main_header_text_color }}">
+                            </div>
+                        </div>
+
+                        <div class="col-md-12"><hr></div>
+
                         <div class="col-md-4">
                             <div class="form-group mb-3">
                                 <label class="form-label fw-600">Footer Background Color</label>
@@ -163,7 +193,8 @@
                                 <input type="number" name="font_size" class="form-control" value="{{ $setting->font_size }}" min="10" max="24">
                             </div>
                         </div>
-                        <div class="col-md-12">
+
+                        <div class="col-md-6">
                             <div class="form-group mb-3">
                                 <label class="form-label fw-600">Font Family</label>
                                 <select name="font_family" class="form-select">
@@ -172,6 +203,15 @@
                                     <option value="'Roboto', sans-serif" {{ $setting->font_family == "'Roboto', sans-serif" ? 'selected' : '' }}>Roboto (Classic)</option>
                                     <option value="'Outfit', sans-serif" {{ $setting->font_family == "'Outfit', sans-serif" ? 'selected' : '' }}>Outfit (Premium)</option>
                                     <option value="'Poppins', sans-serif" {{ $setting->font_family == "'Poppins', sans-serif" ? 'selected' : '' }}>Poppins (Trendy)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label class="form-label fw-600">Category Circles Display</label>
+                                <select name="category_slider_status" class="form-select">
+                                    <option value="1" {{ $setting->category_slider_status == 1 ? 'selected' : '' }}>Auto Slider (Horizontal)</option>
+                                    <option value="0" {{ $setting->category_slider_status == 0 ? 'selected' : '' }}>Grid Stacking (Multiple Rows)</option>
                                 </select>
                             </div>
                         </div>
@@ -190,10 +230,107 @@
         </div>
     </div>
 </div>
+
+{{-- ── Image Configuration ───────────────────────────────────────────── --}}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card mb-4">
+            <div class="card-body">
+                <h6 class="fw-bold mb-3"><i class="fas fa-images me-2"></i> Image & Slider Configuration</h6>
+                <form action="{{ route('admin.Generalsettings.update', $setting->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group mb-3">
+                                <label class="form-label fw-600">Category Image Width (px)</label>
+                                <input type="number" name="category_img_width" class="form-control" value="{{ $setting->category_img_width }}" min="40" max="300">
+                                <small class="text-muted">Default: 80px</small>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group mb-3">
+                                <label class="form-label fw-600">Category Image Height (px)</label>
+                                <input type="number" name="category_img_height" class="form-control" value="{{ $setting->category_img_height }}" min="40" max="300">
+                                <small class="text-muted">Default: 80px</small>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group mb-3">
+                                <label class="form-label fw-600">Category Image Shape</label>
+                                <select name="category_img_shape" class="form-select">
+                                    <option value="circle" {{ $setting->category_img_shape == 'circle' ? 'selected' : '' }}>Circle (Rounded)</option>
+                                    <option value="square" {{ $setting->category_img_shape == 'square' ? 'selected' : '' }}>Square (Box)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group mb-3">
+                                <label class="form-label fw-600">Slider Item Margin (px)</label>
+                                <input type="number" name="category_slider_margin" class="form-control" value="{{ $setting->category_slider_margin }}" min="0" max="50">
+                                <small class="text-muted">Space between categories</small>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12"><hr></div>
+
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label class="form-label fw-600">Global Product Image Height (px)</label>
+                                <input type="number" name="product_img_height" class="form-control" value="{{ $setting->product_img_height }}" min="150" max="600">
+                                <small class="text-muted">Used in product grids across all pages. Default: 280px</small>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-600 text-danger"><i class="fas fa-mobile-alt me-1"></i> Mobile Product Image Height (px)</label>
+                            <input type="number" name="product_img_height_mobile" class="form-control" value="{{ $setting->product_img_height_mobile }}" min="100" max="400">
+                            <small class="text-muted">Proportional height for mobile grid. Default: 160px</small>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-600 text-danger"><i class="fas fa-mobile-alt me-1"></i> Mobile Product Font Size (px)</label>
+                            <input type="number" name="product_font_size_mobile" class="form-control" value="{{ $setting->product_font_size_mobile }}" min="8" max="20">
+                            <small class="text-muted">Title font size for mobile. Default: 12px</small>
+                        </div>
+
+                        <div class="col-md-12"><hr></div>
+
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label class="form-label fw-600">Product Image Fit</label>
+                                <select name="product_img_fit" class="form-select">
+                                    <option value="cover" {{ $setting->product_img_fit == 'cover' ? 'selected' : '' }}>Cover (Fill container, may crop)</option>
+                                    <option value="contain" {{ $setting->product_img_fit == 'contain' ? 'selected' : '' }}>Contain (Show full image, no cropping)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12"><hr></div>
+
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label class="form-label fw-600">Show Rating Stars</label>
+                                <select name="show_rating_stars" class="form-select">
+                                    <option value="1" {{ $setting->show_rating_stars == 1 ? 'selected' : '' }}>Show Stars (Default)</option>
+                                    <option value="0" {{ $setting->show_rating_stars == 0 ? 'selected' : '' }}>Hide Stars Globally</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-dark px-4">
+                        <i class="fas fa-save me-1"></i> Save Image & Feature Settings
+                    </button>
+                </form>
+                <form action="{{ route('admin.Generalsettings.reset') }}" method="POST" onsubmit="return confirm('Reset image and theme settings to default?')" class="mt-2">
+                    @csrf
+                    <button type="submit" class="btn btn-outline-danger px-4">
+                        <i class="fas fa-undo me-1"></i> Reset Images & Theme
+                    </button>
+                </form>
             </div>
         </div>
     </div>
 </div>
+
 
 {{-- ── Logo Cards ───────────────────────────────────────────────── --}}
 <div class="card logo-wrapper">

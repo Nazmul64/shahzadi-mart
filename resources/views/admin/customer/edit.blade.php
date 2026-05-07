@@ -587,8 +587,7 @@
                             </svg>
                         </div>
                         <div>
-                            <div class="card-header-title">Update Photo</div>
-                            <div class="card-header-sub">JPG, PNG, WEBP · Max 2 MB</div>
+                            <div class="card-header-sub">JPG, PNG, WEBP, SVG, GIF · Max 5 MB</div>
                         </div>
                     </div>
                     <div class="form-card-body" style="padding:16px;">
@@ -624,7 +623,7 @@
                                 </svg>
                                 New photo ready
                             </div>
-                            <input type="file" name="image" accept="image/jpeg,image/png,image/webp"
+                            <input type="file" name="image" accept="image/*"
                                 onchange="previewPhoto(this)">
                         </label>
 

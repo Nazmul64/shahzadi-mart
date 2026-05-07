@@ -69,7 +69,7 @@ class CampaigncreateController extends Controller
             'product_id'        => 'required|exists:products,id',
             'media_type'        => 'required|in:Image,Video',
             'review'            => 'required|string',
-            'review_image'      => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'review_image'      => 'required|mimes:jpg,jpeg,png,webp,svg,gif|max:5120',
             'short_description' => 'nullable|string',
             'description'       => 'nullable|string',
         ];
@@ -78,9 +78,9 @@ class CampaigncreateController extends Controller
             $rules['video']     = 'nullable|file|mimes:mp4,mov,avi,webm|max:51200';
             $rules['video_url'] = 'nullable|url';
         } else {
-            $rules['image']       = 'required|image|mimes:jpg,jpeg,png,webp|max:2048';
-            $rules['image_two']   = 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048';
-            $rules['image_three'] = 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048';
+            $rules['image']       = 'required|mimes:jpg,jpeg,png,webp,svg,gif|max:5120';
+            $rules['image_two']   = 'nullable|mimes:jpg,jpeg,png,webp,svg,gif|max:5120';
+            $rules['image_three'] = 'nullable|mimes:jpg,jpeg,png,webp,svg,gif|max:5120';
         }
 
         $request->validate($rules);
@@ -133,7 +133,7 @@ class CampaigncreateController extends Controller
             'product_id'        => 'required|exists:products,id',
             'media_type'        => 'required|in:Image,Video',
             'review'            => 'required|string',
-            'review_image'      => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'review_image'      => 'nullable|mimes:jpg,jpeg,png,webp,svg,gif|max:5120',
             'short_description' => 'nullable|string',
             'description'       => 'nullable|string',
         ];
@@ -142,9 +142,9 @@ class CampaigncreateController extends Controller
             $rules['video']     = 'nullable|file|mimes:mp4,mov,avi,webm|max:51200';
             $rules['video_url'] = 'nullable|url';
         } else {
-            $rules['image']       = 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048';
-            $rules['image_two']   = 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048';
-            $rules['image_three'] = 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048';
+            $rules['image']       = 'nullable|mimes:jpg,jpeg,png,webp,svg,gif|max:5120';
+            $rules['image_two']   = 'nullable|mimes:jpg,jpeg,png,webp,svg,gif|max:5120';
+            $rules['image_three'] = 'nullable|mimes:jpg,jpeg,png,webp,svg,gif|max:5120';
         }
 
         $request->validate($rules);

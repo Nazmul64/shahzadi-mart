@@ -42,8 +42,8 @@
                                 <div id="logoPreview" class="text-muted border p-3 text-center" style="max-height: 100px;">No Logo Uploaded</div>
                             @endif
                         </div>
-                        <input type="file" name="footer_logo" class="form-control" onchange="previewImage(this, 'logoPreview')">
-                        <small class="text-muted">Recommended: Transparent PNG, max 2MB. Saved to uploads/avator.</small>
+                        <input type="file" name="footer_logo" class="form-control" accept="image/*" onchange="previewImage(this, 'logoPreview')">
+                        <small class="text-muted">Recommended: Transparent PNG, WebP or SVG, max 5MB. Saved to uploads/avator.</small>
                     </div>
 
                     <div class="mb-3">

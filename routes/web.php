@@ -60,6 +60,7 @@ use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\PurchaseController;
 use App\Http\Controllers\Admin\PurchaseReportController;
 use App\Http\Controllers\Admin\PurchaseReturnController;
+use App\Http\Controllers\Admin\DigitalProductController;
 use App\Http\Controllers\Frontend\AuthController;
 use App\Http\Controllers\Frontend\BkashController;
 use App\Http\Controllers\Frontend\CartController;
@@ -87,6 +88,7 @@ Auth::routes();
 // ══════════════════════════════════════════════════════════════════════════════
 Route::get('/',                             [FrontendController::class, 'frontend']         )->name('frontend');
 Route::get('/product/{slug}',               [FrontendController::class, 'productdetails']   )->name('product.detail');
+Route::get('/digital-product/{slug}',       [FrontendController::class, 'digitalProductDetails'])->name('digital.product.detail');
 Route::get('/about-company',                [FrontendController::class, 'aboutcompany']     )->name('about.company');
 Route::get('/terms-and-conditions',         [FrontendController::class, 'termsAndConditions'])->name('terms.conditions');
 Route::get('/privacy-policy',               [FrontendController::class, 'privacyPolicy']    )->name('privacy.policy');
@@ -351,6 +353,10 @@ Route::middleware(['admin'])
     Route::post('products/{id}/toggle-new-arrival', [ProductController::class, 'toggleNewArrival']  )->name('products.toggle-new-arrival');
     Route::post('products/{id}/toggle-bestseller',  [ProductController::class, 'toggleBestseller']  )->name('products.toggle-bestseller');
     Route::resource('products', ProductController::class);
+
+    // ── DIGITAL PRODUCTS (Separate Module) ────────────────────────────────────
+    Route::get ('digital-products/{id}/status', [DigitalProductController::class, 'toggleStatus'])->name('digital-products.status');
+    Route::resource('digital-products', DigitalProductController::class);
 
     // ── Product Serial ────────────────────────────────────────────────────────
     Route::get ('product-serial',        [\App\Http\Controllers\Admin\ProductSerialController::class, 'index'])->name('product-serial.index');

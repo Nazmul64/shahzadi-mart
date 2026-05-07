@@ -532,6 +532,15 @@ body.sb-collapsed .sb-user-info, body.sb-collapsed .sb-logout-btn { display: non
             <i class="bi bi-plus-lg"></i> Add Product
         </a>
         @endif
+        
+        {{-- New Separate Digital System Links --}}
+        <a href="{{ route('admin.digital-products.index') }}" class="{{ request()->routeIs('admin.digital-products.index') ? 'active' : '' }}">
+            <i class="bi bi-cloud-download-fill"></i> Digital Products
+        </a>
+        <a href="{{ route('admin.digital-products.create') }}" class="{{ request()->routeIs('admin.digital-products.create') ? 'active' : '' }}">
+            <i class="bi bi-plus-circle"></i> Add Digital Product
+        </a>
+
         <a href="{{ route('admin.products.deactivated') }}" class="{{ request()->routeIs('admin.products.deactivated') ? 'active' : '' }}">
             <i class="bi bi-slash-circle"></i> Deactivated
         </a>

@@ -36,4 +36,9 @@ class OrderItem extends Model
     {
         return $this->belongsTo(Product::class, 'product_id');
     }
+
+    public function digitalProduct()
+    {
+        return $this->belongsTo(DigitalProduct::class, 'digital_product_id');
+    }
 }

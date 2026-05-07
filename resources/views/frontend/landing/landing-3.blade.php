@@ -157,8 +157,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="wrap">
     @php
         $p = $landing->product;
-        $price = $p->discount_price ?? $p->current_price;
-        $old = $p->discount_price ? $p->current_price : null;
+        $price = $p ? ($p->discount_price ?? $p->current_price) : 0;
+        $old = ($p && $p->discount_price) ? $p->current_price : null;
     @endphp
 
     {{-- Dynamic Blocks (Excluding Header/Footer/Banner/Slider which are handled outside) --}}

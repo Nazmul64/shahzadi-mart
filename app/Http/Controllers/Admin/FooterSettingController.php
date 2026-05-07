@@ -19,7 +19,7 @@ class FooterSettingController extends Controller
         $setting = FooterSetting::getSettings();
 
         $request->validate([
-            'footer_logo'        => 'nullable|image|mimes:jpg,jpeg,png,gif,svg,webp|max:2048',
+            'footer_logo'        => 'nullable|mimes:jpg,jpeg,png,gif,svg,webp|max:5120',
             'footer_description' => 'nullable|string',
             'facebook_url'       => 'nullable|url',
             'instagram_url'      => 'nullable|url',

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('app_secret');
             $table->string('base_url');
             $table->string('password');
-            $table->tinyInteger('status')->default(1); // 1=active, 0=inactive
+            $table->tinyInteger('status')->default(0); // 1=active, 0=inactive
             $table->timestamps();
         });
     }
