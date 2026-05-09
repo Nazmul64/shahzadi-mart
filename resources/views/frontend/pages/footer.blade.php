@@ -26,7 +26,7 @@
                         <div class="newsletter__label"><i class="bi bi-envelope-fill"></i> Subscribe for exclusive deals</div>
                         <div class="newsletter__row">
                             <input type="email" id="nlEmail" class="newsletter__input" placeholder="your@email.com" autocomplete="email">
-                            <button class="newsletter__btn" type="button" onclick="subscribeNewsletter()">Subscribe</button>
+                            <button class="newsletter__btn" type="button" onclick="subscribeNewsletter(event)">Subscribe</button>
                         </div>
                     </div>
                     <div class="socials">
@@ -89,17 +89,17 @@
         </div>
         <div class="fc-sub-item">
             <span class="fc-label">Messenger</span>
-            <a href="https://m.me/YourPageName" target="_blank" rel="noopener"
+            <a href="{{ $contactinformationadmin->messanger_url ?? '#' }}" target="_blank" rel="noopener"
                class="fc-sub-btn fc-sub-btn--messenger" aria-label="Messenger"><i class="bi bi-messenger"></i></a>
         </div>
         <div class="fc-sub-item">
             <span class="fc-label">WhatsApp</span>
-            <a href="https://wa.me/254700000000" target="_blank" rel="noopener"
+            <a href="https://wa.me/{{ $contactinformationadmin->watsapp_url ?? '' }}" target="_blank" rel="noopener"
                class="fc-sub-btn fc-sub-btn--whatsapp" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a>
         </div>
         <div class="fc-sub-item">
             <span class="fc-label">Call Us</span>
-            <a href="tel:+254700000000" class="fc-sub-btn fc-sub-btn--phone" aria-label="Call Us">
+            <a href="tel:{{ $contactinformationadmin->phone ?? '' }}" class="fc-sub-btn fc-sub-btn--phone" aria-label="Call Us">
                 <i class="bi bi-telephone-fill"></i>
             </a>
         </div>
@@ -499,19 +499,54 @@ function _lcAlert(msg) {
 }
 
 /* ══ Newsletter ════════════════════════════════════════════ */
-function subscribeNewsletter() {
+function subscribeNewsletter(e) {
     var input = document.getElementById('nlEmail');
     if (!input) return;
     var email = input.value.trim();
-    if (!email || !email.includes('@')) {
-        if (typeof toastr !== 'undefined') toastr.error('Please enter a valid email address.');
+    if (!email) {
+        if (typeof toastr !== 'undefined') toastr.error('ইমেইল প্রদান করুন।');
         return;
     }
-    @if(isset($fbPixelId) && $fbPixelId)
-    if (typeof fbq === 'function') fbq('track', 'Lead', { content_name: 'Newsletter Subscribe' });
-    @endif
-    if (typeof toastr !== 'undefined') toastr.success("You've subscribed to our newsletter!");
-    input.value = '';
+
+    // Basic regex for email
+    var re = /\S+@\S+\.\S+/;
+    if (!re.test(email)) {
+        if (typeof toastr !== 'undefined') toastr.error('সঠিক ইমেইল প্রদান করুন।');
+        return;
+    }
+
+    var btn = e ? e.currentTarget : document.querySelector('.newsletter__btn');
+    var originalText = btn.innerText;
+    btn.disabled = true;
+    btn.innerText = '...';
+
+    fetch('{{ route("newsletter.subscribe") }}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        body: JSON.stringify({ email: email })
+    })
+    .then(response => response.json())
+    .then(data => {
+        btn.disabled = false;
+        btn.innerText = originalText;
+        if (data.success) {
+            if (typeof toastr !== 'undefined') toastr.success(data.message);
+            input.value = '';
+            @if(isset($fbPixelId) && $fbPixelId)
+            if (typeof fbq === 'function') fbq('track', 'Lead', { content_name: 'Newsletter Subscribe' });
+            @endif
+        } else {
+            if (typeof toastr !== 'undefined') toastr.error(data.message);
+        }
+    })
+    .catch(error => {
+        btn.disabled = false;
+        btn.innerText = originalText;
+        if (typeof toastr !== 'undefined') toastr.error('কিছু ভুল হয়েছে, আবার চেষ্টা করুন।');
+    });
 }
 
 /* ══ DataLayer / Pixel ════════════════════════════════════ */

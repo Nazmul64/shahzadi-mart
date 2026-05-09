@@ -13,6 +13,7 @@ class LandingPage extends Model
         'template_name',
         'gtm_id',
         'fb_pixel_id',
+        'ga_id',
         'feature_image',
         'video_url',
         'short_description',
@@ -25,8 +26,13 @@ class LandingPage extends Model
         'is_full_width',
         'is_template',
         'preview_image',
+        'product_ids',
         'order',
         'status',
+    ];
+
+    protected $casts = [
+        'product_ids' => 'array',
     ];
 
     public function product()

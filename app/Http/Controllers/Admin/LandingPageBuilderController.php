@@ -448,8 +448,6 @@ class LandingPageBuilderController extends Controller
         $landing->update([
             'title'         => $request->input('title', $landing->title),
             'slug'          => $request->input('slug', $landing->slug),
-            'gtm_id'        => $request->input('gtm_id', $landing->gtm_id),
-            'fb_pixel_id'   => $request->input('fb_pixel_id', $landing->fb_pixel_id),
             'is_full_width' => $request->input('is_full_width') == '1',
             'bg_color'      => $request->input('bg_color'),
             'text_color'    => $request->input('text_color'),

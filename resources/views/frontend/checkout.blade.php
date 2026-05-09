@@ -379,6 +379,10 @@
                 <span class="ck-discount-val">−৳{{ number_format($discount, 0) }}</span>
               </div>
             @endif
+            <div class="ck-total-row" id="payDiscountRow" style="display:none; color: #10b981;">
+              <span class="label">Payment Discount ({{ $gs->payment_discount_percentage }}%)</span>
+              <span class="value" id="payDiscountVal">−৳0</span>
+            </div>
             <div class="ck-total-row">
               <span class="label">Shipping Charge</span>
               <span id="shippingDisplay" class="ck-shipping-pending">এলাকা সিলেক্ট করুন</span>
@@ -611,6 +615,7 @@
     }
 
     scheduleUpdate();
+    updateTotals();
   };
 
   /* ══════════════════════════════════════════════════════════════
@@ -688,16 +693,34 @@
     triggerName.innerHTML = '<span style="font-weight:600;color:var(--text)">' + area.area_name + '</span>';
     triggerFee.textContent   = '৳' + parseFloat(area.amount).toFixed(0);
     triggerFee.style.display = '';
-    updateTotals(parseFloat(area.amount));
+    updateTotals();
     if (areaError) areaError.style.display = 'none';
     trigger.style.borderColor = '';
     if (reRender && loaded) renderList(allAreas);
   }
 
-  function updateTotals(ship) {
-    var total = SUBTOTAL - DISCOUNT + ship;
-    shippingDisp.className   = 'ck-shipping-val';
-    shippingDisp.textContent = '৳' + ship.toFixed(2);
+  function updateTotals() {
+    var ship = selArea ? parseFloat(selArea.amount) : 0;
+    var payMethod = getSelectedPayment();
+    var payDiscountPercent = {{ $gs->payment_discount_percentage ?? 0 }};
+    var payDiscountStatus = {{ $gs->payment_discount_status ? 1 : 0 }};
+    
+    var payDiscount = 0;
+    if (payDiscountStatus && payMethod && payMethod !== 'cod') {
+        payDiscount = (SUBTOTAL * payDiscountPercent) / 100;
+        document.getElementById('payDiscountRow').style.display = 'flex';
+        document.getElementById('payDiscountVal').textContent = '−৳' + payDiscount.toFixed(0);
+    } else {
+        document.getElementById('payDiscountRow').style.display = 'none';
+    }
+
+    var total = SUBTOTAL - DISCOUNT - payDiscount + ship;
+    
+    if (selArea) {
+      shippingDisp.className   = 'ck-shipping-val';
+      shippingDisp.textContent = '৳' + ship.toFixed(2);
+    }
+
     grandTotalEl.textContent = '৳' + total.toLocaleString('en-BD', {
       minimumFractionDigits: 2, maximumFractionDigits: 2
     });
@@ -755,31 +778,35 @@
     // ── Facebook Pixel: InitiateCheckout ──
     if (typeof fbq !== 'undefined') {
         fbq('track', 'InitiateCheckout', {
-            content_ids: [@foreach($cart as $item) '{{ $item['id'] ?? $loop->index }}', @endforeach],
+            content_ids: [@foreach($cart as $item)'{{ $item['product_id'] }}'@if(!$loop->last),@endif @endforeach],
             content_type: 'product',
-            value: {{ $subtotal }},
+            value: {{ number_format($subtotal, 2, '.', '') }},
             currency: 'BDT'
         });
     }
 
     // ── Google Tag Manager: BeginCheckout ──
-    if (typeof dataLayer !== 'undefined') {
-        dataLayer.push({
+    (function() {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
             'event': 'begin_checkout',
             'ecommerce': {
+                'currency': 'BDT',
+                'value': Number({{ number_format($subtotal - $discount, 2, '.', '') }}),
                 'items': [
                     @foreach($cart as $item)
                     {
                         'item_name': '{{ addslashes($item['name']) }}',
-                        'item_id': '{{ $item['id'] ?? $loop->index }}',
-                        'price': '{{ $item['price'] }}',
-                        'quantity': {{ $item['quantity'] }}
-                    },
+                        'item_id': '{{ $item['product_id'] }}',
+                        'price': Number({{ number_format(($item['discount_price'] ?? null) ?: $item['price'], 2, '.', '') }}),
+                        'quantity': Number({{ (int)$item['quantity'] }})
+                    }@if(!$loop->last),@endif
                     @endforeach
                 ]
             }
         });
-    }
+    })();
 </script>
 @endpush
+
 @endsection

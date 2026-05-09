@@ -145,4 +145,46 @@
     @endif
 </div>
 
+@push('scripts')
+<script>
+    // ── Tracking for Offers Page ──
+    (function() {
+        if (typeof dataLayer !== 'undefined') {
+            var items = [];
+            @if(isset($flashProducts))
+                @foreach($flashProducts as $i => $item)
+                items.push({
+                    'item_name': '{{ addslashes($item->name) }}',
+                    'item_id': '{{ $item->id }}',
+                    'price': {{ (float)($item->flash_sale_price ?? $item->discount_price ?? $item->current_price) }},
+                    'item_list_name': 'Offers - Flash Sale',
+                    'index': {{ $i + 1 }}
+                });
+                @endforeach
+            @endif
+            @if(isset($discountProducts))
+                @foreach($discountProducts as $i => $item)
+                items.push({
+                    'item_name': '{{ addslashes($item->name) }}',
+                    'item_id': '{{ $item->id }}',
+                    'price': {{ (float)($item->discount_price ?? $item->current_price) }},
+                    'item_list_name': 'Offers - Discounts',
+                    'index': items.length + 1
+                });
+                @endforeach
+            @endif
+
+            dataLayer.push({
+                'event': 'view_item_list',
+                'ecommerce': {
+                    'currency': 'BDT',
+                    'item_list_name': 'Offers Page',
+                    'items': items
+                }
+            });
+        }
+    })();
+</script>
+@endpush
+
 @endsection

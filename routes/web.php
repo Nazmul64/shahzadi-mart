@@ -75,6 +75,7 @@ use App\Http\Controllers\Frontend\ProductReviewController;
 use App\Http\Controllers\Frontend\SearchController;
 use App\Http\Controllers\Frontend\Shurjopaycontroller;
 use App\Http\Controllers\Frontend\WishlistController;
+use App\Http\Controllers\SubscriberController;
 use App\Http\Controllers\Manager\ManagerController;
 use App\Http\Controllers\Saller\SellerauthController;
 use App\Http\Controllers\Subadmin\SubadminController;
@@ -193,6 +194,9 @@ Route::prefix('incomplete-order')->name('incomplete.')->group(function () {
     Route::post('save',   [IncompleteOrderController::class, 'save']  )->name('save');
     Route::post('update', [IncompleteOrderController::class, 'update'])->name('update');
 });
+
+// ── Newsletter Subscription ───────────────────────────────────────────────
+Route::post('/newsletter/subscribe', [SubscriberController::class, 'store'])->name('newsletter.subscribe');
 
 // ══════════════════════════════════════════════════════════════════════════════
 // GENERAL AUTH
@@ -423,6 +427,7 @@ Route::middleware(['admin'])
     Route::get   ('orders/create',               [OrderController::class,        'create']              )->name('order.create');
     Route::post  ('orders',                      [OrderController::class,        'store']               )->name('order.store');
     Route::get   ('orders',                      [AllorderController::class,     'allorder']            )->name('order.allorder');
+    Route::get   ('orders/invoice',              [AllorderController::class,     'invoice']             )->name('order.invoice');
     // Parameterised routes
     Route::get   ('orders/{id}',                 [AllorderController::class,     'show']                )->name('order.show');
     Route::get   ('orders/{id}/edit',            [OrderController::class,        'edit']                )->name('order.edit');
@@ -606,6 +611,10 @@ Route::middleware(['admin'])
     Route::post('landing-pages/builder/bulk-delete', [LandingPageBuilderController::class, 'bulkDelete'])->name('landing-pages.builder.bulk-delete');
     Route::post('landing-pages/{id}/builder/update-settings', [LandingPageBuilderController::class, 'updateSettings'])->name('landing-pages.builder.update_settings');
     Route::post('landing-pages/{id}/builder/switch-theme',    [LandingPageBuilderController::class, 'switchTheme'])->name('landing-pages.builder.switch_theme');
+
+    // ── Subscribers ───────────────────────────────────────────────────────────
+    Route::get('subscribers', [SubscriberController::class, 'index'])->name('subscribers.index');
+    Route::delete('subscribers/{id}', [SubscriberController::class, 'destroy'])->name('subscribers.destroy');
 
 // Added explicit route for admin landing index
 Route::get('landing', [LandingPageController::class, 'index'])->name('landing.index');

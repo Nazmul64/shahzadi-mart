@@ -124,4 +124,31 @@
     </div>
 </div>
 
+@push('scripts')
+<script>
+    // ── Tracking for Clearance Page ──
+    (function() {
+        if (typeof dataLayer !== 'undefined') {
+            dataLayer.push({
+                'event': 'view_item_list',
+                'ecommerce': {
+                    'currency': 'BDT',
+                    'item_list_name': 'Clearance',
+                    'items': [
+                        @foreach($products as $i => $item)
+                        {
+                            'item_name': '{{ addslashes($item->name) }}',
+                            'item_id': '{{ $item->id }}',
+                            'price': {{ (float)($item->discount_price ?? $item->current_price) }},
+                            'index': {{ $i + 1 }}
+                        },
+                        @endforeach
+                    ]
+                }
+            });
+        }
+    })();
+</script>
+@endpush
+
 @endsection

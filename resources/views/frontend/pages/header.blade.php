@@ -1,18 +1,13 @@
 {{-- resources/views/frontend/pages/header.blade.php --}}
 
 @php
-    $pixelData     = $Pixelid         ?? \App\Models\Pixel::first();
-    $analyticsData = $GoogleAnalytics ?? \App\Models\Tagmanager::first();
+    // Centralized Tracking from Generalsetting
+    $fbPixelId = ($gs->facebook_pixel_status && $gs->facebook_pixel_id) ? trim($gs->facebook_pixel_id) : null;
+    $gtmId     = ($gs->gtm_status && $gs->gtm_id) ? trim($gs->gtm_id) : null;
 
-    $fbPixelId = ($pixelData     && $pixelData->status     == 1) ? trim($pixelData->pixel_id)         : null;
-    $gtmId     = ($analyticsData && $analyticsData->status == 1) ? trim($analyticsData->google_tag_id) : null;
-
-    // Contact info for floating widget
-    $contactinformationadmin = $contactinformationadmin
-        ?? \App\Models\Contactinfomationadmin::latest()->first();
-
-    // Delivery info for top bar
+    // Delivery info for top bar (local to header)
     $deliveryInfo = \App\Models\DeliveryInformation::first();
+    $navLanding = \App\Models\LandingPage::where('status', 1)->latest()->first();
 @endphp
 
 <!DOCTYPE html>
@@ -23,7 +18,6 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="robots" content="index, follow">
     @php
-        $gs = \App\Models\Generalsetting::getSettings();
         $siteName = $gs->site_name;
         $websitefavicon = \App\Models\Websitefavicon::getSettings();
 
@@ -84,6 +78,16 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','{{ $gtmId }}');</script>
+    @endif
+    {{-- ══ GOOGLE ANALYTICS (GA4) ══ --}}
+    @if($gs->analytics_status && $gs->analytics_id)
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ $gs->analytics_id }}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '{{ $gs->analytics_id }}');
+    </script>
     @endif
 
     {{-- ══ FACEBOOK PIXEL ══ --}}
@@ -252,8 +256,137 @@
         .main-site-content { position: relative !important; z-index: 1 !important; }
         .page-wrap.no-sidebar { grid-template-columns: 1fr !important; gap: 0 !important; position: relative !important; z-index: 1 !important; }
 
-        /* ── FULL WIDTH CONTAINER FIX ── */
-        .container-fluid .page-wrap { max-width: 100% !important; padding-left: 20px !important; padding-right: 20px !important; }
+        /* ── FULL WIDTH CONTENT ON MOBILE ── */
+        @media (max-width: 991px) {
+            html, body {
+                width: 100% !important;
+                overflow-x: hidden !important;
+            }
+            .container, .container-fluid, .main-site-content, .page-wrap, .content-area, .content-area-inner, .smhome-ci {
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+            .page-wrap {
+                padding-top: 0 !important;
+                padding-bottom: 60px !important; /* Bottom nav space */
+            }
+            .content-area-inner {
+                padding: 0 !important;
+            }
+            .product-details-wrap, .product-details, .pd-main, .pd-info, .pd-desc {
+                padding-left: 8px !important; /* Minimal padding for text readability */
+                padding-right: 8px !important;
+            }
+            .smhome-section, .smp-section, .ofp-section, .na-section, .cp-section {
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+            }
+            .smhome-prod-grid, .smp-grid, .ofp-grid, .cp-prod-grid, .na-grid {
+                padding: 0 8px !important; 
+                gap: 8px !important;
+            }
+            /* Row and Column resets */
+            .row {
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+            }
+            .row > * {
+                padding-left: 8px !important;
+                padding-right: 8px !important;
+            }
+
+            /* ── HOME PAGE MOBILE OPTIMIZATION ── */
+            .smhome-ci {
+                padding: 0 !important;
+                margin: 0 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+            .smhome-hero, .smhome-hero-panel, .smhome-landing-mobile-btn-wrap {
+                display: none !important;
+            }
+            .smhome-circles-box {
+                padding: 15px 5px !important;
+                margin: 0 !important;
+                background: transparent !important;
+                box-shadow: none !important;
+                border: none !important;
+                width: 100% !important;
+            }
+            .smhome-circle-img {
+                width: 65px !important;
+                height: 65px !important;
+            }
+            .smhome-circle-item p {
+                font-size: 11px !important;
+                white-space: normal !important;
+                line-height: 1.2 !important;
+            }
+            .smhome-circles-track.grid-mode {
+                display: flex !important;
+                flex-wrap: nowrap !important;
+                overflow-x: auto !important;
+                -webkit-overflow-scrolling: touch !important;
+                gap: 15px !important;
+                padding-bottom: 10px !important;
+            }
+            .smhome-circles-track.grid-mode::-webkit-scrollbar {
+                display: none !important;
+            }
+            .smhome-sec-head, .smhome-flash-hd, .smhome-prod-grid {
+                padding-left: 4px !important;
+                padding-right: 4px !important;
+                width: 100% !important;
+            }
+
+            /* ── PRODUCT DETAILS FULL WIDTH ── */
+            .pdp__wrap {
+                padding: 0 !important;
+            }
+            .pdp__card {
+                margin-top: 0 !important;
+                border-radius: 0 !important;
+                box-shadow: none !important;
+                border: none !important;
+            }
+            .pdp__grid {
+                gap: 0 !important;
+            }
+            .pdp__gallery, .pdp__info {
+                padding: 4px !important;
+                border-left: none !important;
+                border-right: none !important;
+            }
+            .pdp__bread {
+                padding: 0 4px !important;
+            }
+            .pdp__breadbar {
+                padding: 8px 0 !important;
+            }
+            .pdp__sidebar {
+                padding: 4px !important;
+            }
+            .pdp__tabs {
+                border-radius: 0 !important;
+                margin-top: 10px !important;
+                box-shadow: none !important;
+                border-top: 1px solid #eee !important;
+            }
+            .pdp__tab-pane {
+                padding: 15px !important;
+            }
+            .pdp__related {
+                border-radius: 0 !important;
+                margin-top: 10px !important;
+                box-shadow: none !important;
+                padding: 15px !important;
+                border-top: 1px solid #eee !important;
+            }
+        }
 
         /* ── Dynamic Layout Settings ── */
         @media (min-width: 1201px) {
@@ -535,7 +668,7 @@
 
             .site-hdr__in {
                 flex-wrap: wrap !important;
-                padding: 8px 10px !important;
+                padding: 8px 4px !important;
                 gap: 8px !important;
                 align-items: center !important;
             }
@@ -846,7 +979,46 @@
 </noscript>
 @endif
 
-{{-- ── TOP BAR ── --}}
+{{-- ── MARQUEE OFFER BAR ── --}}
+@if($gs->marquee_status && $gs->marquee_text)
+<div class="marquee-wrapper">
+    <div class="marquee-content">
+        <span>{{ $gs->marquee_text }}</span>
+        <span>{{ $gs->marquee_text }}</span>
+        <span>{{ $gs->marquee_text }}</span>
+        <span>{{ $gs->marquee_text }}</span>
+    </div>
+</div>
+<style>
+    .marquee-wrapper {
+        background: #be0318;
+        color: #fff;
+        padding: 8px 0;
+        overflow: hidden;
+        white-space: nowrap;
+        position: relative;
+        z-index: 2000003;
+        font-weight: 700;
+        font-size: 14px;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .marquee-content {
+        display: inline-block;
+        animation: marquee 50s linear infinite;
+    }
+    .marquee-content span {
+        padding-right: 50px;
+    }
+    @keyframes marquee {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+    }
+    .marquee-wrapper:hover .marquee-content {
+        animation-play-state: paused;
+    }
+</style>
+@endif
+
 <div class="top-bar">
     <div class="{{ $gs->site_layout_width == 'boxed' ? 'container' : 'container-fluid' }}">
         <div class="top-bar__in">
@@ -856,7 +1028,9 @@
                {{$deliveryInfo->header_title ?? ''}}
             </div>
             <div class="top-bar__nav">
-                <a href="{{ route('order.track') }}" class="top-bar__track"><i class="bi bi-truck"></i> অর্ডার ট্র্যাক</a>
+                @if($navLanding)
+                    <a href="{{ url('l/'.$navLanding->slug) }}" class="top-bar__track"><i class="bi bi-stars"></i> ল্যান্ডিং পেজ</a>
+                @endif
                 <a href="{{ route('products.all') }}"><i class="bi bi-grid-3x3-gap"></i> সব পণ্য</a>
                 <a href="#"><i class="bi bi-shop"></i>{{ $gs->site_name }}</a>
                 <a href="#"><i class="bi bi-geo-alt"></i> Our Stores</a>
@@ -906,10 +1080,12 @@
             </div>
 
             {{-- Track Order (desktop only) --}}
-            <a href="{{ route('order.track') }}" class="track-order-btn" aria-label="Track Order">
-                <i class="bi bi-truck"></i>
-                <span class="track-lbl">অর্ডার ট্র্যাক</span>
-            </a>
+            @if($navLanding)
+                <a href="{{ url('l/'.$navLanding->slug) }}" class="track-order-btn" aria-label="Landing Page">
+                    <i class="bi bi-stars"></i>
+                    <span class="track-lbl">ল্যান্ডিং পেজ</span>
+                </a>
+            @endif
 
             {{-- ══ HDR ACTIONS — ALL ICONS ══ --}}
             <div class="hdr-actions">
@@ -1199,13 +1375,16 @@
             <a href="{{ route('terms.conditions') }}" class="nav-item {{ request()->is('terms*') ? 'active' : '' }}">
                 <i class="bi bi-info-circle"></i> শর্তাবলী
             </a>
-            <span class="nav-divider"></span>
+
             <a href="{{ route('blog.index') }}" class="nav-item {{ request()->routeIs('blog.*') ? 'active' : '' }}">
                 <i class="bi bi-journal-text"></i> ব্লগ
             </a>
-            <a href="{{ route('order.track') }}" class="nav-item nav-item--track {{ request()->routeIs('order.track*') ? 'active' : '' }}">
-                <i class="bi bi-truck"></i> অর্ডার ট্র্যাক করুন
-            </a>
+
+            @if($navLanding)
+                <a href="{{ url('l/'.$navLanding->slug) }}" class="nav-item nav-item--track">
+                    <i class="bi bi-stars" style="color:#ffcc00 !important;"></i> ল্যান্ডিং পেজ
+                </a>
+            @endif
         </div>
     </div>
     </nav>
@@ -1236,6 +1415,7 @@
         if (!drawer || !overlay) return;
         var isOpen = drawer.classList.toggle('is-open');
         overlay.classList.toggle('active', isOpen);
+        document.body.style.overflow = isOpen ? 'hidden' : '';
         document.body.style.overflow = isOpen ? 'hidden' : '';
     }
 
@@ -1283,9 +1463,11 @@
         <a href="{{ route('products.all') }}" class="mob-nav__item {{ request()->routeIs('products.all') ? 'active' : '' }}">
             <i class="bi bi-grid-3x3-gap"></i> সব পণ্য
         </a>
-        <a href="{{ route('order.track') }}" class="mob-nav__item mob-nav__item--track {{ request()->routeIs('order.track*') ? 'active' : '' }}">
-            <i class="bi bi-truck"></i> ট্র্যাক
-        </a>
+        @if($navLanding)
+            <a href="{{ url('l/'.$navLanding->slug) }}" class="mob-nav__item" style="color:#ff8c00 !important;">
+                <i class="bi bi-stars"></i> ল্যান্ডিং পেজ
+            </a>
+        @endif
         <a href="{{ url('cart') }}" class="mob-nav__item" style="position:relative;">
             <i class="bi bi-cart3"></i> Cart
             <span class="mob-nav__badge {{ $headerCartCount == 0 ? 'zero' : '' }}" id="mobCartBadge">
@@ -1304,84 +1486,13 @@
     </div>
 </nav>
 
-{{-- ══════════════════════════════════════════════════════════════
-     ── FLOATING CONTACT WIDGET ──
-══════════════════════════════════════════════════════════════ --}}
-@if($contactinformationadmin)
-<div class="float-contact-wrap" id="floatContactWrap">
 
-    <div class="float-contact-items" id="floatContactItems">
-
-        {{-- Live Chat --}}
-        @if($contactinformationadmin->messanger_url)
-        <a href="{{ $contactinformationadmin->messanger_url }}" target="_blank" rel="noopener"
-           class="float-contact-item" style="animation-delay:.05s;" title="Live Chat">
-            <span class="float-contact-label">Live Chat</span>
-            <span class="float-contact-icon float-icon-chat">
-                <i class="bi bi-chat-dots-fill"></i>
-            </span>
-        </a>
-        @endif
-
-        {{-- Messenger --}}
-        @if($contactinformationadmin->messanger_url)
-        <a href="{{ $contactinformationadmin->messanger_url }}" target="_blank" rel="noopener"
-           class="float-contact-item" style="animation-delay:.10s;" title="Messenger">
-            <span class="float-contact-label">Messenger</span>
-            <span class="float-contact-icon float-icon-messenger">
-                <i class="bi bi-messenger"></i>
-            </span>
-        </a>
-        @endif
-
-        {{-- WhatsApp --}}
-        @if($contactinformationadmin->watsapp_url)
-        <a href="{{ $contactinformationadmin->watsapp_url }}" target="_blank" rel="noopener"
-           class="float-contact-item" style="animation-delay:.15s;" title="WhatsApp">
-            <span class="float-contact-label">WhatsApp</span>
-            <span class="float-contact-icon float-icon-whatsapp">
-                <i class="bi bi-whatsapp"></i>
-            </span>
-        </a>
-        @endif
-
-        {{-- Call Us --}}
-        @if($contactinformationadmin->phone)
-        <a href="tel:{{ $contactinformationadmin->phone }}"
-           class="float-contact-item" style="animation-delay:.20s;" title="Call Us">
-            <span class="float-contact-label">Call Us</span>
-            <span class="float-contact-icon float-icon-call">
-                <i class="bi bi-telephone-fill"></i>
-            </span>
-        </a>
-        @endif
-
-    </div>
-
-    <button class="float-contact-toggle" id="floatContactToggle"
-            onclick="toggleFloatContact()" aria-label="Contact Us" title="আমাদের সাথে যোগাযোগ করুন">
-        <i class="bi bi-headset icon-open"></i>
-        <i class="bi bi-x-lg icon-close"></i>
-    </button>
-
-</div>
-@endif
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 <script>
-/* ── Floating Contact Toggle ── */
-function toggleFloatContact() {
-    var wrap = document.getElementById('floatContactWrap');
-    if (wrap) wrap.classList.toggle('open');
-}
-document.addEventListener('click', function(e) {
-    var wrap = document.getElementById('floatContactWrap');
-    if (wrap && wrap.classList.contains('open') && !wrap.contains(e.target)) {
-        wrap.classList.remove('open');
-    }
-});
+
 
 /* ── Live Search ── */
 (function () {

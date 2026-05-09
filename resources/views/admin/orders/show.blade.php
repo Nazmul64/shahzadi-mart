@@ -127,6 +127,10 @@
             </div>
         </div>
         <div class="os-topbar-actions">
+            <a href="{{ route('admin.order.invoice', ['ids' => $order->id]) }}" target="_blank" class="btn-print"
+               style="background:#3498db; color:#fff; border:none; border-radius:22px; padding:9px 20px; font-size:13px; font-weight:600; cursor:pointer; display:inline-flex; align-items:center; gap:6px; text-decoration:none;">
+                <i class="bi bi-file-earmark-text"></i> Generate Invoice
+            </a>
             <a href="{{ route('admin.order.edit', $order->id) }}" class="btn-edit-order">
                 <i class="bi bi-pencil-square"></i> Edit Order
             </a>

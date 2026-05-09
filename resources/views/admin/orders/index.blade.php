@@ -278,8 +278,8 @@
         </form>
 
         {{-- Print --}}
-        <button type="button" class="ao-btn btn-print" onclick="window.print()">
-            <i class="bi bi-printer"></i> Print
+        <button type="button" class="ao-btn btn-print" onclick="generateBulkInvoice()">
+            <i class="bi bi-file-earmark-text"></i> Generate Invoice
         </button>
 
         {{-- Bulk Pathao Send ✅ --}}
@@ -1286,6 +1286,16 @@ function applyBulkStatus() {
 document.getElementById('bulk-status-overlay').addEventListener('click', function(e) {
     if (e.target === this) closeBulkStatusModal();
 });
+function generateBulkInvoice() {
+    const checks = document.querySelectorAll('.row-check:checked');
+    if (checks.length === 0) {
+        alert('অর্ডার নির্বাচন করুন।');
+        return;
+    }
+    const ids = Array.from(checks).map(c => c.value).join(',');
+    const url = '{{ route("admin.order.invoice") }}?ids=' + ids;
+    window.open(url, '_blank');
+}
 </script>
 
 @endsection

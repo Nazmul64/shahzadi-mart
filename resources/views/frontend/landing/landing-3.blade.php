@@ -15,36 +15,9 @@
 <!-- AOS Animation CSS -->
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
-{{-- GTM --}}
-@if($landing->gtm_id)
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','{{ $landing->gtm_id }}');</script>
-@endif
+@include('frontend.landing.partials.head_scripts')
 
-{{-- Facebook Pixel --}}
-@if($landing->fb_pixel_id)
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '{{ $landing->fb_pixel_id }}');
-fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id={{ $landing->fb_pixel_id }}&ev=PageView&noscript=1"
-/></noscript>
-@endif
-
-
-<style>
+    <style>
     :root {
         --primary: {{ $landing->btn_color ?? '#ff4d4d' }};
         --bg: {{ $landing->bg_color ?? '#ffffff' }};
@@ -60,8 +33,6 @@ src="https://www.facebook.com/tr?id={{ $landing->fb_pixel_id }}&ev=PageView&nosc
         overflow-x: hidden;
         width: 100%;
     }
-
-
     @if($landing->is_full_width)
     .wrap { width: 100%; max-width: 100%; margin: 0 auto; padding-bottom: 80px; position: relative; padding-left: 15px; padding-right: 15px; }
     @else
@@ -131,13 +102,10 @@ src="https://www.facebook.com/tr?id={{ $landing->fb_pixel_id }}&ev=PageView&nosc
         .order-form { padding: 30px 15px !important; }
         img { max-width: 100%; height: auto; }
     }
-</style>
+    </style>
 </head>
 <body>
-@if($landing->gtm_id)
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ $landing->gtm_id }}"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-@endif
+    @include('frontend.landing.partials.body_scripts')
 
     {{-- 1. Header Top (Dynamic or Default) --}}
     @foreach($landing->blocks->where('type', 'header_classic') as $block)
@@ -215,65 +183,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </ul>
     @endif
 
-
-    <div class="order-form" id="order">
-        <h2 style="text-align: center; margin-bottom: 40px; font-weight: 800;">অর্ডারটি কনফার্ম করুন</h2>
-
-        <form id="landingOrderForm">
-
-            <input type="hidden" name="product_id" value="{{ $p->id }}">
-            <input type="hidden" name="landing_page_id" value="{{ $landing->id }}">
-
-            <div class="order-grid-container" style="display: flex; gap: 30px; flex-wrap: wrap; align-items: flex-start; width: 100%; overflow: hidden;">
-                {{-- Left Column: Product Cart List --}}
-                <div style="flex: 1; min-width: 280px; width: 100%;">
-                    <div id="cart-items-wrapper" style="display: flex; flex-direction: column; gap: 15px;">
-                        {{-- Cart items will be rendered here via JS --}}
-                    </div>
-                </div>
-
-
-                {{-- Right Column: Form Fields --}}
-                <div style="flex: 1; min-width: 280px; width: 100%; background: #fff; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid #f0f0f0;">
-
-                    <div class="input-group">
-                        <label>আপনার নাম *</label>
-                        <input type="text" name="name" required placeholder="আপনার নাম লিখুন">
-                    </div>
-                    <div class="input-group">
-                        <label>মোবাইল নাম্বার *</label>
-                        <input type="text" name="phone" required placeholder="আপনার মোবাইল নাম্বার লিখুন">
-                    </div>
-                    <div class="input-group">
-                        <label>বিস্তারিত ঠিকানা *</label>
-                        <input type="text" name="address" required placeholder="গ্রাম, থানা, জেলা">
-                    </div>
-
-                    <div class="input-group">
-                        <label>ডেলিভারি এরিয়া *</label>
-                        <select name="shipping_area" id="shipping_area" required>
-                            <option value="">নির্বাচন করুন</option>
-                            <option value="inside">ঢাকার ভিতরে (৭০ টাকা)</option>
-                            <option value="outside">ঢাকার বাইরে (১৩০ টাকা)</option>
-                        </select>
-                    </div>
-
-                    <div style="margin: 25px 0; padding: 20px; background: #f8fdf9; border-radius: 15px; border: 1px dashed var(--primary);">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 15px;">
-                            <span style="color: #666;">ডেলিভারি চার্জ:</span>
-                            <span id="shipping_cost">০ টাকা</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; font-weight: 800; font-size: 24px; color: var(--primary); border-top: 1px solid #eee; padding-top: 12px; margin-top: 12px;">
-                            <span>সর্বমোট:</span>
-                            <span id="total_cost">{{ number_format($price) }}৳</span>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="submit-btn" id="submitBtn" style="width: 100%; border-radius: 10px; padding: 18px; font-size: 18px; font-weight: 700;">অর্ডার কনফার্ম করুন</button>
-                </div>
-            </div>
-        </form>
-
+    <div id="order" style="padding: 80px 0; background: #fff;" data-aos="fade-up">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 50px; font-weight: 800; font-size: 32px; color: var(--primary);">অর্ডার নিশ্চিত করতে ফর্মটি পূরণ করুন</h2>
+            @include('frontend.landing.partials.order_form')
+        </div>
     </div>
 
     @if($landing->review_image)
@@ -293,122 +207,32 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<!-- AOS Animation Script -->
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
-    let cart = [];
-    
-    // Initialize with main product
-    const mainProduct = {!! json_encode([
-        'id' => $p->id,
-        'name' => $p->name,
-        'price' => (float) ($p->discount_price ?? $p->current_price),
-        'image' => asset('uploads/products/'.$p->feature_image),
-        'qty' => 1
-    ]) !!};
-
-    cart.push(mainProduct);
-
-    function renderCart() {
-        const wrapper = $('#cart-items-wrapper');
-        wrapper.empty();
-        
-        let subtotalTotal = 0;
-
-        cart.forEach((item, index) => {
-            subtotalTotal += item.price * item.qty;
-            const itemHtml = `
-                <div class="cart-item" style="display: flex; gap: 15px; background: #fff; padding: 15px; border-radius: 15px; border: 1px solid #f0f0f0; align-items: center;">
-                    <img src="${item.image}" style="width: 70px; height: 70px; object-fit: cover; border-radius: 10px;" alt="${item.name}">
-                    <div style="flex: 1;">
-                        <h6 style="margin: 0 0 5px; font-weight: 700; font-size: 14px;">${item.name}</h6>
-                        <div style="color: var(--primary); font-weight: 800; font-size: 16px;">৳${item.price.toLocaleString()}</div>
-                        <div style="display: flex; align-items: center; gap: 10px; margin-top: 8px;">
-                            <div style="display: flex; align-items: center; gap: 8px; background: #f8f9fa; padding: 4px 10px; border-radius: 20px; border: 1px solid #eee;">
-                                <button type="button" onclick="updateQty(${index}, -1)" style="border:none; background:none; cursor:pointer; font-weight:800;">-</button>
-                                <span style="font-weight:800; min-width: 15px; text-align:center;">${item.qty}</span>
-                                <button type="button" onclick="updateQty(${index}, 1)" style="border:none; background:none; cursor:pointer; font-weight:800;">+</button>
-                            </div>
-                            <button type="button" onclick="removeFromCart(${index})" style="border:none; background:none; color:#ff4d4d; cursor:pointer;"><i class="bi bi-trash"></i></button>
-                        </div>
-                    </div>
-                    <div style="font-weight: 800; font-size: 16px;">৳${(item.price * item.qty).toLocaleString()}</div>
-                </div>
-            `;
-            wrapper.append(itemHtml);
-        });
-
-        const area = $('#shipping_area').val();
-        let shipping = 0;
-        if (area === 'inside') shipping = 70;
-        else if (area === 'outside') shipping = 130;
-        
-        const grandTotal = subtotalTotal + shipping;
-
-        $('#shipping_cost').text(shipping + ' টাকা');
-        $('#total_cost').text(grandTotal.toLocaleString() + '৳');
-    }
-
-    window.updateQty = function(index, change) {
-        cart[index].qty += change;
-        if (cart[index].qty < 1) cart[index].qty = 1;
-        renderCart();
-    }
-
-    window.removeFromCart = function(index) {
-        cart.splice(index, 1);
-        renderCart();
-    }
-
-    window.addToCart = function(productData) {
-        const existing = cart.find(i => i.id === productData.id);
-        if (existing) {
-            existing.qty += 1;
-        } else {
-            productData.qty = 1;
-            cart.push(productData);
-        }
-        renderCart();
-        const orderSection = document.getElementById('order');
-        if(orderSection) orderSection.scrollIntoView({ behavior: 'smooth' });
-    }
-
-
     $(document).ready(function() {
         AOS.init({ duration: 800, once: true, offset: 50 });
-        $('#shipping_area').on('change', renderCart);
-        renderCart();
-
-        $('#landingOrderForm').on('submit', function(e) {
-            e.preventDefault();
-            if (cart.length === 0) {
-                alert('কার্ট খালি!');
-                return;
-            }
-            const btn = $('#submitBtn');
-            btn.prop('disabled', true).text('প্রসেসিং হচ্ছে...');
-            
-            const formData = $(this).serializeArray();
-            const data = {};
-            formData.forEach(item => data[item.name] = item.value);
-            data.cart = cart;
-            data._token = "{{ csrf_token() }}";
-            data.landing_source = "landing_page";
-
-            $.ajax({
-                url: "{{ route('order.store') }}",
-                method: "POST",
-                data: data,
-                success: function(res) {
-                    if(res.success) window.location.href = res.redirect;
-                    else { alert(res.message); btn.prop('disabled', false).text('অর্ডার করুন'); }
-                },
-                error: function(xhr) {
-                    alert('সমস্যা হয়েছে: ' + (xhr.responseJSON?.message || 'Error'));
-                    btn.prop('disabled', false).text('অর্ডার করুন');
+        
+        // Global addToCart compatibility
+        window.addToCart = function(productData) {
+            if (typeof window.addDynamicProductToCheckout === 'function') {
+                window.addDynamicProductToCheckout(productData);
+            } else {
+                const productOption = $(`.product-option[data-id="${productData.id}"], .product-option-pro[data-id="${productData.id}"]`);
+                if (productOption.length) {
+                    const checkbox = productOption.find('input[type="checkbox"]');
+                    if (checkbox.length && !checkbox.prop('checked')) {
+                        productOption.click();
+                        if (typeof window.showProToast === 'function') {
+                            window.showProToast('পণ্যটি সফলভাবে যুক্ত করা হয়েছে!');
+                        }
+                    }
                 }
-            });
-        });
+            }
+            const orderSection = document.getElementById('order') || document.getElementById('checkout') || document.querySelector('.order-form') || document.querySelector('.checkout-container');
+            if (orderSection) {
+                orderSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
     });
 </script>
 

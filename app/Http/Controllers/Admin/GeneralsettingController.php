@@ -136,6 +136,16 @@ class GeneralsettingController extends Controller
             'show_rating_stars' => 'nullable|integer|in:0,1',
             'product_img_height_mobile' => 'nullable|integer|between:100,400',
             'product_font_size_mobile' => 'nullable|integer|between:8,20',
+            'marquee_status' => 'nullable|integer|in:0,1',
+            'marquee_text' => 'nullable|string',
+            'payment_discount_status' => 'nullable|integer|in:0,1',
+            'payment_discount_percentage' => 'nullable|numeric|between:0,100',
+            'analytics_id' => 'nullable|string|max:255',
+            'analytics_status' => 'nullable|integer|in:0,1',
+            'facebook_pixel_id' => 'nullable|string|max:255',
+            'facebook_pixel_status' => 'nullable|integer|in:0,1',
+            'gtm_id' => 'nullable|string|max:255',
+            'gtm_status' => 'nullable|integer|in:0,1',
         ]);
 
         $setting = Generalsetting::getSettings();
@@ -167,6 +177,16 @@ class GeneralsettingController extends Controller
             'show_rating_stars' => $request->has('show_rating_stars') ? $request->show_rating_stars : $setting->show_rating_stars,
             'product_img_height_mobile' => $request->product_img_height_mobile ?? $setting->product_img_height_mobile,
             'product_font_size_mobile' => $request->product_font_size_mobile ?? $setting->product_font_size_mobile,
+            'marquee_status' => $request->has('marquee_status') ? 1 : 0,
+            'marquee_text' => $request->marquee_text ?? $setting->marquee_text,
+            'payment_discount_status' => $request->has('payment_discount_status') ? 1 : 0,
+            'payment_discount_percentage' => $request->payment_discount_percentage ?? $setting->payment_discount_percentage,
+            'analytics_id' => $request->analytics_id ?? $setting->analytics_id,
+            'analytics_status' => $request->has('analytics_status') ? 1 : 0,
+            'facebook_pixel_id' => $request->facebook_pixel_id ?? $setting->facebook_pixel_id,
+            'facebook_pixel_status' => $request->has('facebook_pixel_status') ? 1 : 0,
+            'gtm_id' => $request->gtm_id ?? $setting->gtm_id,
+            'gtm_status' => $request->has('gtm_status') ? 1 : 0,
         ]);
 
         \Illuminate\Support\Facades\Cache::forget('web_setting');

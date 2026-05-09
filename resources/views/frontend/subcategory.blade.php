@@ -137,4 +137,33 @@
     @endif
 </div>
 
+@push('scripts')
+<script>
+    // ── Tracking for Subcategory Page ──
+    (function() {
+        if (typeof dataLayer !== 'undefined') {
+            dataLayer.push({
+                'event': 'view_item_list',
+                'ecommerce': {
+                    'currency': 'BDT',
+                    'item_list_name': '{{ addslashes($subCategory->sub_name) }}',
+                    'items': [
+                        @foreach($products as $i => $item)
+                        {
+                            'item_name': '{{ addslashes($item->name) }}',
+                            'item_id': '{{ $item->id }}',
+                            'price': {{ (float)($item->discount_price ?? $item->current_price) }},
+                            'item_category': '{{ addslashes($category->category_name) }}',
+                            'item_variant': '{{ addslashes($subCategory->sub_name) }}',
+                            'index': {{ $i + 1 }}
+                        },
+                        @endforeach
+                    ]
+                }
+            });
+        }
+    })();
+</script>
+@endpush
+
 @endsection

@@ -37,6 +37,16 @@ class Generalsetting extends Model
         'show_rating_stars',
         'product_img_height_mobile',
         'product_font_size_mobile',
+        'marquee_status',
+        'marquee_text',
+        'payment_discount_status',
+        'payment_discount_percentage',
+        'facebook_pixel_id',
+        'facebook_pixel_status',
+        'gtm_id',
+        'gtm_status',
+        'analytics_id',
+        'analytics_status',
     ];
 
     /**
@@ -79,6 +89,12 @@ class Generalsetting extends Model
                 'show_rating_stars' => 1,
                 'product_img_height_mobile' => 160,
                 'product_font_size_mobile' => 12,
+                'marquee_status' => 0,
+                'marquee_text' => null,
+                'payment_discount_status' => 0,
+                'payment_discount_percentage' => 0,
+                'analytics_id' => null,
+                'analytics_status' => 0,
             ]);
         }
 

@@ -11,12 +11,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Hind+Siliguri:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+@include('frontend.landing.partials.head_scripts')
+
 <style>
     :root {
-        --primary: {{ $landing->btn_color ?? '#00f2ff' }};
-        --bg: #050505;
-        --text: #ffffff;
-        --accent: #ff00ff;
+        --primary: {{ $landing->btn_color ?? '#00f2fe' }};
+        --bg: {{ $landing->bg_color ?? '#050505' }};
+        --text: {{ $landing->text_color ?? '#ffffff' }};
     }
     body { font-family: 'Hind Siliguri', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 0; overflow-x: hidden; }
     .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
@@ -27,7 +29,7 @@
     .header-bar { background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); border-bottom: 1px solid var(--primary); padding: 15px 0; position: sticky; top: 0; z-index: 1000; }
     
     .hero { padding: 80px 0; text-align: center; background: radial-gradient(circle at center, #111 0%, #000 100%); }
-    .hero h1 { font-family: 'Orbitron', sans-serif; font-size: 3.5rem; margin-bottom: 30px; letter-spacing: 2px; }
+    .hero h1 { font-family: 'Orbitron', sans-serif; font-size: clamp(1.8rem, 8vw, 3.5rem); margin-bottom: 30px; letter-spacing: 2px; }
     
     .media-box { position: relative; border-radius: 20px; overflow: hidden; border: 1px solid var(--primary); margin-bottom: 50px; }
     .media-box img, .media-box video { width: 100%; display: block; }
@@ -45,6 +47,8 @@
 </style>
 </head>
 <body>
+    @include('frontend.landing.partials.body_scripts')
+
 
     @foreach($landing->blocks->where('type', 'header_classic') as $block)
         @include('frontend.landing.blocks.'.$block->type, ['block' => $block])
@@ -93,7 +97,34 @@
         @include('frontend.landing.blocks.'.$block->type, ['block' => $block])
     @endforeach
 
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script>AOS.init({duration:1000});</script>
+<script>
+    $(document).ready(function() {
+        AOS.init({duration:1000});
+
+        // Global addToCart compatibility
+        window.addToCart = function(productData) {
+            if (typeof window.addDynamicProductToCheckout === 'function') {
+                window.addDynamicProductToCheckout(productData);
+            } else {
+                const productOption = $(`.product-option[data-id="${productData.id}"], .product-option-pro[data-id="${productData.id}"]`);
+                if (productOption.length) {
+                    const checkbox = productOption.find('input[type="checkbox"]');
+                    if (checkbox.length && !checkbox.prop('checked')) {
+                        productOption.click();
+                        if (typeof window.showProToast === 'function') {
+                            window.showProToast('পণ্যটি সফলভাবে যুক্ত করা হয়েছে!');
+                        }
+                    }
+                }
+            }
+            const orderSection = document.getElementById('order') || document.getElementById('checkout') || document.querySelector('.order-form') || document.querySelector('.checkout-container');
+            if (orderSection) {
+                orderSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    });
+</script>
 </body>
 </html>

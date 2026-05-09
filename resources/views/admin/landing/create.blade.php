@@ -90,8 +90,17 @@
     </div>
     <a href="{{ route('admin.landing-pages.index') }}" class="btn btn-outline-secondary btn-sm rounded-pill px-3">Back to List</a>
 </div>
-
-<form action="{{ route('admin.landing-pages.store') }}" method="POST" enctype="multipart/form-data">
+<!-- Antigravity Update: Removed required from title and product -->
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul class="mb-0">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+<form action="{{ route('admin.landing-pages.store') }}" method="POST" enctype="multipart/form-data" novalidate>
     @csrf
     <div class="row g-4">
         <div class="col-lg-8">
@@ -100,24 +109,33 @@
                 
                 <div class="row g-3">
                     <div class="col-md-12">
-                        <label class="form-label">Page Title <span class="text-danger">*</span></label>
-                        <input type="text" name="title" id="title" class="form-control" placeholder="Enter landing page title" required>
+                        <label class="form-label">SUPER Page Title Test</label>
+                        <input type="text" name="title" id="title" class="form-control" placeholder="Enter landing page title">
                     </div>
                     <div class="col-md-12">
-                        <label class="form-label">URL Slug <span class="text-danger">*</span></label>
+                        <label class="form-label">URL Slug (Optional)</label>
                         <div class="input-group">
                             <span class="input-group-text bg-light">/l/</span>
-                            <input type="text" name="slug" id="slug" class="form-control" placeholder="unique-page-slug" required>
+                            <input type="text" name="slug" id="slug" class="form-control" placeholder="unique-page-slug">
                         </div>
                     </div>
                     <div class="col-md-12">
-                        <label class="form-label">Select Product <span class="text-danger">*</span></label>
-                        <select name="product_id" class="form-select" required>
-                            <option value="">-- Choose Product --</option>
+                        <label class="form-label">Select Primary Product</label>
+                        <select name="product_id" class="form-select">
+                            <option value="">-- Choose Main Product --</option>
                             @foreach($products as $p)
                                 <option value="{{ $p->id }}">{{ $p->name }}</option>
                             @endforeach
                         </select>
+                    </div>
+                    <div class="col-md-12">
+                        <label class="form-label">Additional Products / Combo Options (Optional)</label>
+                        <select name="product_ids[]" class="form-select select2" multiple>
+                            @foreach($products as $p)
+                                <option value="{{ $p->id }}">{{ $p->name }}</option>
+                            @endforeach
+                        </select>
+                        <small class="text-muted">These will appear as options in the order form.</small>
                     </div>
                 </div>
             </div>
@@ -182,19 +200,7 @@
             </div>
             @endif
 
-            <div class="form-card">
-                <h5 class="mb-4 border-bottom pb-2">Tracking & Analytics</h5>
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <label class="form-label">Google Tag Manager (GTM) ID</label>
-                        <input type="text" name="gtm_id" class="form-control" placeholder="GTM-XXXXXXX">
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Facebook Pixel ID</label>
-                        <input type="text" name="fb_pixel_id" class="form-control" placeholder="Pixel ID">
-                    </div>
-                </div>
-            </div>
+            {{-- Tracking & Analytics removed - now managed globally via General Settings --}}
         </div>
 
         <div class="col-lg-4">

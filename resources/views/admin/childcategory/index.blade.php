@@ -151,6 +151,7 @@
                     <td class="text-center" style="white-space:nowrap;">
                         <button type="button" class="btn-edit btn-open-edit"
                             data-id="{{ $item->id }}"
+                            data-url="{{ route('admin.childcategory.update', $item->id) }}"
                             data-name="{{ addslashes($item->child_sub_name) }}"
                             data-slug="{{ $item->slug }}"
                             data-category="{{ $item->subCategory->category_id ?? '' }}"
@@ -467,7 +468,7 @@ $(document).ready(function () {
 
     // Edit button → Edit Modal
     $(document).on('click', '.btn-open-edit', function () {
-        var id         = $(this).data('id');
+        var url        = $(this).data('url');
         var name       = $(this).data('name');
         var slug       = $(this).data('slug');
         var categoryId = $(this).data('category');
@@ -475,8 +476,8 @@ $(document).ready(function () {
         var featured   = $(this).data('featured');
         var status     = $(this).data('status');
 
-        // ✅ admin prefix সহ সঠিক URL
-        $('#editChildForm').attr('action', '{{ url("admin/childcategory") }}/' + id);
+        // ✅ Laravel route() থেকে সঠিক URL
+        $('#editChildForm').attr('action', url);
         $('#edit_child_name').val(name);
         $('#edit_child_slug').val(slug);
         $('#edit_featured').val(featured);

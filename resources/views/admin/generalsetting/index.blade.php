@@ -330,6 +330,90 @@
         </div>
     </div>
 </div>
+{{-- ── Offer & Tracking Settings ───────────────────────────────────────────── --}}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card mb-4">
+            <div class="card-body">
+                <h6 class="fw-bold mb-3 text-primary"><i class="fas fa-gift me-2"></i> Offer & Tracking Settings</h6>
+                <form action="{{ route('admin.Generalsettings.update', $setting->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    
+                    <div class="row">
+                        {{-- Marquee Settings --}}
+                        <div class="col-md-6">
+                            <div class="form-group mb-3 border p-3 rounded bg-light">
+                                <label class="form-label fw-bold"><i class="fas fa-bullhorn me-1"></i> Marquee Offer Text (Scrolling Text)</label>
+                                <textarea name="marquee_text" class="form-control mb-2" rows="2" placeholder="অফার! সব অনলাইন পেমেন্টে ৫% ডিসকাউন্ট...">{{ $setting->marquee_text }}</textarea>
+                                <div class="form-check form-switch mt-2">
+                                    <input class="form-check-input" type="checkbox" name="marquee_status" value="1" {{ $setting->marquee_status ? 'checked' : '' }} id="marqueeSwitch">
+                                    <label class="form-check-label" for="marqueeSwitch">Enable Marquee on Website</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- Payment Discount Settings --}}
+                        <div class="col-md-6">
+                            <div class="form-group mb-3 border p-3 rounded bg-light">
+                                <label class="form-label fw-bold"><i class="fas fa-percentage me-1"></i> Online Payment Discount (bkash/Nagad/Surjopay)</label>
+                                <div class="input-group mb-2">
+                                    <input type="number" name="payment_discount_percentage" class="form-control" value="{{ $setting->payment_discount_percentage }}" step="0.01" min="0" max="100">
+                                    <span class="input-group-text">%</span>
+                                </div>
+                                <div class="form-check form-switch mt-2">
+                                    <input class="form-check-input" type="checkbox" name="payment_discount_status" value="1" {{ $setting->payment_discount_status ? 'checked' : '' }} id="discountSwitch">
+                                    <label class="form-check-label" for="discountSwitch">Enable Automatic Online Payment Discount</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- Google Analytics Settings --}}
+                        <div class="col-md-6">
+                            <div class="form-group mb-3 border p-3 rounded bg-light">
+                                <label class="form-label fw-bold"><i class="fab fa-google me-1"></i> Google Analytics (Universal/GA4)</label>
+                                <input type="text" name="analytics_id" class="form-control mb-2" value="{{ $setting->analytics_id }}" placeholder="G-XXXXXXXXXX">
+                                <div class="form-check form-switch mt-2">
+                                    <input class="form-check-input" type="checkbox" name="analytics_status" value="1" {{ $setting->analytics_status ? 'checked' : '' }} id="analyticsSwitch">
+                                    <label class="form-check-label" for="analyticsSwitch">Enable Analytics Tracking</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- Facebook Pixel Settings --}}
+                        <div class="col-md-6">
+                            <div class="form-group mb-3 border p-3 rounded bg-light">
+                                <label class="form-label fw-bold"><i class="fab fa-facebook me-1"></i> Facebook Pixel ID</label>
+                                <input type="text" name="facebook_pixel_id" class="form-control mb-2" value="{{ $setting->facebook_pixel_id }}" placeholder="1234567890">
+                                <div class="form-check form-switch mt-2">
+                                    <input class="form-check-input" type="checkbox" name="facebook_pixel_status" value="1" {{ $setting->facebook_pixel_status ? 'checked' : '' }} id="pixelSwitch">
+                                    <label class="form-check-label" for="pixelSwitch">Enable Facebook Pixel Tracking</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- GTM Settings --}}
+                        <div class="col-md-6">
+                            <div class="form-group mb-3 border p-3 rounded bg-light">
+                                <label class="form-label fw-bold"><i class="fas fa-code me-1"></i> Google Tag Manager (GTM) ID</label>
+                                <input type="text" name="gtm_id" class="form-control mb-2" value="{{ $setting->gtm_id }}" placeholder="GTM-XXXXXXX">
+                                <div class="form-check form-switch mt-2">
+                                    <input class="form-check-input" type="checkbox" name="gtm_status" value="1" {{ $setting->gtm_status ? 'checked' : '' }} id="gtmSwitch">
+                                    <label class="form-check-label" for="gtmSwitch">Enable GTM Tracking</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary px-4 mt-2">
+                        <i class="fas fa-save me-1"></i> Save Offer & Tracking Settings
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 {{-- ── Logo Cards ───────────────────────────────────────────────── --}}

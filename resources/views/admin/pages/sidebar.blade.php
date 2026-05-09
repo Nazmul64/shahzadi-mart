@@ -727,6 +727,13 @@ body.sb-collapsed .sb-user-info, body.sb-collapsed .sb-logout-btn { display: non
 </div>
 @endif
 
+{{-- Subscribers --}}
+@if($u->isSuperAdmin() || $u->hasPermission('view-users'))
+<a href="{{ route('admin.subscribers.index') }}" class="sb-item {{ request()->routeIs('admin.subscribers.*') ? 'active' : '' }}">
+    <span class="sb-left"><i class="bi bi-envelope-check-fill sb-ico"></i><span class="sb-text">Subscribers</span></span>
+</a>
+@endif
+
 {{-- Live Chat --}}
 @if($u->isSuperAdmin() || $u->hasPermission('view-users'))
 <a href="{{ route('admin.chat.index') }}" class="sb-item {{ $chatActive ? 'active' : '' }}">

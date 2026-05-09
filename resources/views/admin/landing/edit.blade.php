@@ -77,8 +77,8 @@
         <a href="{{ route('admin.landing-pages.index') }}" class="btn btn-outline-secondary btn-sm rounded-pill px-3">Back to List</a>
     </div>
 </div>
-
-<form action="{{ route('admin.landing-pages.update', $landing->id) }}" method="POST" enctype="multipart/form-data">
+<!-- Antigravity Update: Removed required from title and product -->
+<form action="{{ route('admin.landing-pages.update', $landing->id) }}" method="POST" enctype="multipart/form-data" novalidate>
     @csrf
     @method('PUT')
     <div class="row g-4">
@@ -88,8 +88,8 @@
                 
                 <div class="row g-3">
                     <div class="col-md-12">
-                        <label class="form-label">Page Title <span class="text-danger">*</span></label>
-                        <input type="text" name="title" id="title" class="form-control" value="{{ $landing->title }}" required>
+                        <label class="form-label">Page Title</label>
+                        <input type="text" name="title" id="title" class="form-control" value="{{ $landing->title }}">
                     </div>
                     <div class="col-md-12">
                         <label class="form-label">URL Slug <span class="text-danger">*</span></label>
@@ -99,12 +99,24 @@
                         </div>
                     </div>
                     <div class="col-md-12">
-                        <label class="form-label">Select Product <span class="text-danger">*</span></label>
-                        <select name="product_id" class="form-select" required>
+                        <label class="form-label">Select Primary Product</label>
+                        <select name="product_id" class="form-select">
+                            <option value="">-- Choose Main Product --</option>
                             @foreach($products as $p)
                                 <option value="{{ $p->id }}" {{ $landing->product_id == $p->id ? 'selected' : '' }}>{{ $p->name }}</option>
                             @endforeach
                         </select>
+                    </div>
+                    <div class="col-md-12">
+                        <label class="form-label">Additional Products / Combo Options (Optional)</label>
+                        <select name="product_ids[]" class="form-select select2" multiple>
+                            @foreach($products as $p)
+                                <option value="{{ $p->id }}" {{ is_array($landing->product_ids) && in_array($p->id, $landing->product_ids) ? 'selected' : '' }}>
+                                    {{ $p->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <small class="text-muted">These will appear as options in the order form.</small>
                     </div>
                 </div>
             </div>
@@ -132,19 +144,7 @@
                 </div>
             </div>
 
-            <div class="form-card">
-                <h5 class="mb-4 border-bottom pb-2">Tracking & Analytics</h5>
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <label class="form-label">Google Tag Manager (GTM) ID</label>
-                        <input type="text" name="gtm_id" class="form-control" value="{{ $landing->gtm_id }}" placeholder="GTM-XXXXXXX">
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Facebook Pixel ID</label>
-                        <input type="text" name="fb_pixel_id" class="form-control" value="{{ $landing->fb_pixel_id }}" placeholder="Pixel ID">
-                    </div>
-                </div>
-            </div>
+            {{-- Tracking & Analytics removed - now managed globally via General Settings --}}
         </div>
 
         <div class="col-lg-4">

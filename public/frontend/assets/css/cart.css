@@ -335,3 +335,30 @@
     #cp-toasts { top: auto; bottom: 20px; right: 10px; left: 10px; }
     .cp-toast { max-width: 100%; }
 }
+@media(max-width:768px) {
+    /* Adjust cart item grid for tablets */
+    .cp-item {
+        grid-template-columns: 80px 1fr auto auto;
+        grid-template-rows: auto auto;
+        gap: 12px;
+    }
+    .cp-item__price, .cp-item__total {
+        grid-column: 3;
+        text-align: right;
+    }
+    .cp-qty, .cp-item__remove-btn {
+        grid-column: 4;
+    }
+    .cp-item__price {
+        font-size: 14px;
+    }
+    .cp-item__total {
+        font-size: 14px;
+    }
+    .cp-summary {
+        top: 20px;
+    }
+    .cp-layout {
+        grid-template-columns: 1fr;
+    }
+}

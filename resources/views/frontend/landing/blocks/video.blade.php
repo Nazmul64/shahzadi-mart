@@ -6,13 +6,13 @@
     $aosDuration = $block->content['aos_duration'] ?? 800;
 @endphp
 
-<div class="block-video {{ $style }}" style="background-color: {{ $bgColor }}; padding: 60px 0; text-align: center;" data-aos="{{ $aosType }}" data-aos-duration="{{ $aosDuration }}">
-    <div style="width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+<div class="block-video {{ $style }}" style="background-color: {{ $bgColor }}; padding: 60px 0; text-align: center; overflow: hidden;" data-aos="{{ $aosType }}" data-aos-duration="{{ $aosDuration }}">
+    <div style="width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 15px; box-sizing: border-box;">
         @if(!empty($block->content['title']))
-            <h2 style="color: {{ $titleColor }}; font-size: clamp(28px, 6vw, 48px); font-weight: 900; margin-bottom: 40px; line-height: 1.2;">{{ $block->content['title'] }}</h2>
+            <h2 style="color: {{ $titleColor }}; font-size: clamp(24px, 5vw, 40px); font-weight: 900; margin-bottom: 30px; line-height: 1.2; word-wrap: break-word;">{{ $block->content['title'] }}</h2>
         @endif
         
-        <div style="position: relative; width: 100%; border-radius: 30px; overflow: hidden; box-shadow: 0 30px 100px rgba(0,0,0,0.2); border: 8px solid #fff; background: #000;">
+        <div style="position: relative; width: 100%; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.1); border: 4px solid #fff; background: #000; box-sizing: border-box;">
             <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
                 <iframe 
                     style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"
@@ -23,8 +23,8 @@
             </div>
         </div>
         
-        <div style="margin-top: 30px;">
-            <a href="#order" style="display: inline-block; background: var(--primary, #ff4d4d); color: #fff; padding: 15px 40px; border-radius: 50px; font-weight: 800; text-decoration: none; box-shadow: 0 10px 20px rgba(0,0,0,0.1); transition: 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">অর্ডার করতে এখানে ক্লিক করুন</a>
+        <div style="margin-top: 30px; padding: 0 10px;">
+            <a href="#order" style="display: block; background: var(--primary, #ff4d4d); color: #fff; padding: 12px 30px; border-radius: 50px; font-weight: 800; text-decoration: none; box-shadow: 0 10px 20px rgba(0,0,0,0.1); transition: 0.3s; font-size: 16px; width: 90%; max-width: 300px; margin: 0 auto;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">অর্ডার করতে এখানে ক্লিক করুন</a>
         </div>
     </div>
 </div>

@@ -109,6 +109,18 @@
         </div>
 
         <div class="smhome-hero-panel">
+            @php
+                $latestLanding = \App\Models\LandingPage::where('status', 1)->latest()->first();
+            @endphp
+
+            @if($latestLanding)
+                <a href="{{ url('l/'.$latestLanding->slug) }}" class="smhome-hot-deal-card">
+                    <div class="smhome-hot-deal-badge">HOT OFFER</div>
+                    <span>{{ Str::limit($latestLanding->title, 20) }}</span>
+                    <i class="bi bi-arrow-right-circle-fill"></i>
+                </a>
+            @endif
+
             <div class="smhome-welcome-card">
                 <p class="smhome-welcome-card__label">Welcome Back</p>
                 <div class="smhome-auth-btns">
@@ -123,20 +135,14 @@
         </div>
     </div>
 
-    {{-- Mobile Strip --}}
-    <div class="smhome-hero-mobile-strip">
-        <div class="smhome-welcome-card" style="flex:1">
-            <p class="smhome-welcome-card__label">Welcome Back</p>
-            <div class="smhome-auth-btns">
-                <a href="{{ url('customer/register') }}" class="smhome-btn-reg">Register</a>
-                <a href="{{ url('customer/login') }}"    class="smhome-btn-sign">Sign In</a>
-            </div>
-        </div>
-        <a href="{{ url('clearance') }}" class="smhome-clearance-card">
-            CLEA-<br>RANCE
-            <small>UP TO 70% OFF</small>
+    @if($latestLanding)
+    <div class="smhome-landing-mobile-btn-wrap d-md-none">
+        <a href="{{ url('l/'.$latestLanding->slug) }}" class="smhome-landing-mobile-btn">
+            <i class="bi bi-stars"></i> {{ $latestLanding->title }} <i class="bi bi-chevron-right"></i>
         </a>
     </div>
+    @endif
+
 
     {{-- ══ CATEGORY CIRCLES ══ --}}
     @if($categories->isNotEmpty())

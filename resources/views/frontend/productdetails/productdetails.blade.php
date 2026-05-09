@@ -209,8 +209,25 @@
           </div>
 
           <div class="pdp__contact-actions">
-            <a href="tel:{{ $phoneNumber }}" class="pdp__contact-btn pdp__contact-btn--call"><i class="fas fa-phone-alt"></i> কল করে অর্ডার দিন</a>
-            <a href="https://wa.me/{{ $whatsappNumber }}?text={{ $whatsappText }}" class="pdp__contact-btn pdp__contact-btn--whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp অর্ডার</a>
+            @if($phoneNumber)
+            <a href="tel:{{ $phoneNumber }}" class="pdp__contact-btn pdp__contact-btn--call">
+              <i class="fas fa-phone-alt"></i> কল করুন: {{ $phoneNumber }}
+            </a>
+            @endif
+
+            @php
+              // Handle both raw phone number or full URL for WhatsApp
+              $waLink = $whatsappNumber;
+              if ($whatsappNumber && !str_starts_with($whatsappNumber, 'http')) {
+                  $waLink = "https://wa.me/" . preg_replace('/[^\d]/', '', $whatsappNumber) . "?text=" . $whatsappText;
+              }
+            @endphp
+
+            @if($waLink)
+            <a href="{{ $waLink }}" target="_blank" rel="noopener" class="pdp__contact-btn pdp__contact-btn--whatsapp">
+              <i class="fab fa-whatsapp"></i> WhatsApp অর্ডার
+            </a>
+            @endif
           </div>
         </div>
 
@@ -338,26 +355,57 @@
 </div>
 
 <style>
-/* ... (existing styles) ... */
+/* Enhanced responsive styles for product details */
 .pdp__grid--full { grid-template-columns: 420px 1fr !important; }
 .pdp__grid--full .pdp__info { border-right: none !important; }
-@media (max-width: 1100px) { .pdp__grid--full { grid-template-columns: 1fr 1fr !important; } }
-@media (max-width: 680px) { .pdp__grid--full { grid-template-columns: 1fr !important; } }
-.pdp__grid { position: relative; }
+
+/* Grid layout */
+.pdp__grid {
+    display: grid;
+    grid-template-columns: 420px 1fr;
+    gap: 20px;
+    position: relative;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1100px) {
+    .pdp__grid--full { grid-template-columns: 1fr 1fr !important; }
+    .pdp__grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+    .pdp__grid--full { grid-template-columns: 1fr !important; }
+    .pdp__grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) {
+    .pdp__main-img { height: 300px; }
+    .pdp__thumb img { height: 60px; }
+}
+
+/* Image styles */
 .pdp__main-img {
     width: 100%;
-    height: 500px; /* Fixed height for all main images */
-    object-fit: cover; /* Fill the area to remove gaps */
-    background-color: #f9fafb; /* Fallback background */
+    height: 500px; /* Fixed height for larger screens */
+    object-fit: cover;
+    background-color: #f9fafb;
 }
 .pdp__thumb img {
     width: auto;
-    height: 80px; /* Fixed thumbnail height */
+    height: 80px;
     object-fit: cover;
 }
+
+/* Zoom lens */
 .pdp__zoom-lens {
-    position: absolute; border: 1px solid #d4d4d4; width: 120px; height: 120px; background: rgba(255, 255, 255, 0.4);
-    cursor: crosshair; opacity: 0; border-radius: 5px; box-shadow: 0 0 5px rgba(0,0,0,0.2); pointer-events: none;
+    position: absolute;
+    border: 1px solid #d4d4d4;
+    width: 120px;
+    height: 120px;
+    background: rgba(255, 255, 255, 0.4);
+    cursor: crosshair;
+    opacity: 0;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    pointer-events: none;
     transition: opacity 0.3s ease;
 }
 .pdp__zoom-result {
@@ -665,5 +713,87 @@
     initZoom();
 })();
 </script>
+
+@push('scripts')
+<script>
+    // ── Centralized Tracking for Product Details ──
+    (function() {
+        var productData = {
+            id: '{{ $product->id }}',
+            name: '{{ addslashes($product->name) }}',
+            price: {{ number_format($product->discount_price ?? $product->current_price, 2, '.', '') }},
+            category: '{{ addslashes($categoryName) }}',
+            sku: '{{ $product->sku ?? "N/A" }}'
+        };
+
+        window.dataLayer = window.dataLayer || [];
+
+        // ── ViewContent / view_item on Page Load ──
+        if (typeof fbq !== 'undefined') {
+            fbq('track', 'ViewContent', {
+                content_ids: [productData.id],
+                content_name: productData.name,
+                content_category: productData.category,
+                content_type: 'product',
+                value: productData.price,
+                currency: 'BDT'
+            });
+        }
+
+        window.dataLayer.push({
+            'event': 'view_item',
+            'ecommerce': {
+                'currency': 'BDT',
+                'value': Number(productData.price),
+                'items': [{
+                    'item_name': productData.name,
+                    'item_id': productData.id,
+                    'price': Number(productData.price),
+                    'item_category': productData.category,
+                    'quantity': 1
+                }]
+            }
+        });
+
+        // ── AddToCart / add_to_cart on Button Click ──
+        function trackAddToCart(e) {
+            var qtyInput = document.getElementById('pdpQtyInput');
+            var qty = qtyInput ? parseInt(qtyInput.value) : 1;
+            var totalVal = Number((productData.price * qty).toFixed(2));
+            
+            if (typeof fbq !== 'undefined') {
+                fbq('track', 'AddToCart', {
+                    content_ids: [productData.id],
+                    content_name: productData.name,
+                    content_type: 'product',
+                    value: totalVal,
+                    currency: 'BDT'
+                });
+            }
+
+            window.dataLayer.push({
+                'event': 'add_to_cart',
+                'ecommerce': {
+                    'currency': 'BDT',
+                    'value': totalVal,
+                    'items': [{
+                        'item_name': productData.name,
+                        'item_id': productData.id,
+                        'price': Number(productData.price),
+                        'item_category': productData.category,
+                        'quantity': Number(qty)
+                    }]
+                }
+            });
+        }
+
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('#pdpAddCart, #pdpBuyNow')) {
+                trackAddToCart(e);
+            }
+        });
+    })();
+</script>
+@endpush
 
 @endsection

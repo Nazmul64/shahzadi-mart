@@ -159,4 +159,33 @@
     </div>
 </div>
 
+@push('scripts')
+<script>
+    // ── Tracking for Child Category Page ──
+    (function() {
+        if (typeof dataLayer !== 'undefined') {
+            dataLayer.push({
+                'event': 'view_item_list',
+                'ecommerce': {
+                    'currency': 'BDT',
+                    'item_list_name': '{{ addslashes($childCategory->child_sub_name) }}',
+                    'items': [
+                        @foreach($products as $i => $item)
+                        {
+                            'item_name': '{{ addslashes($item->name) }}',
+                            'item_id': '{{ $item->id }}',
+                            'price': {{ (float)($item->discount_price ?? $item->current_price) }},
+                            'item_category': '{{ addslashes($category->category_name) }}',
+                            'item_variant': '{{ addslashes($childCategory->child_sub_name) }}',
+                            'index': {{ $i + 1 }}
+                        },
+                        @endforeach
+                    ]
+                }
+            });
+        }
+    })();
+</script>
+@endpush
+
 @endsection

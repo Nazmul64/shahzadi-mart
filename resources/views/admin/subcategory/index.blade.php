@@ -163,6 +163,7 @@
                     <td class="text-center" style="white-space:nowrap;">
                         <button type="button" class="btn-edit btn-open-edit"
                             data-id="{{ $item->id }}"
+                            data-url="{{ route('admin.subcategory.update', $item->id) }}"
                             data-name="{{ addslashes($item->sub_name) }}"
                             data-slug="{{ $item->slug }}"
                             data-category="{{ $item->category_id }}"
@@ -402,16 +403,15 @@ $(document).ready(function () {
     });
 
     // Edit button → Edit Modal
-    $(document).on('click', '.btn-open-edit', function () {
-        var id       = $(this).data('id');
+        var url      = $(this).data('url');
         var name     = $(this).data('name');
         var slug     = $(this).data('slug');
         var category = $(this).data('category');
         var featured = $(this).data('featured');
         var status   = $(this).data('status');
 
-        // ✅ correct URL with admin prefix
-        $('#editSubCatForm').attr('action', '{{ url("/") }}/subcategory/' + id);
+        // ✅ Correct action URL from route()
+        $('#editSubCatForm').attr('action', url);
 
         $('#edit_sub_name').val(name);
         $('#edit_sub_slug').val(slug);

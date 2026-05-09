@@ -539,35 +539,36 @@
     // ── Facebook Pixel: Purchase ──
     if (typeof fbq !== 'undefined') {
         fbq('track', 'Purchase', {
-            content_ids: [@foreach($orderItems as $item) '{{ $item->product_id ?? $loop->index }}', @endforeach],
+            content_ids: [@foreach($orderItems as $item)'{{ $item->product_id }}'@if(!$loop->last),@endif @endforeach],
             content_type: 'product',
-            value: {{ $safeTotal }},
+            value: {{ number_format($safeTotal, 2, '.', '') }},
             currency: 'BDT'
         });
     }
 
     // ── Google Tag Manager: Purchase ──
-    if (typeof dataLayer !== 'undefined') {
-        dataLayer.push({
+    (function() {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
             'event': 'purchase',
             'ecommerce': {
                 'transaction_id': '{{ $order->order_number ?? $order->id }}',
-                'value': {{ $safeTotal }},
+                'value': Number({{ number_format($safeTotal, 2, '.', '') }}),
                 'currency': 'BDT',
-                'shipping': {{ $safeShipping }},
+                'shipping': Number({{ number_format($safeShipping, 2, '.', '') }}),
                 'items': [
                     @foreach($orderItems as $item)
                     {
                         'item_name': '{{ addslashes($item->product_name ?? $item->name ?? "Product") }}',
-                        'item_id': '{{ $item->product_id ?? $loop->index }}',
-                        'price': '{{ $item->price ?? $item->unit_price }}',
-                        'quantity': {{ $item->quantity }}
-                    },
+                        'item_id': '{{ $item->product_id }}',
+                        'price': Number({{ number_format($item->price ?? $item->unit_price, 2, '.', '') }}),
+                        'quantity': Number({{ (int)$item->quantity }})
+                    }@if(!$loop->last),@endif
                     @endforeach
                 ]
             }
         });
-    }
+    })();
 </script>
 @endpush
 @endsection

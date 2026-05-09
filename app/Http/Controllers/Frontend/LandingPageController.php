@@ -16,6 +16,7 @@ class LandingPageController extends Controller
         $landing = LandingPage::where('slug', $slug)->where('status', true)->with('product')->firstOrFail();
         $websetting = Generalsetting::first();
         $favicon = Websitefavicon::first();
+        $shippingCharges = \App\Models\ShippingCharge::active()->get();
         
         // Render the chosen template
         // Templates should be in resources/views/frontend/landing/
@@ -26,6 +27,6 @@ class LandingPageController extends Controller
             $viewPath = "frontend.landing.landing-1";
         }
 
-        return view($viewPath, compact('landing', 'websetting', 'favicon'));
+        return view($viewPath, compact('landing', 'websetting', 'favicon', 'shippingCharges'));
     }
 }

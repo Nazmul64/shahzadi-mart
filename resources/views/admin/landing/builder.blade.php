@@ -772,14 +772,6 @@
                             <label class="form-label">Page URL Slug</label>
                             <input type="text" name="slug" class="form-control" value="{{ $landing->slug }}" required>
                         </div>
-                        <div class="col-md-6">
-                            <label class="form-label">GTM ID (Google Tag Manager)</label>
-                            <input type="text" name="gtm_id" class="form-control" value="{{ $landing->gtm_id }}" placeholder="GTM-XXXXXXX">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Facebook Pixel ID</label>
-                            <input type="text" name="fb_pixel_id" class="form-control" value="{{ $landing->fb_pixel_id }}" placeholder="123456789012345">
-                        </div>
                     </div>
                     
                     <hr>

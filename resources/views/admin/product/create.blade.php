@@ -436,6 +436,31 @@
                 <button type="button" class="btn-add-tag mt-1" onclick="addTagRow()">+ Add More Field</button>
             </div>
 
+            {{-- ═══ ADDITIONAL PRODUCTS (COMBO PACKAGE) ═══ --}}
+            <div class="sidebar-card" style="border:1px solid #c7d2fe; background:#f8f9ff;">
+                <div class="sidebar-card-title" style="color:#4338ca;">
+                    📦 Additional Products
+                    <span class="optional-badge" style="background:#6366f1;">Optional</span>
+                </div>
+                <small class="text-muted d-block mb-3" style="font-size:.75rem;">
+                    কাস্টমারকে combo/bundle অফার দেখাতে চাইলে এখানে আইটেম যোগ করুন। Title ও Price উভয়ই Optional।
+                </small>
+
+                {{-- Addon header --}}
+                <div class="row g-1 mb-1 d-none" id="addonHeader">
+                    <div class="col-7"><small class="text-muted fw-semibold" style="font-size:.72rem;">Title (Optional)</small></div>
+                    <div class="col-4"><small class="text-muted fw-semibold" style="font-size:.72rem;">Price ৳ (Optional)</small></div>
+                    <div class="col-1"></div>
+                </div>
+
+                <div id="addonContainer"></div>
+
+                <button type="button" class="btn-add-tag mt-2" onclick="addAddonRow()" style="border-color:#6366f1; color:#6366f1;">
+                    + আরেকটি আইটেম যোগ করুন
+                </button>
+            </div>
+
+
             {{-- Tags --}}
             <div class="sidebar-card">
                 <div class="sidebar-card-title">Tags</div>
@@ -613,6 +638,34 @@ function addTagRow() {
 
 function removeTagRow(btn) {
     if($('#featureTagsContainer .tag-row').length > 1) $(btn).closest('.tag-row').remove();
+}
+
+function addAddonRow(titleVal, priceVal) {
+    var hdr = document.getElementById('addonHeader');
+    if (hdr) hdr.classList.remove('d-none');
+
+    var container = document.getElementById('addonContainer');
+    var row = document.createElement('div');
+    row.className = 'row g-1 mb-2 addon-row align-items-center';
+    row.innerHTML =
+        '<div class="col-7">'
+        + '<input type="text" name="addon_title[]" class="form-control form-control-sm" placeholder="আইটেমের নাম (ঐচ্ছিক)" value="' + (titleVal || '') + '">'
+        + '</div>'
+        + '<div class="col-4">'
+        + '<input type="number" name="addon_price[]" class="form-control form-control-sm" placeholder="০.০০" step="0.01" min="0" value="' + (priceVal !== null && priceVal !== undefined ? priceVal : '') + '">'
+        + '</div>'
+        + '<div class="col-1 text-center">'
+        + '<button type="button" class="btn-remove-variant" onclick="removeAddonRow(this)" title="Remove">&#10005;</button>'
+        + '</div>';
+    container.appendChild(row);
+}
+
+function removeAddonRow(btn) {
+    btn.closest('.addon-row').remove();
+    if (!document.querySelectorAll('.addon-row').length) {
+        var hdr = document.getElementById('addonHeader');
+        if (hdr) hdr.classList.add('d-none');
+    }
 }
 </script>
 

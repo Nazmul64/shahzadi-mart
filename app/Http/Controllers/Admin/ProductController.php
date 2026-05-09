@@ -170,6 +170,7 @@ class ProductController extends Controller
             'arrived_at'            => $isNewArrival ? Carbon::now() : null,
             'is_bestseller'         => $isBestseller,
             'bestseller_at'         => $isBestseller ? Carbon::now() : null,
+            'additional_products'   => $this->buildAdditionalProducts($request),
         ]);
 
         $route = 'admin.products.index';
@@ -320,6 +321,7 @@ class ProductController extends Controller
             'arrived_at'            => $arrivedAt,
             'is_bestseller'         => $isBestseller,
             'bestseller_at'         => $bestsellerAt,
+            'additional_products'   => $this->buildAdditionalProducts($request),
         ]);
 
         $route = 'admin.products.index';
@@ -518,5 +520,24 @@ class ProductController extends Controller
         $flashSaleStarts = $isFlashSale && $request->filled('flash_sale_starts_at') ? Carbon::parse($request->flash_sale_starts_at) : null;
         $flashSaleEnds   = $isFlashSale && $request->filled('flash_sale_ends_at')   ? Carbon::parse($request->flash_sale_ends_at)   : null;
         return [$isFlashSale, $flashSalePrice, $flashSaleStarts, $flashSaleEnds];
+    }
+
+    private function buildAdditionalProducts(Request $request): array
+    {
+        $items  = [];
+        $titles = $request->input('addon_title', []);
+        $prices = $request->input('addon_price', []);
+
+        foreach ($titles as $i => $title) {
+            $titleVal = trim((string) $title);
+            $priceVal = isset($prices[$i]) && $prices[$i] !== '' ? (float) $prices[$i] : null;
+            // Skip completely empty rows (both title and price empty)
+            if ($titleVal === '' && $priceVal === null) continue;
+            $items[] = [
+                'title' => $titleVal ?: null,
+                'price' => $priceVal,
+            ];
+        }
+        return $items;
     }
 }

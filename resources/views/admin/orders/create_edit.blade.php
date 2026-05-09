@@ -264,8 +264,9 @@
                                value="{{ old('address', isset($order) ? $order->address : '') }}"
                                required>
                         <input type="text" class="oe-input" name="delivery_area"
-                               placeholder="Delivery Area / Note"
-                               value="{{ old('delivery_area', isset($order) ? $order->delivery_area : '') }}">
+                               placeholder="Delivery Area *"
+                               value="{{ old('delivery_area', isset($order) ? $order->delivery_area : '') }}"
+                               required>
                     </div>
                 </div>
 

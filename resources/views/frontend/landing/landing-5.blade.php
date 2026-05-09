@@ -11,11 +11,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+@include('frontend.landing.partials.head_scripts')
+
 <style>
     :root {
-        --primary: {{ $landing->btn_color ?? '#111111' }};
-        --bg: #fcfcfc;
-        --text: #1a1a1a;
+        --primary: {{ $landing->btn_color ?? '#c5a059' }};
+        --bg: {{ $landing->bg_color ?? '#ffffff' }};
+        --text: {{ $landing->text_color ?? '#1a1a1a' }};
     }
     body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 0; overflow-x: hidden; }
     .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
@@ -40,6 +43,7 @@
 </style>
 </head>
 <body>
+    @include('frontend.landing.partials.body_scripts')
 
     @foreach($landing->blocks->where('type', 'header_classic') as $block)
         @include('frontend.landing.blocks.'.$block->type, ['block' => $block])
@@ -88,7 +92,34 @@
         @include('frontend.landing.blocks.'.$block->type, ['block' => $block])
     @endforeach
 
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script>AOS.init({duration:1200});</script>
+<script>
+    $(document).ready(function() {
+        AOS.init({duration:1200});
+
+        // Global addToCart compatibility
+        window.addToCart = function(productData) {
+            if (typeof window.addDynamicProductToCheckout === 'function') {
+                window.addDynamicProductToCheckout(productData);
+            } else {
+                const productOption = $(`.product-option[data-id="${productData.id}"], .product-option-pro[data-id="${productData.id}"]`);
+                if (productOption.length) {
+                    const checkbox = productOption.find('input[type="checkbox"]');
+                    if (checkbox.length && !checkbox.prop('checked')) {
+                        productOption.click();
+                        if (typeof window.showProToast === 'function') {
+                            window.showProToast('পণ্যটি সফলভাবে যুক্ত করা হয়েছে!');
+                        }
+                    }
+                }
+            }
+            const orderSection = document.getElementById('order') || document.getElementById('checkout') || document.querySelector('.order-form') || document.querySelector('.checkout-container');
+            if (orderSection) {
+                orderSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    });
+</script>
 </body>
 </html>

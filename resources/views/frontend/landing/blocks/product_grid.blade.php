@@ -31,13 +31,15 @@
                             @if($discount > 0)
                                 <div class="pg-discount-badge">-{{ $discount }}%</div>
                             @endif
-                            <div class="pg-img-wrapper">
+                            <a href="{{ route('product.detail', $product->slug) }}" class="pg-img-wrapper" style="display: block;">
                                 <img src="{{ asset('uploads/products/'.$product->feature_image) }}" alt="{{ $product->name }}">
-                            </div>
+                            </a>
                         </div>
                         
                         <div class="pg-content">
-                            <h6 class="pg-product-name">{{ $product->name }}</h6>
+                            <a href="{{ route('product.detail', $product->slug) }}" style="text-decoration: none;">
+                                <h6 class="pg-product-name">{{ $product->name }}</h6>
+                            </a>
                             
                             <div class="pg-price-box">
                                 <span class="pg-current-price">৳{{ number_format($currentPrice) }}</span>
@@ -57,14 +59,14 @@
                                 <span>(0)</span>
                             </div>
 
-                                <a href="#order" class="pg-add-btn" onclick="addToCart({{ json_encode([
-                                    'id' => $product->id,
-                                    'name' => $product->name,
-                                    'price' => (float) $product->effective_price,
-                                    'image' => asset('uploads/products/'.$product->feature_image)
-                                ]) }})">
-                                    <i class="bi bi-cart-plus"></i> কার্টে যোগ করুন
-                                </a>
+                            <div class="pg-add-btn" onclick="addToCart({!! htmlspecialchars(json_encode([
+                                'id' => $product->id,
+                                'name' => $product->name,
+                                'price' => (float) $product->effective_price,
+                                'image' => asset('uploads/products/'.$product->feature_image)
+                            ]), ENT_QUOTES, 'UTF-8') !!})">
+                                <i class="bi bi-cart-plus"></i> কার্টে যোগ করুন
+                            </div>
 
                         </div>
                     </div>
@@ -198,12 +200,19 @@
         .pg-section-title { font-size: 20px; }
     }
     @media (max-width: 600px) {
-        .pg-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } /* Mobile: 2 items */
-        .pg-container { padding: 0 10px; }
-        .pg-product-name { font-size: 13px; height: 36px; }
-        .pg-current-price { font-size: 16px; }
-        .pg-add-btn { font-size: 12px; padding: 8px; }
+        .pg-grid { 
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 8px; 
+            width: 100%;
+            margin: 0 !important;
+            padding: 0 !important;
+            box-sizing: border-box;
+        } 
+        .pg-container { padding: 0 10px; overflow: hidden; width: 100%; box-sizing: border-box; }
+        .pg-product-card { margin: 0; width: 100%; box-sizing: border-box; }
+        .pg-content { padding: 10px; }
+        .pg-product-name { font-size: 13px; height: 36px; margin-bottom: 5px; }
+        .pg-current-price { font-size: 15px; }
+        .pg-add-btn { font-size: 11px; padding: 8px 4px; }
     }
 </style>
-
-

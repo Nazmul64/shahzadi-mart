@@ -198,8 +198,10 @@
                     </td>
 
                     <td class="text-center" style="white-space:nowrap;">
+                        {{-- ✅ data-url দিয়ে সঠিক route pass করা হচ্ছে --}}
                         <button type="button" class="btn-edit btn-open-edit"
                             data-id="{{ $item->id }}"
+                            data-url="{{ route('admin.category.update', $item->id) }}"
                             data-name="{{ addslashes($item->category_name) }}"
                             data-slug="{{ $item->slug }}"
                             data-featured="{{ $item->featured }}"
@@ -272,7 +274,8 @@
                                 <div class="img-upload-overlay">&#8679; Upload Image</div>
                             </div>
                             <input type="file" name="category_photo" id="create_photo"
-                                   accept="image/jpg,image/jpeg,image/png" style="display:none;"
+                                   accept="image/jpg,image/jpeg,image/png,image/webp"
+                                   style="display:none;"
                                    onchange="previewImg('create_photo','create_preview')">
                             <p class="img-size-hint">Preferred Size: Square image (e.g. 500×500)</p>
                         </div>
@@ -317,6 +320,7 @@
                 <h5 class="modal-title modal-title-custom">EDIT CATEGORY</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
+            {{-- ✅ action এখানে blank রাখা হয়েছে, JS দিয়ে সেট হবে --}}
             <form id="editCategoryForm" action="" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
@@ -351,7 +355,8 @@
                                 <div class="img-upload-overlay">&#8679; Change Image</div>
                             </div>
                             <input type="file" name="category_photo" id="edit_photo"
-                                   accept="image/jpg,image/jpeg,image/png" style="display:none;"
+                                   accept="image/jpg,image/jpeg,image/png,image/webp"
+                                   style="display:none;"
                                    onchange="previewImg('edit_photo','edit_preview')">
                             <p class="img-size-hint">Leave blank to keep current image</p>
                         </div>
@@ -412,7 +417,7 @@ $(document).ready(function () {
         ]
     });
 
-    // Add New → open create modal
+    // ── Add New → open create modal ──────────────────────────────────────────
     $('#btnAddNew').on('click', function () {
         document.getElementById('create_name').value  = '';
         document.getElementById('create_slug').value  = '';
@@ -421,7 +426,7 @@ $(document).ready(function () {
         new bootstrap.Modal(document.getElementById('createCategoryModal')).show();
     });
 
-    // Auto-slug for create modal
+    // ── Auto-slug for create modal ───────────────────────────────────────────
     $('#create_name').on('input', function () {
         var slug = $(this).val()
             .toLowerCase().trim()
@@ -431,17 +436,27 @@ $(document).ready(function () {
         $('#create_slug').val(slug);
     });
 
-    // Edit button → open edit modal
+    // ── Auto-slug for edit modal ─────────────────────────────────────────────
+    $('#edit_name').on('input', function () {
+        var slug = $(this).val()
+            .toLowerCase().trim()
+            .replace(/[^\w\s-]/g, '')
+            .replace(/[\s_-]+/g, '-')
+            .replace(/^-+|-+$/g, '');
+        $('#edit_slug').val(slug);
+    });
+
+    // ── Edit button → open edit modal ────────────────────────────────────────
     $(document).on('click', '.btn-open-edit', function () {
-        var id       = $(this).data('id');
+        var url      = $(this).data('url');      // ✅ Laravel route() থেকে সঠিক URL
         var name     = $(this).data('name');
         var slug     = $(this).data('slug');
         var featured = $(this).data('featured');
         var status   = $(this).data('status');
         var photo    = $(this).data('photo');
 
-        // ✅ Correct URL with admin prefix
-        $('#editCategoryForm').attr('action', '{{ url("/") }}/dashboard/category/' + id);
+        // ✅ সঠিক action URL সেট করা হচ্ছে
+        $('#editCategoryForm').attr('action', url);
 
         $('#edit_name').val(name);
         $('#edit_slug').val(slug);
@@ -464,6 +479,7 @@ $(document).ready(function () {
 
 });
 
+// ── Image preview function ───────────────────────────────────────────────────
 function previewImg(inputId, previewId) {
     var file = document.getElementById(inputId).files[0];
     if (file) {

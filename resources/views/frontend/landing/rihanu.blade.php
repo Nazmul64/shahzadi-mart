@@ -18,6 +18,12 @@
     <!-- AOS Animation -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
+@include('frontend.landing.partials.head_scripts')
+
+</head>
+<body>
+    @include('frontend.landing.partials.body_scripts')
+
     <style>
         :root {
             --primary-color: {{ $landing->btn_color ?? '#5a9e04' }};
@@ -37,11 +43,11 @@
             overflow-x: hidden;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
+        @if($landing->is_full_width)
+        .container { width: 100%; max-width: 100%; margin: 0 auto; padding: 0 15px; }
+        @else
+        .container { max-width: 1200px; width: 95%; margin: 0 auto; padding: 0 15px; }
+        @endif
 
         /* Header */
         header {
@@ -240,6 +246,10 @@
     </style>
 </head>
 <body>
+@if($landing->gtm_id)
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ $landing->gtm_id }}"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+@endif
 
     <header>
         <div class="container">
@@ -340,6 +350,28 @@
                     }, 900, 'swing');
                 }
             });
+
+            // Global addToCart compatibility
+            window.addToCart = function(productData) {
+                if (typeof window.addDynamicProductToCheckout === 'function') {
+                    window.addDynamicProductToCheckout(productData);
+                } else {
+                    const productOption = $(`.product-option[data-id="${productData.id}"], .product-option-pro[data-id="${productData.id}"]`);
+                    if (productOption.length) {
+                        const checkbox = productOption.find('input[type="checkbox"]');
+                        if (checkbox.length && !checkbox.prop('checked')) {
+                            productOption.click();
+                            if (typeof window.showProToast === 'function') {
+                                window.showProToast('পণ্যটি সফলভাবে যুক্ত করা হয়েছে!');
+                            }
+                        }
+                    }
+                }
+                const orderSection = document.getElementById('order') || document.getElementById('checkout') || document.querySelector('.order-form') || document.querySelector('.checkout-container');
+                if (orderSection) {
+                    orderSection.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
         });
     </script>
 </body>

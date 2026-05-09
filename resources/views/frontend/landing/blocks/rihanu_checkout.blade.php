@@ -19,8 +19,12 @@
                 <div class="form-group">
                     <label>আপনার জেলা নির্বাচন করুন *</label>
                     <select name="shipping_area" class="form-control shipping_area_selector" required>
-                        <option value="inside" data-cost="70">Dhaka City (70 ৳)</option>
-                        <option value="outside" data-cost="130">Outside Dhaka (130 ৳)</option>
+                        <option value="">এরিয়া নির্বাচন করুন</option>
+                        @foreach($shippingCharges as $charge)
+                            <option value="{{ $charge->area_name }}" data-cost="{{ $charge->amount }}">
+                                {{ $charge->area_name }} ({{ number_format($charge->amount) }} ৳)
+                            </option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="form-group">
@@ -44,11 +48,12 @@
                     @endphp
                     
                     @foreach($checkoutProducts as $index => $prod)
-                    <div class="product-option {{ $index == 0 ? 'active' : '' }}" 
+                    <div class="product-option active" 
                          data-id="{{ $prod->id }}" 
                          data-price="{{ $prod->discount_price ?? $prod->current_price }}" 
                          data-name="{{ $prod->name }}">
-                        <input type="radio" name="selected_product" value="{{ $prod->id }}" {{ $index == 0 ? 'checked' : '' }}>
+                        <input type="checkbox" name="selected_product[]" value="{{ $prod->id }}" checked style="position: absolute; opacity: 0;">
+                        <div class="payment-check" style="margin-right: 10px; color: #d0021b; font-size: 1.2rem; display: block;"><i class="bi bi-check-circle-fill"></i></div>
                         <img src="{{ asset('uploads/products/'.$prod->feature_image) }}" alt="{{ $prod->name }}">
                         <div class="product-info">
                             <h4>{{ $prod->name }}</h4>
@@ -95,24 +100,41 @@
         const form = $('#rihanuOrderForm-{{ $block->id ?? "default" }}');
         
         function updateCalc() {
-            const activeOption = form.find('.product-option.active');
-            const price = parseFloat(activeOption.data('price'));
-            const qty = parseInt(activeOption.find('.qty-val-block').text());
-            const shipping = parseInt(form.find('.shipping_area_selector').find(':selected').data('cost'));
+            let subtotal = 0;
+            const activeOptions = form.find('.product-option.active');
             
-            const subtotal = price * qty;
+            activeOptions.each(function() {
+                const price = parseFloat($(this).data('price')) || 0;
+                const qty = parseInt($(this).find('.qty-val-block').text()) || 1;
+                subtotal += (price * qty);
+            });
+            
+            const shipping = parseFloat(form.find('.shipping_area_selector').find(':selected').data('cost')) || 0;
             const total = subtotal + shipping;
 
             form.find('.subtotal_display').text('৳' + subtotal.toLocaleString());
             form.find('.shipping_display').text('৳' + shipping.toLocaleString());
             form.find('.grand_total_display').text('৳' + total.toLocaleString());
             form.find('.btn_total_display').text(total.toLocaleString());
+            
+            return { subtotal: subtotal, total: total };
         }
 
-        form.find('.product-option').click(function() {
-            form.find('.product-option').removeClass('active');
-            $(this).addClass('active');
-            $(this).find('input[type="radio"]').prop('checked', true);
+        form.find('.product-option').click(function(e) {
+            if ($(e.target).closest('.product-qty').length > 0) return; // ignore clicks on quantity buttons
+            
+            const checkbox = $(this).find('input[type="checkbox"]');
+            if (e.target.tagName !== 'INPUT') {
+                checkbox.prop('checked', !checkbox.prop('checked'));
+            }
+            
+            if (checkbox.prop('checked')) {
+                $(this).addClass('active');
+                $(this).find('.payment-check').show();
+            } else {
+                $(this).removeClass('active');
+                $(this).find('.payment-check').hide();
+            }
             updateCalc();
         });
 
@@ -139,13 +161,23 @@
             const btn = form.find('.submitBtnBlock');
             btn.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> প্রসেসিং...');
 
-            const activeOption = form.find('.product-option.active');
-            const cart = [{
-                id: activeOption.data('id'),
-                qty: parseInt(activeOption.find('.qty-val-block').text()),
-                price: parseFloat(activeOption.data('price')),
-                name: activeOption.data('name')
-            }];
+            const activeOptions = form.find('.product-option.active');
+            const cart = [];
+            
+            activeOptions.each(function() {
+                cart.push({
+                    id: $(this).data('id'),
+                    qty: parseInt($(this).find('.qty-val-block').text()) || 1,
+                    price: parseFloat($(this).data('price')),
+                    name: $(this).data('name')
+                });
+            });
+            
+            if(cart.length === 0) {
+                alert("দয়া করে কমপক্ষে একটি প্রোডাক্ট নির্বাচন করুন।");
+                btn.prop('disabled', false).html('অর্ডার কনফার্ম করুন');
+                return;
+            }
 
             const formData = $(this).serializeArray();
             const data = {};

@@ -73,9 +73,11 @@ class LandingPageController extends Controller
         }
 
         $request->validate([
-            'title'         => 'required|string|max:255',
-            'slug'          => 'required|string|max:255|unique:landing_pages,slug',
-            'product_id'    => 'required|exists:products,id',
+            'title'         => 'nullable|string|max:255',
+            'slug'          => 'nullable|string|max:255|unique:landing_pages,slug',
+            'product_id'    => 'nullable|exists:products,id',
+            'product_ids'   => 'nullable|array',
+            'product_ids.*' => 'exists:products,id',
             'template_name' => 'required|string',
             'bg_color'      => 'nullable|string',
             'text_color'    => 'nullable|string',
@@ -88,7 +90,12 @@ class LandingPageController extends Controller
 
         $data = $request->except(['feature_image', 'review_image', 'preview_image', 'is_template']);
         $data['is_template'] = $request->has('is_template');
-        $data['slug'] = Str::slug($request->slug);
+        if (empty($request->slug)) {
+            $data['slug'] = $request->title ? Str::slug($request->title) : 'lp-' . rand(1000, 9999);
+        } else {
+            $data['slug'] = Str::slug($request->slug);
+        }
+        $data['product_ids'] = $request->input('product_ids', []);
 
         if ($request->hasFile('feature_image')) {
             $name = time() . '_feature_' . $request->file('feature_image')->getClientOriginalName();
@@ -154,9 +161,11 @@ class LandingPageController extends Controller
         $landing = LandingPage::findOrFail($id);
 
         $request->validate([
-            'title'         => 'required|string|max:255',
-            'slug'          => 'required|string|max:255|unique:landing_pages,slug,' . $id,
-            'product_id'    => 'required|exists:products,id',
+            'title'         => 'nullable|string|max:255',
+            'slug'          => 'nullable|string|max:255|unique:landing_pages,slug,' . $id,
+            'product_id'    => 'nullable|exists:products,id',
+            'product_ids'   => 'nullable|array',
+            'product_ids.*' => 'exists:products,id',
             'template_name' => 'required|string',
             'bg_color'      => 'nullable|string',
             'text_color'    => 'nullable|string',
@@ -169,7 +178,12 @@ class LandingPageController extends Controller
 
         $data = $request->except(['feature_image', 'review_image', 'preview_image', 'is_template']);
         $data['is_template'] = $request->has('is_template');
-        $data['slug'] = Str::slug($request->slug);
+        if (empty($request->slug)) {
+            $data['slug'] = $request->title ? Str::slug($request->title) : 'lp-' . rand(1000, 9999);
+        } else {
+            $data['slug'] = Str::slug($request->slug);
+        }
+        $data['product_ids'] = $request->input('product_ids', []);
 
         if ($request->hasFile('feature_image')) {
             if ($landing->feature_image && File::exists(public_path('uploads/landing/' . $landing->feature_image))) {

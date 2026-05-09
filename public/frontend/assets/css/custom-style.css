@@ -447,6 +447,44 @@ body {
     .smhome-circle-img {
         /* Mobile limits removed to respect admin settings */
     }
+
+    /* Full-Bleed Mobile Layout */
+    .container, 
+    .container-fluid,
+    .main-site-content {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        max-width: 100% !important;
+        width: 100% !important;
+    }
+
+    .smhome-ci,
+    .cp,
+    .sp,
+    .pdp,
+    .all-products,
+    .shop,
+    .checkout-page,
+    .os-page {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+        width: 100% !important;
+        overflow-x: hidden !important;
+    }
+
+    /* Product Grid Edge-to-Edge */
+    .smhome-prod-grid,
+    .smp-grid,
+    .ofp-grid,
+    .cp-prod-grid,
+    .na-grid {
+        margin-left: -5px !important;
+        margin-right: -5px !important;
+        width: calc(100% + 10px) !important;
+        gap: 8px !important;
+    }
 }
 
 /* 8.5 Extra Small Mobile (iPhone SE/S8+ 360px-375px) */
@@ -636,4 +674,79 @@ body {
 .smhome-circle-item:hover .smhome-circle-img {
     transform: translateY(-3px) !important;
     border-color: var(--red) !important;
+}
+
+/* Homepage Hot Deal & Landing Buttons */
+.smhome-hot-deal-card {
+    background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+    border-radius: 14px;
+    padding: 16px;
+    color: #fff;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 12px;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 8px 20px rgba(255, 75, 43, 0.3);
+}
+
+.smhome-hot-deal-card:hover {
+    transform: scale(1.03);
+    filter: brightness(1.1);
+}
+
+.smhome-hot-deal-badge {
+    background: #fff;
+    color: #ff4b2b;
+    font-size: 10px;
+    font-weight: 900;
+    padding: 2px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    width: fit-content;
+}
+
+.smhome-hot-deal-card span {
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.smhome-hot-deal-card i {
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
+    font-size: 24px;
+    opacity: 0.8;
+}
+
+/* Mobile Landing Strip */
+.smhome-landing-mobile-btn-wrap {
+    padding: 10px;
+    background: #fff;
+    margin-bottom: 10px;
+}
+
+.smhome-landing-mobile-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    padding: 14px 20px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 14px;
+    box-shadow: 0 4px 15px rgba(118, 75, 162, 0.3);
+    animation: landingPulse 2s infinite;
+}
+
+@keyframes landingPulse {
+    0% { box-shadow: 0 0 0 0 rgba(118, 75, 162, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(118, 75, 162, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(118, 75, 162, 0); }
 }

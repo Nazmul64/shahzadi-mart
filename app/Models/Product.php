@@ -16,7 +16,7 @@ class Product extends Model
         'description', 'return_policy',
         'feature_image', 'gallery_images',
         'current_price', 'discount_price', 'stock', 'is_unlimited',
-        'youtube_url', 'tags', 'feature_tags',
+        'youtube_url', 'tags', 'feature_tags', 'additional_products',
         'status', 'is_highlighted', 'in_catalog',
         'meta_tags', 'meta_description',
         'is_bestseller', 'bestseller_at',
@@ -28,6 +28,7 @@ class Product extends Model
         'gallery_images'       => 'array',
         'tags'                 => 'array',
         'feature_tags'         => 'array',
+        'additional_products'  => 'array',
         // Multiple IDs - stored as JSON, cast to array
         'brand_ids'            => 'array',
         'color_ids'            => 'array',

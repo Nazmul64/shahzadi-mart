@@ -204,4 +204,22 @@ class AllorderController extends Controller
             ->route('admin.order.allorder')
             ->with('success', count($request->ids) . 'টি অর্ডারের স্ট্যাটাস আপডেট হয়েছে।');
     }
+
+    // ── Generate Invoice ──────────────────────────────────────────
+    public function invoice(Request $request)
+    {
+        $ids = $request->ids;
+        if (is_string($ids)) {
+            $ids = explode(',', $ids);
+        }
+
+        if (!$ids || !is_array($ids)) {
+            return back()->with('error', 'অর্ডার নির্বাচন করুন।');
+        }
+
+        $orders = Order::with(['items'])->whereIn('id', $ids)->get();
+        $gs     = \App\Models\Generalsetting::first();
+
+        return view('admin.orders.invoice', compact('orders', 'gs'));
+    }
 }

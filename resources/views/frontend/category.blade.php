@@ -475,4 +475,32 @@ function applyPriceFilter() {
 }
 </script>
 
+@push('scripts')
+<script>
+    // ── Tracking for Category Page ──
+    (function() {
+        if (typeof dataLayer !== 'undefined') {
+            dataLayer.push({
+                'event': 'view_item_list',
+                'ecommerce': {
+                    'currency': 'BDT',
+                    'item_list_name': '{{ addslashes($category->category_name) }}',
+                    'items': [
+                        @foreach($products as $i => $item)
+                        {
+                            'item_name': '{{ addslashes($item->name) }}',
+                            'item_id': '{{ $item->id }}',
+                            'price': {{ (float)($item->discount_price ?? $item->current_price) }},
+                            'item_category': '{{ addslashes($category->category_name) }}',
+                            'index': {{ $i + 1 }}
+                        },
+                        @endforeach
+                    ]
+                }
+            });
+        }
+    })();
+</script>
+@endpush
+
 @endsection

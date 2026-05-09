@@ -40,7 +40,7 @@ class AppServiceProvider extends ServiceProvider
 
             // ── Settings & Data ───────────────────────────────────────────────
             $websetting = \Illuminate\Support\Facades\Cache::remember('web_setting', 86400, function () {
-                return Generalsetting::first();
+                return Generalsetting::getSettings();
             });
 
             $footerSetting = \Illuminate\Support\Facades\Cache::remember('footer_setting', 86400, function () {
@@ -83,7 +83,7 @@ class AppServiceProvider extends ServiceProvider
                 'pagecrate',
                 'footerSetting',
                 'aiPrompt'
-            ));
+            ))->with('gs', $websetting);
         });
 
         // ─── Blade Directives for Permission & Role ───────────────────────────

@@ -1,7 +1,3 @@
-@php
-    $gs = \App\Models\Generalsetting::getSettings();
-@endphp
-
 @include('frontend.pages.header')
 
     <div class="main-site-content {{ $gs->site_layout_width == 'boxed' ? 'container' : 'container-fluid' }}">
