@@ -1,7 +1,6 @@
 @php
-    $gs = \App\Models\Generalsetting::getSettings();
-    $footerSetting = \App\Models\FooterSetting::getSettings();
-    $footerCategories = \App\Models\Footercategory::with('pages')->get();
+    // $gs, $footerSetting, $pagecrate — AppServiceProvider থেকে cached share হয়
+    $footerCategories = $pagecrate ?? collect();
 @endphp
 {{-- ── FOOTER ── --}}
 <footer class="site-footer">
@@ -177,8 +176,8 @@
     }
 
     window.addEventListener('load', hideLoader);
-    // Fallback: hide loader after 8 seconds anyway
-    setTimeout(hideLoader, 8000);
+    // Fallback: hide loader after 1.5 seconds anyway — superfast feel
+    setTimeout(hideLoader, 1500);
 
     // 2. Top Progress Bar
     function startProgressBar() {

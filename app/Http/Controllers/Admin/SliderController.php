@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Slider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Cache;
 
 class SliderController extends Controller
 {
@@ -39,7 +40,22 @@ class SliderController extends Controller
             'photo'       => 'uploads/slider/' . $photoName,
         ]);
 
+        $this->clearHomeCache();
+
         return redirect()->route('admin.slider.index')->with('success', 'Slider created successfully!');
+    }
+
+    private function clearHomeCache()
+    {
+        Cache::forget('home_slider');
+        Cache::forget('home_categories');
+        Cache::forget('home_flash_products');
+        Cache::forget('home_hot_categories');
+        Cache::forget('home_new_arrivals');
+        Cache::forget('home_best_sellers');
+        Cache::forget('home_top_rated');
+        Cache::forget('home_clearance');
+        Cache::forget('home_special_offers');
     }
 
     public function show(string $id) {}
@@ -81,6 +97,8 @@ class SliderController extends Controller
             'photo'       => $photoPath,
         ]);
 
+        $this->clearHomeCache();
+
         return redirect()->route('admin.slider.index')->with('success', 'Slider updated successfully!');
     }
 
@@ -94,6 +112,8 @@ class SliderController extends Controller
         }
 
         $slider->delete();
+
+        $this->clearHomeCache();
 
         return redirect()->route('admin.slider.index')->with('success', 'Slider deleted successfully!');
     }

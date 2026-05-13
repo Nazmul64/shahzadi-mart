@@ -14,7 +14,7 @@
 /* ══ HERO ══ */
 .smhome-hero {
     display: grid;
-    grid-template-columns: 1fr 220px;
+    grid-template-columns: 1fr;
     gap: 16px;
     margin-bottom: 24px;
 }
@@ -130,7 +130,7 @@
 
 /* ── Hero Right Panel ── */
 .smhome-hero-panel {
-    display: flex;
+    display: none;
     flex-direction: column;
     gap: 12px;
 }

@@ -927,12 +927,12 @@
 
             <div class="summary-row">
                 <span class="label">Sub Total</span>
-                <span class="val" id="subTotalDisplay">$0.00</span>
+                <span class="val" id="subTotalDisplay">৳0.00</span>
             </div>
 
             <div class="summary-row discount" id="discountRow" style="display:none">
                 <span class="label">Coupon Discount</span>
-                <span class="val" id="discountDisplay">-$0.00</span>
+                <span class="val" id="discountDisplay">-৳0.00</span>
             </div>
 
             {{-- VAT & Tax --}}
@@ -942,12 +942,12 @@
                 @foreach($taxes as $tax)
                 <div class="tax-row">
                     <span>{{ $tax->name }} ({{ $tax->percentage }}%)</span>
-                    <span class="tax-line-amount" data-percent="{{ $tax->percentage }}">$0.00</span>
+                    <span class="tax-line-amount" data-percent="{{ $tax->percentage }}">৳0.00</span>
                 </div>
                 @endforeach
                 <div class="tax-total-row">
                     <span>Total Tax</span>
-                    <span id="totalTaxDisplay">$0.00</span>
+                    <span id="totalTaxDisplay">৳0.00</span>
                 </div>
             </div>
             @endif
@@ -967,7 +967,7 @@
             </div>
             <div class="summary-row" id="shippingRow" style="display:none">
                 <span class="label">Shipping Charge</span>
-                <span class="val" id="shippingDisplay">$0.00</span>
+                <span class="val" id="shippingDisplay">৳0.00</span>
             </div>
             @endif
 
@@ -1000,7 +1000,7 @@
 
             <div class="grand-total-row">
                 <span>Grand Total</span>
-                <span class="gt-amount" id="grandTotalDisplay">$0.00</span>
+                <span class="gt-amount" id="grandTotalDisplay">৳0.00</span>
             </div>
         </div>
 
@@ -1011,7 +1011,7 @@
             </button>
             <button class="btn-complete" onclick="placeOrder('completed')">
                 <i class="fas fa-check-circle"></i>
-                Complete &nbsp;<span id="grandTotalBtn">$0.00</span>
+                Complete &nbsp;<span id="grandTotalBtn">৳0.00</span>
             </button>
         </div>
     </div>
@@ -1139,7 +1139,7 @@ function openVariantModal(productId, name, sku, image, price, isUnlimited, stock
         const vStock = v.stock !== null && v.stock !== undefined ? v.stock : 'Unlimited';
         return `<div class="variant-card" onclick="selectVariant(${i})">
             <div class="variant-card-name">${escHtml(label) || 'Default'}</div>
-            <div class="variant-card-price">$${parseFloat(vPrice).toFixed(2)}</div>
+            <div class="variant-card-price">৳${parseFloat(vPrice).toFixed(2)}</div>
             <div class="variant-card-stock">Stock: ${vStock}</div>
         </div>`;
     }).join('');
@@ -1207,7 +1207,7 @@ function renderCart() {
             <div class="cart-item-info">
                 <div class="ci-name" title="${escHtml(item.name)}">${escHtml(item.name)}</div>
                 ${variantHtml}
-                <div class="ci-price">$${item.unit_price.toFixed(2)}</div>
+                <div class="ci-price">৳${item.unit_price.toFixed(2)}</div>
                 ${skuHtml}
                 <div class="cart-qty">
                     <button class="qty-btn" onclick="changeQty(${idx}, -1)"><i class="fas fa-minus" style="font-size:10px"></i></button>
@@ -1245,7 +1245,7 @@ function updateTotals() {
         const pct = parseFloat(el.dataset.percent || 0);
         const amt = taxableAmount * (pct / 100);
         totalTax += amt;
-        el.textContent = '$' + amt.toFixed(2);
+        el.textContent = '৳' + amt.toFixed(2);
     });
 
     let shippingAmount = 0;
@@ -1259,7 +1259,7 @@ function updateTotals() {
     const shippingDisplay = document.getElementById('shippingDisplay');
     if (shippingRow && shippingDisplay) {
         shippingRow.style.display = shippingAmount > 0 ? 'flex' : 'none';
-        shippingDisplay.textContent = '$' + shippingAmount.toFixed(2);
+        shippingDisplay.textContent = '৳' + shippingAmount.toFixed(2);
     }
 
     const grandTotal = taxableAmount + totalTax + shippingAmount;
@@ -1267,11 +1267,11 @@ function updateTotals() {
     const discountRow = document.getElementById('discountRow');
     if (discountRow) discountRow.style.display = couponDiscount > 0 ? 'flex' : 'none';
 
-    document.getElementById('subTotalDisplay').textContent   = '$' + subTotal.toFixed(2);
-    document.getElementById('discountDisplay').textContent   = '-$' + couponDiscount.toFixed(2);
-    document.getElementById('totalTaxDisplay').textContent   = '$' + totalTax.toFixed(2);
-    document.getElementById('grandTotalDisplay').textContent = '$' + grandTotal.toFixed(2);
-    document.getElementById('grandTotalBtn').textContent     = '$' + grandTotal.toFixed(2);
+    document.getElementById('subTotalDisplay').textContent   = '৳' + subTotal.toFixed(2);
+    document.getElementById('discountDisplay').textContent   = '-৳' + couponDiscount.toFixed(2);
+    if (document.getElementById('totalTaxDisplay')) document.getElementById('totalTaxDisplay').textContent = '৳' + totalTax.toFixed(2);
+    document.getElementById('grandTotalDisplay').textContent = '৳' + grandTotal.toFixed(2);
+    document.getElementById('grandTotalBtn').textContent     = '৳' + grandTotal.toFixed(2);
 }
 
 function changeQty(idx, delta) {
@@ -1556,7 +1556,7 @@ function applyCoupon() {
             couponData = data;
             updateTotals();
             document.getElementById('couponAppliedText').textContent =
-                `"${data.coupon_code}" — $${parseFloat(data.discount_amount).toFixed(2)} off`;
+                `"${data.coupon_code}" — ৳${parseFloat(data.discount_amount).toFixed(2)} off`;
             document.getElementById('couponAppliedMsg').classList.add('show');
             showToast('Coupon applied!', 'success');
         } else {
@@ -1636,7 +1636,7 @@ function placeOrder(status) {
     .then(data => {
         btnDraft.disabled    = false;
         btnComplete.disabled = false;
-        btnComplete.innerHTML = `<i class="fas fa-check-circle"></i> Complete &nbsp;<span id="grandTotalBtn">$${grandTotal.toFixed(2)}</span>`;
+        btnComplete.innerHTML = `<i class="fas fa-check-circle"></i> Complete &nbsp;<span id="grandTotalBtn">৳${grandTotal.toFixed(2)}</span>`;
 
         if (data.success) {
             showToast(data.message, 'success');
@@ -1660,8 +1660,8 @@ function placeOrder(status) {
     .catch(() => {
         btnDraft.disabled    = false;
         btnComplete.disabled = false;
-        btnComplete.innerHTML = `<i class="fas fa-check-circle"></i> Complete &nbsp;<span id="grandTotalBtn">$${grandTotal.toFixed(2)}</span>`;
-        showToast('Network error. Please try again.', 'error');
+        btnComplete.innerHTML = `<i class="fas fa-check-circle"></i> Complete &nbsp;<span id="grandTotalBtn">৳${grandTotal.toFixed(2)}</span>`;
+        showToast('নেটওয়ার্ক সমস্যা। আবার চেষ্টা করুন।', 'error');
     });
 }
 

@@ -14,6 +14,7 @@ use App\Models\Unit;
 use App\Models\Size;
 use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Cache;
 
 class ProductController extends Controller
 {
@@ -61,10 +62,6 @@ class ProductController extends Controller
 
         if ($request->filled('type')) {
             $query->where('product_type', $request->type);
-        } else {
-            // Default to non-digital products if no type is specified, 
-            // since digital products are now handled in their own module.
-            $query->where('product_type', '!=', 'digital');
         }
 
         $products = $query->get();
@@ -143,7 +140,7 @@ class ProductController extends Controller
             'color_ids'             => $request->filled('color_ids')  ? array_map('intval', $request->color_ids)  : null,
             'unit_ids'              => $request->filled('unit_ids')   ? array_map('intval', $request->unit_ids)   : null,
             'size_ids'              => $request->filled('size_ids')   ? array_map('intval', $request->size_ids)   : null,
-            'product_type'          => $request->product_type          ?: 'digital',
+            'product_type'          => $request->product_type          ?: 'physical',
             'upload_type'           => $request->upload_type           ?: 'file',
             'product_file'          => $productFile,
             'product_url'           => $request->product_url           ?: null,
@@ -176,6 +173,8 @@ class ProductController extends Controller
         $route = 'admin.products.index';
         if (request()->routeIs('manager.*')) $route = 'manager.products.index';
         if (request()->routeIs('emplee.*')) $route = 'emplee.products.index';
+
+        $this->clearHomeCache();
 
         return redirect()->route($route)->with('success', 'Product Created Successfully');
     }
@@ -328,6 +327,8 @@ class ProductController extends Controller
         if (request()->routeIs('manager.*')) $route = 'manager.products.index';
         if (request()->routeIs('emplee.*')) $route = 'emplee.products.index';
 
+        $this->clearHomeCache();
+
         return redirect()->route($route)->with('success', 'Product Updated Successfully');
     }
 
@@ -348,6 +349,8 @@ class ProductController extends Controller
         $route = 'admin.products.index';
         if (request()->routeIs('manager.*')) $route = 'manager.products.index';
         if (request()->routeIs('emplee.*')) $route = 'emplee.products.index';
+
+        $this->clearHomeCache();
 
         return redirect()->route($route)->with('success', 'Product Deleted Successfully');
     }
@@ -377,6 +380,7 @@ class ProductController extends Controller
         $product         = Product::findOrFail($id);
         $product->status = $product->status === 'active' ? 'inactive' : 'active';
         $product->save();
+        $this->clearHomeCache();
         return redirect()->back()->with('success', 'Product status updated');
     }
 
@@ -426,6 +430,7 @@ class ProductController extends Controller
             $product->flash_sale_price = $product->flash_sale_starts_at = $product->flash_sale_ends_at = null;
         }
         $product->save();
+        $this->clearHomeCache();
         return redirect()->back()->with('success', $product->is_flash_sale ? 'Added to flash sale' : 'Removed from flash sale');
     }
 
@@ -441,6 +446,7 @@ class ProductController extends Controller
         $product->is_new_arrival = !$product->is_new_arrival;
         $product->arrived_at     = $product->is_new_arrival ? Carbon::now() : null;
         $product->save();
+        $this->clearHomeCache();
         return redirect()->back()->with('success', $product->is_new_arrival ? 'Marked as new arrival' : 'Removed from new arrivals');
     }
 
@@ -456,6 +462,7 @@ class ProductController extends Controller
         $product->is_bestseller = !$product->is_bestseller;
         $product->bestseller_at = $product->is_bestseller ? Carbon::now() : null;
         $product->save();
+        $this->clearHomeCache();
         return redirect()->back()->with('success', $product->is_bestseller ? 'Marked as bestseller' : 'Removed from bestsellers');
     }
 
@@ -539,5 +546,16 @@ class ProductController extends Controller
             ];
         }
         return $items;
+    }
+
+    private function clearHomeCache(): void
+    {
+        Cache::forget('home_flash_products');
+        Cache::forget('home_new_arrivals');
+        Cache::forget('home_best_sellers');
+        Cache::forget('home_categories');
+        Cache::forget('home_hot_categories');
+        Cache::forget('home_slider');
+        Cache::forget('sidebar_categories');
     }
 }

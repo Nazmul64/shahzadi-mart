@@ -103,9 +103,18 @@
     {{-- Header --}}
     <div class="inv-header">
         <div class="inv-brand">
-            <div class="inv-logo-box">SM</div>
+            @php
+                $gs = \App\Models\Generalsetting::first();
+            @endphp
+            @if($gs && $gs->invoice_logo)
+                <img src="{{ asset($gs->invoice_logo) }}" alt="Invoice Logo" style="max-height: 60px; max-width: 150px; object-fit: contain;">
+            @elseif($gs && $gs->header_logo)
+                <img src="{{ asset($gs->header_logo) }}" alt="Logo" style="max-height: 60px; max-width: 150px; object-fit: contain;">
+            @else
+                <div class="inv-logo-box">SM</div>
+            @endif
             <div class="inv-brand-text">
-                <h1>{{ config('app.name', 'Shahzadi Mart') }}</h1>
+                <h1>{{ $gs->site_name ?? config('app.name', 'Shahzadi Mart') }}</h1>
                 <p>Purchase Management System</p>
             </div>
         </div>

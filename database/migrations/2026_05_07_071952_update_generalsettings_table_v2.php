@@ -12,13 +12,27 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('generalsettings', function (Blueprint $table) {
-            $table->string('top_header_bg_color')->nullable()->default('#0B1121');
-            $table->string('top_header_text_color')->nullable()->default('#94a3b8');
-            $table->string('main_header_bg_color')->nullable()->default('#ffffff');
-            $table->string('main_header_text_color')->nullable()->default('#333333');
-            $table->string('button_bg_color')->nullable()->default('#be0318');
-            $table->string('button_text_color')->nullable()->default('#ffffff');
-            $table->tinyInteger('category_slider_status')->default(1);
+            if (!Schema::hasColumn('generalsettings', 'top_header_bg_color')) {
+                $table->string('top_header_bg_color')->nullable()->default('#0B1121');
+            }
+            if (!Schema::hasColumn('generalsettings', 'top_header_text_color')) {
+                $table->string('top_header_text_color')->nullable()->default('#94a3b8');
+            }
+            if (!Schema::hasColumn('generalsettings', 'main_header_bg_color')) {
+                $table->string('main_header_bg_color')->nullable()->default('#ffffff');
+            }
+            if (!Schema::hasColumn('generalsettings', 'main_header_text_color')) {
+                $table->string('main_header_text_color')->nullable()->default('#333333');
+            }
+            if (!Schema::hasColumn('generalsettings', 'button_bg_color')) {
+                $table->string('button_bg_color')->nullable()->default('#be0318');
+            }
+            if (!Schema::hasColumn('generalsettings', 'button_text_color')) {
+                $table->string('button_text_color')->nullable()->default('#ffffff');
+            }
+            if (!Schema::hasColumn('generalsettings', 'category_slider_status')) {
+                $table->tinyInteger('category_slider_status')->default(1);
+            }
         });
     }
 

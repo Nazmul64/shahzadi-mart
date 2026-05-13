@@ -399,6 +399,9 @@ Route::middleware(['admin'])
     Route::get ('footer-settings',        [App\Http\Controllers\Admin\FooterSettingController::class, 'index'] )->name('footer-settings.index');
     Route::put ('footer-settings/update', [App\Http\Controllers\Admin\FooterSettingController::class, 'update'])->name('footer-settings.update');
 
+    // ── Delivery Warning ──────────────────────────────────────────────────────
+    Route::get ('delivery-warning',        [\App\Http\Controllers\Admin\DeliveryTimeWarningController::class, 'index'] )->name('delivery_warning.index');
+    Route::post('delivery-warning/update', [\App\Http\Controllers\Admin\DeliveryTimeWarningController::class, 'update'])->name('delivery_warning.update');
 
     // ──────────────────────────────────────────────────────────────────────────
     // SLIDER

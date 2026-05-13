@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Cache;
 
 class CategoryController extends Controller
 {
@@ -56,6 +57,7 @@ class CategoryController extends Controller
             'status'         => $request->status   ?? 'active',
             'featured'       => $request->featured  ?? 'inactive',
         ]);
+        $this->clearHomeCache();
 
         $route = 'admin.category.index';
         if (request()->routeIs('manager.*')) $route = 'manager.category.index';
@@ -63,6 +65,20 @@ class CategoryController extends Controller
 
         return redirect()->route($route)
             ->with('success', 'Category Added Successfully');
+    }
+
+    private function clearHomeCache()
+    {
+        Cache::forget('home_slider');
+        Cache::forget('home_categories');
+        Cache::forget('home_flash_products');
+        Cache::forget('home_hot_categories');
+        Cache::forget('home_new_arrivals');
+        Cache::forget('home_best_sellers');
+        Cache::forget('home_top_rated');
+        Cache::forget('home_clearance');
+        Cache::forget('home_special_offers');
+        Cache::forget('sidebar_categories');
     }
 
     public function edit(string $id)
@@ -110,6 +126,7 @@ class CategoryController extends Controller
             'status'         => $request->status   ?? $category->status,
             'featured'       => $request->featured  ?? $category->featured,
         ]);
+        $this->clearHomeCache();
 
         $route = 'admin.category.index';
         if (request()->routeIs('manager.*')) $route = 'manager.category.index';
@@ -125,6 +142,8 @@ class CategoryController extends Controller
         $category->featured = $category->featured === 'active' ? 'inactive' : 'active';
         $category->save();
 
+        $this->clearHomeCache();
+
         return redirect()->route('admin.category.index')
             ->with('success', 'Featured status updated');
     }
@@ -134,6 +153,8 @@ class CategoryController extends Controller
         $category = Category::findOrFail($id);
         $category->status = $category->status === 'active' ? 'inactive' : 'active';
         $category->save();
+
+        $this->clearHomeCache();
 
         return redirect()->route('admin.category.index')
             ->with('success', 'Status updated');
@@ -149,6 +170,8 @@ class CategoryController extends Controller
         }
 
         $category->delete();
+
+        $this->clearHomeCache();
 
         $route = 'admin.category.index';
         if (request()->routeIs('manager.*')) $route = 'manager.category.index';

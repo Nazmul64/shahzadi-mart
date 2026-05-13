@@ -17,6 +17,7 @@ use App\Models\Slider;
 use App\Models\Page;
 use App\Models\AboutForCompany;
 use App\Models\DeliveryInformation;
+use App\Models\DeliveryTimeWarning;
 use App\Models\Tremsandcondation;
 use App\Models\DigitalProduct;
 use Illuminate\Http\Request;
@@ -25,74 +26,76 @@ use Illuminate\Support\Facades\Cache;
 
 class FrontendController extends Controller
 {
-    // ─── Reusable Sidebar Query ──────────────────────────────────────────────
     private function getSidebarCategories()
     {
-        return Cache::remember('sidebar_categories', 86400, function () {
-            return Category::where('status', 'active')
-                ->with([
-                    'subCategories' => function ($q) {
-                        $q->where('status', 'active')
-                          ->with([
-                              'childCategories' => function ($q2) {
-                                  $q2->where('status', 'active');
-                              }
-                          ]);
-                    }
-                ])
-                ->get();
-        });
+        return Category::where('status', 'active')
+            ->with([
+                'subCategories' => function ($q) {
+                    $q->where('status', 'active')
+                      ->with([
+                          'childCategories' => function ($q2) {
+                              $q2->where('status', 'active');
+                          }
+                      ]);
+                }
+            ])
+            ->get();
     }
 
     // ─── Homepage ─────────────────────────────────────────────────────────────
     public function frontend()
     {
         $websetting        = Generalsetting::first();
-        $slider            = Slider::all();
-        $categories        = Category::where('status', 'active')->get();
         $sidebarCategories = $this->getSidebarCategories();
 
-        $baseProductQuery = Product::where('status', 'active')
-            ->withCount(['reviews' => fn($q) => $q->where('is_approved', true)])
-            ->withAvg(['reviews' => fn($q) => $q->where('is_approved', true)], 'rating');
+        // ── Fetch Homepage Data (No Cache for Instant Updates) ──
+        $slider = Slider::all();
 
-        $flashProducts = (clone $baseProductQuery)
-                            ->where('is_flash_sale', true)
-                            ->orderByDesc('is_pinned')
-                            ->latest()
-                            ->take(20)
-                            ->get();
+        $categories = Category::where('status', 'active')->get();
+
+        $flashProducts = Product::where('status', 'active')
+            ->withCount(['reviews' => fn($q) => $q->where('is_approved', true)])
+            ->withAvg(['reviews' => fn($q) => $q->where('is_approved', true)], 'rating')
+            ->where('is_flash_sale', true)
+            ->orderByDesc('is_pinned')
+            ->latest()
+            ->take(30)
+            ->get();
 
         $hotCategories = Category::where('status', 'active')
-                            ->where('featured', 'active')
-                            ->get();
+            ->where('featured', 'active')
+            ->get();
 
-        $newArrivals = (clone $baseProductQuery)
-                            ->where('is_new_arrival', true)
-                            ->orderByDesc('is_pinned')
-                            ->latest('arrived_at')
-                            ->take(20)
-                            ->get();
+        $newArrivals = Product::where('status', 'active')
+            ->withCount(['reviews' => fn($q) => $q->where('is_approved', true)])
+            ->withAvg(['reviews' => fn($q) => $q->where('is_approved', true)], 'rating')
+            ->where('is_new_arrival', true)
+            ->orderByDesc('is_pinned')
+            ->latest('arrived_at')
+            ->take(30)
+            ->get();
 
-        $bestSellers = (clone $baseProductQuery)
-                            ->where('is_bestseller', true)
-                            ->orderByDesc('is_pinned')
-                            ->latest('bestseller_at')
-                            ->take(20)
-                            ->get();
+        $bestSellers = Product::where('status', 'active')
+            ->withCount(['reviews' => fn($q) => $q->where('is_approved', true)])
+            ->withAvg(['reviews' => fn($q) => $q->where('is_approved', true)], 'rating')
+            ->where('is_bestseller', true)
+            ->orderByDesc('is_pinned')
+            ->latest('bestseller_at')
+            ->take(30)
+            ->get();
 
         $digitalProducts = DigitalProduct::where('status', 'active')
-                            ->orderByDesc('is_pinned')
-                            ->latest()
-                            ->take(20)
-                            ->get();
+            ->orderByDesc('is_pinned')
+            ->latest()
+            ->take(20)
+            ->get();
 
         $deliveryInformation = DeliveryInformation::first();
 
         return view('frontend.index', compact(
             'slider', 'categories', 'websetting',
             'flashProducts', 'hotCategories',
-            'newArrivals', 'bestSellers', 'digitalProducts', 'sidebarCategories', 'deliveryInformation',
+            'newArrivals', 'bestSellers', 'digitalProducts', 'sidebarCategories', 'deliveryInformation'
         ));
     }
 
@@ -246,6 +249,7 @@ class FrontendController extends Controller
         $sidebarCategories   = $this->getSidebarCategories();
         $websetting          = \App\Models\Generalsetting::first();
         $deliveryInformation = \App\Models\DeliveryInformation::first();
+        $deliveryTimeWarning = \App\Models\DeliveryTimeWarning::orderByDesc('id')->first();
 
         return view('frontend.productdetails.productdetails', compact(
             'product',
@@ -257,6 +261,7 @@ class FrontendController extends Controller
             'productSizes',
             'productBrands',
             'productUnits',
+            'deliveryTimeWarning',
         ));
     }
 

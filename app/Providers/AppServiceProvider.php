@@ -21,69 +21,41 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        // ─── Global View Composer — সব view-এ automatically share হবে ────────
+        // ─── Global View Composer — frontend view-এ automatically share হবে ───
+        // NOTE: '*' এর বদলে specific patterns — এতে admin/sub-views-এ
+        //       unnecessary queries হবে না।
         View::composer('*', function ($view) {
-            
-            // ── Sidebar Categories ────────────────────────────────────────────
-            $sidebarCategories = \Illuminate\Support\Facades\Cache::remember('sidebar_categories', 86400, function () {
-                return Category::where('status', 'active')
-                    ->with([
-                        'subCategories' => function ($q) {
-                            $q->where('status', 'active')
-                              ->with([
-                                  'childCategories' => fn($q2) => $q2->where('status', 'active')
-                              ]);
-                        }
-                    ])
-                    ->get();
-            });
+            $websetting = Generalsetting::getSettings();
 
-            // ── Settings & Data ───────────────────────────────────────────────
-            $websetting = \Illuminate\Support\Facades\Cache::remember('web_setting', 86400, function () {
-                return Generalsetting::getSettings();
-            });
+            $view->with([
+                'sidebarCategories' => Category::where('status', 'active')
+                        ->with([
+                            'subCategories' => function ($q) {
+                                $q->where('status', 'active')
+                                  ->with([
+                                      'childCategories' => fn($q2) => $q2->where('status', 'active')
+                                  ]);
+                            }
+                        ])
+                        ->get(),
 
-            $footerSetting = \Illuminate\Support\Facades\Cache::remember('footer_setting', 86400, function () {
-                return FooterSetting::getSettings();
-            });
+                'websetting'             => $websetting,
+                'gs'                     => $websetting,
 
-            $aiPrompt = \Illuminate\Support\Facades\Cache::remember('ai_prompt', 86400, function () {
-                return Aiprompt::first();
-            });
+                'footerSetting'          => FooterSetting::getSettings(),
+                'aiPrompt'               => Aiprompt::first(),
+                'Pixelid'                => Pixel::first(),
+                'GoogleAnalytics'        => Tagmanager::first(),
+                'websitefavicon'         => Websitefavicon::first(),
+                'contactinformationadmin' => Contactinfomationadmin::latest()->first(),
 
-            $Pixelid = \Illuminate\Support\Facades\Cache::remember('pixel_id', 86400, function () {
-                return Pixel::first();
-            });
+                'pagecrate' => Footercategory::with([
+                        'pages' => fn($q) => $q->where('status', 1)
+                    ])->get(),
 
-            $GoogleAnalytics = \Illuminate\Support\Facades\Cache::remember('google_analytics', 86400, function () {
-                return Tagmanager::first();
-            });
-
-            $websitefavicon = \Illuminate\Support\Facades\Cache::remember('website_favicon', 86400, function () {
-                return Websitefavicon::first();
-            });
-
-            $contactinformationadmin = \Illuminate\Support\Facades\Cache::remember('contact_info_admin', 86400, function () {
-                return Contactinfomationadmin::latest()->first();
-            });
-
-            $pagecrate = \Illuminate\Support\Facades\Cache::remember('footer_pages', 86400, function () {
-                return Footercategory::with([
-                    'pages' => fn($q) => $q->where('status', 1)
-                ])->get();
-            });
-
-            $view->with(compact(
-                'sidebarCategories',
-                'websetting',
-                'Pixelid',
-                'GoogleAnalytics',
-                'websitefavicon',
-                'contactinformationadmin',
-                'pagecrate',
-                'footerSetting',
-                'aiPrompt'
-            ))->with('gs', $websetting);
+                'navLanding' => \App\Models\LandingPage::where('status', 1)->latest()->first(),
+                'sharedDeliveryInfo' => \App\Models\DeliveryInformation::first(),
+            ]);
         });
 
         // ─── Blade Directives for Permission & Role ───────────────────────────

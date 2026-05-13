@@ -12,7 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('generalsettings', function (Blueprint $table) {
-            $table->integer('products_per_row')->default(4)->comment('2,3,4,5,6');
+            if (!Schema::hasColumn('generalsettings', 'products_per_row')) {
+                $table->integer('products_per_row')->default(4)->comment('2,3,4,5,6');
+            }
         });
     }
 

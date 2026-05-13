@@ -44,18 +44,7 @@
 .toggle-switch-wrap { display:flex; align-items:center; gap:10px; }
 .toggle-switch-wrap .form-check-label { font-size:.85rem; font-weight:600; cursor:pointer; }
 
-.tag-row                   { display:flex; gap:8px; align-items:center; margin-bottom:8px; }
-.tag-row input[type="text"]{ flex:1; }
-.tag-row input[type="color"]{ width:40px; height:38px; border:1px solid #ced4da; border-radius:4px; padding:2px; cursor:pointer; }
-.btn-remove-tag            { background:#dc3545; color:#fff; border:none; border-radius:50%; width:28px; height:28px; font-size:.8rem; cursor:pointer; flex-shrink:0; }
 
-.variant-table-wrap          { display:none; margin-top:10px; }
-.variant-table-wrap.has-rows { display:block; }
-.variant-header              { display:grid; grid-template-columns:1fr 80px 80px 90px 32px; gap:6px; margin-bottom:4px; }
-.variant-header span         { font-size:.75rem; font-weight:600; color:#6c757d; }
-.variant-row                 { display:grid; grid-template-columns:1fr 80px 80px 90px 32px; gap:6px; align-items:center; margin-bottom:8px; }
-.variant-row input[type="color"] { width:100%; height:38px; border:1px solid #ced4da; border-radius:4px; padding:2px; cursor:pointer; }
-.btn-remove-variant          { background:#dc3545; color:#fff; border:none; border-radius:50%; width:28px; height:28px; font-size:.8rem; cursor:pointer; flex-shrink:0; display:flex; align-items:center; justify-content:center; }
 
 .gallery-preview { display:flex; flex-wrap:wrap; gap:10px; margin-top:10px; }
 .gallery-card    { background:#f8f9fa; border:1px solid #dee2e6; border-radius:8px; padding:6px; width:130px; }
@@ -231,29 +220,6 @@
                 </div>
 
                 <hr class="my-3">
-                <h6 class="section-heading">Product File</h6>
-
-                {{-- Upload Type --}}
-                <div class="mb-3">
-                    <label class="form-label-custom">Upload Type <span class="text-danger">*</span></label>
-                    <select name="upload_type" id="upload_type" class="form-select">
-                        <option value="file" {{ old('upload_type','file') === 'file' ? 'selected' : '' }}>Upload By File</option>
-                        <option value="url"  {{ old('upload_type') === 'url'         ? 'selected' : '' }}>Upload By URL</option>
-                    </select>
-                </div>
-
-                <div class="mb-3" id="file_upload_section">
-                    <label class="form-label-custom">Select File <span class="text-danger">*</span></label>
-                    <input type="file" name="product_file" class="form-control">
-                </div>
-
-                <div class="mb-3 d-none" id="url_upload_section">
-                    <label class="form-label-custom">Product URL <span class="text-danger">*</span></label>
-                    <input type="text" name="product_url" class="form-control"
-                           placeholder="Enter product download URL" value="{{ old('product_url') }}">
-                </div>
-
-                <hr class="my-3">
                 {{-- SEO --}}
                 <div class="mb-3">
                     <label class="seo-toggle-label">
@@ -274,21 +240,7 @@
                     </div>
                 </div>
 
-                <hr class="my-3">
-                {{-- Variants --}}
-                <div class="mb-3">
-                    <label class="form-label-custom">Product Variants <span class="optional-badge">Optional</span></label>
-                    <small class="text-muted d-block mb-2" style="font-size:.75rem;">Variant না থাকলে "+ Add Variant" বাটনে ক্লিক না করলেও চলবে।</small>
-                    <div class="variant-table-wrap" id="variantTableWrap">
-                        <div class="variant-header">
-                            <span>Size / Name</span><span>Color</span><span>Stock</span><span>Price (BDT)</span><span></span>
-                        </div>
-                        <div id="variantContainer"></div>
-                    </div>
-                    <button type="button" class="btn-add-variant-main" onclick="addVariantRow()">
-                        <span style="font-size:1.1rem; line-height:1;">+</span> Add Variant
-                    </button>
-                </div>
+
 
                 <hr class="my-3">
                 {{-- Description --}}
@@ -298,11 +250,6 @@
                     @error('description')<span class="invalid-feedback">{{ $message }}</span>@enderror
                 </div>
 
-                {{-- Return Policy --}}
-                <div class="mb-3">
-                    <label class="form-label-custom">Buy / Return Policy <span class="optional-badge">Optional</span></label>
-                    <textarea name="return_policy" id="return_policy" class="form-control" rows="6">{{ old('return_policy') }}</textarea>
-                </div>
 
             </div>{{-- /card --}}
         </div>{{-- /col-lg-8 --}}
@@ -423,50 +370,11 @@
                 <small class="text-muted d-block mt-2" style="font-size:.75rem;">Product will appear in the Bestsellers section.</small>
             </div>
 
-            {{-- Feature Tags --}}
-            <div class="sidebar-card">
-                <div class="sidebar-card-title">Feature Tags</div>
-                <div id="featureTagsContainer">
-                    <div class="tag-row">
-                        <input type="text" name="tag_keyword[]" class="form-control" placeholder="Enter Keyword">
-                        <input type="color" name="tag_color[]" value="#000000">
-                        <button type="button" class="btn-remove-tag" onclick="removeTagRow(this)">&#10005;</button>
-                    </div>
-                </div>
-                <button type="button" class="btn-add-tag mt-1" onclick="addTagRow()">+ Add More Field</button>
-            </div>
-
-            {{-- ═══ ADDITIONAL PRODUCTS (COMBO PACKAGE) ═══ --}}
-            <div class="sidebar-card" style="border:1px solid #c7d2fe; background:#f8f9ff;">
-                <div class="sidebar-card-title" style="color:#4338ca;">
-                    📦 Additional Products
-                    <span class="optional-badge" style="background:#6366f1;">Optional</span>
-                </div>
-                <small class="text-muted d-block mb-3" style="font-size:.75rem;">
-                    কাস্টমারকে combo/bundle অফার দেখাতে চাইলে এখানে আইটেম যোগ করুন। Title ও Price উভয়ই Optional।
-                </small>
-
-                {{-- Addon header --}}
-                <div class="row g-1 mb-1 d-none" id="addonHeader">
-                    <div class="col-7"><small class="text-muted fw-semibold" style="font-size:.72rem;">Title (Optional)</small></div>
-                    <div class="col-4"><small class="text-muted fw-semibold" style="font-size:.72rem;">Price ৳ (Optional)</small></div>
-                    <div class="col-1"></div>
-                </div>
-
-                <div id="addonContainer"></div>
-
-                <button type="button" class="btn-add-tag mt-2" onclick="addAddonRow()" style="border-color:#6366f1; color:#6366f1;">
-                    + আরেকটি আইটেম যোগ করুন
-                </button>
-            </div>
 
 
-            {{-- Tags --}}
-            <div class="sidebar-card">
-                <div class="sidebar-card-title">Tags</div>
-                <select name="tags[]" id="product_tags" class="form-select" multiple></select>
-                <small class="text-muted" style="font-size:.75rem;">Type and press Enter to add tags</small>
-            </div>
+
+
+
 
             <button type="submit" class="btn-create-product">Create Product</button>
 
@@ -488,10 +396,8 @@ $(document).ready(function () {
 
     /* Rich text */
     $('#product_description').summernote({ height: 200, toolbar: [['style',['bold','italic','underline','clear']],['para',['ul','ol']],['insert',['link']],['view',['fullscreen','codeview']]] });
-    $('#return_policy').summernote({ height: 160, toolbar: [['style',['bold','italic']],['para',['ul','ol']],['view',['codeview']]] });
 
-    /* Select2 tags */
-    $('#product_tags').select2({ tags:true, tokenSeparators:[','], placeholder:'Type and press Enter' });
+
 
     /* Select2 multi-select */
     $('.select2-multi').select2({ placeholder: 'Select…', allowClear: true });
@@ -501,16 +407,6 @@ $(document).ready(function () {
         $(this).is(':checked') ? $('#seo_fields').slideDown(250) : $('#seo_fields').slideUp(250);
     });
 
-    /* Upload type toggle */
-    $('#upload_type').on('change', function () {
-        if ($(this).val() === 'url') {
-            $('#file_upload_section').addClass('d-none');
-            $('#url_upload_section').removeClass('d-none');
-        } else {
-            $('#url_upload_section').addClass('d-none');
-            $('#file_upload_section').removeClass('d-none');
-        }
-    });
 
     /* Feature image preview */
     $('#feature_image_input').on('change', function () {
@@ -611,62 +507,8 @@ function rebuildGalleryInputs() {
 
 function removeGalleryItem(idx) { galleryItems.splice(idx,1); renderGallery(); }
 
-function addVariantRow() {
-    var wrap = document.getElementById('variantTableWrap'); wrap.classList.add('has-rows');
-    var row = document.createElement('div'); row.className = 'variant-row';
-    row.innerHTML = '<input type="text" name="variant_size[]" class="form-control form-control-sm" placeholder="e.g. M / XL">'
-        + '<input type="color" name="variant_color[]" value="#1a2b6b">'
-        + '<input type="number" name="variant_stock[]" class="form-control form-control-sm" placeholder="0" min="0" value="0">'
-        + '<input type="number" name="variant_price[]" class="form-control form-control-sm" placeholder="0.00" step="0.01" min="0">'
-        + '<button type="button" class="btn-remove-variant" onclick="removeVariantRow(this)" title="Remove">&#10005;</button>';
-    document.getElementById('variantContainer').appendChild(row);
-}
 
-function removeVariantRow(btn) {
-    btn.closest('.variant-row').remove();
-    if(!document.getElementById('variantContainer').querySelectorAll('.variant-row').length)
-        document.getElementById('variantTableWrap').classList.remove('has-rows');
-}
 
-function addTagRow() {
-    $('#featureTagsContainer').append(
-        '<div class="tag-row"><input type="text" name="tag_keyword[]" class="form-control" placeholder="Enter Keyword">'
-        + '<input type="color" name="tag_color[]" value="#000000">'
-        + '<button type="button" class="btn-remove-tag" onclick="removeTagRow(this)">&#10005;</button></div>'
-    );
-}
-
-function removeTagRow(btn) {
-    if($('#featureTagsContainer .tag-row').length > 1) $(btn).closest('.tag-row').remove();
-}
-
-function addAddonRow(titleVal, priceVal) {
-    var hdr = document.getElementById('addonHeader');
-    if (hdr) hdr.classList.remove('d-none');
-
-    var container = document.getElementById('addonContainer');
-    var row = document.createElement('div');
-    row.className = 'row g-1 mb-2 addon-row align-items-center';
-    row.innerHTML =
-        '<div class="col-7">'
-        + '<input type="text" name="addon_title[]" class="form-control form-control-sm" placeholder="আইটেমের নাম (ঐচ্ছিক)" value="' + (titleVal || '') + '">'
-        + '</div>'
-        + '<div class="col-4">'
-        + '<input type="number" name="addon_price[]" class="form-control form-control-sm" placeholder="০.০০" step="0.01" min="0" value="' + (priceVal !== null && priceVal !== undefined ? priceVal : '') + '">'
-        + '</div>'
-        + '<div class="col-1 text-center">'
-        + '<button type="button" class="btn-remove-variant" onclick="removeAddonRow(this)" title="Remove">&#10005;</button>'
-        + '</div>';
-    container.appendChild(row);
-}
-
-function removeAddonRow(btn) {
-    btn.closest('.addon-row').remove();
-    if (!document.querySelectorAll('.addon-row').length) {
-        var hdr = document.getElementById('addonHeader');
-        if (hdr) hdr.classList.add('d-none');
-    }
-}
 </script>
 
 @endsection

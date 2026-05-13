@@ -333,7 +333,10 @@ $(document).ready(function () {
             infoEmpty: 'No entries found',
             paginate: { previous: 'Prev', next: 'Next' }
         },
-        columnDefs: [{ orderable: false, targets: [0, 3, 7, 8, 9] }]
+        columnDefs: [
+            { orderable: false, targets: [0, 3, 7, 8, 9] },
+            { className: "text-center", targets: [5, 6, 7, 8, 9] }
+        ]
     });
 });
 function openLightbox(src, label) {

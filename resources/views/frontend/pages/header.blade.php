@@ -5,9 +5,9 @@
     $fbPixelId = ($gs->facebook_pixel_status && $gs->facebook_pixel_id) ? trim($gs->facebook_pixel_id) : null;
     $gtmId     = ($gs->gtm_status && $gs->gtm_id) ? trim($gs->gtm_id) : null;
 
-    // Delivery info for top bar (local to header)
-    $deliveryInfo = \App\Models\DeliveryInformation::first();
-    $navLanding = \App\Models\LandingPage::where('status', 1)->latest()->first();
+    // AppServiceProvider থেকে cached share হচ্ছে — আর DB query নেই
+    $deliveryInfo = $sharedDeliveryInfo ?? null;
+    // $navLanding ইতিমধ্যে AppServiceProvider থেকে share হচ্ছে
 @endphp
 
 <!DOCTYPE html>
@@ -138,7 +138,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700&family=Outfit:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="{{ asset($websitefavicon->favicon_logo ?? 'default/favicon.png') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -161,12 +161,19 @@
     <link rel="stylesheet" href="{{ asset('frontend') }}/assets/css/custom-loader.css">
     <link rel="stylesheet" href="{{ asset('frontend') }}/assets/css/custom-style.css">
     <style>
+        /* ══ Dynamic Font Family from Admin Settings ══ */
         html, body {
             max-width: 100% !important;
             overflow-x: hidden !important;
             margin: 0 !important;
             padding: 0 !important;
             width: 100% !important;
+            font-size: var(--base-size) !important;
+            font-family: var(--font-main) !important;
+        }
+        /* Override ALL text elements globally */
+        body *:not(i):not([class*="fa"]):not([class*="bi-"]):not(.bi) {
+            font-family: var(--font-main) !important;
         }
         :root {
             --red: {{ $gs->primary_color ?? '#be0318' }};
@@ -177,7 +184,7 @@
             --main-text: {{ $gs->main_header_text_color ?? '#333333' }};
             --btn-bg: {{ $gs->button_bg_color ?? '#be0318' }};
             --btn-text: {{ $gs->button_text_color ?? '#ffffff' }};
-            --font-main: {{ $gs->font_family ?? 'Plus Jakarta Sans' }}, sans-serif;
+            --font-main: {!! str_contains($gs->font_family, '(') ? explode(' (', $gs->font_family)[0] : $gs->font_family !!}, sans-serif;
             --base-size: {{ $gs->font_size ?? 16 }}px;
             --base-size-mob: {{ $gs->product_font_size_mobile ?? 12 }}px;
             --p-img-h-mob: {{ $gs->product_img_height_mobile ?? 180 }}px;
@@ -221,13 +228,21 @@
             border-radius: {{ ($gs->category_img_shape ?? 'circle') == 'circle' ? '50%' : '8px' }} !important;
         }
 
-        @media (max-width: 575px) {
-            .smhome-circle-item { 
-                width: {{ $gs->category_img_width ?? 80 }}px !important; 
+        @media (max-width: 991px) {
+            .smhome-circle-item {
+                width: {{ $gs->category_img_width ?? 80 }}px !important;
             }
-            .smhome-circle-img { 
+            .smhome-circle-img {
                 width: {{ $gs->category_img_width ?? 80 }}px !important;
                 height: {{ $gs->category_img_height ?? 80 }}px !important;
+            }
+            /* Category Name Font Size */
+            .smhome-circle-item p, .cp-sub-name, .smp-cat-name {
+                font-size: {{ $gs->product_font_size_mobile ?? 12 }}px !important;
+            }
+            /* Global Button Font Size */
+            .smhome-p-order-btn, .pdp__btn, .pdp__contact-btn, .cp-atc, .ofp-btn, .smp-order-btn, .na-order-btn, .btn-buy, .btn-cart, .add-to-cart, .smhome-load-more-btn {
+                font-size: {{ $gs->product_font_size_mobile ?? 12 }}px !important;
             }
             .smhome-p-name {
                 font-size: {{ $gs->product_font_size_mobile ?? 12 }}px !important;
@@ -235,6 +250,33 @@
             .smhome-p-price {
                 font-size: {{ ($gs->product_font_size_mobile ?? 12) + 2 }}px !important;
             }
+        }
+
+        /* ── Global Product Name Truncation (Single Line) ── */
+        .smhome-p-name, 
+        .sp-card-name, 
+        .smp-card-name, 
+        .sr-p-name, 
+        .ofp-name, 
+        .na-name, 
+        .chp-card-name, 
+        .td-product-name, 
+        .pdp__prod-name,
+        .smhome-p-name a,
+        .sp-card-name a,
+        .smp-card-name a,
+        .sr-p-name a,
+        .ofp-name a,
+        .na-name a,
+        .chp-card-name a {
+            display: -webkit-box !important;
+            -webkit-line-clamp: 1 !important;
+            -webkit-box-orient: vertical !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+            min-height: unset !important;
+            height: auto !important;
+            line-height: 1.4 !important;
         }
 
         /* ── Design Restoration & Sticky ── */
@@ -286,7 +328,7 @@
                 padding-right: 0 !important;
             }
             .smhome-prod-grid, .smp-grid, .ofp-grid, .cp-prod-grid, .na-grid {
-                padding: 0 8px !important; 
+                padding: 0 8px !important;
                 gap: 8px !important;
             }
             /* Row and Column resets */
@@ -306,8 +348,11 @@
                 width: 100% !important;
                 max-width: 100% !important;
             }
-            .smhome-hero, .smhome-hero-panel, .smhome-landing-mobile-btn-wrap {
+            .smhome-hero-panel, .smhome-landing-mobile-btn-wrap {
                 display: none !important;
+            }
+            .smhome-hero {
+                grid-template-columns: 1fr !important;
             }
             .smhome-circles-box {
                 padding: 15px 5px !important;
@@ -1028,9 +1073,7 @@
                {{$deliveryInfo->header_title ?? ''}}
             </div>
             <div class="top-bar__nav">
-                @if($navLanding)
-                    <a href="{{ url('l/'.$navLanding->slug) }}" class="top-bar__track"><i class="bi bi-stars"></i> ল্যান্ডিং পেজ</a>
-                @endif
+                {{-- ল্যান্ডিং পেজ বাটন রিমুভ করা হয়েছে --}}
                 <a href="{{ route('products.all') }}"><i class="bi bi-grid-3x3-gap"></i> সব পণ্য</a>
                 <a href="#"><i class="bi bi-shop"></i>{{ $gs->site_name }}</a>
                 <a href="#"><i class="bi bi-geo-alt"></i> Our Stores</a>
@@ -1080,12 +1123,10 @@
             </div>
 
             {{-- Track Order (desktop only) --}}
-            @if($navLanding)
-                <a href="{{ url('l/'.$navLanding->slug) }}" class="track-order-btn" aria-label="Landing Page">
-                    <i class="bi bi-stars"></i>
-                    <span class="track-lbl">ল্যান্ডিং পেজ</span>
-                </a>
-            @endif
+            <a href="{{ route('order.track') }}" class="track-order-btn" aria-label="Track Order">
+                <i class="bi bi-truck"></i>
+                <span class="track-lbl">অর্ডার ট্র্যাকিং</span>
+            </a>
 
             {{-- ══ HDR ACTIONS — ALL ICONS ══ --}}
             <div class="hdr-actions">
@@ -1380,11 +1421,9 @@
                 <i class="bi bi-journal-text"></i> ব্লগ
             </a>
 
-            @if($navLanding)
-                <a href="{{ url('l/'.$navLanding->slug) }}" class="nav-item nav-item--track">
-                    <i class="bi bi-stars" style="color:#ffcc00 !important;"></i> ল্যান্ডিং পেজ
-                </a>
-            @endif
+            <a href="{{ route('order.track') }}" class="nav-item nav-item--track">
+                <i class="bi bi-truck"></i> অর্ডার ট্র্যাক
+            </a>
         </div>
     </div>
     </nav>
@@ -1463,11 +1502,6 @@
         <a href="{{ route('products.all') }}" class="mob-nav__item {{ request()->routeIs('products.all') ? 'active' : '' }}">
             <i class="bi bi-grid-3x3-gap"></i> সব পণ্য
         </a>
-        @if($navLanding)
-            <a href="{{ url('l/'.$navLanding->slug) }}" class="mob-nav__item" style="color:#ff8c00 !important;">
-                <i class="bi bi-stars"></i> ল্যান্ডিং পেজ
-            </a>
-        @endif
         <a href="{{ url('cart') }}" class="mob-nav__item" style="position:relative;">
             <i class="bi bi-cart3"></i> Cart
             <span class="mob-nav__badge {{ $headerCartCount == 0 ? 'zero' : '' }}" id="mobCartBadge">

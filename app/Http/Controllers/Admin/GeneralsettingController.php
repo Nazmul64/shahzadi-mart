@@ -53,7 +53,9 @@ class GeneralsettingController extends Controller
         $setting->$logoType = 'uploads/generalsetting/' . $filename;
         $setting->save();
 
-        $label = ucfirst(str_replace('_', ' ', $logoType));
+        \Illuminate\Support\Facades\Cache::forget('web_setting');
+
+        $label = str_replace('_', ' ', ucwords($logoType, '_'));
 
         return back()->with('success', $label . ' updated successfully!');
     }
@@ -78,6 +80,8 @@ class GeneralsettingController extends Controller
             }
             $setting->$logoType = null;
             $setting->save();
+
+            \Illuminate\Support\Facades\Cache::forget('web_setting');
         }
 
         return back()->with('success', 'Logo removed successfully.');

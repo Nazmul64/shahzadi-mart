@@ -834,6 +834,9 @@ body.sb-collapsed .sb-user-info, body.sb-collapsed .sb-logout-btn { display: non
         <a href="{{ route('admin.Generalsettings.index') }}" class="{{ request()->routeIs('admin.Generalsettings.*') ? 'active' : '' }}">
             <i class="bi bi-aspect-ratio"></i> Layout Settings
         </a>
+        <a href="{{ route('admin.delivery_warning.index') }}" class="{{ request()->routeIs('admin.delivery_warning.*') ? 'active' : '' }}">
+            <i class="bi bi-clock-history"></i> 24 Hours (Delivery Warning)
+        </a>
         <a href="{{ route('admin.footer-settings.index') }}" class="{{ request()->routeIs('admin.footer-settings.*') ? 'active' : '' }}">
             <i class="bi bi-layout-text-window-reverse"></i> Footer Settings
         </a>

@@ -55,19 +55,7 @@
 .toggle-switch-wrap .form-check-label{ font-size:.85rem; font-weight:600; cursor:pointer; }
 
 /* ══ Feature tags ══ */
-.tag-row                      { display:flex; gap:8px; align-items:center; margin-bottom:8px; }
-.tag-row input[type="text"]   { flex:1; }
-.tag-row input[type="color"]  { width:40px; height:38px; border:1px solid #ced4da; border-radius:4px; padding:2px; cursor:pointer; }
-.btn-remove-tag               { background:#dc3545; color:#fff; border:none; border-radius:50%; width:28px; height:28px; font-size:.8rem; cursor:pointer; flex-shrink:0; }
 
-/* ══ Variants ══ */
-.variant-table-wrap           { display:none; margin-top:10px; }
-.variant-table-wrap.has-rows  { display:block; }
-.variant-header               { display:grid; grid-template-columns:1fr 80px 80px 90px 32px; gap:6px; margin-bottom:4px; }
-.variant-header span          { font-size:.75rem; font-weight:600; color:#6c757d; }
-.variant-row                  { display:grid; grid-template-columns:1fr 80px 80px 90px 32px; gap:6px; align-items:center; margin-bottom:8px; }
-.variant-row input[type="color"] { width:100%; height:38px; border:1px solid #ced4da; border-radius:4px; padding:2px; cursor:pointer; }
-.btn-remove-variant           { background:#dc3545; color:#fff; border:none; border-radius:50%; width:28px; height:28px; font-size:.8rem; cursor:pointer; flex-shrink:0; display:flex; align-items:center; justify-content:center; }
 
 /* ══ Gallery ══ */
 .gallery-grid                 { display:flex; flex-wrap:wrap; gap:10px; margin-top:10px; }
@@ -340,47 +328,6 @@
 
             </div>
 
-            {{-- ══ UPLOAD & SEO ══ --}}
-            <div class="card border-0 shadow-sm p-4 mb-3">
-
-                {{-- Upload Type --}}
-                <div class="mb-3">
-                    <label class="form-label-custom">Select Upload Type <span class="text-danger">*</span></label>
-                    <select name="upload_type" id="upload_type" class="form-select">
-                        <option value="file"
-                            {{ old('upload_type', $product->upload_type) === 'file' ? 'selected' : '' }}>
-                            Upload By File
-                        </option>
-                        <option value="url"
-                            {{ old('upload_type', $product->upload_type) === 'url'  ? 'selected' : '' }}>
-                            Upload By URL
-                        </option>
-                    </select>
-                </div>
-
-                {{-- File upload --}}
-                <div class="mb-3" id="file_upload_section"
-                     style="{{ old('upload_type', $product->upload_type) === 'url' ? 'display:none;' : '' }}">
-                    <label class="form-label-custom">
-                        Select File
-                        <span class="optional-badge">Leave blank to keep current</span>
-                    </label>
-                    @if($product->product_file)
-                        <p class="text-muted mb-1" style="font-size:.82rem;">
-                            Current: <strong>{{ $product->product_file }}</strong>
-                        </p>
-                    @endif
-                    <input type="file" name="product_file" class="form-control">
-                </div>
-
-                {{-- URL upload --}}
-                <div class="mb-3" id="url_upload_section"
-                     style="{{ old('upload_type', $product->upload_type) !== 'url' ? 'display:none;' : '' }}">
-                    <label class="form-label-custom">Product URL <span class="text-danger">*</span></label>
-                    <input type="text" name="product_url" class="form-control"
-                           placeholder="Enter product download URL"
-                           value="{{ old('product_url', $product->product_url) }}">
-                </div>
 
                 {{-- SEO toggle --}}
                 <div class="mb-1">
@@ -407,52 +354,7 @@
 
             </div>
 
-            {{-- ══ VARIANTS ══ --}}
-            <div class="card border-0 shadow-sm p-4 mb-3">
-                <label class="form-label-custom">
-                    Product Variants <span class="optional-badge">Optional</span>
-                </label>
-                <small class="text-muted d-block mb-2" style="font-size:.75rem;">
-                    Add size/color/price variants. Leave empty if not needed.
-                </small>
 
-                <div class="variant-table-wrap {{ $existingVariants->count() > 0 ? 'has-rows' : '' }}"
-                     id="variantTableWrap">
-                    <div class="variant-header">
-                        <span>Size / Name</span>
-                        <span>Color</span>
-                        <span>Stock</span>
-                        <span>Price (BDT)</span>
-                        <span></span>
-                    </div>
-                    <div id="variantContainer">
-                        @foreach($existingVariants as $v)
-                            <div class="variant-row">
-                                <input type="text" name="variant_size[]"
-                                       class="form-control form-control-sm"
-                                       placeholder="e.g. M / XL / Red Shirt"
-                                       value="{{ $v['size'] ?? '' }}">
-                                <input type="color" name="variant_color[]"
-                                       value="{{ !empty($v['color']) ? $v['color'] : '#1a2b6b' }}">
-                                <input type="number" name="variant_stock[]"
-                                       class="form-control form-control-sm"
-                                       placeholder="0" min="0"
-                                       value="{{ $v['stock'] ?? 0 }}">
-                                <input type="number" name="variant_price[]"
-                                       class="form-control form-control-sm"
-                                       placeholder="0.00" step="0.01" min="0"
-                                       value="{{ $v['price'] ?? '' }}">
-                                <button type="button" class="btn-remove-variant"
-                                        onclick="removeVariantRow(this)" title="Remove">&#10005;</button>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-
-                <button type="button" class="btn-add-variant-main mt-2" onclick="addVariantRow()">
-                    <span style="font-size:1.1rem;line-height:1;">+</span> Add Variant
-                </button>
-            </div>
 
             {{-- ══ DESCRIPTION & RETURN POLICY ══ --}}
             <div class="card border-0 shadow-sm p-4 mb-3">
@@ -462,13 +364,6 @@
                     </label>
                     <textarea name="description" id="product_description"
                               class="form-control" rows="6">{{ old('description', $product->description) }}</textarea>
-                </div>
-                <div class="mb-0">
-                    <label class="form-label-custom">
-                        Buy / Return Policy <span class="optional-badge">Optional</span>
-                    </label>
-                    <textarea name="return_policy" id="return_policy"
-                              class="form-control" rows="6">{{ old('return_policy', $product->return_policy) }}</textarea>
                 </div>
             </div>
 
@@ -694,49 +589,9 @@
                 @endif
             </div>
 
-            {{-- ── Feature Tags ── --}}
-            <div class="sidebar-card">
-                <div class="sidebar-card-title">Feature Tags</div>
-                <div id="featureTagsContainer">
-                    @if(count($featureTags) > 0)
-                        @foreach($featureTags as $tag)
-                            <div class="tag-row">
-                                <input type="text"  name="tag_keyword[]" class="form-control"
-                                       value="{{ $tag['keyword'] ?? '' }}"
-                                       placeholder="Enter Keyword">
-                                <input type="color" name="tag_color[]"
-                                       value="{{ $tag['color'] ?? '#000000' }}">
-                                <button type="button" class="btn-remove-tag"
-                                        onclick="removeTagRow(this)">&#10005;</button>
-                            </div>
-                        @endforeach
-                    @else
-                        <div class="tag-row">
-                            <input type="text"  name="tag_keyword[]" class="form-control"
-                                   placeholder="Enter Keyword">
-                            <input type="color" name="tag_color[]" value="#000000">
-                            <button type="button" class="btn-remove-tag"
-                                    onclick="removeTagRow(this)">&#10005;</button>
-                        </div>
-                    @endif
-                </div>
-                <button type="button" class="btn-add-tag mt-1" onclick="addTagRow()">
-                    + Add More Field
-                </button>
-            </div>
 
-            {{-- ── Tags (Select2) ── --}}
-            <div class="sidebar-card">
-                <div class="sidebar-card-title">Tags</div>
-                <select name="tags[]" id="product_tags" class="form-select" multiple>
-                    @if($product->tags)
-                        @foreach($product->tags as $tag)
-                            <option value="{{ $tag }}" selected>{{ $tag }}</option>
-                        @endforeach
-                    @endif
-                </select>
-                <small class="text-muted" style="font-size:.75rem;">Type and press Enter to add tags</small>
-            </div>
+
+
 
             {{-- ── Submit ── --}}
             <button type="submit" class="btn-update-product">Update Product</button>
@@ -772,14 +627,8 @@ $(document).ready(function () {
 
     /* ── Summernote rich text ── */
     $('#product_description').summernote({ height: 200 });
-    $('#return_policy').summernote({ height: 200 });
 
-    /* ── Select2: free-tagging for product tags ── */
-    $('#product_tags').select2({
-        tags: true,
-        tokenSeparators: [','],
-        placeholder: 'Type and press Enter'
-    });
+
 
     /* ── Select2 multi-select for Brand / Color / Unit / Size ── */
     $('.select2-multi').select2({
@@ -798,16 +647,6 @@ $(document).ready(function () {
         }
     });
 
-    /* ── Upload type toggle ── */
-    $('#upload_type').on('change', function () {
-        if ($(this).val() === 'url') {
-            $('#file_upload_section').hide();
-            $('#url_upload_section').show();
-        } else {
-            $('#url_upload_section').hide();
-            $('#file_upload_section').show();
-        }
-    });
 
     /* ── Feature image preview ── */
     $('#feature_image_input').on('change', function () {
@@ -1010,51 +849,7 @@ function removeExistingGallery(name) {
     if (el) el.remove();
 }
 
-/* ════════════════════════════════════════════════════════════
-   VARIANT HELPERS
-════════════════════════════════════════════════════════════ */
-function addVariantRow() {
-    var wrap = document.getElementById('variantTableWrap');
-    wrap.classList.add('has-rows');
 
-    var row = document.createElement('div');
-    row.className = 'variant-row';
-    row.innerHTML =
-        '<input type="text"   name="variant_size[]"  class="form-control form-control-sm" placeholder="e.g. M / XL / Red Shirt">' +
-        '<input type="color"  name="variant_color[]" value="#1a2b6b">' +
-        '<input type="number" name="variant_stock[]" class="form-control form-control-sm" placeholder="0"    min="0" value="0">' +
-        '<input type="number" name="variant_price[]" class="form-control form-control-sm" placeholder="0.00" step="0.01" min="0">' +
-        '<button type="button" class="btn-remove-variant" onclick="removeVariantRow(this)" title="Remove">&#10005;</button>';
-
-    document.getElementById('variantContainer').appendChild(row);
-}
-
-function removeVariantRow(btn) {
-    var container = document.getElementById('variantContainer');
-    btn.closest('.variant-row').remove();
-    if (container.querySelectorAll('.variant-row').length === 0) {
-        document.getElementById('variantTableWrap').classList.remove('has-rows');
-    }
-}
-
-/* ════════════════════════════════════════════════════════════
-   FEATURE TAG HELPERS
-════════════════════════════════════════════════════════════ */
-function addTagRow() {
-    $('#featureTagsContainer').append(
-        '<div class="tag-row">' +
-            '<input type="text"  name="tag_keyword[]" class="form-control" placeholder="Enter Keyword">' +
-            '<input type="color" name="tag_color[]"   value="#000000">' +
-            '<button type="button" class="btn-remove-tag" onclick="removeTagRow(this)">&#10005;</button>' +
-        '</div>'
-    );
-}
-
-function removeTagRow(btn) {
-    if ($('#featureTagsContainer .tag-row').length > 1) {
-        $(btn).closest('.tag-row').remove();
-    }
-}
 </script>
 
 @endsection
