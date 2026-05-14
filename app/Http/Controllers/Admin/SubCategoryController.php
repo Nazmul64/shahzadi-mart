@@ -34,7 +34,9 @@ class SubCategoryController extends Controller
     {
         $request->validate([
             'category_id' => 'required|exists:categories,id',
-            'sub_name'    => 'required|string|max:255',
+            'sub_name'    => 'required|string|max:255|unique:sub_categories,sub_name',
+        ], [
+            'sub_name.unique' => 'এই সাব ক্যাটাগরি অলরেডি ডাটাবেজে আছে আপনার',
         ]);
 
         SubCategory::create([
@@ -66,7 +68,9 @@ class SubCategoryController extends Controller
 
         $request->validate([
             'category_id' => 'required|exists:categories,id',
-            'sub_name'    => 'required|string|max:255',
+            'sub_name'    => 'required|string|max:255|unique:sub_categories,sub_name,' . $id,
+        ], [
+            'sub_name.unique' => 'এই সাব ক্যাটাগরি অলরেডি ডাটাবেজে আছে আপনার',
         ]);
 
         $subCategory->update([

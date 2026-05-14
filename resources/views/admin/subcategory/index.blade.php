@@ -403,6 +403,7 @@ $(document).ready(function () {
     });
 
     // Edit button → Edit Modal
+    $(document).on('click', '.btn-open-edit', function () {
         var url      = $(this).data('url');
         var name     = $(this).data('name');
         var slug     = $(this).data('slug');

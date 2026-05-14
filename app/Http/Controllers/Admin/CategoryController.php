@@ -34,8 +34,10 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'category_name'  => 'required|string|max:255',
+            'category_name'  => 'required|string|max:255|unique:categories,category_name',
             'category_photo' => 'required|mimes:jpg,jpeg,png,webp,svg,gif|max:5120',
+        ], [
+            'category_name.unique' => 'এই ক্যাটাগরি অলরেডি ডাটাবেজে আছে আপনার',
         ]);
 
         $photo = null;
@@ -97,8 +99,10 @@ class CategoryController extends Controller
         $category = Category::findOrFail($id);
 
         $request->validate([
-            'category_name'  => 'required|string|max:255',
+            'category_name'  => 'required|string|max:255|unique:categories,category_name,' . $id,
             'category_photo' => 'nullable|mimes:jpg,jpeg,png,webp,svg,gif|max:5120',
+        ], [
+            'category_name.unique' => 'এই ক্যাটাগরি অলরেডি ডাটাবেজে আছে আপনার',
         ]);
 
         $photo = $category->category_photo;

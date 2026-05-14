@@ -35,8 +35,10 @@ class ChildSubCategoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'child_sub_name'  => 'required|string|max:255',
+            'child_sub_name'  => 'required|string|max:255|unique:child_sub_categories,child_sub_name',
             'sub_category_id' => 'required|exists:sub_categories,id',
+        ], [
+            'child_sub_name.unique' => 'এই চাইল্ড ক্যাটাগরি অলরেডি ডাটাবেজে আছে আপনার',
         ]);
 
         ChildSubCategory::create([
@@ -66,8 +68,10 @@ class ChildSubCategoryController extends Controller
         $child = ChildSubCategory::findOrFail($id);
 
         $request->validate([
-            'child_sub_name'  => 'required|string|max:255',
+            'child_sub_name'  => 'required|string|max:255|unique:child_sub_categories,child_sub_name,' . $id,
             'sub_category_id' => 'required|exists:sub_categories,id',
+        ], [
+            'child_sub_name.unique' => 'এই চাইল্ড ক্যাটাগরি অলরেডি ডাটাবেজে আছে আপনার',
         ]);
 
         $child->update([
