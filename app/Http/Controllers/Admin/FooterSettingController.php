@@ -32,7 +32,34 @@ class FooterSettingController extends Controller
             'payment_methods'    => 'nullable|array',
         ]);
 
-        $data = $request->except('footer_logo');
+        $data = $request->except(['footer_logo', 'payment_methods', 'payment_logos']);
+        $paymentMethods = $request->input('payment_methods', []);
+        $currentPaymentData = $setting->payment_methods ?? [];
+        $newPaymentData = [];
+
+        // Handle Payment Methods and their Logos
+        foreach ($paymentMethods as $method) {
+            $logoName = is_array($currentPaymentData) && isset($currentPaymentData[$method]) ? $currentPaymentData[$method] : null;
+
+            if ($request->hasFile("payment_logos.$method")) {
+                // Delete old logo if exists
+                if ($logoName) {
+                    $oldPath = public_path('uploads/avator/' . $logoName);
+                    if (file_exists($oldPath)) {
+                        @unlink($oldPath);
+                    }
+                }
+
+                // Upload new logo
+                $file = $request->file("payment_logos.$method");
+                $logoName = 'pay_' . time() . '_' . str_replace(' ', '_', $method) . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('uploads/avator'), $logoName);
+            }
+
+            $newPaymentData[$method] = $logoName;
+        }
+
+        $data['payment_methods'] = $newPaymentData;
 
         if ($request->hasFile('footer_logo')) {
             // Delete old logo

@@ -26,7 +26,7 @@
     --bounce: cubic-bezier(.34, 1.56, .64, 1);
     --t: all .22s var(--ease);
     --wrap: 98%;
-    --sb: 280px;
+    --sb: 260px;
     --hdr: 70px;
     --mob-nav: 60px;
 }
@@ -1665,7 +1665,7 @@ ul {
     transition: color .2s;
     background: none;
     border: none;
-    font-family: 'Nunito', sans-serif
+    font-family: inherit
 }
 
 .mob-nav__item .bi {
@@ -1718,7 +1718,7 @@ ul {
 
 #toast-container>div {
     border-radius: var(--rm) !important;
-    font-family: 'Nunito', sans-serif !important
+    font-family: inherit !important
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -1977,8 +1977,8 @@ ul {
     }
 
     .wish-drop,
-    .cart-drop {
-        display: none !important
+    #toast-container {
+        z-index: 9999999999 !important;
     }
 }
 
@@ -2109,5 +2109,73 @@ ul {
 
     .h-act .bi {
         font-size: 18px
+    }
+}
+
+/* ── CUSTOM PAGINATION ── */
+.pagination {
+    gap: 6px;
+    margin-top: 40px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.pagination .page-item .page-link {
+    border-radius: 10px !important;
+    border: 1.5px solid #e8e8ef;
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 700;
+    padding: 10px 18px;
+    transition: all .2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--sh1);
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+}
+
+.pagination .page-item.active .page-link {
+    background: var(--red) !important;
+    border-color: var(--red) !important;
+    color: #fff !important;
+    box-shadow: var(--sh-red);
+}
+
+.pagination .page-item .page-link:hover:not(.active) {
+    background-color: var(--red-glow);
+    border-color: var(--red);
+    color: var(--red);
+    transform: translateY(-2px);
+}
+
+.pagination .page-item.disabled .page-link {
+    background-color: #f9fafb;
+    color: #9ca3af;
+    border-color: #f1f1f5;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* Fallback for any SVGs (Laravel's default arrows) */
+.pagination svg,
+[class*="pagination"] svg {
+    width: 20px !important;
+    height: 20px !important;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* Responsive adjustment */
+@media (max-width: 768px) {
+    .pagination {
+        gap: 4px;
+    }
+
+    .pagination .page-item .page-link {
+        padding: 8px 12px;
+        font-size: 13px;
+        min-width: 38px;
     }
 }

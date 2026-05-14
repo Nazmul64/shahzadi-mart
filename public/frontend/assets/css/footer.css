@@ -1,330 +1,318 @@
 
 /* ══════════════════════════════════════════
-   FOOTER
+   FOOTER REDESIGN (Light & Orange Theme)
 ══════════════════════════════════════════ */
+:root {
+    --footer-orange: #FF6600;
+    --footer-bg: #111111;
+    --footer-text: #ffffff;
+    --footer-border: #222222;
+}
+
 .site-footer {
-    background: var(--dark, #0B1121);
-    margin-top: 60px;
+    background: var(--footer-bg);
+    margin-top: 40px;
+    border-top: 2px solid var(--footer-orange);
+    color: var(--footer-text);
+    padding-top: 40px;
     position: relative;
-    overflow: hidden !important;
-    width: 100% !important;
-    max-width: 100% !important;
 }
-.footer-accent {
-    height: 3px;
-    background: linear-gradient(90deg, var(--red), var(--gold), var(--red));
-    background-size: 200% 100%;
-    animation: grad-flow 4s ease infinite;
-}
-@keyframes grad-flow {
-    0%,100% { background-position: 0% 50%; }
-    50%      { background-position: 100% 50%; }
-}
+
 .footer-grid {
-    max-width: 100% !important;
-    margin: 0 auto;
-    padding: 40px 15px;
     display: grid;
-    grid-template-columns: 1.6fr 1fr 1fr 1fr;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr;
     gap: 30px;
-    overflow: hidden !important;
+    padding-bottom: 40px;
 }
-@media(max-width:991px) {
-    .footer-grid { grid-template-columns: 1fr 1fr !important; gap: 20px !important; }
+
+@media (max-width: 1200px) {
+    .footer-grid {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
 }
-@media(max-width:480px) {
-    .footer-grid { grid-template-columns: 1fr !important; }
+
+@media (max-width: 768px) {
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
 }
+
+@media (max-width: 480px) {
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+}
+
+/* Footer Columns */
+.footer-col__title {
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 800;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    position: relative;
+}
+
 .foot-logo {
-    font-family: 'Fraunces', serif;
+    display: block;
+    margin-bottom: 15px;
     font-size: 24px;
     font-weight: 900;
-    color: var(--white);
-    letter-spacing: -.02em;
-    display: inline-flex;
-    align-items: center;
-    margin-bottom: 12px;
+    color: #ffffff;
     text-decoration: none;
 }
-.foot-logo em  { color: var(--red); font-style: normal; }
-.foot-logo__dot {
-    width: 6px; height: 6px;
-    background: var(--gold);
-    border-radius: 50%;
-    margin-left: 3px;
-    display: inline-block;
-}
+
 .foot-desc {
-    color: #e0e0e0;
-    font-size: 15px;
-    line-height: 1.75;
+    font-size: 14px;
+    line-height: 1.6;
     margin-bottom: 20px;
-    max-width: 300px;
+    color: #cccccc;
 }
 
-/* Newsletter */
-.newsletter { margin-bottom: 20px; }
-.newsletter__label {
-    color: #e0e0e0;
+/* Contact Info in Brand Column */
+.foot-contact-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.foot-contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 12px;
     font-size: 13px;
-    font-weight: 700;
-    letter-spacing: .07em;
-    text-transform: uppercase;
-    margin-bottom: 9px;
+    color: #eeeeee;
+}
+.foot-contact-item i {
+    color: var(--footer-orange);
+    font-size: 15px;
+    margin-top: 2px;
+}
+
+/* List Items with Orange Icons */
+.footer-col__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.footer-col__list li {
+    margin-bottom: 10px;
+}
+.footer-col__list li a {
+    color: #dddddd;
+    text-decoration: none;
+    font-size: 14px;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
+    transition: color 0.2s;
 }
-.newsletter__label .bi { color: var(--gold); }
-.newsletter__row {
-    display: flex;
-    border: 1px solid #222;
-    border-radius: var(--r);
-    overflow: hidden;
+.footer-col__list li a:hover {
+    color: var(--footer-orange);
 }
-.newsletter__input {
-    flex: 1;
-    background: #141414;
-    border: none;
-    padding: 10px 13px;
-    color: var(--white);
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 15px;
-    outline: none;
-    min-width: 0;
-}
-.newsletter__input::placeholder { color: #333; }
-.newsletter__btn {
-    background: var(--red);
-    color: #fff;
-    border: none;
-    padding: 10px 16px;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 11.5px;
-    font-weight: 800;
-    letter-spacing: .07em;
-    text-transform: uppercase;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: var(--t);
-    flex-shrink: 0;
-}
-.newsletter__btn:hover { background: var(--red-d); }
-
-/* Socials */
-.socials { display: flex; gap: 8px; flex-wrap: wrap; }
-.soc-btn {
-    width: 34px; height: 34px;
-    background: #141414;
-    border: 1px solid #444;
-    border-radius: 50%;
+.footer-col__list li a i {
+    width: 20px;
+    height: 20px;
+    background: var(--footer-orange);
+    color: #fff !important;
+    font-size: 10px;
+    border-radius: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #e0e0e0;
-    font-size: 14px;
-    transition: var(--t);
-    text-decoration: none;
-}
-.soc-btn:hover {
-    background: var(--red);
-    border-color: var(--red);
-    color: #fff;
-    transform: translateY(-3px);
-    box-shadow: 0 5px 14px rgba(200,16,46,.3);
 }
 
-/* Footer columns */
-.footer-col__title {
-    color: var(--white);
-    font-size: 12px;
-    font-weight: 800;
-    letter-spacing: .17em;
-    text-transform: uppercase;
-    margin-bottom: 18px;
-    padding-bottom: 11px;
-    border-bottom: 1px solid #1e1e1e;
-    position: relative;
-}
-.footer-col__title::after {
-    content: '';
-    position: absolute;
-    bottom: -1px; left: 0;
-    width: 22px; height: 2px;
-    background: var(--red);
-}
-.footer-col__list {
-    display: flex;
-    flex-direction: column;
-    gap: 9px;
+/* Social Column */
+.social-list {
     list-style: none;
-    padding: 0; margin: 0;
+    padding: 0;
+    margin: 0;
 }
-.footer-col__list li a {
-    color: #e0e0e0;
-    font-size: 15px;
-    font-weight: 500;
-    transition: var(--t);
+.social-item {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 10px;
+    margin-bottom: 12px;
     text-decoration: none;
+    color: #eeeeee;
+    font-size: 14px;
 }
-.footer-col__list li a .bi { font-size: 11px; color: #e0e0e0; transition: color .2s; }
-.footer-col__list li a:hover { color: var(--gold-lt); padding-left: 4px; }
-.footer-col__list li a:hover .bi { color: var(--gold); }
-
-/* Footer bottom */
-.footer-btm {
-    max-width: 100% !important;
-    margin: 0 auto;
-    padding: 20px 15px;
-    border-top: 1px solid #171717;
+.social-item i {
+    width: 24px;
+    height: 24px;
+    background: var(--footer-orange);
+    color: #fff;
+    border-radius: 4px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 14px;
-    flex-wrap: wrap;
-    overflow: hidden !important;
+    justify-content: center;
+    font-size: 14px;
 }
-.footer-btm__copy { color: #e0e0e0; font-size: 14px; margin: 0; }
-.pay-badges { display: flex; gap: 7px; flex-wrap: wrap; }
-.pay-b {
-    background: #141414;
-    border: 1px solid #444;
-    border-radius: 3px;
-    padding: 3px 9px;
-    color: #e0e0e0;
-    font-size: 9px;
-    font-weight: 800;
-    letter-spacing: .08em;
-    transition: border-color .2s, color .2s;
-}
-.pay-b:hover { border-color: #888; color: #fff; }
 
-/* Responsive footer */
-@media(max-width:1000px) {
-    .footer-grid { grid-template-columns: 1.4fr 1fr 1fr; gap: 32px; }
-    .footer-col--brand { grid-column: 1/-1; }
-    .foot-desc { max-width: 100%; }
-    .newsletter__row { max-width: 380px; }
+/* Payment Methods */
+.payment-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
 }
-@media(max-width:640px) {
-    .footer-grid { grid-template-columns: 1fr 1fr; gap: 22px; padding: 28px 14px 20px; }
-    .footer-col--brand { grid-column: 1/-1; }
-    .footer-btm { flex-direction: column; text-align: center; padding: 12px; }
-    .site-footer { margin-top: 0; }
+.payment-img-box {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
 }
-@media(max-width:380px) {
-    .footer-grid { grid-template-columns: 1fr; }
+.payment-img-box img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+/* Footer Bottom */
+.footer-btm {
+    border-top: 1px solid var(--footer-border);
+    padding: 20px 0;
+    text-align: center;
+}
+@media (max-width: 768px) {
+    .footer-btm {
+        padding-bottom: 80px; /* Space for mobile bottom nav */
+    }
+}
+.footer-btm__copy {
+    font-size: 13px;
+    color: #999999;
+    margin-bottom: 5px;
+}
+
+
+/* Floating Buttons */
+.back-to-top {
+    position: fixed;
+    bottom: 85px; /* Raised for mobile nav */
+    left: 20px;
+    width: 35px;
+    height: 35px;
+    background: var(--footer-orange);
+    color: #fff;
+    border-radius: 4px;
+    display: none; /* Controlled by JS */
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+}
+
+@media (min-width: 769px) {
+    .back-to-top { bottom: 30px; }
+}
+.back-to-top:hover {
+    transform: translateY(-3px);
+    color: #fff;
 }
 
 /* ══════════════════════════════════════════
    FLOATING CHAT WIDGET
-   ✅ লাল (red) সম্পূর্ণ সরানো হয়েছে
-   fc-notif এবং fc-sub-btn--phone এর red বাদে
-   শুধু green/blue/messenger রং রাখা হয়েছে
 ══════════════════════════════════════════ */
 .fc-wrap {
     position: fixed;
-    bottom: 86px; right: 18px;
+    bottom: 85px; /* Raised for mobile nav */
+    right: 20px;
     z-index: 9999;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
     gap: 10px;
 }
-@media(min-width:768px) {
-    .fc-wrap { bottom: 24px; }
+
+@media (min-width: 769px) {
+    .fc-wrap { bottom: 30px; }
 }
 
-/* ✅ Main button — সবুজ, কোনো লাল নেই */
 .fc-main-btn {
     width: 56px; height: 56px;
     border-radius: 50%;
-    background: #25d366;       /* সবুজ — WhatsApp */
+    background: var(--footer-orange);
     border: none;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 22px;
+    font-size: 24px;
     color: #fff;
-    box-shadow: 0 4px 18px rgba(37,211,102,.45);
+    box-shadow: 0 4px 15px rgba(255,102,0,0.3);
     transition: transform .25s cubic-bezier(.34,1.56,.64,1), background .2s;
     position: relative;
     z-index: 2;
 }
-.fc-main-btn:hover  { transform: scale(1.1); background: #1ebe5d; }
-.fc-main-btn.is-open { background: #444; box-shadow: 0 4px 18px rgba(0,0,0,.3); }
+.fc-main-btn:hover  { transform: scale(1.05); }
+.fc-main-btn.is-open { background: #444; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
 
 .fc-icon-open  { display: block; }
 .fc-icon-close { display: none; }
 .fc-main-btn.is-open .fc-icon-open  { display: none; }
 .fc-main-btn.is-open .fc-icon-close { display: block; }
 
-/* ✅ fc-notif (লাল pulsing dot) — সম্পূর্ণ মুছে দেওয়া হয়েছে */
-
 /* Sub list */
 .fc-sub-list {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap: 10px;
+    gap: 12px;
     opacity: 0;
-    transform: translateY(12px) scale(.96);
+    transform: translateY(12px) scale(.95);
     pointer-events: none;
-    transition: opacity .25s ease, transform .25s cubic-bezier(.34,1.3,.64,1);
+    transition: all .25s cubic-bezier(.34,1.3,.64,1);
+    margin-bottom: 5px;
 }
 .fc-sub-list.is-open {
     opacity: 1;
     transform: translateY(0) scale(1);
     pointer-events: auto;
 }
-.fc-sub-list .fc-sub-item:nth-child(1) { transition-delay: .03s; }
-.fc-sub-list .fc-sub-item:nth-child(2) { transition-delay: .07s; }
-.fc-sub-list .fc-sub-item:nth-child(3) { transition-delay: .11s; }
-.fc-sub-list .fc-sub-item:nth-child(4) { transition-delay: .15s; }
 
-.fc-sub-item { display: flex; align-items: center; gap: 10px; }
+.fc-sub-item { display: flex; align-items: center; gap: 12px; }
 .fc-label {
     background: #fff;
-    color: #222;
-    font-size: 12px;
+    color: #333;
+    font-size: 13px;
     font-weight: 700;
-    padding: 4px 11px;
+    padding: 6px 15px;
     border-radius: 20px;
-    box-shadow: 0 2px 8px rgba(0,0,0,.18);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     white-space: nowrap;
-    pointer-events: none;
-    letter-spacing: .02em;
 }
 .fc-sub-btn {
-    width: 46px; height: 46px;
+    width: 48px; height: 48px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
+    font-size: 20px;
     color: #fff;
     text-decoration: none;
-    transition: transform .22s cubic-bezier(.34,1.56,.64,1), box-shadow .2s;
+    transition: transform .2s;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
-.fc-sub-btn:hover { transform: scale(1.12); color: #fff; }
+.fc-sub-btn:hover { transform: scale(1.1); color: #fff; }
 
-/* Sub button colors — ✅ phone button এর red সরিয়ে dark করা হয়েছে */
-.fc-sub-btn--chat      { background: #1DB954; box-shadow: 0 3px 12px rgba(29,185,84,.4); }
-.fc-sub-btn--messenger { background: #0084ff; box-shadow: 0 3px 12px rgba(0,132,255,.4); }
-.fc-sub-btn--whatsapp  { background: #25d366; box-shadow: 0 3px 12px rgba(37,211,102,.4); }
-.fc-sub-btn--phone     { background: #374151; box-shadow: 0 3px 12px rgba(55,65,81,.35); } /* ✅ লাল → dark gray */
-
-.fc-sub-btn--chat:hover      { background: #17a349; }
-.fc-sub-btn--messenger:hover { background: #0073e0; }
-.fc-sub-btn--whatsapp:hover  { background: #1ebe5d; }
-.fc-sub-btn--phone:hover     { background: #1f2937; }
+.fc-sub-btn--chat      { background: #25D366; }
+.fc-sub-btn--messenger { background: #0084FF; }
+.fc-sub-btn--whatsapp  { background: #25D366; }
+.fc-sub-btn--phone     { background: #374151; }
 
 /* ══════════════════════════════════════════
    LIVE CHAT MODAL
+══════════════════════════════════════════ */
    ✅ header green রাখা হয়েছে, কোনো red নেই
 ══════════════════════════════════════════ */
 .lc-overlay {

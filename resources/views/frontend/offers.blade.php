@@ -102,6 +102,20 @@
                     <div class="ofp-img-wrap"><img class="ofp-img" src="{{ asset('uploads/products/' . $item->feature_image) }}" alt="{{ $item->name }}" loading="lazy"></div>
                     <div class="ofp-body">
                         <a href="{{ route('product.detail', $item->slug) }}" class="ofp-name" onclick="event.stopPropagation()">{{ $item->name }}</a>
+                        @php
+                            $inStock = $item->is_unlimited || ($item->stock ?? 0) > 0;
+                        @endphp
+                        <div class="smp-stock-status mb-1 mt-1">
+                            @if($inStock)
+                                <span class="smhome-p-available text-success">
+                                    <i class="bi bi-check-circle-fill"></i> স্টক এভেইলেবল
+                                </span>
+                            @else
+                                <span class="smhome-p-available text-danger">
+                                    <i class="bi bi-x-circle-fill"></i> স্টক আউট
+                                </span>
+                            @endif
+                        </div>
                         <div>
                             <span class="ofp-price">৳ {{ number_format($dPrice, 0) }}</span>
                             @if($dPrice < $item->current_price) <span class="ofp-old">৳ {{ number_format($item->current_price, 0) }}</span> @endif
@@ -129,6 +143,20 @@
                     <div class="ofp-img-wrap"><img class="ofp-img" src="{{ asset('uploads/products/' . $item->feature_image) }}" alt="{{ $item->name }}" loading="lazy"></div>
                     <div class="ofp-body">
                         <a href="{{ route('product.detail', $item->slug) }}" class="ofp-name" onclick="event.stopPropagation()">{{ $item->name }}</a>
+                        @php
+                            $inStock = $item->is_unlimited || ($item->stock ?? 0) > 0;
+                        @endphp
+                        <div class="smp-stock-status mb-1 mt-1">
+                            @if($inStock)
+                                <span class="smhome-p-available text-success">
+                                    <i class="bi bi-check-circle-fill"></i> স্টক এভেইলেবল
+                                </span>
+                            @else
+                                <span class="smhome-p-available text-danger">
+                                    <i class="bi bi-x-circle-fill"></i> স্টক আউট
+                                </span>
+                            @endif
+                        </div>
                         <div>
                             <span class="ofp-price">৳ {{ number_format($dPrice, 0) }}</span>
                             @if($dPrice < $item->current_price) <span class="ofp-old">৳ {{ number_format($item->current_price, 0) }}</span> @endif

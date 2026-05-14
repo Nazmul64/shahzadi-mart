@@ -5,80 +5,144 @@
 {{-- ── FOOTER ── --}}
 <footer class="site-footer">
     <div class="{{ $gs->site_layout_width == 'boxed' ? 'container' : 'container-fluid' }}">
-        <div class="footer-inner">
-            <div class="footer-accent"></div>
-            <div class="footer-grid">
+        
+        <div class="footer-grid">
 
-                {{-- Brand Column --}}
-                <div class="footer-col footer-col--brand">
-                    <a href="{{ url('/') }}" class="foot-logo">
-                        @if($footerSetting->footer_logo)
-                            <img src="{{ asset('uploads/avator/' . $footerSetting->footer_logo) }}" alt="{{ $gs->site_name }}" style="max-height: 50px;">
-                        @elseif($gs->footer_logo)
-                            <img src="{{ asset($gs->footer_logo) }}" alt="{{ $gs->site_name }}" style="max-height: 50px;">
-                        @else
-                            {{ $gs->site_name }}<span class="foot-logo__dot"></span>
-                        @endif
-                    </a>
-                    <p class="foot-desc">{{ $footerSetting->footer_description }}</p>
-                    <div class="newsletter">
-                        <div class="newsletter__label"><i class="bi bi-envelope-fill"></i> Subscribe for exclusive deals</div>
-                        <div class="newsletter__row">
-                            <input type="email" id="nlEmail" class="newsletter__input" placeholder="your@email.com" autocomplete="email">
-                            <button class="newsletter__btn" type="button" onclick="subscribeNewsletter(event)">Subscribe</button>
-                        </div>
-                    </div>
-                    <div class="socials">
-                        @if($footerSetting->facebook_url) <a href="{{ $footerSetting->facebook_url }}" class="soc-btn" target="_blank" aria-label="Facebook"><i class="bi bi-facebook"></i></a> @endif
-                        @if($footerSetting->instagram_url) <a href="{{ $footerSetting->instagram_url }}" class="soc-btn" target="_blank" aria-label="Instagram"><i class="bi bi-instagram"></i></a> @endif
-                        @if($footerSetting->twitter_url) <a href="{{ $footerSetting->twitter_url }}" class="soc-btn" target="_blank" aria-label="Twitter/X"><i class="bi bi-twitter-x"></i></a> @endif
-                        @if($footerSetting->youtube_url) <a href="{{ $footerSetting->youtube_url }}" class="soc-btn" target="_blank" aria-label="YouTube"><i class="bi bi-youtube"></i></a> @endif
-                        @if($footerSetting->tiktok_url) <a href="{{ $footerSetting->tiktok_url }}" class="soc-btn" target="_blank" aria-label="TikTok"><i class="bi bi-tiktok"></i></a> @endif
-                    </div>
-                </div>
-               @foreach($footerCategories as $footercat)
-                @if($footercat->pages->isNotEmpty())
-                <div class="footer-col">
+            {{-- 1. Brand Column --}}
+            <div class="footer-col">
+                <a href="{{ url('/') }}" class="foot-logo">
+                    {{ strtoupper($aboutCompany->company_name ?? $gs->site_name) }}
+                </a>
+                <p class="foot-desc">{{ $footerSetting->footer_description }}</p>
+                <ul class="foot-contact-list">
+                    @if($aboutCompany->address)
+                    <li class="foot-contact-item">
+                        <i class="bi bi-geo-alt-fill"></i>
+                        <span>{{ $aboutCompany->address }}</span>
+                    </li>
+                    @endif
+                    @if($aboutCompany->phone)
+                    <li class="foot-contact-item">
+                        <i class="bi bi-telephone-fill"></i>
+                        <span>{{ $aboutCompany->phone }}</span>
+                    </li>
+                    @endif
+                    @if($aboutCompany->email)
+                    <li class="foot-contact-item">
+                        <i class="bi bi-envelope-fill"></i>
+                        <span>{{ $aboutCompany->email }}</span>
+                    </li>
+                    @endif
+                </ul>
+            </div>
 
-                    <h4 class="footer-col__title">{{ $footercat->category_name }}</h4>
-
-                    <ul class="footer-col__list">
+            {{-- 2. ABOUT Column (Dynamic Pages) --}}
+            <div class="footer-col">
+                <h4 class="footer-col__title">ABOUT</h4>
+                <ul class="footer-col__list">
+                    @foreach($footerCategories as $footercat)
                         @foreach($footercat->pages as $page)
-                        <li>
-                            <a href="{{ route('multi.plepage', $page->id) }}">
-                                <i class="bi bi-chevron-right"></i>
-                                {{ $page->name }}
-                            </a>
-                        </li>
+                            <li>
+                                <a href="{{ route('multi.plepage', $page->id) }}">
+                                    <i class="bi bi-file-text-fill"></i> {{ $page->name }}
+                                </a>
+                            </li>
                         @endforeach
-                    </ul>
+                    @endforeach
+                    <li>
+                        <a href="{{ route('contact.details') }}">
+                            <i class="bi bi-file-text-fill"></i> যোগাযোগ
+                        </a>
+                    </li>
+                </ul>
+            </div>
 
+            {{-- 3. QUICK LINKS Column --}}
+            <div class="footer-col">
+                <h4 class="footer-col__title">QUICK LINKS</h4>
+                <ul class="footer-col__list">
+                    <li><a href="{{ url('/') }}"><i class="bi bi-house-fill"></i> হোম</a></li>
+                    <li><a href="{{ url('new-arrivals') }}"><i class="bi bi-stars"></i> নতুন পণ্য</a></li>
+                    <li><a href="{{ url('offers') }}"><i class="bi bi-tag-fill"></i> অফার</a></li>
+                    <li><a href="{{ route('products.all') }}"><i class="bi bi-grid-fill"></i> সকল ক্যাটাগরি</a></li>
+                    <li><a href="{{ url('shop') }}"><i class="bi bi-bag-fill"></i> সকল শপ</a></li>
+                </ul>
+            </div>
+
+            {{-- 4. SOCIAL Column --}}
+            <div class="footer-col">
+                <h4 class="footer-col__title">SOCIAL</h4>
+                <div class="social-list">
+                    @if($footerSetting->facebook_url)
+                        <a href="{{ $footerSetting->facebook_url }}" class="social-item" target="_blank">
+                            <i class="bi bi-facebook"></i> Facebook
+                        </a>
+                    @endif
+                    @if($footerSetting->youtube_url)
+                        <a href="{{ $footerSetting->youtube_url }}" class="social-item" target="_blank">
+                            <i class="bi bi-youtube"></i> Youtube
+                        </a>
+                    @endif
+                    @if($contactinformationadmin->watsapp_url)
+                        <a href="https://wa.me/{{ $contactinformationadmin->watsapp_url }}" class="social-item" target="_blank">
+                            <i class="bi bi-whatsapp"></i> Whats App
+                        </a>
+                    @endif
                 </div>
-                @endif
-            @endforeach
+            </div>
 
-            </div>{{-- /.footer-grid --}}
-
-            <div class="footer-btm">
-                <p class="footer-btm__copy">
-                    &copy; {{ date('Y') }} {{ $footerSetting->copyright_text }}. Made with
-                    <i class="bi bi-heart-fill" style="color:var(--red);font-size:10px;margin:0 3px"></i>
-                    by <a href="{{ $footerSetting->powered_by_text }}" target="_blank" style="color:inherit; text-decoration:none;"><strong style="color:#e0e0e0">{{ $footerSetting->powered_by_text }}</strong></a>
-                </p>
-                <div class="pay-badges">
+            {{-- 5. PAYMENT METHODS Column --}}
+            <div class="footer-col">
+                <h4 class="footer-col__title">PAYMENT METHODS</h4>
+                <div class="payment-grid">
                     @if($footerSetting->payment_methods)
-                        @foreach($footerSetting->payment_methods as $method)
-                            <span class="pay-b">{{ $method }}</span>
+                        @foreach($footerSetting->payment_methods as $methodName => $uploadedLogo)
+                            <div class="payment-img-box">
+                                @if($uploadedLogo)
+                                    <img src="{{ asset('uploads/avator/' . $uploadedLogo) }}" alt="{{ $methodName }}">
+                                @else
+                                    {{-- Fallback to common logos if not uploaded --}}
+                                    @php
+                                        $m = strtolower($methodName);
+                                        $img = null;
+                                        if(str_contains($m, 'bkash')) $img = 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/BKash_Logo.svg/512px-BKash_Logo.svg.png';
+                                        elseif(str_contains($m, 'nagad')) $img = 'https://upload.wikimedia.org/wikipedia/en/thumb/e/e0/Nagad_Logo.svg/1200px-Nagad_Logo.svg.png';
+                                        elseif(str_contains($m, 'rocket')) $img = 'https://upload.wikimedia.org/wikipedia/en/thumb/d/d0/Dutch_Bangla_Bank_Logo.svg/1200px-Dutch_Bangla_Bank_Logo.svg.png';
+                                        elseif(str_contains($m, 'visa')) $img = 'https://logos-world.net/wp-content/uploads/2020/04/Visa-Logo.png';
+                                        elseif(str_contains($m, 'master')) $img = 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1280px-Mastercard-logo.svg.png';
+                                    @endphp
+                                    @if($img)
+                                        <img src="{{ $img }}" alt="{{ $methodName }}">
+                                    @else
+                                        <span style="font-size:10px; font-weight:bold; color: #fff;">{{ $methodName }}</span>
+                                    @endif
+                                @endif
+                            </div>
                         @endforeach
                     @endif
                 </div>
             </div>
+
+        </div>{{-- /.footer-grid --}}
+
+        <div class="footer-btm">
+            <p class="footer-btm__copy">
+                &copy; {{ date('Y') }} {{ $footerSetting->copyright_text }}
+            </p>
+            <p style="font-size: 12px; color: #888;">
+                <a href="{{ $footerSetting->powered_by_link }}" target="_blank" style="color:inherit; text-decoration:none;">{{ $footerSetting->powered_by_text }}</a>
+            </p>
         </div>
+
     </div>
 </footer>
 
+{{-- Back to Top --}}
+<a href="#" class="back-to-top" id="backToTop">
+    <i class="bi bi-chevron-up"></i>
+</a>
+
 {{-- ── FLOATING CHAT WIDGET ── --}}
-{{-- ✅ fc-notif (লাল dot) সম্পূর্ণ সরানো হয়েছে --}}
 <div class="fc-wrap" id="fcWrap">
     <div class="fc-sub-list" id="fcSubList">
         <div class="fc-sub-item">
@@ -623,6 +687,25 @@ document.addEventListener('click', function(e) {
         });
     }
 });
+
+/* ── Back to Top Script ── */
+(function() {
+    var btn = document.getElementById('backToTop');
+    if (!btn) return;
+    
+    window.addEventListener('scroll', function() {
+        if (window.scrollY > 300) {
+            btn.style.display = 'flex';
+        } else {
+            btn.style.display = 'none';
+        }
+    });
+    
+    btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+})();
 </script>
 
 </body>

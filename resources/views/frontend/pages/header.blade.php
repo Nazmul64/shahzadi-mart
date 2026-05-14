@@ -138,7 +138,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700&family=Outfit:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&family=Roboto:wght@400;500;700&family=Poppins:wght@400;500;600;700;800&family=Montserrat:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700&family=Open+Sans:wght@400;500;600;700;800&family=Lato:wght@400;700;900&family=Raleway:wght@400;500;600;700;800&family=Nunito:wght@400;500;600;700;800&family=Ubuntu:wght@400;500;700&family=Oswald:wght@400;500;600;700&family=Merriweather:wght@400;700;900&family=Playfair+Display:wght@400;500;600;700;800;900&family=Lora:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="{{ asset($websitefavicon->favicon_logo ?? 'default/favicon.png') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -184,7 +184,7 @@
             --main-text: {{ $gs->main_header_text_color ?? '#333333' }};
             --btn-bg: {{ $gs->button_bg_color ?? '#be0318' }};
             --btn-text: {{ $gs->button_text_color ?? '#ffffff' }};
-            --font-main: {!! str_contains($gs->font_family, '(') ? explode(' (', $gs->font_family)[0] : $gs->font_family !!}, sans-serif;
+            --font-main: "{{ $gs->font_family }}", sans-serif;
             --base-size: {{ $gs->font_size ?? 16 }}px;
             --base-size-mob: {{ $gs->product_font_size_mobile ?? 12 }}px;
             --p-img-h-mob: {{ $gs->product_img_height_mobile ?? 180 }}px;
@@ -287,6 +287,8 @@
             background-color: var(--main-bg) !important;
             color: var(--main-text) !important;
             width: 100% !important;
+            position: relative !important;
+            z-index: 2000001 !important;
         }
         .site-hdr .h-act__lbl, .site-hdr .logo { color: var(--main-text) !important; }
 
@@ -295,6 +297,9 @@
         .site-nav__in { display: flex !important; align-items: center !important; height: 100% !important; width: 100% !important; overflow: visible !important; }
 
         /* ── LAYOUT FIX: Lower Stacking for Page content ── */
+        .main-site-content { position: relative !important; z-index: 1 !important; }
+        .page-wrap.no-sidebar { grid-template-columns: 1fr !important; gap: 0 !important; position: relative !important; z-index: 1 !important; }
+
         .main-site-content { position: relative !important; z-index: 1 !important; }
         .page-wrap.no-sidebar { grid-template-columns: 1fr !important; gap: 0 !important; position: relative !important; z-index: 1 !important; }
 
@@ -464,7 +469,13 @@
             z-index: 999999999 !important; padding: 12px 0 !important;
             border: 1px solid rgba(0,0,0,0.1) !important; border-top: 4px solid var(--red) !important;
             margin-top: 0px !important; pointer-events: none;
+            max-height: 500px !important; overflow-y: auto !important;
+            scrollbar-width: thin !important;
+            scrollbar-color: var(--red) transparent !important;
         }
+        .nav-cat-menu::-webkit-scrollbar { width: 5px; }
+        .nav-cat-menu::-webkit-scrollbar-thumb { background: var(--red); border-radius: 10px; }
+        .nav-cat-menu::-webkit-scrollbar-track { background: transparent; }
 
         /* Show states with Animation */
         .nav-cat-dropdown:hover .nav-cat-menu,
@@ -478,16 +489,22 @@
         .nav-item i { font-size: 16px !important; color: #fff !important; }
         .nav-divider { width: 1px !important; height: 20px !important; background: rgba(255,255,255,0.2) !important; margin: 0 !important; }
 
-        .nav-cat-menu .sidebar { display: block !important; width: 100% !important; border: none !important; margin: 0 !important; box-shadow: none !important; position: static !important; max-height: 80vh !important; overflow-y: auto !important; }
+        .nav-cat-menu .sidebar { display: block !important; width: 100% !important; border: none !important; margin: 0 !important; box-shadow: none !important; position: static !important; max-height: none !important; overflow: visible !important; }
         .nav-cat-menu .sb-head { display: none !important; }
         .nav-cat-menu a { color: #333 !important; text-decoration: none !important; font-weight: 600 !important; display: block !important; padding: 8px 20px !important; transition: all 0.2s; }
+        .smhome-p-available { font-size: 11px; font-weight: 700; margin-bottom: 4px; display: flex; align-items: center; gap: 4px; }
+        .smhome-p-available i { font-size: 10px; }
+        
+        .site-hdr { background: var(--main-bg) !important; position: relative !important; z-index: 2000001 !important; transition: all 0.3s; }
         .nav-cat-menu a:hover { background: #f8f9fa !important; color: var(--red) !important; padding-left: 25px !important; }
 
         /* ── SEARCH BAR CLEANUP ── */
-        .hdr-search-wrap { position: relative !important; z-index: 1000000000 !important; }
+        .hdr-search-wrap { position: relative !important; z-index: 1000 !important; }
         .hdr-search { box-shadow: none !important; border-color: var(--border) !important; }
         .hdr-search.focused, .hdr-search:focus-within { box-shadow: none !important; border-color: var(--red) !important; background: var(--white) !important; }
-        .search-dropdown { z-index: 1000000001 !important; }
+        .search-dropdown { z-index: 1001 !important; }
+        /* Hide search bar when drawer is open on mobile */
+        body.drawer-open .hdr-search-wrap { z-index: 1 !important; }
 
         /* ══════════════════════════════════════════
            MOBILE HEADER FIX — ICONS FULLY VISIBLE
@@ -1346,46 +1363,35 @@
                         @include('frontend.pages.category')
                     </div>
                 </div>
-                <span class="nav-divider"></span>
-
-                <script>
-                    document.addEventListener('mouseover', function(e) {
-                        if (e.target.closest('#catBtnToggle') || e.target.closest('#navCatMenu')) {
-                            document.getElementById('navCatDropdown').classList.add('is-active');
-                        }
-                    });
-                    document.addEventListener('mouseout', function(e) {
-                        if (!e.relatedTarget || (!e.relatedTarget.closest('#catBtnToggle') && !e.relatedTarget.closest('#navCatMenu'))) {
-                            document.getElementById('navCatDropdown').classList.remove('is-active');
-                        }
-                    });
-
-                    // Search Bar Typing Effect
-                    const searchInput = document.getElementById('globalSearch');
-                    if (searchInput) {
-                        const typingWords = [
-                            "আপনার প্রয়োজনীয় যেকোনো পণ্য খুঁজুন...",
-                            "স্মার্টফোন, গ্যাজেট এবং ইলেকট্রনিক্স খুঁজুন...",
-                            "ছেলে ও মেয়েদের লেটেস্ট ফ্যাশন কালেকশন খুঁজুন...",
-                            "অরিজিনাল কসমেটিকস ও বিউটি প্রোডাক্ট খুঁজুন..."
-                        ];
-                        let wordIndex = 0, charIndex = 0, isDeleting = false;
-                        const segmenter = new Intl.Segmenter("bn", { granularity: "grapheme" });
-                        function typeEffect() {
-                            const currentWord = typingWords[wordIndex];
-                            const segments = Array.from(segmenter.segment(currentWord)).map(s => s.segment);
-                            if (isDeleting) { searchInput.placeholder = segments.slice(0, charIndex - 1).join(''); charIndex--; }
-                            else { searchInput.placeholder = segments.slice(0, charIndex + 1).join(''); charIndex++; }
-                            let typeSpeed = 80;
-                            if (isDeleting) typeSpeed /= 2;
-                            if (!isDeleting && charIndex === segments.length) { typeSpeed = 2000; isDeleting = true; }
-                            else if (isDeleting && charIndex === 0) { isDeleting = false; wordIndex = (wordIndex + 1) % typingWords.length; typeSpeed = 500; }
-                            setTimeout(typeEffect, typeSpeed);
-                        }
-                        setTimeout(typeEffect, 1000);
-                    }
-                </script>
             @endif
+            <span class="nav-divider"></span>
+
+            <script>
+                // Search Bar Typing Effect
+                const searchInput = document.getElementById('globalSearch');
+                if (searchInput) {
+                    const typingWords = [
+                        "আপনার প্রয়োজনীয় যেকোনো পণ্য খুঁজুন...",
+                        "স্মার্টফোন, গ্যাজেট এবং ইলেকট্রনিক্স খুঁজুন...",
+                        "ছেলে ও মেয়েদের লেটেস্ট ফ্যাশন কালেকশন খুঁজুন...",
+                        "অরিজিনাল কসমেটিকস ও বিউটি প্রোডাক্ট খুঁজুন..."
+                    ];
+                    let wordIndex = 0, charIndex = 0, isDeleting = false;
+                    const segmenter = new Intl.Segmenter("bn", { granularity: "grapheme" });
+                    function typeEffect() {
+                        const currentWord = typingWords[wordIndex];
+                        const segments = Array.from(segmenter.segment(currentWord)).map(s => s.segment);
+                        if (isDeleting) { searchInput.placeholder = segments.slice(0, charIndex - 1).join(''); charIndex--; }
+                        else { searchInput.placeholder = segments.slice(0, charIndex + 1).join(''); charIndex++; }
+                        let typeSpeed = 80;
+                        if (isDeleting) typeSpeed /= 2;
+                        if (!isDeleting && charIndex === segments.length) { typeSpeed = 2000; isDeleting = true; }
+                        else if (isDeleting && charIndex === 0) { isDeleting = false; wordIndex = (wordIndex + 1) % typingWords.length; typeSpeed = 500; }
+                        setTimeout(typeEffect, typeSpeed);
+                    }
+                    setTimeout(typeEffect, 1000);
+                }
+            </script>
 
             <a href="{{ url('/') }}" class="nav-item {{ request()->is('/') ? 'active' : '' }}">
                 <i class="bi bi-house"></i> হোম
@@ -1421,6 +1427,7 @@
                 <i class="bi bi-journal-text"></i> ব্লগ
             </a>
 
+            <span class="nav-divider"></span>
             <a href="{{ route('order.track') }}" class="nav-item nav-item--track">
                 <i class="bi bi-truck"></i> অর্ডার ট্র্যাক
             </a>
@@ -1438,13 +1445,78 @@
 </div>
 
 <style>
+    /* ══ SIDEBAR DRAWER ══ */
     #sidebar-drawer {
-        position: fixed; top: 0; left: -300px; width: 300px; height: 100vh;
-        background: #fff; z-index: 99999999; transition: all 0.3s ease;
-        overflow-y: auto; box-shadow: 10px 0 30px rgba(0,0,0,0.1);
+        position: fixed;
+        top: 0;
+        left: -310px;
+        width: 300px;
+        height: 100vh;
+        background: #fff;
+        z-index: 2000000000; /* above everything including search bar */
+        transition: left 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 10px 0 30px rgba(0,0,0,0.15);
     }
     #sidebar-drawer.is-open { left: 0; }
-    #sidebar-drawer .sidebar { width: 100% !important; display: block !important; border: none !important; box-shadow: none !important; margin: 0 !important; height: auto !important; position: static !important; }
+
+    /* Overlay also above search */
+    .sidebar-overlay {
+        z-index: 1999999999 !important;
+    }
+
+    /* Sticky header inside drawer */
+    #sidebar-drawer .sb-head {
+        flex-shrink: 0;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+    }
+
+    /* The sidebar content area scrolls — NOT the whole drawer */
+    #sidebar-drawer .sidebar {
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        flex: 1 !important;
+        min-height: 0 !important; /* critical for flex scroll */
+        border: none !important;
+        box-shadow: none !important;
+        margin: 0 !important;
+        position: static !important;
+        overflow: hidden !important;
+        max-height: none !important;
+    }
+
+    /* .cat-scroll-body scrolls inside the drawer — sb-head stays sticky */
+    #sidebar-drawer .cat-scroll-body {
+        flex: 1 !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        scrollbar-width: thin !important;
+        scrollbar-color: #ddd transparent !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+    #sidebar-drawer .cat-scroll-body::-webkit-scrollbar {
+        width: 4px;
+    }
+    #sidebar-drawer .cat-scroll-body::-webkit-scrollbar-thumb {
+        background: #ddd;
+        border-radius: 4px;
+    }
+
+    /* Mobile Sub-menu Toggle Styles */
+    @media (max-width: 991px) {
+        .sub-menu.is-open, .child-menu.is-open {
+            max-height: 2000px !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+        .cat-arrow.rotate, .sub-arrow.rotate {
+            transform: rotate(180deg) !important;
+        }
+    }
 </style>
 
 <script>
@@ -1454,8 +1526,53 @@
         if (!drawer || !overlay) return;
         var isOpen = drawer.classList.toggle('is-open');
         overlay.classList.toggle('active', isOpen);
+        document.body.classList.toggle('drawer-open', isOpen);
         document.body.style.overflow = isOpen ? 'hidden' : '';
-        document.body.style.overflow = isOpen ? 'hidden' : '';
+    }
+
+    // Mobile Category Toggles
+    document.addEventListener('DOMContentLoaded', function() {
+        // Handle Category Toggles – close other open sub-menus first
+        document.querySelectorAll('#sidebar-drawer .cat-row').forEach(row => {
+            const arrow = row.querySelector('.cat-arrow');
+            if (arrow) {
+                arrow.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    // Close other sub-menus
+                    document.querySelectorAll('#sidebar-drawer .sub-menu.is-open').forEach(sm => sm.classList.remove('is-open'));
+                    document.querySelectorAll('#sidebar-drawer .cat-arrow.rotate').forEach(ar => ar.classList.remove('rotate'));
+                    const subMenu = row.nextElementSibling;
+                    if (subMenu && subMenu.classList.contains('sub-menu')) {
+                        subMenu.classList.toggle('is-open');
+                        arrow.classList.toggle('rotate');
+                    }
+                });
+            }
+        });
+
+        // Handle Sub-category Toggles – close other open child-menus first
+        document.querySelectorAll('#sidebar-drawer .sub-row').forEach(row => {
+            const arrow = row.querySelector('.sub-arrow');
+            if (arrow) {
+                arrow.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    // Close other child-menus
+                    document.querySelectorAll('#sidebar-drawer .child-menu.is-open').forEach(cm => cm.classList.remove('is-open'));
+                    document.querySelectorAll('#sidebar-drawer .sub-arrow.rotate').forEach(ar => ar.classList.remove('rotate'));
+                    const childMenu = row.nextElementSibling;
+                    if (childMenu && childMenu.classList.contains('child-menu')) {
+                        childMenu.classList.toggle('is-open');
+                        arrow.classList.toggle('rotate');
+                    }
+                });
+            }
+        });
+    });
+
+    function toggleOutsideSidebar() {
+        toggleSidebar();
     }
 
     /* Mobile: toggle dropdown on tap */

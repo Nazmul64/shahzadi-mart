@@ -89,6 +89,7 @@
 
     @php
         $latestLanding = $navLanding ?? null;
+        $pLimit = ($gs->site_layout_width == 'boxed') ? 8 : 10;
     @endphp
 
     <div class="smhome-hero">
@@ -111,8 +112,6 @@
                 @endforeach
             </div>
         </div>
-
-
     </div>
 
     @if($latestLanding)
@@ -164,7 +163,7 @@
                     $revAvg   = $item->reviews_avg_rating ?? 0;
                     $revCount = $item->reviews_count ?? 0;
                 @endphp
-                <div class="smhome-p-item {{ $index >= 10 ? 'smhome-p-hidden' : '' }}" style="position:relative">
+                <div class="smhome-p-item {{ $index >= $pLimit ? 'smhome-p-hidden' : '' }}" style="position:relative">
                     <a href="{{ route('wishlist.add', $item->id) }}"
                        class="smhome-p-wish" title="উইশলিস্টে যোগ করুন"
                        onclick="event.stopPropagation()">
@@ -192,7 +191,17 @@
                                 @endif
                             </div>
                             <div class="smhome-p-meta">
-                                @if(!$item->is_unlimited && $item->stock !== null && $item->stock <= 10)
+                                @if($inStock)
+                                    <p class="smhome-p-available text-success">
+                                        <i class="bi bi-check-circle-fill"></i> স্টক এভেইলেবল
+                                    </p>
+                                @else
+                                    <p class="smhome-p-available text-danger">
+                                        <i class="bi bi-x-circle-fill"></i> স্টক আউট
+                                    </p>
+                                @endif
+                                
+                                @if(!$item->is_unlimited && $item->stock !== null && $item->stock > 0 && $item->stock <= 10)
                                     <p class="smhome-p-stock">
                                         <i class="bi bi-fire" style="font-size:10px"></i> {{ $item->stock }} left
                                     </p>
@@ -228,9 +237,9 @@
                 </div>
             @endforeach
         </div>
-        @if($flashProducts->count() > 10)
+        @if($flashProducts->count() > $pLimit)
             <div class="smhome-load-more-wrap">
-                <button class="smhome-load-more-btn" data-target="sec-flash">
+                <button class="smhome-load-more-btn" data-target="sec-flash" data-limit="{{ $pLimit }}">
                     লোড মোর <i class="bi bi-plus-lg"></i>
                 </button>
             </div>
@@ -256,7 +265,7 @@
                     $revAvg   = $item->reviews_avg_rating ?? 0;
                     $revCount = $item->reviews_count ?? 0;
                 @endphp
-                <div class="smhome-p-item {{ $index >= 10 ? 'smhome-p-hidden' : '' }}" style="position:relative">
+                <div class="smhome-p-item {{ $index >= $pLimit ? 'smhome-p-hidden' : '' }}" style="position:relative">
                     <a href="{{ route('wishlist.add', $item->id) }}"
                        class="smhome-p-wish" title="উইশলিস্টে যোগ করুন"
                        onclick="event.stopPropagation()">
@@ -283,7 +292,17 @@
                                     @endif
                                 </div>
                                 <div class="smhome-p-meta">
-                                    @if(!$item->is_unlimited && $item->stock !== null && $item->stock <= 10)
+                                    @if($inStock)
+                                        <p class="smhome-p-available text-success">
+                                            <i class="bi bi-check-circle-fill"></i> স্টক এভেইলেবল
+                                        </p>
+                                    @else
+                                        <p class="smhome-p-available text-danger">
+                                            <i class="bi bi-x-circle-fill"></i> স্টক আউট
+                                        </p>
+                                    @endif
+
+                                    @if(!$item->is_unlimited && $item->stock !== null && $item->stock > 0 && $item->stock <= 10)
                                         <p class="smhome-p-stock">
                                             <i class="bi bi-fire" style="font-size:10px"></i> {{ $item->stock }} left
                                         </p>
@@ -320,9 +339,9 @@
                 </div>
             @endforeach
         </div>
-        @if($newArrivals->count() > 10)
+        @if($newArrivals->count() > $pLimit)
             <div class="smhome-load-more-wrap">
-                <button class="smhome-load-more-btn" data-target="sec-new">
+                <button class="smhome-load-more-btn" data-target="sec-new" data-limit="{{ $pLimit }}">
                     লোড মোর <i class="bi bi-plus-lg"></i>
                 </button>
             </div>
@@ -348,7 +367,7 @@
                     $revAvg   = $item->reviews_avg_rating ?? 0;
                     $revCount = $item->reviews_count ?? 0;
                 @endphp
-                <div class="smhome-p-item {{ $index >= 10 ? 'smhome-p-hidden' : '' }}" style="position:relative">
+                <div class="smhome-p-item {{ $index >= $pLimit ? 'smhome-p-hidden' : '' }}" style="position:relative">
                     <a href="{{ route('wishlist.add', $item->id) }}"
                        class="smhome-p-wish" title="উইশলিস্টে যোগ করুন"
                        onclick="event.stopPropagation()">
@@ -375,7 +394,17 @@
                                     @endif
                                 </div>
                                 <div class="smhome-p-meta">
-                                    @if(!$item->is_unlimited && $item->stock !== null && $item->stock <= 10)
+                                    @if($inStock)
+                                        <p class="smhome-p-available text-success">
+                                            <i class="bi bi-check-circle-fill"></i> স্টক এভেইলেবল
+                                        </p>
+                                    @else
+                                        <p class="smhome-p-available text-danger">
+                                            <i class="bi bi-x-circle-fill"></i> স্টক আউট
+                                        </p>
+                                    @endif
+
+                                    @if(!$item->is_unlimited && $item->stock !== null && $item->stock > 0 && $item->stock <= 10)
                                         <p class="smhome-p-stock">
                                             <i class="bi bi-fire" style="font-size:10px"></i> {{ $item->stock }} left
                                         </p>
@@ -412,9 +441,9 @@
                 </div>
             @endforeach
         </div>
-        @if($bestSellers->count() > 10)
+        @if($bestSellers->count() > $pLimit)
             <div class="smhome-load-more-wrap">
-                <button class="smhome-load-more-btn" data-target="sec-best">
+                <button class="smhome-load-more-btn" data-target="sec-best" data-limit="{{ $pLimit }}">
                     লোড মোর <i class="bi bi-plus-lg"></i>
                 </button>
             </div>
@@ -546,19 +575,19 @@ $(document).ready(function(){
     // Load More Logic
     $('.smhome-load-more-btn').on('click', function() {
         var targetId = $(this).data('target');
+        var limit    = parseInt($(this).data('limit')) || 10;
         var $container = $('#' + targetId);
         var $hiddenItems = $container.find('.smhome-p-hidden');
         
-        // Show next 10 items
-        $hiddenItems.slice(0, 10).each(function(index) {
+        // Show next batch of items
+        $hiddenItems.slice(0, limit).each(function(index) {
             var $item = $(this);
             $item.css('display', 'block');
             setTimeout(function() {
                 $item.removeClass('smhome-p-hidden').addClass('smhome-p-reveal');
-            }, index * 50); // Staggered animation
+            }, index * 50);
         });
 
-        // Hide button if no more items
         if ($container.find('.smhome-p-hidden').length === 0) {
             $(this).parent().fadeOut();
         }
@@ -582,6 +611,17 @@ $(document).ready(function(){
         opacity: 1;
         transform: translateY(0);
     }
+}
+.smhome-p-available {
+    font-size: 11px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.smhome-p-available i {
+    font-size: 10px;
 }
 .smhome-load-more-wrap {
     display: flex;

@@ -11,6 +11,7 @@ use App\Models\Category;
 use App\Models\Generalsetting;
 use App\Models\FooterSetting;
 use App\Models\Aiprompt;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -21,6 +22,8 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        Paginator::useBootstrapFive();
+
         // ─── Global View Composer — frontend view-এ automatically share হবে ───
         // NOTE: '*' এর বদলে specific patterns — এতে admin/sub-views-এ
         //       unnecessary queries হবে না।
@@ -29,11 +32,16 @@ class AppServiceProvider extends ServiceProvider
 
             $view->with([
                 'sidebarCategories' => Category::where('status', 'active')
+                        ->orderBy('category_name', 'asc')
                         ->with([
                             'subCategories' => function ($q) {
                                 $q->where('status', 'active')
+                                  ->orderBy('sub_name', 'asc')
                                   ->with([
-                                      'childCategories' => fn($q2) => $q2->where('status', 'active')
+                                      'childCategories' => function ($q2) {
+                                          $q2->where('status', 'active')
+                                             ->orderBy('child_sub_name', 'asc');
+                                      }
                                   ]);
                             }
                         ])
@@ -53,6 +61,7 @@ class AppServiceProvider extends ServiceProvider
                         'pages' => fn($q) => $q->where('status', 1)
                     ])->get(),
 
+                'aboutCompany'           => \App\Models\AboutForCompany::first(),
                 'navLanding' => \App\Models\LandingPage::where('status', 1)->latest()->first(),
                 'sharedDeliveryInfo' => \App\Models\DeliveryInformation::first(),
             ]);

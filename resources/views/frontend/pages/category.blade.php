@@ -6,99 +6,121 @@
         <span>All Categories</span>
     </div>
 
+    <div class="cat-scroll-body">
     @foreach($sidebarCategories as $ci => $cat)
 
-        <div class="cat-row" onclick="toggleCat(this)" data-ci="{{ $ci }}">
-            <div class="cat-row__left">
-                <a href="{{ route('category.page', $cat->slug) }}"
-                   class="cat-row__label"
-                   onclick="event.stopPropagation()">{{ $cat->category_name }}</a>
+        <div class="cat-wrapper">
+            <div class="cat-row">
+                <div class="cat-row__left">
+                    <a href="{{ route('category.page', $cat->slug) }}"
+                       class="cat-row__label">{{ $cat->category_name }}</a>
+                </div>
+                @if($cat->subCategories->count())
+                    <i class="bi bi-chevron-down cat-arrow"></i>
+                @endif
             </div>
+
             @if($cat->subCategories->count())
-                <i class="bi bi-chevron-down cat-arrow"></i>
+                <div class="sub-menu">
+
+                    @foreach($cat->subCategories as $si => $sub)
+
+                        <div class="sub-row-wrapper">
+                            <div class="sub-row">
+                                <a href="{{ route('subcategory.page', [$cat->slug, $sub->slug]) }}"
+                                   class="sub-row__label">{{ $sub->sub_name }}</a>
+                                @if($sub->childCategories->count())
+                                    <i class="bi bi-chevron-right sub-arrow"></i>
+                                @endif
+                            </div>
+
+                            @if($sub->childCategories->count())
+                                <div class="child-menu">
+                                    @foreach($sub->childCategories as $child)
+                                        <a href="{{ route('childcategory.page', [
+                                                $cat->slug,
+                                                $sub->slug,
+                                                $child->slug
+                                            ]) }}"
+                                           class="child-item">
+                                            {{ $child->child_sub_name }}
+                                        </a>
+                                    @endforeach
+                                </div>
+                            @endif
+                        </div>
+
+                    @endforeach
+
+                </div>
             @endif
         </div>
 
-        @if($cat->subCategories->count())
-            <div class="sub-menu" id="sub-{{ $ci }}">
-
-                @foreach($cat->subCategories as $si => $sub)
-
-                    <div class="sub-row"
-                         onclick="toggleSub(this, event)"
-                         data-si="{{ $ci }}-{{ $si }}">
-                        <a href="{{ route('subcategory.page', [$cat->slug, $sub->slug]) }}"
-                           class="sub-row__label"
-                           onclick="event.stopPropagation()">{{ $sub->sub_name }}</a>
-                        @if($sub->childCategories->count())
-                            <i class="bi bi-chevron-right sub-arrow"></i>
-                        @endif
-                    </div>
-
-                    @if($sub->childCategories->count())
-                        <div class="child-menu" id="child-{{ $ci }}-{{ $si }}">
-                            @foreach($sub->childCategories as $child)
-                                <a href="{{ route('childcategory.page', [
-                                        $cat->slug,
-                                        $sub->slug,
-                                        $child->slug
-                                    ]) }}"
-                                   class="child-item">
-                                    {{ $child->child_sub_name }}
-                                </a>
-                            @endforeach
-                        </div>
-                    @endif
-
-                @endforeach
-
-            </div>
-        @endif
-
     @endforeach
+    </div>{{-- /.cat-scroll-body --}}
 
 </aside>
 
-<script>
-function toggleCat(row) {
-    const ci = row.dataset.ci;
-    const isOpen = row.classList.contains('open');
+<style>
+/* ── PURE CSS HOVER LOGIC ── */
 
-    document.querySelectorAll('.cat-row.open').forEach(r => {
-        r.classList.remove('open');
-        const sm = document.getElementById('sub-' + r.dataset.ci);
-        if (sm) {
-            sm.classList.remove('open');
-            sm.querySelectorAll('.sub-row.open').forEach(sr => {
-                sr.classList.remove('open');
-                const cm = document.getElementById('child-' + sr.dataset.si);
-                if (cm) cm.classList.remove('open');
-            });
-        }
-    });
-
-    if (!isOpen) {
-        row.classList.add('open');
-        document.getElementById('sub-' + ci)?.classList.add('open');
-    }
+/* 1. Base states: Hidden by default */
+.sub-menu, .child-menu {
+    max-height: 0 !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    overflow: hidden !important;
+    transition: max-height 0.3s ease-in-out, opacity 0.2s ease !important;
+    display: block !important; /* Ensure it's not display:none */
 }
 
-function toggleSub(row, e) {
-    e.stopPropagation();
-    const si = row.dataset.si;
-    const childMenu = document.getElementById('child-' + si);
-    if (!childMenu) return;
-
-    const isOpen = row.classList.contains('open');
-
-    row.closest('.sub-menu')?.querySelectorAll('.sub-row.open').forEach(sr => {
-        sr.classList.remove('open');
-        document.getElementById('child-' + sr.dataset.si)?.classList.remove('open');
-    });
-
-    if (!isOpen) {
-        row.classList.add('open');
-        childMenu.classList.add('open');
-    }
+/* 2. Hover states: Show when parent is hovered */
+.cat-wrapper:hover > .sub-menu {
+    max-height: 2000px !important; /* Large enough for content */
+    opacity: 1 !important;
+    visibility: visible !important;
 }
-</script>
+
+.sub-row-wrapper:hover > .child-menu {
+    max-height: 1000px !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* 3. Visual indicators (arrows and background) */
+.cat-wrapper:hover > .cat-row {
+    background: rgba(200, 16, 46, .04) !important;
+}
+.cat-wrapper:hover .cat-arrow {
+    transform: rotate(180deg) !important;
+    color: var(--red) !important;
+}
+
+.sub-row-wrapper:hover > .sub-row {
+    background: rgba(200, 16, 46, .07) !important;
+    color: var(--red) !important;
+}
+.sub-row-wrapper:hover .sub-arrow {
+    transform: rotate(90deg) !important;
+    color: var(--red) !important;
+}
+
+/* 4. Fix for any persistent 'open' classes from other JS */
+.sub-menu.open, .child-menu.open {
+    max-height: 0; 
+}
+.cat-wrapper:hover > .sub-menu.open, 
+.sub-row-wrapper:hover > .child-menu.open {
+    max-height: 2000px;
+}
+
+/* 5. Sub-menu row spacing */
+.cat-wrapper {
+    position: relative;
+    width: 100%;
+}
+.sub-row-wrapper {
+    position: relative;
+    width: 100%;
+}
+</style>

@@ -31,9 +31,7 @@
 
   // ── Stock ────────────────────────────────────────────────────────────
   $inStock    = $product->is_unlimited || ($product->stock ?? 0) > 0;
-  $stockLabel = $product->is_unlimited
-                  ? 'স্টকে আছে'
-                  : ($product->stock > 0 ? $product->stock . ' টি বাকি আছে' : 'স্টক শেষ');
+  $stockLabel = $inStock ? 'স্টক এভেইলেবল' : 'স্টক আউট';
 
   // ── Category names ───────────────────────────────────────────────────
   $categoryName = $product->category->category_name ?? '';

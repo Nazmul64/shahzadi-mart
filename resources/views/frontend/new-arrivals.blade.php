@@ -100,6 +100,22 @@
                     <div class="na-img-wrap"><img class="na-img" src="{{ asset('uploads/products/' . $item->feature_image) }}" alt="{{ $item->name }}" loading="lazy"></div>
                     <div class="na-body">
                         <a href="{{ route('product.detail', $item->slug) }}" class="na-name" onclick="event.stopPropagation()">{{ $item->name }}</a>
+                        
+                        @php
+                            $inStock = $item->is_unlimited || ($item->stock ?? 0) > 0;
+                        @endphp
+                        <div class="smp-stock-status mb-1 mt-1">
+                            @if($inStock)
+                                <span class="smhome-p-available text-success">
+                                    <i class="bi bi-check-circle-fill"></i> স্টক এভেইলেবল
+                                </span>
+                            @else
+                                <span class="smhome-p-available text-danger">
+                                    <i class="bi bi-x-circle-fill"></i> স্টক আউট
+                                </span>
+                            @endif
+                        </div>
+
                         <div style="margin-bottom:10px;">
                             <span class="na-price">৳ {{ number_format($displayPrice, 0) }}</span>
                             @if($item->discount_price) <span class="na-old">৳ {{ number_format($item->current_price, 0) }}</span> @endif

@@ -109,22 +109,51 @@
 
                 {{-- Payment Methods --}}
                 <div class="col-12 col-md-6">
-                    <h5 class="mb-3">Enabled Payment Methods</h5>
-                    <div class="row g-2">
+                    <h5 class="mb-3">Enabled Payment Methods & Logos</h5>
+                    <div class="payment-methods-admin">
                         @php
-                            $methods = ['VISA', 'M-PESA', 'PAYPAL', 'MASTERCARD', 'AIRTEL'];
-                            $enabledMethods = $setting->payment_methods ?? [];
+                            $allPossibleMethods = ['VISA', 'M-PESA', 'PAYPAL', 'MASTERCARD', 'AIRTEL', 'BKASH', 'NAGAD', 'ROCKET'];
+                            $currentData = $setting->payment_methods ?? [];
                         @endphp
-                        @foreach($methods as $method)
-                        <div class="col-6 col-sm-4">
-                            <div class="form-check card p-2">
-                                <input class="form-check-input ms-1" type="checkbox" name="payment_methods[]" value="{{ $method }}" id="pay_{{ $method }}" {{ in_array($method, $enabledMethods) ? 'checked' : '' }}>
-                                <label class="form-check-label ms-4" for="pay_{{ $method }}">
-                                    {{ $method }}
-                                </label>
-                            </div>
+                        
+                        <div class="table-responsive">
+                            <table class="table table-bordered align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th width="50">Enable</th>
+                                        <th>Method Name</th>
+                                        <th>Logo</th>
+                                        <th>Upload New</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($allPossibleMethods as $method)
+                                        @php
+                                            $isEnabled = is_array($currentData) && array_key_exists($method, $currentData);
+                                            $logo = $isEnabled ? $currentData[$method] : null;
+                                        @endphp
+                                        <tr>
+                                            <td class="text-center">
+                                                <input class="form-check-input" type="checkbox" name="payment_methods[]" value="{{ $method }}" id="pay_{{ $method }}" {{ $isEnabled ? 'checked' : '' }}>
+                                            </td>
+                                            <td>
+                                                <label class="form-check-label fw-bold" for="pay_{{ $method }}">{{ $method }}</label>
+                                            </td>
+                                            <td class="text-center">
+                                                @if($logo)
+                                                    <img src="{{ asset('uploads/avator/' . $logo) }}" class="img-thumbnail" style="height: 30px; max-width: 60px;">
+                                                @else
+                                                    <span class="text-muted small">No Logo</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <input type="file" name="payment_logos[{{ $method }}]" class="form-control form-control-sm" accept="image/*">
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
-                        @endforeach
                     </div>
                 </div>
 

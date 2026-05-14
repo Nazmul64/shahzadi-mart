@@ -169,6 +169,23 @@
                         </div>
                         <div class="smp-card-body">
                             <a href="{{ route('product.detail', $item->slug) }}" class="smp-card-name">{{ $item->name }}</a>
+
+                            @php
+                                $inStock = $item->is_unlimited || ($item->stock ?? 0) > 0;
+                            @endphp
+
+                            <div class="smp-stock-status mb-2">
+                                @if($inStock)
+                                    <span class="smhome-p-available text-success">
+                                        <i class="bi bi-check-circle-fill"></i> স্টক এভেইলেবল
+                                    </span>
+                                @else
+                                    <span class="smhome-p-available text-danger">
+                                        <i class="bi bi-x-circle-fill"></i> স্টক আউট
+                                    </span>
+                                @endif
+                            </div>
+
                             <p class="smp-card-price">৳ {{ number_format($item->discount_price ?? $item->current_price, 0) }}</p>
                             @if($item->discount_price)
                                 <p class="smp-card-old">৳ {{ number_format($item->current_price, 0) }}</p>

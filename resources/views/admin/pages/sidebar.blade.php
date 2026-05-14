@@ -643,25 +643,6 @@ body.sb-collapsed .sb-user-info, body.sb-collapsed .sb-logout-btn { display: non
 </div>
 @endif
 
-{{-- Affiliate Products --}}
-@if($u->isSuperAdmin() || $u->hasAnyPermission(['view-products','create-products']))
-<div class="sb-item {{ $affActive ? 'active open' : '' }}" onclick="sbToggle(this)">
-    <span class="sb-left"><i class="bi bi-share-fill sb-ico"></i><span class="sb-text">Affiliate Products</span></span>
-    <i class="bi bi-chevron-right sb-arr"></i>
-</div>
-<div class="sb-sub {{ $affActive ? 'open' : '' }}">
-    <div class="sb-sub-inner">
-        <a href="{{ route('admin.affiliateproduct.index') }}" class="{{ request()->routeIs('admin.affiliateproduct.index') ? 'active' : '' }}">
-            <i class="bi bi-view-list"></i> All Affiliates
-        </a>
-        @if($u->isSuperAdmin() || $u->hasPermission('create-products'))
-        <a href="{{ route('admin.affiliateproduct.create') }}" class="{{ request()->routeIs('admin.affiliateproduct.create') ? 'active' : '' }}">
-            <i class="bi bi-plus-lg"></i> Add Affiliate
-        </a>
-        @endif
-    </div>
-</div>
-@endif
 
 {{-- ════ MARKETING & CRM ════ --}}
 @if($u->isSuperAdmin() || $u->hasAnyPermission(['view-users','create-users','view-orders']))
@@ -845,15 +826,6 @@ body.sb-collapsed .sb-user-info, body.sb-collapsed .sb-logout-btn { display: non
         </a>
         <a href="{{ route('admin.mail.index') }}" class="{{ request()->routeIs('admin.mail.*') ? 'active' : '' }}">
             <i class="bi bi-envelope-at-fill"></i> Mail Configuration
-        </a>
-        <a href="{{ route('admin.pixels.index') }}" class="{{ request()->routeIs('admin.pixels.*') ? 'active' : '' }}">
-            <i class="bi bi-code-slash"></i> Pixel Scripts
-        </a>
-        <a href="{{ route('admin.googletagmanager.index') }}" class="{{ request()->routeIs('admin.googletagmanager.*') ? 'active' : '' }}">
-            <i class="bi bi-google"></i> Tag Manager
-        </a>
-        <a href="{{ route('admin.campaigncreate.index') }}" class="{{ request()->routeIs('admin.campaigncreate.*') ? 'active' : '' }}">
-            <i class="bi bi-megaphone-fill"></i> Campaigns
         </a>
         <a href="{{ route('admin.shipping.index') }}" class="{{ request()->routeIs('admin.shipping.*') ? 'active' : '' }}">
             <i class="bi bi-truck-flatbed"></i> Shipping Charges

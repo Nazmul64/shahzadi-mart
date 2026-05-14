@@ -198,11 +198,23 @@
                             <div class="form-group mb-3">
                                 <label class="form-label fw-600">Font Family</label>
                                 <select name="font_family" class="form-select">
-                                    <option value="Plus Jakarta Sans" {{ $setting->font_family == 'Plus Jakarta Sans' ? 'selected' : '' }}>Plus Jakarta Sans (Modern)</option>
-                                    <option value="'Inter', sans-serif" {{ $setting->font_family == "'Inter', sans-serif" ? 'selected' : '' }}>Inter (Clean)</option>
-                                    <option value="'Roboto', sans-serif" {{ $setting->font_family == "'Roboto', sans-serif" ? 'selected' : '' }}>Roboto (Classic)</option>
-                                    <option value="'Outfit', sans-serif" {{ $setting->font_family == "'Outfit', sans-serif" ? 'selected' : '' }}>Outfit (Premium)</option>
-                                    <option value="'Poppins', sans-serif" {{ $setting->font_family == "'Poppins', sans-serif" ? 'selected' : '' }}>Poppins (Trendy)</option>
+                                    <option value="Plus Jakarta Sans" {{ $setting->font_family == 'Plus Jakarta Sans' ? 'selected' : '' }}>Plus Jakarta Sans (Modern & Clean)</option>
+                                    <option value="Inter" {{ $setting->font_family == 'Inter' ? 'selected' : '' }}>Inter (UI Specialized)</option>
+                                    <option value="Roboto" {{ $setting->font_family == 'Roboto' ? 'selected' : '' }}>Roboto (Universal)</option>
+                                    <option value="Poppins" {{ $setting->font_family == 'Poppins' ? 'selected' : '' }}>Poppins (Geometric & Trendy)</option>
+                                    <option value="Montserrat" {{ $setting->font_family == 'Montserrat' ? 'selected' : '' }}>Montserrat (Elegant & Classic)</option>
+                                    <option value="Outfit" {{ $setting->font_family == 'Outfit' ? 'selected' : '' }}>Outfit (Premium & Stylish)</option>
+                                    <option value="Open Sans" {{ $setting->font_family == 'Open Sans' ? 'selected' : '' }}>Open Sans (Highly Readable)</option>
+                                    <option value="Lato" {{ $setting->font_family == 'Lato' ? 'selected' : '' }}>Lato (Friendly & Professional)</option>
+                                    <option value="Raleway" {{ $setting->font_family == 'Raleway' ? 'selected' : '' }}>Raleway (Sophisticated)</option>
+                                    <option value="Nunito" {{ $setting->font_family == 'Nunito' ? 'selected' : '' }}>Nunito (Rounded & Soft)</option>
+                                    <option value="Ubuntu" {{ $setting->font_family == 'Ubuntu' ? 'selected' : '' }}>Ubuntu (Unique Character)</option>
+                                    <option value="Oswald" {{ $setting->font_family == 'Oswald' ? 'selected' : '' }}>Oswald (Condensed & Strong)</option>
+                                    <option value="Merriweather" {{ $setting->font_family == 'Merriweather' ? 'selected' : '' }}>Merriweather (Serif - Elegant)</option>
+                                    <option value="Playfair Display" {{ $setting->font_family == 'Playfair Display' ? 'selected' : '' }}>Playfair Display (Serif - Luxury)</option>
+                                    <option value="Lora" {{ $setting->font_family == 'Lora' ? 'selected' : '' }}>Lora (Serif - Contemporary)</option>
+                                    <option value="Quicksand" {{ $setting->font_family == 'Quicksand' ? 'selected' : '' }}>Quicksand (Playful & Rounded)</option>
+                                    <option value="Kanit" {{ $setting->font_family == 'Kanit' ? 'selected' : '' }}>Kanit (Modern Thai/English)</option>
                                 </select>
                             </div>
                         </div>
