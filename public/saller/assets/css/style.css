@@ -893,6 +893,7 @@ body {
         /* Responsive */
         @media (min-width: 992px) {
             .sidebar {
+                left: 0;
                 top: 20px;
                 left: 20px;
                 height: calc(100vh - 40px);
@@ -909,8 +910,8 @@ body {
             }
 
             .main-content {
-                margin-left: 320px; /* 280 sidebar + 40 margin */
-            }
+    margin-left: 260px; /* Align with sidebar width */
+}
 
             .top-navbar {
                 border-radius: 16px;

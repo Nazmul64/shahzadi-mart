@@ -163,22 +163,30 @@
 
         <div class="pdp__info">
           <h1 class="pdp__title">{{ $product->name }}</h1>
+          
           <div class="pdp__meta-row"><span>SKU:</span> <strong>{{ $product->sku ?? 'N/A' }}</strong></div>
           <div class="pdp__meta-row"><span>Availability:</span> <strong style="color: {{ $inStock ? '#16a34a' : 'var(--red)' }}">{{ $stockLabel }}</strong></div>
+
+          @if(!$product->vendor)
+            <div class="pdp__meta-row"><span>SKU:</span> <strong>{{ $product->sku ?? 'N/A' }}</strong></div>
+            <div class="pdp__meta-row"><span>Availability:</span> <strong style="color: {{ $inStock ? '#16a34a' : 'var(--red)' }}">{{ $stockLabel }}</strong></div>
+          @endif
 
           <div class="pdp__price-block">
             <span class="pdp__price-cur">৳{{ round($displayPrice, 2) }}</span>
             @if($originalPrice) <span class="pdp__price-old">৳{{ round($originalPrice, 2) }}</span> @endif
+            @if($discountPct)
+                <span class="pdp__discount-tag">{{ $discountPct }}% OFF</span>
+            @endif
           </div>
 
           {{-- ── COLORS ── --}}
           @if(isset($productColors) && $productColors->count())
             <div class="pdp__opt-group">
-              <label class="pdp__opt-label">রঙ: <span class="pdp__opt-selected" id="pdpColorSel"></span></label>
+              <label class="pdp__opt-label">Color:</label>
               <div class="pdp__opt-btns">
                 @foreach($productColors as $color)
                   <button class="pdp__opt-btn" data-group="color" data-value="{{ $color->name }}">
-                    @if($color->hex_code) <span style="background:{{ $color->hex_code }}; width:12px; height:12px; border-radius:50%; display:inline-block; margin-right:5px; border:1px solid #ddd;"></span> @endif
                     {{ $color->name }}
                   </button>
                 @endforeach
@@ -189,7 +197,7 @@
           {{-- ── SIZES ── --}}
           @if(isset($productSizes) && $productSizes->count())
             <div class="pdp__opt-group">
-              <label class="pdp__opt-label">সাইজ: <span class="pdp__opt-selected" id="pdpSizeSel"></span></label>
+              <label class="pdp__opt-label">Size:</label>
               <div class="pdp__opt-btns">
                 @foreach($productSizes as $size)
                   <button class="pdp__opt-btn" data-group="size" data-value="{{ $size->name }}">{{ $size->name }}</button>
@@ -199,7 +207,6 @@
           @endif
 
           <div class="pdp__qty-group">
-            <label class="pdp__opt-label">পরিমাণ:</label>
             <div class="pdp__qty-row">
               <button id="pdpQtyDec" class="pdp__qty-btn">-</button>
               <input type="text" id="pdpQtyInput" value="1" readonly class="pdp__qty-input"/>
@@ -209,84 +216,36 @@
 
           <div class="pdp__actions">
             @if(!$inStock)
-              <button class="pdp__btn" style="opacity:.5" disabled>স্টক শেষ</button>
+              <button class="pdp__btn" style="opacity:.5" disabled>স্টক নেই</button>
             @else
-              <button id="pdpAddCart" class="pdp__btn pdp__btn--cart" data-url="{{ $cartAddUrl }}">কার্টে যোগ করুন</button>
-              <button id="pdpBuyNow" class="pdp__btn pdp__btn--buy" data-url="{{ $cartAddUrl }}">অর্ডার করুন</button>
+              <button id="pdpAddCart" class="pdp__btn pdp__btn--cart" data-url="{{ $cartAddUrl }}">
+                <i class="bi bi-cart"></i> Add to Cart
+              </button>
+              <button id="pdpBuyNow" class="pdp__btn pdp__btn--buy" data-url="{{ $cartAddUrl }}">Buy Now</button>
             @endif
-          </div>
-
-          <div class="pdp__contact-actions">
-            @if($phoneNumber)
-            <a href="tel:{{ $phoneNumber }}" class="pdp__contact-btn pdp__contact-btn--call">
-              <i class="fas fa-phone-alt"></i> কল করুন: {{ $phoneNumber }}
-            </a>
-            @endif
-
-            @php
-              // Handle both raw phone number or full URL for WhatsApp
-              $waLink = $whatsappNumber;
-              if ($whatsappNumber && !str_starts_with($whatsappNumber, 'http')) {
-                  $waLink = "https://wa.me/" . preg_replace('/[^\d]/', '', $whatsappNumber) . "?text=" . $whatsappText;
-              }
-            @endphp
-
-            @if($waLink)
-            <a href="{{ $waLink }}" target="_blank" rel="noopener" class="pdp__contact-btn pdp__contact-btn--whatsapp">
-              <i class="fab fa-whatsapp"></i> WhatsApp অর্ডার
-            </a>
-            @endif
-@if(isset($deliveryTimeWarning) && $deliveryTimeWarning->warning_text)
-    <div class="pdp__delivery-warning">
-        {!! nl2br(e($deliveryTimeWarning->warning_text)) !!}
-    </div>
-    @if(!empty($deliveryTimeWarning->button_text))
-        <button class="pdp__btn pdp__btn--warning">{{ $deliveryTimeWarning->button_text }}</button>
-    @endif
-@endif
           </div>
         </div>
 
-        {{-- ── DELIVERY SIDEBAR ── --}}
-        @if($deliveryInfo)
+        {{-- ── SIDEBAR ── --}}
         <div class="pdp__sidebar">
-            <div class="pdp__s-card">
-                <div class="pdp__card-head">
-                    <i class="fas fa-truck-moving me-2" style="color:var(--red)"></i> {{ $deliveryInfo->header_title ?? 'Delivery Information' }}
-                </div>
-                <div class="pdp__card-body">
-                    <div class="pdp__del-row">
-                        <div class="pdp__del-icon"><i class="fas fa-home"></i></div>
-                        <div>
-                            <div class="pdp__del-title">{{ $deliveryInfo->home_delivery_title }}</div>
-                            <div class="pdp__del-date">{{ $deliveryInfo->home_delivery_description }}</div>
-                        </div>
-                    </div>
-                    <div class="pdp__del-row">
-                        <div class="pdp__del-icon"><i class="fas fa-store"></i></div>
-                        <div>
-                            <div class="pdp__del-title">{{ $deliveryInfo->pickup_title }}</div>
-                            <div class="pdp__del-date">{{ $deliveryInfo->pickup_description }}</div>
-                        </div>
-                    </div>
-                    <div class="pdp__del-row">
-                        <div class="pdp__del-icon"><i class="fas fa-shield-alt"></i></div>
-                        <div>
-                            <div class="pdp__del-title">{{ $deliveryInfo->secure_title }}</div>
-                            <div class="pdp__del-date">{{ $deliveryInfo->secure_description }}</div>
-                        </div>
-                    </div>
-                    <div class="pdp__del-row">
-                        <div class="pdp__del-icon"><i class="fas fa-money-bill-wave"></i></div>
-                        <div>
-                            <div class="pdp__del-title">{{ $deliveryInfo->cod_title }}</div>
-                            <div class="pdp__del-date">{{ $deliveryInfo->cod_description }}</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {{-- Default Admin Sidebar --}}
+            @if($deliveryInfo)
+              <div class="pdp__s-card">
+                  <div class="pdp__card-head">
+                      <i class="fas fa-truck-moving me-2" style="color:var(--red)"></i> {{ $deliveryInfo->header_title ?? 'Delivery Information' }}
+                  </div>
+                  <div class="pdp__card-body">
+                      <div class="pdp__del-row">
+                          <div class="pdp__del-icon-admin"><i class="fas fa-home"></i></div>
+                          <div>
+                              <div class="pdp__del-title">{{ $deliveryInfo->home_delivery_title }}</div>
+                              <div class="pdp__del-date">{{ $deliveryInfo->home_delivery_description }}</div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+            @endif
         </div>
-        @endif
       </div>
     </div>
 
@@ -384,7 +343,7 @@
     @if($relatedProducts->isNotEmpty())
     <div class="pdp__wrap" style="margin-top: 40px;">
         <div class="pdp__related-head">
-            <h2 class="pdp__related-title">রিলেটেড প্রোডাক্ট</h2>
+            <h2 class="pdp__related-title">Similar Products</h2>
             <div class="pdp__related-line"></div>
         </div>
         
@@ -789,6 +748,199 @@
 
 .pdp__del-title { font-size: 13px; font-weight: 700; color: #1e293b; }
 .pdp__del-date { font-size: 12px; color: #64748b; margin-top: 2px; }
+
+/* ── BRAND & QUICK META ── */
+.pdp__brand-badge {
+    background: #fff0f3;
+    color: var(--primary);
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    display: inline-block;
+    margin-bottom: 12px;
+}
+.pdp__quick-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    color: #64748b;
+}
+.pdp__sep { color: #e2e8f0; }
+.pdp__share-trigger, .pdp__wish-trigger {
+    background: none;
+    border: none;
+    padding: 0;
+    color: #64748b;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.2s;
+}
+.pdp__share-trigger:hover, .pdp__wish-trigger:hover { color: var(--primary); }
+
+.pdp__discount-tag {
+    background: var(--primary);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-left: 10px;
+}
+
+/* ── SIDEBAR CARDS (Premium) ── */
+.pdp__side-card {
+    background: #f4f6f8;
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid transparent;
+}
+.pdp__side-card--delivery .pdp__del-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+.pdp__side-card--delivery .pdp__del-row:last-child { margin-bottom: 0; }
+.pdp__side-card--delivery .pdp__del-icon {
+    width: 44px;
+    height: 44px;
+    background: #fff;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: #475569;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+}
+.pdp__del-label { font-size: 13px; color: #64748b; }
+.pdp__del-val { font-size: 15px; font-weight: 800; color: #1e293b; }
+
+.pdp__side-card--seller { background: #f8fafc; }
+.pdp__sel-top { display: flex; align-items: center; gap: 12px; }
+.pdp__sel-logo { width: 50px; height: 50px; border-radius: 50%; overflow: hidden; background: #fff; padding: 3px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+.pdp__sel-logo img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+.pdp__sel-name-wrap { flex: 1; }
+.pdp__sel-label { font-size: 11px; color: #94a3b8; font-weight: 600; margin-bottom: 2px; }
+.pdp__sel-name { font-size: 14px; font-weight: 800; color: #1e293b; }
+.pdp__sel-rating { color: #f59e0b; font-size: 12px; font-weight: 800; display: flex; align-items: center; gap: 4px; }
+.pdp__sel-link { font-size: 13px; font-weight: 700; color: var(--primary); text-decoration: none !important; opacity: 0.8; transition: opacity 0.2s; }
+.pdp__sel-link:hover { opacity: 1; }
+
+/* ── POPULAR SECTION ── */
+.pdp__pop-sec { margin-top: 30px; }
+.pdp__pop-title { font-size: 15px; font-weight: 800; color: #1e293b; margin-bottom: 20px; }
+.pdp__pop-list { display: flex; flex-direction: column; gap: 20px; }
+.pdp__pop-item { display: flex; gap: 15px; }
+.pdp__pop-img { width: 85px; height: 85px; border-radius: 12px; overflow: hidden; background: #f1f5f9; flex-shrink: 0; }
+.pdp__pop-img img { width: 100%; height: 100%; object-fit: cover; }
+.pdp__pop-content { flex: 1; min-width: 0; }
+.pdp__pop-name { font-size: 13px; font-weight: 700; color: #334155; margin-bottom: 6px; line-height: 1.4; }
+.pdp__pop-price { font-size: 15px; font-weight: 800; color: var(--primary); margin-bottom: 4px; }
+.pdp__pop-meta { font-size: 11px; color: #94a3b8; margin-bottom: 8px; }
+.pdp__pop-buy { font-size: 12px; font-weight: 700; color: #475569; text-decoration: none !important; display: flex; align-items: center; gap: 5px; transition: color 0.2s; }
+.pdp__pop-buy:hover { color: var(--primary); }
+
+.pdp__btn--buy { background: #ff3e6c !important; border-radius: 8px !important; }
+.pdp__btn--cart { border: 1.5px solid #ff3e6c !important; color: #ff3e6c !important; border-radius: 8px !important; }
+
+/* ── SELLER CARD ── */
+.pdp__seller-card {
+    background: #fff;
+    border: 1px solid #f1f5f9;
+    border-radius: 12px;
+    overflow: hidden;
+}
+.pdp__seller-body {
+    padding: 16px;
+}
+.pdp__seller-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+.pdp__seller-logo {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    border: 1px solid #f1f5f9;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+.pdp__seller-logo img { width: 100%; height: 100%; object-fit: cover; }
+.pdp__seller-name-wrap { flex: 1; min-width: 0; }
+.pdp__seller-label { font-size: 11px; color: #64748b; font-weight: 600; margin-bottom: 2px; }
+.pdp__seller-name { font-size: 14px; font-weight: 800; color: #1e293b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pdp__seller-rating {
+    background: #fff8eb;
+    color: #f59e0b;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.pdp__seller-visit {
+    display: block;
+    width: 100%;
+    height: 40px;
+    border: 1.5px solid var(--primary);
+    color: var(--primary);
+    text-align: center;
+    line-height: 38px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none !important;
+    transition: all 0.2s;
+}
+.pdp__seller-visit:hover { background: var(--primary); color: #fff !important; }
+
+/* ── POPULAR SIDEBAR ── */
+.pdp__popular-side {
+    margin-top: 24px;
+}
+.pdp__popular-title {
+    font-size: 15px;
+    font-weight: 800;
+    color: #1e293b;
+    margin-bottom: 16px;
+    padding-left: 10px;
+    border-left: 3px solid var(--primary);
+}
+.pdp__popular-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.pdp__pop-item {
+    display: flex;
+    gap: 12px;
+    text-decoration: none !important;
+    transition: transform 0.2s;
+}
+.pdp__pop-item:hover { transform: translateX(5px); }
+.pdp__pop-img {
+    width: 70px;
+    height: 70px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #f8f9fa;
+    flex-shrink: 0;
+}
+.pdp__pop-img img { width: 100%; height: 100%; object-fit: cover; }
+.pdp__pop-info { flex: 1; min-width: 0; }
+.pdp__pop-name { font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 4px; line-height: 1.4; height: 36px; overflow: hidden; }
+.pdp__pop-price { font-size: 14px; font-weight: 800; color: var(--primary); margin-bottom: 2px; }
+.pdp__pop-meta { font-size: 11px; color: #94a3b8; }
 
 /* ── TABS ── */
 .pdp__tabs {

@@ -1,57 +1,48 @@
 @extends('saller.master')
 
 @section('main-content')
-<div class="main-content">
-    <div class="top-navbar">
-        <div class="d-flex align-items-center gap-3">
-            <button class="menu-toggle" onclick="toggleSidebar()">
-                <i class="bi bi-list"></i>
-            </button>
-            <div class="navbar-brand">
-                <i class="bi bi-shop"></i>
-                <span class="d-none d-sm-inline">SELLER <strong>PORTAL</strong></span>
+<div class="page-content bg-light pb-5">
+    <div class="container-fluid">
+        {{-- Header Section --}}
+        <div class="d-flex justify-content-between align-items-center mb-4 pt-2">
+            <div>
+                <h4 class="mb-1 fw-bold text-dark">Child Category List</h4>
+                <p class="text-muted small mb-0">Manage child-categories for your products</p>
             </div>
         </div>
-    </div>
 
-    <div class="page-content" style="background: #f4f7fa;">
-        <div class="page-header mb-4 px-3 pt-3">
-            <h2 class="page-title font-w700" style="font-size: 24px; color: #333;">Child Category List</h2>
-        </div>
-
-        <div class="data-card border-0 shadow-sm mx-3" style="border-radius: 10px; background: #fff;">
-            <div class="data-card-header px-4 py-3 border-bottom-0">
-                <h6 class="text-muted mb-0">Child Categories</h6>
-            </div>
-
-            <div class="table-responsive px-4 pb-4">
-                <table class="table align-middle">
-                    <thead class="text-uppercase small text-muted font-w600">
-                        <tr>
-                            <th style="border-bottom: 1px solid #eee;">SL</th>
-                            <th style="border-bottom: 1px solid #eee;">CATEGORY</th>
-                            <th style="border-bottom: 1px solid #eee;">SUB CATEGORY</th>
-                            <th style="border-bottom: 1px solid #eee;">CHILD CATEGORY</th>
-                            <th class="text-end" style="border-bottom: 1px solid #eee;">STATUS</th>
+        {{-- Child Category Card --}}
+        <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="bg-light border-bottom border-light">
+                        <tr class="text-muted small">
+                            <th class="ps-4 py-3 fw-bold text-uppercase" style="letter-spacing: 0.5px;">SL</th>
+                            <th class="py-3 fw-bold text-uppercase" style="letter-spacing: 0.5px;">Category Name</th>
+                            <th class="py-3 fw-bold text-uppercase" style="letter-spacing: 0.5px;">Sub Category Name</th>
+                            <th class="py-3 fw-bold text-uppercase" style="letter-spacing: 0.5px;">Child Category Name</th>
+                            <th class="text-end pe-4 py-3 fw-bold text-uppercase" style="letter-spacing: 0.5px;">Status</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($childCategories as $key => $child)
-                        <tr style="border-bottom: 1px solid #f8f9fa;">
-                            <td class="font-w600" style="color: #333;">{{ $key + 1 }}</td>
-                            <td class="text-muted small">{{ $child->subcategory->category->category_name ?? 'N/A' }}</td>
-                            <td class="text-muted small">{{ $child->subcategory->sub_name ?? 'N/A' }}</td>
-                            <td class="font-w600" style="color: #333;">{{ $child->child_sub_name }}</td>
-                            <td class="text-end">
-                                <div class="form-check form-switch d-inline-block">
-                                    <input class="form-check-input custom-switch" type="checkbox" disabled {{ $child->status == 'active' ? 'checked' : '' }}>
-                                </div>
-                            </td>
-                        </tr>
+                        @forelse($childCategories as $key => $childCategory)
+                            <tr>
+                                <td class="ps-4 fw-medium text-dark">{{ $key + 1 }}</td>
+                                <td class="text-secondary fw-medium">{{ $childCategory->category->category_name ?? 'N/A' }}</td>
+                                <td class="text-secondary small">{{ $childCategory->subcategory->sub_name ?? 'N/A' }}</td>
+                                <td class="fw-bold text-dark">{{ $childCategory->child_sub_name }}</td>
+                                <td class="text-end pe-4">
+                                    @if($childCategory->status === 'active')
+                                        <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3 py-1 fw-medium" style="font-size: 11px;">Active</span>
+                                    @else
+                                        <span class="badge bg-secondary bg-opacity-10 text-secondary rounded-pill px-3 py-1 fw-medium" style="font-size: 11px;">Inactive</span>
+                                    @endif
+                                </td>
+                            </tr>
                         @empty
-                        <tr>
-                            <td colspan="5" class="text-center py-4 text-muted">No child categories found.</td>
-                        </tr>
+                            <tr>
+                                <td colspan="5" class="text-center py-5 text-muted">No child categories found.</td>
+                            </tr>
                         @endforelse
                     </tbody>
                 </table>
@@ -61,23 +52,10 @@
 </div>
 
 <style>
-    .font-w600 { font-weight: 600; }
-    .font-w700 { font-weight: 700; }
-    .custom-switch {
-        width: 40px !important;
-        height: 20px !important;
-        cursor: not-allowed !important;
-        opacity: 1 !important;
-    }
-    .custom-switch:checked {
-        background-color: #ff3e6c !important;
-        border-color: #ff3e6c !important;
-    }
-    .table thead th {
-        padding: 15px 10px;
-    }
-    .table tbody td {
-        padding: 15px 10px;
-    }
+    .rounded-4 { border-radius: 1rem !important; }
+    .table thead th { border-top: 0; }
+    .table tbody tr { transition: all 0.2s; }
+    .table tbody tr:hover { background-color: #f8fafc; }
+    .badge { letter-spacing: 0.3px; }
 </style>
 @endsection

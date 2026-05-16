@@ -3,178 +3,214 @@
 @section('main-content')
     <!-- Main Content -->
     <div class="main-content">
-        <!-- Top Navbar -->
-        <div class="top-navbar">
-            <div class="d-flex align-items-center gap-3">
-                <button class="menu-toggle" onclick="toggleSidebar()">
-                    <i class="bi bi-list"></i>
-                </button>
-                <div class="navbar-brand">
-                    <i class="bi bi-shop"></i>
-                    <span class="d-none d-sm-inline">SELLER <strong>PORTAL</strong></span>
-                </div>
-            </div>
-
-            <div class="top-navbar-right">
-                <div class="notification-icon">
-                    <i class="bi bi-bell"></i>
-                    <span class="notification-badge">5</span>
-                </div>
-            </div>
-        </div>
-
         <!-- Page Content -->
         <div class="page-content" style="padding-bottom: 80px;">
 
             <!-- Dashboard Section -->
             <div class="page-section active" id="dashboard">
-                <div class="page-header">
-                    <h2 class="page-title">Dashboard Overview</h2>
-                    <p class="page-subtitle">Welcome back! Here's your store performance</p>
-                </div>
-
-                <!-- Stats Cards -->
-                <div class="stats-cards">
-                    <div class="stat-card primary">
-                        <div class="stat-card-header">
-                            <span class="stat-card-title">Total Sales</span>
-                            <div class="stat-card-icon primary">
-                                <i class="bi bi-currency-dollar"></i>
-                            </div>
-                        </div>
-                        <div class="stat-card-value">৳45,230</div>
-                        <div class="stat-card-change positive">
-                            <i class="bi bi-arrow-up"></i>
-                            <span>+12.5%</span>
-                        </div>
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h4 class="fw-bold text-dark mb-1">Dashboard Overview</h4>
+                        <p class="text-muted small mb-0">Welcome back, {{ auth()->user()->name }}! Here's your store performance.</p>
                     </div>
-
-                    <div class="stat-card success">
-                        <div class="stat-card-header">
-                            <span class="stat-card-title">Orders</span>
-                            <div class="stat-card-icon success">
-                                <i class="bi bi-cart-check"></i>
-                            </div>
-                        </div>
-                        <div class="stat-card-value">156</div>
-                        <div class="stat-card-change positive">
-                            <i class="bi bi-arrow-up"></i>
-                            <span>+8 today</span>
-                        </div>
-                    </div>
-
-                    <div class="stat-card warning">
-                        <div class="stat-card-header">
-                            <span class="stat-card-title">Products</span>
-                            <div class="stat-card-icon warning">
-                                <i class="bi bi-box-seam"></i>
-                            </div>
-                        </div>
-                        <div class="stat-card-value">245</div>
-                        <div class="stat-card-change">
-                            <span>12 low stock</span>
-                        </div>
-                    </div>
-
-                    <div class="stat-card info">
-                        <div class="stat-card-header">
-                            <span class="stat-card-title">Pending Payout</span>
-                            <div class="stat-card-icon info">
-                                <i class="bi bi-wallet2"></i>
-                            </div>
-                        </div>
-                        <div class="stat-card-value">৳12.3K</div>
-                        <div class="stat-card-change">
-                            <span>Next: Feb 15</span>
-                        </div>
+                    <div class="dropdown">
+                        <button class="btn btn-white border shadow-sm btn-sm rounded-pill px-3 dropdown-toggle" data-bs-toggle="dropdown">
+                            <i class="bi bi-calendar3 me-1"></i> This Month
+                        </button>
+                        <ul class="dropdown-menu border-0 shadow-sm rounded-3">
+                            <li><a class="dropdown-item py-2" href="#">Today</a></li>
+                            <li><a class="dropdown-item py-2" href="#">Last 7 Days</a></li>
+                            <li><a class="dropdown-item py-2" href="#">This Year</a></li>
+                        </ul>
                     </div>
                 </div>
 
-                <!-- Charts Row -->
-                <div class="row">
-                    <div class="col-lg-8 mb-3">
-                        <div class="chart-container">
-                            <div class="chart-header">
-                                <h5 class="chart-title">Sales Overview</h5>
+                <!-- Modern Stats Grid -->
+                <div class="row g-4 mb-4">
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card border-0 shadow-sm rounded-4 h-100" style="background: linear-gradient(135deg, #6366f1, #4f46e5);">
+                            <div class="card-body text-white">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <div class="bg-white bg-opacity-20 p-2 rounded-3">
+                                        <i class="bi bi-box-seam fs-4 text-white"></i>
+                                    </div>
+                                    <span class="badge bg-dark bg-opacity-25 rounded-pill">Total</span>
+
+                                </div>
+                                <h3 class="fw-bold mb-1">{{ $data['total_products'] }}</h3>
+                                <p class="mb-0 opacity-75 small">Total Products</p>
                             </div>
-                            <canvas id="salesChart"></canvas>
                         </div>
                     </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card border-0 shadow-sm rounded-4 h-100" style="background: linear-gradient(135deg, #10b981, #059669);">
+                            <div class="card-body text-white">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <div class="bg-white bg-opacity-20 p-2 rounded-3">
+                                        <i class="bi bi-cart-check fs-4 text-white"></i>
+                                    </div>
+                                    <span class="badge bg-dark bg-opacity-25 rounded-pill">Physical</span>
 
-                    <div class="col-lg-4 mb-3">
-                        <div class="chart-container">
-                            <div class="chart-header">
-                                <h5 class="chart-title">Order Status</h5>
+                                </div>
+                                <h3 class="fw-bold mb-1">{{ $data['physical_products'] }}</h3>
+                                <p class="mb-0 opacity-75 small">Physical Items</p>
                             </div>
-                            <canvas id="orderChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card border-0 shadow-sm rounded-4 h-100" style="background: linear-gradient(135deg, #3b82f6, #2563eb);">
+                            <div class="card-body text-white">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <div class="bg-white bg-opacity-20 p-2 rounded-3">
+                                        <i class="bi bi-cloud-download fs-4 text-white"></i>
+                                    </div>
+                                    <span class="badge bg-dark bg-opacity-25 rounded-pill">Digital</span>
+
+                                </div>
+                                <h3 class="fw-bold mb-1">{{ $data['digital_products'] }}</h3>
+                                <p class="mb-0 opacity-75 small">Digital Products</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card border-0 shadow-sm rounded-4 h-100" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                            <div class="card-body text-white">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <div class="bg-white bg-opacity-20 p-2 rounded-3">
+                                        <i class="bi bi-exclamation-triangle fs-4 text-white"></i>
+                                    </div>
+                                    <span class="badge bg-dark bg-opacity-25 rounded-pill">Stock</span>
+
+                                </div>
+                                <h3 class="fw-bold mb-1">{{ $data['low_stock_products'] }}</h3>
+                                <p class="mb-0 opacity-75 small">Low Stock Items</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Charts & Analytics --}}
+                <div class="row g-4 mb-4">
+                    <div class="col-lg-8">
+                        <div class="card border-0 shadow-sm rounded-4">
+                            <div class="card-header bg-white border-0 py-3">
+                                <h6 class="mb-0 fw-bold">Sales & Revenue Analytics</h6>
+                            </div>
+                            <div class="card-body pt-0">
+                                <canvas id="salesChart" height="300"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card border-0 shadow-sm rounded-4">
+                            <div class="card-header bg-white border-0 py-3">
+                                <h6 class="mb-0 fw-bold">Order Distribution</h6>
+                            </div>
+                            <div class="card-body pt-0">
+                                <canvas id="orderChart" height="300"></canvas>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
+
             <!-- Inventory Management Section -->
             <div class="page-section" id="inventory">
-                <div class="page-header">
-                    <h2 class="page-title">Inventory Management</h2>
-                    <p class="page-subtitle">Track and manage your stock levels</p>
+                <div class="d-flex justify-content-between align-items-center mb-4 pt-2">
+                    <div>
+                        <h4 class="mb-1 fw-bold text-dark">Inventory Management</h4>
+                        <p class="text-muted small mb-0">Track and manage your stock levels across all products</p>
+                    </div>
+                    <a href="{{ route('saller.products.create') }}" class="btn btn-sm btn-primary px-3 rounded-pill shadow-sm">
+                        <i class="bi bi-plus-lg me-1"></i> Add Product
+                    </a>
                 </div>
 
-                <!-- Inventory Stats -->
-                <div class="stats-cards">
-                    <div class="stat-card primary">
-                        <div class="stat-card-header">
-                            <span class="stat-card-title">Total Products</span>
-                            <div class="stat-card-icon primary">
-                                <i class="bi bi-boxes"></i>
+                <!-- Inventory Stats Grid -->
+                <div class="row g-4 mb-4">
+                    <div class="col-md-3">
+                        <div class="card border-0 shadow-sm rounded-4 h-100" style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);">
+                            <div class="card-body p-4">
+                                <div class="d-flex justify-content-between mb-3">
+                                    <div class="bg-primary bg-opacity-10 p-2 rounded-3">
+                                        <i class="bi bi-boxes text-primary fs-4"></i>
+                                    </div>
+                                    <span class="text-success small fw-bold">+12%</span>
+                                </div>
+                                <h6 class="text-muted small fw-bold text-uppercase mb-2">Total Stock Items</h6>
+                                <h3 class="mb-0 fw-bold text-dark">{{ $total_products }}</h3>
                             </div>
-                        </div>
-                        <div class="stat-card-value">245</div>
-                        <div class="stat-card-change positive">
-                            <i class="bi bi-arrow-up"></i>
-                            <span>+15 this month</span>
                         </div>
                     </div>
-
-                    <div class="stat-card success">
-                        <div class="stat-card-header">
-                            <span class="stat-card-title">In Stock</span>
-                            <div class="stat-card-icon success">
-                                <i class="bi bi-check-circle"></i>
+                    <div class="col-md-3">
+                        <div class="card border-0 shadow-sm rounded-4 h-100" style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);">
+                            <div class="card-body p-4">
+                                <div class="d-flex justify-content-between mb-3">
+                                    <div class="bg-success bg-opacity-10 p-2 rounded-3">
+                                        <i class="bi bi-check-circle text-success fs-4"></i>
+                                    </div>
+                                    <span class="text-muted small">Healthy</span>
+                                </div>
+                                <h6 class="text-muted small fw-bold text-uppercase mb-2">In Stock Items</h6>
+                                <h3 class="mb-0 fw-bold text-dark">{{ $total_products - $low_stock_products }}</h3>
                             </div>
-                        </div>
-                        <div class="stat-card-value">228</div>
-                        <div class="stat-card-change">
-                            <span>93.1%</span>
                         </div>
                     </div>
-
-                    <div class="stat-card warning">
-                        <div class="stat-card-header">
-                            <span class="stat-card-title">Low Stock</span>
-                            <div class="stat-card-icon warning">
-                                <i class="bi bi-exclamation-triangle"></i>
+                    <div class="col-md-3">
+                        <div class="card border-0 shadow-sm rounded-4 h-100" style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);">
+                            <div class="card-body p-4">
+                                <div class="d-flex justify-content-between mb-3">
+                                    <div class="bg-warning bg-opacity-10 p-2 rounded-3">
+                                        <i class="bi bi-exclamation-triangle text-warning fs-4"></i>
+                                    </div>
+                                    <span class="text-danger small fw-bold">Action Needed</span>
+                                </div>
+                                <h6 class="text-muted small fw-bold text-uppercase mb-2">Low Stock Alert</h6>
+                                <h3 class="mb-0 fw-bold text-dark">{{ $low_stock_products }}</h3>
                             </div>
-                        </div>
-                        <div class="stat-card-value">12</div>
-                        <div class="stat-card-change negative">
-                            <i class="bi bi-arrow-down"></i>
-                            <span>4.9%</span>
                         </div>
                     </div>
-
-                    <div class="stat-card info">
-                        <div class="stat-card-header">
-                            <span class="stat-card-title">Out of Stock</span>
-                            <div class="stat-card-icon info">
-                                <i class="bi bi-x-circle"></i>
+                    <div class="col-md-3">
+                        <div class="card border-0 shadow-sm rounded-4 h-100" style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);">
+                            <div class="card-body p-4">
+                                <div class="d-flex justify-content-between mb-3">
+                                    <div class="bg-info bg-opacity-10 p-2 rounded-3">
+                                        <i class="bi bi-cloud-download text-info fs-4"></i>
+                                    </div>
+                                    <span class="text-muted small">Digital</span>
+                                </div>
+                                <h6 class="text-muted small fw-bold text-uppercase mb-2">Digital Products</h6>
+                                <h3 class="mb-0 fw-bold text-dark">{{ $digital_products }}</h3>
                             </div>
-                        </div>
-                        <div class="stat-card-value">5</div>
-                        <div class="stat-card-change">
-                            <span>2.0%</span>
                         </div>
                     </div>
                 </div>
+
+                <!-- Inventory Charts & Recent Activity -->
+                <div class="row g-4">
+                    <div class="col-lg-8">
+                        <div class="card border-0 shadow-sm rounded-4">
+                            <div class="card-header bg-white border-0 py-3">
+                                <h6 class="mb-0 fw-bold">Stock Movement Analysis</h6>
+                            </div>
+                            <div class="card-body pt-0">
+                                <canvas id="stockMovementChart" height="300"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card border-0 shadow-sm rounded-4">
+                            <div class="card-header bg-white border-0 py-3">
+                                <h6 class="mb-0 fw-bold">Stock Distribution</h6>
+                            </div>
+                            <div class="card-body pt-0">
+                                <canvas id="stockDistributionChart" height="300"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
                 <!-- Filter Section -->
                 <div class="filter-section">

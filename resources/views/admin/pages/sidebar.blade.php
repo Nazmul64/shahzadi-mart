@@ -596,6 +596,32 @@ body.sb-collapsed .sb-user-info, body.sb-collapsed .sb-logout-btn { display: non
 </div>
 @endif
 
+{{-- ════ HR MANAGEMENT ════ --}}
+@if($u->isSuperAdmin() || $u->hasPermission('view-hr'))
+<div class="sb-item {{ request()->routeIs('manager.hr.*') ? 'active open' : '' }}" onclick="sbToggle(this)">
+
+    <span class="sb-left"><i class="bi bi-people-fill sb-ico text-info"></i><span class="sb-text">HR Management</span></span>
+    <i class="bi bi-chevron-right sb-arr"></i>
+</div>
+<div class="sb-sub {{ request()->routeIs('manager.hr.*') ? 'open' : '' }}">
+    <div class="sb-sub-inner">
+        <a href="{{ route('manager.hr.employees') }}" class="{{ request()->routeIs('manager.hr.employees*') ? 'active' : '' }}">
+            <i class="bi bi-person-badge"></i> Employees
+        </a>
+        <a href="{{ route('manager.hr.attendance') }}" class="{{ request()->routeIs('manager.hr.attendance*') ? 'active' : '' }}">
+            <i class="bi bi-calendar-check"></i> Attendance
+        </a>
+        <a href="{{ route('manager.hr.salary') }}" class="{{ request()->routeIs('manager.hr.salary*') ? 'active' : '' }}">
+            <i class="bi bi-cash-stack"></i> Salary & Advances
+        </a>
+        <a href="{{ route('manager.hr.expenses') }}" class="{{ request()->routeIs('manager.hr.expenses*') ? 'active' : '' }}">
+            <i class="bi bi-receipt-cutoff"></i> Expenses
+        </a>
+    </div>
+</div>
+@endif
+
+
 {{-- Categories --}}
 @if($u->isSuperAdmin() || $u->hasAnyPermission(['view-categories','create-categories','edit-categories','delete-categories']))
 <div class="sb-item {{ $catsActive ? 'active open' : '' }}" onclick="sbToggle(this)">

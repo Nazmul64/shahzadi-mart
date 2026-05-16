@@ -267,14 +267,121 @@ class SellerauthController extends Controller
         return view('saller.index', compact('seller', 'stats'));
     }
 
-    // Helper function to upload files
+    // Show seller profile
+    public function profile()
+    {
+        $seller = Auth::user();
+        return view('saller.pages.profile.index', compact('seller'));
+    }
+
+    // Show edit profile form
+    public function edit_profile()
+    {
+        $seller = Auth::user();
+        $banks = \App\Models\Bank::where('is_active', true)->orderBy('name')->get();
+        return view('saller.pages.profile.edit', compact('seller', 'banks'));
+    }
+
+    // Handle profile update
+    public function update_profile(Request $request)
+    {
+        $user = Auth::user();
+
+        $request->validate([
+            'firstName' => 'required|string|max:255',
+            'lastName' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+            'storeName' => 'required|string|max:255',
+            'businessName' => 'required|string|max:255',
+            'businessAddress' => 'required|string',
+            'city' => 'required|string|max:255',
+            'postalCode' => 'required|string|max:20',
+            'latitude' => 'nullable|string',
+            'longitude' => 'nullable|string',
+            'photo' => 'nullable|image|mimes:jpeg,jpg,png,webp,svg,gif|max:2048',
+            'storeLogo' => 'nullable|image|mimes:jpeg,jpg,png,webp,svg,gif|max:2048',
+            'storeBanner' => 'nullable|image|mimes:jpeg,jpg,png,webp,svg,gif|max:2048',
+        ]);
+
+        try {
+            // Handle file uploads
+            if ($request->hasFile('photo')) {
+                $user->photo = $this->uploadFile($request->file('photo'), 'sellers/photos');
+            }
+
+            if ($request->hasFile('storeLogo')) {
+                $user->store_logo = $this->uploadFile($request->file('storeLogo'), 'sellers/logos');
+            }
+
+            $currentAddress = $user->address;
+            if (!is_array($currentAddress)) {
+                $currentAddress = [];
+            }
+
+            if ($request->hasFile('storeBanner')) {
+                $currentAddress['store_banner'] = $this->uploadFile($request->file('storeBanner'), 'sellers/banners');
+            }
+
+            // Update user basic info
+            $user->name = $request->firstName . ' ' . $request->lastName;
+            $user->first_name = $request->firstName;
+            $user->last_name = $request->lastName;
+            $user->phone = $request->phone;
+            $user->store_name = $request->storeName;
+            $user->latitude = $request->latitude;
+            $user->longitude = $request->longitude;
+
+            // Update business info in address JSON
+            $currentAddress['business_name'] = $request->businessName;
+            $currentAddress['business_address'] = $request->businessAddress;
+            $currentAddress['city'] = $request->city;
+            $currentAddress['postal_code'] = $request->postalCode;
+            
+            $user->address = $currentAddress;
+            $user->save();
+
+            return redirect()->back()->with('success', 'Profile updated successfully');
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Update failed: ' . $e->getMessage());
+        }
+    }
+
+    // Handle password update
+    public function update_password(Request $request)
+    {
+        $request->validate([
+            'current_password' => 'required',
+            'new_password' => 'required|min:8|confirmed',
+        ]);
+
+        $user = Auth::user();
+
+        if (!Hash::check($request->current_password, $user->password)) {
+            return redirect()->back()->with('error', 'Current password does not match.');
+        }
+
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+
+        return redirect()->back()->with('success', 'Password updated successfully');
+    }
+
+    // Helper function to upload files (updated to use base_path)
     private function uploadFile($file, $folder)
     {
         if ($file) {
             $filename = time() . '_' . Str::random(10) . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('uploads/' . $folder), $filename);
+            $path = base_path('uploads/' . $folder);
+            
+            if (!\Illuminate\Support\Facades\File::exists($path)) {
+                \Illuminate\Support\Facades\File::makeDirectory($path, 0777, true, true);
+            }
+            
+            $file->move($path, $filename);
             return 'uploads/' . $folder . '/' . $filename;
         }
         return null;
     }
 }
+

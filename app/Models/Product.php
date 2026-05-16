@@ -8,15 +8,15 @@ use Illuminate\Support\Carbon;
 class Product extends Model
 {
     protected $fillable = [
-        'name', 'slug', 'sku', 'vendor',
+        'name', 'slug', 'short_description', 'sku', 'vendor',
         'category_id', 'sub_category_id', 'child_sub_category_id',
         // Multiple IDs stored as JSON arrays
         'brand_ids', 'color_ids', 'unit_ids', 'size_ids',
-        'product_type', 'upload_type', 'product_file', 'product_url',
+        'product_type', 'upload_type', 'product_file', 'product_url', 'license_keys',
         'description', 'return_policy',
         'feature_image', 'gallery_images',
-        'current_price', 'discount_price', 'stock', 'is_unlimited',
-        'youtube_url', 'tags', 'feature_tags', 'additional_products',
+        'current_price', 'buying_price', 'discount_price', 'stock', 'is_unlimited',
+        'youtube_url', 'video_type', 'video_file', 'tags', 'feature_tags', 'additional_products',
         'status', 'is_highlighted', 'in_catalog',
         'meta_tags', 'meta_description',
         'is_bestseller', 'bestseller_at',
@@ -29,6 +29,7 @@ class Product extends Model
         'tags'                 => 'array',
         'feature_tags'         => 'array',
         'additional_products'  => 'array',
+        'license_keys'         => 'array',
         // Multiple IDs - stored as JSON, cast to array
         'brand_ids'            => 'array',
         'color_ids'            => 'array',
@@ -59,6 +60,7 @@ class Product extends Model
     public function category()         { return $this->belongsTo(Category::class, 'category_id'); }
     public function subCategory()      { return $this->belongsTo(SubCategory::class, 'sub_category_id'); }
     public function childSubCategory() { return $this->belongsTo(ChildSubCategory::class, 'child_sub_category_id'); }
+    public function seller()           { return $this->belongsTo(User::class, 'vendor'); }
 
     /**
      * Multiple brands via JSON IDs

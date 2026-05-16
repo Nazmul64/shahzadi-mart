@@ -182,6 +182,16 @@ class PermissionSeeder extends Seeder
             ['name' => 'Edit Purchases',   'slug' => 'edit-purchases'],
             ['name' => 'Delete Purchases', 'slug' => 'delete-purchases'],
         ],
+
+        // ── HR Management ─────────────────────────────────────────────────
+        'hr' => [
+            ['name' => 'View HR Management',   'slug' => 'view-hr'],
+            ['name' => 'Manage Employees',     'slug' => 'manage-employees'],
+            ['name' => 'Mark Attendance',      'slug' => 'mark-attendance'],
+            ['name' => 'Manage Salary',        'slug' => 'manage-salary'],
+            ['name' => 'Manage Expenses',      'slug' => 'manage-expenses'],
+        ],
+
     ];
 
     public function run(): void

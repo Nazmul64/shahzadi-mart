@@ -1,10 +1,24 @@
     <div class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <div class="d-flex align-items-center">
-                <h4>SELLER <span>PORTAL</span></h4>
+        @php
+            $gs = \App\Models\Generalsetting::getSettings();
+            $siteName = $gs->website_name ?? ($gs->site_name ?? 'Shahzadi Mart');
+        @endphp
+        <div class="sidebar-header" style="padding: 25px 20px; border-bottom: 1px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.1);">
+            <div class="d-flex align-items-center gap-3">
+                <div class="logo-wrapper" style="background: #fff; padding: 5px; border-radius: 8px; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+                    @if($gs->header_logo)
+                        <img src="{{ asset($gs->header_logo) }}" alt="Logo" style="max-height: 100%; max-width: 100%; object-fit: contain;">
+                    @else
+                        <i class="bi bi-shop" style="color: #0f172a; font-size: 20px;"></i>
+                    @endif
+                </div>
+                <div class="brand-text">
+                    <h5 class="mb-0" style="color: #fff; font-weight: 800; letter-spacing: 0.5px; font-size: 16px;">{{ strtoupper($siteName) }}</h5>
+                    <span style="color: var(--primary); font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;">Portal</span>
+                </div>
             </div>
-            <button class="sidebar-close" onclick="toggleSidebar()">
-                <i class="bi bi-x"></i>
+            <button class="sidebar-close" onclick="toggleSidebar()" style="background: rgba(255,255,255,0.1); border: none; color: #fff; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">
+                <i class="bi bi-chevron-left" style="font-size: 14px;"></i>
             </button>
         </div>
 
@@ -30,10 +44,10 @@
                 <span>Dashboard</span>
             </div>
             
-            <div class="menu-item {{ request()->routeIs('saller.profile.*') ? 'active' : '' }}" onclick="showSection('profile')">
+            <a href="{{ route('saller.profile.index') }}" class="menu-item {{ request()->routeIs('saller.profile.*') ? 'active' : '' }}" style="text-decoration: none; color: inherit;">
                 <i class="bi bi-person-bounding-box"></i>
                 <span>My Profile</span>
-            </div>
+            </a>
 
             <div class="menu-item has-submenu" onclick="toggleSubmenu(this)">
                 <div class="menu-link">
@@ -41,9 +55,9 @@
                     <span>POS Management</span>
                     <i class="bi bi-chevron-down submenu-arrow"></i>
                 </div>
-                <div class="submenu">
-                    <a href="#">New POS Sale</a>
-                    <a href="#">POS History</a>
+                <div class="submenu {{ request()->routeIs('saller.pos.*') ? 'open' : '' }}">
+                    <a href="{{ route('saller.pos.index') }}" class="{{ request()->routeIs('saller.pos.index') ? 'active' : '' }}">New POS Sale</a>
+                    <a href="{{ route('saller.pos.orders') }}" class="{{ request()->routeIs('saller.pos.orders') ? 'active' : '' }}">POS History</a>
                 </div>
             </div>
 
@@ -90,15 +104,17 @@
                 </div>
             </div>
 
-            <div class="menu-item has-submenu" onclick="toggleSubmenu(this)">
+            <div class="menu-item has-submenu {{ request()->routeIs('saller.products.*') || request()->routeIs('saller.digital_products.*') ? 'open active' : '' }}" onclick="toggleSubmenu(this)">
                 <div class="menu-link">
                     <i class="bi bi-box-seam-fill"></i>
                     <span>Product Management</span>
                     <i class="bi bi-chevron-down submenu-arrow"></i>
                 </div>
-                <div class="submenu">
-                    <a href="#" onclick="showSection('products')">All Products</a>
-                    <a href="#">Add New Product</a>
+                <div class="submenu {{ request()->routeIs('saller.products.*') || request()->routeIs('saller.digital_products.*') ? 'open' : '' }}">
+                    <a href="{{ route('saller.products.index') }}" class="{{ request()->routeIs('saller.products.index') ? 'active' : '' }}">All Product</a>
+                    <a href="{{ route('saller.products.create') }}" class="{{ request()->routeIs('saller.products.create') ? 'active' : '' }}">Add Product</a>
+                    <a href="{{ route('saller.digital_products.index') }}" class="{{ request()->routeIs('saller.digital_products.index') ? 'active' : '' }}">All Digital Product</a>
+                    <a href="{{ route('saller.digital_products.create') }}" class="{{ request()->routeIs('saller.digital_products.create') ? 'active' : '' }}">Add Digital Product</a>
                     <a href="#">Product Reviews</a>
                 </div>
             </div>
@@ -154,6 +170,8 @@
                     <a href="#">Roles & Permissions</a>
                 </div>
             </div>
+
+
 
             <div class="menu-item has-submenu {{ request()->is('saller/suppliers*') ? 'open active' : '' }}" onclick="toggleSubmenu(this)">
                 <div class="menu-link">

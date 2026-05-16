@@ -14,50 +14,59 @@
         </div>
     </div>
 
-    <div class="page-content" style="background: #f4f7fa;">
-        <div class="page-header mb-4 px-3 pt-3">
-            <h2 class="page-title font-w700" style="font-size: 24px; color: #333;">Color List</h2>
+<div class="page-content bg-light pb-5">
+    <div class="container-fluid">
+        {{-- Header Section --}}
+        <div class="d-flex justify-content-between align-items-center mb-4 pt-2">
+            <div>
+                <h4 class="mb-1 fw-bold text-dark">Color List</h4>
+                <p class="text-muted small mb-0">Manage product colors in your inventory</p>
+            </div>
         </div>
 
-        <div class="data-card border-0 shadow-sm mx-3" style="border-radius: 10px; background: #fff;">
-            <div class="data-card-header px-4 py-3 border-bottom-0">
-                <h6 class="text-muted mb-0">Colors</h6>
-            </div>
-
-            <div class="table-responsive px-4 pb-4">
-                <table class="table align-middle">
-                    <thead class="text-uppercase small text-muted font-w600">
-                        <tr>
-                            <th style="border-bottom: 1px solid #eee;">SL</th>
-                            <th style="border-bottom: 1px solid #eee;">NAME</th>
-                            <th style="border-bottom: 1px solid #eee;">PREVIEW</th>
-                            <th class="text-end" style="border-bottom: 1px solid #eee;">STATUS</th>
+        {{-- Color Card --}}
+        <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="bg-light border-bottom border-light">
+                        <tr class="text-muted small">
+                            <th class="ps-4 py-3 fw-bold text-uppercase" style="letter-spacing: 0.5px;">SL</th>
+                            <th class="py-3 fw-bold text-uppercase" style="letter-spacing: 0.5px;">Color Code</th>
+                            <th class="py-3 fw-bold text-uppercase" style="letter-spacing: 0.5px;">Color Name</th>
+                            <th class="text-end pe-4 py-3 fw-bold text-uppercase" style="letter-spacing: 0.5px;">Status</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse($colors as $key => $color)
-                        <tr style="border-bottom: 1px solid #f8f9fa;">
-                            <td class="font-w600" style="color: #333;">{{ $key + 1 }}</td>
-                            <td class="font-w600" style="color: #333;">{{ $color->name }}</td>
-                            <td>
-                                <div style="width: 30px; height: 30px; border-radius: 50%; background-color: {{ $color->color_code }}; border: 2px solid #fff; box-shadow: 0 0 5px rgba(0,0,0,0.1);" title="{{ $color->color_code }}"></div>
-                            </td>
-                            <td class="text-end">
-                                <div class="form-check form-switch d-inline-block">
-                                    <input class="form-check-input custom-switch" type="checkbox" disabled {{ $color->is_active == 1 ? 'checked' : '' }}>
-                                </div>
-                            </td>
-                        </tr>
+                            <tr>
+                                <td class="ps-4 fw-medium text-dark">{{ $key + 1 }}</td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="rounded-circle border shadow-sm" style="width: 25px; height: 25px; background: {{ $color->color_code }};"></div>
+                                        <span class="small text-muted">{{ $color->color_code }}</span>
+                                    </div>
+                                </td>
+                                <td class="fw-bold text-dark">{{ $color->color_name }}</td>
+                                <td class="text-end pe-4">
+                                    @if($color->status === 'active')
+                                        <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3 py-1 fw-medium" style="font-size: 11px;">Active</span>
+                                    @else
+                                        <span class="badge bg-secondary bg-opacity-10 text-secondary rounded-pill px-3 py-1 fw-medium" style="font-size: 11px;">Inactive</span>
+                                    @endif
+                                </td>
+                            </tr>
                         @empty
-                        <tr>
-                            <td colspan="4" class="text-center py-4 text-muted">No colors found.</td>
-                        </tr>
+                            <tr>
+                                <td colspan="4" class="text-center py-5 text-muted">No colors found.</td>
+                            </tr>
                         @endforelse
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
+</div>
+
 </div>
 
 <style>

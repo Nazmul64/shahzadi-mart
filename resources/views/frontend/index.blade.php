@@ -140,6 +140,129 @@
     </div>
     @endif
 
+    {{-- ══ TOP RATED SHOPS ══ --}}
+    @if($topRatedShops->isNotEmpty())
+    <div class="smhome-sec-head d-flex justify-content-between align-items-center mb-3 mt-4">
+        <h2 style="font-size: 18px; font-weight: 700; color: #1a202c; border-left: 4px solid var(--primary); padding-left: 12px; margin: 0;">Top Rated Shops</h2>
+        <a href="#" class="text-muted small text-decoration-none">View All</a>
+    </div>
+    <div class="smhome-shop-slider owl-carousel owl-theme mb-4">
+        @foreach ($topRatedShops as $shop)
+            <div class="smhome-shop-card">
+                <div class="smhome-shop-banner" style="background: {{ ['#ff3e6c', '#1a1a1a', '#2c2c54', '#33d9b2', '#ff5252'][rand(0,4)] }};">
+                    @if($shop->store_banner)
+                        <img src="{{ asset($shop->store_banner) }}" alt="{{ $shop->store_name }}">
+                    @else
+                        <div class="smhome-shop-banner-text">{{ $shop->store_name }}</div>
+                    @endif
+                </div>
+                <div class="smhome-shop-content">
+                    <div class="smhome-shop-logo">
+                        <img src="{{ $shop->store_logo ? asset($shop->store_logo) : 'https://ui-avatars.com/api/?name='.$shop->store_name.'&background=fff&color=ff3e6c' }}" 
+                             alt="Logo">
+                    </div>
+                    <div class="smhome-shop-info">
+                        <h3 class="smhome-shop-name">{{ $shop->store_name }}</h3>
+                        <div class="smhome-shop-meta">
+                            <span><i class="bi bi-box-seam"></i> {{ $shop->products_count }} Items</span>
+                            <span class="ms-2"><i class="bi bi-star-fill text-warning"></i> {{ number_format($shop->avg_rating, 1) }}</span>
+                        </div>
+                        <a href="{{ route('shop.details', $shop->store_slug) }}" class="smhome-shop-btn">
+                            Visit Store <i class="bi bi-arrow-right-short"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    </div>
+
+    <style>
+    .smhome-shop-card {
+        background: #fff;
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid #eee;
+        transition: all 0.3s ease;
+        height: 100%;
+        position: relative;
+    }
+    .smhome-shop-card:hover {
+        box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        border-color: #ddd;
+    }
+    .smhome-shop-banner {
+        height: 120px;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .smhome-shop-banner img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .smhome-shop-banner-text {
+        font-size: 18px;
+        font-weight: 800;
+        color: rgba(255,255,255,0.4);
+        letter-spacing: 1px;
+    }
+    .smhome-shop-content {
+        padding: 0 16px 16px;
+        text-align: left;
+        margin-top: -30px;
+        position: relative;
+        z-index: 2;
+    }
+    .smhome-shop-logo {
+        width: 65px;
+        height: 65px;
+        background: #fff;
+        border-radius: 50%;
+        padding: 4px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        margin-bottom: 12px;
+    }
+    .smhome-shop-logo img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+    .smhome-shop-name {
+        font-size: 15px;
+        font-weight: 700;
+        color: #1a1a1a;
+        margin: 0 0 6px;
+    }
+    .smhome-shop-meta {
+        font-size: 12px;
+        color: #777;
+        margin-bottom: 14px;
+        display: flex;
+        align-items: center;
+    }
+    .smhome-shop-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #333;
+        text-decoration: none;
+        padding-top: 8px;
+        border-top: 1px solid #f5f5f5;
+        width: 100%;
+        transition: color 0.2s;
+    }
+    .smhome-shop-btn:hover {
+        color: var(--primary);
+    }
+    </style>
+    @endif
+
     {{-- ══ FLASH SALES ══ --}}
     @if($flashProducts->isNotEmpty())
     <div class="smhome-flash-hd">
@@ -570,6 +693,20 @@ $(document).ready(function(){
         smartSpeed: 800,
         autoWidth: true, /* Let items take their own width */
         items: 10 /* High enough so it doesn't restrict */
+    });
+
+    $(".smhome-shop-slider").owlCarousel({
+        loop: false,
+        margin: 15,
+        nav: false,
+        dots: false,
+        responsive: {
+            0: { items: 1.2 },
+            576: { items: 2.2 },
+            768: { items: 3.2 },
+            992: { items: 4 },
+            1200: { items: 5 }
+        }
     });
 
     // Load More Logic

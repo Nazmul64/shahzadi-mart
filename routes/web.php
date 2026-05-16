@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 use App\Http\Controllers\Admin\AboutForCompanyController;
 use App\Http\Controllers\Admin\AdminauthController;
@@ -78,6 +78,7 @@ use App\Http\Controllers\Frontend\WishlistController;
 use App\Http\Controllers\SubscriberController;
 use App\Http\Controllers\Manager\ManagerController;
 use App\Http\Controllers\Saller\SellerauthController;
+use App\Http\Controllers\Saller\SallerController;
 use App\Http\Controllers\Subadmin\SubadminController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -96,9 +97,9 @@ Route::get('/uploads/{folder}/{filename}', function ($folder, $filename) {
     return $response;
 })->name('serve.uploads');
 
-// ══════════════════════════════════════════════════════════════════════════════
-// FRONTEND — PUBLIC PAGES
-// ══════════════════════════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// FRONTEND â€” PUBLIC PAGES
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 Route::get('/',                             [FrontendController::class, 'frontend']         )->name('frontend');
 Route::get('/product/{slug}',               [FrontendController::class, 'productdetails']   )->name('product.detail');
 Route::get('/digital-product/{slug}',       [FrontendController::class, 'digitalProductDetails'])->name('digital.product.detail');
@@ -117,33 +118,34 @@ Route::get('/category/{catSlug}/{subSlug}/{childSlug}', [FrontendController::cla
 Route::get('/shipping/areas',               [ShippingChargeController::class, 'activeAreas'])->name('shipping.areas');
 Route::get('/all-products',                 [FrontendController::class, 'allProducts']      )->name('products.all');
 Route::get('/shop',                         [FrontendController::class, 'shop']             )->name('shop');
+Route::get('/shop/{slug}',                   [FrontendController::class, 'shopDetails']      )->name('shop.details');
 Route::get('/offers',                       [FrontendController::class, 'offers']           )->name('offers');
 Route::get('/new-arrivals',                 [FrontendController::class, 'newArrivals']      )->name('new-arrivals');
 Route::get('/flash-sales',                  [FrontendController::class, 'flashSales']       )->name('flash-sales');
 Route::get('/best-sellers',                 [FrontendController::class, 'bestSellers']      )->name('best-sellers');
 Route::get('/clearance',                    [FrontendController::class, 'clearance']        )->name('clearance');
 
-// ── Landing Pages (Frontend) ──────────────────────────────────────────────
+// â”€â”€ Landing Pages (Frontend) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 Route::get('/l/{slug}', [App\Http\Controllers\Frontend\LandingPageController::class, 'show'])->name('landing.show');
 
-// ── Blog ──────────────────────────────────────────────────────────────────
+// â”€â”€ Blog â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 Route::get('/blog',                [App\Http\Controllers\Frontend\BlogController::class, 'index'])->name('blog.index');
 Route::get('/blog/{slug}',         [App\Http\Controllers\Frontend\BlogController::class, 'show'] )->name('blog.show');
 
 Route::get('/page/{id}',                    [FrontendController::class, 'multiplepage']     )->name('multi.plepage');
 Route::post('/review/store',                [ProductReviewController::class, 'store']       )->name('review.store');
 
-// ── Order Track ───────────────────────────────────────────────────────────────
+// â”€â”€ Order Track â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 Route::get ('/track-order', [OrderTrackController::class, 'index'])->name('order.track');
 Route::post('/track-order', [OrderTrackController::class, 'track'])->name('order.track.search');
 
-// ── Search ────────────────────────────────────────────────────────────────────
+// â”€â”€ Search â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 Route::get('/search/ajax', [SearchController::class, 'ajax']   )->name('search.ajax');
 Route::get('/search',      [SearchController::class, 'results'])->name('search.results');
 
-// ══════════════════════════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // CART
-// ══════════════════════════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 Route::prefix('cart')->name('cart.')->group(function () {
     Route::get ('/',               [CartController::class, 'index']   )->name('index');
     Route::post('/add/{id}',       [CartController::class, 'add']     )->name('add');
@@ -155,9 +157,9 @@ Route::prefix('cart')->name('cart.')->group(function () {
     Route::get ('/count',          [CartController::class, 'count']   )->name('count');
 });
 
-// ══════════════════════════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // WISHLIST
-// ══════════════════════════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 Route::prefix('wishlist')->group(function () {
     Route::get('/',                      [WishlistController::class, 'index']     )->name('wishlist');
     Route::get('/add/{id}',              [WishlistController::class, 'add']       )->name('wishlist.add');
@@ -166,18 +168,18 @@ Route::prefix('wishlist')->group(function () {
     Route::get('/move-to-cart/{itemId}', [WishlistController::class, 'moveToCart'])->name('wishlist.moveToCart');
 });
 
-// ══════════════════════════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // CHECKOUT
-// ══════════════════════════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 Route::prefix('checkout')->group(function () {
     Route::get ('/',                      [CheckoutController::class, 'index']  )->name('checkout');
     Route::post('/place',                 [CheckoutController::class, 'place']  )->name('checkout.place');
     Route::get ('/success/{orderNumber}', [CheckoutController::class, 'success'])->name('order.success');
 });
 
-// ══════════════════════════════════════════════════════════════════════════════
-// FRONTEND CHAT (public — no auth)
-// ══════════════════════════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// FRONTEND CHAT (public â€” no auth)
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 Route::prefix('chat')->name('chat.')->group(function () {
     Route::post('start',   [ChatController::class, 'start']      )->name('start');
     Route::post('send',    [ChatController::class, 'send']       )->name('send');
@@ -185,43 +187,43 @@ Route::prefix('chat')->name('chat.')->group(function () {
     Route::post('close',   [ChatController::class, 'close']      )->name('close');
 });
 
-// ══════════════════════════════════════════════════════════════════════════════
-// PAYMENT GATEWAYS — FRONTEND
-// ══════════════════════════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// PAYMENT GATEWAYS â€” FRONTEND
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
-// ── bKash ─────────────────────────────────────────────────────────────────────
+// â”€â”€ bKash â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 Route::get ('/payment/bkash',          fn () => view('frontend.bkash_pay')     )->name('bkash.initiate');
 Route::post('/payment/bkash/create',   [BkashController::class, 'createPayment'])->name('bkash.create');
 Route::get ('/payment/bkash/callback', [BkashController::class, 'callback']    )->name('bkash.callback');
 
-// ── ShurjoPay ─────────────────────────────────────────────────────────────────
+// â”€â”€ ShurjoPay â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 Route::get ('/payment/shurjopay',          [Shurjopaycontroller::class, 'initiatePayment'])->name('shurjopay.initiate');
 Route::get ('/payment/shurjopay/callback', [Shurjopaycontroller::class, 'callback']       )->name('shurjopay.callback');
 Route::post('/payment/shurjopay/callback', [Shurjopaycontroller::class, 'callback']       );
 
-// ══════════════════════════════════════════════════════════════════════════════
-// INCOMPLETE ORDERS — FRONTEND (public AJAX)
-// ══════════════════════════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// INCOMPLETE ORDERS â€” FRONTEND (public AJAX)
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 Route::prefix('incomplete-order')->name('incomplete.')->group(function () {
     Route::post('save',   [IncompleteOrderController::class, 'save']  )->name('save');
     Route::post('update', [IncompleteOrderController::class, 'update'])->name('update');
 });
 
-// ── Newsletter Subscription ───────────────────────────────────────────────
+// â”€â”€ Newsletter Subscription â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 Route::post('/newsletter/subscribe', [SubscriberController::class, 'store'])->name('newsletter.subscribe');
 
-// ══════════════════════════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // GENERAL AUTH
-// ══════════════════════════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 Route::get ('/login',    [AuthController::class, 'showLogin']   )->name('login');
 Route::post('/login',    [AuthController::class, 'login']       )->name('login.post');
 Route::get ('/register', [AuthController::class, 'showRegister'])->name('register');
 Route::post('/register', [AuthController::class, 'register']    )->name('register.post');
 Route::post('/logout',   [AuthController::class, 'logout']      )->name('logout');
 
-// ══════════════════════════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // CUSTOMER AUTH & DASHBOARD
-// ══════════════════════════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 Route::get ('customer/login',        [FrontendauthContorller::class, 'customer_login']          )->name('customer.login');
 Route::post('customer/login/submit', [FrontendauthContorller::class, 'customer_login_submit']   )->name('customer.login.submit');
 Route::get ('customer/register',     [FrontendauthContorller::class, 'customer_register']       )->name('customer.register');
@@ -234,56 +236,56 @@ Route::middleware(['customer'])->group(function () {
     Route::post('customer/profile/password', [App\Http\Controllers\ProfileController::class, 'updatePassword'])->name('customer.profile.password');
 });
 
-// ══════════════════════════════════════════════════════════════════════════════
-// ADMIN AUTH (public — outside admin middleware)
-// ══════════════════════════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ADMIN AUTH (public â€” outside admin middleware)
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 Route::get ('/admin/login',  [AdminauthController::class, 'admin_login']       )->name('admin.login');
 Route::post('/admin/login',  [AdminauthController::class, 'admin_login_submit'])->name('admin.login.submit');
 Route::post('/admin/logout', [AdminauthController::class, 'admin_logout']      )->name('admin.logout');
 
-// ══════════════════════════════════════════════════════════════════════════════
-// STEADFAST WEBHOOK (public — outside admin auth)
-// ══════════════════════════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// STEADFAST WEBHOOK (public â€” outside admin auth)
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 Route::post('webhook/steadfast', [SteadfastOrderController::class, 'webhook'])->name('steadfast.webhook');
 
-// ══════════════════════════════════════════════════════════════════════════════
-// CUSTOMER RESOURCE — ADMIN middleware, NO admin. prefix
-// (পুরানো code compatibility রক্ষায় prefix ছাড়া রাখা হয়েছে)
-// ══════════════════════════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// CUSTOMER RESOURCE â€” ADMIN middleware, NO admin. prefix
+// (à¦ªà§à¦°à¦¾à¦¨à§‹ code compatibility à¦°à¦•à§à¦·à¦¾à¦¯à¦¼ prefix à¦›à¦¾à¦¡à¦¼à¦¾ à¦°à¦¾à¦–à¦¾ à¦¹à¦¯à¦¼à§‡à¦›à§‡)
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 Route::middleware(['admin'])->group(function () {
     Route::resource('customer', CustomerController::class);
     Route::post('customer/{id}/status',      [CustomerController::class, 'updateStatus'])->name('customer.status');
     Route::post('customer/{id}/make-vendor', [CustomerController::class, 'makeVendor']  )->name('customer.makeVendor');
 });
 
-// ══════════════════════════════════════════════════════════════════════════════
-// ADMIN — ALL PROTECTED ROUTES
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ADMIN â€” ALL PROTECTED ROUTES
 // URL prefix  : /admin/
 // Route prefix: admin.
-// ══════════════════════════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 Route::middleware(['admin'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
     
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     // BANKS
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     Route::post('banks/{bank}/toggle-status', [App\Http\Controllers\Admin\BankController::class, 'toggleStatus'])->name('banks.toggle-status');
     Route::resource('banks', App\Http\Controllers\Admin\BankController::class);
 
-    // ── Dashboard ─────────────────────────────────────────────────────────────
+    // â”€â”€ Dashboard â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     Route::get('dashboard', [AdminController::class, 'admin_dashboard'])->name('dashboard');
 
-    // Profile Routes — inside admin. name group, so just 'profile.*' needed
+    // Profile Routes â€” inside admin. name group, so just 'profile.*' needed
     Route::get ('profile',          [App\Http\Controllers\ProfileController::class, 'index']         )->name('profile.index');
     Route::post('profile/update',   [App\Http\Controllers\ProfileController::class, 'updateProfile'] )->name('profile.update');
     Route::post('profile/password', [App\Http\Controllers\ProfileController::class, 'updatePassword'])->name('profile.password');
 
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     // POS
     // prefix: admin/pos  |  name: admin.pos.*
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     Route::prefix('pos')->name('pos.')->group(function () {
         Route::get ('/',                        [PosController::class, 'index']         )->name('index');
         Route::get ('/search-products',         [PosController::class, 'searchProducts'])->name('searchProducts');
@@ -296,10 +298,10 @@ Route::middleware(['admin'])
         Route::get ('/orders',                  [PosController::class, 'orders']        )->name('orders');
     });
 
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     // SELLER REGISTRATION
-    // ──────────────────────────────────────────────────────────────────────────
-    // ⚠️ Static routes BEFORE parameterised routes
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // âš ï¸ Static routes BEFORE parameterised routes
     Route::get('sellerregistercheck',                   [AdminsellerregisterapprovedController::class, 'seller_register_check']     )->name('seller.register.check');
     Route::get('seller/register/status',                [AdminsellerregisterapprovedController::class, 'seller_register_status']    )->name('seller.register.status');
     Route::get('seller-registrations',                  [AdminsellerregisterapprovedController::class, 'seller_register_check']     )->name('seller.register.list');
@@ -310,17 +312,17 @@ Route::middleware(['admin'])
     Route::put('seller-registrations/{id}/suspend',     [AdminsellerregisterapprovedController::class, 'seller_register_suspend']   )->name('seller.register.suspend');
     Route::put('seller-registrations/{id}/reactivate',  [AdminsellerregisterapprovedController::class, 'seller_register_reactivate'])->name('seller.register.reactivate');
 
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     // COUPONS
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     Route::post('coupons/{id}/status', [CouponController::class, 'updateStatus'])->name('coupons.status');
     Route::resource('coupons', CouponController::class);
 
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     // ROLES & PERMISSIONS
     // name: admin.roles.*  |  admin.permissions.*
-    // ⚠️ Custom routes BEFORE resource — noinlè {role} wildcard match korbe
-    // ──────────────────────────────────────────────────────────────────────────
+    // âš ï¸ Custom routes BEFORE resource â€” noinlÃ¨ {role} wildcard match korbe
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     Route::get ('roles/{role}/assign-permission',        [RoleController::class, 'assignPermission']      )->name('roles.assignPermission');
     Route::put ('roles/{role}/save-assigned-permission', [RoleController::class, 'saveAssignedPermission'])->name('roles.saveAssignedPermission');
     Route::resource('roles', RoleController::class);
@@ -328,36 +330,36 @@ Route::middleware(['admin'])
     Route::post('permissions/bulk-create', [PermissionController::class, 'bulkCreate'])->name('permissions.bulkCreate');
     Route::resource('permissions', PermissionController::class);
 
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     // USERS
     // name: admin.users.*
     // AdminUserController aliased to avoid collision with root UserController
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     Route::patch('users/{user}/toggle-status', [AdminUserController::class, 'toggleStatus'])->name('users.toggleStatus');
     Route::resource('users', AdminUserController::class);
 
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     // CATEGORIES
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     Route::get('category/{id}/toggle-featured', [CategoryController::class, 'toggleFeatured'])->name('category.toggle-featured');
     Route::get('category/{id}/toggle-status',   [CategoryController::class, 'toggleStatus']  )->name('category.toggle-status');
     Route::resource('category', CategoryController::class);
 
-    // ── Sub-Categories ────────────────────────────────────────────────────────
+    // â”€â”€ Sub-Categories â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     Route::get('subcategory/{id}/toggle-featured', [SubCategoryController::class, 'toggleFeatured'])->name('subcategory.toggle-featured');
     Route::get('subcategory/{id}/toggle-status',   [SubCategoryController::class, 'toggleStatus']  )->name('subcategory.toggle-status');
     Route::resource('subcategory', SubCategoryController::class);
 
-    // ── Child Categories ──────────────────────────────────────────────────────
+    // â”€â”€ Child Categories â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     Route::get('childcategory/{id}/toggle-featured', [ChildSubCategoryController::class, 'childtoggleFeatured'])->name('childcategory.toggle-featured');
     Route::get('childcategory/{id}/toggle-status',   [ChildSubCategoryController::class, 'childtoggleStatus']  )->name('childcategory.toggle-status');
     Route::get('get-subcategories',                  [ChildSubCategoryController::class, 'getSubCategories']   )->name('childcategory.getSubCategories');
     Route::resource('childcategory', ChildSubCategoryController::class);
 
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     // PRODUCTS
-    // ⚠️ Static routes BEFORE Route::resource() — noinlè /products/{id} match korbe
-    // ──────────────────────────────────────────────────────────────────────────
+    // âš ï¸ Static routes BEFORE Route::resource() â€” noinlÃ¨ /products/{id} match korbe
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     Route::get ('products/get-subcategories',       [ProductController::class, 'getSubCategories']  )->name('products.getSubCategories');
     Route::get ('products/get-childcategories',     [ProductController::class, 'getChildCategories'])->name('products.getChildCategories');
     Route::get ('products/deactivated',             [ProductController::class, 'deactivated']       )->name('products.deactivated');
@@ -376,71 +378,71 @@ Route::middleware(['admin'])
     Route::post('products/{id}/toggle-bestseller',  [ProductController::class, 'toggleBestseller']  )->name('products.toggle-bestseller');
     Route::resource('products', ProductController::class);
 
-    // ── DIGITAL PRODUCTS (Separate Module) ────────────────────────────────────
+    // â”€â”€ DIGITAL PRODUCTS (Separate Module) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     Route::get ('digital-products/{id}/status', [DigitalProductController::class, 'toggleStatus'])->name('digital-products.status');
     Route::resource('digital-products', DigitalProductController::class);
 
-    // ── Product Serial ────────────────────────────────────────────────────────
+    // â”€â”€ Product Serial â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     Route::get ('product-serial',        [\App\Http\Controllers\Admin\ProductSerialController::class, 'index'])->name('product-serial.index');
     Route::post('product-serial/update', [\App\Http\Controllers\Admin\ProductSerialController::class, 'update'])->name('product-serial.update');
 
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     // PRODUCT SETTINGS
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     Route::get ('product-settings',        [Productsettingcontroller::class, 'index'] )->name('product.settings.index');
     Route::put ('product-settings/update', [Productsettingcontroller::class, 'update'])->name('product.settings.update');
 
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     // AFFILIATE PRODUCTS
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     Route::get ('affiliateproduct/get-sub-categories',   [AffiliateproductController::class, 'getSubCategories']  )->name('affiliateproduct.sub-categories');
     Route::get ('affiliateproduct/get-child-categories', [AffiliateproductController::class, 'getChildCategories'])->name('affiliateproduct.child-categories');
     Route::post('affiliateproduct/{id}/toggle-status',   [AffiliateproductController::class, 'toggleStatus']      )->name('affiliateproduct.toggle-status');
     Route::resource('affiliateproduct', AffiliateproductController::class);
 
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     // GENERAL SETTINGS
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     Route::post('Generalsettings/reset',       [GeneralsettingController::class, 'resetTheme'])->name('Generalsettings.reset');
     Route::post('Generalsettings/upload-logo', [GeneralsettingController::class, 'uploadLogo'])->name('Generalsettings.upload-logo');
     Route::post('Generalsettings/delete-logo', [GeneralsettingController::class, 'deleteLogo'])->name('Generalsettings.delete-logo');
     Route::resource('Generalsettings', GeneralsettingController::class);
 
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     // WEBSITE FAVICON
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     Route::post('websitefavicon/upload-logo', [WebsitefaviconController::class, 'uploadLogo'])->name('websitefavicon.upload-logo');
     Route::post('websitefavicon/delete-logo', [WebsitefaviconController::class, 'deleteLogo'])->name('websitefavicon.delete-logo');
     Route::resource('websitefavicon', WebsitefaviconController::class);
 
-    // ── Footer Settings ──────────────────────────────────────────────────────
+    // â”€â”€ Footer Settings â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     Route::get ('footer-settings',        [App\Http\Controllers\Admin\FooterSettingController::class, 'index'] )->name('footer-settings.index');
     Route::put ('footer-settings/update', [App\Http\Controllers\Admin\FooterSettingController::class, 'update'])->name('footer-settings.update');
 
-    // ── Delivery Warning ──────────────────────────────────────────────────────
+    // â”€â”€ Delivery Warning â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     Route::get ('delivery-warning',        [\App\Http\Controllers\Admin\DeliveryTimeWarningController::class, 'index'] )->name('delivery_warning.index');
     Route::post('delivery-warning/update', [\App\Http\Controllers\Admin\DeliveryTimeWarningController::class, 'update'])->name('delivery_warning.update');
 
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     // SLIDER
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     Route::resource('slider', SliderController::class);
 
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     Route::prefix('shipping')->name('shipping.')->group(function () {
         Route::get('{shipping}/toggle-status', [ShippingChargeController::class, 'toggleStatus'])->name('toggle-status');
     });
     Route::resource('shipping', ShippingChargeController::class)->except(['show']);
 
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     // PRIVACY POLICY
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     Route::resource('privacy-policy', \App\Http\Controllers\Admin\PrivacyPolicyController::class);
 
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     // ORDERS
-    // ⚠️ Bulk/static routes BEFORE parameterised routes
-    // ──────────────────────────────────────────────────────────────────────────
+    // âš ï¸ Bulk/static routes BEFORE parameterised routes
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     Route::delete('orders/bulk-delete',          [AllorderController::class,     'bulkDelete']         )->name('order.bulk-delete');
     Route::patch ('orders/bulk-status',          [AllorderController::class,     'bulkStatus']          )->name('order.bulk-status');
     Route::post  ('orders/bulk-send-steadfast',  [SteadfastOrderController::class, 'bulkSend']         )->name('steadfast.bulk-send');
@@ -471,11 +473,11 @@ Route::middleware(['admin'])
     Route::post  ('orders/{order}/send-steadfast',[SteadfastOrderController::class, 'send']             )->name('steadfast.send');
     Route::post  ('orders/{order}/send-pathao',  [PathaoOrderController::class,  'send']                )->name('pathao.send');
 
-    // ── Steadfast misc ────────────────────────────────────────────────────────
+    // â”€â”€ Steadfast misc â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     Route::get('steadfast/test', [SteadfastOrderController::class, 'test'])->name('steadfast.test');
     Route::resource('steadfastcourier', SteadfastcourierController::class);
 
-    // ── Pathao misc ───────────────────────────────────────────────────────────
+    // â”€â”€ Pathao misc â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     Route::get('pathao/test',          [PathaoOrderController::class, 'test']        )->name('pathao.test');
     Route::get('pathao/stores',        [PathaoOrderController::class, 'getStores']   )->name('pathao.stores');
     Route::get('pathao/cities',        [PathaoOrderController::class, 'getCities']   )->name('pathao.cities');
@@ -487,29 +489,29 @@ Route::middleware(['admin'])
     Route::get('pathaocourier/generate-token', [PathaocourierController::class, 'generateToken'])->name('pathaocourier.generate-token');
     Route::resource('pathaocourier', PathaocourierController::class);
 
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     // FRAUD CHECKER
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     Route::get('fraud-checker/blocked-list',   [\App\Http\Controllers\Admin\FraudCheckerController::class, 'blockedList'])->name('fraud-checker.blocked-list');
     Route::get('fraud-checker/check',          [\App\Http\Controllers\Admin\FraudCheckerController::class, 'check'])->name('fraud-checker.check');
     Route::post('fraud-checker/toggle-block',  [\App\Http\Controllers\Admin\FraudCheckerController::class, 'toggleBlock'])->name('fraud-checker.toggle-block');
     Route::post('fraud-checker/update-status', [\App\Http\Controllers\Admin\FraudCheckerController::class, 'updateManualStatus'])->name('fraud-checker.update-status');
 
-    // ──────────────────────────────────────────────────────────────────────────
-    // INCOMPLETE ORDERS — ADMIN PANEL
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // INCOMPLETE ORDERS â€” ADMIN PANEL
     // prefix: admin/incomplete-orders  |  name: admin.incomplete-orders.*
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     Route::prefix('incomplete-orders')->name('incomplete-orders.')->group(function () {
         Route::get('/', [AdminIncompleteOrderController::class, 'index'])->name('index');
         Route::get('/', [AdminIncompleteOrderController::class, 'index'])->name('index');
 
-        // Bulk (static — BEFORE parameterised)
+        // Bulk (static â€” BEFORE parameterised)
         Route::delete('bulk-delete',           [AdminIncompleteOrderController::class, 'bulkDelete']      )->name('bulk-delete');
         Route::patch ('bulk-status',           [AdminIncompleteOrderController::class, 'bulkStatus']      )->name('bulk-status');
         Route::post  ('steadfast/bulk-send',   [AdminIncompleteOrderController::class, 'steadfastBulkSend'])->name('steadfast.bulk-send');
         Route::post  ('pathao/bulk-send',      [AdminIncompleteOrderController::class, 'pathaoBulkSend']  )->name('pathao.bulk-send');
 
-        // Single record (parameterised — AFTER static)
+        // Single record (parameterised â€” AFTER static)
         Route::get   ('{incompleteOrder}',              [AdminIncompleteOrderController::class, 'show']         )->name('show');
         Route::delete('{incompleteOrder}',              [AdminIncompleteOrderController::class, 'destroy']      )->name('destroy');
         Route::patch ('{incompleteOrder}/status',       [AdminIncompleteOrderController::class, 'updateStatus'] )->name('update-status');
@@ -519,10 +521,10 @@ Route::middleware(['admin'])
         Route::post  ('{incompleteOrder}/pathao-send',  [AdminIncompleteOrderController::class, 'pathaoSend']   )->name('pathao.send');
     });
 
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     // ADMIN CHAT PANEL
     // prefix: admin/chat  |  name: admin.chat.*
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     Route::prefix('chat')->name('chat.')->group(function () {
         Route::get ('/',                       [AdminChatController::class, 'index']      )->name('index');
         Route::get ('/unread-count',           [AdminChatController::class, 'unreadCount'])->name('unread');
@@ -532,80 +534,80 @@ Route::middleware(['admin'])
         Route::post('/{chatSession}/close',    [AdminChatController::class, 'close']      )->name('close');
     });
 
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     // PRODUCT REVIEWS
     // name: admin.reviews.*
-    // ⚠️ Bulk route BEFORE parameterised route
-    // ──────────────────────────────────────────────────────────────────────────
+    // âš ï¸ Bulk route BEFORE parameterised route
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     Route::post  ('reviews/bulk',           [AdminproductReviewController::class, 'bulk']     )->name('reviews.bulk');
     Route::get   ('reviews',                [AdminproductReviewController::class, 'index']    )->name('reviews.index');
     Route::post  ('reviews/{id}/approve',   [AdminproductReviewController::class, 'approve']  )->name('reviews.approve');
     Route::post  ('reviews/{id}/unapprove', [AdminproductReviewController::class, 'unapprove'])->name('reviews.unapprove');
     Route::delete('reviews/{id}',           [AdminproductReviewController::class, 'destroy']  )->name('reviews.destroy');
 
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     // PAYMENT SETTINGS
     // name: admin.payment.*
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     Route::get ('payment-settings',                  [PaymentSettingController::class, 'index']          )->name('payment.index');
     Route::post('payment-settings/bkash',            [PaymentSettingController::class, 'bkashStore']     )->name('payment.bkash.store');
     Route::post('payment-settings/shurjopay',        [PaymentSettingController::class, 'shurjopayStore'] )->name('payment.shurjopay.store');
     Route::post('payment-settings/bkash/toggle',     [PaymentSettingController::class, 'bkashToggle']    )->name('payment.bkash.toggle');
     Route::post('payment-settings/shurjopay/toggle', [PaymentSettingController::class, 'shurjopayToggle'])->name('payment.shurjopay.toggle');
 
-    // ──────────────────────────────────────────────────────────────────────────
-    // VAT & TAXES  (একবারই define করা হয়েছে)
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // VAT & TAXES  (à¦à¦•à¦¬à¦¾à¦°à¦‡ define à¦•à¦°à¦¾ à¦¹à¦¯à¦¼à§‡à¦›à§‡)
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     Route::post('alltaxes/{alltaxes}/toggle', [AlltaxesController::class, 'toggleStatus'])->name('alltaxes.toggle');
     Route::resource('alltaxes', AlltaxesController::class);
 
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     // COLORS
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     Route::post('color/{color}/toggle', [ColorController::class, 'toggleStatus'])->name('color.toggle');
     Route::resource('color', ColorController::class);
 
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     // SIZES
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     Route::post('size/{size}/toggle', [SizeController::class, 'toggleStatus'])->name('size.toggle');
     Route::resource('size', SizeController::class);
 
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     // UNITS
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     Route::post('unit/{unit}/toggle', [UnitController::class, 'toggleStatus'])->name('unit.toggle');
     Route::resource('unit', UnitController::class);
 
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     // PRODUCT BRANDS
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     Route::post('productbrands/{productbrand}/toggle', [ProductBrandController::class, 'toggleStatus'])->name('productbrands.toggle');
     Route::resource('productbrands', ProductBrandController::class);
 
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     // DUPLICATE ORDER SETTING
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     Route::patch('duplicateordersetting/{duplicateordersetting}/toggle-status', [DuplicateordersettingController::class, 'toggleStatus'])->name('duplicateordersetting.toggleStatus');
     Route::resource('duplicateordersetting', DuplicateordersettingController::class);
 
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     // IP BLOCK MANAGE
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     Route::patch('Ipblockmanage/{Ipblockmanage}/toggle-status', [IpblockmanageController::class, 'toggleStatus'])->name('Ipblockmanage.toggleStatus');
     Route::resource('Ipblockmanage', IpblockmanageController::class);
 
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     // AI PROMPT
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     Route::post('aiprompt/update-product', [AipromptController::class, 'updateProduct'])->name('aiprompt.update-product');
     Route::post('aiprompt/update-page',    [AipromptController::class, 'updatePage']   )->name('aiprompt.update-page');
     Route::post('aiprompt/update-blog',    [AipromptController::class, 'updateBlog']   )->name('aiprompt.update-blog');
     Route::resource('aiprompt', AipromptController::class)->only(['index', 'store']);
 
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     // OTHER RESOURCES
-    // ──────────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     Route::resource('contact',                ContactController::class);
     Route::resource('pixels',                 PixelController::class);
     Route::resource('googletagmanager',       GoogleTagmanagerController::class);
@@ -633,14 +635,12 @@ Route::middleware(['admin'])
     Route::post('landing-pages/{id}/builder/update-settings', [LandingPageBuilderController::class, 'updateSettings'])->name('landing-pages.builder.update_settings');
     Route::post('landing-pages/{id}/builder/switch-theme',    [LandingPageBuilderController::class, 'switchTheme'])->name('landing-pages.builder.switch_theme');
 
-    // ── Subscribers ───────────────────────────────────────────────────────────
+    
     Route::get('subscribers', [SubscriberController::class, 'index'])->name('subscribers.index');
     Route::delete('subscribers/{id}', [SubscriberController::class, 'destroy'])->name('subscribers.destroy');
 
 // Added explicit route for admin landing index
 Route::get('landing', [LandingPageController::class, 'index'])->name('landing.index');
-
-    // ── Payment Gateway Manage ────────────────────────────────────────────────
     Route::patch('paymentgetewaymanage/{id}/toggle-status', [PaymentgetewaymanageController::class, 'toggleStatus'])->name('paymentgetewaymanage.toggle-status');
     Route::resource('paymentgetewaymanage', PaymentgetewaymanageController::class);
 
@@ -651,7 +651,7 @@ Route::get('landing', [LandingPageController::class, 'index'])->name('landing.in
     // Payment History
     Route::get('payment-history', [PaymentHistoryController::class, 'index'])->name('payment.history');
 
-    // ── Blog ──────────────────────────────────────────────────────────────────
+    // â”€â”€ Blog â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     Route::resource('blog-categories', App\Http\Controllers\Admin\BlogCategoryController::class);
     Route::resource('blog-posts', App\Http\Controllers\Admin\BlogPostController::class);
 
@@ -659,12 +659,12 @@ Route::get('landing', [LandingPageController::class, 'index'])->name('landing.in
     Route::post('mail-setting/update', [App\Http\Controllers\Admin\MailsettingController::class, 'update'])->name('mail.update');
     Route::post('mail-setting/test',   [App\Http\Controllers\Admin\MailsettingController::class, 'sendTestMail'])->name('mail.test');
 
-    // ── Purchase Management ────────────────────────────────────
-    // ── Suppliers ──────────────────────────────────────────────────
+    // â”€â”€ Purchase Management â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // â”€â”€ Suppliers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     Route::resource('suppliers', SupplierController::class);
     Route::post('suppliers/{id}/toggle-status', [SupplierController::class, 'toggleStatus'])->name('suppliers.toggle');
 
-    // ── Purchases ──────────────────────────────────────────────────
+    // â”€â”€ Purchases â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     Route::get ('purchases/export',              [PurchaseController::class, 'exportExcel']     )->name('purchases.export');
     Route::get ('purchases/summary',             [PurchaseController::class, 'summary']          )->name('purchases.summary');
     Route::get ('purchases/{purchase}/pdf',       [PurchaseController::class, 'downloadPdf']     )->name('purchases.pdf');
@@ -673,35 +673,35 @@ Route::get('landing', [LandingPageController::class, 'index'])->name('landing.in
     Route::delete('purchases/items/{item}',              [PurchaseController::class, 'removeItem']   )->name('purchases.remove-item');
     Route::patch ('purchases/{purchase}/mark-received',  [PurchaseController::class, 'markAsReceived'])->name('purchases.mark-received');
 
-    // ── Purchase Reports ───────────────────────────────────────────
+    // â”€â”€ Purchase Reports â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     Route::get('purchase-report',        [PurchaseReportController::class, 'stockReport']      )->name('purchases.report');
     Route::get('purchase-stock-export',  [PurchaseReportController::class, 'exportStockExcel'] )->name('purchases.stock-export');
 
-    // ── Purchase Returns ───────────────────────────────────────────
+    // â”€â”€ Purchase Returns â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     Route::resource('purchase-returns', PurchaseReturnController::class);
     Route::patch('purchase-returns/{purchaseReturn}/approve', [PurchaseReturnController::class, 'approve'])->name('purchase-returns.approve');
     Route::patch('purchase-returns/{purchaseReturn}/reject',  [PurchaseReturnController::class, 'reject'] )->name('purchase-returns.reject');
 
 }); // end admin group
 
-// ══════════════════════════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // SELLER
-// ══════════════════════════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 Route::get ('seller/login',    [SellerauthController::class, 'saller_login']          )->name('saller.login');
 Route::get ('seller/register', [SellerauthController::class, 'saller_register']       )->name('saller.register');
 Route::post('seller/login',    [SellerauthController::class, 'saller_login_submit']   )->name('saller.login.submit');
 Route::post('seller',          [SellerauthController::class, 'saller_register_submit'])->name('saller.register.submit');
 
 Route::middleware(['seller'])->group(function () {
-    Route::get ('saller/dashboard', [SellerauthController::class, 'saller_dashboard'])->name('saller.dashboard');
+    Route::get ('saller/dashboard', [SallerController::class, 'saller_dashboard'])->name('saller.dashboard');
     Route::match(['get', 'post'], 'saller/logout', [SellerauthController::class, 'saller_logout'])->name('saller.logout');
     Route::post('saller/profile/update', [App\Http\Controllers\ProfileController::class, 'updateProfile'])->name('saller.profile.update');
     Route::post('saller/profile/password', [App\Http\Controllers\ProfileController::class, 'updatePassword'])->name('saller.profile.password');
 });
 
-// ══════════════════════════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // EMPLOYEE
-// ══════════════════════════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 Route::get ('emplee/login',        [EmpleeController::class, 'emplee']       )->name('emplee.login');
 Route::post('emplee/login/submit', [EmpleeController::class, 'loginSubmit']  )->name('emplee.login.submit');
 Route::post('emplee/logout',       [EmpleeController::class, 'emplee_logout'])->name('emplee.logout');
@@ -714,7 +714,7 @@ Route::middleware(['emplee'])->group(function () {
     Route::post('emplee/profile/update', [App\Http\Controllers\ProfileController::class, 'updateProfile'])->name('emplee.profile.update');
     Route::post('emplee/profile/password', [App\Http\Controllers\ProfileController::class, 'updatePassword'])->name('emplee.profile.password');
 
-    // ── Orders ────────────────────────────────────────────────────────────────
+    // â”€â”€ Orders â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     Route::delete('emplee/orders/bulk-delete',         [App\Http\Controllers\Admin\AllorderController::class, 'bulkDelete'])->name('emplee.orders.bulk-delete');
     Route::patch ('emplee/orders/bulk-status',         [App\Http\Controllers\Admin\AllorderController::class, 'bulkStatus'])->name('emplee.orders.bulk-status');
     Route::post  ('emplee/orders/bulk-send-steadfast', [App\Http\Controllers\Admin\SteadfastOrderController::class, 'bulkSend'])->name('emplee.orders.steadfast.bulk-send');
@@ -731,20 +731,18 @@ Route::middleware(['emplee'])->group(function () {
     Route::post  ('emplee/orders/{order}/send-steadfast', [App\Http\Controllers\Admin\SteadfastOrderController::class, 'send'])->name('emplee.orders.steadfast.send');
     Route::post  ('emplee/orders/{order}/send-pathao',    [App\Http\Controllers\Admin\PathaoOrderController::class, 'send'])->name('emplee.orders.pathao.send');
 
-    // ── Categories ────────────────────────────────────────────────────────────
+    // â”€â”€ Categories â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     Route::resource('emplee/category',    App\Http\Controllers\Admin\CategoryController::class,    ['as' => 'emplee']);
     Route::resource('emplee/subcategory', App\Http\Controllers\Admin\SubCategoryController::class, ['as' => 'emplee']);
     Route::resource('emplee/products',    App\Http\Controllers\Admin\ProductController::class,     ['as' => 'emplee']);
 
-    // ── Coupons ───────────────────────────────────────────────────────────────
+    // â”€â”€ Coupons â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     Route::get   ('emplee/coupons',          [App\Http\Controllers\Admin\CouponController::class, 'index']  )->name('emplee.coupon.index');
     Route::get   ('emplee/coupons/create',   [App\Http\Controllers\Admin\CouponController::class, 'create'] )->name('emplee.coupon.create');
     Route::post  ('emplee/coupons',          [App\Http\Controllers\Admin\CouponController::class, 'store']  )->name('emplee.coupon.store');
     Route::get   ('emplee/coupons/{id}/edit',[App\Http\Controllers\Admin\CouponController::class, 'edit']   )->name('emplee.coupon.edit');
     Route::put   ('emplee/coupons/{id}',     [App\Http\Controllers\Admin\CouponController::class, 'update'] )->name('emplee.coupon.update');
     Route::delete('emplee/coupons/{id}',     [App\Http\Controllers\Admin\CouponController::class, 'destroy'])->name('emplee.coupon.destroy');
-
-    // ── Chat ──────────────────────────────────────────────────────────────────
     Route::prefix('emplee/chat')->name('emplee.chat.')->group(function () {
         Route::get ('/',                       [App\Http\Controllers\Admin\AdminChatController::class, 'index']      )->name('index');
         Route::get ('/unread-count',           [App\Http\Controllers\Admin\AdminChatController::class, 'unreadCount'])->name('unread');
@@ -754,19 +752,16 @@ Route::middleware(['emplee'])->group(function () {
         Route::post('/{chatSession}/close',    [App\Http\Controllers\Admin\AdminChatController::class, 'close']      )->name('close');
     });
 
-    // ── Blog ──────────────────────────────────────────────────────────────────
     Route::resource('emplee/blog-categories', App\Http\Controllers\Admin\BlogCategoryController::class, ['as' => 'emplee']);
     Route::resource('emplee/blog-posts', App\Http\Controllers\Admin\BlogPostController::class, ['as' => 'emplee']);
 
-    // ── Purchase Management ────────────────────────────────────
+   
     Route::resource('emplee/suppliers', SupplierController::class, ['as' => 'emplee']);
     Route::resource('emplee/purchases', PurchaseController::class, ['as' => 'emplee']);
     Route::get('emplee/purchase-report', [PurchaseReportController::class, 'stockReport'])->name('emplee.purchases.report');
 });
 
-// ══════════════════════════════════════════════════════════════════════════════
-// MANAGER
-// ══════════════════════════════════════════════════════════════════════════════
+
 Route::get ('manager/login',        [ManagerController::class, 'manager_login']       )->name('manager.login');
 Route::post('manager/login/submit', [ManagerController::class, 'manager_login_submit'])->name('manager.login.submit');
 Route::post('manager/logout',       [ManagerController::class, 'manager_logout']      )->name('manager.logout');
@@ -778,8 +773,6 @@ Route::middleware(['manager'])->group(function () {
     Route::get('manager/profile', [App\Http\Controllers\ProfileController::class, 'index'])->name('manager.profile.index');
     Route::post('manager/profile/update', [App\Http\Controllers\ProfileController::class, 'updateProfile'])->name('manager.profile.update');
     Route::post('manager/profile/password', [App\Http\Controllers\ProfileController::class, 'updatePassword'])->name('manager.profile.password');
-
-    // ── Orders ────────────────────────────────────────────────────────────────
     Route::delete('manager/orders/bulk-delete',         [App\Http\Controllers\Admin\AllorderController::class, 'bulkDelete'])->name('manager.orders.bulk-delete');
     Route::patch ('manager/orders/bulk-status',         [App\Http\Controllers\Admin\AllorderController::class, 'bulkStatus'])->name('manager.orders.bulk-status');
     Route::post  ('manager/orders/bulk-send-steadfast', [App\Http\Controllers\Admin\SteadfastOrderController::class, 'bulkSend'])->name('manager.orders.steadfast.bulk-send');
@@ -795,13 +788,9 @@ Route::middleware(['manager'])->group(function () {
     Route::delete('manager/orders/{id}',                [App\Http\Controllers\Admin\AllorderController::class, 'destroy'])->name('manager.orders.destroy');
     Route::post  ('manager/orders/{order}/send-steadfast', [App\Http\Controllers\Admin\SteadfastOrderController::class, 'send'])->name('manager.orders.steadfast.send');
     Route::post  ('manager/orders/{order}/send-pathao',    [App\Http\Controllers\Admin\PathaoOrderController::class, 'send'])->name('manager.orders.pathao.send');
-
-    // ── Categories ────────────────────────────────────────────────────────────
     Route::resource('manager/category',    App\Http\Controllers\Admin\CategoryController::class,    ['as' => 'manager']);
     Route::resource('manager/subcategory', App\Http\Controllers\Admin\SubCategoryController::class, ['as' => 'manager']);
     Route::resource('manager/products',    App\Http\Controllers\Admin\ProductController::class,     ['as' => 'manager']);
-
-    // ── Coupons ───────────────────────────────────────────────────────────────
     Route::get   ('manager/coupons',          [App\Http\Controllers\Admin\CouponController::class, 'index']  )->name('manager.coupon.index');
     Route::get   ('manager/coupons/create',   [App\Http\Controllers\Admin\CouponController::class, 'create'] )->name('manager.coupon.create');
     Route::post  ('manager/coupons',          [App\Http\Controllers\Admin\CouponController::class, 'store']  )->name('manager.coupon.store');
@@ -809,14 +798,14 @@ Route::middleware(['manager'])->group(function () {
     Route::put   ('manager/coupons/{id}',     [App\Http\Controllers\Admin\CouponController::class, 'update'] )->name('manager.coupon.update');
     Route::delete('manager/coupons/{id}',     [App\Http\Controllers\Admin\CouponController::class, 'destroy'])->name('manager.coupon.destroy');
 
-    // ── Reviews ───────────────────────────────────────────────────────────────
+    
     Route::post  ('manager/reviews/bulk',           [App\Http\Controllers\Admin\AdminproductReviewController::class, 'bulk']     )->name('manager.reviews.bulk');
     Route::get   ('manager/reviews',                [App\Http\Controllers\Admin\AdminproductReviewController::class, 'index']    )->name('manager.reviews.index');
     Route::post  ('manager/reviews/{id}/approve',   [App\Http\Controllers\Admin\AdminproductReviewController::class, 'approve']  )->name('manager.reviews.approve');
     Route::post  ('manager/reviews/{id}/unapprove', [App\Http\Controllers\Admin\AdminproductReviewController::class, 'unapprove'])->name('manager.reviews.unapprove');
     Route::delete('manager/reviews/{id}',           [App\Http\Controllers\Admin\AdminproductReviewController::class, 'destroy']  )->name('manager.reviews.destroy');
 
-    // ── Chat ──────────────────────────────────────────────────────────────────
+    
     Route::prefix('manager/chat')->name('manager.chat.')->group(function () {
         Route::get ('/',                       [App\Http\Controllers\Admin\AdminChatController::class, 'index']      )->name('index');
         Route::get ('/unread-count',           [App\Http\Controllers\Admin\AdminChatController::class, 'unreadCount'])->name('unread');
@@ -826,19 +815,40 @@ Route::middleware(['manager'])->group(function () {
         Route::post('/{chatSession}/close',    [App\Http\Controllers\Admin\AdminChatController::class, 'close']      )->name('close');
     });
 
-    // ── Blog ──────────────────────────────────────────────────────────────────
+   
     Route::resource('manager/blog-categories', App\Http\Controllers\Admin\BlogCategoryController::class, ['as' => 'manager']);
     Route::resource('manager/blog-posts', App\Http\Controllers\Admin\BlogPostController::class, ['as' => 'manager']);
 
-    // ── Purchase Management ────────────────────────────────────
+    
     Route::resource('manager/suppliers', SupplierController::class, ['as' => 'manager']);
     Route::resource('manager/purchases', PurchaseController::class, ['as' => 'manager']);
     Route::get('manager/purchase-report', [PurchaseReportController::class, 'stockReport'])->name('manager.purchases.report');
+
+    // HR Management
+    Route::prefix('manager/hr')->name('manager.hr.')->group(function () {
+        Route::get ('/employees',           [App\Http\Controllers\Admin\HRManagementController::class, 'employees']      )->name('employees');
+        Route::get ('/employees/create',    [App\Http\Controllers\Admin\HRManagementController::class, 'createEmployee'])->name('employees.create');
+        Route::post('/employees/store',     [App\Http\Controllers\Admin\HRManagementController::class, 'storeEmployee'] )->name('employees.store');
+        Route::get ('/employees/{id}',      [App\Http\Controllers\Admin\HRManagementController::class, 'showEmployee']  )->name('employees.show');
+        Route::get ('/employees/{id}/edit', [App\Http\Controllers\Admin\HRManagementController::class, 'editEmployee']  )->name('employees.edit');
+        Route::post('/employees/{id}/update', [App\Http\Controllers\Admin\HRManagementController::class, 'updateEmployee'])->name('employees.update');
+        Route::delete('/employees/{id}',    [App\Http\Controllers\Admin\HRManagementController::class, 'deleteEmployee'])->name('employees.delete');
+        
+        Route::get ('/attendance',          [App\Http\Controllers\Admin\HRManagementController::class, 'attendance']     )->name('attendance');
+
+        Route::post('/attendance/store',    [App\Http\Controllers\Admin\HRManagementController::class, 'storeAttendance'] )->name('attendance.store');
+        
+        Route::get ('/salary',              [App\Http\Controllers\Admin\HRManagementController::class, 'salary']         )->name('salary');
+        Route::post('/salary/pay',          [App\Http\Controllers\Admin\HRManagementController::class, 'paySalary']      )->name('salary.pay');
+        Route::post('/salary/advance',      [App\Http\Controllers\Admin\HRManagementController::class, 'storeAdvance']   )->name('salary.advance');
+
+        
+        Route::get ('/expenses',            [App\Http\Controllers\Admin\HRManagementController::class, 'expenses']       )->name('expenses');
+        Route::post('/expenses/store',      [App\Http\Controllers\Admin\HRManagementController::class, 'storeExpense']    )->name('expenses.store');
+    });
+
 });
 
-// ══════════════════════════════════════════════════════════════════════════════
-// SUB-ADMIN
-// ══════════════════════════════════════════════════════════════════════════════
 Route::get ('subadmin/login',        [SubadminController::class, 'subadmin_login']       )->name('subadmin.login');
 Route::post('subadmin/login/submit', [SubadminController::class, 'subadmin_login_submit'])->name('subadmin.login.submit');
 Route::get ('subadmin/logout',       [SubadminController::class, 'subadmin_logout']      )->name('subadmin.logout');
@@ -847,9 +857,7 @@ Route::middleware(['subadmin'])->group(function () {
     Route::get('subadmin/dashboard', [SubadminController::class, 'subadmin_dashboard'])->name('subadmin.dashboard');
 });
 
-// ══════════════════════════════════════════════════════════════════════════════
-// SELLER - ADMIN CHAT
-// ══════════════════════════════════════════════════════════════════════════════
+
 Route::middleware(['admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/seller-chats', [App\Http\Controllers\Admin\SellerChatController::class, 'index'])->name('seller_chat.index');
     Route::get('/seller-chats/{seller_id}', [App\Http\Controllers\Admin\SellerChatController::class, 'fetchMessages']);
@@ -897,6 +905,41 @@ Route::middleware(['seller'])->prefix('saller')->name('saller.')->group(function
     // Supplier Management
     Route::resource('suppliers', App\Http\Controllers\Saller\SupplierController::class);
 
+    // Profile Management
+    Route::get('/profile', [App\Http\Controllers\Saller\SellerauthController::class, 'profile'])->name('profile.index');
+    Route::get('/profile/edit', [App\Http\Controllers\Saller\SellerauthController::class, 'edit_profile'])->name('profile.edit');
+    Route::post('/profile/update', [App\Http\Controllers\Saller\SellerauthController::class, 'update_profile'])->name('profile.update');
+    Route::post('/profile/update-password', [App\Http\Controllers\Saller\SellerauthController::class, 'update_password'])->name('profile.update_password');
+
     // Customer Management
     Route::resource('customers', App\Http\Controllers\Saller\CustomerController::class);
+
+    // Product Management
+    Route::resource('products', App\Http\Controllers\Saller\SellerProductController::class);
+    Route::post('/products/{id}/status', [App\Http\Controllers\Saller\SellerProductController::class, 'toggleStatus'])->name('products.status');
+    Route::get('/products/{id}/barcode', [App\Http\Controllers\Saller\SellerProductController::class, 'barcode'])->name('products.barcode');
+    Route::get('/all-digital-products', [App\Http\Controllers\Saller\SellerProductController::class, 'index'])->name('digital_products.index');
+
+
+
+    Route::get('/add-digital-product', [App\Http\Controllers\Saller\SellerProductController::class, 'create'])->name('digital_products.create');
+    Route::get('/products/get-sub-categories', [App\Http\Controllers\Saller\SellerProductController::class, 'getSubCategories'])->name('products.get_sub_categories');
+    Route::get('/products/get-child-categories', [App\Http\Controllers\Saller\SellerProductController::class, 'getChildCategories'])->name('products.get_child_categories');
+
+    // POS Management
+    Route::prefix('pos')->name('pos.')->group(function () {
+        Route::get ('/',                        [App\Http\Controllers\Saller\SellerPosController::class, 'index']         )->name('index');
+        Route::get ('/search-products',         [App\Http\Controllers\Saller\SellerPosController::class, 'searchProducts'])->name('searchProducts');
+        Route::get ('/search-customers',        [App\Http\Controllers\Saller\SellerPosController::class, 'searchCustomers'])->name('searchCustomers');
+        Route::post('/store-customer',          [App\Http\Controllers\Saller\SellerPosController::class, 'storeCustomer'] )->name('storeCustomer');
+        Route::post('/apply-coupon',            [App\Http\Controllers\Saller\SellerPosController::class, 'applyCoupon']   )->name('applyCoupon');
+        Route::post('/place-order',             [App\Http\Controllers\Saller\SellerPosController::class, 'placeOrder']    )->name('placeOrder');
+        Route::post('/cancel-order/{session}',  [App\Http\Controllers\Saller\SellerPosController::class, 'cancelOrder']   )->name('cancelOrder');
+        Route::get ('/invoice/{session}',       [App\Http\Controllers\Saller\SellerPosController::class, 'invoice']       )->name('invoice');
+        Route::get ('/orders',                  [App\Http\Controllers\Saller\SellerPosController::class, 'orders']        )->name('orders');
+    });
 });
+
+// Customer-Seller Chat
+Route::post('/chat/send', [App\Http\Controllers\Frontend\CustomerSellerChatController::class, 'sendMessage'])->name('chat.send');
+Route::get('/chat/messages/{sellerId}', [App\Http\Controllers\Frontend\CustomerSellerChatController::class, 'getMessages'])->name('chat.messages');

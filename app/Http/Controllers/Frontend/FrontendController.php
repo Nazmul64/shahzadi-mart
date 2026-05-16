@@ -92,10 +92,27 @@ class FrontendController extends Controller
 
         $deliveryInformation = DeliveryInformation::first();
 
+        // ── Fetch Top Rated Shops ──
+        $topRatedShops = \App\Models\User::whereHas('roles', fn($q) => $q->where('slug', 'seller'))
+            ->where('status', 'active')
+            ->whereNotNull('store_name')
+            ->withCount(['products' => fn($q) => $q->where('status', 'active')])
+            ->latest()
+            ->take(10)
+            ->get();
+
+        // Calculate average rating for each shop (simplified logic for now)
+        foreach ($topRatedShops as $shop) {
+            $shop->avg_rating = \App\Models\Producreview::whereIn('product_id', 
+                \App\Models\Product::where('vendor', $shop->id)->pluck('id')
+            )->where('is_approved', true)->avg('rating') ?: 5.0;
+        }
+
         return view('frontend.index', compact(
             'slider', 'categories', 'websetting',
             'flashProducts', 'hotCategories',
-            'newArrivals', 'bestSellers', 'digitalProducts', 'sidebarCategories', 'deliveryInformation'
+            'newArrivals', 'bestSellers', 'digitalProducts', 'sidebarCategories', 'deliveryInformation',
+            'topRatedShops'
         ));
     }
 
@@ -234,11 +251,14 @@ class FrontendController extends Controller
             $productUnits = \App\Models\Unit::whereIn('id', $product->unit_ids)->orderBy('name')->get();
         }
 
-        $relatedProducts = Product::with(['category'])
+        $relatedProducts = Product::with(['category', 'reviews'])
             ->where('id', '!=', $product->id)
             ->where(function ($q) use ($product) {
                 if ($product->category_id) {
                     $q->where('category_id', $product->category_id);
+                }
+                if ($product->vendor) {
+                    $q->where('vendor', $product->vendor);
                 }
             })
             ->where('status', 'active')
@@ -246,14 +266,38 @@ class FrontendController extends Controller
             ->take(8)
             ->get();
 
+        // ── Fetch Seller Info & Popular Products From Them ──
+        $seller = null;
+        $sellerProducts = collect();
+        if ($product->vendor) {
+            $seller = \App\Models\User::find($product->vendor);
+            if ($seller) {
+                // Calculate average rating for the seller
+                $seller->avg_rating = \App\Models\Producreview::whereIn('product_id', 
+                    Product::where('vendor', $seller->id)->pluck('id')
+                )->where('is_approved', true)->avg('rating') ?: 5.0;
+
+                $sellerProducts = Product::with(['reviews'])
+                    ->where('vendor', $seller->id)
+                    ->where('id', '!=', $product->id)
+                    ->where('status', 'active')
+                    ->latest()
+                    ->take(5)
+                    ->get();
+            }
+        }
+
         $sidebarCategories   = $this->getSidebarCategories();
         $websetting          = \App\Models\Generalsetting::first();
         $deliveryInformation = \App\Models\DeliveryInformation::first();
         $deliveryTimeWarning = \App\Models\DeliveryTimeWarning::orderByDesc('id')->first();
 
-        return view('frontend.productdetails.productdetails', compact(
+        $view = $product->vendor ? 'frontend.productdetails.sellerproductdetails' : 'frontend.productdetails.productdetails';
+        return view($view, compact(
             'product',
             'relatedProducts',
+            'seller',
+            'sellerProducts',
             'sidebarCategories',
             'websetting',
             'deliveryInformation',
@@ -524,6 +568,47 @@ class FrontendController extends Controller
 
         return view('frontend.shop', compact(
             'products', 'categories', 'websetting', 'sidebarCategories'
+        ));
+    }
+
+    // ─── Shop Details Page (Specific Seller) ───────────────────────────────────
+    public function shopDetails(Request $request, $slug)
+    {
+        $seller = \App\Models\User::where('store_slug', $slug)
+            ->whereHas('roles', fn($q) => $q->where('slug', 'seller'))
+            ->where('status', 'active')
+            ->firstOrFail();
+
+        $websetting        = Generalsetting::first();
+        $categories        = Category::where('status', 'active')->get();
+        $sidebarCategories = $this->getSidebarCategories();
+
+        $query = Product::where('status', 'active')->where('vendor', $seller->id);
+
+        if ($request->filled('category')) {
+            $cat = Category::where('slug', $request->category)->first();
+            if ($cat) {
+                $subIds   = $cat->subCategories()->pluck('id');
+                $childIds = \App\Models\ChildSubCategory::whereIn('sub_category_id', $subIds)->pluck('id');
+                $query->where(function ($q) use ($cat, $subIds, $childIds) {
+                    $q->where('category_id', $cat->id)
+                      ->orWhereIn('sub_category_id', $subIds)
+                      ->orWhereIn('child_sub_category_id', $childIds);
+                });
+            }
+        }
+
+        switch ($request->get('sort', 'latest')) {
+            case 'price_low':  $query->orderByRaw('COALESCE(discount_price, current_price) ASC');  break;
+            case 'price_high': $query->orderByRaw('COALESCE(discount_price, current_price) DESC'); break;
+            case 'name_asc':   $query->orderBy('name', 'asc'); break;
+            default: $query->orderByDesc('is_pinned')->latest(); break;
+        }
+
+        $products = $query->paginate(20)->withQueryString();
+
+        return view('frontend.sellershop', compact(
+            'products', 'categories', 'websetting', 'sidebarCategories', 'seller'
         ));
     }
 

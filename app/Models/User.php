@@ -305,27 +305,27 @@ class User extends Authenticatable
 
     public function getBusinessTypeAttribute(): string
     {
-        return $this->getAddressData()['business_type'] ?? 'N/A';
+        return $this->getAddressData()['business_type'] ?? '';
     }
 
     public function getBusinessNameAttribute(): string
     {
-        return $this->getAddressData()['business_name'] ?? 'N/A';
+        return $this->getAddressData()['business_name'] ?? '';
     }
 
     public function getBusinessAddressAttribute(): string
     {
-        return $this->getAddressData()['business_address'] ?? 'N/A';
+        return $this->getAddressData()['business_address'] ?? '';
     }
 
     public function getCityAttribute(): string
     {
-        return $this->getAddressData()['city'] ?? 'N/A';
+        return $this->getAddressData()['city'] ?? '';
     }
 
     public function getPostalCodeAttribute(): string
     {
-        return $this->getAddressData()['postal_code'] ?? 'N/A';
+        return $this->getAddressData()['postal_code'] ?? '';
     }
 
     public function getNationalIdUrlAttribute(): ?string
@@ -350,5 +350,10 @@ class User extends Authenticatable
     public function getBranchNameAttribute(): string
     {
         return $this->getAddressData()['branch_name'] ?? 'N/A';
+    }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'vendor');
     }
 }

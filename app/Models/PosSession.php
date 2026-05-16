@@ -40,7 +40,7 @@ class PosSession extends Model
 
     public function customer()
     {
-        return $this->belongsTo(Customer::class, 'customer_id');
+        return $this->belongsTo(\App\Models\User::class, 'customer_id');
     }
 
     public function createdBy()
