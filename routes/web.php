@@ -253,6 +253,12 @@ Route::middleware(['admin'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
+    
+    // ──────────────────────────────────────────────────────────────────────────
+    // BANKS
+    // ──────────────────────────────────────────────────────────────────────────
+    Route::post('banks/{bank}/toggle-status', [App\Http\Controllers\Admin\BankController::class, 'toggleStatus'])->name('banks.toggle-status');
+    Route::resource('banks', App\Http\Controllers\Admin\BankController::class);
 
     // ── Dashboard ─────────────────────────────────────────────────────────────
     Route::get('dashboard', [AdminController::class, 'admin_dashboard'])->name('dashboard');
@@ -674,9 +680,9 @@ Route::get ('seller/register', [SellerauthController::class, 'saller_register'] 
 Route::post('seller/login',    [SellerauthController::class, 'saller_login_submit']   )->name('saller.login.submit');
 Route::post('seller',          [SellerauthController::class, 'saller_register_submit'])->name('saller.register.submit');
 
-Route::middleware(['saller'])->group(function () {
+Route::middleware(['seller'])->group(function () {
     Route::get ('saller/dashboard', [SellerauthController::class, 'saller_dashboard'])->name('saller.dashboard');
-    Route::post('saller/logout',    [SellerauthController::class, 'saller_logout']   )->name('saller.logout');
+    Route::match(['get', 'post'], 'saller/logout', [SellerauthController::class, 'saller_logout'])->name('saller.logout');
     Route::post('saller/profile/update', [App\Http\Controllers\ProfileController::class, 'updateProfile'])->name('saller.profile.update');
     Route::post('saller/profile/password', [App\Http\Controllers\ProfileController::class, 'updatePassword'])->name('saller.profile.password');
 });
@@ -827,4 +833,30 @@ Route::get ('subadmin/logout',       [SubadminController::class, 'subadmin_logou
 
 Route::middleware(['subadmin'])->group(function () {
     Route::get('subadmin/dashboard', [SubadminController::class, 'subadmin_dashboard'])->name('subadmin.dashboard');
+});
+
+// ══════════════════════════════════════════════════════════════════════════════
+// SELLER - ADMIN CHAT
+// ══════════════════════════════════════════════════════════════════════════════
+Route::middleware(['admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/seller-chats', [App\Http\Controllers\Admin\SellerChatController::class, 'index'])->name('seller_chat.index');
+    Route::get('/seller-chats/{seller_id}', [App\Http\Controllers\Admin\SellerChatController::class, 'fetchMessages']);
+    Route::post('/seller-chats/send', [App\Http\Controllers\Admin\SellerChatController::class, 'sendMessage'])->name('seller_chat.send');
+
+    // Seller Management
+    Route::get('/sellers/create', [App\Http\Controllers\Admin\SellerManagementController::class, 'create'])->name('sellers.create');
+    Route::post('/sellers', [App\Http\Controllers\Admin\SellerManagementController::class, 'store'])->name('sellers.store');
+    Route::get('/sellers/{id}/edit', [App\Http\Controllers\Admin\SellerManagementController::class, 'edit'])->name('sellers.edit');
+    Route::post('/sellers/{id}/update', [App\Http\Controllers\Admin\SellerManagementController::class, 'update'])->name('sellers.update');
+    Route::delete('/sellers/{id}', [App\Http\Controllers\Admin\SellerManagementController::class, 'destroy'])->name('sellers.destroy');
+    Route::post('/sellers/toggle-status/{id}', [App\Http\Controllers\Admin\SellerManagementController::class, 'toggleStatus'])->name('sellers.toggle_status');
+
+    // All Management
+    Route::get('/all-management', [App\Http\Controllers\Admin\SellerManagementController::class, 'all_management'])->name('all_management.index');
+});
+
+Route::middleware(['seller'])->prefix('saller')->name('saller.')->group(function () {
+    Route::get('/chat', [App\Http\Controllers\Saller\SellerChatController::class, 'index'])->name('chat.index');
+    Route::get('/chat/messages', [App\Http\Controllers\Saller\SellerChatController::class, 'fetchMessages'])->name('chat.messages');
+    Route::post('/chat/send', [App\Http\Controllers\Saller\SellerChatController::class, 'sendMessage'])->name('chat.send');
 });

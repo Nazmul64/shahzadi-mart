@@ -313,6 +313,24 @@
         .file-upload-wrapper:hover {
             border-color: var(--primary-color);
         }
+
+        .image-preview {
+            width: 100%;
+            max-height: 200px;
+            object-fit: contain;
+            border-radius: 8px;
+            margin-top: 15px;
+            display: none;
+            border: 1px solid var(--border-color);
+            padding: 5px;
+        }
+
+        .file-info {
+            margin-top: 10px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -499,10 +517,14 @@
 
                     <div class="form-group">
                         <label class="form-label">Store Logo</label>
-                        <div class="file-upload-wrapper">
-                            <input type="file" name="storeLogo" accept="image/*">
-                            <i class="bi bi-cloud-upload"></i>
-                            <p>Click to upload logo</p>
+                        <div class="file-upload-wrapper" onclick="this.querySelector('input').click()">
+                            <input type="file" name="storeLogo" accept="image/jpeg,image/jpg,image/png,image/webp,image/svg+xml,image/gif" onchange="handleImagePreview(this, 'logoPreview')" style="display: none;">
+                            <div id="logoUploadPlaceholder">
+                                <i class="bi bi-cloud-upload"></i>
+                                <p>Click to upload logo</p>
+                            </div>
+                            <img id="logoPreview" class="image-preview" src="#" alt="Logo Preview">
+                            <div id="logoFileInfo" class="file-info"></div>
                         </div>
                     </div>
                 </div>
@@ -511,10 +533,14 @@
                 <div class="form-step" data-step="4">
                     <div class="form-group">
                         <label class="form-label">National ID <span class="required">*</span></label>
-                        <div class="file-upload-wrapper">
-                            <input type="file" name="nationalId" accept="image/*,.pdf" required>
-                            <i class="bi bi-file-earmark-person"></i>
-                            <p>Upload National ID</p>
+                        <div class="file-upload-wrapper" onclick="this.querySelector('input').click()">
+                            <input type="file" name="nationalId" accept="image/jpeg,image/jpg,image/png,image/webp,image/svg+xml,image/gif,application/pdf" required onchange="handleImagePreview(this, 'idPreview')" style="display: none;">
+                            <div id="idUploadPlaceholder">
+                                <i class="bi bi-file-earmark-person"></i>
+                                <p>Upload National ID</p>
+                            </div>
+                            <img id="idPreview" class="image-preview" src="#" alt="ID Preview">
+                            <div id="idFileInfo" class="file-info"></div>
                         </div>
                     </div>
 
@@ -524,9 +550,9 @@
                                 <label class="form-label">Bank Name <span class="required">*</span></label>
                                 <select class="form-select" name="bankName" required>
                                     <option value="">Select Bank</option>
-                                    <option value="dutch-bangla">Dutch-Bangla</option>
-                                    <option value="brac">BRAC</option>
-                                    <option value="city">City Bank</option>
+                                    @foreach($banks as $bank)
+                                        <option value="{{ $bank->name }}">{{ $bank->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -762,6 +788,35 @@
                 .replace(/\s+/g, '-');
             document.getElementById('storeUrl').value = storeUrl;
         });
+
+        // Image Preview Handler
+        function handleImagePreview(input, previewId) {
+            const preview = document.getElementById(previewId);
+            const placeholder = document.getElementById(previewId.replace('Preview', 'UploadPlaceholder'));
+            const fileInfo = document.getElementById(previewId.replace('Preview', 'FileInfo'));
+
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    if (file.type.startsWith('image/')) {
+                        preview.src = e.target.result;
+                        preview.style.display = 'block';
+                        placeholder.style.display = 'none';
+                    } else {
+                        // For non-image files like PDF
+                        preview.style.display = 'none';
+                        placeholder.style.display = 'block';
+                    }
+
+                    fileInfo.textContent = `${file.name} (${(file.size / 1024).toFixed(2)} KB)`;
+                    fileInfo.style.display = 'block';
+                };
+
+                reader.readAsDataURL(file);
+            }
+        }
 
         updateStepIndicator();
     </script>

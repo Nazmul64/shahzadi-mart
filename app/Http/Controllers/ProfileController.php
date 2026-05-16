@@ -43,7 +43,14 @@ class ProfileController extends Controller
             'address' => 'nullable|string|max:500',
         ]);
 
-        $data = $request->only(['name', 'email', 'phone', 'address']);
+        $data = $request->only(['name', 'email', 'phone']);
+
+        // Safely handle address array to prevent data loss (e.g. bank info)
+        $addressData = is_array($user->address) ? $user->address : [];
+        if ($request->filled('address')) {
+            $addressData['business_address'] = $request->address;
+        }
+        $data['address'] = $addressData;
 
         if ($request->hasFile('photo')) {
             // Delete old photo if exists

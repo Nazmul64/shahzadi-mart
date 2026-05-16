@@ -13,7 +13,9 @@ class AdminsellerregisterapprovedController extends Controller
      */
     public function seller_register_check(Request $request)
     {
-        $query = User::where('role', 'seller');
+        $query = User::whereHas('roles', function($q) {
+            $q->where('slug', 'seller');
+        });
 
         // Search filter
         if ($request->filled('search')) {
@@ -63,7 +65,7 @@ class AdminsellerregisterapprovedController extends Controller
             // Check if already approved
             if ($seller->status === 'active') {
                 return redirect()
-                    ->route('seller.register.list')
+                    ->route('admin.seller.register.list')
                     ->with('info', 'Seller is already approved');
             }
 
@@ -74,11 +76,11 @@ class AdminsellerregisterapprovedController extends Controller
             // Mail::to($seller->email)->send(new SellerApproved($seller));
 
             return redirect()
-                ->route('seller.register.list')
+                ->route('admin.seller.register.list')
                 ->with('success', 'Seller approved successfully');
         } catch (\Exception $e) {
             return redirect()
-                ->route('seller.register.list')
+                ->route('admin.seller.register.list')
                 ->with('error', 'Failed to approve seller: ' . $e->getMessage());
         }
     }
@@ -103,11 +105,11 @@ class AdminsellerregisterapprovedController extends Controller
             // Mail::to($seller->email)->send(new SellerRejected($seller));
 
             return redirect()
-                ->route('seller.register.list')
+                ->route('admin.seller.register.list')
                 ->with('success', 'Seller rejected successfully');
         } catch (\Exception $e) {
             return redirect()
-                ->route('seller.register.list')
+                ->route('admin.seller.register.list')
                 ->with('error', 'Failed to reject seller: ' . $e->getMessage());
         }
     }
@@ -122,7 +124,7 @@ class AdminsellerregisterapprovedController extends Controller
 
             if ($seller->status !== 'active') {
                 return redirect()
-                    ->route('seller.register.list')
+                    ->route('admin.seller.register.list')
                     ->with('info', 'Only active sellers can be suspended');
             }
 
@@ -133,11 +135,11 @@ class AdminsellerregisterapprovedController extends Controller
             // Mail::to($seller->email)->send(new SellerSuspended($seller));
 
             return redirect()
-                ->route('seller.register.list')
+                ->route('admin.seller.register.list')
                 ->with('success', 'Seller suspended successfully');
         } catch (\Exception $e) {
             return redirect()
-                ->route('seller.register.list')
+                ->route('admin.seller.register.list')
                 ->with('error', 'Failed to suspend seller: ' . $e->getMessage());
         }
     }
@@ -152,7 +154,7 @@ class AdminsellerregisterapprovedController extends Controller
 
             if ($seller->status !== 'suspended') {
                 return redirect()
-                    ->route('seller.register.list')
+                    ->route('admin.seller.register.list')
                     ->with('info', 'Only suspended sellers can be reactivated');
             }
 
@@ -163,11 +165,11 @@ class AdminsellerregisterapprovedController extends Controller
             // Mail::to($seller->email)->send(new SellerReactivated($seller));
 
             return redirect()
-                ->route('seller.register.list')
+                ->route('admin.seller.register.list')
                 ->with('success', 'Seller reactivated successfully');
         } catch (\Exception $e) {
             return redirect()
-                ->route('seller.register.list')
+                ->route('admin.seller.register.list')
                 ->with('error', 'Failed to reactivate seller: ' . $e->getMessage());
         }
     }
@@ -180,7 +182,9 @@ class AdminsellerregisterapprovedController extends Controller
         // You can implement Excel export using Laravel Excel package
         // For now, returning a simple CSV
 
-        $query = User::where('role', 'seller');
+        $query = User::whereHas('roles', function($q) {
+            $q->where('slug', 'seller');
+        });
 
         // Apply same filters as list
         if ($request->filled('search')) {

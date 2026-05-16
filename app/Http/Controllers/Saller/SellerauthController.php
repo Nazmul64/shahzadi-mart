@@ -15,7 +15,7 @@ class SellerauthController extends Controller
     // Show login form
     public function saller_login()
     {
-        if (Auth::check() && Auth::user()->role === 'seller') {
+        if (Auth::check() && Auth::user()->isSeller()) {
             return redirect()->route('saller.dashboard');
         }
         return view('saller.seller-auth.login');
@@ -24,10 +24,12 @@ class SellerauthController extends Controller
     // Show registration form
     public function saller_register()
     {
-        if (Auth::check() && Auth::user()->role === 'seller') {
+        if (Auth::check() && Auth::user()->isSeller()) {
             return redirect()->route('saller.dashboard');
         }
-        return view('saller.seller-auth.register');
+        
+        $banks = \App\Models\Bank::where('is_active', true)->orderBy('name')->get();
+        return view('saller.seller-auth.register', compact('banks'));
     }
 
     // Handle login submission
@@ -54,7 +56,7 @@ class SellerauthController extends Controller
             $user = Auth::user();
 
             // Check if user is a seller
-            if ($user->role !== 'seller') {
+            if (!$user->isSeller()) {
                 Auth::logout();
                 return response()->json([
                     'success' => false,
@@ -136,10 +138,10 @@ class SellerauthController extends Controller
             'terms' => 'accepted',
 
             // File uploads
-            'storeLogo' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:2048',
-            'storeBanner' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:2048',
-            'nationalId' => 'required|file|mimes:jpeg,jpg,png,pdf|max:2048',
-            'businessDoc' => 'nullable|file|mimes:jpeg,jpg,png,pdf|max:2048',
+            'storeLogo' => 'nullable|image|mimes:jpeg,jpg,png,webp,svg,gif|max:2048',
+            'storeBanner' => 'nullable|image|mimes:jpeg,jpg,png,webp,svg,gif|max:2048',
+            'nationalId' => 'required|file|mimes:jpeg,jpg,png,webp,svg,gif,pdf|max:2048',
+            'businessDoc' => 'nullable|file|mimes:jpeg,jpg,png,webp,svg,gif,pdf|max:2048',
         ]);
 
         if ($validator->fails()) {
@@ -179,7 +181,6 @@ class SellerauthController extends Controller
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'phone' => $request->phone,
-                'role' => 'seller',
                 'status' => 'pending', // Admin needs to approve
 
                 // Store information
@@ -188,8 +189,8 @@ class SellerauthController extends Controller
                 'store_description' => $request->storeDescription,
                 'store_logo' => $storeLogo,
 
-                // Business information (store in address field as JSON)
-                'address' => json_encode([
+                // Business information (store in address field as JSON - handled by model cast)
+                'address' => [
                     'business_type' => $request->businessType,
                     'business_name' => $request->businessName,
                     'business_address' => $request->businessAddress,
@@ -205,7 +206,7 @@ class SellerauthController extends Controller
                     'mobile_banking' => $request->mobileBanking,
                     'mobile_banking_number' => $request->mobileBankingNumber,
                     'newsletter' => $request->newsletter ?? false,
-                ]),
+                ],
 
                 // Bank information
                 'bank_name' => $request->bankName,
@@ -214,6 +215,9 @@ class SellerauthController extends Controller
                 'mobile_banking_number' => $request->mobileBankingNumber,
                 'tax_id' => $request->tin,
             ]);
+
+            // Assign seller role
+            $user->assignRole('seller');
 
             // Send verification email (optional - implement later)
             // Mail::to($user->email)->send(new SellerRegistrationMail($user));

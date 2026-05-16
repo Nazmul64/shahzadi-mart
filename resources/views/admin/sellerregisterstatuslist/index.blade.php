@@ -752,7 +752,7 @@
         <!-- Filters Section -->
         <div class="filters-section">
             <h5><i class="bi bi-funnel"></i> Filters</h5>
-            <form action="{{ route('seller.register.list') }}" method="GET">
+            <form action="{{ route('admin.seller.register.list') }}" method="GET">
                 <div class="filter-row">
                     <div>
                         <label class="form-label">Search</label>
@@ -792,7 +792,7 @@
 
         <!-- Action Buttons -->
         <div class="action-buttons">
-            <a href="{{ route('seller.register.export') }}" class="btn btn-outline-primary">
+            <a href="{{ route('admin.seller.register.export') }}" class="btn btn-outline-primary">
                 <i class="bi bi-download"></i> Export to Excel
             </a>
             <button type="button" class="btn btn-secondary" onclick="window.print()">
@@ -879,7 +879,7 @@
                                     @if($seller->status == 'pending')
                                         <!-- Approve -->
                                         <form
-                                            action="{{ route('seller.register.approve', $seller->id) }}"
+                                            action="{{ route('admin.seller.register.approve', $seller->id) }}"
                                             method="POST"
                                             style="display: inline;"
                                             onsubmit="return confirm('Are you sure you want to approve this seller?')"
@@ -893,7 +893,7 @@
 
                                         <!-- Reject -->
                                         <form
-                                            action="{{ route('seller.register.reject', $seller->id) }}"
+                                            action="{{ route('admin.seller.register.reject', $seller->id) }}"
                                             method="POST"
                                             style="display: inline;"
                                             onsubmit="return confirm('Are you sure you want to reject this seller?')"
@@ -907,7 +907,7 @@
                                     @elseif($seller->status == 'active')
                                         <!-- Suspend -->
                                         <form
-                                            action="{{ route('seller.register.suspend', $seller->id) }}"
+                                            action="{{ route('admin.seller.register.suspend', $seller->id) }}"
                                             method="POST"
                                             style="display: inline;"
                                             onsubmit="return confirm('Are you sure you want to suspend this seller?')"
@@ -921,7 +921,7 @@
                                     @elseif($seller->status == 'suspended')
                                         <!-- Reactivate -->
                                         <form
-                                            action="{{ route('seller.register.reactivate', $seller->id) }}"
+                                            action="{{ route('admin.seller.register.reactivate', $seller->id) }}"
                                             method="POST"
                                             style="display: inline;"
                                             onsubmit="return confirm('Are you sure you want to reactivate this seller?')"
@@ -992,17 +992,61 @@
                                             </div>
                                         </div>
                                         <div class="info-row">
-                                            <div class="info-label">Status:</div>
-                                            <div class="info-value">
-                                                @if($seller->status == 'pending')
-                                                    <span class="badge bg-warning">Pending</span>
-                                                @elseif($seller->status == 'active')
-                                                    <span class="badge bg-success">Active</span>
-                                                @elseif($seller->status == 'suspended')
-                                                    <span class="badge bg-danger">Suspended</span>
-                                                @endif
-                                            </div>
-                                        </div>
+                                             <div class="info-label">Status:</div>
+                                             <div class="info-value">
+                                                 @if($seller->status == 'pending')
+                                                     <span class="badge bg-warning">Pending</span>
+                                                 @elseif($seller->status == 'active')
+                                                     <span class="badge bg-success">Active</span>
+                                                 @elseif($seller->status == 'suspended')
+                                                     <span class="badge bg-danger">Suspended</span>
+                                                 @endif
+                                             </div>
+                                         </div>
+
+                                         <h6><strong>Bank Information</strong></h6>
+                                         <div class="info-row">
+                                             <div class="info-label">Bank Name:</div>
+                                             <div class="info-value">{{ $seller->bank_name ?? 'N/A' }}</div>
+                                         </div>
+                                         <div class="info-row">
+                                             <div class="info-label">Branch:</div>
+                                             <div class="info-value">{{ $seller->branch_name ?? 'N/A' }}</div>
+                                         </div>
+                                         <div class="info-row">
+                                             <div class="info-label">Account Name:</div>
+                                             <div class="info-value">{{ $seller->bank_account_name ?? 'N/A' }}</div>
+                                         </div>
+                                         <div class="info-row">
+                                             <div class="info-label">Account Number:</div>
+                                             <div class="info-value">{{ $seller->bank_account_number ?? 'N/A' }}</div>
+                                         </div>
+
+                                         <h6><strong>Documents</strong></h6>
+                                         <div class="info-row">
+                                             <div class="info-label">National ID:</div>
+                                             <div class="info-value">
+                                                 @if($seller->national_id_url)
+                                                     <a href="{{ $seller->national_id_url }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                                         <i class="bi bi-file-earmark-text"></i> View ID
+                                                     </a>
+                                                 @else
+                                                     <span class="text-muted">Not uploaded</span>
+                                                 @endif
+                                             </div>
+                                         </div>
+                                         <div class="info-row">
+                                             <div class="info-label">Business Doc:</div>
+                                             <div class="info-value">
+                                                 @if($seller->business_doc_url)
+                                                     <a href="{{ $seller->business_doc_url }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                                         <i class="bi bi-file-earmark-text"></i> View Document
+                                                     </a>
+                                                 @else
+                                                     <span class="text-muted">Not uploaded</span>
+                                                 @endif
+                                             </div>
+                                         </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -1034,7 +1078,7 @@
                 <h5>No Sellers Found</h5>
                 <p>There are no seller registrations matching your criteria.</p>
                 @if(request()->hasAny(['search', 'status', 'sort']))
-                    <a href="{{ route('seller.register.list') }}" class="btn btn-primary">
+                    <a href="{{ route('admin.seller.register.list') }}" class="btn btn-primary">
                         <i class="bi bi-arrow-clockwise"></i> Clear Filters
                     </a>
                 @endif

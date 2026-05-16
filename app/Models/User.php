@@ -20,8 +20,10 @@ class User extends Authenticatable
 
     protected $fillable = [
         'name', 'email', 'password',
-        'phone', 'photo', 'address',
-        'store_name', 'store_slug', 'store_description', 'store_logo',
+        'first_name', 'last_name',
+        'phone', 'gender', 'photo', 'address',
+        'latitude', 'longitude',
+        'store_name', 'store_slug', 'store_description', 'store_logo', 'store_banner',
         'tax_id', 'bank_name', 'bank_account_name', 'bank_account_number',
         'mobile_banking_number', 'status',
     ];
@@ -33,6 +35,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password'          => 'hashed',
+        'address'           => 'array',
     ];
 
     // ══════════════════════════════════════════════════════════════
@@ -237,16 +240,114 @@ class User extends Authenticatable
 
     public function getPhotoUrlAttribute(): string
     {
-        if ($this->photo && file_exists(public_path('uploads/avator/' . $this->photo))) {
-            return asset('uploads/avator/' . $this->photo);
+        if ($this->photo) {
+            // Check if it's already a full path or just a filename
+            $path = (strpos($this->photo, 'uploads/') === 0) ? $this->photo : 'uploads/shop/' . $this->photo;
+            if (file_exists(public_path($path))) {
+                return asset($path);
+            }
         }
 
         return 'https://ui-avatars.com/api/?name=' . urlencode($this->name ?? 'U')
              . '&background=1e3a5f&color=fff&size=128';
     }
 
+    public function getStoreLogoUrlAttribute(): string
+    {
+        if ($this->store_logo) {
+            $path = (strpos($this->store_logo, 'uploads/') === 0) ? $this->store_logo : 'uploads/shop/' . $this->store_logo;
+            if (file_exists(public_path($path))) {
+                return asset($path);
+            }
+        }
+        return asset('uploads/no-image.png');
+    }
+
+    public function getStoreBannerUrlAttribute(): string
+    {
+        if ($this->store_banner) {
+            $path = (strpos($this->store_banner, 'uploads/') === 0) ? $this->store_banner : 'uploads/shop/' . $this->store_banner;
+            if (file_exists(public_path($path))) {
+                return asset($path);
+            }
+        }
+        return 'https://via.placeholder.com/2000x500?text=Shop+Banner';
+    }
+
     public function assignedOrders()
     {
         return $this->hasMany(\App\Models\Order::class, 'assigned_user_id');
+    }
+
+    // ══════════════════════════════════════════════════════════════
+    // Business Information Accessors (from address JSON)
+    // ══════════════════════════════════════════════════════════════
+
+    protected function getAddressData(): array
+    {
+        $address = $this->address;
+        
+        if (is_array($address)) {
+            return $address;
+        }
+
+        $raw = $this->getAttributes()['address'] ?? null;
+        if (is_string($raw)) {
+            $decoded = json_decode($raw, true);
+            if (is_array($decoded)) {
+                return $decoded;
+            }
+        }
+
+        return [];
+    }
+
+    public function getBusinessTypeAttribute(): string
+    {
+        return $this->getAddressData()['business_type'] ?? 'N/A';
+    }
+
+    public function getBusinessNameAttribute(): string
+    {
+        return $this->getAddressData()['business_name'] ?? 'N/A';
+    }
+
+    public function getBusinessAddressAttribute(): string
+    {
+        return $this->getAddressData()['business_address'] ?? 'N/A';
+    }
+
+    public function getCityAttribute(): string
+    {
+        return $this->getAddressData()['city'] ?? 'N/A';
+    }
+
+    public function getPostalCodeAttribute(): string
+    {
+        return $this->getAddressData()['postal_code'] ?? 'N/A';
+    }
+
+    public function getNationalIdUrlAttribute(): ?string
+    {
+        $path = $this->getAddressData()['national_id'] ?? null;
+        return $path ? asset($path) : null;
+    }
+
+    public function getBusinessDocUrlAttribute(): ?string
+    {
+        $path = $this->getAddressData()['business_doc'] ?? null;
+        return $path ? asset($path) : null;
+    }
+
+
+
+    public function getSelectedCategoriesAttribute(): array
+    {
+        return $this->getAddressData()['categories'] ?? [];
+    }
+
+    public function getBranchNameAttribute(): string
+    {
+        return $this->getAddressData()['branch_name'] ?? 'N/A';
     }
 }

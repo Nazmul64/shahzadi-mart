@@ -1,66 +1,220 @@
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <div class="d-flex align-items-center">
-                <i class="bi bi-shop fs-4 text-warning me-2"></i>
-                <h4>Seller Dashboard</h4>
+                <h4>SELLER <span>PORTAL</span></h4>
             </div>
             <button class="sidebar-close" onclick="toggleSidebar()">
                 <i class="bi bi-x"></i>
             </button>
         </div>
 
-        <div class="seller-profile">
-            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100" alt="Seller" class="seller-avatar">
-            <div class="seller-name">Tech Store BD</div>
-            <div class="seller-store">@techstore-bd</div>
-            <span class="seller-badge"><i class="bi bi-patch-check-fill"></i> Verified</span>
-        </div>
-
         <div class="sidebar-menu">
+            <div class="menu-item has-submenu" onclick="toggleSubmenu(this)">
+                <div class="menu-link">
+                    <i class="bi bi-bag-fill"></i>
+                    <span>Orders Hub</span>
+                    <i class="bi bi-chevron-down submenu-arrow"></i>
+                </div>
+                <div class="submenu">
+                    <a href="#" onclick="showSection('orders')">All Orders</a>
+                    <a href="#">Pending Orders</a>
+                    <a href="#">Processing</a>
+                    <a href="#">Shipped</a>
+                    <a href="#">Delivered</a>
+                    <a href="#">Cancelled</a>
+                </div>
+            </div>
+
             <div class="menu-item active" onclick="showSection('dashboard')">
-                <i class="bi bi-speedometer2"></i>
+                <i class="bi bi-grid-fill"></i>
                 <span>Dashboard</span>
             </div>
-
-            <div class="menu-section-title">Store Management</div>
-
-            <div class="menu-item" onclick="showSection('products')">
-                <i class="bi bi-box-seam"></i>
-                <span>My Products</span>
+            
+            <div class="menu-item" onclick="showSection('profile')">
+                <i class="bi bi-person-bounding-box"></i>
+                <span>My Profile</span>
             </div>
 
-            <div class="menu-item" onclick="showSection('orders')">
-                <i class="bi bi-cart-check"></i>
-                <span>Orders</span>
+            <div class="menu-item has-submenu" onclick="toggleSubmenu(this)">
+                <div class="menu-link">
+                    <i class="bi bi-pc-display"></i>
+                    <span>POS Management</span>
+                    <i class="bi bi-chevron-down submenu-arrow"></i>
+                </div>
+                <div class="submenu">
+                    <a href="#">New POS Sale</a>
+                    <a href="#">POS History</a>
+                </div>
             </div>
 
-            <div class="menu-item" onclick="showSection('inventory')">
-                <i class="bi bi-boxes"></i>
-                <span>Inventory</span>
+            <div class="menu-item has-submenu" onclick="toggleSubmenu(this)">
+                <div class="menu-link">
+                    <i class="bi bi-reply-all"></i>
+                    <span>Refund Management</span>
+                    <i class="bi bi-chevron-down submenu-arrow"></i>
+                </div>
+                <div class="submenu">
+                    <a href="#">Refund Requests</a>
+                    <a href="#">Approved Refunds</a>
+                    <a href="#">Rejected Refunds</a>
+                </div>
             </div>
 
-            <div class="menu-section-title">Financial</div>
+            <div class="menu-item">
+                <i class="bi bi-chat-left-dots-fill"></i>
+                <span>Messages</span>
+            </div>
 
-            <div class="menu-item" onclick="showSection('earnings')">
-                <i class="bi bi-cash-coin"></i>
-                <span>Earnings</span>
+            @php
+                $unreadAdminChats = \App\Models\SellerAdminChat::where('seller_id', auth()->id())->where('sender', 'admin')->where('is_read', false)->count();
+            @endphp
+            <a href="{{ route('saller.chat.index') }}" class="menu-item {{ request()->routeIs('saller.chat.*') ? 'active' : '' }}">
+                <i class="bi bi-headset"></i>
+                <span>Chat with Admin</span>
+                @if($unreadAdminChats > 0)
+                    <span class="badge rounded-pill bg-danger ms-auto">{{ $unreadAdminChats }}</span>
+                @endif
+            </a>
+
+            <div class="menu-item has-submenu" onclick="toggleSubmenu(this)">
+                <div class="menu-link">
+                    <i class="bi bi-layers-fill"></i>
+                    <span>Category Management</span>
+                    <i class="bi bi-chevron-down submenu-arrow"></i>
+                </div>
+                <div class="submenu">
+                    <a href="#">All Categories</a>
+                    <a href="#">Request Category</a>
+                </div>
+            </div>
+
+            <div class="menu-item has-submenu" onclick="toggleSubmenu(this)">
+                <div class="menu-link">
+                    <i class="bi bi-box-seam-fill"></i>
+                    <span>Product Management</span>
+                    <i class="bi bi-chevron-down submenu-arrow"></i>
+                </div>
+                <div class="submenu">
+                    <a href="#" onclick="showSection('products')">All Products</a>
+                    <a href="#">Add New Product</a>
+                    <a href="#">Product Reviews</a>
+                </div>
+            </div>
+
+            <div class="menu-item has-submenu" onclick="toggleSubmenu(this)">
+                <div class="menu-link">
+                    <i class="bi bi-tags-fill"></i>
+                    <span>Product Variant</span>
+                    <i class="bi bi-chevron-down submenu-arrow"></i>
+                </div>
+                <div class="submenu">
+                    <a href="#">Attributes</a>
+                    <a href="#">Colors</a>
+                    <a href="#">Sizes</a>
+                </div>
+            </div>
+
+            <div class="menu-item has-submenu" onclick="toggleSubmenu(this)">
+                <div class="menu-link">
+                    <i class="bi bi-bag-check-fill"></i>
+                    <span>Purchase</span>
+                    <i class="bi bi-gift-fill text-primary ms-auto" style="font-size: 1.2rem;"></i>
+                    <i class="bi bi-chevron-down submenu-arrow"></i>
+                </div>
+                <div class="submenu">
+                    <a href="#">New Purchase</a>
+                    <a href="#">Purchase History</a>
+                </div>
+            </div>
+
+            <div class="menu-item has-submenu" onclick="toggleSubmenu(this)">
+                <div class="menu-link">
+                    <i class="bi bi-megaphone-fill"></i>
+                    <span>Promotion Management</span>
+                    <i class="bi bi-chevron-down submenu-arrow"></i>
+                </div>
+                <div class="submenu">
+                    <a href="#">Coupons</a>
+                    <a href="#">Flash Sales</a>
+                </div>
+            </div>
+
+            <div class="menu-item has-submenu" onclick="toggleSubmenu(this)">
+                <div class="menu-link">
+                    <i class="bi bi-people-fill"></i>
+                    <span>Employee</span>
+                    <i class="bi bi-chevron-down submenu-arrow"></i>
+                </div>
+                <div class="submenu">
+                    <a href="#">All Employees</a>
+                    <a href="#">Roles & Permissions</a>
+                </div>
+            </div>
+
+            <div class="menu-item has-submenu" onclick="toggleSubmenu(this)">
+                <div class="menu-link">
+                    <i class="bi bi-truck"></i>
+                    <span>Suppliers</span>
+                    <i class="bi bi-chevron-down submenu-arrow"></i>
+                </div>
+                <div class="submenu">
+                    <a href="#">All Suppliers</a>
+                    <a href="#">Add Supplier</a>
+                </div>
+            </div>
+
+            <div class="menu-section-title">My Shop</div>
+
+            <div class="menu-item has-submenu" onclick="toggleSubmenu(this)">
+                <div class="menu-link">
+                    <i class="bi bi-person-plus-fill"></i>
+                    <span>Customer Management</span>
+                    <i class="bi bi-chevron-down submenu-arrow"></i>
+                </div>
+                <div class="submenu">
+                    <a href="#">All Customers</a>
+                    <a href="#">Customer Queries</a>
+                </div>
             </div>
 
             <div class="menu-item" onclick="showSection('payouts')">
                 <i class="bi bi-wallet2"></i>
-                <span>Payouts</span>
+                <span>Withdraws</span>
             </div>
 
-            <div class="menu-section-title">Settings</div>
-
-            <div class="menu-item" onclick="showSection('store-settings')">
-                <i class="bi bi-shop-window"></i>
-                <span>Store Settings</span>
-            </div>
-
-            <div class="menu-item" onclick="showSection('profile')">
-                <i class="bi bi-person-circle"></i>
-                <span>Profile</span>
+            <div class="menu-item has-submenu" onclick="toggleSubmenu(this)">
+                <div class="menu-link">
+                    <i class="bi bi-file-earmark-arrow-up-fill"></i>
+                    <span>Import/Export</span>
+                    <i class="bi bi-chevron-down submenu-arrow"></i>
+                </div>
+                <div class="submenu">
+                    <a href="#">Bulk Import</a>
+                    <a href="#">Bulk Export</a>
+                </div>
             </div>
         </div>
+
+        <div class="sidebar-footer">
+            <i class="bi bi-arrows-fullscreen footer-icon"></i>
+            <i class="bi bi-person footer-icon" onclick="showSection('profile')"></i>
+            <a href="{{ route('saller.logout') }}" class="footer-icon text-danger">
+                <i class="bi bi-box-arrow-right"></i>
+            </a>
+        </div>
     </div>
+
+    <script>
+        function toggleSubmenu(element) {
+            // Close other submenus
+            const allItems = document.querySelectorAll('.menu-item.has-submenu');
+            allItems.forEach(item => {
+                if (item !== element) {
+                    item.classList.remove('open');
+                }
+            });
+            
+            // Toggle current
+            element.classList.toggle('open');
+        }
+    </script>

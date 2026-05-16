@@ -1,5 +1,15 @@
   
-        // Toggle Sidebar
+        // Toggle Submenu for Admin Sidebar
+        function sbToggle(element) {
+            // Toggle open class on the clicked menu item
+            element.classList.toggle('open');
+            // Find the next sibling which should be the submenu container
+            const subMenu = element.nextElementSibling;
+            if (subMenu && subMenu.classList.contains('sb-sub')) {
+                subMenu.classList.toggle('open');
+            }
+        }
+
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('sidebarOverlay');
@@ -13,35 +23,69 @@
             filterContent.classList.toggle('active');
         }
 
-        // Show Section
+        // Show Section – enhanced to manage active states for menu and submenu links
         function showSection(sectionId) {
+            // Hide all page sections
             document.querySelectorAll('.page-section').forEach(section => {
                 section.classList.remove('active');
             });
 
+            // Clear active state from all top‑level menu items
             document.querySelectorAll('.menu-item').forEach(item => {
                 item.classList.remove('active');
+                // also close any open submenu
+                const sub = item.nextElementSibling;
+                if (sub && sub.classList.contains('submenu')) {
+                    sub.classList.remove('open');
+                }
             });
 
+            // Clear active from bottom navigation items
             document.querySelectorAll('.bottom-nav-item').forEach(item => {
                 item.classList.remove('active');
             });
 
-            document.getElementById(sectionId).classList.add('active');
+            // Activate the target page
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) targetSection.classList.add('active');
 
+            // Identify which menu item triggered the call (via event)
             if (event && event.currentTarget) {
-                event.currentTarget.classList.add('active');
+                const clicked = event.currentTarget;
+                // If a submenu link was clicked, mark its parent as active
+                if (clicked.closest('.submenu')) {
+                    const parentItem = clicked.closest('.submenu').previousElementSibling;
+                    if (parentItem) parentItem.classList.add('active');
+                }
+                clicked.classList.add('active');
             }
 
-            if (window.innerWidth < 768) {
+            // Collapse sidebar on mobile after navigation
+            if (window.innerWidth < 992) {
                 const sidebar = document.getElementById('sidebar');
                 const overlay = document.getElementById('sidebarOverlay');
-                sidebar.classList.remove('active');
-                overlay.classList.remove('active');
+                if (sidebar) sidebar.classList.remove('active');
+                if (overlay) overlay.classList.remove('active');
             }
 
             window.scrollTo(0, 0);
         }
+
+        // Attach click listeners to submenu links for proper active handling
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.submenu a').forEach(link => {
+                link.addEventListener('click', function (e) {
+                    // Prevent default if using # anchors
+                    e.preventDefault();
+                    // Remove active from all submenu links first
+                    document.querySelectorAll('.submenu a').forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                    // Trigger section change based on href or data-section attribute
+                    const target = this.getAttribute('href')?.replace('#', '');
+                    if (target) showSection(target);
+                });
+            });
+        });
 
         // Adjust Stock
         function adjustStock(productName) {
@@ -64,8 +108,8 @@
                     datasets: [{
                         label: 'Sales (৳)',
                         data: [12000, 19000, 15000, 25000, 22000, 30000],
-                        borderColor: '#FF6B35',
-                        backgroundColor: 'rgba(255, 107, 53, 0.1)',
+                        borderColor: '#2563eb',
+                        backgroundColor: 'rgba(37, 99, 235, 0.1)',
                         tension: 0.4,
                         fill: true
                     }]
@@ -172,7 +216,7 @@
                     datasets: [{
                         label: 'Net Earnings (৳)',
                         data: [25000, 28000, 27000, 27582, 33065, 38420],
-                        backgroundColor: 'rgba(255, 107, 53, 0.8)',
+                        backgroundColor: 'rgba(37, 99, 235, 0.8)',
                         borderRadius: 8
                     }]
                 },
@@ -221,8 +265,8 @@
                         {
                             label: 'Gross Revenue',
                             data: [342700, 334850, 345600, 389200, 458900, 542300],
-                            backgroundColor: 'rgba(255, 107, 53, 0.3)',
-                            borderColor: '#FF6B35',
+                            backgroundColor: 'rgba(37, 99, 235, 0.3)',
+                            borderColor: '#2563eb',
                             borderWidth: 2
                         },
                         {
@@ -266,7 +310,7 @@
                     labels: ['Electronics', 'Fashion', 'Others'],
                     datasets: [{
                         data: [385000, 124500, 32800],
-                        backgroundColor: ['#FF6B35', '#10b981', '#f59e0b'],
+                        backgroundColor: ['#2563eb', '#10b981', '#f59e0b'],
                         borderWidth: 0
                     }]
                 },

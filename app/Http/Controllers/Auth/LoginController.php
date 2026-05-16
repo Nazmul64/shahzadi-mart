@@ -28,6 +28,23 @@ class LoginController extends Controller
     protected $redirectTo = '/home';
 
     /**
+     * The user has been authenticated.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function authenticated(\Illuminate\Http\Request $request, $user)
+    {
+        if ($user->status !== 'active') {
+            auth()->logout();
+            return redirect()->route('login')->withErrors([
+                'email' => 'আপনার একাউন্টটি বর্তমানে বন্ধ আছে। দয়া করে এডমিনের সাথে যোগাযোগ করুন (Account Inactive. Please contact admin).'
+            ]);
+        }
+    }
+
+    /**
      * Create a new controller instance.
      *
      * @return void

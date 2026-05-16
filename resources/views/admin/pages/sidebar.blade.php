@@ -40,11 +40,14 @@
     $staffHistoryActive = request()->routeIs('admin.order-history.*');
     $assignActive       = request()->routeIs('admin.order.assignments.*');
     $landingActive      = request()->routeIs('admin.landing-pages.*');
+    $banksActive        = request()->routeIs('admin.banks.*');
     $purchaseActive = request()->routeIs('admin.suppliers.*')
                    || request()->routeIs('admin.purchases.*')
                    || request()->routeIs('admin.purchases.report')
                    || request()->routeIs('admin.purchases.summary')
                    || request()->routeIs('admin.purchase-returns.*');
+    
+    $unreadSellerChats = \App\Models\SellerAdminChat::where('sender', 'seller')->where('is_read', false)->count();
 @endphp
 
 <style>
@@ -673,17 +676,20 @@ body.sb-collapsed .sb-user-info, body.sb-collapsed .sb-logout-btn { display: non
 {{-- Vendors --}}
 @if($u->isSuperAdmin() || $u->hasAnyPermission(['view-sellers','approve-sellers','suspend-sellers']))
 <div class="sb-item {{ $vendorsActive ? 'active open' : '' }}" onclick="sbToggle(this)">
-    <span class="sb-left"><i class="bi bi-shop-window sb-ico"></i><span class="sb-text">Vendors</span></span>
+    <span class="sb-left"><i class="bi bi-shop-window sb-ico"></i><span class="sb-text">Sellers (সেলার)</span></span>
     <i class="bi bi-chevron-right sb-arr"></i>
 </div>
 <div class="sb-sub {{ $vendorsActive ? 'open' : '' }}">
     <div class="sb-sub-inner">
         <a href="{{ route('admin.seller.register.list') }}" class="{{ request()->routeIs('admin.seller.register.list') ? 'active' : '' }}">
-            <i class="bi bi-list-stars"></i> All Vendors
+            <i class="bi bi-list-stars"></i> সকল সেলার (All Sellers)
         </a>
         @if($u->isSuperAdmin() || $u->hasPermission('approve-sellers'))
         <a href="{{ route('admin.seller.register.check') }}" class="{{ request()->routeIs('admin.seller.register.check') ? 'active' : '' }}">
-            <i class="bi bi-patch-check-fill"></i> Approvals
+            <i class="bi bi-patch-check-fill"></i> সেলার এপ্রুভ (Seller Approve)
+        </a>
+        <a href="{{ route('admin.banks.index') }}" class="{{ $banksActive ? 'active' : '' }}">
+            <i class="bi bi-bank"></i> ব্যাংক লিস্ট (Bank List)
         </a>
         @endif
     </div>
@@ -717,10 +723,32 @@ body.sb-collapsed .sb-user-info, body.sb-collapsed .sb-logout-btn { display: non
 
 {{-- Live Chat --}}
 @if($u->isSuperAdmin() || $u->hasPermission('view-users'))
-<a href="{{ route('admin.chat.index') }}" class="sb-item {{ $chatActive ? 'active' : '' }}">
+<a href="{{ route('admin.chat.index') }}" class="sb-item {{ request()->routeIs('admin.chat.*') ? 'active' : '' }}">
     <span class="sb-left"><i class="bi bi-chat-right-dots-fill sb-ico"></i><span class="sb-text">Live Chat</span></span>
 </a>
+
+{{-- Shop Management --}}
+<div class="sb-item {{ request()->routeIs('admin.sellers.*') || request()->routeIs('admin.all_management.*') ? 'active open' : '' }}" onclick="sbToggle(this)">
+    <span class="sb-left"><i class="bi bi-shop sb-ico text-primary"></i><span class="sb-text">Shop Management</span></span>
+    <i class="bi bi-chevron-right sb-arr"></i>
+</div>
+<div class="sb-sub {{ request()->routeIs('admin.sellers.*') || request()->routeIs('admin.all_management.*') ? 'd-block' : '' }}">
+    <a href="{{ route('admin.all_management.index') }}" class="sb-item {{ request()->routeIs('admin.all_management.*') ? 'active' : '' }}">
+        <span class="sb-left"><i class="bi bi-circle-fill sb-ico-sub"></i><span class="sb-text">All Shops</span></span>
+    </a>
+    <a href="{{ route('admin.sellers.create') }}" class="sb-item {{ request()->routeIs('admin.sellers.*') ? 'active' : '' }}">
+        <span class="sb-left"><i class="bi bi-circle-fill sb-ico-sub"></i><span class="sb-text">Add Shop</span></span>
+    </a>
+</div>
+
+<a href="{{ route('admin.seller_chat.index') }}" class="sb-item {{ request()->routeIs('admin.seller_chat.*') ? 'active' : '' }}">
+    <span class="sb-left"><i class="bi bi-chat-text-fill sb-ico text-success"></i><span class="sb-text">Seller Chat</span></span>
+    @if($unreadSellerChats > 0)
+        <span class="badge rounded-pill bg-danger" style="margin-left:auto;">{{ $unreadSellerChats }}</span>
+    @endif
+</a>
 @endif
+
 
 {{-- Landing Pages --}}
 @if($u->isSuperAdmin() || $u->hasPermission('view-pages'))

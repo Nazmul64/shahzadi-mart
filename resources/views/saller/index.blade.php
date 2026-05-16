@@ -11,7 +11,7 @@
                 </button>
                 <div class="navbar-brand">
                     <i class="bi bi-shop"></i>
-                    <span class="d-none d-sm-inline">Seller Panel</span>
+                    <span class="d-none d-sm-inline">SELLER <strong>PORTAL</strong></span>
                 </div>
             </div>
 
@@ -2774,7 +2774,7 @@
                                             </div>
                                             <div class="col-12">
                                                 <label class="form-label">Business Address</label>
-                                                <textarea name="address" class="form-control" rows="3">{{ Auth::user()->address }}</textarea>
+                                                <textarea name="address" class="form-control" rows="3">{{ Auth::user()->business_address }}</textarea>
                                             </div>
                                         </div>
                                         <div class="mt-4 text-end">
