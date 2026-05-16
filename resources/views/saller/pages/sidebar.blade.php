@@ -25,12 +25,12 @@
                 </div>
             </div>
 
-            <div class="menu-item active" onclick="showSection('dashboard')">
+            <div class="menu-item {{ request()->routeIs('saller.dashboard') ? 'active' : '' }}" onclick="showSection('dashboard')">
                 <i class="bi bi-grid-fill"></i>
                 <span>Dashboard</span>
             </div>
             
-            <div class="menu-item" onclick="showSection('profile')">
+            <div class="menu-item {{ request()->routeIs('saller.profile.*') ? 'active' : '' }}" onclick="showSection('profile')">
                 <i class="bi bi-person-bounding-box"></i>
                 <span>My Profile</span>
             </div>
@@ -76,14 +76,16 @@
                 @endif
             </a>
 
-            <div class="menu-item has-submenu" onclick="toggleSubmenu(this)">
+            <div class="menu-item has-submenu {{ request()->routeIs('saller.categories.*') || request()->routeIs('saller.subcategories.*') || request()->routeIs('saller.childcategories.*') ? 'open active' : '' }}" onclick="toggleSubmenu(this)">
                 <div class="menu-link">
                     <i class="bi bi-layers-fill"></i>
                     <span>Category Management</span>
                     <i class="bi bi-chevron-down submenu-arrow"></i>
                 </div>
-                <div class="submenu">
-                    <a href="#">All Categories</a>
+                <div class="submenu {{ request()->routeIs('saller.categories.*') || request()->routeIs('saller.subcategories.*') || request()->routeIs('saller.childcategories.*') ? 'open' : '' }}">
+                    <a href="{{ route('saller.categories.index') }}" class="{{ request()->routeIs('saller.categories.index') ? 'active' : '' }}">Category</a>
+                    <a href="{{ route('saller.subcategories.index') }}" class="{{ request()->routeIs('saller.subcategories.index') ? 'active' : '' }}">Sub Category</a>
+                    <a href="{{ route('saller.childcategories.index') }}" class="{{ request()->routeIs('saller.childcategories.index') ? 'active' : '' }}">Child Category</a>
                     <a href="#">Request Category</a>
                 </div>
             </div>
@@ -101,16 +103,17 @@
                 </div>
             </div>
 
-            <div class="menu-item has-submenu" onclick="toggleSubmenu(this)">
+            <div class="menu-item has-submenu {{ request()->routeIs('saller.brands.*') || request()->routeIs('saller.colors.*') || request()->routeIs('saller.sizes.*') || request()->routeIs('saller.units.*') ? 'open active' : '' }}" onclick="toggleSubmenu(this)">
                 <div class="menu-link">
                     <i class="bi bi-tags-fill"></i>
                     <span>Product Variant</span>
                     <i class="bi bi-chevron-down submenu-arrow"></i>
                 </div>
-                <div class="submenu">
-                    <a href="#">Attributes</a>
-                    <a href="#">Colors</a>
-                    <a href="#">Sizes</a>
+                <div class="submenu {{ request()->routeIs('saller.brands.*') || request()->routeIs('saller.colors.*') || request()->routeIs('saller.sizes.*') || request()->routeIs('saller.units.*') ? 'open' : '' }}">
+                    <a href="{{ route('saller.brands.index') }}" class="{{ request()->routeIs('saller.brands.index') ? 'active' : '' }}">Brand</a>
+                    <a href="{{ route('saller.colors.index') }}" class="{{ request()->routeIs('saller.colors.index') ? 'active' : '' }}">Color</a>
+                    <a href="{{ route('saller.sizes.index') }}" class="{{ request()->routeIs('saller.sizes.index') ? 'active' : '' }}">Size</a>
+                    <a href="{{ route('saller.units.index') }}" class="{{ request()->routeIs('saller.units.index') ? 'active' : '' }}">Unit</a>
                 </div>
             </div>
 

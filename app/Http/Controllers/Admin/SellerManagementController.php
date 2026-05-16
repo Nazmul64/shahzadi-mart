@@ -20,13 +20,16 @@ class SellerManagementController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            // Basic Info
             'first_name' => 'required|string|max:255',
-            'last_name'  => 'required|string|max:255',
+            'last_name'  => 'nullable|string|max:255',
             'email'      => 'required|email|unique:users,email',
             'phone'      => 'required|string|max:20',
             'password'   => 'required|confirmed|min:8',
             'gender'     => 'nullable|string',
             'photo'      => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,svg,bmp|max:5120',
+
+            // Shop Info
             'store_name' => 'required|string|max:255',
             'store_logo' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,svg,bmp|max:5120',
             'store_banner' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,svg,bmp|max:5120',
@@ -34,6 +37,19 @@ class SellerManagementController extends Controller
             'latitude'   => 'nullable|string',
             'longitude'  => 'nullable|string',
             'description' => 'nullable|string',
+
+            // Business Info
+            'business_type' => 'nullable|string',
+            'trade_license' => 'nullable|string',
+            'tin'           => 'nullable|string',
+            'categories'    => 'nullable|array',
+
+            // Bank Info
+            'bank_name'     => 'nullable|string',
+            'branch_name'   => 'nullable|string',
+            'account_number' => 'nullable|string',
+            'account_holder' => 'nullable|string',
+            'mobile_banking_number' => 'nullable|string',
         ]);
 
         // ---- Image Upload Helper ----
@@ -68,10 +84,26 @@ class SellerManagementController extends Controller
             'store_logo'        => $logoPath,
             'store_banner'      => $bannerPath,
             'store_description' => $request->description,
-            'address'           => $request->address,
             'latitude'          => $request->latitude,
             'longitude'         => $request->longitude,
             'status'            => 'active',
+
+            // Business & Address JSON
+            'address' => [
+                'business_type'    => $request->business_type,
+                'business_address' => $request->address,
+                'trade_license'    => $request->trade_license,
+                'tin'              => $request->tin,
+                'categories'       => $request->categories,
+                'branch_name'      => $request->branch_name,
+            ],
+
+            // Bank Information
+            'bank_name'             => $request->bank_name,
+            'bank_account_name'     => $request->account_holder,
+            'bank_account_number'   => $request->account_number,
+            'mobile_banking_number' => $request->mobile_banking_number,
+            'tax_id'                => $request->tin,
         ]);
 
         // ---- Assign seller role (slug = 'seller') ----

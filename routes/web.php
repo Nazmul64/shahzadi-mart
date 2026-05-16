@@ -859,4 +859,15 @@ Route::middleware(['seller'])->prefix('saller')->name('saller.')->group(function
     Route::get('/chat', [App\Http\Controllers\Saller\SellerChatController::class, 'index'])->name('chat.index');
     Route::get('/chat/messages', [App\Http\Controllers\Saller\SellerChatController::class, 'fetchMessages'])->name('chat.messages');
     Route::post('/chat/send', [App\Http\Controllers\Saller\SellerChatController::class, 'sendMessage'])->name('chat.send');
+
+    // Category Management
+    Route::get('/categories', [App\Http\Controllers\Saller\CategoryController::class, 'categories'])->name('categories.index');
+    Route::get('/sub-categories', [App\Http\Controllers\Saller\CategoryController::class, 'subCategories'])->name('subcategories.index');
+    Route::get('/child-categories', [App\Http\Controllers\Saller\CategoryController::class, 'childCategories'])->name('childcategories.index');
+
+    // Product Variant
+    Route::get('/brands', [App\Http\Controllers\Saller\ProductVariantController::class, 'brands'])->name('brands.index');
+    Route::get('/colors', [App\Http\Controllers\Saller\ProductVariantController::class, 'colors'])->name('colors.index');
+    Route::get('/sizes', [App\Http\Controllers\Saller\ProductVariantController::class, 'sizes'])->name('sizes.index');
+    Route::get('/units', [App\Http\Controllers\Saller\ProductVariantController::class, 'units'])->name('units.index');
 });

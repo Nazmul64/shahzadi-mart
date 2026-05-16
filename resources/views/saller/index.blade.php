@@ -3245,4 +3245,18 @@
             </div>
         </div>
     </div>
+    <script>
+        // Handle section parameter from URL
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const section = urlParams.get('section');
+            if (section && document.getElementById(section)) {
+                setTimeout(() => {
+                    showSection(section);
+                    // Clean up URL without reload
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                }, 100);
+            }
+        });
+    </script>
 @endsection

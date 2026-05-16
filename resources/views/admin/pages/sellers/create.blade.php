@@ -159,6 +159,72 @@
                         </div>
                     </div>
 
+                    {{-- Business Information --}}
+                    <div class="card shadow-sm border-0 mb-4" style="border-radius: 12px;">
+                        <div class="card-header bg-white border-0 pt-4 px-4">
+                            <h5 class="card-title font-w600"><i class="bi bi-briefcase me-2"></i>Business Details</h5>
+                        </div>
+                        <div class="card-body px-4 pb-4">
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Business Type</label>
+                                    <select name="business_type" class="form-control">
+                                        <option value="Individual">Individual</option>
+                                        <option value="Company">Company</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Trade License</label>
+                                    <input type="text" name="trade_license" class="form-control">
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">TIN Number</label>
+                                    <input type="text" name="tin" class="form-control">
+                                </div>
+                                <div class="col-md-12 mb-3">
+                                    <label class="form-label">Categories (Hold Ctrl to select multiple)</label>
+                                    @php $categories = \App\Models\Category::where('status', 1)->get(); @endphp
+                                    <select name="categories[]" class="form-control" multiple style="height: 120px;">
+                                        @foreach($categories as $cat)
+                                            <option value="{{ $cat->id }}">{{ $cat->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Bank & Payment Info --}}
+                    <div class="card shadow-sm border-0 mb-4" style="border-radius: 12px;">
+                        <div class="card-header bg-white border-0 pt-4 px-4">
+                            <h5 class="card-title font-w600"><i class="bi bi-credit-card me-2"></i>Payout Details</h5>
+                        </div>
+                        <div class="card-body px-4 pb-4">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Bank Name</label>
+                                    <input type="text" name="bank_name" class="form-control">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Branch Name</label>
+                                    <input type="text" name="branch_name" class="form-control">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Account Holder Name</label>
+                                    <input type="text" name="account_holder" class="form-control">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Account Number</label>
+                                    <input type="text" name="account_number" class="form-control">
+                                </div>
+                                <div class="col-md-12 mb-3">
+                                    <label class="form-label">Mobile Banking Number (Bkash/Nagad/Rocket)</label>
+                                    <input type="text" name="mobile_banking_number" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="text-end mb-5">
                         <button type="submit" class="btn btn-danger btn-lg px-5 shadow-sm" style="border-radius: 10px;">
                             <i class="bi bi-check-circle me-2"></i> Create Shop & Seller

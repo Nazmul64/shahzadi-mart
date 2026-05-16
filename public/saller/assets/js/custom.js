@@ -25,6 +25,19 @@
 
         // Show Section – enhanced to manage active states for menu and submenu links
         function showSection(sectionId) {
+            const targetSection = document.getElementById(sectionId);
+            
+            // If section not found on current page
+            if (!targetSection) {
+                // Only redirect if we are NOT already on the dashboard page
+                if (!window.location.pathname.includes('/saller/dashboard')) {
+                    window.location.href = "/saller/dashboard?section=" + sectionId;
+                } else {
+                    console.warn("Section not found: " + sectionId);
+                }
+                return;
+            }
+
             // Hide all page sections
             document.querySelectorAll('.page-section').forEach(section => {
                 section.classList.remove('active');
@@ -46,12 +59,11 @@
             });
 
             // Activate the target page
-            const targetSection = document.getElementById(sectionId);
-            if (targetSection) targetSection.classList.add('active');
+            targetSection.classList.add('active');
 
             // Identify which menu item triggered the call (via event)
-            if (event && event.currentTarget) {
-                const clicked = event.currentTarget;
+            if (window.event && window.event.currentTarget) {
+                const clicked = window.event.currentTarget;
                 // If a submenu link was clicked, mark its parent as active
                 if (clicked.closest('.submenu')) {
                     const parentItem = clicked.closest('.submenu').previousElementSibling;
@@ -75,14 +87,19 @@
         document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('.submenu a').forEach(link => {
                 link.addEventListener('click', function (e) {
-                    // Prevent default if using # anchors
-                    e.preventDefault();
-                    // Remove active from all submenu links first
-                    document.querySelectorAll('.submenu a').forEach(l => l.classList.remove('active'));
-                    this.classList.add('active');
-                    // Trigger section change based on href or data-section attribute
-                    const target = this.getAttribute('href')?.replace('#', '');
-                    if (target) showSection(target);
+                    const href = this.getAttribute('href');
+                    
+                    // Only prevent default and use showSection if it's a hash link
+                    if (href && href.startsWith('#')) {
+                        e.preventDefault();
+                        const target = href.replace('#', '');
+                        if (target) showSection(target);
+                        
+                        // Remove active from all submenu links first
+                        document.querySelectorAll('.submenu a').forEach(l => l.classList.remove('active'));
+                        this.classList.add('active');
+                    }
+                    // Otherwise, let the browser navigate normally to the real route
                 });
             });
         });
