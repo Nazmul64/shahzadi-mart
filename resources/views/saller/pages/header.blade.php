@@ -13,7 +13,7 @@
 
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-     <link rel="stylesheet" href="assets/css/style.css">
+     <link rel="stylesheet" href="{{ asset('saller/assets/css/style.css') }}">
 
 </head>
 <body>

@@ -130,15 +130,16 @@
                 </div>
             </div>
 
-            <div class="menu-item has-submenu" onclick="toggleSubmenu(this)">
+            <div class="menu-item has-submenu {{ request()->routeIs('saller.promotion.*') ? 'open active' : '' }}" onclick="toggleSubmenu(this)">
                 <div class="menu-link">
                     <i class="bi bi-megaphone-fill"></i>
                     <span>Promotion Management</span>
                     <i class="bi bi-chevron-down submenu-arrow"></i>
                 </div>
-                <div class="submenu">
-                    <a href="#">Coupons</a>
-                    <a href="#">Flash Sales</a>
+                <div class="submenu {{ request()->routeIs('saller.promotion.*') ? 'open' : '' }}">
+                    <a href="{{ route('saller.promotion.flash_deals.index') }}" class="{{ request()->routeIs('saller.promotion.flash_deals.*') ? 'active' : '' }}">Flash Deals</a>
+                    <a href="{{ route('saller.promotion.banner_setup.index') }}" class="{{ request()->routeIs('saller.promotion.banner_setup.*') ? 'active' : '' }}">Banner Setup</a>
+                    <a href="{{ route('saller.promotion.promo_code.index') }}" class="{{ request()->routeIs('saller.promotion.promo_code.*') ? 'active' : '' }}">Promo Code</a>
                 </div>
             </div>
 

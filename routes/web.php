@@ -870,4 +870,15 @@ Route::middleware(['seller'])->prefix('saller')->name('saller.')->group(function
     Route::get('/colors', [App\Http\Controllers\Saller\ProductVariantController::class, 'colors'])->name('colors.index');
     Route::get('/sizes', [App\Http\Controllers\Saller\ProductVariantController::class, 'sizes'])->name('sizes.index');
     Route::get('/units', [App\Http\Controllers\Saller\ProductVariantController::class, 'units'])->name('units.index');
+
+    // Promotion Management
+    Route::get('/promo-codes', [App\Http\Controllers\Saller\PromotionController::class, 'promoCodes'])->name('promotion.promo_code.index');
+    Route::get('/promo-codes/create', [App\Http\Controllers\Saller\PromotionController::class, 'createPromoCode'])->name('promotion.promo_code.create');
+    Route::post('/promo-codes/store', [App\Http\Controllers\Saller\PromotionController::class, 'storePromoCode'])->name('promotion.promo_code.store');
+    Route::get('/promo-codes/{id}/edit', [App\Http\Controllers\Saller\PromotionController::class, 'editPromoCode'])->name('promotion.promo_code.edit');
+    Route::put('/promo-codes/{id}', [App\Http\Controllers\Saller\PromotionController::class, 'updatePromoCode'])->name('promotion.promo_code.update');
+    Route::post('/promo-codes/{id}/status', [App\Http\Controllers\Saller\PromotionController::class, 'updatePromoCodeStatus'])->name('promotion.promo_code.status');
+    Route::delete('/promo-codes/{id}', [App\Http\Controllers\Saller\PromotionController::class, 'deletePromoCode'])->name('promotion.promo_code.delete');
+    Route::get('/flash-deals', [App\Http\Controllers\Saller\PromotionController::class, 'flashDeals'])->name('promotion.flash_deals.index');
+    Route::get('/banner-setup', [App\Http\Controllers\Saller\PromotionController::class, 'bannerSetup'])->name('promotion.banner_setup.index');
 });
