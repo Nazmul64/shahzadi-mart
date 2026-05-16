@@ -14,8 +14,7 @@ class PromotionController extends Controller
     // Promo Codes
     public function promoCodes()
     {
-        // For now, listing all coupons. In future, can filter by seller_id if column exists.
-        $coupons = Coupon::latest()->get();
+        $coupons = Coupon::where('seller_id', auth()->id())->latest()->get();
         return view('saller.pages.promotion.promo_code.index', compact('coupons'));
     }
 
@@ -31,13 +30,13 @@ class PromotionController extends Controller
             'type'           => 'required',
             'amount'         => 'nullable|numeric',
             'percentage'     => 'nullable|numeric',
-            'quantity'       => 'required|integer',
             'quantity_limit' => 'required|integer',
             'start_date'     => 'required|date',
             'end_date'       => 'required|date',
         ]);
 
         Coupon::create([
+            'seller_id'      => auth()->id(),
             'code'           => $request->code,
             'type'           => $request->type,
             'amount'         => $request->type === 'discount_by_amount' ? $request->amount : null,
@@ -54,7 +53,7 @@ class PromotionController extends Controller
 
     public function editPromoCode($id)
     {
-        $coupon = Coupon::findOrFail($id);
+        $coupon = Coupon::where('seller_id', auth()->id())->findOrFail($id);
         return view('saller.pages.promotion.promo_code.edit', compact('coupon'));
     }
 
@@ -70,7 +69,7 @@ class PromotionController extends Controller
             'end_date'       => 'required|date',
         ]);
 
-        $coupon = Coupon::findOrFail($id);
+        $coupon = Coupon::where('seller_id', auth()->id())->findOrFail($id);
         $coupon->update([
             'code'           => $request->code,
             'type'           => $request->type,
@@ -91,7 +90,7 @@ class PromotionController extends Controller
             'status' => 'required|in:activated,deactivated'
         ]);
 
-        $coupon = Coupon::findOrFail($id);
+        $coupon = Coupon::where('seller_id', auth()->id())->findOrFail($id);
         $coupon->update(['status' => $request->status]);
 
         return response()->json(['success' => true, 'message' => 'Status updated successfully']);
@@ -99,7 +98,7 @@ class PromotionController extends Controller
 
     public function deletePromoCode($id)
     {
-        $coupon = Coupon::findOrFail($id);
+        $coupon = Coupon::where('seller_id', auth()->id())->findOrFail($id);
         $coupon->delete();
 
         return redirect()->route('saller.promotion.promo_code.index')->with('success', 'Promo Code deleted successfully');

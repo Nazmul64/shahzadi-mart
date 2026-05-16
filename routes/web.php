@@ -881,4 +881,12 @@ Route::middleware(['seller'])->prefix('saller')->name('saller.')->group(function
     Route::delete('/promo-codes/{id}', [App\Http\Controllers\Saller\PromotionController::class, 'deletePromoCode'])->name('promotion.promo_code.delete');
     Route::get('/flash-deals', [App\Http\Controllers\Saller\PromotionController::class, 'flashDeals'])->name('promotion.flash_deals.index');
     Route::get('/banner-setup', [App\Http\Controllers\Saller\PromotionController::class, 'bannerSetup'])->name('promotion.banner_setup.index');
+
+    // Customer Management
+    Route::get('/customers', [App\Http\Controllers\Saller\CustomerController::class, 'index'])->name('customer.index');
+    Route::get('/customers/create', [App\Http\Controllers\Saller\CustomerController::class, 'create'])->name('customer.create');
+    Route::post('/customers/store', [App\Http\Controllers\Saller\CustomerController::class, 'store'])->name('customer.store');
+    Route::get('/customers/{id}/edit', [App\Http\Controllers\Saller\CustomerController::class, 'edit'])->name('customer.edit');
+    Route::put('/customers/{id}', [App\Http\Controllers\Saller\CustomerController::class, 'update'])->name('customer.update');
+    Route::delete('/customers/{id}', [App\Http\Controllers\Saller\CustomerController::class, 'destroy'])->name('customer.destroy');
 });

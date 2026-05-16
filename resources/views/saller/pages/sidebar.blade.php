@@ -169,14 +169,14 @@
 
             <div class="menu-section-title">My Shop</div>
 
-            <div class="menu-item has-submenu" onclick="toggleSubmenu(this)">
+            <div class="menu-item has-submenu {{ request()->routeIs('saller.customer.*') ? 'open active' : '' }}" onclick="toggleSubmenu(this)">
                 <div class="menu-link">
                     <i class="bi bi-person-plus-fill"></i>
                     <span>Customer Management</span>
                     <i class="bi bi-chevron-down submenu-arrow"></i>
                 </div>
-                <div class="submenu">
-                    <a href="#">All Customers</a>
+                <div class="submenu {{ request()->routeIs('saller.customer.*') ? 'open' : '' }}">
+                    <a href="{{ route('saller.customer.index') }}" class="{{ request()->routeIs('saller.customer.index') ? 'active' : '' }}">All Customers</a>
                     <a href="#">Customer Queries</a>
                 </div>
             </div>

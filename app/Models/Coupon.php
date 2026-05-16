@@ -9,6 +9,7 @@ class Coupon extends Model
     protected $table = 'coupons';
 
     protected $fillable = [
+        'seller_id',
         'code',
         'allow_product_type',
         'category_id',
