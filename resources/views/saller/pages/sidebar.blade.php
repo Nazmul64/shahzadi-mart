@@ -155,28 +155,28 @@
                 </div>
             </div>
 
-            <div class="menu-item has-submenu" onclick="toggleSubmenu(this)">
+            <div class="menu-item has-submenu {{ request()->is('saller/suppliers*') ? 'open active' : '' }}" onclick="toggleSubmenu(this)">
                 <div class="menu-link">
                     <i class="bi bi-truck"></i>
                     <span>Suppliers</span>
                     <i class="bi bi-chevron-down submenu-arrow"></i>
                 </div>
-                <div class="submenu">
-                    <a href="#">All Suppliers</a>
-                    <a href="#">Add Supplier</a>
+                <div class="submenu {{ request()->is('saller/suppliers*') ? 'open' : '' }}">
+                    <a href="{{ route('saller.suppliers.index') }}" class="{{ request()->routeIs('saller.suppliers.index') ? 'active' : '' }}">All Suppliers</a>
+                    <a href="{{ route('saller.suppliers.create') }}" class="{{ request()->routeIs('saller.suppliers.create') ? 'active' : '' }}">Add Supplier</a>
                 </div>
             </div>
 
             <div class="menu-section-title">My Shop</div>
 
-            <div class="menu-item has-submenu {{ request()->routeIs('saller.customer.*') ? 'open active' : '' }}" onclick="toggleSubmenu(this)">
+            <div class="menu-item has-submenu {{ request()->is('saller/customers*') ? 'open active' : '' }}" onclick="toggleSubmenu(this)">
                 <div class="menu-link">
                     <i class="bi bi-person-plus-fill"></i>
                     <span>Customer Management</span>
                     <i class="bi bi-chevron-down submenu-arrow"></i>
                 </div>
-                <div class="submenu {{ request()->routeIs('saller.customer.*') ? 'open' : '' }}">
-                    <a href="{{ route('saller.customer.index') }}" class="{{ request()->routeIs('saller.customer.index') ? 'active' : '' }}">All Customers</a>
+                <div class="submenu {{ request()->is('saller/customers*') ? 'open' : '' }}">
+                    <a href="{{ route('saller.customers.index') }}" class="{{ request()->routeIs('saller.customers.index') ? 'active' : '' }}">All Customers</a>
                     <a href="#">Customer Queries</a>
                 </div>
             </div>

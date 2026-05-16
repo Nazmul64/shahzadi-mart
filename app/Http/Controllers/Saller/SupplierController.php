@@ -9,21 +9,21 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
-class CustomerController extends Controller
+class SupplierController extends Controller
 {
     public function index()
     {
-        // Only show customers added by this specific seller
-        $customers = User::where('seller_id', auth()->id())
+        // Only show suppliers added by this specific seller
+        $suppliers = User::where('seller_id', auth()->id())
                          ->latest()
                          ->get();
                          
-        return view('saller.pages.customer.index', compact('customers'));
+        return view('saller.pages.supplier.index', compact('suppliers'));
     }
 
     public function create()
     {
-        return view('saller.pages.customer.create');
+        return view('saller.pages.supplier.create');
     }
 
     public function store(Request $request)
@@ -42,14 +42,14 @@ class CustomerController extends Controller
             $photo = $request->file('photo');
             $photoName = time() . '_' . Str::random(10) . '.' . $photo->getClientOriginalExtension();
             
-            // Photo will be saved in root /uploads/customer folder
-            $path = base_path('uploads/customer');
+            // Photo will be saved in root /uploads/supplier folder as requested
+            $path = base_path('uploads/supplier');
             if (!File::exists($path)) {
                 File::makeDirectory($path, 0777, true, true);
             }
             
             $photo->move($path, $photoName);
-            $photoName = 'uploads/customer/' . $photoName;
+            $photoName = 'uploads/supplier/' . $photoName;
         }
 
         User::create([
@@ -64,18 +64,18 @@ class CustomerController extends Controller
             'status'     => 'active',
         ]);
 
-        return redirect()->route('saller.customers.index')->with('success', 'Customer added successfully');
+        return redirect()->route('saller.suppliers.index')->with('success', 'Supplier added successfully');
     }
 
     public function edit($id)
     {
-        $customer = User::where('seller_id', auth()->id())->findOrFail($id);
-        return view('saller.pages.customer.edit', compact('customer'));
+        $supplier = User::where('seller_id', auth()->id())->findOrFail($id);
+        return view('saller.pages.supplier.edit', compact('supplier'));
     }
 
     public function update(Request $request, $id)
     {
-        $customer = User::where('seller_id', auth()->id())->findOrFail($id);
+        $supplier = User::where('seller_id', auth()->id())->findOrFail($id);
 
         $request->validate([
             'first_name' => 'required|string|max:255',
@@ -87,18 +87,18 @@ class CustomerController extends Controller
 
         if ($request->hasFile('photo')) {
             // Remove old photo from folder
-            if ($customer->photo && File::exists(base_path($customer->photo))) {
-                File::delete(base_path($customer->photo));
+            if ($supplier->photo && File::exists(base_path($supplier->photo))) {
+                File::delete(base_path($supplier->photo));
             }
 
             $photo = $request->file('photo');
             $photoName = time() . '_' . Str::random(10) . '.' . $photo->getClientOriginalExtension();
-            $path = base_path('uploads/customer');
+            $path = base_path('uploads/supplier');
             $photo->move($path, $photoName);
-            $customer->photo = 'uploads/customer/' . $photoName;
+            $supplier->photo = 'uploads/supplier/' . $photoName;
         }
 
-        $customer->update([
+        $supplier->update([
             'first_name' => $request->first_name,
             'last_name'  => $request->last_name,
             'name'       => $request->first_name . ' ' . $request->last_name,
@@ -107,22 +107,22 @@ class CustomerController extends Controller
         ]);
 
         if ($request->filled('password')) {
-            $customer->update(['password' => Hash::make($request->password)]);
+            $supplier->update(['password' => Hash::make($request->password)]);
         }
 
-        return redirect()->route('saller.customers.index')->with('success', 'Customer updated successfully');
+        return redirect()->route('saller.suppliers.index')->with('success', 'Supplier updated successfully');
     }
 
     public function destroy($id)
     {
-        $customer = User::where('seller_id', auth()->id())->findOrFail($id);
+        $supplier = User::where('seller_id', auth()->id())->findOrFail($id);
         
-        // Remove photo before deleting
-        if ($customer->photo && File::exists(base_path($customer->photo))) {
-            File::delete(base_path($customer->photo));
+        // Remove photo before deleting user
+        if ($supplier->photo && File::exists(base_path($supplier->photo))) {
+            File::delete(base_path($supplier->photo));
         }
         
-        $customer->delete();
-        return redirect()->route('saller.customers.index')->with('success', 'Customer deleted successfully');
+        $supplier->delete();
+        return redirect()->route('saller.suppliers.index')->with('success', 'Supplier deleted successfully');
     }
 }

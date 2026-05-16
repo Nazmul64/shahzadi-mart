@@ -16,9 +16,9 @@
 
     <div class="page-content" style="background: #f4f7fa;">
         <div class="page-header d-flex justify-content-between align-items-center mb-4 px-3 pt-3">
-            <h2 class="page-title font-w700" style="font-size: 24px; color: #333;">Customers</h2>
-            <a href="{{ route('saller.customers.create') }}" class="btn btn-danger btn-sm px-4" style="border-radius: 8px; background-color: #ff3e6c; border: none;">
-                <i class="bi bi-plus-circle me-1"></i> Add Customer
+            <h2 class="page-title font-w700" style="font-size: 24px; color: #333;">Suppliers</h2>
+            <a href="{{ route('saller.suppliers.create') }}" class="btn btn-danger btn-sm px-4" style="border-radius: 8px; background-color: #ff3e6c; border: none;">
+                <i class="bi bi-plus-circle me-1"></i> Add Supplier
             </a>
         </div>
 
@@ -36,25 +36,25 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($customers as $customer)
+                        @forelse($suppliers as $supplier)
                         <tr style="border-bottom: 1px solid #f8f9fa;">
                             <td>
-                                @if($customer->photo)
-                                    <img src="{{ asset($customer->photo) }}" alt="Customer" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid #eee;">
+                                @if($supplier->photo)
+                                    <img src="{{ asset($supplier->photo) }}" alt="Supplier" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid #eee;">
                                 @else
                                     <div style="width: 40px; height: 40px; border-radius: 50%; background: #f0f0f0; display: flex; align-items: center; justify-content: center; color: #ccc;">
                                         <i class="bi bi-person"></i>
                                     </div>
                                 @endif
                             </td>
-                            <td class="font-w600" style="color: #333;">{{ $customer->name }}</td>
-                            <td class="text-muted">{{ $customer->email }}</td>
-                            <td class="text-muted">{{ $customer->phone }}</td>
-                            <td class="text-muted">{{ $customer->created_at->format('M d, Y') }}</td>
+                            <td class="font-w600" style="color: #333;">{{ $supplier->name }}</td>
+                            <td class="text-muted">{{ $supplier->email }}</td>
+                            <td class="text-muted">{{ $supplier->phone }}</td>
+                            <td class="text-muted">{{ $supplier->created_at->format('M d, Y') }}</td>
                             <td class="text-end">
                                 <div class="action-buttons justify-content-end d-flex align-items-center">
-                                    <a href="{{ route('saller.customers.edit', $customer->id) }}" class="btn-action edit" title="Edit"><i class="bi bi-pencil-square"></i></a>
-                                    <form action="{{ route('saller.customers.destroy', $customer->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this customer?');">
+                                    <a href="{{ route('saller.suppliers.edit', $supplier->id) }}" class="btn-action edit" title="Edit"><i class="bi bi-pencil-square"></i></a>
+                                    <form action="{{ route('saller.suppliers.destroy', $supplier->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this supplier?');">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn-action delete" title="Delete"><i class="bi bi-trash"></i></button>
@@ -66,7 +66,7 @@
                         <tr>
                             <td colspan="6" class="text-center py-5">
                                 <i class="bi bi-people text-muted" style="font-size: 48px;"></i>
-                                <p class="text-muted mt-2">No customers found.</p>
+                                <p class="text-muted mt-2">No suppliers found.</p>
                             </td>
                         </tr>
                         @endforelse

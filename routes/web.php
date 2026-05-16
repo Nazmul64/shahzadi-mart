@@ -84,6 +84,18 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
+Route::get('/uploads/{folder}/{filename}', function ($folder, $filename) {
+    $path = base_path('uploads/' . $folder . '/' . $filename);
+    if (!Illuminate\Support\Facades\File::exists($path)) {
+        abort(404);
+    }
+    $file = Illuminate\Support\Facades\File::get($path);
+    $type = Illuminate\Support\Facades\File::mimeType($path);
+    $response = Illuminate\Support\Facades\Response::make($file, 200);
+    $response->header("Content-Type", $type);
+    return $response;
+})->name('serve.uploads');
+
 // ══════════════════════════════════════════════════════════════════════════════
 // FRONTEND — PUBLIC PAGES
 // ══════════════════════════════════════════════════════════════════════════════
@@ -882,11 +894,9 @@ Route::middleware(['seller'])->prefix('saller')->name('saller.')->group(function
     Route::get('/flash-deals', [App\Http\Controllers\Saller\PromotionController::class, 'flashDeals'])->name('promotion.flash_deals.index');
     Route::get('/banner-setup', [App\Http\Controllers\Saller\PromotionController::class, 'bannerSetup'])->name('promotion.banner_setup.index');
 
+    // Supplier Management
+    Route::resource('suppliers', App\Http\Controllers\Saller\SupplierController::class);
+
     // Customer Management
-    Route::get('/customers', [App\Http\Controllers\Saller\CustomerController::class, 'index'])->name('customer.index');
-    Route::get('/customers/create', [App\Http\Controllers\Saller\CustomerController::class, 'create'])->name('customer.create');
-    Route::post('/customers/store', [App\Http\Controllers\Saller\CustomerController::class, 'store'])->name('customer.store');
-    Route::get('/customers/{id}/edit', [App\Http\Controllers\Saller\CustomerController::class, 'edit'])->name('customer.edit');
-    Route::put('/customers/{id}', [App\Http\Controllers\Saller\CustomerController::class, 'update'])->name('customer.update');
-    Route::delete('/customers/{id}', [App\Http\Controllers\Saller\CustomerController::class, 'destroy'])->name('customer.destroy');
+    Route::resource('customers', App\Http\Controllers\Saller\CustomerController::class);
 });

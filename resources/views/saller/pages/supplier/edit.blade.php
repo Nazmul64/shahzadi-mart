@@ -18,48 +18,48 @@
         <div class="page-header mb-4 px-3 pt-3">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('saller.customers.index') }}" class="text-decoration-none text-muted"><i class="bi bi-arrow-left me-1"></i> Back</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Edit Customer</li>
+                    <li class="breadcrumb-item"><a href="{{ route('saller.suppliers.index') }}" class="text-decoration-none text-muted"><i class="bi bi-arrow-left me-1"></i> Back</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Edit Supplier</li>
                 </ol>
             </nav>
-            <h2 class="page-title font-w700" style="font-size: 24px; color: #333;">Edit Customer: {{ $customer->name }}</h2>
+            <h2 class="page-title font-w700" style="font-size: 24px; color: #333;">Edit Supplier: {{ $supplier->name }}</h2>
         </div>
 
         <div class="data-card border-0 shadow-sm mx-3 mb-5" style="border-radius: 12px; background: #fff;">
             <div class="card-header bg-transparent border-bottom-0 pt-4 px-4 d-flex justify-content-between align-items-center">
-                <h5 class="font-w600" style="font-size: 16px; color: #333;"><i class="bi bi-pencil-square me-2 text-primary"></i>Update Customer Information</h5>
-                @if($customer->photo)
-                    <img src="{{ asset($customer->photo) }}" alt="Current Photo" style="width: 60px; height: 60px; border-radius: 8px; object-fit: cover; border: 2px solid #ff3e6c;">
+                <h5 class="font-w600" style="font-size: 16px; color: #333;"><i class="bi bi-pencil-square me-2 text-primary"></i>Update Supplier Information</h5>
+                @if($supplier->photo)
+                    <img src="{{ asset($supplier->photo) }}" alt="Current Photo" style="width: 60px; height: 60px; border-radius: 8px; object-fit: cover; border: 2px solid #ff3e6c;">
                 @endif
             </div>
             
-            <form action="{{ route('saller.customers.update', $customer->id) }}" method="POST" enctype="multipart/form-data" class="p-4">
+            <form action="{{ route('saller.suppliers.update', $supplier->id) }}" method="POST" enctype="multipart/form-data" class="p-4">
                 @csrf
                 @method('PUT')
                 <div class="row g-4">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="form-label font-w600">First Name <span class="text-danger">*</span></label>
-                            <input type="text" name="first_name" class="form-control" value="{{ $customer->first_name }}" required>
+                            <input type="text" name="first_name" class="form-control" value="{{ $supplier->first_name }}" required>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="form-label font-w600">Last Name <span class="text-danger">*</span></label>
-                            <input type="text" name="last_name" class="form-control" value="{{ $customer->last_name }}" required>
+                            <input type="text" name="last_name" class="form-control" value="{{ $supplier->last_name }}" required>
                         </div>
                     </div>
                     
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="form-label font-w600">Email Address <span class="text-danger">*</span></label>
-                            <input type="email" name="email" class="form-control" value="{{ $customer->email }}" required>
+                            <input type="email" name="email" class="form-control" value="{{ $supplier->email }}" required>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="form-label font-w600">Phone Number <span class="text-danger">*</span></label>
-                            <input type="text" name="phone" class="form-control" value="{{ $customer->phone }}" required>
+                            <input type="text" name="phone" class="form-control" value="{{ $supplier->phone }}" required>
                         </div>
                     </div>
 
@@ -78,8 +78,8 @@
                     </div>
 
                     <div class="col-12 text-end mt-4">
-                        <button type="button" class="btn btn-light px-4 me-2" onclick="window.location.href='{{ route('saller.customers.index') }}'">Cancel</button>
-                        <button type="submit" class="btn btn-danger px-5" style="background-color: #ff3e6c; border: none; border-radius: 8px;">Update Customer</button>
+                        <button type="button" class="btn btn-light px-4 me-2" onclick="window.location.href='{{ route('saller.suppliers.index') }}'">Cancel</button>
+                        <button type="submit" class="btn btn-danger px-5" style="background-color: #ff3e6c; border: none; border-radius: 8px;">Update Supplier</button>
                     </div>
                 </div>
             </form>
